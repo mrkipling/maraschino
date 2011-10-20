@@ -18,7 +18,18 @@
 
 .box-shadow (@color: #000, @x: 1px, @y: 1px, @radius: 2px)
 {
+  box-shadow: @color @x @y @radius;
   -moz-box-shadow: @color @x @y @radius;
+  -o-box-shadow: @color @x @y @radius;
+  -webkit-box-shadow: @color @x @y @radius;
+}
+
+.box-shadow-inset (@color: #000, @x: 1px, @y: 1px, @radius: 2px)
+{
+  box-shadow: inset @color @x @y @radius;
+  -moz-box-shadow: inset @color @x @y @radius;
+  -o-box-shadow: inset @color @x @y @radius;
+  -webkit-box-shadow: inset @color @x @y @radius;
 }
 
 
@@ -64,6 +75,7 @@
   padding: 5px;
 
   .border-radius(2px);
+  .box-shadow(#222, 0, 0, 10px);
 }
 
 .module h2
@@ -116,4 +128,5 @@ ul.episodes p
 ul.episodes img
 {
   float: right;
+  .box-shadow(#222, 0, 0, 2px);
 }
