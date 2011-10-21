@@ -15,46 +15,19 @@
     <div id="recently_added" class="module">
       <h2>Recently added episodes</h2>
       <ul class="episodes listfix">
-        <li>
-          <img src="/static/images/placeholder/episode_thumb.jpg" width="100" height="56" alt="">
-          <div class="inner">
-            <h3>Dexter</h3>
-            <p>Season 6, Episode 1</p>
-            <p>"Those Kinds of Things"</p>
-          </div>
-        </li>
-        <li>
-          <img src="/static/images/placeholder/episode_thumb.jpg" width="100" height="56" alt="">
-          <div class="inner">
-            <h3>Dexter</h3>
-            <p>Season 6, Episode 1</p>
-            <p>"Those Kinds of Things"</p>
-          </div>
-        </li>
-        <li>
-          <img src="/static/images/placeholder/episode_thumb.jpg" width="100" height="56" alt="">
-          <div class="inner">
-            <h3>Dexter</h3>
-            <p>Season 6, Episode 1</p>
-            <p>"Those Kinds of Things"</p>
-          </div>
-        </li>
-        <li>
-          <img src="/static/images/placeholder/episode_thumb.jpg" width="100" height="56" alt="">
-          <div class="inner">
-            <h3>Dexter</h3>
-            <p>Season 6, Episode 1</p>
-            <p>"Those Kinds of Things"</p>
-          </div>
-        </li>
-        <li>
-          <img src="/static/images/placeholder/episode_thumb.jpg" width="100" height="56" alt="">
-          <div class="inner">
-            <h3>Dexter</h3>
-            <p>Season 6, Episode 1</p>
-            <p>"Those Kinds of Things"</p>
-          </div>
-        </li>
+        {% for episode in recently_added_episodes.episodes[0:8] %}
+          <li>
+            {{ episode.file }}
+            <!--
+            <img src="/static/images/placeholder/episode_thumb.jpg" width="100" height="56" alt="">
+            <div class="inner">
+              <h3>Dexter</h3>
+              <p>Season 6, Episode 1</p>
+              <p>"{{ episode.label }}"</p>
+            </div>
+            -->
+          </li>
+        {% endfor %}
       </ul>
     </div>
 
