@@ -15,9 +15,9 @@
     <div id="recently_added" class="module">
       <h2>Recently added episodes</h2>
       <ul class="episodes listfix">
-        {% for episode in recently_added_episodes.episodes[0:8] %}
+        {% for episode in recently_added_episodes %}
           <li>
-            {{ episode.file }}
+            {{ episode }}
             <!--
             <img src="/static/images/placeholder/episode_thumb.jpg" width="100" height="56" alt="">
             <div class="inner">
