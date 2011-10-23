@@ -11,6 +11,7 @@ def index():
     episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes()
     recently_added_episodes = []
 
+    # tidy up filenames of recently added episodes
     for episode in episodes['episodes'][:NUM_RECENT_EPISODES]:
         filename = episode['file'].split('/').pop().replace('.', ' ')
         recently_added_episodes.append(filename)
