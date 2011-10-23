@@ -12,15 +12,9 @@ def index():
     recently_added_episodes = []
 
     # tidy up filenames of recently added episodes
-
     for episode in episodes['episodes'][:NUM_RECENT_EPISODES]:
         filename = episode['file'].split('/').pop().replace('.', ' ')
         recently_added_episodes.append(filename)
-
-    # currently playing
-
-    #currently_playing = xbmc.VideoPlaylist.GetItems(id=1)
-    #time = xbmc.VideoPlayer.GetTime()
 
     return render_template('index.html',
         recently_added_episodes = recently_added_episodes,
