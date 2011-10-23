@@ -1,1 +1,0 @@
-../../../packages/jquery-jsonrpc/jquery.jsonrpc.js

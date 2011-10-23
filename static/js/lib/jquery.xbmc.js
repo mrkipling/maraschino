@@ -1,1 +1,0 @@
-../../../packages/jquery-xbmc/jquery.xbmc.js
