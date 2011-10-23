@@ -1,4 +1,10 @@
-SERVER_ADDRESS = 'http://user:pass@server:port/jsonrpc'
+SERVER = {
+    'hostname': 'localhost',
+    'port': '8080',
+    'username': 'xbmc',
+    'password': ''
+}
+
 NUM_RECENT_EPISODES = 10
 
 APPLICATIONS = [

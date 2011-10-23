@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    xbmc = jsonrpclib.Server(SERVER_ADDRESS)
+    xbmc = jsonrpclib.Server('http://%s:%s@%s:%s/jsonrpc' % (SERVER['username'], SERVER['password'], SERVER['hostname'], SERVER['port']))
     episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes()
     recently_added_episodes = []
 
@@ -18,7 +18,8 @@ def index():
 
     return render_template('index.html',
         recently_added_episodes = recently_added_episodes,
-        applications = APPLICATIONS
+        applications = APPLICATIONS,
+        server = SERVER
     )
 
 if __name__ == '__main__':
