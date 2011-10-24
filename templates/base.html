@@ -21,7 +21,7 @@
     <!--[if lte IE 8]><script src="/static/js/ie_shiv.js"></script><![endif]-->
   </head>
 
-  <body>
+  <body data-modules="{% for module in modules %}{{ module }}{% if not loop.last %},{% endif %}{% endfor %}">
     {% block content %}{% endblock %}
 
     <script src="/static/js/lib/jquery.js"></script>

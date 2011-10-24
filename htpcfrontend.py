@@ -11,6 +11,7 @@ SERVER_ADDRESS = 'http://%s:%s@%s:%s/jsonrpc' % (SERVER['username'], SERVER['pas
 def index():
     return render_template('index.html',
         applications = APPLICATIONS,
+        modules = MODULES
     )
 
 @app.route('/xhr/recently_added')

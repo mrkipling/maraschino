@@ -6,28 +6,31 @@
 
   <div id="col1" class="col">
 
-    <div id="applications" class="module">
-      <h2>Applications</h2>
-      {% if applications %}
-        <ul>
-          {% for application in applications %}
-            <li>
-              <a href="{{ application.url }}" class="clearfix">
-                <span class="name">{{ application.name }}</span>
-                <span class="description">{{ application.description }}</span>
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    </div>
+    {% if 'applications' in modules %}
+      <div id="applications" class="module">
+        <h2>Applications</h2>
+        {% if applications %}
+          <ul>
+            {% for application in applications %}
+              <li>
+                <a href="{{ application.url }}" class="clearfix">
+                  <span class="name">{{ application.name }}</span>
+                  <span class="description">{{ application.description }}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
 
   </div>
 
   <div id="col2" class="col">
 
-    <!-- recently added -->
-    <div id="recently_added_placeholder"></div>
+    {% if 'recently_added' in modules %}
+      <div id="recently_added_placeholder"></div>
+    {% endif %}
 
   </div>
 

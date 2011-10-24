@@ -1,3 +1,9 @@
+MODULES = [
+    'applications',
+    'recently_added',
+    'currently_playing'
+]
+
 SERVER = {
     'hostname': 'localhost',
     'port': '8080',

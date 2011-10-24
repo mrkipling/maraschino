@@ -1,5 +1,19 @@
 $(document).ready(function() {
 
+  /* get active modules */
+
+  var modules = $('body').data('modules').split(',');
+
+  function module_is_active(module) {
+    for (var i in modules) {
+      if (modules[i] === module) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   /* recently added */
 
   function get_recently_added() {
@@ -50,7 +64,12 @@ $(document).ready(function() {
     setTimeout(get_currently_playing, 10000);
   }
 
-  get_recently_added();
-  get_currently_playing();
+  if (module_is_active('recently_added')) {
+    get_recently_added();
+  }
+
+  if (module_is_active('currently_playing')) {
+    get_currently_playing();
+  }
 
 });
