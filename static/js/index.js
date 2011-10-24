@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+  /* recently added */
+
   function get_recently_added() {
     $.get('/xhr/recently_added', function(data) {
       var recently_added_module = $('#recently_added');
@@ -16,6 +18,12 @@ $(document).ready(function() {
 
     setTimeout(get_recently_added, 600000);
   }
+
+  $('#recently_added li').live('click', function() {
+    $.get('/xhr/play_episode/' + $(this).data('episodeid'));
+  });
+
+  /* currently playing */
 
   function get_currently_playing() {
     $.get('/xhr/currently_playing', function(data) {
