@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, request
 from settings import *
 
-import jsonrpclib
+import jsonrpclib, math
 
 app = Flask(__name__)
 
@@ -29,18 +29,24 @@ def currently_playing():
 
     try:
         time = xbmc.VideoPlayer.GetTime()
-        print time
 
     except:
         return jsonify({ 'playing': False })
 
     currently_playing = xbmc.VideoPlaylist.GetItems(fields = ['title', 'season', 'episode', 'duration', 'showtitle'], id=1)
-    print currently_playing
 
     return render_template('currently_playing.html',
         currently_playing = currently_playing['items'][0],
-        time = time
+        current_time = format_time(time['time']),
+        total_time = format_time(time['total']),
+        percentage_progress = int((float(time['time']) / float(time['total'])) * 100)
     )
+
+def format_time(total):
+    total_mins = int(math.floor(total / 60))
+    total_secs = '%0*d' % (2, int(total - (total_mins * 60)))
+
+    return '%s:%s' % (total_mins, total_secs)
 
 if __name__ == '__main__':
     app.run(debug=True)

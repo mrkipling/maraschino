@@ -1,4 +1,5 @@
 <div id="currently_playing">
+
   <p>
     <strong>Currently playing:</strong><br>
     {{ currently_playing.showtitle }}
@@ -8,4 +9,13 @@
     <span class="separator">-</span>
     "{{ currently_playing.title }}"
   </p>
+
+  <div class="progress">
+    <div class="bar">
+      <div class="inner" style="width: {{ percentage_progress }}%;"></div>
+    </div>
+    <div class="current">{{ current_time }}</div>
+    <div class="total">{{ total_time }}</div>
+  </div>
+
 </div>

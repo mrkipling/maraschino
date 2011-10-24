@@ -183,6 +183,7 @@ ul.episodes img
 {
   background: url(/static/images/alpha/000_70.png);
   bottom: 0;
+  height: 40px;
   left: 0;
   padding: 20px;
   position: absolute;
@@ -193,10 +194,49 @@ ul.episodes img
 
 #currently_playing p
 {
+  float: left;
   line-height: 1.5em;
 }
 
 #currently_playing p .separator
 {
   margin: 0 3px;
+}
+
+#currently_playing .progress
+{
+  float: right;
+  font-size: 0.9em;
+  height: 40px;
+  position: relative;
+  width: 300px;
+}
+
+#currently_playing .progress .current
+{
+  bottom: 8px;
+  left: 0;
+  position: absolute;
+}
+
+#currently_playing .progress .total
+{
+  bottom: 8px;
+  right: 0;
+  position: absolute;
+}
+
+#currently_playing .progress .bar
+{
+  border: 1px solid #777;
+  height: 5px;
+  margin-top: 8px;
+  width: 298px;
+  .border-radius(3px);
+}
+
+#currently_playing .progress .bar .inner
+{
+  background-color: #eee;
+  height: 5px;
 }
