@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, request
 from settings import *
 
-import jsonrpclib, math
+import json, jsonrpclib, math, urllib
 
 app = Flask(__name__)
 
@@ -23,6 +23,14 @@ def xhr_recently_added():
         recently_added_episodes = recently_added_episodes['episodes'][:NUM_RECENT_EPISODES],
         server = SERVER
     )
+
+@app.route('/xhr/sabnzbd')
+def xhr_sabnzbd():
+    url = '%s&mode=qstatus&output=json' % (SABNZBD_URL)
+    result = urllib.urlopen(url).read()
+    sabnzbd = json.JSONDecoder().decode(result)
+
+    return render_template('sabnzbd.html', sabnzbd=sabnzbd)
 
 @app.route('/xhr/currently_playing')
 def xhr_currently_playing():

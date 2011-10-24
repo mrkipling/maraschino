@@ -1,0 +1,18 @@
+{% if sabnzbd.jobs %}
+
+<div id="sabnzbd" class="module">
+  <h2>SABnzbd+</h2>
+  <div class="inner">
+    <p>
+      <strong>Currently downloading:</strong>
+      {{ sabnzbd.jobs[0].filename }}
+    </p>
+    <p><strong>Speed:</strong> {{ sabnzbd.kbpersec|int }} kB/s</p>
+    <p><strong>Remaining:</strong> {{ sabnzbd.mbleft|int }} MB</p>
+    <p><strong>Time remaining:</strong> {{ sabnzbd.timeleft }}</p>
+  </div>
+</div>
+
+{% else %}
+  <div id="sabnzbd_placeholder"></div>
+{% endif %}

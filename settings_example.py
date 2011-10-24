@@ -1,7 +1,8 @@
 MODULES = [
     'applications',
     'recently_added',
-    'currently_playing'
+    'currently_playing',
+    'sabnzbd'
 ]
 
 SERVER = {
@@ -10,6 +11,8 @@ SERVER = {
     'username': 'xbmc',
     'password': ''
 }
+
+SABNZBD_URL = 'http://server:port/api?apikey=b72734e6901ef6d69659759974440f21'
 
 NUM_RECENT_EPISODES = 5
 

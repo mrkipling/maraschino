@@ -5,10 +5,16 @@ Here's a screenshot: http://i.imgur.com/upKAW.jpg
 
 It currently has the following features:
 
-* Customisable 'applications' widget providing quick access to web interfaces (e.g. SABnzb+)
-* 'Recently added episodes' widget with thumbnails - just click to play in XBMC
+* Customisable 'applications' widget providing quick access to web interfaces (e.g. SABnzb+).
+
+* 'Recently added episodes' widget with thumbnails - just click to play in XBMC.
+
 * 'Currently playing' widget which appears when something is playing and hides again when
-  it is finished
+  it is finished.
+
+* SABnzbd+ widget showing basic info about SABnzb+ - what is downloading, at what speed,
+  and how long is remaining. Only appears when something is downloading, and hides again
+  when it is done.
 
 Uses Flask. Just set up htpcfrontend.py to be served using Apache and mod_wsgi or something.
 

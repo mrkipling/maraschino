@@ -37,6 +37,31 @@ $(document).ready(function() {
     $.get('/xhr/play_episode/' + $(this).data('episodeid'));
   });
 
+  /* SABnzbd+ */
+
+  function get_sabnzbd() {
+    $.get('/xhr/sabnzbd', function(data) {
+      var sabnzbd_module = $('#sabnzbd');
+
+      if (sabnzbd_module.length > 0) {
+        if ($(data).attr('id') === 'sabnzbd') {
+          sabnzbd_module.replaceWith(data);
+        } else {
+          sabnzbd_module.fadeOut(200, function() {
+            $(this).replaceWith(data);
+          });
+        }
+
+      } else {
+        var module = $(data).hide();
+        $('#sabnzbd_placeholder').replaceWith(module);
+        $('#sabnzbd').fadeIn(200);
+      }
+    });
+
+    setTimeout(get_sabnzbd, 10000);
+  }
+
   /* currently playing */
 
   function get_currently_playing() {
@@ -64,8 +89,14 @@ $(document).ready(function() {
     setTimeout(get_currently_playing, 10000);
   }
 
+  /* load active XHR modules */
+
   if (module_is_active('recently_added')) {
     get_recently_added();
+  }
+
+  if (module_is_active('sabnzbd')) {
+    get_sabnzbd();
   }
 
   if (module_is_active('currently_playing')) {
