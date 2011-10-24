@@ -2,12 +2,18 @@
 
   <p>
     <strong>Currently playing:</strong><br>
-    {{ currently_playing.showtitle }}
-    <span class="separator">-</span>
-    Season {{ currently_playing.season }},
-    Episode {{ currently_playing.episode }}
-    <span class="separator">-</span>
-    "{{ currently_playing.title }}"
+
+    {% if currently_playing.showtitle %}
+      {{ currently_playing.showtitle }}
+      <span class="separator">-</span>
+      Season {{ currently_playing.season }},
+      Episode {{ currently_playing.episode }}
+      <span class="separator">-</span>
+      "{{ currently_playing.title }}"
+
+    {% else %}
+      {{ currently_playing.title }}
+    {% endif %}
   </p>
 
   <div class="progress">
