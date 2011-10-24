@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template, request
 from settings import *
 
 import jsonrpclib
@@ -19,16 +19,27 @@ def index():
         filename = episode['file'].split('/').pop().replace('.', ' ')
         recently_added_episodes.append(filename)
 
-    # currently playing
-
-    #currently_playing = xbmc.VideoPlaylist.GetItems(id=1)
-    #time = xbmc.VideoPlayer.GetTime()
-
     return render_template('index.html',
         recently_added_episodes = recently_added_episodes,
         applications = APPLICATIONS,
         server = SERVER
     )
+
+@app.route('/xhr/currently_playing')
+def currently_playing():
+    xbmc = jsonrpclib.Server(SERVER_ADDRESS)
+
+    try:
+        time = xbmc.VideoPlayer.GetTime()
+        print time
+
+    except:
+        return jsonify({ 'playing': False })
+
+    currently_playing = xbmc.VideoPlaylist.GetItems(fields = ['title', 'season', 'episode', 'duration', 'showtitle'], id=1)
+    print currently_playing
+
+    return render_template('currently_playing.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
