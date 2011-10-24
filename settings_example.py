@@ -5,7 +5,7 @@ SERVER = {
     'password': ''
 }
 
-NUM_RECENT_EPISODES = 10
+NUM_RECENT_EPISODES = 5
 
 APPLICATIONS = [
     {

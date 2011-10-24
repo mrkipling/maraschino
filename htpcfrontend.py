@@ -10,17 +10,10 @@ SERVER_ADDRESS = 'http://%s:%s@%s:%s/jsonrpc' % (SERVER['username'], SERVER['pas
 @app.route('/')
 def index():
     xbmc = jsonrpclib.Server(SERVER_ADDRESS)
-    episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes()
-    recently_added_episodes = []
-
-    # tidy up filenames of recently added episodes
-
-    for episode in episodes['episodes'][:NUM_RECENT_EPISODES]:
-        filename = episode['file'].split('/').pop().replace('.', ' ')
-        recently_added_episodes.append(filename)
+    recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(fields = ['title', 'season', 'episode', 'showtitle'])
 
     return render_template('index.html',
-        recently_added_episodes = recently_added_episodes,
+        recently_added_episodes = recently_added_episodes['episodes'][:NUM_RECENT_EPISODES],
         applications = APPLICATIONS,
         server = SERVER
     )
