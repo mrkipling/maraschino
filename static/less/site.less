@@ -46,20 +46,24 @@
 
 .col
 {
-  position: absolute;
-  top: 0;
-  width: 440px;
+  margin-left: 2%;
+  width: 32%;
 }
 
 #col1
 {
-  left: 0;
-  top: 0;
+  float: left;
+  margin-left: 0;
 }
 
 #col2
 {
-  right: 0;
+  float: left;
+}
+
+#col3
+{
+  float: right;
 }
 
 
@@ -142,6 +146,7 @@ ul.episodes li
   line-height: 1.3em;
   margin-top: 5px;
   padding: 5px 5px 5px 15px;
+  position: relative;
 
   .border-radius(4px);
 }
@@ -159,8 +164,7 @@ ul.episodes li:hover
 
 ul.episodes .inner
 {
-  float: left;
-  width: 301px;
+  padding-right: 107px;
 }
 
 ul.episodes h3
@@ -181,7 +185,9 @@ ul.episodes .title
 
 ul.episodes img
 {
-  float: right;
+  position: absolute;
+  right: 5px;
+  top: 5px;
   .box-shadow(#222, 0, 0, 2px);
 }
 
