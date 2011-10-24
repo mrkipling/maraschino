@@ -30,7 +30,7 @@ def xhr_recently_added():
 
     return render_template('recently_added.html',
         recently_added_episodes = recently_added_episodes['episodes'][:NUM_RECENT_EPISODES],
-        server_address = SERVER_ADDRESS
+        server = SERVER
     )
 
 @app.route('/xhr/sabnzbd')
