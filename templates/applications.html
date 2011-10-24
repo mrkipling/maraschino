@@ -1,0 +1,15 @@
+<div id="applications" class="module">
+  <h2>Applications</h2>
+  {% if applications %}
+    <ul>
+      {% for application in applications %}
+        <li>
+          <a href="{{ application.url }}" class="clearfix">
+            <span class="name">{{ application.name }}</span>
+            <span class="description">{{ application.description }}</span>
+          </a>
+        </li>
+        {% endfor %}
+    </ul>
+  {% endif %}
+</div>

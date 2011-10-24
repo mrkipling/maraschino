@@ -5,41 +5,21 @@
 <div id="wrapper" class="clearfix">
 
   <div id="col1" class="col">
-
-    {% if 'applications' in modules %}
-      <div id="applications" class="module">
-        <h2>Applications</h2>
-        {% if applications %}
-          <ul>
-            {% for application in applications %}
-              <li>
-                <a href="{{ application.url }}" class="clearfix">
-                  <span class="name">{{ application.name }}</span>
-                  <span class="description">{{ application.description }}</span>
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-      </div>
-    {% endif %}
-
-    {% if 'sabnzbd' in modules %}
-      <div id="sabnzbd_placeholder"></div>
-    {% endif %}
-
+    {% for module in modules[0] %}
+      <div id="{{ module }}_placeholder" class="placeholder" data-module="{{ module }}"></div>
+    {% endfor %}
   </div>
 
   <div id="col2" class="col">
-    &nbsp;
+    {% for module in modules[1] %}
+      <div id="{{ module }}_placeholder" class="placeholder" data-module="{{ module }}"></div>
+    {% endfor %}
   </div>
 
   <div id="col3" class="col">
-
-    {% if 'recently_added' in modules %}
-      <div id="recently_added_placeholder"></div>
-    {% endif %}
-
+    {% for module in modules[2] %}
+      <div id="{{ module }}_placeholder" class="placeholder" data-module="{{ module }}"></div>
+    {% endfor %}
   </div>
 
 </div>

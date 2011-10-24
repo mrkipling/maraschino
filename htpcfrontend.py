@@ -19,8 +19,14 @@ SERVER_API_ADDRESS = '%s/jsonrpc' % (SERVER_ADDRESS)
 @app.route('/')
 def index():
     return render_template('index.html',
-        applications = APPLICATIONS,
-        modules = MODULES
+        modules = MODULES,
+        show_currently_playing = SHOW_CURRENTLY_PLAYING
+    )
+
+@app.route('/xhr/applications')
+def xhr_applications():
+    return render_template('applications.html',
+        applications = APPLICATIONS
     )
 
 @app.route('/xhr/recently_added')

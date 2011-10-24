@@ -1,17 +1,37 @@
 $(document).ready(function() {
 
-  /* get active modules */
+  /* active modules */
 
-  var modules = $('body').data('modules').split(',');
+  var active_modules = [];
+
+  $('.placeholder').each(function() {
+    active_modules.push($(this).data('module'));
+  });
 
   function module_is_active(module) {
-    for (var i in modules) {
-      if (modules[i] === module) {
+    for (var i=0; i < active_modules.length; i++) {
+      if (active_modules[i] === module) {
         return true;
       }
     }
-
     return false;
+  }
+
+  /* applications */
+
+  function get_applications() {
+    $.get('/xhr/applications', function(data) {
+      var applications_module = $('#applications');
+
+      if (applications_module.length > 0) {
+        applications_module.replaceWith(data);
+
+      } else {
+        var module = $(data).hide();
+        $('#applications_placeholder').replaceWith(module);
+        $('#applications').fadeIn(200);
+      }
+    });
   }
 
   /* recently added */
@@ -91,6 +111,10 @@ $(document).ready(function() {
 
   /* load active XHR modules */
 
+  if (module_is_active('applications')) {
+    get_applications();
+  }
+
   if (module_is_active('recently_added')) {
     get_recently_added();
   }
@@ -99,7 +123,7 @@ $(document).ready(function() {
     get_sabnzbd();
   }
 
-  if (module_is_active('currently_playing')) {
+  if ($('body').data('show_currently_playing') == 'True') {
     get_currently_playing();
   }
 

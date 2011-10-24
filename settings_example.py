@@ -1,9 +1,10 @@
 MODULES = [
-    'applications',
-    'recently_added',
-    'currently_playing',
-    'sabnzbd'
+    ['applications'],
+    ['sabnzbd'],
+    ['recently_added'],
 ]
+
+SHOW_CURRENTLY_PLAYING = True
 
 SERVER = {
     'hostname': 'localhost',
