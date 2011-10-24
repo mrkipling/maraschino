@@ -9,12 +9,17 @@ SERVER_ADDRESS = 'http://%s:%s@%s:%s/jsonrpc' % (SERVER['username'], SERVER['pas
 
 @app.route('/')
 def index():
+    return render_template('index.html',
+        applications = APPLICATIONS,
+    )
+
+@app.route('/xhr/recently_added')
+def xhr_recently_added():
     xbmc = jsonrpclib.Server(SERVER_ADDRESS)
     recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(fields = ['title', 'season', 'episode', 'showtitle'])
 
-    return render_template('index.html',
+    return render_template('recently_added.html',
         recently_added_episodes = recently_added_episodes['episodes'][:NUM_RECENT_EPISODES],
-        applications = APPLICATIONS,
         server = SERVER
     )
 

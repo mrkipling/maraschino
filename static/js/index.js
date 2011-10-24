@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-  $.get('/xhr/currently_playing', function(data) {
+  $.get('/xhr/recently_added', function(data) {
+    $('#recently_added_placeholder').replaceWith(data);
   });
 
 });
