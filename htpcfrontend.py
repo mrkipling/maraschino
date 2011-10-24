@@ -5,7 +5,16 @@ import json, jsonrpclib, math, urllib
 
 app = Flask(__name__)
 
-SERVER_ADDRESS = 'http://%s:%s@%s:%s/jsonrpc' % (SERVER['username'], SERVER['password'], SERVER['hostname'], SERVER['port'])
+SERVER['username_password'] = ''
+if SERVER['username'] != None:
+    SERVER['username_password'] = SERVER['username']
+    if SERVER['password'] != None:
+        SERVER['username_password'] += ':' + SERVER['password']
+    SERVER['username_password'] += '@'
+
+SERVER_ADDRESS = 'http://%s%s:%s' % (SERVER['username_password'], SERVER['hostname'], SERVER['port'])
+
+SERVER_API_ADDRESS = '%s/jsonrpc' % (SERVER_ADDRESS)
 
 @app.route('/')
 def index():
@@ -16,12 +25,12 @@ def index():
 
 @app.route('/xhr/recently_added')
 def xhr_recently_added():
-    xbmc = jsonrpclib.Server(SERVER_ADDRESS)
+    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
     recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(fields = ['title', 'season', 'episode', 'showtitle'])
 
     return render_template('recently_added.html',
         recently_added_episodes = recently_added_episodes['episodes'][:NUM_RECENT_EPISODES],
-        server = SERVER
+        server_address = SERVER_ADDRESS
     )
 
 @app.route('/xhr/sabnzbd')
@@ -34,7 +43,7 @@ def xhr_sabnzbd():
 
 @app.route('/xhr/currently_playing')
 def xhr_currently_playing():
-    xbmc = jsonrpclib.Server(SERVER_ADDRESS)
+    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
 
     try:
         time = xbmc.VideoPlayer.GetTime()
@@ -53,7 +62,7 @@ def xhr_currently_playing():
 
 @app.route('/xhr/play_episode/<int:episode_id>')
 def xhr_play_episode(episode_id):
-    xbmc = jsonrpclib.Server(SERVER_ADDRESS)
+    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
     xbmc.VideoPlaylist.Clear()
     xbmc.VideoPlaylist.Add(episodeid=episode_id)
     xbmc.VideoPlaylist.Play()
