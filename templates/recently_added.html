@@ -3,14 +3,21 @@
   <ul class="episodes listfix">
     {% for episode in recently_added_episodes %}
       <li data-episodeid="{{ episode.episodeid }}" title="Play episode">
+
         {% if episode.thumbnail %}
           <img src="{{ server_address }}/vfs/{{ episode.thumbnail }}" width="100" height="56" alt="">
         {% endif %}
+
         <div class="inner">
           <h3>{{ episode.showtitle }}</h3>
           <p>Season {{ episode.season }}, Episode {{ episode.episode }}</p>
           <p class="title">"{{ episode.title }}"</p>
         </div>
+
+        {% if episode.lastplayed %}
+          <div class="watched" style="display: none;">Watched</div>
+        {% endif %}
+
       </li>
     {% endfor %}
   </ul>
