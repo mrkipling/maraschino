@@ -5,9 +5,11 @@ import jsonrpclib
 
 app = Flask(__name__)
 
+SERVER_ADDRESS = 'http://%s:%s@%s:%s/jsonrpc' % (SERVER['username'], SERVER['password'], SERVER['hostname'], SERVER['port'])
+
 @app.route('/')
 def index():
-    xbmc = jsonrpclib.Server('http://%s:%s@%s:%s/jsonrpc' % (SERVER['username'], SERVER['password'], SERVER['hostname'], SERVER['port']))
+    xbmc = jsonrpclib.Server(SERVER_ADDRESS)
     episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes()
     recently_added_episodes = []
 
