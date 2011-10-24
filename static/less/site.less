@@ -145,7 +145,6 @@ ul.episodes li
   font-size: 0.9em;
   line-height: 1.3em;
   margin-top: 5px;
-  padding: 5px 5px 5px 15px;
   position: relative;
 
   .border-radius(4px);
@@ -164,7 +163,14 @@ ul.episodes li:hover
 
 ul.episodes .inner
 {
-  padding-right: 107px;
+  padding: 5px 107px 5px 15px;
+  .border-radius(4px);
+}
+
+ul.episodes li.watched .inner
+{
+  border-left: 3px solid #ccc;
+  padding-left: 12px;
 }
 
 ul.episodes h3
