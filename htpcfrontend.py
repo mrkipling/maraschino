@@ -27,7 +27,6 @@ def index():
 def xhr_recently_added():
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
     recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(fields = ['title', 'season', 'episode', 'showtitle', 'lastplayed'])
-    print recently_added_episodes
 
     return render_template('recently_added.html',
         recently_added_episodes = recently_added_episodes['episodes'][:NUM_RECENT_EPISODES],
