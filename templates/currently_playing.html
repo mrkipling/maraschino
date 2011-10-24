@@ -1,7 +1,11 @@
 <div id="currently_playing">
-  <strong>Currently playing:</strong>
-  {{ currently_playing.showtitle }} -
-  Season {{ currently_playing.season }},
-  Episode {{ currently_playing.episode }} -
-  {{ currently_playing.title }}
+  <p>
+    <strong>Currently playing:</strong><br>
+    {{ currently_playing.showtitle }}
+    <span class="separator">-</span>
+    Season {{ currently_playing.season }},
+    Episode {{ currently_playing.episode }}
+    <span class="separator">-</span>
+    "{{ currently_playing.title }}"
+  </p>
 </div>
