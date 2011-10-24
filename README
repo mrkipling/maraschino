@@ -8,6 +8,6 @@ Currently has the following features:
 * 'Currently playing' widget which appears when something is playing and hides again when
   it is finished
 
-Uses Flask. Just set it up to be served using Apache or something.
+Uses Flask. Just set up htpcfrontend.py to be served using Apache and mod_wsgi or something.
 
 This is an early-stage work-in-progress. More features coming when I find a use for them!
