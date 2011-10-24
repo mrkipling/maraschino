@@ -4,7 +4,7 @@ Provides a nice overview page for an HTPC running XBMC.
 Currently has the following features:
 
 * Customisable 'applications' widget providing quick access to web interfaces (e.g. SABnzb+)
-* 'Recently added episodes' widget with thumbanils - just click to play in XBMC
+* 'Recently added episodes' widget with thumbnails - just click to play in XBMC
 * 'Currently playing' widget which appears when something is playing and hides again when
   it is finished
 
