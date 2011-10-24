@@ -37,7 +37,10 @@ def currently_playing():
     currently_playing = xbmc.VideoPlaylist.GetItems(fields = ['title', 'season', 'episode', 'duration', 'showtitle'], id=1)
     print currently_playing
 
-    return render_template('currently_playing.html')
+    return render_template('currently_playing.html',
+        currently_playing = currently_playing['items'][0],
+        time = time
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)
