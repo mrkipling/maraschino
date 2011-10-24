@@ -1,10 +1,21 @@
 $(document).ready(function() {
 
-  $.get('/xhr/recently_added', function(data) {
-    var module = $(data).hide();
-    $('#recently_added_placeholder').replaceWith(module);
-    $('#recently_added').fadeIn(200);
-  });
+  function get_recently_added() {
+    $.get('/xhr/recently_added', function(data) {
+      var recently_added_module = $('#recently_added');
+
+      if (recently_added_module.length > 0) {
+        recently_added_module.replaceWith(data);
+
+      } else {
+        var module = $(data).hide();
+        $('#recently_added_placeholder').replaceWith(module);
+        $('#recently_added').fadeIn(200);
+      }
+    });
+
+    setTimeout(get_recently_added, 600000);
+  }
 
   function get_currently_playing() {
     $.get('/xhr/currently_playing', function(data) {
@@ -27,9 +38,11 @@ $(document).ready(function() {
         }
       }
     });
+
     setTimeout(get_currently_playing, 10000);
   }
 
+  get_recently_added();
   get_currently_playing();
 
 });
