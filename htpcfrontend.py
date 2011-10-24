@@ -24,7 +24,7 @@ def xhr_recently_added():
     )
 
 @app.route('/xhr/currently_playing')
-def currently_playing():
+def xhr_currently_playing():
     xbmc = jsonrpclib.Server(SERVER_ADDRESS)
 
     try:
