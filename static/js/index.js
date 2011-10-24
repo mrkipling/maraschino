@@ -30,7 +30,7 @@ $(document).ready(function() {
       }
     });
 
-    setTimeout(get_recently_added, 600000);
+    setTimeout(get_recently_added, 300000);
   }
 
   $('#recently_added li').live('click', function() {
@@ -59,7 +59,7 @@ $(document).ready(function() {
       }
     });
 
-    setTimeout(get_sabnzbd, 10000);
+    setTimeout(get_sabnzbd, 5000);
   }
 
   /* currently playing */
@@ -86,7 +86,7 @@ $(document).ready(function() {
       }
     });
 
-    setTimeout(get_currently_playing, 10000);
+    setTimeout(get_currently_playing, 5000);
   }
 
   /* load active XHR modules */
