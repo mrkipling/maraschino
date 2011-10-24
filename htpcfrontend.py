@@ -46,7 +46,15 @@ def format_time(total):
     total_mins = int(math.floor(total / 60))
     total_secs = '%0*d' % (2, int(total - (total_mins * 60)))
 
-    return '%s:%s' % (total_mins, total_secs)
+    total_hours = int(math.floor(total_mins / 60))
+    total_mins = total_mins - (total_hours * 60)
+
+    mins_secs = '%s:%s' % (total_mins, total_secs)
+
+    if total_hours > 0:
+        return '%s:%s' % (total_hours, mins_secs)
+
+    return mins_secs
 
 if __name__ == '__main__':
     app.run(debug=True)
