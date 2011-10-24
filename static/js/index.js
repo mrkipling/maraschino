@@ -21,7 +21,7 @@ $(document).ready(function() {
     $.get('/xhr/currently_playing', function(data) {
 
       if (data.playing === false) {
-        $('#currently_playing').fadeOut(200, function() {
+        $('#currently_playing').slideUp(200, function() {
           $(this).remove();
         });
 
