@@ -1,0 +1,7 @@
+{% if mods %}
+  {% for module in mods %}
+    <div class="placeholder" data-module="{{ module.module }}" data-poll="{{ module.poll }}"></div>
+  {% endfor %}
+{% else %}
+  &nbsp;
+{% endif %}

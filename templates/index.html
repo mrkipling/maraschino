@@ -5,21 +5,21 @@
 <div id="wrapper" class="clearfix">
 
   <div id="col1" class="col">
-    {% for module in modules[0] %}
-      <div class="placeholder" data-module="{{ module.module }}" data-poll="{{ module.poll }}"></div>
-    {% endfor %}
+    {% with mods = modules[0] %}
+      {% include "placeholders.html" %}
+    {% endwith %}
   </div>
 
   <div id="col2" class="col">
-    {% for module in modules[1] %}
-      <div class="placeholder" data-module="{{ module.module }}" data-poll="{{ module.poll }}"></div>
-    {% endfor %}
+    {% with mods = modules[1] %}
+      {% include "placeholders.html" %}
+    {% endwith %}
   </div>
 
   <div id="col3" class="col">
-    {% for module in modules[2] %}
-      <div class="placeholder" data-module="{{ module.module }}" data-poll="{{ module.poll }}"></div>
-    {% endfor %}
+    {% with mods = modules[2] %}
+      {% include "placeholders.html" %}
+    {% endwith %}
   </div>
 
 </div>
