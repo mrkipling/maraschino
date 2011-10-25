@@ -32,7 +32,11 @@ $(document).ready(function() {
       if ($('body').data('trakt_backgrounds') === 'True') {
         if ($(data).attr('id') === 'trakt') {
           var fanart = $('#fanart');
-          fanart.css('background-image', 'url(' + $(data).data('fanart') + ') !important;');
+          var fanart_url = $(data).data('fanart');
+
+          if (fanart_url !== undefined) {
+            fanart.css('background-image', 'url(' + fanart_url + ')');
+          }
 
           if (!fanart.is(':visible')) {
             setTimeout(function() { fanart.fadeIn(500); }, 3000); // wait 3 seconds to give the image a chance to load before fading in
