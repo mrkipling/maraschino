@@ -90,6 +90,12 @@
   padding: 17px 15px 20px;
 }
 
+.module h2 + .subtitle
+{
+  font-size: 0.9em;
+  margin: -12px 15px 15px;
+}
+
 
 
 
@@ -270,26 +276,56 @@ ul.episodes img
 
 
 
-/*--- SABnzbd+ ---*/
+/*--- trakt ---*/
 
-#sabnzbd .inner
+#trakt .shouts li
+{
+  font-size: 0.9em;
+  line-height: 1.2em;
+  margin-top: 15px;
+}
+
+#trakt .shouts .avatar
+{
+  float: left;
+  margin-right: 5px;
+}
+
+#trakt .shouts .shout
+{
+  background: url(/static/images/alpha/fff_10.png);
+  border: 1px solid #222;
+  line-height: 1.3em;
+  margin-top: 2px;
+  padding: 5px;
+
+  .border-radius(4px);
+}
+
+
+
+
+
+/*--- generic module ---*/
+
+.module.generic .inner
 {
   color: #ccc;
   line-height: 1.3em;
   padding: 0 15px 15px;
 }
 
-#sabnzbd .inner p
+.module.generic .inner p
 {
   margin-top: 5px;
 }
 
-#sabnzbd .inner p strong
+.module.generic .inner p strong
 {
   color: #fff;
 }
 
-#sabnzbd .inner p:first-child
+.module.generic .inner p:first-child
 {
   margin-top: 0;
 }

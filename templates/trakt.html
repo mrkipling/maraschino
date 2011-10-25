@@ -1,0 +1,28 @@
+{% if trakt.shouts %}
+
+<div id="trakt" class="module generic" data-module="trakt">
+  <h2>trakt.tv</h2>
+  <p class="subtitle">
+    What people are saying about
+    "{{ trakt.watching.episode.title }}"
+  </p>
+  <div class="inner">
+    <ul class="shouts">
+      {% for shout in trakt.shouts[0:5] %}
+        <li>
+          <a class="user" href="{{ shout.user.url }}">{{ shout.user.full_name }}</a> said:
+          <p class="shout clearfix">
+            <a href="{{ shout.user.url }}">
+              <img class="avatar" src="{{ shout.user.avatar }}" width="20" height="20" alt="">
+            </a>
+            {{ shout.shout }}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% else %}
+<div class="placeholder" data-module="trakt"></div>
+{% endif %}

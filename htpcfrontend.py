@@ -47,6 +47,21 @@ def xhr_sabnzbd():
 
     return render_template('sabnzbd.html', sabnzbd=sabnzbd)
 
+@app.route('/xhr/trakt')
+def xhr_trakt():
+    trakt = {}
+
+    url = 'http://api.trakt.tv/user/watching.json/%s/%s' % (TRAKT_API_KEY, TRAKT_USERNAME)
+    result = urllib.urlopen(url).read()
+    trakt['watching'] = json.JSONDecoder().decode(result)
+
+    if trakt['watching']['type'] == 'episode':
+        url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, trakt['watching']['show']['tvdb_id'], trakt['watching']['episode']['season'],trakt['watching']['episode']['number'])
+        result = urllib.urlopen(url).read()
+        trakt['shouts'] = json.JSONDecoder().decode(result)
+
+    return render_template('trakt.html', trakt=trakt)
+
 @app.route('/xhr/currently_playing')
 def xhr_currently_playing():
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
