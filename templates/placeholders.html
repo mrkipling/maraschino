@@ -1,6 +1,6 @@
 {% if mods %}
   {% for module in mods %}
-    <div class="placeholder" data-module="{{ module.module }}" data-poll="{{ module.poll }}"></div>
+    <div class="placeholder" data-module="{{ module.module }}" data-poll="{{ module.poll }}"{% if module.delay %} data-delay="{{ module.delay }}"{% endif %}></div>
   {% endfor %}
 {% else %}
   &nbsp;

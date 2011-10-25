@@ -37,7 +37,14 @@ $(document).ready(function() {
   // initialise modules on page load
 
   $('.placeholder').each(function() {
-    get_module($(this).data('module'), $(this).data('poll'));
+    var delay = $(this).data('delay');
+    if (delay === undefined) {
+      get_module($(this).data('module'), $(this).data('poll'));
+    } else {
+      var module = $(this).data('module');
+      var poll = $(this).data('poll');
+      setTimeout(function() { get_module(module, poll) }, delay * 1000);
+    }
   });
 
   // currently playing
