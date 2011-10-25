@@ -20,7 +20,8 @@ SERVER_API_ADDRESS = '%s/jsonrpc' % (SERVER_ADDRESS)
 def index():
     return render_template('index.html',
         modules = MODULES,
-        show_currently_playing = SHOW_CURRENTLY_PLAYING
+        show_currently_playing = SHOW_CURRENTLY_PLAYING,
+        trakt_backgrounds = TRAKT_BACKGROUNDS
     )
 
 @app.route('/xhr/applications')
@@ -58,9 +59,11 @@ def xhr_trakt():
     if trakt['watching']:
         if trakt['watching']['type'] == 'episode':
             url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, trakt['watching']['show']['tvdb_id'], trakt['watching']['episode']['season'],trakt['watching']['episode']['number'])
+            trakt['fanart'] = trakt['watching']['show']['images']['fanart']
 
         else:
             url = 'http://api.trakt.tv/movie/shouts.json/%s/%s' % (TRAKT_API_KEY, trakt['watching']['movie']['imdb_id'])
+            trakt['fanart'] = trakt['watching']['movie']['images']['fanart']
 
         result = urllib.urlopen(url).read()
         trakt['shouts'] = json.JSONDecoder().decode(result)

@@ -26,6 +26,14 @@ $(document).ready(function() {
         $('.placeholder[data-module=' + module + ']').replaceWith(new_module);
         $('.module[data-module=' + module + ']').fadeIn(200);
       }
+
+      // use trakt background as fanart if enabled in settings
+      // this is a special-case; ideally need to find a nicer way of doing this
+      if ($('body').data('trakt_backgrounds') === 'True') {
+        if ($(data).attr('id') === 'trakt') {
+          $('body').attr('style', 'background-image: url(' + $(data).data('fanart') + ') !important;');
+        }
+      }
     });
 
     // poll
