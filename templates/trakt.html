@@ -4,13 +4,23 @@
   <h2>trakt.tv</h2>
   <p class="subtitle">
     What people are saying about
-    "{{ trakt.watching.episode.title }}"
+
+    {% if trakt.watching.type == 'episode' %}
+      "{{ trakt.watching.episode.title }}"
+    {% else %}
+      {{ trakt.watching.movie.title }}
+    {% endif %}
+
   </p>
   <div class="inner">
     <ul class="shouts">
       {% for shout in trakt.shouts[0:5] %}
         <li>
-          <a class="user" href="{{ shout.user.url }}">{{ shout.user.full_name }}</a> said:
+          <a class="user" href="{{ shout.user.url }}">
+            {% if shout.user.full_name %}{{ shout.user.full_name }}
+            {% else %}{{ shout.user.username }}{% endif %}
+          </a>
+          said:
           <a href="{{ shout.user.url }}">
             <img class="avatar" src="{{ shout.user.avatar }}" width="20" height="20" alt="">
           </a>
