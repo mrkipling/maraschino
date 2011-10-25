@@ -32,9 +32,10 @@ $(document).ready(function() {
       if ($('body').data('trakt_backgrounds') === 'True') {
         if ($(data).attr('id') === 'trakt') {
           var fanart = $('#fanart');
-          fanart.attr('style', 'background-image: url(' + $(data).data('fanart') + ') !important;');
-          if (fanart.css('display') === 'none') {
-            setTimeout(function() { fanart.fadeIn(500); }, 3000); // wait 3 seconds to give the image a chance to load
+          fanart.css('background-image', 'url(' + $(data).data('fanart') + ') !important;');
+
+          if (!fanart.is(':visible')) {
+            setTimeout(function() { fanart.fadeIn(500); }, 3000); // wait 3 seconds to give the image a chance to load before fading in
           }
         }
       }
