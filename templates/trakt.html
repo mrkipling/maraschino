@@ -11,10 +11,10 @@
       {% for shout in trakt.shouts[0:5] %}
         <li>
           <a class="user" href="{{ shout.user.url }}">{{ shout.user.full_name }}</a> said:
+          <a href="{{ shout.user.url }}">
+            <img class="avatar" src="{{ shout.user.avatar }}" width="20" height="20" alt="">
+          </a>
           <p class="shout clearfix">
-            <a href="{{ shout.user.url }}">
-              <img class="avatar" src="{{ shout.user.avatar }}" width="20" height="20" alt="">
-            </a>
             {{ shout.shout }}
           </p>
         </li>
