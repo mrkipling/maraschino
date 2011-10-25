@@ -55,10 +55,11 @@ def xhr_trakt():
     result = urllib.urlopen(url).read()
     trakt['watching'] = json.JSONDecoder().decode(result)
 
-    if trakt['watching']['type'] == 'episode':
-        url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, trakt['watching']['show']['tvdb_id'], trakt['watching']['episode']['season'],trakt['watching']['episode']['number'])
-        result = urllib.urlopen(url).read()
-        trakt['shouts'] = json.JSONDecoder().decode(result)
+    if trakt['watching']:
+        if trakt['watching']['type'] == 'episode':
+            url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, trakt['watching']['show']['tvdb_id'], trakt['watching']['episode']['season'],trakt['watching']['episode']['number'])
+            result = urllib.urlopen(url).read()
+            trakt['shouts'] = json.JSONDecoder().decode(result)
 
     return render_template('trakt.html', trakt=trakt)
 
