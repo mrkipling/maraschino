@@ -1,88 +1,46 @@
 $(document).ready(function() {
 
-  /* active modules */
+  // get/poll module
 
-  var active_modules = [];
+  function get_module(module, poll) {
+    $.get('/xhr/' + module, function(data) {
+      var module_ele = $('#' + module);
 
-  $('.placeholder').each(function() {
-    active_modules.push($(this).data('module'));
-  });
+      // if module is already on page
+      if (module_ele.length > 0) {
 
-  function module_is_active(module) {
-    for (var i=0; i < active_modules.length; i++) {
-      if (active_modules[i] === module) {
-        return true;
-      }
-    }
-    return false;
-  }
+        // if module has been returned by the XHR view
+        if ($(data).attr('id') === module) {
+          module_ele.replaceWith(data);
 
-  /* applications */
-
-  function get_applications() {
-    $.get('/xhr/applications', function(data) {
-      var applications_module = $('#applications');
-
-      if (applications_module.length > 0) {
-        applications_module.replaceWith(data);
-
-      } else {
-        var module = $(data).hide();
-        $('#applications_placeholder').replaceWith(module);
-        $('#applications').fadeIn(200);
-      }
-    });
-  }
-
-  /* recently added */
-
-  function get_recently_added() {
-    $.get('/xhr/recently_added', function(data) {
-      var recently_added_module = $('#recently_added');
-
-      if (recently_added_module.length > 0) {
-        recently_added_module.replaceWith(data);
-
-      } else {
-        var module = $(data).hide();
-        $('#recently_added_placeholder').replaceWith(module);
-        $('#recently_added').fadeIn(200);
-      }
-    });
-
-    setTimeout(get_recently_added, 300000);
-  }
-
-  $('#recently_added li').live('click', function() {
-    $.get('/xhr/play_episode/' + $(this).data('episodeid'));
-  });
-
-  /* SABnzbd+ */
-
-  function get_sabnzbd() {
-    $.get('/xhr/sabnzbd', function(data) {
-      var sabnzbd_module = $('#sabnzbd');
-
-      if (sabnzbd_module.length > 0) {
-        if ($(data).attr('id') === 'sabnzbd') {
-          sabnzbd_module.replaceWith(data);
+        // else placeholder has been returned by the XHR view
         } else {
-          sabnzbd_module.fadeOut(200, function() {
+          module_ele.fadeOut(200, function() {
             $(this).replaceWith(data);
           });
         }
 
+      // placeholder is on page
       } else {
-        var module = $(data).hide();
-        $('#sabnzbd_placeholder').replaceWith(module);
-        $('#sabnzbd').fadeIn(200);
+        var new_module = $(data).hide();
+        $('.placeholder[data-module=' + module + ']').replaceWith(new_module);
+        $('.module[data-module=' + module + ']').fadeIn(200);
       }
     });
 
-    setTimeout(get_sabnzbd, 5000);
+    // poll
+    if (poll !== 'None') {
+      setTimeout(function() { get_module(module, poll) }, poll * 1000);
+    }
   }
 
-  /* currently playing */
+  // initialise modules on page load
+
+  $('.placeholder').each(function() {
+    get_module($(this).data('module'), $(this).data('poll'));
+  });
+
+  // currently playing
 
   function get_currently_playing() {
     $.get('/xhr/currently_playing', function(data) {
@@ -109,22 +67,14 @@ $(document).ready(function() {
     setTimeout(get_currently_playing, 5000);
   }
 
-  /* load active XHR modules */
-
-  if (module_is_active('applications')) {
-    get_applications();
-  }
-
-  if (module_is_active('recently_added')) {
-    get_recently_added();
-  }
-
-  if (module_is_active('sabnzbd')) {
-    get_sabnzbd();
-  }
-
-  if ($('body').data('show_currently_playing') == 'True') {
+  if ($('body').data('show_currently_playing') === 'True') {
     get_currently_playing();
   }
+
+  // play recently added episodes when clicking on them
+
+  $('#recently_added li').live('click', function() {
+    $.get('/xhr/play_episode/' + $(this).data('episodeid'));
+  });
 
 });

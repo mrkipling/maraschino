@@ -1,6 +1,6 @@
 {% if sabnzbd.jobs %}
 
-<div id="sabnzbd" class="module">
+<div id="sabnzbd" class="module" data-module="sabnzbd">
   <h2>SABnzbd+</h2>
   <div class="inner">
     <p>
@@ -14,5 +14,5 @@
 </div>
 
 {% else %}
-  <div id="sabnzbd_placeholder"></div>
+<div class="placeholder" data-module="sabnzbd"></div>
 {% endif %}

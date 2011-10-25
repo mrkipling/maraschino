@@ -1,7 +1,13 @@
 MODULES = [
-    ['applications'],
-    ['sabnzbd'],
-    ['recently_added'],
+    [
+        { 'module': 'applications', 'poll': None },
+    ],
+    [
+        { 'module': 'sabnzbd', 'poll': 5 },
+    ],
+    [
+        { 'module': 'recently_added', 'poll': 350 },
+    ],
 ]
 
 SHOW_CURRENTLY_PLAYING = True

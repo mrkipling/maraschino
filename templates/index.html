@@ -6,19 +6,19 @@
 
   <div id="col1" class="col">
     {% for module in modules[0] %}
-      <div id="{{ module }}_placeholder" class="placeholder" data-module="{{ module }}"></div>
+      <div class="placeholder" data-module="{{ module.module }}" data-poll="{{ module.poll }}"></div>
     {% endfor %}
   </div>
 
   <div id="col2" class="col">
     {% for module in modules[1] %}
-      <div id="{{ module }}_placeholder" class="placeholder" data-module="{{ module }}"></div>
+      <div class="placeholder" data-module="{{ module.module }}" data-poll="{{ module.poll }}"></div>
     {% endfor %}
   </div>
 
   <div id="col3" class="col">
     {% for module in modules[2] %}
-      <div id="{{ module }}_placeholder" class="placeholder" data-module="{{ module }}"></div>
+      <div class="placeholder" data-module="{{ module.module }}" data-poll="{{ module.poll }}"></div>
     {% endfor %}
   </div>
 
