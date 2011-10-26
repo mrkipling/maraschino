@@ -33,7 +33,7 @@ def xhr_applications():
 @app.route('/xhr/recently_added')
 def xhr_recently_added():
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
-    recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(fields = ['title', 'season', 'episode', 'showtitle', 'lastplayed'])
+    recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'lastplayed', 'thumbnail'])
 
     return render_template('recently_added.html',
         recently_added_episodes = recently_added_episodes['episodes'][:NUM_RECENT_EPISODES],
