@@ -5,25 +5,13 @@
   <div class="inner">
 
     {% if trakt.watching.type == 'episode' %}
-      <p class="overview"><strong>Synopsis:</strong> {{ trakt.watching.episode.overview }}</p>
-      {% if trakt.shouts %}
-        <h3>
-          What people are saying about
-          "{{ trakt.watching.episode.title }}"
-        </h3>
-      {% endif %}
-
+      <p class="overview"><strong>{{ trakt.watching.episode.title }}:</strong> {{ trakt.watching.episode.overview }}</p>
     {% else %}
-      <p class="overview"><strong>Synopsis:</strong> {{ trakt.watching.movie.overview }}</p>
-      {% if trakt.shouts %}
-        <h3>
-          What people are saying about
-          {{ trakt.watching.movie.title }} ({{ trakt.watching.movie.year }})
-        </h3>
-      {% endif %}
+      <p class="overview"><strong>{{ trakt.watching.movie.title }} ({{ trakt.watching.movie.year }}):</strong> {{ trakt.watching.movie.overview }}</p>
     {% endif %}
 
     {% if trakt.shouts %}
+      <h3>What people are saying</h3>
       <ul class="shouts">
         {% for shout in trakt.shouts[0:5] %}
           <li>
