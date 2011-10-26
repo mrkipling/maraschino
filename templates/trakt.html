@@ -36,7 +36,11 @@
               <img class="avatar" src="{{ shout.user.avatar }}" width="20" height="20" alt="">
             </a>
             <p class="shout clearfix">
-              {{ shout.shout }}
+              <span class="truncated">{{ shout.shout|truncate(160, false) }}</span>
+              <span class="expanded" style="display: none;">{{ shout.shout }}</span>
+              {% if shout.shout|count > 160 %}
+                <a class="expand" href="#">[+]</a>
+              {% endif %}
             </p>
           </li>
         {% endfor %}
