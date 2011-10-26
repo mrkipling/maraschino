@@ -80,14 +80,14 @@ def xhr_currently_playing():
     except:
         return jsonify({ 'playing': False })
 
-    time = xbmc.Player.GetProperties(playerid=1, properties=['time', 'totaltime', 'position'])
+    time = xbmc.Player.GetProperties(playerid=1, properties=['time', 'totaltime', 'position', 'percentage'])
 
     return render_template('currently_playing.html',
         currently_playing = currently_playing['item'],
         time = time,
         current_time = format_time(time['time']),
-        total_time = format_time(time['totaltime'])
-        #percentage_progress = int((float(time['time']) / float(time['total'])) * 100)
+        total_time = format_time(time['totaltime']),
+        percentage_progress = int(time['percentage'])
     )
 
 @app.route('/xhr/play_episode/<int:episode_id>')
