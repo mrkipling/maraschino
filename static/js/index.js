@@ -26,6 +26,23 @@ $(document).ready(function() {
         $('.placeholder[data-module=' + module + ']').replaceWith(new_module);
         $('.module[data-module=' + module + ']').fadeIn(200);
       }
+
+      // use trakt background as fanart if enabled in settings
+      // this is a special case; ideally need to find a nicer way of doing this
+      if ($('body').data('trakt_backgrounds') === 'True') {
+        if ($(data).attr('id') === 'trakt') {
+          var fanart = $('#fanart');
+          var fanart_url = $(data).data('fanart');
+
+          if (fanart_url !== undefined) {
+            fanart.css('background-image', 'url(' + fanart_url + ')');
+          }
+
+          if (!fanart.is(':visible')) {
+            setTimeout(function() { fanart.fadeIn(500); }, 3000); // wait 3 seconds to give the image a chance to load before fading in
+          }
+        }
+      }
     });
 
     // poll
@@ -82,6 +99,16 @@ $(document).ready(function() {
 
   $('#recently_added li').live('click', function() {
     $.get('/xhr/play_episode/' + $(this).data('episodeid'));
+  });
+
+  // generic expand truncated text
+
+  $('.expand').live('click', function() {
+    var parent = $(this).parent();
+    parent.find('.truncated').hide();
+    parent.find('.expanded').show();
+    $(this).hide();
+    return false;
   });
 
 });

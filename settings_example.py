@@ -4,7 +4,7 @@ MODULES = [
     ],
     [
         { 'module': 'sabnzbd', 'poll': 5 },
-        { 'module': 'trakt', 'poll': 60, 'delay': 10 },
+        { 'module': 'trakt', 'poll': 60, 'delay': 5 },
     ],
     [
         { 'module': 'recently_added', 'poll': 350 },
@@ -26,6 +26,7 @@ SABNZBD_URL = 'http://server:port/api?apikey=b72734e6901ef6d69659759974440f21'
 # both required for module 'trakt'
 TRAKT_API_KEY = None
 TRAKT_USERNAME = None
+TRAKT_BACKGROUNDS = False
 
 # required for module 'recently_added'
 NUM_RECENT_EPISODES = 5

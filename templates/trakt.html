@@ -1,35 +1,52 @@
-{% if trakt.shouts %}
+{% if trakt.watching %}
 
-<div id="trakt" class="module generic" data-module="trakt">
+<div id="trakt" class="module generic" data-module="trakt"{% if trakt.fanart %} data-fanart="{{ trakt.fanart }}"{% endif %}>
   <h2>trakt.tv</h2>
-  <p class="subtitle">
-    What people are saying about
+  <div class="inner">
 
-    {% if trakt.watching.type == 'episode' %}
-      "{{ trakt.watching.episode.title }}"
-    {% else %}
-      {{ trakt.watching.movie.title }}
+    <p class="overview">
+      {% if trakt.watching.type == 'episode' %}
+        <strong>{{ trakt.watching.episode.title }}:</strong>
+        <span class="truncated">{{ trakt.watching.episode.overview|truncate(200, false) }}</span>
+        <span class="expanded" style="display: none;">{{ trakt.watching.episode.overview }}</span>
+        {% if trakt.watching.episode.overview|count > 200 %}
+          <a class="expand" href="#">[+]</a>
+        {% endif %}
+      {% else %}
+        <strong>{{ trakt.watching.movie.title }} ({{ trakt.watching.movie.year }}):</strong>
+        <span class="truncated">{{ trakt.watching.movie.overview|truncate(200, false) }}</span>
+        <span class="expanded" style="display: none;">{{ trakt.watching.movie.overview }}</span>
+        {% if trakt.watching.movie.overview|count > 200 %}
+          <a class="expand" href="#">[+]</a>
+        {% endif %}
+      {% endif %}
+    </p>
+
+    {% if trakt.shouts %}
+      <h3>What people are saying</h3>
+      <ul class="shouts">
+        {% for shout in trakt.shouts[0:5] %}
+          <li>
+            <a class="user" href="{{ shout.user.url }}">
+              {% if shout.user.full_name %}{{ shout.user.full_name }}
+              {% else %}{{ shout.user.username }}{% endif %}
+            </a>
+            said:
+            <a href="{{ shout.user.url }}">
+              <img class="avatar" src="{{ shout.user.avatar }}" width="20" height="20" alt="">
+            </a>
+            <p class="shout clearfix">
+              <span class="truncated">{{ shout.shout|truncate(160, false) }}</span>
+              <span class="expanded" style="display: none;">{{ shout.shout }}</span>
+              {% if shout.shout|count > 160 %}
+                <a class="expand" href="#">[+]</a>
+              {% endif %}
+            </p>
+          </li>
+        {% endfor %}
+      </ul>
     {% endif %}
 
-  </p>
-  <div class="inner">
-    <ul class="shouts">
-      {% for shout in trakt.shouts[0:5] %}
-        <li>
-          <a class="user" href="{{ shout.user.url }}">
-            {% if shout.user.full_name %}{{ shout.user.full_name }}
-            {% else %}{{ shout.user.username }}{% endif %}
-          </a>
-          said:
-          <a href="{{ shout.user.url }}">
-            <img class="avatar" src="{{ shout.user.avatar }}" width="20" height="20" alt="">
-          </a>
-          <p class="shout clearfix">
-            {{ shout.shout }}
-          </p>
-        </li>
-      {% endfor %}
-    </ul>
   </div>
 </div>
 

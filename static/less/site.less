@@ -38,9 +38,24 @@
 
 /*--- columns ---*/
 
+#fanart
+{
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+}
+
 #wrapper
 {
   min-width: 900px;
+  padding: 2%;
   position: relative;
 }
 
@@ -278,6 +293,27 @@ ul.episodes img
 
 /*--- trakt ---*/
 
+#trakt > .inner
+{
+  margin-top: -5px;
+}
+
+#trakt .overview
+{
+  color: #ccc;
+}
+
+#trakt .overview strong
+{
+  color: #fff;
+}
+
+#trakt h3
+{
+  color: #fff;
+  margin-top: 15px;
+}
+
 #trakt .shouts li
 {
   font-size: 0.9em;
@@ -330,4 +366,15 @@ ul.episodes img
 .module.generic .inner p:first-child
 {
   margin-top: 0;
+}
+
+
+
+
+
+/*--- expand ---*/
+
+.expand
+{
+  text-decoration: none;
 }
