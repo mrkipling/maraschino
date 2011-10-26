@@ -1,6 +1,8 @@
 The imaginatively-titled "HTPC frontend"
 
-Provides a nice overview page for an HTPC running XBMC.
+Provides a nice overview page for an HTPC running XBMC. Requires Eden-pre (not Dharma) as
+there are some pretty gnarly API changes in the new version.
+
 Here's a screenshot: http://i.imgur.com/pfUjy.jpg
 
 It currently has the following features:
