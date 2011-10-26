@@ -108,9 +108,7 @@ def format_time(time):
         if time['minutes'] == 0:
             formatted_time += '00:'
 
-    if time['minutes'] > 0:
-        formatted_time += '%0*d' % (2, time['minutes']) + ':'
-
+    formatted_time += '%0*d' % (2, time['minutes']) + ':'
     formatted_time += '%0*d' % (2, time['seconds'])
 
     return formatted_time
