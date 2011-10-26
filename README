@@ -3,21 +3,39 @@ The imaginatively-titled "HTPC frontend"
 Provides a nice overview page for an HTPC running XBMC. Requires Eden-pre (not Dharma) as
 there are some pretty gnarly API changes in the new version.
 
-Here's a screenshot: http://i.imgur.com/pfUjy.jpg
+Here are a couple of screenshots:
+
+http://i.imgur.com/pfUjy.jpg
+http://i.imgur.com/zZfYM.jpg
 
 It currently has the following features:
 
-* Customisable 'applications' widget providing quick access to web interfaces (e.g. SABnzb+).
+* Customisable 'applications' widget providing quick access to web interfaces (e.g.
+  SABnzb+, SickBeard, or whatever you want to link to)
 
-* 'Recently added episodes' widget with thumbnails - just click to play in XBMC.
+* 'Recently added episodes' widget with thumbnails - also, you can just click the episode
+  and it will play in XBMC
 
-* 'Currently playing' widget which appears when something is playing and hides again when
-  it is finished.
+* SABnzbd+ widget which appears when something is downloading and hides again when finished.
+  Currently just gives you basic info (currently downloading, speed, time/MB remaining).
 
-* SABnzbd+ widget showing basic info about SABnzb+ - what is downloading, at what speed,
-  and how long is remaining. Only appears when something is downloading, and hides again
-  when it is done.
+* 'Currently playing' bar which appears when something is playing and hides again when it is
+  finished, a lot like AWX's
 
-Uses Flask. Just set up htpcfrontend.py to be served using Apache and mod_wsgi or something.
+* trakt.tv widget which shows you what people are saying about the episode or movie that
+  you're watching (requires a free trakt.tv account)
 
-This is an early-stage work-in-progress. More features coming when I find a use for them!
+* Full-screen background image changes to trakt's fanart of what you're currently watching
+  (optional, can be turned off)
+
+* Customisable via a server-side settings file - choose which modules to display, in which
+  column/order you would like them displayed, and how frequently each one should update
+
+Uses Flask. Just set up htpcfrontend.py to be served using Apache and mod_wsgi or however
+your prefer to do it. Here are some basic setup instructions (until I create some proper
+documentation):
+
+http://forum.xbmc.org/showpost.php?p=921252&postcount=10
+
+This is an early-stage work-in-progress - if you run into any problems then let me know,
+perhaps I can help (at the very least, bug reports are always welcome!)
