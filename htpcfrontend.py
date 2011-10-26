@@ -75,18 +75,19 @@ def xhr_currently_playing():
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
 
     try:
-        time = xbmc.VideoPlayer.GetTime()
+        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle'])
 
     except:
         return jsonify({ 'playing': False })
 
-    currently_playing = xbmc.VideoPlaylist.GetItems(fields = ['title', 'season', 'episode', 'duration', 'showtitle'], id=1)
+    time = xbmc.Player.GetProperties(playerid=1, properties=['time', 'totaltime', 'position'])
 
     return render_template('currently_playing.html',
-        currently_playing = currently_playing['items'][0],
+        currently_playing = currently_playing['item'],
+        time = time,
         current_time = format_time(time['time']),
-        total_time = format_time(time['total']),
-        percentage_progress = int((float(time['time']) / float(time['total'])) * 100)
+        total_time = format_time(time['totaltime'])
+        #percentage_progress = int((float(time['time']) / float(time['total'])) * 100)
     )
 
 @app.route('/xhr/play_episode/<int:episode_id>')
@@ -98,19 +99,21 @@ def xhr_play_episode(episode_id):
 
     return jsonify({ 'success': True })
 
-def format_time(total):
-    total_mins = int(math.floor(total / 60))
-    total_secs = '%0*d' % (2, int(total - (total_mins * 60)))
+def format_time(time):
+    formatted_time = ''
 
-    total_hours = int(math.floor(total_mins / 60))
-    total_mins = total_mins - (total_hours * 60)
+    if time['hours'] > 0:
+        formatted_time += str(time['hours']) + ':'
 
-    mins_secs = '%s:%s' % (total_mins, total_secs)
+        if time['minutes'] == 0:
+            formatted_time += '00:'
 
-    if total_hours > 0:
-        return '%s:%s' % (total_hours, mins_secs)
+    if time['minutes'] > 0:
+        formatted_time += '%0*d' % (2, time['minutes']) + ':'
 
-    return mins_secs
+    formatted_time += '%0*d' % (2, time['seconds'])
+
+    return formatted_time
 
 if __name__ == '__main__':
     app.run(debug=True)
