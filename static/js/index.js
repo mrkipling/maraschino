@@ -101,4 +101,14 @@ $(document).ready(function() {
     $.get('/xhr/play_episode/' + $(this).data('episodeid'));
   });
 
+  // generic expand truncated text
+
+  $('.expand').live('click', function() {
+    var parent = $(this).parent();
+    parent.find('.truncated').hide();
+    parent.find('.expanded').show();
+    $(this).hide();
+    return false;
+  });
+
 });
