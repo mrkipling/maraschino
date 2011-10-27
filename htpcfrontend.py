@@ -90,7 +90,6 @@ def xhr_currently_playing():
         # if watching a TV show
         if currently_playing['tvshowid']:
             fanart_url = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['fanart'])['tvshowdetails']['fanart']
-            print fanart_url
 
     except:
         return jsonify({ 'playing': False })
