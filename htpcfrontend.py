@@ -21,7 +21,7 @@ def index():
     return render_template('index.html',
         modules = MODULES,
         show_currently_playing = SHOW_CURRENTLY_PLAYING,
-        trakt_backgrounds = TRAKT_BACKGROUNDS
+        fanart_backgrounds = FANART_BACKGROUNDS
     )
 
 @app.route('/xhr/applications')
@@ -84,15 +84,28 @@ def xhr_currently_playing():
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
 
     try:
-        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle'])['item']
+        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid'])['item']
+        fanart_url = currently_playing['fanart']
+
+        # if watching a TV show
+        if currently_playing['tvshowid']:
+            fanart_url = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['fanart'])['tvshowdetails']['fanart']
+            print fanart_url
 
     except:
         return jsonify({ 'playing': False })
+
+    try:
+        fanart = 'http://%s:%s/vfs/%s' % (SERVER['hostname'], SERVER['port'], fanart_url)
+
+    except:
+        fanart = None
 
     time = xbmc.Player.GetProperties(playerid=1, properties=['time', 'totaltime', 'position', 'percentage'])
 
     return render_template('currently_playing.html',
         currently_playing = currently_playing,
+        fanart = fanart,
         time = time,
         current_time = format_time(time['time']),
         total_time = format_time(time['totaltime']),

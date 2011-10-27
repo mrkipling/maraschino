@@ -26,23 +26,6 @@ $(document).ready(function() {
         $('.placeholder[data-module=' + module + ']').replaceWith(new_module);
         $('.module[data-module=' + module + ']').fadeIn(200);
       }
-
-      // use trakt background as fanart if enabled in settings
-      // this is a special case; ideally need to find a nicer way of doing this
-      if ($('body').data('trakt_backgrounds') === 'True') {
-        if ($(data).attr('id') === 'trakt') {
-          var fanart = $('#fanart');
-          var fanart_url = $(data).data('fanart');
-
-          if (fanart_url !== undefined) {
-            fanart.css('background-image', 'url(' + fanart_url + ')');
-          }
-
-          if (!fanart.is(':visible')) {
-            setTimeout(function() { fanart.fadeIn(500); }, 3000); // wait 3 seconds to give the image a chance to load before fading in
-          }
-        }
-      }
     });
 
     // poll
@@ -84,6 +67,15 @@ $(document).ready(function() {
           var module = $(data).hide();
           $('body').append(module);
           $('#currently_playing').slideDown(200);
+        }
+
+        // use fanart of currently playing item as background if enabled in settings
+
+        if ($('body').data('fanart_backgrounds') === 'True') {
+          var fanart_url = $('#currently_playing').data('fanart');
+          if (fanart_url !== undefined) {
+            $('body').css('background-image', 'url(' + fanart_url + ')');
+          }
         }
       }
     });
