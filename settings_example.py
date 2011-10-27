@@ -12,6 +12,7 @@ MODULES = [
 ]
 
 SHOW_CURRENTLY_PLAYING = True
+FANART_BACKGROUNDS = False
 
 SERVER = {
     'hostname': 'localhost',
@@ -26,7 +27,6 @@ SABNZBD_URL = 'http://server:port/api?apikey=b72734e6901ef6d69659759974440f21'
 # both required for module 'trakt'
 TRAKT_API_KEY = None
 TRAKT_USERNAME = None
-TRAKT_BACKGROUNDS = False
 
 # required for module 'recently_added'
 NUM_RECENT_EPISODES = 5
