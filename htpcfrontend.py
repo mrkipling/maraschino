@@ -51,14 +51,16 @@ def xhr_sabnzbd():
 @app.route('/xhr/trakt')
 def xhr_trakt():
     trakt = {}
+    watching = {}
+
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
 
     try:
-        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['tvshowid', 'season', 'episode', 'imdbnumber'])['item']
+        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['tvshowid', 'season', 'episode', 'imdbnumber', 'title', 'plot'])['item']
         imdbnumber = currently_playing['imdbnumber']
 
         # if watching a TV show
-        if currently_playing['tvshowid']:
+        if currently_playing['tvshowid'] != -1:
             show = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['imdbnumber'])['tvshowdetails']
             imdbnumber = show['imdbnumber']
 
@@ -66,18 +68,21 @@ def xhr_trakt():
         currently_playing = None
 
     if currently_playing:
-        if currently_playing['tvshowid']:
+        if currently_playing['tvshowid'] != -1:
             url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, imdbnumber, currently_playing['season'], currently_playing['episode'])
-            #trakt['fanart'] = trakt['watching']['show']['images']['fanart']
 
         else:
             url = 'http://api.trakt.tv/movie/shouts.json/%s/%s' % (TRAKT_API_KEY, imdbnumber)
-            #trakt['fanart'] = trakt['watching']['movie']['images']['fanart']
 
         result = urllib.urlopen(url).read()
         trakt['shouts'] = json.JSONDecoder().decode(result)
 
-    return render_template('trakt.html', trakt=trakt)
+        watching = {
+            'title': currently_playing['title'],
+            'plot': currently_playing['plot'],
+        }
+
+    return render_template('trakt.html', trakt=trakt, watching=watching)
 
 @app.route('/xhr/currently_playing')
 def xhr_currently_playing():
