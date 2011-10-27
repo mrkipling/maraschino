@@ -13,15 +13,20 @@ if SERVER['username'] != None:
     SERVER['username_password'] += '@'
 
 SERVER_ADDRESS = 'http://%s%s:%s' % (SERVER['username_password'], SERVER['hostname'], SERVER['port'])
-
 SERVER_API_ADDRESS = '%s/jsonrpc' % (SERVER_ADDRESS)
+
+for column in MODULES:
+    for module in column:
+        if 'static' in module and module['static']:
+            module['template'] = '%s.html' % (module['module'])
 
 @app.route('/')
 def index():
     return render_template('index.html',
         modules = MODULES,
         show_currently_playing = SHOW_CURRENTLY_PLAYING,
-        fanart_backgrounds = FANART_BACKGROUNDS
+        fanart_backgrounds = FANART_BACKGROUNDS,
+        applications = APPLICATIONS
     )
 
 @app.route('/xhr/applications')
