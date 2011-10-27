@@ -4,6 +4,7 @@ MODULES = [
         { 'module': 'sabnzbd', 'poll': 5 },
     ],
     [
+        { 'module': 'synopsis' },
         { 'module': 'trakt', 'poll': 60, 'delay': 5 },
     ],
     [

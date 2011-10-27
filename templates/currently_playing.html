@@ -24,4 +24,19 @@
     <div class="total">{{ total_time }}</div>
   </div>
 
+  {% if currently_playing.plot %}
+    <div class="synopsis">
+      <h2>
+        {% if currently_playing.showtitle %}
+          {{ currently_playing.showtitle }} -
+          {{ currently_playing.season }}x{{ currently_playing.episode }} -
+          "{{ currently_playing.title }}"
+        {% else %}
+          {{ currently_playing.title }}
+        {% endif %}
+      </h2>
+      <p>{{ currently_playing.plot }}</p>
+    </div>
+  {% endif %}
+
 </div>

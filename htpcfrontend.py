@@ -6,6 +6,7 @@ import json, jsonrpclib, math, urllib
 
 app = Flask(__name__)
 
+# construct a username/password, server address and API address
 SERVER['username_password'] = ''
 if SERVER['username'] != None:
     SERVER['username_password'] = SERVER['username']
@@ -16,9 +17,18 @@ if SERVER['username'] != None:
 SERVER_ADDRESS = 'http://%s%s:%s' % (SERVER['username_password'], SERVER['hostname'], SERVER['port'])
 SERVER_API_ADDRESS = '%s/jsonrpc' % (SERVER_ADDRESS)
 
+# modules that HAVE to be static
+# e.g. synopsis as it is linked to currently playing data
+MANDATORY_STATIC_MODULES = ['synopsis']
+
 for column in MODULES:
     for module in column:
+
+        # static modules need a template
         module['template'] = '%s.html' % (module['module'])
+
+        if module['module'] in MANDATORY_STATIC_MODULES:
+            module['static'] = True
 
 @app.route('/')
 @requires_auth
@@ -94,7 +104,7 @@ def xhr_currently_playing():
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
 
     try:
-        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid'])['item']
+        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid', 'plot'])['item']
         fanart_url = currently_playing['fanart']
 
         # if watching a TV show

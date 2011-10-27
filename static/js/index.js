@@ -53,8 +53,15 @@ $(document).ready(function() {
     $.get('/xhr/currently_playing', function(data) {
 
       if (data.playing === false) {
+
+        // hide currently playing
         $('#currently_playing').slideUp(200, function() {
           $(this).remove();
+        });
+
+        // hide synopsis module if visible
+        $('#synopsis.module').fadeOut(200, function() {
+          $(this).replaceWith('<div id="synopsis"></div>');
         });
 
       } else {
@@ -85,6 +92,44 @@ $(document).ready(function() {
             img.src = fanart_url;
           }
         }
+
+        // synopsis
+
+        // if synopsis module is enabled
+        var synopsis_module = $('#synopsis');
+        if (synopsis_module.length > 0) {
+
+          // if currently playing item has a synopsis
+          var synopsis = $('#currently_playing .synopsis');
+          if (synopsis.length > 0) {
+            var module = $('<div id="synopsis" class="module generic"><h2></h2><div class="inner"><p></p></div></div>');
+            module.find('h2').replaceWith(synopsis.find('h2'));
+            module.find('p').replaceWith(synopsis.find('p'));
+
+            // if already visible
+            if (synopsis_module.hasClass('module')) {
+              synopsis_module.replaceWith(module);
+
+            // else if not visible
+            } else {
+              module.hide();
+              synopsis_module.replaceWith(module);
+              module.fadeIn(200);
+            }
+
+          // if no synopsis
+          } else {
+
+            // if visible
+            if (synopsis_module.hasClass('module')) {
+              synopsis_module.fadeOut(200, function() {
+                $(this).replaceWith('<div id="synopsis"></div>');
+              });
+            }
+          }
+
+        }
+
       }
     });
 
