@@ -1,8 +1,26 @@
-{% if trakt.shouts %}
+{% if trakt.watching %}
 
 <div id="trakt" class="module generic" data-module="trakt"{% if trakt.fanart %} data-fanart="{{ trakt.fanart }}"{% endif %}>
   <h2>trakt.tv</h2>
   <div class="inner">
+
+    <p class="overview">
+      {% if trakt.watching.type == 'episode' %}
+        <strong>{{ trakt.watching.episode.title }}:</strong>
+        <span class="truncated">{{ trakt.watching.episode.overview|truncate(200, false) }}</span>
+        <span class="expanded" style="display: none;">{{ trakt.watching.episode.overview }}</span>
+        {% if trakt.watching.episode.overview|count > 200 %}
+          <a class="expand" href="#">[+]</a>
+        {% endif %}
+      {% else %}
+        <strong>{{ trakt.watching.movie.title }} ({{ trakt.watching.movie.year }}):</strong>
+        <span class="truncated">{{ trakt.watching.movie.overview|truncate(200, false) }}</span>
+        <span class="expanded" style="display: none;">{{ trakt.watching.movie.overview }}</span>
+        {% if trakt.watching.movie.overview|count > 200 %}
+          <a class="expand" href="#">[+]</a>
+        {% endif %}
+      {% endif %}
+    </p>
 
     {% if trakt.shouts %}
       <h3>What people are saying</h3>
