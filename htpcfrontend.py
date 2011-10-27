@@ -25,13 +25,13 @@ def index():
         modules = MODULES,
         show_currently_playing = SHOW_CURRENTLY_PLAYING,
         fanart_backgrounds = FANART_BACKGROUNDS,
-        applications = APPLICATIONS
+        applications = APPLICATIONS,
     )
 
 @app.route('/xhr/applications')
 def xhr_applications():
     return render_template('applications.html',
-        applications = APPLICATIONS
+        applications = APPLICATIONS,
     )
 
 @app.route('/xhr/recently_added')
@@ -41,7 +41,7 @@ def xhr_recently_added():
 
     return render_template('recently_added.html',
         recently_added_episodes = recently_added_episodes['episodes'][:NUM_RECENT_EPISODES],
-        server = SERVER
+        server = SERVER,
     )
 
 @app.route('/xhr/sabnzbd')
@@ -50,7 +50,9 @@ def xhr_sabnzbd():
     result = urllib.urlopen(url).read()
     sabnzbd = json.JSONDecoder().decode(result)
 
-    return render_template('sabnzbd.html', sabnzbd=sabnzbd)
+    return render_template('sabnzbd.html',
+        sabnzbd = sabnzbd,
+    )
 
 @app.route('/xhr/trakt')
 def xhr_trakt():
@@ -81,7 +83,9 @@ def xhr_trakt():
         result = urllib.urlopen(url).read()
         trakt['shouts'] = json.JSONDecoder().decode(result)
 
-    return render_template('trakt.html', trakt=trakt)
+    return render_template('trakt.html',
+        trakt = trakt,
+    )
 
 @app.route('/xhr/currently_playing')
 def xhr_currently_playing():
@@ -112,7 +116,7 @@ def xhr_currently_playing():
         time = time,
         current_time = format_time(time['time']),
         total_time = format_time(time['totaltime']),
-        percentage_progress = int(time['percentage'])
+        percentage_progress = int(time['percentage']),
     )
 
 @app.route('/xhr/play_episode/<int:episode_id>')
