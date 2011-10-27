@@ -17,8 +17,7 @@ SERVER_API_ADDRESS = '%s/jsonrpc' % (SERVER_ADDRESS)
 
 for column in MODULES:
     for module in column:
-        if 'static' in module and module['static']:
-            module['template'] = '%s.html' % (module['module'])
+        module['template'] = '%s.html' % (module['module'])
 
 @app.route('/')
 def index():
