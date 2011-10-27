@@ -51,12 +51,10 @@ def xhr_sabnzbd():
 @app.route('/xhr/trakt')
 def xhr_trakt():
     trakt = {}
-    watching = {}
-
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
 
     try:
-        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['tvshowid', 'season', 'episode', 'imdbnumber', 'title', 'plot'])['item']
+        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['tvshowid', 'season', 'episode', 'imdbnumber', 'title'])['item']
         imdbnumber = currently_playing['imdbnumber']
 
         # if watching a TV show
@@ -68,6 +66,8 @@ def xhr_trakt():
         currently_playing = None
 
     if currently_playing:
+        trakt['title'] = currently_playing['title']
+
         if currently_playing['tvshowid'] != -1:
             url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, imdbnumber, currently_playing['season'], currently_playing['episode'])
 
@@ -77,12 +77,7 @@ def xhr_trakt():
         result = urllib.urlopen(url).read()
         trakt['shouts'] = json.JSONDecoder().decode(result)
 
-        watching = {
-            'title': currently_playing['title'],
-            'plot': currently_playing['plot'],
-        }
-
-    return render_template('trakt.html', trakt=trakt, watching=watching)
+    return render_template('trakt.html', trakt=trakt)
 
 @app.route('/xhr/currently_playing')
 def xhr_currently_playing():
