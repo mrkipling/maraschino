@@ -25,7 +25,7 @@ It currently has the following features:
 * trakt.tv widget which shows you what people are saying about the episode or movie that
   you're watching (requires a free trakt.tv account)
 
-* Full-screen background image changes to trakt's fanart of what you're currently watching
+* Full-screen background image changes to the fanart of what you're currently watching
   (optional, can be turned off)
 
 * Customisable via a server-side settings file - choose which modules to display, in which
