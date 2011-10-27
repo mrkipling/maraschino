@@ -88,7 +88,7 @@ def xhr_currently_playing():
         fanart_url = currently_playing['fanart']
 
         # if watching a TV show
-        if currently_playing['tvshowid']:
+        if currently_playing['tvshowid'] != -1:
             fanart_url = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['fanart'])['tvshowdetails']['fanart']
 
     except:
