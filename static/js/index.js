@@ -140,12 +140,6 @@ $(document).ready(function() {
     get_currently_playing();
   }
 
-  // play recently added episodes when clicking on them
-
-  $('#recently_added li').live('click', function() {
-    $.get('/xhr/play_episode/' + $(this).data('episodeid'));
-  });
-
   // generic expand truncated text
 
   $('.expand').live('click', function() {
