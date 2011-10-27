@@ -43,3 +43,10 @@ APPLICATIONS = [
         'description': 'Usenet binary client'
     },
 ]
+
+# include AUTH if you want to use HTTP basic authentication
+
+#AUTH = {
+#    'username': 'username',
+#    'password': 'password'
+#}

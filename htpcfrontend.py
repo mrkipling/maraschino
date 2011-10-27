@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, render_template, request
 from settings import *
+from tools import *
 
 import json, jsonrpclib, math, urllib
 
@@ -20,6 +21,7 @@ for column in MODULES:
         module['template'] = '%s.html' % (module['module'])
 
 @app.route('/')
+@requires_auth
 def index():
     return render_template('index.html',
         modules = MODULES,
