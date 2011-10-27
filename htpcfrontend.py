@@ -51,19 +51,28 @@ def xhr_sabnzbd():
 @app.route('/xhr/trakt')
 def xhr_trakt():
     trakt = {}
+    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
 
-    url = 'http://api.trakt.tv/user/watching.json/%s/%s' % (TRAKT_API_KEY, TRAKT_USERNAME)
-    result = urllib.urlopen(url).read()
-    trakt['watching'] = json.JSONDecoder().decode(result)
+    try:
+        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['tvshowid', 'season', 'episode', 'imdbnumber'])['item']
+        imdbnumber = currently_playing['imdbnumber']
 
-    if trakt['watching']:
-        if trakt['watching']['type'] == 'episode':
-            url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, trakt['watching']['show']['tvdb_id'], trakt['watching']['episode']['season'],trakt['watching']['episode']['number'])
-            trakt['fanart'] = trakt['watching']['show']['images']['fanart']
+        # if watching a TV show
+        if currently_playing['tvshowid']:
+            show = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['imdbnumber'])['tvshowdetails']
+            imdbnumber = show['imdbnumber']
+
+    except:
+        currently_playing = None
+
+    if currently_playing:
+        if currently_playing['tvshowid']:
+            url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, imdbnumber, currently_playing['season'], currently_playing['episode'])
+            #trakt['fanart'] = trakt['watching']['show']['images']['fanart']
 
         else:
-            url = 'http://api.trakt.tv/movie/shouts.json/%s/%s' % (TRAKT_API_KEY, trakt['watching']['movie']['imdb_id'])
-            trakt['fanart'] = trakt['watching']['movie']['images']['fanart']
+            url = 'http://api.trakt.tv/movie/shouts.json/%s/%s' % (TRAKT_API_KEY, imdbnumber)
+            #trakt['fanart'] = trakt['watching']['movie']['images']['fanart']
 
         result = urllib.urlopen(url).read()
         trakt['shouts'] = json.JSONDecoder().decode(result)
@@ -75,7 +84,7 @@ def xhr_currently_playing():
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
 
     try:
-        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle'])
+        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle'])['item']
 
     except:
         return jsonify({ 'playing': False })
@@ -83,7 +92,7 @@ def xhr_currently_playing():
     time = xbmc.Player.GetProperties(playerid=1, properties=['time', 'totaltime', 'position', 'percentage'])
 
     return render_template('currently_playing.html',
-        currently_playing = currently_playing['item'],
+        currently_playing = currently_playing,
         time = time,
         current_time = format_time(time['time']),
         total_time = format_time(time['totaltime']),
