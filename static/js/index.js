@@ -76,7 +76,11 @@ $(document).ready(function() {
           if (fanart_url !== undefined) {
             var img = new Image();
             img.onload = function() {
-              $('body').css('background-image', 'url(' + fanart_url + ')');
+              var fanart = $('#fanart');
+              fanart.css('background-image', 'url(' + fanart_url + ')');
+              if (!fanart.is(':visible')) {
+                fanart.fadeIn(500);
+              }
             };
             img.src = fanart_url;
           }
