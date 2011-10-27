@@ -1,9 +1,9 @@
 MODULES = [
     [
         { 'module': 'applications', 'static': True },
+        { 'module': 'sabnzbd', 'poll': 5 },
     ],
     [
-        { 'module': 'sabnzbd', 'poll': 5 },
         { 'module': 'trakt', 'poll': 60, 'delay': 5 },
     ],
     [
