@@ -74,7 +74,11 @@ $(document).ready(function() {
         if ($('body').data('fanart_backgrounds') === 'True') {
           var fanart_url = $('#currently_playing').data('fanart');
           if (fanart_url !== undefined) {
-            $('body').css('background-image', 'url(' + fanart_url + ')');
+            var img = new Image();
+            img.onload = function() {
+              $('body').css('background-image', 'url(' + fanart_url + ')');
+            };
+            img.src = fanart_url;
           }
         }
       }
