@@ -2,10 +2,16 @@ $(document).ready(function() {
 
   // get/poll module
 
-  function get_module(module, poll, placeholder) {
-    if (placeholder === undefined) {
-      var placeholder = $('.placeholder[data-module=' + module + ']');
+  function get_module(module, customsettings) {
+    var settings = {
+      poll: 'None',
+      placeholder: $('.placeholder[data-module=' + module + ']')
     }
+
+    if (customsettings !== undefined) {
+      $.extend(settings, customsettings);
+    }
+    console.log(settings);
 
     $.get('/xhr/' + module, function(data) {
       var module_ele = $('#' + module);
@@ -27,14 +33,18 @@ $(document).ready(function() {
       // placeholder is on page
       } else {
         var new_module = $(data).hide();
-        placeholder.replaceWith(new_module);
+        settings.placeholder.replaceWith(new_module);
         $('.module[data-module=' + module + ']').fadeIn(200);
       }
     });
 
     // poll
-    if (poll !== 'None') {
-      setTimeout(function() { get_module(module, poll) }, poll * 1000);
+    if (settings.poll !== 'None') {
+      setTimeout(function() {
+        get_module(module, {
+          poll: settings.poll
+        })
+      }, settings.poll * 1000);
     }
   }
 
@@ -43,11 +53,17 @@ $(document).ready(function() {
   $('.placeholder').each(function() {
     var delay = $(this).data('delay');
     if (delay === undefined) {
-      get_module($(this).data('module'), $(this).data('poll'));
+      get_module($(this).data('module'), {
+        poll: $(this).data('poll')
+      });
     } else {
       var module = $(this).data('module');
       var poll = $(this).data('poll');
-      setTimeout(function() { get_module(module, poll) }, delay * 1000);
+      setTimeout(function() {
+        get_module(module, {
+          poll: poll
+        });
+      }, delay * 1000);
     }
   });
 
@@ -146,7 +162,9 @@ $(document).ready(function() {
         // trakt
 
         if ($('#trakt, #trakt_inactive').length > 0 && currently_playing_id !== $(data).data('id')) {
-          get_module('trakt', 'None', $('#trakt_inactive'));
+          get_module('trakt', {
+            placeholder: $('#trakt_inactive')
+          });
         }
 
         currently_playing_id = $(data).data('id');
