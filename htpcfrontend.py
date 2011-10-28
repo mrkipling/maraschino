@@ -41,12 +41,14 @@ def index():
     )
 
 @app.route('/xhr/applications')
+@requires_auth
 def xhr_applications():
     return render_template('applications.html',
         applications = APPLICATIONS,
     )
 
 @app.route('/xhr/recently_added')
+@requires_auth
 def xhr_recently_added():
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
     recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'lastplayed', 'thumbnail'])
@@ -64,6 +66,7 @@ def xhr_recently_added():
     )
 
 @app.route('/xhr/sabnzbd')
+@requires_auth
 def xhr_sabnzbd():
     url = '%s&mode=qstatus&output=json' % (SABNZBD_URL)
     result = urllib.urlopen(url).read()
@@ -74,6 +77,7 @@ def xhr_sabnzbd():
     )
 
 @app.route('/xhr/trakt')
+@requires_auth
 def xhr_trakt():
     trakt = {}
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
@@ -107,6 +111,7 @@ def xhr_trakt():
     )
 
 @app.route('/xhr/currently_playing')
+@requires_auth
 def xhr_currently_playing():
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
 
