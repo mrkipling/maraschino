@@ -54,7 +54,7 @@ def xhr_recently_added():
 
 @app.route('/xhr/recently_added/<int:offset>')
 @requires_auth
-def xhr_more_recently_added(offset):
+def xhr_recently_added_offset(offset):
     return render_recently_added_episodes(offset)
 
 def render_recently_added_episodes(offset=0):
