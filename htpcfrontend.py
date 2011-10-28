@@ -51,9 +51,16 @@ def xhr_recently_added():
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
     recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'lastplayed', 'thumbnail'])
 
+    try:
+        if AUTH:
+            vfs_url = '%s/vfs/' % (SERVER_ADDRESS)
+
+    except:
+        vfs_url = 'http://%s:%s/vfs/' % (SERVER['hostname'], SERVER['port'])
+
     return render_template('recently_added.html',
         recently_added_episodes = recently_added_episodes['episodes'][:NUM_RECENT_EPISODES],
-        server = SERVER,
+        vfs_url = vfs_url,
     )
 
 @app.route('/xhr/sabnzbd')
