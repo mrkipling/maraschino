@@ -1,4 +1,4 @@
-<div id="recently_added" class="module" data-module="recently_added">
+<div id="recently_added" class="module" data-module="recently_added" data-offset="{{ offset }}">
   <h2>Recently added episodes</h2>
   <ul class="episodes listfix">
     {% for episode in recently_added_episodes %}
@@ -17,4 +17,13 @@
       </li>
     {% endfor %}
   </ul>
+
+  <div class="clearfix">
+    {% if offset + recently_added_episodes|length < 25 %}
+      <a href="#" class="view_older" title="Older">&raquo;</a>
+    {% endif %}
+    {% if offset > 0 %}
+      <a href="#" class="view_newer" title="Newer">&laquo;</a>
+    {% endif %}
+  </div>
 </div>

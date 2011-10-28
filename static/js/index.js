@@ -184,6 +184,22 @@ $(document).ready(function() {
     get_currently_playing();
   }
 
+  // view more recently added episodes
+
+  $('#recently_added .view_older').live('click', function() {
+    get_module('recently_added', {
+      params: [$('#recently_added').data('offset') + $('#recently_added .episodes > li').length]
+    });
+    return false;
+  });
+
+  $('#recently_added .view_newer').live('click', function() {
+    get_module('recently_added', {
+      params: [$('#recently_added').data('offset') - $('#recently_added .episodes > li').length]
+    });
+    return false;
+  });
+
   // generic expand truncated text
 
   $('.expand').live('click', function() {
