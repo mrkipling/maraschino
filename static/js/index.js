@@ -66,8 +66,8 @@ $(document).ready(function() {
         });
 
         // hide synopsis module if visible
-        $('#synopsis.module').fadeOut(200, function() {
-          $(this).replaceWith('<div id="synopsis"></div>');
+        $('#synopsis').fadeOut(200, function() {
+          $(this).replaceWith('<div id="synopsis_inactive"></div>');
         });
 
         // hide trakt module if visible
@@ -109,7 +109,7 @@ $(document).ready(function() {
         // synopsis
 
         // if synopsis module is enabled
-        var synopsis_module = $('#synopsis');
+        var synopsis_module = $('#synopsis, #synopsis_inactive');
         if (synopsis_module.length > 0) {
 
           // if currently playing item has a synopsis
