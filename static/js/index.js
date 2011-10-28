@@ -5,15 +5,21 @@ $(document).ready(function() {
   function get_module(module, customsettings) {
     var settings = {
       poll: 'None',
-      placeholder: $('.placeholder[data-module=' + module + ']')
+      placeholder: $('.placeholder[data-module=' + module + ']'),
+      params: []
     }
 
     if (customsettings !== undefined) {
       $.extend(settings, customsettings);
     }
-    console.log(settings);
 
-    $.get('/xhr/' + module, function(data) {
+    var url = '/xhr/' + module;
+
+    for (var i=0; i < settings.params.length; i++) {
+      url += '/' + settings.params[i];
+    }
+
+    $.get(url, function(data) {
       var module_ele = $('#' + module);
 
       // if module is already on page
