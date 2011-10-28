@@ -19,7 +19,7 @@ SERVER_API_ADDRESS = '%s/jsonrpc' % (SERVER_ADDRESS)
 
 # modules that HAVE to be static
 # e.g. synopsis as it is linked to currently playing data
-MANDATORY_STATIC_MODULES = ['synopsis']
+MANDATORY_STATIC_MODULES = ['synopsis', 'trakt']
 
 for column in MODULES:
     for module in column:

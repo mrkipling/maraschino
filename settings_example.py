@@ -5,7 +5,7 @@ MODULES = [
     ],
     [
         { 'module': 'synopsis' },
-        { 'module': 'trakt', 'poll': 60, 'delay': 5 },
+        { 'module': 'trakt' },
     ],
     [
         { 'module': 'recently_added', 'poll': 350 },

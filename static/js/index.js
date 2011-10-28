@@ -2,7 +2,11 @@ $(document).ready(function() {
 
   // get/poll module
 
-  function get_module(module, poll) {
+  function get_module(module, poll, placeholder) {
+    if (placeholder === undefined) {
+      var placeholder = $('.placeholder[data-module=' + module + ']');
+    }
+
     $.get('/xhr/' + module, function(data) {
       var module_ele = $('#' + module);
 
@@ -23,7 +27,7 @@ $(document).ready(function() {
       // placeholder is on page
       } else {
         var new_module = $(data).hide();
-        $('.placeholder[data-module=' + module + ']').replaceWith(new_module);
+        placeholder.replaceWith(new_module);
         $('.module[data-module=' + module + ']').fadeIn(200);
       }
     });
@@ -49,6 +53,8 @@ $(document).ready(function() {
 
   // currently playing
 
+  var currently_playing_id = null;
+
   function get_currently_playing() {
     $.get('/xhr/currently_playing', function(data) {
 
@@ -63,6 +69,13 @@ $(document).ready(function() {
         $('#synopsis.module').fadeOut(200, function() {
           $(this).replaceWith('<div id="synopsis"></div>');
         });
+
+        // hide trakt module if visible
+        $('#trakt').fadeOut(200, function() {
+          $(this).replaceWith('<div id="trakt_inactive"></div>');
+        });
+
+        currently_playing_id = null;
 
       } else {
         var currently_playing_module = $('#currently_playing');
@@ -128,8 +141,15 @@ $(document).ready(function() {
             }
           }
 
+        } // if synopsis module is enabled
+
+        // trakt
+
+        if ($('#trakt, #trakt_inactive').length > 0 && currently_playing_id !== $(data).data('id')) {
+          get_module('trakt', 'None', $('#trakt_inactive'));
         }
 
+        currently_playing_id = $(data).data('id');
       }
     });
 

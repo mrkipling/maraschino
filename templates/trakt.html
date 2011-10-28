@@ -1,4 +1,4 @@
-{% if trakt.shouts %}
+{% if trakt and trakt.shouts %}
 
 <div id="trakt" class="module generic" data-module="trakt">
   <h2>trakt.tv</h2>
@@ -32,5 +32,5 @@
 </div>
 
 {% else %}
-<div class="placeholder" data-module="trakt"></div>
+<div id="trakt_inactive"></div>
 {% endif %}
