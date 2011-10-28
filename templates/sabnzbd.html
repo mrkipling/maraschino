@@ -1,15 +1,25 @@
 {% if sabnzbd.jobs %}
 
-<div id="sabnzbd" class="module generic" data-module="sabnzbd">
+<div id="sabnzbd" class="module" data-module="sabnzbd">
   <h2>SABnzbd+</h2>
   <div class="inner">
+
+    <div class="speed">{{ sabnzbd.kbpersec|int }} kB/s</div>
+
     <p>
       <strong>Currently downloading:</strong>
-      {{ sabnzbd.jobs[0].filename }}
+      "{{ sabnzbd.jobs[0].filename }}"
     </p>
-    <p><strong>Speed:</strong> {{ sabnzbd.kbpersec|int }} kB/s</p>
-    <p><strong>Remaining:</strong> {{ sabnzbd.mbleft|int }} MB</p>
-    <p><strong>Time remaining:</strong> {{ sabnzbd.timeleft }}</p>
+
+    <div class="bar">
+      <div class="inner" style="width: {{ percentage_total }}%;"></div>
+    </div>
+
+    <div class="clearfix">
+      <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.timeleft }} / {{ sabnzbd.mbleft|int }} MB</p>
+      <p class="percentage_complete">{{ percentage_total }}% complete</p>
+    </div>
+
   </div>
 </div>
 

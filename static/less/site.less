@@ -346,26 +346,83 @@ ul.episodes img
 
 /*--- generic module ---*/
 
-.module.generic .inner
+.module.generic > .inner
 {
   color: #ccc;
   line-height: 1.3em;
   padding: 0 15px 15px;
 }
 
-.module.generic .inner p
+.module.generic > .inner p
 {
   margin-top: 5px;
 }
 
-.module.generic .inner p strong
+.module.generic > .inner p strong
 {
   color: #fff;
 }
 
-.module.generic .inner p:first-child
+.module.generic > .inner p:first-child
 {
   margin-top: 0;
+}
+
+
+
+
+
+/*--- SABnzbd+ ---*/
+
+#sabnzbd
+{
+  position: relative;
+}
+
+#sabnzbd > .inner
+{
+  line-height: 1.3em;
+  padding: 0 15px 15px;
+}
+
+#sabnzbd .speed
+{
+  background: url(/static/images/alpha/fff_10.png);
+  border: 1px solid #222;
+  padding: 4px 8px 2px;
+  position: absolute;
+  right: 20px;
+  top: 18px;
+
+  .border-radius(4px);
+}
+
+#sabnzbd .bar
+{
+  border: 1px solid #777;
+  height: 5px;
+  margin: 17px 0 6px;
+
+  .border-radius(3px);
+}
+
+#sabnzbd .bar .inner
+{
+  background-color: #eee;
+  height: 5px;
+}
+
+#sabnzbd .remaining
+{
+  float: left;
+  font-size: 0.9em;
+}
+
+#sabnzbd .percentage_complete
+{
+  float: right;
+  font-size: 0.9em;
+  margin: 0;
 }
 
 
