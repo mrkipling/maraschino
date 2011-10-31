@@ -1,6 +1,6 @@
 <div id="currently_playing" data-id="{{ currently_playing.id }}"{% if fanart %} data-fanart="{{ fanart }}"{% endif %}>
 
-  <p>
+  <p class="item_info">
     <strong>Currently playing:</strong><br>
 
     {% if currently_playing.showtitle %}
@@ -22,6 +22,11 @@
     </div>
     <div class="current">{{ current_time }}</div>
     <div class="total">{{ total_time }}</div>
+  </div>
+
+  <div class="controls">
+    <div class="stop">Stop</div>
+    <div class="play_pause">Play/Pause</div>
   </div>
 
   {% if currently_playing.plot %}

@@ -184,6 +184,18 @@ $(document).ready(function() {
     get_currently_playing();
   }
 
+  // play/pause control
+
+  $('#currently_playing .controls .play_pause').live('click', function() {
+    $.get('/xhr/controls/play_pause');
+  });
+
+  // stop control
+
+  $('#currently_playing .controls .stop').live('click', function() {
+    $.get('/xhr/controls/stop');
+  });
+
   // view more recently added episodes
 
   $('#recently_added .view_older').live('click', function() {

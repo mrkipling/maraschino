@@ -230,6 +230,7 @@ ul.episodes img
   background: url(/static/images/alpha/000_70.png);
   bottom: 0;
   left: 0;
+  min-width: 900px;
   padding: 20px;
   position: absolute;
   right: 0;
@@ -237,16 +238,48 @@ ul.episodes img
   .box-shadow(#222, 0, 0, 10px);
 }
 
-#currently_playing p
+#currently_playing .item_info
 {
   float: left;
   line-height: 1.5em;
-  width: 440px;
+  width: 400px;
 }
 
-#currently_playing p .separator
+#currently_playing .item_info .separator
 {
   margin: 0 3px;
+}
+
+#currently_playing .controls
+{
+  margin: 0 auto;
+  width: 80px;
+}
+
+#currently_playing .controls .play_pause,
+#currently_playing .controls .stop
+{
+  background: #111 url(/static/images/player_sprite.png) no-repeat 11px 11px;
+  border: 1px solid #555;
+  cursor: pointer;
+  float: left;
+  height: 33px;
+  text-indent: -9999px;
+  width: 33px;
+
+  .border-radius(20px);
+}
+
+#currently_playing .controls .stop
+{
+  background-position: 8px -28px;
+  margin-right: 10px;
+}
+
+#currently_playing .controls .play_pause:hover,
+#currently_playing .controls .stop:hover
+{
+  background-color: #333;
 }
 
 #currently_playing .progress
@@ -255,7 +288,7 @@ ul.episodes img
   font-size: 0.9em;
   height: 40px;
   position: relative;
-  width: 440px;
+  width: 400px;
 }
 
 #currently_playing .progress .current
@@ -277,7 +310,7 @@ ul.episodes img
   border: 1px solid #777;
   height: 5px;
   margin-top: 8px;
-  width: 438px;
+  width: 398px;
   .border-radius(3px);
 }
 
