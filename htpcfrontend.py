@@ -158,9 +158,13 @@ def xhr_currently_playing():
 @app.route('/xhr/play_episode/<int:episode_id>')
 def xhr_play_episode(episode_id):
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
-    xbmc.VideoPlaylist.Clear()
-    xbmc.VideoPlaylist.Add(episodeid=episode_id)
-    xbmc.VideoPlaylist.Play()
+    xbmc.Playlist.Clear(playlistid=1)
+
+    item = { 'episodeid': episode_id }
+    xbmc.Playlist.Add(playlistid=1, item=item)
+
+    item = { 'playlistid': 1 }
+    xbmc.Player.Open(item)
 
     return jsonify({ 'success': True })
 
