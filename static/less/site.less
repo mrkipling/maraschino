@@ -505,6 +505,12 @@ ul.episodes img
   .border-radius(4px);
 }
 
+#library li
+{
+  padding-right: 28px;
+  position: relative;
+}
+
 #library li:hover,
 #library .back:hover
 {
@@ -516,6 +522,13 @@ ul.episodes img
   margin-top: 0;
 }
 
+#library li .xhrloading
+{
+  position: absolute;
+  right: 5px;
+  top: 6px;
+}
+
 #library .back
 {
   color: #ccc;
@@ -525,6 +538,12 @@ ul.episodes img
   padding: 3px 15px;
   right: 5px;
   top: 21px;
+}
+
+#library .back.xhrloading
+{
+  background: url(/static/images/xhrloading.gif) no-repeat center center;
+  text-indent: -9999px;
 }
 
 

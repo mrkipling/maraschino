@@ -228,17 +228,29 @@ $(document).ready(function() {
       url += '/' + commands[i];
     }
 
+    add_loading_gif(this);
+
     $.get(url, function(data) {
       $('#library').replaceWith(data);
     });
   });
 
-  $('#library .play_episode').live('click', function() {
-    $.get('/xhr/play_episode/' + $(this).data('episodeid'));
+  $('#library li.play_episode').live('click', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/play_episode/' + $(this).data('episodeid'), function() {
+      remove_loading_gif(li);
+    });
   });
 
-  $('#library .play_movie').live('click', function() {
-    $.get('/xhr/play_movie/' + $(this).data('movieid'));
+  $('#library li.play_movie').live('click', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/play_movie/' + $(this).data('movieid'), function() {
+      remove_loading_gif(li);
+    });
   });
 
   $('#library .back').live('click', function() {
@@ -255,10 +267,20 @@ $(document).ready(function() {
       }
     }
 
+    $(this).addClass('xhrloading');
+
     $.get(url, function(data) {
       $('#library').replaceWith(data);
     });
   });
+
+  function add_loading_gif(element) {
+    $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
+  }
+
+  function remove_loading_gif(element) {
+    $(element).find('.xhrloading').remove();
+  }
 
   // generic expand truncated text
 
