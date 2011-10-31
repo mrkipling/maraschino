@@ -155,6 +155,15 @@ def xhr_currently_playing():
         percentage_progress = int(time['percentage']),
     )
 
+@app.route('/xhr/play_episode/<int:episode_id>')
+def xhr_play_episode(episode_id):
+    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
+    xbmc.VideoPlaylist.Clear()
+    xbmc.VideoPlaylist.Add(episodeid=episode_id)
+    xbmc.VideoPlaylist.Play()
+
+    return jsonify({ 'success': True })
+
 def format_time(time):
     formatted_time = ''
 
