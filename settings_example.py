@@ -1,7 +1,7 @@
 MODULES = [
     [
         { 'module': 'applications', 'static': True },
-        { 'module': 'sabnzbd', 'poll': 5 },
+        { 'module': 'library' },
     ],
     [
         { 'module': 'synopsis' },
@@ -9,6 +9,7 @@ MODULES = [
     ],
     [
         { 'module': 'recently_added', 'poll': 350 },
+        { 'module': 'sabnzbd', 'poll': 10 },
     ],
 ]
 

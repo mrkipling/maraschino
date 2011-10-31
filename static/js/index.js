@@ -218,6 +218,48 @@ $(document).ready(function() {
     $.get('/xhr/play_episode/' + $(this).data('episodeid'));
   });
 
+  // browse library
+
+  $('#library li.get').live('click', function() {
+    var url = '/xhr/library';
+    var commands = $(this).data('command').split('/');
+
+    for (var i=0; i < commands.length; i++) {
+      url += '/' + commands[i];
+    }
+
+    $.get(url, function(data) {
+      $('#library').replaceWith(data);
+    });
+  });
+
+  $('#library .play_episode').live('click', function() {
+    $.get('/xhr/play_episode/' + $(this).data('episodeid'));
+  });
+
+  $('#library .play_movie').live('click', function() {
+    $.get('/xhr/play_movie/' + $(this).data('movieid'));
+  });
+
+  $('#library .back').live('click', function() {
+    var url = '/xhr/library';
+    var command = $('#library li:first-child').eq(0).data('command');
+
+    if (command) {
+      var commands = command.split('/');
+      commands.pop();
+      commands.pop();
+
+      for (var i=0; i < commands.length; i++) {
+        url += '/' + commands[i];
+      }
+    }
+
+    $.get(url, function(data) {
+      $('#library').replaceWith(data);
+    });
+  });
+
   // generic expand truncated text
 
   $('.expand').live('click', function() {

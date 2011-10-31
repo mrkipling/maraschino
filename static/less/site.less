@@ -135,6 +135,11 @@
   background: url(/static/images/alpha/fff_20.png);
 }
 
+#applications li:first-child
+{
+  margin-top: 0;
+}
+
 #applications li a
 {
   display: block;
@@ -463,6 +468,58 @@ ul.episodes img
   float: right;
   font-size: 0.9em;
   margin: 0;
+}
+
+
+
+
+
+/*--- media library ---*/
+
+#library
+{
+  position: relative;
+}
+
+#library ul
+{
+  max-height: 196px;
+  overflow: auto;
+}
+
+#library li,
+#library .back
+{
+  background: url(/static/images/alpha/fff_10.png);
+  border: 1px solid #222;
+  cursor: pointer;
+  line-height: 1.3em;
+  margin-top: 5px;
+  padding: 5px 15px;
+
+  .border-radius(4px);
+}
+
+#library li:hover,
+#library .back:hover
+{
+  background: url(/static/images/alpha/fff_20.png);
+}
+
+#library li:first-child
+{
+  margin-top: 0;
+}
+
+#library .back
+{
+  color: #ccc;
+  font-size: 1.2em;
+  position: absolute;
+  margin-top: 0;
+  padding: 3px 15px;
+  right: 5px;
+  top: 21px;
 }
 
 

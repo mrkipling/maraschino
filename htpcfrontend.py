@@ -19,7 +19,7 @@ SERVER_API_ADDRESS = '%s/jsonrpc' % (SERVER_ADDRESS)
 
 # modules that HAVE to be static
 # e.g. synopsis as it is linked to currently playing data
-MANDATORY_STATIC_MODULES = ['synopsis', 'trakt']
+MANDATORY_STATIC_MODULES = ['synopsis', 'trakt', 'library']
 
 for column in MODULES:
     for module in column:
@@ -171,6 +171,19 @@ def xhr_play_episode(episode_id):
 
     return jsonify({ 'success': True })
 
+@app.route('/xhr/play_movie/<int:movie_id>')
+def xhr_play_movie(movie_id):
+    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
+    xbmc.Playlist.Clear(playlistid=1)
+
+    item = { 'movieid': movie_id }
+    xbmc.Playlist.Add(playlistid=1, item=item)
+
+    item = { 'playlistid': 1 }
+    xbmc.Player.Open(item)
+
+    return jsonify({ 'success': True })
+
 @app.route('/xhr/controls/<command>')
 def xhr_controls(command):
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
@@ -182,6 +195,42 @@ def xhr_controls(command):
         xbmc.Player.Stop(playerid=1)
 
     return jsonify({ 'success': True })
+
+@app.route('/xhr/library')
+def xhr_library():
+    return render_library()
+
+@app.route('/xhr/library/<item_type>')
+def xhr_library_root(item_type):
+    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
+    library = []
+
+    if item_type == 'movies':
+        library = xbmc.VideoLibrary.GetMovies()
+
+    if item_type == 'shows':
+        library = xbmc.VideoLibrary.GetTVShows()
+
+    return render_library(library)
+
+@app.route('/xhr/library/shows/<int:show>')
+def xhr_library_show(show):
+    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
+    library = xbmc.VideoLibrary.GetSeasons(tvshowid=show, properties=['tvshowid', 'season'])
+
+    return render_library(library)
+
+@app.route('/xhr/library/shows/<int:show>/<int:season>')
+def xhr_library_season(show, season):
+    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
+    library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, properties=['tvshowid', 'season', 'episode'])
+
+    return render_library(library)
+
+def render_library(library=None):
+    return render_template('library.html',
+        library = library,
+    )
 
 def format_time(time):
     formatted_time = ''
