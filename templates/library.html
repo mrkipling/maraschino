@@ -22,7 +22,7 @@
 
       {% if library.episodes %}
         {% for item in library.episodes %}
-          <li class="play_episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}">{{ item.season }}x{{ item.episode }} - {{ item.label }}</li>
+          <li class="play_episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}" title="{{ item.plot|truncate(200) }}">{{ item.season }}x{{ item.episode }} - {{ item.label }}</li>
         {% endfor %}
       {% endif %}
 

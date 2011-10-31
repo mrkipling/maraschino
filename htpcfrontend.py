@@ -229,7 +229,7 @@ def xhr_library_season(show, season):
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
 
     sort = { 'method': 'episode' }
-    library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode'])
+    library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode', 'plot'])
 
     episode = library['episodes'][0]
     title = '%s - Season %s' % (episode['showtitle'], episode['season'])
