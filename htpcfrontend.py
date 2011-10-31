@@ -81,7 +81,10 @@ def xhr_sabnzbd():
     result = urllib.urlopen(url).read()
     sabnzbd = json.JSONDecoder().decode(result)
 
-    percentage_total = int(100 - (sabnzbd['mbleft'] / sabnzbd['mb'] * 100))
+    percentage_total = 0
+
+    if sabnzbd['jobs']:
+        percentage_total = int(100 - (sabnzbd['mbleft'] / sabnzbd['mb'] * 100))
 
     return render_template('sabnzbd.html',
         sabnzbd = sabnzbd,
