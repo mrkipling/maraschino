@@ -40,7 +40,7 @@
           {{ currently_playing.title }}
         {% endif %}
       </h2>
-      <p>{{ currently_playing.plot }}</p>
+      <p>{{ currently_playing.plot|truncate(750) }}</p>
     </div>
   {% endif %}
 
