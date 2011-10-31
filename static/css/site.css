@@ -1,0 +1,106 @@
+/*--- reset and fixes ---*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td
+{
+  background: transparent;
+  border: 0;
+  font-size: 100%;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+body
+{
+  background-color: #fff;
+  color: #333;
+  font-family: Arial, Helvetica, Sans-serif;
+  font-size: 80%;
+  line-height: 1;
+  padding: 0;
+}
+
+a             { color: #cb5353; text-decoration: none; }
+a:hover       { color: #ff5353; text-decoration: underline; }
+ol, ul        { list-style: none; }
+blockquote, q { quotes: none; }
+:focus        { outline: 0; }
+ins           { text-decoration: none; }
+del           { text-decoration: line-through; }
+table         { border-collapse: collapse; border-spacing: 0; }
+
+textarea, input, select
+{
+  font-family: Arial, Helvetica, Sans-serif;
+  font-size: 1em;
+}
+
+/* clearfix */
+
+.clearfix,
+.listfix li,
+.formrow
+{
+  min-height: 0;
+}
+
+.clearfix:after,
+.listfix li:after,
+.formrow:after
+{
+  content: ".";
+  height: 0;
+  display: block;
+  clear: both;
+  visibility: hidden;
+}
+
+* html .clearfix,
+* html .listfix li,
+* html .formrow
+{
+  height: 1%;
+}
+
+
+
+
+
+/*--- layout ---*/
+
+#header
+{
+  background-color: #f3f3f3;
+  border-bottom: 1px solid #ddd;
+}
+
+#header .inner
+{
+  border-bottom: 1px solid #fff;
+}
+
+#header h1
+{
+  font: bold 2em "Droid Sans", Arial, Helvetica, Sans-serif;
+  margin: 0 auto;
+  padding: 30px 40px;
+  width: 900px;
+}
+
+#wrapper
+{
+  font-family: "Droid Sans", Arial, Helvetica, Sans-serif;
+  line-height: 1.3em;
+  margin: 0 auto;
+  padding: 30px 40px;
+  width: 900px;
+}
