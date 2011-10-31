@@ -196,6 +196,29 @@ $(document).ready(function() {
     $.get('/xhr/controls/stop');
   });
 
+  // click show name to view in media library module
+
+  $('#currently_playing .item_info .show').live('click', function() {
+    invoke_library('/xhr/library/shows/' + $(this).data('show'));
+  });
+
+  // click show season to view in media library module
+
+  $('#currently_playing .item_info .season').live('click', function() {
+    invoke_library('/xhr/library/shows/' + $(this).parent().find('.show').data('show') + '/' + $(this).data('season'));
+  });
+
+  function invoke_library(url) {
+    $.get(url, function(data) {
+      var library = $('#library');
+      if (library.length > 0) {
+        library.replaceWith(data);
+      } else {
+        $('#col1').append(data);
+      }
+    });
+  }
+
   // view more recently added episodes
 
   $('#recently_added .view_older').live('click', function() {
