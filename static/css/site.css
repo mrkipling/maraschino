@@ -196,3 +196,23 @@ textarea, input, select
   padding: 15px;
   white-space: pre;
 }
+
+#footer
+{
+  background-color: #f3f3f3;
+  border-top: 1px solid #ddd;
+}
+
+#footer > .inner
+{
+  border-top: 1px solid #fff;
+}
+
+#footer > .inner > .inner
+{
+  font-size: 0.9em;
+  margin: 0 auto;
+  padding: 20px 40px;
+  text-align: center;
+  width: 900px;
+}
