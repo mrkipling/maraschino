@@ -219,6 +219,7 @@ def xhr_library_root(item_type):
 def xhr_library_show(show):
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
     library = xbmc.VideoLibrary.GetSeasons(tvshowid=show, properties=['tvshowid', 'season', 'showtitle'])
+
     title = library['seasons'][0]['showtitle']
 
     return render_library(library, title)
@@ -226,7 +227,9 @@ def xhr_library_show(show):
 @app.route('/xhr/library/shows/<int:show>/<int:season>')
 def xhr_library_season(show, season):
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
-    library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, properties=['tvshowid', 'season', 'showtitle', 'episode'])
+
+    sort = { 'method': 'episode' }
+    library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode'])
 
     episode = library['episodes'][0]
     title = '%s - Season %s' % (episode['showtitle'], episode['season'])
