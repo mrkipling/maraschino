@@ -128,3 +128,28 @@ textarea, input, select
 {
   margin-top: 7px;
 }
+
+#wrapper .screenshots
+{
+  margin: 20px 0;
+}
+
+#wrapper .screenshots a
+{
+  float: right;
+
+  box-shadow: #999 2px 2px 5px;
+  -moz-box-shadow: #999 2px 2px 5px;
+  -o-box-shadow: #999 2px 2px 5px;
+  -webkit-box-shadow: #999 2px 2px 5px;
+}
+
+#wrapper .screenshots a:first-child
+{
+  float: left;
+}
+
+#wrapper .screenshots img
+{
+  display: block;
+}
