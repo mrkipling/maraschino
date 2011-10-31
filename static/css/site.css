@@ -23,7 +23,7 @@ body
 {
   background-color: #fff;
   color: #555;
-  font-family: Arial, Helvetica, Sans-serif;
+  font-family: "Droid Sans", Arial, Helvetica, Sans-serif;
   font-size: 80%;
   line-height: 1;
   padding: 0;
@@ -40,7 +40,7 @@ table         { border-collapse: collapse; border-spacing: 0; }
 
 textarea, input, select
 {
-  font-family: Arial, Helvetica, Sans-serif;
+  font-family: "Droid Sans", Arial, Helvetica, Sans-serif;
   font-size: 1em;
 }
 
@@ -83,23 +83,33 @@ textarea, input, select
   border-bottom: 1px solid #ddd;
 }
 
-#header .inner
+#header > .inner
 {
   border-bottom: 1px solid #fff;
 }
 
-#header h1
+#header > .inner > .inner
 {
-  color: #333;
-  font: bold 2em "Droid Sans", Arial, Helvetica, Sans-serif;
   margin: 0 auto;
   padding: 30px 40px;
   width: 900px;
 }
 
+#header h1
+{
+  color: #333;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+#header p
+{
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
 #wrapper
 {
-  font-family: "Droid Sans", Arial, Helvetica, Sans-serif;
   line-height: 1.3em;
   margin: 0 auto;
   padding: 0 40px 40px;
