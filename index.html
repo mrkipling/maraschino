@@ -43,6 +43,52 @@
         <a href="static/images/screenshot2.jpg"><img src="static/images/screenshot2_thumb.jpg" width="440" height="262" alt="Screenshot 2"></a>
       </div>
 
+      <p>It is a work-in-progress - things are still being changed, and new features and modules are being added quite frequently.</p>
+
+      <h2>Awesome. How do I use it?</h2>
+
+      <p>HTPC Frontend is written in Python and uses the Flask framework, so you need to configure a suitable web server (such as Apache) to serve it.</p>
+      <p>If you want to use Apache and mod_wsgi on a Linux-based system then you could do the following:</p>
+
+      <ol class="numbers instructions">
+
+        <li>
+          <strong>Install the following:</strong>
+          <ul class="bullets">
+            <li>Apache</li>
+            <li>mod_wsgi</li>
+            <li>Python</li>
+            <li>
+              python-setuptools, so that you can use easy_install for the following:
+              <ul class="bullets">
+                <li>Flask (easy_install Flask)</li>
+                <li>jsonrpclib (easy_install jsonrpclib)</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <strong>Clone the htpc-frontend repository.</strong> You can find it on github:
+          <a href="https://github.com/mrkipling/htpc-frontend">https://github.com/mrkipling/htpc-frontend</a>
+        </li>
+
+        <li>
+          <strong>Create a settings file.</strong>
+          Copy settings_example.py to settings.py - you will learn about customising it later.
+        </li>
+
+        <li>
+          <p><strong>Serve htpcfrontend.py using Apache and mod_wsgi.</strong></p>
+          <p>Here's a helpful article: <a href="http://flask.pocoo.org/docs/deploying/mod_wsgi/">http://flask.pocoo.org/docs/deploying/mod_wsgi/</a></p>
+          <p>Don't forget to add the htpc-frontend directory to your Python path. One way of doing this is in the mod_wsgi file:</p>
+          <code>import sys
+sys.path.insert(0, "/var/www/htpc-frontend")
+from htpcfrontend import app as application</code>
+        </li>
+
+      </ol>
+
     </div>
 
   </body>

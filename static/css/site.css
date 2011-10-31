@@ -129,6 +129,28 @@ textarea, input, select
   margin-top: 7px;
 }
 
+#wrapper .numbers
+{
+  list-style-type: decimal;
+  margin-left: 20px;
+}
+
+#wrapper .bullets li,
+#wrapper .numbers li
+{
+  margin-top: 7px;
+}
+
+#wrapper .instructions > li
+{
+  margin-top: 20px;
+}
+
+#wrapper .instructions p
+{
+  margin: 10px 0;
+}
+
 #wrapper .screenshots
 {
   margin: 20px 0;
@@ -152,4 +174,15 @@ textarea, input, select
 #wrapper .screenshots img
 {
   display: block;
+}
+
+#wrapper code
+{
+  background-color: #eee;
+  border-radius: 3px;
+  border: 1px dashed #ccc;
+  display: block;
+  margin: 20px 0;
+  padding: 15px;
+  white-space: pre;
 }
