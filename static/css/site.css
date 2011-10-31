@@ -22,7 +22,7 @@ table, caption, tbody, tfoot, thead, tr, th, td
 body
 {
   background-color: #fff;
-  color: #333;
+  color: #555;
   font-family: Arial, Helvetica, Sans-serif;
   font-size: 80%;
   line-height: 1;
@@ -90,6 +90,7 @@ textarea, input, select
 
 #header h1
 {
+  color: #333;
   font: bold 2em "Droid Sans", Arial, Helvetica, Sans-serif;
   margin: 0 auto;
   padding: 30px 40px;
@@ -101,6 +102,29 @@ textarea, input, select
   font-family: "Droid Sans", Arial, Helvetica, Sans-serif;
   line-height: 1.3em;
   margin: 0 auto;
-  padding: 30px 40px;
+  padding: 0 40px 40px;
   width: 900px;
+}
+
+#wrapper h2
+{
+  color: #333;
+  font-size: 1.2em;
+  margin: 40px 0 15px;
+}
+
+#wrapper p
+{
+  margin: 15px 0;
+}
+
+#wrapper .bullets
+{
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+#wrapper .bullets li
+{
+  margin-top: 7px;
 }
