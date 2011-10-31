@@ -75,7 +75,7 @@
 
         <li>
           <strong>Create a settings file.</strong>
-          Copy settings_example.py to settings.py - you will learn about customising it later.
+          Copy settings_example.py to settings.py - you will learn about <a href="#settings">customising it</a> later.
         </li>
 
         <li>
@@ -88,6 +88,32 @@ from htpcfrontend import app as application</code>
         </li>
 
       </ol>
+
+      <h2 id="settings">Neat. Now, how do I customise it?</h2>
+
+      <p>Open up settings.py and start changing stuff!</p>
+
+      <p><strong>MODULES</strong> controls the ordering of the modules. The default MODULES in the example file is set up to display all of the modules. The first array is the first column, the second one the second, and the third one the third.</p>
+      <p>Modules with a 'poll' value specified will be updated using AJAX, and modules with a 'delay' value will have a delayed loading time. In this example:</p>
+      <code>{ 'module': 'sabnzbd', 'poll': 10, 'delay': 5 },</code>
+      <p>...the sabnzbd module will be refreshed every 10 seconds and won't be loaded until 5 seconds after page load.</p>
+      <p>It's worth noting that some modules do not take poll/delay values, and settings them will have no effect. These modules are 'library', 'synopsis' and 'trakt'. In the example of the trakt module, if enabled then it updates whenever what you're watching has changed - no need to poll.</p>
+
+      <p><strong>SHOW_CURRENTLY_PLAYING</strong> shows the 'currently playing' bar if set to True. It will only appear if something is actually playing.</p>
+
+      <p>If <strong>FANART_BACKGROUNDS</strong> is set to True then the full-screen background image will change to the fanart of what you're currently watching.</p>
+
+      <p><strong>SERVER</strong> is quite important - this is where you enter the details of your XBMC installation. Without this the app cannot access the XBMC API and won't be able to tell what's playing, what has been recently added, etc.</p>
+
+      <p><strong>SABNZBD_URL</strong> is only required if you are using the 'sabnzbd' module. It must point to the IP/URL of the machine running SABnzbd, on the correct port, and include your API key as shown in the example (you can get this through the SABnzbd interface).</p>
+
+      <p><strong>TRAKT_API_KEY</strong> is needed if you want to use the 'trakt' module to display shouts (what people are saying) about what you're currently watching.</p>
+
+      <p><strong>NUM_RECENT_EPISODES</strong> controls how many episodes are displayed in the 'recently_added' module.</p>
+
+      <p><strong>APPLICATIONS</strong> defines what links you want in the 'applications' module.</p>
+
+      <p>If you set <strong>AUTH</strong> to contain a username and password then HTTP basic auth will be used.</p>
 
     </div>
 
