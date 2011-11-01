@@ -1,32 +1,44 @@
-{% if trakt and trakt.shouts %}
+{% if trakt %}
 
 <div id="trakt" class="module generic" data-module="trakt">
   <h2>trakt.tv</h2>
   <div class="inner">
 
-    <h3>What people are saying about {{ trakt.title }}</h3>
+    {% if trakt.shouts %}
 
-    <ul class="shouts">
-      {% for shout in trakt.shouts[0:5] %}
-        <li>
-          <a class="user" href="{{ shout.user.url }}">
-            {% if shout.user.full_name %}{{ shout.user.full_name }}
-            {% else %}{{ shout.user.username }}{% endif %}
-          </a>
-          said:
-          <a href="{{ shout.user.url }}">
-            <img class="avatar" src="{{ shout.user.avatar }}" width="20" height="20" alt="">
-          </a>
-          <p class="shout clearfix">
-            <span class="truncated">{{ shout.shout|truncate(160, false) }}</span>
-            <span class="expanded" style="display: none;">{{ shout.shout }}</span>
-            {% if shout.shout|count > 160 %}
-              <a class="expand" href="#">[+]</a>
-            {% endif %}
-          </p>
-        </li>
-      {% endfor %}
-    </ul>
+      <h3>What people are saying</h3>
+
+      <ul class="shouts">
+        {% for shout in trakt.shouts[0:5] %}
+          <li>
+            <a class="user" href="{{ shout.user.url }}">
+              {% if shout.user.full_name %}{{ shout.user.full_name }}
+              {% else %}{{ shout.user.username }}{% endif %}
+            </a>
+            said:
+            <a href="{{ shout.user.url }}">
+              <img class="avatar" src="{{ shout.user.avatar }}" width="20" height="20" alt="">
+            </a>
+            <p class="shout clearfix">
+              <span class="truncated">{{ shout.shout|truncate(160, false) }}</span>
+              <span class="expanded" style="display: none;">{{ shout.shout }}</span>
+              {% if shout.shout|count > 160 %}
+                <a class="expand" href="#">[+]</a>
+              {% endif %}
+            </p>
+          </li>
+        {% endfor %}
+      </ul>
+
+    {% endif %}
+
+    <div id="add_shout">
+      <h3>What do you think about {{ trakt.title }}?</h3>
+      <textarea rows="5" cols="20"></textarea>
+      <div class="clearfix">
+        <div class="add_shout">Shout about it</div>
+      </div>
+    </div>
 
   </div>
 </div>
