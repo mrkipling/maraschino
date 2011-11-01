@@ -219,6 +219,12 @@ $(document).ready(function() {
     });
   }
 
+  // post trakt shout
+
+  $('#trakt #add_shout').live('click', function() {
+    // $.post('/xhr/trakt/add_shout', {
+  });
+
   // view more recently added episodes
 
   $('#recently_added .view_older').live('click', function() {

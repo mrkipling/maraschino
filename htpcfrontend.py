@@ -99,12 +99,12 @@ def xhr_trakt():
 
     try:
         currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['tvshowid', 'season', 'episode', 'imdbnumber', 'title'])['item']
-        imdbnumber = currently_playing['imdbnumber']
+        trakt['imdbnumber'] = currently_playing['imdbnumber']
 
         # if watching a TV show
         if currently_playing['tvshowid'] != -1:
             show = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['imdbnumber'])['tvshowdetails']
-            imdbnumber = show['imdbnumber']
+            trakt['imdbnumber'] = show['imdbnumber']
 
     except:
         currently_playing = None
@@ -113,10 +113,14 @@ def xhr_trakt():
         trakt['title'] = currently_playing['title']
 
         if currently_playing['tvshowid'] != -1:
-            url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, imdbnumber, currently_playing['season'], currently_playing['episode'])
+            trakt['type'] = 'episode'
+            trakt['season'] = currently_playing['season']
+            trakt['episode'] = currently_playing['episode']
+            url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, trakt['imdbnumber'], currently_playing['season'], currently_playing['episode'])
 
         else:
-            url = 'http://api.trakt.tv/movie/shouts.json/%s/%s' % (TRAKT_API_KEY, imdbnumber)
+            trakt['type'] = 'movie'
+            url = 'http://api.trakt.tv/movie/shouts.json/%s/%s' % (TRAKT_API_KEY, trakt['imdbnumber'])
 
         result = urllib.urlopen(url).read()
         trakt['shouts'] = json.JSONDecoder().decode(result)
