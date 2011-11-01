@@ -7,6 +7,7 @@ import hashlib, json, jsonrpclib, math, urllib
 app = Flask(__name__)
 
 # construct a username/password, server address and API address
+
 SERVER['username_password'] = ''
 if SERVER['username'] != None:
     SERVER['username_password'] = SERVER['username']
@@ -17,8 +18,14 @@ if SERVER['username'] != None:
 SERVER_ADDRESS = 'http://%s%s:%s' % (SERVER['username_password'], SERVER['hostname'], SERVER['port'])
 SERVER_API_ADDRESS = '%s/jsonrpc' % (SERVER_ADDRESS)
 
+SAFE_SERVER_ADDRESS = 'http://%s:%s' % (SERVER['hostname'], SERVER['port'])
+
+if using_auth():
+    SAFE_SERVER_ADDRESS = SERVER_ADDRESS
+
 # modules that HAVE to be static
 # e.g. synopsis as it is linked to currently playing data
+
 MANDATORY_STATIC_MODULES = ['synopsis', 'trakt', 'library']
 
 for column in MODULES:
@@ -60,13 +67,7 @@ def xhr_recently_added_offset(offset):
 def render_recently_added_episodes(offset=0):
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
     recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'lastplayed', 'thumbnail'])
-
-    try:
-        if AUTH:
-            vfs_url = '%s/vfs/' % (SERVER_ADDRESS)
-
-    except:
-        vfs_url = 'http://%s:%s/vfs/' % (SERVER['hostname'], SERVER['port'])
+    vfs_url = '%s/vfs/' % (SAFE_SERVER_ADDRESS)
 
     return render_template('recently_added.html',
         recently_added_episodes = recently_added_episodes['episodes'][offset:NUM_RECENT_EPISODES + offset],
@@ -194,7 +195,7 @@ def xhr_currently_playing():
         return jsonify({ 'playing': False })
 
     try:
-        fanart = 'http://%s:%s/vfs/%s' % (SERVER['hostname'], SERVER['port'], fanart_url)
+        fanart = '%s/vfs/%s' % (SAFE_SERVER_ADDRESS, fanart_url)
 
     except:
         fanart = None
