@@ -30,3 +30,10 @@ def requires_auth(f):
 
         return f(*args, **kwargs)
     return decorated
+
+def using_auth():
+    try:
+        if AUTH:
+            return True
+    except:
+        return False
