@@ -2,141 +2,20 @@
 <html>
 
   <head>
-    <title>HTPC Frontend - a frontend for... well, HTPCs</title>
-
+    <title>Maraschino</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <!-- Web Fonts -->
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold">
+    <style>
+      body { font: 12px Arial, Helvetica, Sans-serif; padding: 20px; }
+      p:first-child { margin-top: 0; }
+    </style>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="static/css/site.css">
   </head>
 
-  <body>
-
-    <a href="http://github.com/mrkipling/htpc-frontend"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
-
-    <div id="header">
-      <div class="inner">
-        <div class="inner">
-          <h1>HTPC Frontend</h1>
-          <p>A frontend for... well, HTPCs</p>
-        </div>
-      </div>
-    </div>
-
-    <div id="wrapper">
-
-      <h2>What is HTPC Frontend?</h2>
-      <p>I wanted a simple web interface to act as a nice overview/front page for my XBMC HTPC. I couldn't find anything that suited my requirements so I created something myself.</p>
-      <p>Here are some of its features:</p>
-      <ul class="bullets">
-        <li><strong>Customisable applications widget</strong> providing quick access to your web interfaces (e.g. SABnzb+, SickBeard, or whatever else you want to link to)</li>
-        <li><strong>Recently added episodes widget</strong> - click an episode to play it in XBMC</li>
-        <li><strong>Media library browser</strong> - browse your movies and TV shows, and click to play in XBMC</li>
-        <li><strong>SABnzbd+ widget</strong> which appears when something is downloading and hides again when finished - shows you what is currently downloading, speed, time/MB remaining, and a progress bar</li>
-        <li><strong>Currently playing bar</strong> with play/pause/stop controls</li>
-        <li><strong>trakt.tv widget</strong> which shows you what people are saying about the episode or movie that you're watching (requires a free <a href="http://trakt.tv/">trakt.tv</a> account)</li>
-        <li>Full-screen background image changes to the fanart of what you're currently watching (optional, can be turned off)</li>
-        <li>Customisable via a server-side settings file - choose which modules to display, in which column/order you would like them displayed, and how frequently each one should update</li>
-      </ul>
-
-      <div class="screenshots clearfix">
-        <a href="static/images/screenshot1.jpg"><img src="static/images/screenshot1_thumb.jpg" width="440" height="262" alt="Screenshot 1"></a>
-        <a href="static/images/screenshot2.jpg"><img src="static/images/screenshot2_thumb.jpg" width="440" height="262" alt="Screenshot 2"></a>
-      </div>
-
-      <p>It is a work-in-progress - things are still being changed, and new features and modules are being added quite frequently.</p>
-
-      <h2>Awesome. How do I use it?</h2>
-
-      <p>First of all, please note that HTPC Frontend requires <strong>a recent nightly build of XBMC (pre-Eden)</strong>. This is because Eden is going to be released soon and the Dharma API will be deprecated.</p>
-      <p>HTPC Frontend is written in Python and uses the Flask framework, so you need to configure a suitable web server (such as Apache) to serve it.</p>
-      <p>If you want to use Apache and mod_wsgi on a Linux-based system then you could do the following:</p>
-
-      <ol class="numbers instructions">
-
-        <li>
-          <strong>Install the following:</strong>
-          <ul class="bullets">
-            <li>Apache</li>
-            <li>mod_wsgi</li>
-            <li>Python</li>
-            <li>
-              python-setuptools, so that you can use easy_install for the following:
-              <ul class="bullets">
-                <li>Flask (easy_install Flask)</li>
-                <li>jsonrpclib (easy_install jsonrpclib)</li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-
-        <li>
-          <strong>Clone the htpc-frontend repository.</strong> You can find it on github:
-          <a href="https://github.com/mrkipling/htpc-frontend">https://github.com/mrkipling/htpc-frontend</a>
-        </li>
-
-        <li>
-          <strong>Create a settings file.</strong>
-          Copy settings_example.py to settings.py - you will learn about <a href="#settings">customising it</a> later.
-        </li>
-
-        <li>
-          <p><strong>Serve htpcfrontend.py using Apache and mod_wsgi.</strong></p>
-          <p>Here's a helpful article: <a href="http://flask.pocoo.org/docs/deploying/mod_wsgi/">http://flask.pocoo.org/docs/deploying/mod_wsgi/</a></p>
-          <p>Don't forget to add the htpc-frontend directory to your Python path. One way of doing this is in the mod_wsgi file:</p>
-          <code>import sys
-sys.path.insert(0, "/var/www/htpc-frontend")
-from htpcfrontend import app as application</code>
-        </li>
-
-      </ol>
-
-      <h2 id="settings">Neat. Now, how do I customise it?</h2>
-
-      <p>Open up settings.py and start changing stuff!</p>
-
-      <p><strong>MODULES</strong> controls the ordering of the modules. The default MODULES in the example file is set up to display all of the modules. The first array is the first column, the second one the second, and the third one the third.</p>
-      <p>Modules with a 'poll' value specified will be updated using AJAX, and modules with a 'delay' value will have a delayed loading time. In this example:</p>
-      <code>{ 'module': 'sabnzbd', 'poll': 10, 'delay': 5 },</code>
-      <p>...the sabnzbd module will be refreshed every 10 seconds and won't be loaded until 5 seconds after page load.</p>
-      <p>It's worth noting that some modules do not take poll/delay values, and settings them will have no effect. These modules are 'library', 'synopsis' and 'trakt'. In the example of the trakt module, if enabled then it updates whenever what you're watching has changed - no need to poll.</p>
-
-      <p><strong>SHOW_CURRENTLY_PLAYING</strong> shows the 'currently playing' bar if set to True. It will only appear if something is actually playing.</p>
-
-      <p>If <strong>FANART_BACKGROUNDS</strong> is set to True then the full-screen background image will change to the fanart of what you're currently watching.</p>
-
-      <p><strong>SERVER</strong> is quite important - this is where you enter the details of your XBMC installation. Without this the app cannot access the XBMC API and won't be able to tell what's playing, what has been recently added, etc.</p>
-
-      <p><strong>SABNZBD_URL</strong> is only required if you are using the 'sabnzbd' module. It must point to the IP/URL of the machine running SABnzbd, on the correct port, and include your API key as shown in the example (you can get this through the SABnzbd interface).</p>
-
-      <p><strong>TRAKT_API_KEY</strong> is needed if you want to use the 'trakt' module to display shouts (what people are saying) about what you're currently watching.</p>
-
-      <p><strong>TRAKT_USERNAME</strong> and <strong>TRAKT_PASSWORD</strong> need to have values if you want to be able to add shouts about what you're watching to trakt. They are not required though - if you leave them set to 'None' then you can still use the trakt module but the 'add shout' section won't be shown.</p>
-
-      <p><strong>NUM_RECENT_EPISODES</strong> controls how many episodes are displayed in the 'recently_added' module.</p>
-
-      <p><strong>APPLICATIONS</strong> defines what links you want in the 'applications' module.</p>
-
-      <p>If you set <strong>AUTH</strong> to contain a username and password then HTTP basic auth will be used.</p>
-
-      <h2>Something is broken! Can you fix it please?</h2>
-
-      <p>I sure hope so! <a href="https://github.com/mrkipling/htpc-frontend/issues">Let me know about it on GitHub</a> and I'll look into it as soon as I can.</p>
-
-    </div>
-
-    <div id="footer">
-      <div class="inner">
-        <div class="inner">
-          &copy; 2011 <a href="http://www.bradabrahams.co.uk/">Bradley Abrahams</a>
-        </div>
-      </div>
-    </div>
-
+  <body onload="setTimeout(function() { window.location = 'http://www.maraschinoproject.com' }, 3000)">
+    <p>We've moved to <a href="http://www.maraschinoproject.com">maraschinoproject.com</a></p>
+    <p>You will be redirected in 3 seconds...</p>
   </body>
 
 </html>
