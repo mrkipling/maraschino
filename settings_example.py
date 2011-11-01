@@ -29,6 +29,10 @@ SABNZBD_URL = 'http://server:port/api?apikey=b72734e6901ef6d69659759974440f21'
 # required for module 'trakt'
 TRAKT_API_KEY = None
 
+# required to enable shout posting for module 'trakt'
+TRAKT_USERNAME = None
+TRAKT_PASSWORD = None
+
 # required for module 'recently_added'
 NUM_RECENT_EPISODES = 5
 

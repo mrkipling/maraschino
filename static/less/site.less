@@ -362,9 +362,7 @@ ul.episodes img
 #trakt h3
 {
   color: #eee;
-  font-size: 0.9em;
   font-weight: normal;
-  margin: -12px 0 15px;
 }
 
 #trakt .shouts li
@@ -391,6 +389,64 @@ ul.episodes img
   padding: 5px;
 
   .border-radius(4px);
+}
+
+#trakt .shouts li.me .shout
+{
+  background: url(/static/images/alpha/lightblue_30.png);
+}
+
+#trakt .shouts + #add_shout
+{
+  margin-top: 20px;
+}
+
+#trakt #add_shout h3
+{
+  margin-bottom: 10px;
+}
+
+#trakt #add_shout textarea
+{
+  background: url(/static/images/alpha/fff_20.png);
+  border: none;
+  color: #ccc;
+  display: block;
+  font-size: 0.9em;
+  height: 55px;
+  width: 100%;
+
+  .border-radius(2px);
+}
+
+#trakt #add_shout .submit_wrapper.xhrloading
+{
+  background: url(/static/images/xhrloading.gif) no-repeat 210px 11px;
+}
+
+#trakt #add_shout .submit
+{
+  background: url(/static/images/alpha/fff_20.png);
+  border: 1px solid #222;
+  float: right;
+  font-size: 0.9em;
+  margin-top: 5px;
+  padding: 4px 12px;
+
+  .border-radius(2px);
+}
+
+#trakt #add_shout .submit:hover
+{
+  background: url(/static/images/alpha/fff_40.png);
+  cursor: pointer;
+}
+
+#trakt #add_shout .submit_wrapper p
+{
+  float: left;
+  font-size: 0.9em;
+  margin-top: 10px;
 }
 
 
