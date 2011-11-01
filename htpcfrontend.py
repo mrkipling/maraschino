@@ -99,12 +99,12 @@ def xhr_trakt():
 
     try:
         currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['tvshowid', 'season', 'episode', 'imdbnumber', 'title'])['item']
-        trakt['imdbnumber'] = currently_playing['imdbnumber']
+        trakt['itemid'] = currently_playing['imdbnumber']
 
         # if watching a TV show
         if currently_playing['tvshowid'] != -1:
             show = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['imdbnumber'])['tvshowdetails']
-            trakt['imdbnumber'] = show['imdbnumber']
+            trakt['itemid'] = show['imdbnumber']
 
     except:
         currently_playing = None
@@ -116,11 +116,11 @@ def xhr_trakt():
             trakt['type'] = 'episode'
             trakt['season'] = currently_playing['season']
             trakt['episode'] = currently_playing['episode']
-            url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, trakt['imdbnumber'], currently_playing['season'], currently_playing['episode'])
+            url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, trakt['itemid'], currently_playing['season'], currently_playing['episode'])
 
         else:
             trakt['type'] = 'movie'
-            url = 'http://api.trakt.tv/movie/shouts.json/%s/%s' % (TRAKT_API_KEY, trakt['imdbnumber'])
+            url = 'http://api.trakt.tv/movie/shouts.json/%s/%s' % (TRAKT_API_KEY, trakt['itemid'])
 
         result = urllib.urlopen(url).read()
         trakt['shouts'] = json.JSONDecoder().decode(result)
@@ -149,13 +149,16 @@ def xhr_trakt_add_shout():
         params = {
             'username': TRAKT_USERNAME,
             'password': hashlib.sha1(TRAKT_PASSWORD).hexdigest(),
-            'imdb_id': request.form['imdbnumber'],
             'shout': request.form['shout'],
         }
 
         if itemtype == 'episode':
             params['season'] = request.form['season']
+            params['tvdb_id'] = request.form['itemid']
             params['episode'] = request.form['episode']
+
+        else:
+            params['imdb_id'] = request.form['itemid']
 
     except:
         return jsonify({ 'status': 'error' })
@@ -171,6 +174,8 @@ def xhr_trakt_add_shout():
 
     except:
         return jsonify({ 'status': 'error' })
+
+    return jsonify({ 'status': 'error' })
 
 @app.route('/xhr/currently_playing')
 @requires_auth

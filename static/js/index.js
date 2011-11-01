@@ -242,7 +242,7 @@ $(document).ready(function() {
 
     var dict = {
       type: type,
-      imdbnumber: add_shout.data('imdbnumber'),
+      itemid: add_shout.data('itemid'),
       shout: textarea.val()
     };
 

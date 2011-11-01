@@ -34,7 +34,7 @@
 
     {% if show_add_shout %}
 
-      <div id="add_shout" data-type="{{ trakt.type }}" data-imdbnumber="{{ trakt.imdbnumber }}"{% if trakt.type == 'episode' %} data-season="{{ trakt.season }}" data-episode="{{ trakt.episode }}"{% endif %}>
+      <div id="add_shout" data-type="{{ trakt.type }}" data-itemid="{{ trakt.itemid }}"{% if trakt.type == 'episode' %} data-season="{{ trakt.season }}" data-episode="{{ trakt.episode }}"{% endif %}>
 
         <h3>What do you think about {{ trakt.title }}?</h3>
 
