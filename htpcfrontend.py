@@ -129,6 +129,11 @@ def xhr_trakt():
         trakt = trakt,
     )
 
+@app.route('/xhr/trakt/add_shout', methods=['POST'])
+@requires_auth
+def xhr_trakt_add_shout():
+    return jsonify({ 'status': 'success' })
+
 @app.route('/xhr/currently_playing')
 @requires_auth
 def xhr_currently_playing():

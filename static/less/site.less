@@ -414,7 +414,12 @@ ul.episodes img
   .border-radius(2px);
 }
 
-#trakt #add_shout .add_shout
+#trakt #add_shout .submit_wrapper.xhrloading
+{
+  background: url(/static/images/xhrloading.gif) no-repeat 210px 11px;
+}
+
+#trakt #add_shout .submit
 {
   background: url(/static/images/alpha/fff_20.png);
   border: 1px solid #222;
@@ -426,10 +431,17 @@ ul.episodes img
   .border-radius(2px);
 }
 
-#trakt #add_shout .add_shout:hover
+#trakt #add_shout .submit:hover
 {
   background: url(/static/images/alpha/fff_40.png);
   cursor: pointer;
+}
+
+#trakt #add_shout .submit_wrapper p
+{
+  float: left;
+  font-size: 0.9em;
+  margin-top: 10px;
 }
 
 

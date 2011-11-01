@@ -32,14 +32,14 @@
 
     {% endif %}
 
-    <div id="add_shout" data-type="{{ trakt.type }}" data-imdbid="{{ trakt.imdbnumber }}"{% if trakt.type == 'episode' %} data-season="{{ trakt.season }}" data-episode="{{ trakt.episode }}"{% endif %}>
+    <div id="add_shout" data-type="{{ trakt.type }}" data-imdbnumber="{{ trakt.imdbnumber }}"{% if trakt.type == 'episode' %} data-season="{{ trakt.season }}" data-episode="{{ trakt.episode }}"{% endif %}>
 
       <h3>What do you think about {{ trakt.title }}?</h3>
 
       <textarea rows="5" cols="20"></textarea>
 
-      <div class="clearfix">
-        <div class="add_shout">Shout about it</div>
+      <div class="submit_wrapper clearfix">
+        <div class="submit">Shout about it</div>
       </div>
 
     </div>
