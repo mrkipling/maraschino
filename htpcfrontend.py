@@ -125,8 +125,18 @@ def xhr_trakt():
         result = urllib.urlopen(url).read()
         trakt['shouts'] = json.JSONDecoder().decode(result)
 
+    show_add_shout = False
+
+    try:
+        if TRAKT_PASSWORD != None:
+            show_add_shout = True
+
+    except:
+        pass
+
     return render_template('trakt.html',
         trakt = trakt,
+        show_add_shout = show_add_shout,
     )
 
 @app.route('/xhr/trakt/add_shout', methods=['POST'])
