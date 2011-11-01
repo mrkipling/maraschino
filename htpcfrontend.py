@@ -159,6 +159,7 @@ def xhr_currently_playing():
     )
 
 @app.route('/xhr/play_episode/<int:episode_id>')
+@requires_auth
 def xhr_play_episode(episode_id):
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
     xbmc.Playlist.Clear(playlistid=1)
@@ -172,6 +173,7 @@ def xhr_play_episode(episode_id):
     return jsonify({ 'success': True })
 
 @app.route('/xhr/play_movie/<int:movie_id>')
+@requires_auth
 def xhr_play_movie(movie_id):
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
     xbmc.Playlist.Clear(playlistid=1)
@@ -185,6 +187,7 @@ def xhr_play_movie(movie_id):
     return jsonify({ 'success': True })
 
 @app.route('/xhr/controls/<command>')
+@requires_auth
 def xhr_controls(command):
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
 
@@ -197,10 +200,12 @@ def xhr_controls(command):
     return jsonify({ 'success': True })
 
 @app.route('/xhr/library')
+@requires_auth
 def xhr_library():
     return render_library()
 
 @app.route('/xhr/library/<item_type>')
+@requires_auth
 def xhr_library_root(item_type):
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
     library = []
@@ -217,6 +222,7 @@ def xhr_library_root(item_type):
     return render_library(library, title)
 
 @app.route('/xhr/library/shows/<int:show>')
+@requires_auth
 def xhr_library_show(show):
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
     library = xbmc.VideoLibrary.GetSeasons(tvshowid=show, properties=['tvshowid', 'season', 'showtitle'])
@@ -226,6 +232,7 @@ def xhr_library_show(show):
     return render_library(library, title)
 
 @app.route('/xhr/library/shows/<int:show>/<int:season>')
+@requires_auth
 def xhr_library_season(show, season):
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
 
