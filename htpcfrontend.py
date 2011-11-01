@@ -136,6 +136,7 @@ def xhr_trakt():
 
     return render_template('trakt.html',
         trakt = trakt,
+        trakt_username = TRAKT_USERNAME,
         show_add_shout = show_add_shout,
     )
 
