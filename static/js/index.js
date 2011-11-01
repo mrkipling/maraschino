@@ -228,7 +228,6 @@ $(document).ready(function() {
 
     if (textarea.val().length === 0) {
       var error_message = submit_wrapper.find('p');
-      console.log(error_message);
 
       if (error_message.length === 0) {
         submit_wrapper.append('<p>');
@@ -258,6 +257,11 @@ $(document).ready(function() {
       submit_wrapper.removeClass('xhrloading');
       submit_wrapper.find('p').remove();
       textarea.val('');
+
+      if (data.status === 'error') {
+        submit_wrapper.append('<p>There was a problem submitting your shout.</p>');
+        return false;
+      }
     });
   });
 

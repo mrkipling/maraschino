@@ -132,6 +132,18 @@ def xhr_trakt():
 @app.route('/xhr/trakt/add_shout', methods=['POST'])
 @requires_auth
 def xhr_trakt_add_shout():
+    try:
+        itemtype = request.form['type']
+        imdbnumber = request.form['imdbnumber']
+        shout = request.form['shout']
+
+        if itemtype == 'episode':
+            season = request.form['season']
+            episode = request.form['episode']
+
+    except:
+        return jsonify({ 'status': 'error' })
+
     return jsonify({ 'status': 'success' })
 
 @app.route('/xhr/currently_playing')
