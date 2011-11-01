@@ -262,6 +262,10 @@ $(document).ready(function() {
         submit_wrapper.append('<p>There was a problem submitting your shout.</p>');
         return false;
       }
+
+      if ($(data).attr('id') === 'trakt') {
+        $('#trakt').replaceWith(data);
+      }
     });
   });
 

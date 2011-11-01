@@ -2,7 +2,7 @@ from flask import Flask, jsonify, render_template, request
 from settings import *
 from tools import *
 
-import json, jsonrpclib, math, urllib
+import hashlib, json, jsonrpclib, math, urllib
 
 app = Flask(__name__)
 
@@ -144,17 +144,32 @@ def xhr_trakt():
 def xhr_trakt_add_shout():
     try:
         itemtype = request.form['type']
-        imdbnumber = request.form['imdbnumber']
-        shout = request.form['shout']
+
+        params = {
+            'username': TRAKT_USERNAME,
+            'password': hashlib.sha1(TRAKT_PASSWORD).hexdigest(),
+            'imdb_id': request.form['imdbnumber'],
+            'shout': request.form['shout'],
+        }
 
         if itemtype == 'episode':
-            season = request.form['season']
-            episode = request.form['episode']
+            params['season'] = request.form['season']
+            params['episode'] = request.form['episode']
 
     except:
         return jsonify({ 'status': 'error' })
 
-    return jsonify({ 'status': 'success' })
+    try:
+        url = 'http://api.trakt.tv/shout/%s/%s' % (itemtype, TRAKT_API_KEY)
+        params = urllib.urlencode(params)
+        result = urllib.urlopen(url, params).read()
+        result = json.JSONDecoder().decode(result)
+
+        if result['status'] == 'success':
+            return xhr_trakt()
+
+    except:
+        return jsonify({ 'status': 'error' })
 
 @app.route('/xhr/currently_playing')
 @requires_auth
