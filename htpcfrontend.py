@@ -1,41 +1,17 @@
 from flask import Flask, jsonify, render_template, request
-from settings import *
-from tools import *
-
-import hashlib, json, jsonrpclib, math, urllib
+import hashlib, json, jsonrpclib, urllib
 
 app = Flask(__name__)
 
-# construct a username/password, server address and API address
+from settings import *
+from noneditable import *
+from tools import *
 
-SERVER['username_password'] = ''
-if SERVER['username'] != None:
-    SERVER['username_password'] = SERVER['username']
-    if SERVER['password'] != None:
-        SERVER['username_password'] += ':' + SERVER['password']
-    SERVER['username_password'] += '@'
-
-SERVER_ADDRESS = 'http://%s%s:%s' % (SERVER['username_password'], SERVER['hostname'], SERVER['port'])
-SERVER_API_ADDRESS = '%s/jsonrpc' % (SERVER_ADDRESS)
-
-SAFE_SERVER_ADDRESS = 'http://%s:%s' % (SERVER['hostname'], SERVER['port'])
-
-if using_auth():
-    SAFE_SERVER_ADDRESS = SERVER_ADDRESS
-
-# modules that HAVE to be static
-# e.g. synopsis as it is linked to currently playing data
-
-MANDATORY_STATIC_MODULES = ['synopsis', 'trakt', 'library']
-
-for column in MODULES:
-    for module in column:
-
-        # static modules need a template
-        module['template'] = '%s.html' % (module['module'])
-
-        if module['module'] in MANDATORY_STATIC_MODULES:
-            module['static'] = True
+from applications import *
+from recently_added import *
+from sabnzbd import *
+from trakt import *
+from currently_playing import *
 
 @app.route('/')
 @requires_auth
@@ -45,170 +21,6 @@ def index():
         show_currently_playing = SHOW_CURRENTLY_PLAYING,
         fanart_backgrounds = FANART_BACKGROUNDS,
         applications = APPLICATIONS,
-    )
-
-@app.route('/xhr/applications')
-@requires_auth
-def xhr_applications():
-    return render_template('applications.html',
-        applications = APPLICATIONS,
-    )
-
-@app.route('/xhr/recently_added')
-@requires_auth
-def xhr_recently_added():
-    return render_recently_added_episodes()
-
-@app.route('/xhr/recently_added/<int:offset>')
-@requires_auth
-def xhr_recently_added_offset(offset):
-    return render_recently_added_episodes(offset)
-
-def render_recently_added_episodes(offset=0):
-    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
-    recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'lastplayed', 'thumbnail'])
-    vfs_url = '%s/vfs/' % (SAFE_SERVER_ADDRESS)
-
-    return render_template('recently_added.html',
-        recently_added_episodes = recently_added_episodes['episodes'][offset:NUM_RECENT_EPISODES + offset],
-        vfs_url = vfs_url,
-        offset = offset,
-    )
-
-@app.route('/xhr/sabnzbd')
-@requires_auth
-def xhr_sabnzbd():
-    url = '%s&mode=qstatus&output=json' % (SABNZBD_URL)
-    result = urllib.urlopen(url).read()
-    sabnzbd = json.JSONDecoder().decode(result)
-
-    percentage_total = 0
-
-    if sabnzbd['jobs']:
-        percentage_total = int(100 - (sabnzbd['mbleft'] / sabnzbd['mb'] * 100))
-
-    return render_template('sabnzbd.html',
-        sabnzbd = sabnzbd,
-        percentage_total = percentage_total,
-    )
-
-@app.route('/xhr/trakt')
-@requires_auth
-def xhr_trakt():
-    trakt = {}
-    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
-
-    try:
-        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['tvshowid', 'season', 'episode', 'imdbnumber', 'title'])['item']
-        trakt['itemid'] = currently_playing['imdbnumber']
-
-        # if watching a TV show
-        if currently_playing['tvshowid'] != -1:
-            show = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['imdbnumber'])['tvshowdetails']
-            trakt['itemid'] = show['imdbnumber']
-
-    except:
-        currently_playing = None
-
-    if currently_playing:
-        trakt['title'] = currently_playing['title']
-
-        if currently_playing['tvshowid'] != -1:
-            trakt['type'] = 'episode'
-            trakt['season'] = currently_playing['season']
-            trakt['episode'] = currently_playing['episode']
-            url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, trakt['itemid'], currently_playing['season'], currently_playing['episode'])
-
-        else:
-            trakt['type'] = 'movie'
-            url = 'http://api.trakt.tv/movie/shouts.json/%s/%s' % (TRAKT_API_KEY, trakt['itemid'])
-
-        result = urllib.urlopen(url).read()
-        trakt['shouts'] = json.JSONDecoder().decode(result)
-
-    show_add_shout = False
-
-    try:
-        if TRAKT_PASSWORD != None:
-            show_add_shout = True
-
-    except:
-        pass
-
-    return render_template('trakt.html',
-        trakt = trakt,
-        trakt_username = TRAKT_USERNAME,
-        show_add_shout = show_add_shout,
-    )
-
-@app.route('/xhr/trakt/add_shout', methods=['POST'])
-@requires_auth
-def xhr_trakt_add_shout():
-    try:
-        itemtype = request.form['type']
-
-        params = {
-            'username': TRAKT_USERNAME,
-            'password': hashlib.sha1(TRAKT_PASSWORD).hexdigest(),
-            'shout': request.form['shout'],
-        }
-
-        if itemtype == 'episode':
-            params['season'] = request.form['season']
-            params['tvdb_id'] = request.form['itemid']
-            params['episode'] = request.form['episode']
-
-        else:
-            params['imdb_id'] = request.form['itemid']
-
-    except:
-        return jsonify({ 'status': 'error' })
-
-    try:
-        url = 'http://api.trakt.tv/shout/%s/%s' % (itemtype, TRAKT_API_KEY)
-        params = urllib.urlencode(params)
-        result = urllib.urlopen(url, params).read()
-        result = json.JSONDecoder().decode(result)
-
-        if result['status'] == 'success':
-            return xhr_trakt()
-
-    except:
-        return jsonify({ 'status': 'error' })
-
-    return jsonify({ 'status': 'error' })
-
-@app.route('/xhr/currently_playing')
-@requires_auth
-def xhr_currently_playing():
-    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
-
-    try:
-        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid', 'plot'])['item']
-        fanart_url = currently_playing['fanart']
-
-        # if watching a TV show
-        if currently_playing['tvshowid'] != -1:
-            fanart_url = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['fanart'])['tvshowdetails']['fanart']
-
-    except:
-        return jsonify({ 'playing': False })
-
-    try:
-        fanart = '%s/vfs/%s' % (SAFE_SERVER_ADDRESS, fanart_url)
-
-    except:
-        fanart = None
-
-    time = xbmc.Player.GetProperties(playerid=1, properties=['time', 'totaltime', 'position', 'percentage'])
-
-    return render_template('currently_playing.html',
-        currently_playing = currently_playing,
-        fanart = fanart,
-        time = time,
-        current_time = format_time(time['time']),
-        total_time = format_time(time['totaltime']),
-        percentage_progress = int(time['percentage']),
     )
 
 @app.route('/xhr/play_episode/<int:episode_id>')
@@ -302,20 +114,6 @@ def render_library(library=None, title="Media library"):
         library = library,
         title = title,
     )
-
-def format_time(time):
-    formatted_time = ''
-
-    if time['hours'] > 0:
-        formatted_time += str(time['hours']) + ':'
-
-        if time['minutes'] == 0:
-            formatted_time += '00:'
-
-    formatted_time += '%0*d' % (2, time['minutes']) + ':'
-    formatted_time += '%0*d' % (2, time['seconds'])
-
-    return formatted_time
 
 if __name__ == '__main__':
     app.run(debug=True)
