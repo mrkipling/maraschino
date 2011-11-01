@@ -110,7 +110,7 @@ textarea, input, select
 
 #wrapper
 {
-  line-height: 1.3em;
+  line-height: 1.5em;
   margin: 0 auto;
   padding: 0 40px 40px;
   width: 900px;
@@ -136,7 +136,7 @@ textarea, input, select
 
 #wrapper .bullets li
 {
-  margin-top: 7px;
+  margin: 10px 0;
 }
 
 #wrapper .numbers
