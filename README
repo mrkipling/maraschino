@@ -1,13 +1,21 @@
-The imaginatively-titled "HTPC frontend"
+Maraschino
+A frontend for XBMC HTPCs
 
-Provides a nice overview page for an HTPC running XBMC.
-Requires Eden-pre (not Dharma) as there are some pretty gnarly API changes in the new version.
+
+
+What is Maraschino?
+-------------------
+
+I wanted a simple web interface to act as a nice overview/front page for my XBMC HTPC. I couldn't
+find anything that suited my requirements so I created something myself.
 
 You can find some fancy screenshots and setup instructions on the project homepage:
+http://www.maraschinoproject.com
 
-http://mrkipling.github.com/htpc-frontend
 
-It currently has the following features:
+
+What features does it have?
+---------------------------
 
 * Customisable applications widget providing quick access to your web interfaces (e.g. SABnzb+,
   SickBeard, or whatever else you want to link to)
@@ -35,3 +43,10 @@ your prefer to do it.
 
 This is an early-stage work-in-progress - if you run into any problems then let me know,
 perhaps I can help (at the very least, bug reports are always welcome!)
+
+
+
+Why is it called Maraschino?
+----------------------------
+
+If your HTPC is an ice cream sundae then Maraschino is the cherry on top.
