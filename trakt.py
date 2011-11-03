@@ -1,0 +1,93 @@
+from flask import Flask, jsonify, render_template, request
+import hashlib, json, jsonrpclib, urllib
+
+from htpcfrontend import app
+from settings import *
+from noneditable import *
+from tools import *
+
+@app.route('/xhr/trakt')
+@requires_auth
+def xhr_trakt():
+    trakt = {}
+    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
+
+    try:
+        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['tvshowid', 'season', 'episode', 'imdbnumber', 'title'])['item']
+        trakt['itemid'] = currently_playing['imdbnumber']
+
+        # if watching a TV show
+        if currently_playing['tvshowid'] != -1:
+            show = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['imdbnumber'])['tvshowdetails']
+            trakt['itemid'] = show['imdbnumber']
+
+    except:
+        currently_playing = None
+
+    if currently_playing:
+        trakt['title'] = currently_playing['title']
+
+        if currently_playing['tvshowid'] != -1:
+            trakt['type'] = 'episode'
+            trakt['season'] = currently_playing['season']
+            trakt['episode'] = currently_playing['episode']
+            url = 'http://api.trakt.tv/show/episode/shouts.json/%s/%s/%s/%s' % (TRAKT_API_KEY, trakt['itemid'], currently_playing['season'], currently_playing['episode'])
+
+        else:
+            trakt['type'] = 'movie'
+            url = 'http://api.trakt.tv/movie/shouts.json/%s/%s' % (TRAKT_API_KEY, trakt['itemid'])
+
+        result = urllib.urlopen(url).read()
+        trakt['shouts'] = json.JSONDecoder().decode(result)
+
+    show_add_shout = False
+
+    try:
+        if TRAKT_PASSWORD != None:
+            show_add_shout = True
+
+    except:
+        pass
+
+    return render_template('trakt.html',
+        trakt = trakt,
+        trakt_username = TRAKT_USERNAME,
+        show_add_shout = show_add_shout,
+    )
+
+@app.route('/xhr/trakt/add_shout', methods=['POST'])
+@requires_auth
+def xhr_trakt_add_shout():
+    try:
+        itemtype = request.form['type']
+
+        params = {
+            'username': TRAKT_USERNAME,
+            'password': hashlib.sha1(TRAKT_PASSWORD).hexdigest(),
+            'shout': request.form['shout'],
+        }
+
+        if itemtype == 'episode':
+            params['season'] = request.form['season']
+            params['tvdb_id'] = request.form['itemid']
+            params['episode'] = request.form['episode']
+
+        else:
+            params['imdb_id'] = request.form['itemid']
+
+    except:
+        return jsonify({ 'status': 'error' })
+
+    try:
+        url = 'http://api.trakt.tv/shout/%s/%s' % (itemtype, TRAKT_API_KEY)
+        params = urllib.urlencode(params)
+        result = urllib.urlopen(url, params).read()
+        result = json.JSONDecoder().decode(result)
+
+        if result['status'] == 'success':
+            return xhr_trakt()
+
+    except:
+        return jsonify({ 'status': 'error' })
+
+    return jsonify({ 'status': 'error' })

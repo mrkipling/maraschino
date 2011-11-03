@@ -37,3 +37,17 @@ def using_auth():
             return True
     except:
         return False
+
+def format_time(time):
+    formatted_time = ''
+
+    if time['hours'] > 0:
+        formatted_time += str(time['hours']) + ':'
+
+        if time['minutes'] == 0:
+            formatted_time += '00:'
+
+    formatted_time += '%0*d' % (2, time['minutes']) + ':'
+    formatted_time += '%0*d' % (2, time['seconds'])
+
+    return formatted_time
