@@ -8,12 +8,12 @@ from noneditable import *
 from tools import *
 
 from applications import *
+from controls import *
+from currently_playing import *
+from library import *
 from recently_added import *
 from sabnzbd import *
 from trakt import *
-from currently_playing import *
-from controls import *
-from library import *
 
 @app.route('/')
 @requires_auth
