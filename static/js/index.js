@@ -94,12 +94,12 @@ $(document).ready(function() {
 
         // hide synopsis module if visible
         $('#synopsis').fadeOut(200, function() {
-          $(this).replaceWith('<div id="synopsis_inactive"></div>');
+          $(this).replaceWith('<div id="synopsis_inactive" class="inactive_module"><h2>Synopsis</h2></div>');
         });
 
         // hide trakt module if visible
         $('#trakt').fadeOut(200, function() {
-          $(this).replaceWith('<div id="trakt_inactive"></div>');
+          $(this).replaceWith('<div id="trakt_inactive" class="inactive_module"><h2>trakt.tv</h2></div>');
         });
 
         currently_playing_id = null;

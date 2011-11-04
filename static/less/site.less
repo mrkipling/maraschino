@@ -158,7 +158,8 @@
 
 /*--- module ---*/
 
-.module
+.module,
+.f_settings_mode .inactive_module
 {
   background: url(/static/images/alpha/000_80.png);
   border: 1px solid #333;
@@ -169,8 +170,15 @@
   .box-shadow(#222, 0, 0, 10px);
 }
 
-.module h2
+.inactive_module h2
 {
+  display: none;
+}
+
+.module h2,
+.f_settings_mode .inactive_module h2
+{
+  display: block;
   font-size: 1.5em;
   font-weight: normal;
   line-height: 1.3em;
