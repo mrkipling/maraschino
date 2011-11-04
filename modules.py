@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template, request
 from database import db_session
-import hashlib, json, jsonrpclib, urllib
+import json
 
 from htpcfrontend import app
 from settings import *
