@@ -374,6 +374,7 @@ $(document).ready(function() {
 
   $('ul.modules').sortable({
     connectWith: 'ul.modules',
+    disabled: true,
     stop: function() {
       var modules = [];
 
