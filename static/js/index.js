@@ -148,7 +148,7 @@ $(document).ready(function() {
           // if currently playing item has a synopsis
           var synopsis = $('#currently_playing .synopsis');
           if (synopsis.length > 0) {
-            var module = $('<div id="synopsis" class="module generic">' + settings_buttons + '<h2></h2><div class="inner"><p></p></div></div>');
+            var module = $('<div id="synopsis" class="module generic" data-module="synopsis">' + settings_buttons + '<h2></h2><div class="inner"><p></p></div></div>');
             module.find('h2').replaceWith(synopsis.find('h2'));
             module.find('p').replaceWith(synopsis.find('p'));
 
@@ -169,7 +169,7 @@ $(document).ready(function() {
             // if visible
             if (synopsis_module.hasClass('module')) {
               synopsis_module.fadeOut(200, function() {
-                $(this).replaceWith('<div id="synopsis"></div>');
+                $(this).replaceWith(construct_inactive_module('synopsis', 'Synopsis'));
               });
             }
           }
