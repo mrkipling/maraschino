@@ -94,12 +94,12 @@ $(document).ready(function() {
 
         // hide synopsis module if visible
         $('#synopsis').fadeOut(200, function() {
-          $(this).replaceWith('<div id="synopsis_inactive" class="inactive_module"><h2>Synopsis</h2></div>');
+          $(this).replaceWith('<div id="synopsis_inactive" class="inactive_module" data-module="synopsis"><h2>Synopsis</h2></div>');
         });
 
         // hide trakt module if visible
         $('#trakt').fadeOut(200, function() {
-          $(this).replaceWith('<div id="trakt_inactive" class="inactive_module"><h2>trakt.tv</h2></div>');
+          $(this).replaceWith('<div id="trakt_inactive" class="inactive_module" data-module="trakt"><h2>trakt.tv</h2></div>');
         });
 
         currently_playing_id = null;
@@ -370,10 +370,45 @@ $(document).ready(function() {
     return false;
   });
 
+  // sortable modules
+
+  $('ul.modules').sortable({
+    connectWith: 'ul.modules',
+    stop: function() {
+      var modules = [];
+
+      $('.module, .inactive_module, .placeholder').each(function() {
+        var position = 0;
+        var li = $(this).closest('li');
+        var column_ele = $(this).closest('.col');
+        var lis = column_ele.find('ul.modules > li');
+
+        for (var i = 0; i < lis.length; i++) {
+          if (lis[i] == li.get(0)) {
+            position = i+1;
+            break;
+          }
+        }
+
+        modules.push({
+          name: $(this).data('module'),
+          column: column_ele.attr('id').replace('col', ''),
+          position: position
+        });
+      });
+    }
+  });
+
   // settings mode
 
   $('#settings_icon').live('click', function() {
     $('body').toggleClass('f_settings_mode');
+
+    if ($('body').hasClass('f_settings_mode')) {
+      $('ul.modules').sortable({ disabled: false });
+    } else {
+      $('ul.modules').sortable({ disabled: true });
+    }
   });
 
   // add module

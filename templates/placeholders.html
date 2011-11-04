@@ -1,12 +1,16 @@
-{% if mods %}
-  {% for module in mods %}
-    {% if module.static %}
-      {% include module.template %}
-    {% else %}
-      {% include "placeholder_template.html" %}
-    {% endif %}
-  {% endfor %}
-{% endif %}
+<ul class="modules">
+  {% if mods %}
+    {% for module in mods %}
+      <li>
+        {% if module.static %}
+          {% include module.template %}
+        {% else %}
+          {% include "placeholder_template.html" %}
+        {% endif %}
+      </li>
+    {% endfor %}
+  {% endif %}
+</ul>
 
 {% if show_add %}
   <div class="add_module">+ Add module</div>
