@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, render_template, request
+from database import db_session
 import hashlib, json, jsonrpclib, urllib
 
 app = Flask(__name__)
@@ -24,6 +25,10 @@ def index():
         fanart_backgrounds = FANART_BACKGROUNDS,
         applications = APPLICATIONS,
     )
+
+@app.teardown_request
+def shutdown_session(exception=None):
+    db_session.remove()
 
 if __name__ == '__main__':
     app.run(debug=True)

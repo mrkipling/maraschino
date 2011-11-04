@@ -13,6 +13,8 @@ MODULES = [
     ],
 ]
 
+DATABASE = '/path/to/maraschino.db'
+
 SHOW_CURRENTLY_PLAYING = True
 FANART_BACKGROUNDS = False
 
