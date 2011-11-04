@@ -49,6 +49,12 @@ def xhr_trakt():
     except:
         pass
 
+    try:
+        if not trakt['shouts'] and not show_add_shout:
+            trakt = None
+    except:
+        pass
+
     return render_template('trakt.html',
         trakt = trakt,
         trakt_username = TRAKT_USERNAME,
