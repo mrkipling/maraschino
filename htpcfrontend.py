@@ -16,6 +16,7 @@ from recently_added import *
 from sabnzbd import *
 from trakt import *
 
+from modules import *
 from models import Module
 
 @app.route('/')

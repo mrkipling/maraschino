@@ -17,13 +17,15 @@ class Module(Base):
     name = Column(String(50), unique=True)
     static = Column(Boolean)
     column = Column(Integer)
+    position = Column(Integer)
     poll = Column(Integer)
     delay = Column(Integer)
 
-    def __init__(self, name=None, static=0, column=None, poll=None, delay=None):
+    def __init__(self, name=None, static=0, column=None, position=None, poll=None, delay=None):
         self.name = name
         self.static = static
         self.column = column
+        self.position = position
         self.poll = poll
         self.delay = delay
 

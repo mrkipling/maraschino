@@ -371,4 +371,25 @@ $(document).ready(function() {
     $('body').toggleClass('f_settings_mode');
   });
 
+  // add module
+
+  $('.add_module').live('click', function() {
+    $.get('/xhr/add_module_dialog', function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
+  $('#add_module_dialog #select_module').live('change', function() {
+    var module_description = $('#add_module_dialog .description');
+
+    if (module_description.length === 0) {
+      $('#add_module_dialog #select_module').after('<p class="description">');
+      module_description = $('#add_module_dialog .description');
+    }
+
+    module_description.text($(this).find(':selected').data('description'));
+  });
+
 });

@@ -1,0 +1,19 @@
+<div id="add_module_dialog" class="dialog">
+
+  <div class="close">x</div>
+
+  <h2>Please select a module:</h2>
+
+  <select id="select_module">
+    {% for module in available_modules %}
+      <option value="{{ module.id }}" data-description="{{ module.description }}">{{ module.label }}</option>
+    {% endfor %}
+  </select>
+
+  <p class="description">{{ available_modules[0].description }}</p>
+
+  <div class="clearfix">
+    <div class="submit">Add module</div>
+  </div>
+
+</div>
