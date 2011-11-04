@@ -14,7 +14,7 @@ from database import Base
 class Module(Base):
     __tablename__ = 'modules'
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), unique=True)
+    name = Column(String(50))
     static = Column(Boolean)
     column = Column(Integer)
     position = Column(Integer)

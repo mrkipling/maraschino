@@ -374,22 +374,39 @@ $(document).ready(function() {
   // add module
 
   $('.add_module').live('click', function() {
+    var column = $(this).closest('.col').attr('id');
     $.get('/xhr/add_module_dialog', function(data) {
       var popup = $(data);
       $('body').append(popup);
+      popup.data('col', column.replace('col', ''));
       popup.showPopup({ dispose: true });
     });
   });
 
   $('#add_module_dialog #select_module').live('change', function() {
     var module_description = $('#add_module_dialog .description');
-
     if (module_description.length === 0) {
       $('#add_module_dialog #select_module').after('<p class="description">');
       module_description = $('#add_module_dialog .description');
     }
-
     module_description.text($(this).find(':selected').data('description'));
+  });
+
+  $('#add_module_dialog .submit').live('click', function() {
+    var module_id = $('#add_module_dialog #select_module :selected').val();
+    var column = $('#add_module_dialog').data('col');
+    var position = $('#col' + column).find('.module, .placeholder').length + 1;
+
+    $.post('/xhr/add_module', {
+      module_id: module_id,
+      column: column,
+      position: position
+    }, function(data) {
+      console.info(data.status);
+      $('#add_module_dialog').fadeOut(300, function() {
+        $(this).find('.close').click();
+      });
+    });
   });
 
 });
