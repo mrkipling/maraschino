@@ -121,3 +121,26 @@ def add_module():
     return render_template('placeholder_template.html',
         module = module_info,
     )
+
+@app.route('/xhr/rearrange_modules', methods=['POST'])
+@requires_auth
+def rearrange_modules():
+    try:
+        modules = json.JSONDecoder().decode(request.form['modules'])
+
+    except:
+        return jsonify({ 'status': 'error' })
+
+    for module in modules:
+        try:
+            m = Module.query.filter(Module.name == module['name']).first()
+            m.column = module['column']
+            m.position = module['position']
+            db_session.add(m)
+
+        except:
+            pass
+
+    db_session.commit()
+
+    return jsonify({ 'status': 'success' })

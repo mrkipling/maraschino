@@ -396,6 +396,10 @@ $(document).ready(function() {
           position: position
         });
       });
+
+      $.post('/xhr/rearrange_modules', { modules: JSON.stringify(modules) }, function() {
+        console.log('success');
+      });
     }
   });
 
