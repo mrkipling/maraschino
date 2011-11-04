@@ -1,9 +1,33 @@
 $(document).ready(function() {
 
+  // helper functions
+
   var settings_buttons = '<div class="module_settings"><span>Settings</span></div><div class="module_remove"><span>Remove</span></div>';
 
   function construct_inactive_module(name, title) {
     return '<div id="' + name + '_inactive" class="inactive_module" data-module="' + name + '">' + settings_buttons + '<h2>' + title + '</h2></div></div>';
+  }
+
+  function confirmation_dialog(customsettings) {
+    var settings = {
+      question: 'Are you sure?',
+      confirm: function() {},
+      cancel: function() {}
+    };
+
+    if (customsettings !== undefined) {
+      $.extend(settings, customsettings);
+    }
+
+    var dialog = '<div id="confirmation_dialog" class="dialog"><h3>' + settings.question + '</h3><div class="choices"><div class="confirm">Yes</div><div class="cancel">No</div></div></div>';
+
+    $('body').append(dialog);
+
+    $('#confirmation_dialog').showPopup({
+      dispose: true,
+      on_confirm: settings.confirm,
+      on_close: settings.cancel
+    });
   }
 
   // get/poll module
@@ -456,6 +480,15 @@ $(document).ready(function() {
       $('#add_module_dialog').fadeOut(300, function() {
         $(this).find('.close').click();
       });
+    });
+  });
+
+  // remove module
+
+  $('.module_remove').live('click', function() {
+    confirmation_dialog({
+      question: 'Are you sure that you want to remove this module?',
+      confirm: function() {}
     });
   });
 
