@@ -445,7 +445,7 @@ $(document).ready(function() {
       column: column,
       position: position
     }, function(data) {
-      $('#col' + column).find('.add_module').before(data);
+      $('#col' + column).find('ul.modules').append('<li>' + data + '</li>');
       init_modules();
       $('#add_module_dialog').fadeOut(300, function() {
         $(this).find('.close').click();
