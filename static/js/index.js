@@ -2,6 +2,10 @@ $(document).ready(function() {
 
   var settings_buttons = '<div class="module_settings"><span>Settings</span></div><div class="module_remove"><span>Remove</span></div>';
 
+  function construct_inactive_module(name, title) {
+    return '<div id="' + name + '_inactive" class="inactive_module" data-module="' + name + '">' + settings_buttons + '<h2>' + title + '</h2></div></div>';
+  }
+
   // get/poll module
 
   function get_module(module, customsettings) {
@@ -96,12 +100,12 @@ $(document).ready(function() {
 
         // hide synopsis module if visible
         $('#synopsis').fadeOut(200, function() {
-          $(this).replaceWith('<div id="synopsis_inactive" class="inactive_module" data-module="synopsis">' + settings_buttons + '<h2>Synopsis</h2></div></div>');
+          $(this).replaceWith(construct_inactive_module('synopsis', 'Synopsis'));
         });
 
         // hide trakt module if visible
         $('#trakt').fadeOut(200, function() {
-          $(this).replaceWith('<div id="trakt_inactive" class="inactive_module" data-module="trakt">' + settings_buttons + '<h2>trakt.tv</h2></div>');
+          $(this).replaceWith(construct_inactive_module('trakt', 'trakt.tv'));
         });
 
         currently_playing_id = null;
