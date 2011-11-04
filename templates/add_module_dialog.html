@@ -6,7 +6,7 @@
 
   <select id="select_module">
     {% for module in available_modules %}
-      <option value="{{ module.id }}" data-description="{{ module.description }}">{{ module.label }}</option>
+      <option value="{{ module.name }}" data-description="{{ module.description }}">{{ module.label }}</option>
     {% endfor %}
   </select>
 

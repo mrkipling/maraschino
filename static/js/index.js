@@ -56,22 +56,27 @@ $(document).ready(function() {
 
   // initialise modules on page load
 
-  $('.placeholder').each(function() {
-    var delay = $(this).data('delay');
-    if (delay === undefined) {
-      get_module($(this).data('module'), {
-        poll: $(this).data('poll')
-      });
-    } else {
-      var module = $(this).data('module');
-      var poll = $(this).data('poll');
-      setTimeout(function() {
-        get_module(module, {
-          poll: poll
+  function init_modules() {
+    $('.placeholder:not(.initialised)').each(function() {
+      $(this).addClass('initialised');
+      var delay = $(this).data('delay');
+      if (delay === undefined) {
+        get_module($(this).data('module'), {
+          poll: $(this).data('poll')
         });
-      }, delay * 1000);
-    }
-  });
+      } else {
+        var module = $(this).data('module');
+        var poll = $(this).data('poll');
+        setTimeout(function() {
+          get_module(module, {
+            poll: poll
+          });
+        }, delay * 1000);
+      }
+    });
+  }
+
+  init_modules();
 
   // currently playing
 
@@ -402,7 +407,8 @@ $(document).ready(function() {
       column: column,
       position: position
     }, function(data) {
-      console.info(data.status);
+      $('#col' + column).find('.add_module').before(data);
+      init_modules();
       $('#add_module_dialog').fadeOut(300, function() {
         $(this).find('.close').click();
       });

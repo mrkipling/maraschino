@@ -11,26 +11,22 @@ from models import Module
 
 AVAILABLE_MODULES = [
     {
-        'id': 'applications',
+        'name': 'applications',
         'label': 'Applications',
         'description': 'Allows you to link to whatever applications you want (SABnzbd, SickBeard, etc.)',
         'mandatory_static': False,
-        'defaults': {
-            'static': True,
-            'poll': 0,
-            'delay': 0,
-        },
+        'static': True,
+        'poll': None,
+        'delay': 0,
     },
     {
-        'id': 'recently_added',
+        'name': 'recently_added',
         'label': 'Recently added',
         'description': 'Shows you episodes recently added to your library.',
         'mandatory_static': False,
-        'defaults': {
-            'static': False,
-            'poll': 350,
-            'delay': 0,
-        },
+        'static': False,
+        'poll': 350,
+        'delay': 0,
     },
 ]
 
@@ -52,7 +48,7 @@ def add_module():
         module_info = None
 
         for available_module in AVAILABLE_MODULES:
-            if module_id == available_module['id']:
+            if module_id == available_module['name']:
                 module_info = available_module
                 break
 
@@ -63,15 +59,19 @@ def add_module():
         return jsonify({ 'status': 'error' })
 
     module = Module(
-        module_info['id'],
-        module_info['defaults']['static'],
+        module_info['name'],
+        module_info['static'],
         column,
         position,
-        module_info['defaults']['poll'],
-        module_info['defaults']['delay'],
+        module_info['poll'],
+        module_info['delay'],
     )
 
     db_session.add(module)
     db_session.commit()
 
-    return jsonify({ 'status': 'success' })
+    module_info['template'] = '%s.html' % (module_info['name'])
+
+    return render_template('placeholder_template.html',
+        module = module_info,
+    )
