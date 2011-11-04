@@ -1,3 +1,4 @@
 *.pyc
 settings.py
 maraschino.wsgi
+maraschino.db
