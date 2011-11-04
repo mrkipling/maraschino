@@ -365,4 +365,10 @@ $(document).ready(function() {
     return false;
   });
 
+  // settings mode
+
+  $('#settings_icon').live('click', function() {
+    $('body').toggleClass('f_settings_mode');
+  });
+
 });

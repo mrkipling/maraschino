@@ -36,6 +36,48 @@
 
 
 
+/*--- settings icon ---*/
+
+#settings_icon
+{
+  background: url(/static/images/alpha/000_70.png);
+  height: 40px;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 40px;
+  z-index: 1;
+
+  border-bottom-right-radius: 40px;
+  -moz-border-radius-bottomright: 40px;
+  -o-border-bottom-right-radius: 40px;
+  -webkit-border-bottom-right-radius: 40px;
+
+  transition: opacity 0.3s;
+  -transition: opacity 0.3s;
+  -webkit-transition: opacity 0.3s;
+  -moz-transition: opacity 0.3s;
+}
+
+#settings_icon:hover,
+.f_settings_mode #settings_icon
+{
+  cursor: pointer;
+  opacity: 1;
+}
+
+#settings_icon .inner
+{
+  background: url(/static/images/settings_icon.png) no-repeat 5px 5px;
+  height: 40px;
+  width: 40px;
+}
+
+
+
+
+
 /*--- columns ---*/
 
 #fanart
@@ -79,6 +121,35 @@
 #col3
 {
   float: right;
+}
+
+
+
+
+
+/*--- add module ---*/
+
+.add_module
+{
+  opacity: 0;
+}
+
+.f_settings_mode .add_module
+{
+  background: url(/static/images/alpha/fff_20.png);
+  border: 2px dashed #ddd;
+  cursor: pointer;
+  display: block;
+  opacity: 1;
+  padding: 7px;
+  text-align: center;
+
+  transition: opacity 0.3s;
+  -transition: opacity 0.3s;
+  -webkit-transition: opacity 0.3s;
+  -moz-transition: opacity 0.3s;
+
+  .border-radius(2px);
 }
 
 
