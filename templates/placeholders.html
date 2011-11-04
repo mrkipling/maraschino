@@ -3,7 +3,7 @@
     {% if module.static %}
       {% include module.template %}
     {% else %}
-      <div class="placeholder" data-module="{{ module.module }}" data-poll="{{ module.poll }}"{% if module.delay %} data-delay="{{ module.delay }}"{% endif %}></div>
+      <div class="placeholder" data-module="{{ module.name }}" data-poll="{{ module.poll }}"{% if module.delay %} data-delay="{{ module.delay }}"{% endif %}></div>
     {% endif %}
   {% endfor %}
 {% else %}

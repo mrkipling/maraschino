@@ -16,11 +16,20 @@ from recently_added import *
 from sabnzbd import *
 from trakt import *
 
+from models import Module
+
 @app.route('/')
 @requires_auth
 def index():
+    unorganised_modules = Module.query.all()
+    modules = [[],[],[]]
+
+    for module in unorganised_modules:
+        module.template = '%s.html' % (module.name)
+        modules[module.column - 1].append(module)
+
     return render_template('index.html',
-        modules = MODULES,
+        modules = modules,
         show_currently_playing = SHOW_CURRENTLY_PLAYING,
         fanart_backgrounds = FANART_BACKGROUNDS,
         applications = APPLICATIONS,
