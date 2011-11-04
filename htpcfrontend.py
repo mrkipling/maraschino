@@ -22,7 +22,7 @@ from models import Module
 @app.route('/')
 @requires_auth
 def index():
-    unorganised_modules = Module.query.all()
+    unorganised_modules = Module.query.order_by(Module.position)
     modules = [[],[],[]]
 
     for module in unorganised_modules:
