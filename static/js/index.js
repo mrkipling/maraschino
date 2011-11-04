@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+  var settings_buttons = '<div class="module_settings"><span>Settings</span></div><div class="module_remove"><span>Remove</span></div>';
+
   // get/poll module
 
   function get_module(module, customsettings) {
@@ -94,12 +96,12 @@ $(document).ready(function() {
 
         // hide synopsis module if visible
         $('#synopsis').fadeOut(200, function() {
-          $(this).replaceWith('<div id="synopsis_inactive" class="inactive_module" data-module="synopsis"><h2>Synopsis</h2></div>');
+          $(this).replaceWith('<div id="synopsis_inactive" class="inactive_module" data-module="synopsis">' + settings_buttons + '<h2>Synopsis</h2></div></div>');
         });
 
         // hide trakt module if visible
         $('#trakt').fadeOut(200, function() {
-          $(this).replaceWith('<div id="trakt_inactive" class="inactive_module" data-module="trakt"><h2>trakt.tv</h2></div>');
+          $(this).replaceWith('<div id="trakt_inactive" class="inactive_module" data-module="trakt">' + settings_buttons + '<h2>trakt.tv</h2></div>');
         });
 
         currently_playing_id = null;
@@ -142,7 +144,7 @@ $(document).ready(function() {
           // if currently playing item has a synopsis
           var synopsis = $('#currently_playing .synopsis');
           if (synopsis.length > 0) {
-            var module = $('<div id="synopsis" class="module generic"><h2></h2><div class="inner"><p></p></div></div>');
+            var module = $('<div id="synopsis" class="module generic">' + settings_buttons + '<h2></h2><div class="inner"><p></p></div></div>');
             module.find('h2').replaceWith(synopsis.find('h2'));
             module.find('p').replaceWith(synopsis.find('p'));
 

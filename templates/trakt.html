@@ -1,7 +1,12 @@
 {% if trakt %}
 
 <div id="trakt" class="module generic" data-module="trakt">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
   <h2>trakt.tv</h2>
+
   <div class="inner">
 
     {% if trakt.shouts %}
@@ -52,5 +57,9 @@
 </div>
 
 {% else %}
-<div id="trakt_inactive" class="inactive_module" data-module="trakt"><h2>trakt.tv</h2></div>
+<div id="trakt_inactive" class="inactive_module" data-module="trakt">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+  <h2>trakt.tv</h2>
+</div>
 {% endif %}

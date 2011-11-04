@@ -1,7 +1,12 @@
 {% if sabnzbd.jobs %}
 
 <div id="sabnzbd" class="module" data-module="sabnzbd">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
   <h2>SABnzbd+</h2>
+
   <div class="inner">
 
     <div class="speed">{{ sabnzbd.kbpersec|int }} kB/s</div>
@@ -24,5 +29,9 @@
 </div>
 
 {% else %}
-<div class="placeholder" data-module="sabnzbd"><h2>SABnzbd+</h2></div>
+<div class="placeholder" data-module="sabnzbd">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+  <h2>SABnzbd+</h2>
+</div>
 {% endif %}
