@@ -69,8 +69,18 @@ AVAILABLE_MODULES = [
 @app.route('/xhr/add_module_dialog')
 @requires_auth
 def add_module_dialog():
+    modules_on_page = Module.query.all()
+
+    available_modules = AVAILABLE_MODULES
+
+    for module_on_page in modules_on_page:
+        for available_module in available_modules:
+            if module_on_page.name == available_module['name']:
+                available_modules.remove(available_module)
+                break
+
     return render_template('add_module_dialog.html',
-        available_modules = AVAILABLE_MODULES,
+        available_modules = available_modules,
     )
 
 @app.route('/xhr/add_module', methods=['POST'])
