@@ -50,7 +50,7 @@ def xhr_trakt():
     show_add_shout = False
 
     try:
-        if TRAKT_PASSWORD != None:
+        if TRAKT_PASSWORD != '':
             show_add_shout = True
 
     except:
