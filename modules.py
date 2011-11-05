@@ -195,9 +195,20 @@ def remove_module(name):
 @app.route('/xhr/module_settings_dialog/<name>')
 @requires_auth
 def module_settings_dialog(name):
-    module = get_module_info(name)
+    module_info = get_module_info(name)
+    module_db = get_module(name)
 
-    if module:
+    if module_info and module_db:
+        module = copy.copy(module_info)
+        module['poll'] = module_db.poll
+        module['delay'] = module_db.delay
+
+        for s in module['settings']:
+            setting = get_setting(s['key'])
+
+            if setting:
+                s['value'] = setting.value
+
         return render_template('module_settings_dialog.html',
             module = module,
         )
