@@ -242,10 +242,10 @@ def module_settings_save(name):
             module = get_module(name)
 
             if s['name'] == 'poll':
-                module.poll = s['value']
+                module.poll = int(s['value'])
 
             if s['name'] == 'delay':
-                module.delay = s['value']
+                module.delay = int(s['value'])
 
             db_session.add(module)
 
