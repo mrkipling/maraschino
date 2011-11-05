@@ -42,4 +42,4 @@ def xhr_currently_playing():
 @app.route('/xhr/synopsis')
 @requires_auth
 def xhr_synopsis():
-    return '<div id="synopsis" class="inactive_module"><h2>Synopsis</h2></div>'
+    return render_template('synopsis.html')
