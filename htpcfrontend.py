@@ -19,8 +19,6 @@ from trakt import *
 from modules import *
 from models import Module, Setting
 
-FANART_BACKGROUNDS = True
-
 @app.route('/')
 @requires_auth
 def index():
@@ -34,10 +32,12 @@ def index():
         module_info = get_module_info(module.name)
         module.static = module_info['static']
 
+    fanart_backgrounds = get_setting('fanart_backgrounds').value == '1'
+
     return render_template('index.html',
         modules = modules,
         show_currently_playing = get_setting('server_hostname') != None,
-        fanart_backgrounds = FANART_BACKGROUNDS,
+        fanart_backgrounds = fanart_backgrounds,
         applications = APPLICATIONS,
     )
 
