@@ -9,30 +9,31 @@ from tools import *
 from database import *
 from models import Module
 
+# name, label, description, and static are not user-editable and are taken from here
+# poll and delay are user-editable and saved in the database - the values here are the defaults
+# if static = True then poll and delay are ignored
+
 AVAILABLE_MODULES = [
     {
         'name': 'applications',
         'label': 'Applications',
         'description': 'Allows you to link to whatever applications you want (SABnzbd, SickBeard, etc.)',
-        'mandatory_static': False,
         'static': True,
-        'poll': None,
+        'poll': 0,
         'delay': 0,
     },
     {
         'name': 'library',
         'label': 'Media library',
         'description': 'Allows you to browse your media library and select items to play in XBMC.',
-        'mandatory_static': True,
         'static': True,
-        'poll': None,
+        'poll': 0,
         'delay': 0,
     },
     {
         'name': 'recently_added',
         'label': 'Recently added',
         'description': 'Shows you episodes recently added to your library.',
-        'mandatory_static': False,
         'static': False,
         'poll': 350,
         'delay': 0,
@@ -41,7 +42,6 @@ AVAILABLE_MODULES = [
         'name': 'sabnzbd',
         'label': 'SABnzbd+',
         'description': 'Shows you information about your SABnzbd+ downloads.',
-        'mandatory_static': False,
         'static': False,
         'poll': 10,
         'delay': 0,
@@ -50,18 +50,16 @@ AVAILABLE_MODULES = [
         'name': 'synopsis',
         'label': 'Synopsis',
         'description': 'Shows you a plot synopsis of what you are currently watching.',
-        'mandatory_static': True,
         'static': True,
-        'poll': None,
+        'poll': 0,
         'delay': 0,
     },
     {
         'name': 'trakt',
         'label': 'trakt.tv',
         'description': 'Shows you what people are saying about what you are watching and allows you to add your own comments.',
-        'mandatory_static': True,
         'static': True,
-        'poll': None,
+        'poll': 0,
         'delay': 0,
     },
 ]

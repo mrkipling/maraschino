@@ -29,6 +29,9 @@ def index():
         module.template = '%s.html' % (module.name)
         modules[module.column - 1].append(module)
 
+        module_info = get_module_info(module.name)
+        module.static = module_info['static']
+
     return render_template('index.html',
         modules = modules,
         show_currently_playing = SHOW_CURRENTLY_PLAYING,

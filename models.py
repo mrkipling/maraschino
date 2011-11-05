@@ -5,7 +5,6 @@ class Module(Base):
     __tablename__ = 'modules'
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)
-    static = Column(Boolean)
     column = Column(Integer)
     position = Column(Integer)
     poll = Column(Integer)

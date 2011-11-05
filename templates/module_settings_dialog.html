@@ -4,6 +4,20 @@
 
   <div class="inner">
 
+    {% if not module.static %}
+
+      <div class="formrow">
+        <label for="id_poll">Poll frequency (seconds)</label>
+        <input id="id_poll" type="text" value="{{ module.poll }}">
+      </div>
+
+      <div class="formrow">
+        <label for="id_delay">Delay in loading (seconds)</label>
+        <input id="id_delay" type="text" value="{{ module.delay }}">
+      </div>
+
+    {% endif %}
+
     <div class="choices">
       <div class="save">Save</div>
       <div class="cancel">Cancel</div>

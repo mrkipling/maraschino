@@ -34,7 +34,7 @@ $(document).ready(function() {
 
   function get_module(module, customsettings) {
     var settings = {
-      poll: 'None',
+      poll: 0,
       placeholder: $('.placeholder[data-module=' + module + ']'),
       params: []
     }
@@ -75,7 +75,7 @@ $(document).ready(function() {
     });
 
     // poll
-    if (settings.poll !== 'None') {
+    if (settings.poll !== 0) {
       setTimeout(function() {
         get_module(module, {
           poll: settings.poll
