@@ -486,9 +486,18 @@ $(document).ready(function() {
   // remove module
 
   $('.module_remove').live('click', function() {
+    var button = $(this);
+
     confirmation_dialog({
       question: 'Are you sure that you want to remove this module?',
-      confirm: function() {}
+      confirm: function() {
+        var module = button.closest('.module, .inactive_module, .placeholder');
+        $.post('/xhr/remove_module/' + module.data('module'), {}, function() {
+          module.fadeOut(300, function() {
+            $(this).remove();
+          });
+        });
+      }
     });
   });
 

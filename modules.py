@@ -144,3 +144,12 @@ def rearrange_modules():
     db_session.commit()
 
     return jsonify({ 'status': 'success' })
+
+@app.route('/xhr/remove_module/<name>', methods=['POST'])
+@requires_auth
+def remove_module(name):
+    module = Module.query.filter(Module.name == name).first()
+    db_session.delete(module)
+    db_session.commit()
+
+    return jsonify({ 'status': 'success' })
