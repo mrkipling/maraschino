@@ -439,9 +439,14 @@ $(document).ready(function() {
 
     if ($('body').hasClass('f_settings_mode')) {
       $('ul.modules').sortable({ disabled: false });
+      $.get('/xhr/server_settings_dialog', function(data) {
+        $('#col1 ul.modules').prepend('<li>' + data + '</li>');
+      });
+
     } else {
       $('ul.modules').sortable({ disabled: true });
       $('.edit_settings .choices .cancel').click();
+      $('#server_settings').remove();
     }
   });
 

@@ -96,6 +96,35 @@ AVAILABLE_MODULES = [
     },
 ]
 
+SERVER_SETTINGS = [
+    {
+        'key': 'server_hostname',
+        'value': 'localhost',
+        'description': 'XBMC hostname/IP',
+    },
+    {
+        'key': 'server_port',
+        'value': '8080',
+        'description': 'XBMC port ',
+    },
+    {
+        'key': 'server_username',
+        'value': '',
+        'description': 'XBMC username',
+    },
+    {
+        'key': 'server_password',
+        'value': '',
+        'description': 'XBMC password',
+    },
+    {
+        'key': 'fanart_backgrounds',
+        'value': '0',
+        'description': 'Show fanart backgrounds',
+        'type': 'bool',
+    },
+]
+
 @app.route('/xhr/add_module_dialog')
 @requires_auth
 def add_module_dialog():
@@ -257,6 +286,21 @@ def module_settings_save(name):
     db_session.commit()
 
     return module_settings_cancel(name)
+
+@app.route('/xhr/server_settings_dialog')
+@requires_auth
+def server_settings_dialog():
+    settings = copy.copy(SERVER_SETTINGS)
+
+    for s in settings:
+         setting = get_setting(s['key'])
+
+         if setting:
+             s['value'] = setting.value
+
+    return render_template('server_settings_dialog.html',
+        server_settings = settings,
+    )
 
 def get_module(name):
     try:
