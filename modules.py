@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template, request
 from database import db_session
-import json
+import copy, json
 
 from htpcfrontend import app
 from settings import *
@@ -70,8 +70,7 @@ AVAILABLE_MODULES = [
 @requires_auth
 def add_module_dialog():
     modules_on_page = Module.query.all()
-
-    available_modules = AVAILABLE_MODULES
+    available_modules = copy.copy(AVAILABLE_MODULES)
 
     for module_on_page in modules_on_page:
         for available_module in available_modules:
