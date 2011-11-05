@@ -1,1 +1,5 @@
-<div class="placeholder" data-module="{{ module.name }}" data-poll="{{ module.poll }}"{% if module.delay %} data-delay="{{ module.delay }}"{% endif %}></div>
+<div class="placeholder" data-module="{{ module.name }}" data-poll="{{ module.poll }}"{% if module.delay %} data-delay="{{ module.delay }}"{% endif %}>
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+  <h2>{{ module.label }}</h2>
+</div>
