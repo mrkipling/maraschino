@@ -1,16 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean
 from database import Base
 
-# IMPORTANT!
-# VALID MODULES:
-
-# applications
-# library         [mandatory static]
-# recently_added
-# sabnzbd
-# synopsis        [mandatory static]
-# trakt           [mandatory static]
-
 class Module(Base):
     __tablename__ = 'modules'
     id = Column(Integer, primary_key=True)
