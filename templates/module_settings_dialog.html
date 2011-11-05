@@ -2,19 +2,19 @@
 
   <h2>{{ module.label }} - Settings</h2>
 
-  <div class="inner">
+  <form class="inner" method="post" action="">
 
     {% if not module.static or module.settings %}
       {% if not module.static %}
 
         <div class="formrow">
-          <label for="id_poll">Poll frequency (seconds)</label>
-          <input id="id_poll" type="text" value="{{ module.poll }}">
+          <label for="id_{{ module.name }}_poll">Poll frequency (seconds)</label>
+          <input id="id_{{ module.name }}_poll" name="poll" type="text" value="{{ module.poll }}">
         </div>
 
         <div class="formrow">
-          <label for="id_delay">Delay in loading (seconds)</label>
-          <input id="id_delay" type="text" value="{{ module.delay }}">
+          <label for="id_{{ module.name }}_delay">Delay in loading (seconds)</label>
+          <input id="id_{{ module.name }}_delay" name="delay" type="text" value="{{ module.delay }}">
         </div>
 
       {% endif %}
@@ -23,7 +23,7 @@
         {% for setting in module.settings %}
           <div class="formrow">
             <label for="id_{{ setting.key }}">{{ setting.description }}</label>
-            <input id="id_{{ setting.key }}" type="text" value="{{ setting.value }}">
+            <input id="id_{{ setting.key }}" name="{{ setting.key }}" type="text" value="{{ setting.value }}">
           </div>
         {% endfor %}
 
@@ -42,6 +42,6 @@
       </div>
     {% endif %}
 
-  </div>
+  </form>
 
 </div>

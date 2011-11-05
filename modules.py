@@ -218,6 +218,43 @@ def module_settings_cancel(name):
 
     return jsonify({ 'status': 'error' })
 
+@app.route('/xhr/module_settings_save/<name>', methods=['POST'])
+@requires_auth
+def module_settings_save(name):
+    try:
+        settings = json.JSONDecoder().decode(request.form['settings'])
+
+    except:
+        return jsonify({ 'status': 'error' })
+
+    for s in settings:
+        if s['name'] == 'poll' or s['name'] == 'delay':
+            module = get_module(name)
+
+            if s['name'] == 'poll':
+                module.poll = s['value']
+
+            if s['name'] == 'delay':
+                module.delay = s['value']
+
+            db_session.add(module)
+
+        else:
+            setting = get_setting(s['name'])
+            setting.value = s['value']
+            db_session.add(setting)
+
+    db_session.commit()
+
+    return module_settings_cancel(name)
+
+def get_module(name):
+    try:
+        return Module.query.filter(Module.name == name).first()
+
+    except:
+        return None
+
 def get_module_info(name):
     for available_module in AVAILABLE_MODULES:
         if name == available_module['name']:

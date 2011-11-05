@@ -512,11 +512,25 @@ $(document).ready(function() {
     });
   });
 
+  // save settings
+
+  $('.edit_settings .choices .save').live('click', function() {
+    var module = $(this).closest('.module, .inactive_module, .placeholder');
+    var settings = module.find('form').serializeArray();
+
+    $.post('/xhr/module_settings_save/' + module.data('module'),
+      { settings: JSON.stringify(settings) },
+      function(data) {
+        module.replaceWith(data);
+        init_modules();
+      }
+    );
+  });
+
   // cancel settings
 
   $('.edit_settings .choices .cancel').live('click', function() {
     var module = $(this).closest('.module, .inactive_module, .placeholder');
-    console.log(module);
 
     $.get('/xhr/module_settings_cancel/' + module.data('module'), function(data) {
       module.replaceWith(data);
