@@ -1,15 +1,5 @@
 DATABASE = '/path/to/maraschino.db'
 
-SHOW_CURRENTLY_PLAYING = True
-FANART_BACKGROUNDS = False
-
-SERVER = {
-    'hostname': 'localhost',
-    'port': '8080',
-    'username': 'xbmc',
-    'password': ''
-}
-
 APPLICATIONS = [
     {
         'name': 'XBMC',
