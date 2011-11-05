@@ -136,7 +136,7 @@ def add_module():
 
     module_info['template'] = '%s.html' % (module_info['name'])
 
-    return render_template('placeholder_template.html',
+    return render_template('module_settings_dialog.html',
         module = module_info,
     )
 
