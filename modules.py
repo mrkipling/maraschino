@@ -156,9 +156,7 @@ def add_module():
 
     module_info['template'] = '%s.html' % (module_info['name'])
 
-    return render_template('module_settings_dialog.html',
-        module = module_info,
-    )
+    return module_settings_dialog(module_info['name'])
 
 @app.route('/xhr/rearrange_modules', methods=['POST'])
 @requires_auth
