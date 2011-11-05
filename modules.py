@@ -11,6 +11,7 @@ from models import Module
 
 # name, label, description, and static are not user-editable and are taken from here
 # poll and delay are user-editable and saved in the database - the values here are the defaults
+# settings are also taken from the database - the values here are defaults
 # if static = True then poll and delay are ignored
 
 AVAILABLE_MODULES = [
@@ -37,6 +38,9 @@ AVAILABLE_MODULES = [
         'static': False,
         'poll': 350,
         'delay': 0,
+        'settings': [
+            { 'num_recent_episodes': 5 },
+        ]
     },
     {
         'name': 'sabnzbd',
@@ -45,6 +49,9 @@ AVAILABLE_MODULES = [
         'static': False,
         'poll': 10,
         'delay': 0,
+        'settings': [
+            { 'sabnzbd_url': None },
+        ]
     },
     {
         'name': 'synopsis',
@@ -61,6 +68,11 @@ AVAILABLE_MODULES = [
         'static': True,
         'poll': 0,
         'delay': 0,
+        'settings': [
+            { 'trakt_api_key': None },
+            { 'trakt_username': None },
+            { 'trakt_password': None },
+        ]
     },
 ]
 
