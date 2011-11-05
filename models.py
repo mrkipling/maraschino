@@ -20,3 +20,16 @@ class Module(Base):
 
     def __repr__(self):
         return '<Module %r>' % (self.name)
+
+class Setting(Base):
+    __tablename__ = 'settings'
+    id = Column(Integer, primary_key=True)
+    key = Column(String(100), unique=True)
+    value = Column(String(500))
+
+    def __init__(self, key=None, value=None):
+        self.key = key
+        self.value = value
+
+    def __repr__(self):
+        return '<Setting %r>' % (self.key)

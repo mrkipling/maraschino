@@ -2,6 +2,9 @@ from flask import request, Response
 from functools import wraps
 from settings import *
 
+from database import *
+from models import Setting
+
 def check_auth(username, password):
     """This function is called to check if a username /
     password combination is valid.
@@ -51,3 +54,10 @@ def format_time(time):
     formatted_time += '%0*d' % (2, time['seconds'])
 
     return formatted_time
+
+def get_setting(key):
+    try:
+        return Setting.query.filter(Setting.key == key).first()
+
+    except:
+        return None

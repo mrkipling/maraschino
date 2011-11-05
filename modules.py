@@ -39,7 +39,7 @@ AVAILABLE_MODULES = [
         'poll': 350,
         'delay': 0,
         'settings': [
-            { 'num_recent_episodes': 5 },
+            { 'key': 'num_recent_episodes', 'value': 5 },
         ]
     },
     {
@@ -50,7 +50,7 @@ AVAILABLE_MODULES = [
         'poll': 10,
         'delay': 0,
         'settings': [
-            { 'sabnzbd_url': None },
+            { 'key': 'sabnzbd_url', 'value': '' },
         ]
     },
     {
@@ -69,9 +69,9 @@ AVAILABLE_MODULES = [
         'poll': 0,
         'delay': 0,
         'settings': [
-            { 'trakt_api_key': None },
-            { 'trakt_username': None },
-            { 'trakt_password': None },
+            { 'key': 'trakt_api_key', 'value': '' },
+            { 'key': 'trakt_username', 'value': '' },
+            { 'key': 'trakt_password', 'value': '' },
         ]
     },
 ]
@@ -123,6 +123,15 @@ def add_module():
     )
 
     db_session.add(module)
+
+    if 'settings' in module_info:
+        for s in module_info['settings']:
+            setting = get_setting(s['key'])
+
+            if not setting:
+                setting = Setting(s['key'], s['value'])
+                db_session.add(setting)
+
     db_session.commit()
 
     module_info['template'] = '%s.html' % (module_info['name'])
