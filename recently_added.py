@@ -21,6 +21,8 @@ def render_recently_added_episodes(offset=0):
     recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'lastplayed', 'thumbnail'])
     vfs_url = '%s/vfs/' % (SAFE_SERVER_ADDRESS)
 
+    NUM_RECENT_EPISODES = int(get_setting('num_recent_episodes').value)
+
     return render_template('recently_added.html',
         recently_added_episodes = recently_added_episodes['episodes'][offset:NUM_RECENT_EPISODES + offset],
         vfs_url = vfs_url,
