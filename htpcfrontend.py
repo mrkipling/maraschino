@@ -19,7 +19,6 @@ from trakt import *
 from modules import *
 from models import Module, Setting
 
-SHOW_CURRENTLY_PLAYING = True
 FANART_BACKGROUNDS = True
 
 @app.route('/')
@@ -37,7 +36,7 @@ def index():
 
     return render_template('index.html',
         modules = modules,
-        show_currently_playing = SHOW_CURRENTLY_PLAYING,
+        show_currently_playing = get_setting('server_hostname') != None,
         fanart_backgrounds = FANART_BACKGROUNDS,
         applications = APPLICATIONS,
     )
