@@ -203,11 +203,12 @@ def module_settings_dialog(name):
         module['poll'] = module_db.poll
         module['delay'] = module_db.delay
 
-        for s in module['settings']:
-            setting = get_setting(s['key'])
+        if 'settings' in module:
+            for s in module['settings']:
+                setting = get_setting(s['key'])
 
-            if setting:
-                s['value'] = setting.value
+                if setting:
+                    s['value'] = setting.value
 
         return render_template('module_settings_dialog.html',
             module = module,
