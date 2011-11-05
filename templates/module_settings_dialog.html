@@ -4,24 +4,43 @@
 
   <div class="inner">
 
-    {% if not module.static %}
+    {% if not module.static or module.settings %}
+      {% if not module.static %}
 
-      <div class="formrow">
-        <label for="id_poll">Poll frequency (seconds)</label>
-        <input id="id_poll" type="text" value="{{ module.poll }}">
+        <div class="formrow">
+          <label for="id_poll">Poll frequency (seconds)</label>
+          <input id="id_poll" type="text" value="{{ module.poll }}">
+        </div>
+
+        <div class="formrow">
+          <label for="id_delay">Delay in loading (seconds)</label>
+          <input id="id_delay" type="text" value="{{ module.delay }}">
+        </div>
+
+      {% endif %}
+      {% if module.settings %}
+
+        {% for setting in module.settings %}
+          <div class="formrow">
+            <label for="id_{{ setting.key }}">{{ setting.description }}</label>
+            <input id="id_{{ setting.key }}" type="text" value="{{ setting.value }}">
+          </div>
+        {% endfor %}
+
+      {% endif %}
+
+      <div class="choices">
+        <div class="save">Save</div>
+        <div class="cancel">Cancel</div>
       </div>
 
-      <div class="formrow">
-        <label for="id_delay">Delay in loading (seconds)</label>
-        <input id="id_delay" type="text" value="{{ module.delay }}">
-      </div>
+    {% else %}
+      <p>This module has no editable settings.</p>
 
+      <div class="choices">
+        <div class="cancel">Cancel</div>
+      </div>
     {% endif %}
-
-    <div class="choices">
-      <div class="save">Save</div>
-      <div class="cancel">Cancel</div>
-    </div>
 
   </div>
 

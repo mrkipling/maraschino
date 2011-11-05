@@ -39,7 +39,11 @@ AVAILABLE_MODULES = [
         'poll': 350,
         'delay': 0,
         'settings': [
-            { 'key': 'num_recent_episodes', 'value': 5 },
+            {
+                'key': 'num_recent_episodes',
+                'value': 5,
+                'description': 'Number of episodes to display',
+            },
         ]
     },
     {
@@ -50,7 +54,11 @@ AVAILABLE_MODULES = [
         'poll': 10,
         'delay': 0,
         'settings': [
-            { 'key': 'sabnzbd_url', 'value': '' },
+            {
+                'key': 'sabnzbd_url',
+                'value': '',
+                'description': 'SABnzbd URL',
+            },
         ]
     },
     {
@@ -69,9 +77,21 @@ AVAILABLE_MODULES = [
         'poll': 0,
         'delay': 0,
         'settings': [
-            { 'key': 'trakt_api_key', 'value': '' },
-            { 'key': 'trakt_username', 'value': '' },
-            { 'key': 'trakt_password', 'value': '' },
+            {
+                'key': 'trakt_api_key',
+                'value': '',
+                'description': 'Trakt API key',
+            },
+            {
+                'key': 'trakt_username',
+                'value': '',
+                'description': 'Trakt username',
+            },
+            {
+                'key': 'trakt_password',
+                'value': '',
+                'description': 'Trakt password',
+            },
         ]
     },
 ]
