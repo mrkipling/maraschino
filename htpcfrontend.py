@@ -17,7 +17,10 @@ from sabnzbd import *
 from trakt import *
 
 from modules import *
-from models import Module
+from models import Module, Setting
+
+SHOW_CURRENTLY_PLAYING = True
+FANART_BACKGROUNDS = True
 
 @app.route('/')
 @requires_auth

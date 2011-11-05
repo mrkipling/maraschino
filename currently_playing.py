@@ -9,7 +9,7 @@ from tools import *
 @app.route('/xhr/currently_playing')
 @requires_auth
 def xhr_currently_playing():
-    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
+    xbmc = jsonrpclib.Server(server_api_address())
 
     try:
         currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid', 'plot'])['item']
@@ -23,7 +23,7 @@ def xhr_currently_playing():
         return jsonify({ 'playing': False })
 
     try:
-        fanart = '%s/vfs/%s' % (SAFE_SERVER_ADDRESS, fanart_url)
+        fanart = '%s/vfs/%s' % (safe_server_address(), fanart_url)
 
     except:
         fanart = None

@@ -9,7 +9,7 @@ from tools import *
 @app.route('/xhr/play_episode/<int:episode_id>')
 @requires_auth
 def xhr_play_episode(episode_id):
-    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
+    xbmc = jsonrpclib.Server(server_api_address())
     xbmc.Playlist.Clear(playlistid=1)
 
     item = { 'episodeid': episode_id }
@@ -23,7 +23,7 @@ def xhr_play_episode(episode_id):
 @app.route('/xhr/play_movie/<int:movie_id>')
 @requires_auth
 def xhr_play_movie(movie_id):
-    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
+    xbmc = jsonrpclib.Server(server_api_address())
     xbmc.Playlist.Clear(playlistid=1)
 
     item = { 'movieid': movie_id }
@@ -37,7 +37,7 @@ def xhr_play_movie(movie_id):
 @app.route('/xhr/controls/<command>')
 @requires_auth
 def xhr_controls(command):
-    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
+    xbmc = jsonrpclib.Server(server_api_address())
 
     if command == 'play_pause':
         xbmc.Player.PlayPause(playerid=1)

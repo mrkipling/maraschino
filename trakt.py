@@ -10,7 +10,7 @@ from tools import *
 @requires_auth
 def xhr_trakt():
     trakt = {}
-    xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
+    xbmc = jsonrpclib.Server(server_api_address())
 
     TRAKT_API_KEY = get_setting('trakt_api_key').value
     TRAKT_USERNAME = get_setting('trakt_username').value

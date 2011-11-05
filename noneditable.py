@@ -1,19 +1,38 @@
 from settings import *
 from tools import *
 
-# construct a username/password, server address and API address
+from models import Module, Setting
 
-SERVER['username_password'] = ''
-if SERVER['username'] != None:
-    SERVER['username_password'] = SERVER['username']
-    if SERVER['password'] != None:
-        SERVER['username_password'] += ':' + SERVER['password']
-    SERVER['username_password'] += '@'
+def server_settings():
+    return {
+        'hostname': get_setting('server_hostname').value,
+        'port': get_setting('server_port').value,
+        'username': get_setting('server_username').value,
+        'password': get_setting('server_password').value,
+    }
 
-SERVER_ADDRESS = 'http://%s%s:%s' % (SERVER['username_password'], SERVER['hostname'], SERVER['port'])
-SERVER_API_ADDRESS = '%s/jsonrpc' % (SERVER_ADDRESS)
+def server_username_password():
+    username_password = ''
+    server = server_settings()
 
-SAFE_SERVER_ADDRESS = 'http://%s:%s' % (SERVER['hostname'], SERVER['port'])
+    if server['username'] != None:
+        username_password = server['username']
+        if server['password'] != None:
+            username_password += ':' + server['password']
+        username_password += '@'
 
-if using_auth():
-    SAFE_SERVER_ADDRESS = SERVER_ADDRESS
+    return username_password
+
+def server_address():
+    server = server_settings()
+    return 'http://%s%s:%s' % (server_username_password(), server['hostname'], server['port'])
+
+def server_api_address():
+    return '%s/jsonrpc' % (server_address())
+
+def safe_server_address():
+    if using_auth():
+        return server_address()
+
+    server = server_settings()
+    return 'http://%s:%s' % (server['hostname'], server['port'])
