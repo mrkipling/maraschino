@@ -58,3 +58,8 @@ APPLICATIONS = [
 #    'username': 'username',
 #    'password': 'password'
 #}
+
+# if you are using the dev server and want to run Maraschino on a different port
+# then change this setting
+
+PORT = 5000
