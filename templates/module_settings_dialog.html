@@ -23,7 +23,7 @@
         {% for setting in module.settings %}
           <div class="formrow">
             <label for="id_{{ setting.key }}">{{ setting.description }}</label>
-            <input id="id_{{ setting.key }}" name="{{ setting.key }}" type="text" value="{{ setting.value }}">
+            <input id="id_{{ setting.key }}" name="{{ setting.key }}" type="{% if "password" in setting.key %}password{% else %}text{% endif %}" value="{{ setting.value }}">
           </div>
         {% endfor %}
 
