@@ -60,6 +60,6 @@ APPLICATIONS = [
 #}
 
 # if you are using the dev server and want to run Maraschino on a different port
-# then change this setting
+# then enable this setting
 
-PORT = 5000
+#PORT = 5000

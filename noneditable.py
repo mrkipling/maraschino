@@ -31,3 +31,10 @@ for column in MODULES:
 
         if module['module'] in MANDATORY_STATIC_MODULES:
             module['static'] = True
+
+try:
+    if PORT:
+        pass
+
+except:
+    PORT = 5000
