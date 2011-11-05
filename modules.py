@@ -152,3 +152,36 @@ def remove_module(name):
     db_session.commit()
 
     return jsonify({ 'status': 'success' })
+
+@app.route('/xhr/module_settings_dialog/<name>')
+@requires_auth
+def module_settings_dialog(name):
+    module = get_module_info(name)
+
+    if module:
+        return render_template('module_settings_dialog.html',
+            module = module,
+        )
+
+    return jsonify({ 'status': 'error' })
+
+@app.route('/xhr/module_settings_cancel/<name>')
+@requires_auth
+def module_settings_cancel(name):
+    module = get_module_info(name)
+
+    if module:
+        module['template'] = '%s.html' % (module['name'])
+
+        return render_template('placeholder_template.html',
+            module = module,
+        )
+
+    return jsonify({ 'status': 'error' })
+
+def get_module_info(name):
+    for available_module in AVAILABLE_MODULES:
+        if name == available_module['name']:
+            return available_module
+
+    return None

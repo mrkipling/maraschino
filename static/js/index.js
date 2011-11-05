@@ -501,4 +501,26 @@ $(document).ready(function() {
     });
   });
 
+  // module settings
+
+  $('.module_settings').live('click', function() {
+    var module = $(this).closest('.module, .inactive_module, .placeholder');
+
+    $.get('/xhr/module_settings_dialog/' + module.data('module'), function(data) {
+      module.replaceWith(data);
+    });
+  });
+
+  // cancel settings
+
+  $('.edit_settings .choices .cancel').live('click', function() {
+    var module = $(this).closest('.module, .inactive_module, .placeholder');
+    console.log(module);
+
+    $.get('/xhr/module_settings_cancel/' + module.data('module'), function(data) {
+      module.replaceWith(data);
+      init_modules();
+    });
+  });
+
 });
