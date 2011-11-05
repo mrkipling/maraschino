@@ -1,4 +1,4 @@
-<div id="server_settings" class="module generic_module edit_settings">
+<div id="server_settings" class="module generic_module edit_settings" data-module="server_settings">
 
   <h2>Server settings</h2>
 
@@ -12,7 +12,11 @@
     {% endfor %}
 
     <div class="choices">
-      <div class="save">Save</div>
+      {% if updated %}
+        <div class="save saved">Settings saved</div>
+      {% else %}
+        <div class="save">Save</div>
+      {% endif %}
     </div>
 
   </form>

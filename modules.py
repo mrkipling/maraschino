@@ -280,16 +280,23 @@ def module_settings_save(name):
 
         else:
             setting = get_setting(s['name'])
+
+            if not setting:
+                setting = Setting(s['name'])
+
             setting.value = s['value']
             db_session.add(setting)
 
     db_session.commit()
 
+    if name == 'server_settings':
+        return server_settings_dialog(updated=True)
+
     return module_settings_cancel(name)
 
 @app.route('/xhr/server_settings_dialog')
 @requires_auth
-def server_settings_dialog():
+def server_settings_dialog(updated=False):
     settings = copy.copy(SERVER_SETTINGS)
 
     for s in settings:
@@ -300,6 +307,7 @@ def server_settings_dialog():
 
     return render_template('server_settings_dialog.html',
         server_settings = settings,
+        updated = updated,
     )
 
 def get_module(name):
