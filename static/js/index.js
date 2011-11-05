@@ -441,6 +441,7 @@ $(document).ready(function() {
       $('ul.modules').sortable({ disabled: false });
     } else {
       $('ul.modules').sortable({ disabled: true });
+      $('.edit_settings .choices .cancel').click();
     }
   });
 
