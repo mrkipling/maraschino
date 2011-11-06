@@ -56,7 +56,7 @@ AVAILABLE_MODULES = [
         'settings': [
             {
                 'key': 'sabnzbd_url',
-                'value': '',
+                'value': 'http://<hostname>:<port>/api?apikey=<apikeygoeshere>',
                 'description': 'SABnzbd URL',
             },
         ]
