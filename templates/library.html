@@ -19,7 +19,7 @@
 
       {% if library.seasons %}
         {% for item in library.seasons %}
-          <li class="get" data-command="shows/{{ item.tvshowid }}/{{ item.season }}">{{ item.label }}</li>
+          <li class="get" data-command="shows/{{ library.tvshowid }}/{{ item.season }}">{{ item.label }}</li>
         {% endfor %}
       {% endif %}
 

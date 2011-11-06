@@ -2,11 +2,13 @@ DATABASE = '/path/to/maraschino.db'
 
 APPLICATIONS = [
     {
+        'image':'/static/images/programs/XBMC.png',
         'name': 'XBMC',
         'url': 'http://server:port/',
         'description': 'Library view'
     },
     {
+        'image':'/static/images/programs/SabNZBd.png',
         'name': 'SABnzbd+',
         'url': 'http://server:port/',
         'description': 'Usenet binary client'
@@ -21,3 +23,8 @@ APPLICATIONS = [
 #    'username': 'username',
 #    'password': 'password'
 #}
+
+# if you are using the dev server and want to run Maraschino on a different port
+# then enable this setting
+
+#PORT = 5000

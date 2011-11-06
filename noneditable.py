@@ -36,3 +36,10 @@ def safe_server_address():
 
     server = server_settings()
     return 'http://%s:%s' % (server['hostname'], server['port'])
+
+try:
+    if PORT:
+        pass
+
+except:
+    PORT = 5000
