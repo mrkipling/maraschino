@@ -33,3 +33,20 @@ class Setting(Base):
 
     def __repr__(self):
         return '<Setting %r>' % (self.key)
+
+class Application(Base):
+    __tablename__ = 'applications'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100))
+    url = Column(String(1000))
+    description = Column(String(100))
+    image = Column(String(100))
+
+    def __init__(self, name=None, url=None, description=None, image=None):
+        self.name = name
+        self.url = url
+        self.description = description
+        self.image = image
+
+    def __repr__(self):
+        return '<Application %r>' % (self.name)
