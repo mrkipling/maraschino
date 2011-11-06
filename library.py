@@ -33,6 +33,7 @@ def xhr_library_root(item_type):
 def xhr_library_show(show):
     xbmc = jsonrpclib.Server(SERVER_API_ADDRESS)
     library = xbmc.VideoLibrary.GetSeasons(tvshowid=show, properties=['tvshowid', 'season', 'showtitle'])
+    library['tvshowid'] = show
 
     title = library['seasons'][0]['showtitle']
 
