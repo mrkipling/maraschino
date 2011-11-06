@@ -436,6 +436,7 @@ $(document).ready(function() {
 
   $('#settings_icon').live('click', function() {
     $('body').toggleClass('f_settings_mode');
+    $('#tutorial').remove();
 
     if ($('body').hasClass('f_settings_mode')) {
       $('ul.modules').sortable({ disabled: false });

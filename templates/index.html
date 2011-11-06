@@ -2,6 +2,13 @@
 
 {% block content %}
 
+{% if show_tutorial %}
+  <div id="tutorial">
+    <h1>Welcome to Maraschino</h1>
+    <p>To get started, hover over the top-left corner and click the cog icon to enter configuration mode.</p>
+  </div>
+{% endif %}
+
 <div id="wrapper" class="clearfix">
 
   {% with show_add = True %}

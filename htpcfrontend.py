@@ -25,6 +25,8 @@ def index():
     unorganised_modules = Module.query.order_by(Module.position)
     modules = [[],[],[]]
 
+    show_tutorial = unorganised_modules.count() == 0
+
     for module in unorganised_modules:
         module.template = '%s.html' % (module.name)
         modules[module.column - 1].append(module)
@@ -45,6 +47,7 @@ def index():
         show_currently_playing = get_setting('server_hostname') != None,
         fanart_backgrounds = fanart_backgrounds,
         applications = APPLICATIONS,
+        show_tutorial = show_tutorial,
     )
 
 @app.teardown_request
