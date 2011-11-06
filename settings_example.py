@@ -39,13 +39,13 @@ NUM_RECENT_EPISODES = 5
 # required for module 'applications'
 APPLICATIONS = [
     {
-		'image':'/static/images/programs/XBMC.png',
+        'image':'/static/images/programs/XBMC.png',
         'name': 'XBMC',
         'url': 'http://server:port/',
         'description': 'Library view'
     },
     {
-		'image':'/static/images/programs/SabNZBd.png',
+        'image':'/static/images/programs/SabNZBd.png',
         'name': 'SABnzbd+',
         'url': 'http://server:port/',
         'description': 'Usenet binary client'

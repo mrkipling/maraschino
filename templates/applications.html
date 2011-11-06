@@ -4,8 +4,12 @@
     <ul>
       {% for application in applications %}
         <li>
-          <a href="{{ application.url }}" class="clearfix"><span class="name"><img src="{{ application.image }}" height="20" width="20">  {{ application.name }}</span>
-          <span class="description">{{ application.description }}</span>
+          <a href="{{ application.url }}" class="clearfix">
+            <span class="name">
+              <img src="{{ application.image }}" height="20" width="20">
+              {{ application.name }}
+            </span>
+            <span class="description">{{ application.description }}</span>
           </a>
         </li>
         {% endfor %}
