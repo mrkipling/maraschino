@@ -32,7 +32,13 @@ def index():
         module_info = get_module_info(module.name)
         module.static = module_info['static']
 
-    fanart_backgrounds = get_setting('fanart_backgrounds').value == '1'
+    fanart_backgrounds = get_setting('fanart_backgrounds')
+
+    if fanart_backgrounds and fanart_backgrounds.value == '1':
+        fanart_backgrounds = True
+
+    else:
+        fanart_backgrounds = False
 
     return render_template('index.html',
         modules = modules,
