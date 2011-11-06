@@ -185,7 +185,13 @@ def add_module():
 
     module_info['template'] = '%s.html' % (module_info['name'])
 
-    return module_settings_dialog(module_info['name'])
+    if module_info['static'] and not 'settings' in module_info:
+        return render_template('placeholder_template.html',
+            module = module_info
+        )
+
+    else:
+        return module_settings_dialog(module_info['name'])
 
 @app.route('/xhr/rearrange_modules', methods=['POST'])
 @requires_auth
