@@ -462,10 +462,13 @@ $(document).ready(function() {
   $('.add_module').live('click', function() {
     var column = $(this).closest('.col').attr('id');
     $.get('/xhr/add_module_dialog', function(data) {
-      var popup = $(data);
-      $('body').append(popup);
-      popup.data('col', column.replace('col', ''));
-      popup.showPopup({ dispose: true });
+      var existing_dialog = $('#add_module_dialog').length > 0;
+      if (!existing_dialog) {
+        var popup = $(data);
+        $('body').append(popup);
+        popup.data('col', column.replace('col', ''));
+        popup.showPopup({ dispose: true });
+      }
     });
   });
 
