@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template
 import json, jsonrpclib, urllib
 
-from htpcfrontend import app
+from maraschino import app
 from settings import *
 from tools import *
 

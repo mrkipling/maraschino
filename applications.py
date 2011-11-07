@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 
-from htpcfrontend import app
+from maraschino import app
 from settings import *
 from tools import *
 

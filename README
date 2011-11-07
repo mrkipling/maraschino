@@ -38,7 +38,7 @@ What features does it have?
 * Customisable via a server-side settings file - choose which modules to display, in which
   column/order you would like them displayed, and how frequently each one should update
 
-Uses Flask. Just set up htpcfrontend.py to be served using Apache and mod_wsgi or however
+Uses Flask. Just set up maraschino.py to be served using Apache and mod_wsgi or however
 your prefer to do it.
 
 This is an early-stage work-in-progress - if you run into any problems then let me know,

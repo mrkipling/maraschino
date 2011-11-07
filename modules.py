@@ -2,7 +2,7 @@ from flask import Flask, jsonify, render_template, request
 from database import db_session
 import copy, json
 
-from htpcfrontend import app
+from maraschino import app
 from settings import *
 from tools import *
 
