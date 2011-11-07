@@ -14,7 +14,12 @@ def xhr_library():
 @app.route('/xhr/library/<item_type>')
 @requires_auth
 def xhr_library_root(item_type):
-    xbmc = jsonrpclib.Server(server_api_address())
+    api_address = server_api_address()
+
+    if not api_address:
+        return render_library(message="You need to configure XBMC server setings first.")
+
+    xbmc = jsonrpclib.Server(api_address)
     library = []
     title = "Movies"
 
@@ -52,8 +57,9 @@ def xhr_library_season(show, season):
 
     return render_library(library, title)
 
-def render_library(library=None, title="Media library"):
+def render_library(library=None, title="Media library", message=None):
     return render_template('library.html',
         library = library,
         title = title,
+        message = message,
     )

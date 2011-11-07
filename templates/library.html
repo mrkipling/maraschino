@@ -1,3 +1,5 @@
+
+
 <div id="library" class="module" data-module="library">
 
   <div class="module_settings"><span>Settings</span></div>
@@ -6,6 +8,10 @@
   {% if library %}
 
     <h2>{{ title }}</h2>
+
+    {% if message %}
+      <p class="message">{{ message }}</p>
+    {% endif %}
 
     <div class="back">&laquo;</div>
 
@@ -40,6 +46,10 @@
   {% else %}
 
     <h2>Media library</h2>
+
+    {% if message %}
+      <p class="message">{{ message }}</p>
+    {% endif %}
 
     <ul>
       <li class="get" data-command="movies">Movies</li>
