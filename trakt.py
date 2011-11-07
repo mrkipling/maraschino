@@ -70,6 +70,7 @@ def xhr_trakt():
     try:
         if not trakt['shouts'] and not show_add_shout:
             trakt = None
+
     except:
         pass
 
@@ -116,6 +117,6 @@ def xhr_trakt_add_shout():
             return xhr_trakt()
 
     except:
-        return jsonify({ 'status': 'error' })
+        pass
 
     return jsonify({ 'status': 'error' })
