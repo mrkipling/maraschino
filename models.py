@@ -41,6 +41,7 @@ class Application(Base):
     url = Column(String(1000))
     description = Column(String(100))
     image = Column(String(100))
+    position = Column(Integer)
 
     def __init__(self, name=None, url=None, description=None, image=None):
         self.name = name

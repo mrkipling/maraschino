@@ -46,7 +46,7 @@ def index():
         modules = modules,
         show_currently_playing = get_setting('server_hostname') != None,
         fanart_backgrounds = fanart_backgrounds,
-        applications = APPLICATIONS,
+        #applications = APPLICATIONS,
         show_tutorial = show_tutorial,
     )
 
