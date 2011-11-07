@@ -42,11 +42,19 @@ def index():
     else:
         fanart_backgrounds = False
 
+    applications = []
+
+    try:
+        applications = Application.query.order_by(Application.position)
+
+    except:
+        pass
+
     return render_template('index.html',
         modules = modules,
         show_currently_playing = True,
         fanart_backgrounds = fanart_backgrounds,
-        #applications = APPLICATIONS,
+        applications = applications,
         show_tutorial = show_tutorial,
     )
 
