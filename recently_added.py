@@ -17,10 +17,8 @@ def xhr_recently_added_offset(offset):
     return render_recently_added_episodes(offset)
 
 def render_recently_added_episodes(offset=0):
-    api_address = server_api_address()
-
-    if api_address:
-        xbmc = jsonrpclib.Server(api_address)
+    try:
+        xbmc = jsonrpclib.Server(server_api_address())
         recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'lastplayed', 'thumbnail'])
         vfs_url = '%s/vfs/' % (safe_server_address())
 
@@ -32,7 +30,7 @@ def render_recently_added_episodes(offset=0):
 
         recently_added_episodes = recently_added_episodes['episodes'][offset:NUM_RECENT_EPISODES + offset]
 
-    else:
+    except:
         recently_added_episodes = []
         vfs_url = None
 
