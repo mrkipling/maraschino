@@ -9,14 +9,13 @@ from tools import *
 @app.route('/xhr/currently_playing')
 @requires_auth
 def xhr_currently_playing():
-    api_address = server_api_address()
-
-    if not api_address:
-        return jsonify({ 'playing': False })
-
-    xbmc = jsonrpclib.Server(api_address)
-
     try:
+        api_address = server_api_address()
+
+        if not api_address:
+            raise Exception
+
+        xbmc = jsonrpclib.Server(api_address)
         currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid', 'plot'])['item']
         fanart_url = currently_playing['fanart']
 
