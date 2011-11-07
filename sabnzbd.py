@@ -10,7 +10,7 @@ from tools import *
 def xhr_sabnzbd():
     SABNZBD_URL = get_setting('sabnzbd_url').value
 
-    if SABNZBD_URL:
+    try:
         url = '%s&mode=qstatus&output=json' % (SABNZBD_URL)
         result = urllib.urlopen(url).read()
         sabnzbd = json.JSONDecoder().decode(result)
@@ -20,7 +20,7 @@ def xhr_sabnzbd():
         if sabnzbd['jobs']:
             percentage_total = int(100 - (sabnzbd['mbleft'] / sabnzbd['mb'] * 100))
 
-    else:
+    except:
         sabnzbd = None
         percentage_total = None
 
