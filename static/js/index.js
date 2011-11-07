@@ -565,6 +565,7 @@ $(document).ready(function() {
     $.post('/xhr/add_application', settings, function(data) {
       if (!data.status) {
         $('#applications').replaceWith(data);
+        $('#add_edit_application_dialog .close').click();
       }
     });
   });
