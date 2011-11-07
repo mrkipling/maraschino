@@ -560,4 +560,13 @@ $(document).ready(function() {
     });
   });
 
+  $('#add_edit_application_dialog .choices .save').live('click', function() {
+    var settings = $('#add_edit_application_dialog form').serialize();
+    $.post('/xhr/add_application', settings, function(data) {
+      if (!data.status) {
+        $('#applications').replaceWith(data);
+      }
+    });
+  });
+
 });

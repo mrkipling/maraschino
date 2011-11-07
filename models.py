@@ -42,11 +42,12 @@ class Application(Base):
     image = Column(String(100))
     position = Column(Integer)
 
-    def __init__(self, name, url, description=None, image=None):
+    def __init__(self, name, url, description=None, image=None, position=None):
         self.name = name
         self.url = url
         self.description = description
         self.image = image
+        self.position = position
 
     def __repr__(self):
         return '<Application %r>' % (self.name)
