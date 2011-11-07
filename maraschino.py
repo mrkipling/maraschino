@@ -25,22 +25,13 @@ def index():
     unorganised_modules = Module.query.order_by(Module.position)
     modules = [[],[],[]]
 
-    show_tutorial = unorganised_modules.count() == 0
-
     for module in unorganised_modules:
+        module_info = get_module_info(module.name)
         module.template = '%s.html' % (module.name)
+        module.static = module_info['static']
         modules[module.column - 1].append(module)
 
-        module_info = get_module_info(module.name)
-        module.static = module_info['static']
-
-    fanart_backgrounds = get_setting('fanart_backgrounds')
-
-    if fanart_backgrounds and fanart_backgrounds.value == '1':
-        fanart_backgrounds = True
-
-    else:
-        fanart_backgrounds = False
+    fanart_backgrounds = get_setting_value('fanart_backgrounds') == '1'
 
     applications = []
 
@@ -55,7 +46,7 @@ def index():
         show_currently_playing = True,
         fanart_backgrounds = fanart_backgrounds,
         applications = applications,
-        show_tutorial = show_tutorial,
+        show_tutorial = unorganised_modules.count() == 0,
     )
 
 @app.teardown_request
