@@ -45,15 +45,20 @@ def add_edit_application(application=None):
     url = request.form['url']
     description = request.form['description']
     image = request.form['image']
+    position = request.form['position']
 
     if name == '' or url == '':
         return jsonify({ 'status': 'error' })
+
+    if position == '':
+        position = None
 
     application = Application(
         name,
         url,
         description,
         image,
+        position,
     )
 
     db_session.add(application)

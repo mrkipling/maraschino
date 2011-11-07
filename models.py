@@ -47,6 +47,17 @@ class Application(Base):
         self.url = url
         self.description = description
         self.image = image
+
+        if position == None:
+            highest_position = 0
+            applications = Application.query.all()
+
+            for application in applications:
+                if application.position > highest_position:
+                    highest_position = application.position
+
+            position = highest_position + 1
+
         self.position = position
 
     def __repr__(self):
