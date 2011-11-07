@@ -82,6 +82,10 @@ def xhr_trakt():
 @app.route('/xhr/trakt/add_shout', methods=['POST'])
 @requires_auth
 def xhr_trakt_add_shout():
+    TRAKT_API_KEY = get_setting_value('trakt_api_key')
+    TRAKT_USERNAME = get_setting_value('trakt_username')
+    TRAKT_PASSWORD = get_setting_value('trakt_password')
+
     try:
         itemtype = request.form['type']
 
