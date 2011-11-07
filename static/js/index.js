@@ -441,13 +441,19 @@ $(document).ready(function() {
     if ($('body').hasClass('f_settings_mode')) {
       $('ul.modules').sortable({ disabled: false });
       $.get('/xhr/server_settings_dialog', function(data) {
-        $('#col1 ul.modules').prepend('<li>' + data + '</li>');
+        var existing_server_settings = $('#server_settings').closest('li');
+
+        if (existing_server_settings.length === 0) {
+          var existing_server_settings = $('#col1 ul.modules').prepend('<li>').find('li:first-child');
+        }
+
+        existing_server_settings.empty().append(data);
       });
 
     } else {
       $('ul.modules').sortable({ disabled: true });
       $('.edit_settings .choices .cancel').click();
-      $('#server_settings').remove();
+      $('#server_settings').closest('li').remove();
     }
   });
 
