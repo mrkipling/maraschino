@@ -8,9 +8,12 @@ from tools import *
 @app.route('/xhr/sabnzbd')
 @requires_auth
 def xhr_sabnzbd():
-    SABNZBD_URL = get_setting('sabnzbd_url').value
+    SABNZBD_URL = get_setting_value('sabnzbd_url')
 
     try:
+        if SABNZBD_URL == None:
+            raise Exception
+
         url = '%s&mode=qstatus&output=json' % (SABNZBD_URL)
         result = urllib.urlopen(url).read()
         sabnzbd = json.JSONDecoder().decode(result)
