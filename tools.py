@@ -64,7 +64,12 @@ def get_setting(key):
 
 def get_setting_value(key):
     try:
-        return Setting.query.filter(Setting.key == key).first().value
+        value = Setting.query.filter(Setting.key == key).first().value
+
+        if value == '':
+            return None
+
+        return value
 
     except:
         return None

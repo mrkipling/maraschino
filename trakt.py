@@ -10,11 +10,22 @@ from tools import *
 @requires_auth
 def xhr_trakt():
     trakt = {}
-    xbmc = jsonrpclib.Server(server_api_address())
+    TRAKT_API_KEY = None
 
-    TRAKT_API_KEY = get_setting('trakt_api_key').value
-    TRAKT_USERNAME = get_setting('trakt_username').value
-    TRAKT_PASSWORD = get_setting('trakt_password').value
+    try:
+        xbmc = jsonrpclib.Server(server_api_address())
+        TRAKT_API_KEY = get_setting_value('trakt_api_key')
+
+        if not TRAKT_API_KEY:
+            raise Exception()
+
+    except:
+        return render_template('trakt.html',
+            trakt = trakt,
+        )
+
+    TRAKT_USERNAME = get_setting_value('trakt_username')
+    TRAKT_PASSWORD = get_setting_value('trakt_password')
 
     try:
         currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['tvshowid', 'season', 'episode', 'imdbnumber', 'title'])['item']
@@ -28,7 +39,7 @@ def xhr_trakt():
     except:
         currently_playing = None
 
-    if currently_playing and TRAKT_API_KEY != '':
+    if currently_playing and TRAKT_API_KEY:
         trakt['title'] = currently_playing['title']
 
         if currently_playing['tvshowid'] != -1:
@@ -50,7 +61,7 @@ def xhr_trakt():
     show_add_shout = False
 
     try:
-        if TRAKT_PASSWORD != '':
+        if TRAKT_PASSWORD:
             show_add_shout = True
 
     except:
