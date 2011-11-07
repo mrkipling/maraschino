@@ -356,34 +356,6 @@ ul.modules
   text-align: center;
 }
 
-#confirmation_dialog .choices
-{
-  text-align: center;
-}
-
-#confirmation_dialog .choices .confirm,
-#confirmation_dialog .choices .cancel
-{
-  background: url(/static/images/alpha/fff_20.png);
-  display: inline-block;
-  padding: 8px;
-  width: 60px;
-
-  .border-radius(4px);
-}
-
-#confirmation_dialog .choices .confirm:hover,
-#confirmation_dialog .choices .cancel:hover
-{
-  background: url(/static/images/alpha/fff_40.png);
-  cursor: pointer;
-}
-
-#confirmation_dialog .choices .confirm
-{
-  margin-right: 10px;
-}
-
 
 
 
@@ -431,14 +403,21 @@ ul.modules
   padding: 0 15px 15px;
 }
 
-.edit_settings .choices
+
+
+
+
+/*--- generic formrow/choices ---*/
+
+.choices
 {
   margin-top: 20px;
   text-align: center;
 }
 
-.edit_settings .choices .save,
-.edit_settings .choices .cancel
+.choices .save,
+.choices .confirm,
+.choices .cancel
 {
   background: url(/static/images/alpha/fff_20.png);
   display: inline-block;
@@ -448,38 +427,41 @@ ul.modules
   .border-radius(4px);
 }
 
-.edit_settings .choices .save:hover,
-.edit_settings .choices .cancel:hover
+.choices .save:hover,
+.choices .confirm:hover,
+.choices .cancel:hover
 {
   background: url(/static/images/alpha/fff_40.png);
   cursor: pointer;
 }
 
-.edit_settings .choices .save
+.choices .save,
+.choices .confirm
 {
   margin-right: 10px;
 }
 
-.edit_settings .choices .saved
+.choices .saved,
+.choices .confirmed
 {
   width: 110px;
 }
 
-.edit_settings .formrow
+.formrow
 {
   margin-top: 5px;
 }
 
-.edit_settings .formrow label
+.formrow label
 {
   float: left;
   margin-top: 6px;
   width: 33%;
 }
 
-.edit_settings .formrow input[type=text],
-.edit_settings .formrow input[type=password],
-.edit_settings .formrow select
+.formrow input[type=text],
+.formrow input[type=password],
+.formrow select
 {
   background-color: #fff;
   border: 1px solid #555;
@@ -490,7 +472,7 @@ ul.modules
   .border-radius(3px);
 }
 
-.edit_settings .formrow select
+.formrow select
 {
   padding: 3px 6px;
   width: auto;
