@@ -550,7 +550,7 @@ $(document).ready(function() {
     });
   });
 
-  // add application
+  // add/edit application
 
   $('#add_application').live('click', function() {
     $.get('/xhr/add_application_dialog', function(data) {
@@ -560,9 +560,18 @@ $(document).ready(function() {
     });
   });
 
+  $('.f_settings_mode #applications li a').live('click', function() {
+    $.get('/xhr/edit_application_dialog/' + $(this).data('id'), function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+    return false;
+  });
+
   $('#add_edit_application_dialog .choices .save').live('click', function() {
     var settings = $('#add_edit_application_dialog form').serialize();
-    $.post('/xhr/add_application', settings, function(data) {
+    $.post('/xhr/add_edit_application', settings, function(data) {
       if (!data.status) {
         $('#applications').replaceWith(data);
         $('#add_edit_application_dialog .close').click();

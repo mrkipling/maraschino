@@ -20,27 +20,28 @@ def xhr_applications():
 def add_application_dialog():
     return add_edit_application_dialog()
 
-@app.route('/xhr/edit_application_dialog/<application>')
+@app.route('/xhr/edit_application_dialog/<application_id>')
 @requires_auth
-def edit_application_dialog(application):
-    return add_edit_application_dialog(application)
+def edit_application_dialog(application_id):
+    return add_edit_application_dialog(application_id)
 
-def add_edit_application_dialog(application=None):
+def add_edit_application_dialog(application_id=None):
+    application = None
+
+    if application_id:
+        try:
+            application = Application.query.filter(Application.id == application_id).first()
+
+        except:
+            pass
+
     return render_template('add_edit_application_dialog.html',
-        application = None,
+        application = application,
     )
 
-@app.route('/xhr/add_application', methods=['POST'])
+@app.route('/xhr/add_edit_application', methods=['POST'])
 @requires_auth
-def add_application():
-    return add_edit_application()
-
-@app.route('/xhr/edit_application/<application>', methods=['POST'])
-@requires_auth
-def edit_application():
-    return add_edit_application(application)
-
-def add_edit_application(application=None):
+def add_edit_application():
     name = request.form['name']
     url = request.form['url']
     description = request.form['description']
@@ -53,13 +54,22 @@ def add_edit_application(application=None):
     if position == '':
         position = None
 
-    application = Application(
-        name,
-        url,
-        description,
-        image,
-        position,
-    )
+    if 'application_id' in request.form:
+        application = Application.query.filter(Application.id == request.form['application_id']).first()
+        application.name = name
+        application.url = url
+        application.description = description
+        application.image = image
+        application.position = position
+
+    else:
+        application = Application(
+            name,
+            url,
+            description,
+            image,
+            position,
+        )
 
     db_session.add(application)
     db_session.commit()
