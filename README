@@ -35,8 +35,7 @@ What features does it have?
 * Full-screen background image changes to the fanart of what you're currently watching (optional,
   can be turned off)
 
-* Customisable via a server-side settings file - choose which modules to display, in which
-  column/order you would like them displayed, and how frequently each one should update
+* Customisable from within the application itself - no need to mess around with settings files
 
 Uses Flask. Just set up maraschino.py to be served using Apache and mod_wsgi or however
 your prefer to do it.
