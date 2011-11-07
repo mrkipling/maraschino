@@ -12,3 +12,18 @@ def xhr_applications():
     return render_template('applications.html',
         applications = applications,
     )
+
+@app.route('/xhr/add_application_dialog')
+@requires_auth
+def add_application_dialog():
+    return add_edit_application_dialog()
+
+@app.route('/xhr/edit_application_dialog/<application>')
+@requires_auth
+def edit_application_dialog(application):
+    return add_edit_application_dialog(application)
+
+def add_edit_application_dialog(application=None):
+    return render_template('add_edit_application_dialog.html',
+        application = None,
+    )

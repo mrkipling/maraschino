@@ -1,0 +1,36 @@
+<div id="add_edit_application_dialog" class="dialog">
+
+  <div class="close">x</div>
+
+  <h2>{% if application %}Edit{% else %}Add{% endif %} application</h2>
+
+  <form method="" action="">
+
+    <div class="formrow">
+      <label for="id_application_name">Name</label>
+      <input id="id_application_name" type="text">
+    </div>
+
+    <div class="formrow">
+      <label for="id_application_description">Description</label>
+      <input id="id_application_description" type="text">
+    </div>
+
+    <div class="formrow">
+      <label for="id_application_url">URL</label>
+      <input id="id_application_url" type="text">
+    </div>
+
+    <div class="formrow">
+      <label for="id_application_image">Image</label>
+      <input id="id_application_image" type="text">
+    </div>
+
+    <div class="choices">
+      <div class="save add_application">Add application</div>
+      <div class="cancel">Cancel</div>
+    </div>
+
+  </form>
+
+</div>

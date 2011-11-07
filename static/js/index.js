@@ -544,4 +544,14 @@ $(document).ready(function() {
     });
   });
 
+  // add application
+
+  $('#add_application').live('click', function() {
+    $.get('/xhr/add_application_dialog', function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
 });
