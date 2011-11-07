@@ -149,15 +149,12 @@ def add_module():
         column = request.form['column']
         position = request.form['position']
 
-        module_info = None
+        # make sure that it's a valid module
 
-        for available_module in AVAILABLE_MODULES:
-            if module_id == available_module['name']:
-                module_info = available_module
-                break
+        module_info = get_module_info(module_id)
 
         if not module_info:
-            return jsonify({ 'status': 'error' })
+            raise Exception
 
     except:
         return jsonify({ 'status': 'error' })
@@ -172,6 +169,9 @@ def add_module():
 
     db_session.add(module)
 
+    # if module template has extra settings then create them in the database
+    # with default values if they don't already exist
+
     if 'settings' in module_info:
         for s in module_info['settings']:
             setting = get_setting(s['key'])
@@ -184,10 +184,15 @@ def add_module():
 
     module_info['template'] = '%s.html' % (module_info['name'])
 
+    # if the module is static and doesn't have any extra settings, return
+    # the rendered module
+
     if module_info['static'] and not 'settings' in module_info:
         return render_template('placeholder_template.html',
             module = module_info
         )
+
+    # otherwise return the rendered module settings dialog
 
     else:
         return module_settings_dialog(module_info['name'])
@@ -231,9 +236,17 @@ def module_settings_dialog(name):
     module_db = get_module(name)
 
     if module_info and module_db:
+
+        # look at the module template so we know what settings to look up
+
         module = copy.copy(module_info)
+
+        # look up poll and delay from the database
+
         module['poll'] = module_db.poll
         module['delay'] = module_db.delay
+
+        # iterate through possible settings and get values from database
 
         if 'settings' in module:
             for s in module['settings']:
@@ -272,6 +285,9 @@ def module_settings_save(name):
         return jsonify({ 'status': 'error' })
 
     for s in settings:
+
+        # poll and delay are stored in the modules tables
+
         if s['name'] == 'poll' or s['name'] == 'delay':
             module = get_module(name)
 
@@ -282,6 +298,8 @@ def module_settings_save(name):
                 module.delay = int(s['value'])
 
             db_session.add(module)
+
+        # other settings are stored in the settings table
 
         else:
             setting = get_setting(s['name'])
@@ -294,8 +312,13 @@ def module_settings_save(name):
 
     db_session.commit()
 
+    # you can't cancel server settings - instead, return an updated template
+    # with 'Settings saved' text on the button
+
     if name == 'server_settings':
         return server_settings_dialog(updated=True)
+
+    # for everything else, return the rendered module
 
     return module_settings_cancel(name)
 
@@ -315,12 +338,16 @@ def server_settings_dialog(updated=False):
         updated = updated,
     )
 
+# helper method which returns a module record from the database
+
 def get_module(name):
     try:
         return Module.query.filter(Module.name == name).first()
 
     except:
         return None
+
+# helper method which returns a module template
 
 def get_module_info(name):
     for available_module in AVAILABLE_MODULES:
