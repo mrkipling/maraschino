@@ -528,13 +528,18 @@ $(document).ready(function() {
 
   $('.edit_settings .choices .save').live('click', function() {
     var module = $(this).closest('.module, .inactive_module, .placeholder');
+    var module_name = module.data('module');
     var settings = module.find('form').serializeArray();
 
-    $.post('/xhr/module_settings_save/' + module.data('module'),
+    $.post('/xhr/module_settings_save/' + module_name,
       { settings: JSON.stringify(settings) },
       function(data) {
         module.replaceWith(data);
         init_modules();
+
+        if (module_name == 'server_settings') {
+          get_module('recently_added');
+        }
       }
     );
   });
