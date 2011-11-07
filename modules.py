@@ -119,7 +119,7 @@ SERVER_SETTINGS = [
     },
     {
         'key': 'fanart_backgrounds',
-        'value': '0',
+        'value': '1',
         'description': 'Show fanart backgrounds',
         'type': 'bool',
     },
