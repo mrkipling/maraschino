@@ -10,9 +10,8 @@ class Module(Base):
     poll = Column(Integer)
     delay = Column(Integer)
 
-    def __init__(self, name=None, static=0, column=None, position=None, poll=None, delay=None):
+    def __init__(self, name, column, position=None, poll=None, delay=None):
         self.name = name
-        self.static = static
         self.column = column
         self.position = position
         self.poll = poll
@@ -27,7 +26,7 @@ class Setting(Base):
     key = Column(String(100), unique=True)
     value = Column(String(500))
 
-    def __init__(self, key=None, value=None):
+    def __init__(self, key, value=None):
         self.key = key
         self.value = value
 
@@ -43,7 +42,7 @@ class Application(Base):
     image = Column(String(100))
     position = Column(Integer)
 
-    def __init__(self, name=None, url=None, description=None, image=None):
+    def __init__(self, name, url, description=None, image=None):
         self.name = name
         self.url = url
         self.description = description

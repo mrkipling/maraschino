@@ -61,3 +61,10 @@ def get_setting(key):
 
     except:
         return None
+
+def get_setting_value(key):
+    try:
+        return Setting.query.filter(Setting.key == key).first().value
+
+    except:
+        return None

@@ -164,7 +164,6 @@ def add_module():
 
     module = Module(
         module_info['name'],
-        module_info['static'],
         column,
         position,
         module_info['poll'],
