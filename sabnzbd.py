@@ -19,6 +19,9 @@ def xhr_sabnzbd():
         sabnzbd = json.JSONDecoder().decode(result)
 
         percentage_total = 0
+        download_speed = '%s kB/s' % (int(sabnzbd['kbpersec']))
+        if sabnzbd['paused']:
+            download_speed = "PAUSED"
 
         if sabnzbd['jobs']:
             percentage_total = int(100 - (sabnzbd['mbleft'] / sabnzbd['mb'] * 100))
@@ -26,8 +29,11 @@ def xhr_sabnzbd():
     except:
         sabnzbd = None
         percentage_total = None
+        download_speed = None
 
     return render_template('sabnzbd.html',
         sabnzbd = sabnzbd,
         percentage_total = percentage_total,
+        download_speed = download_speed,
     )
+
