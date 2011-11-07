@@ -20,6 +20,7 @@ def xhr_sabnzbd():
 
         percentage_total = 0
         download_speed = '%s kB/s' % (int(sabnzbd['kbpersec']))
+
         if sabnzbd['paused']:
             download_speed = "PAUSED"
 
@@ -36,4 +37,3 @@ def xhr_sabnzbd():
         percentage_total = percentage_total,
         download_speed = download_speed,
     )
-
