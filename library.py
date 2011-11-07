@@ -19,17 +19,21 @@ def xhr_library_root(item_type):
     if not api_address:
         return render_library(message="You need to configure XBMC server setings first.")
 
-    xbmc = jsonrpclib.Server(api_address)
-    library = []
-    title = "Movies"
+    try:
+        xbmc = jsonrpclib.Server(api_address)
+        library = []
+        title = "Movies"
 
-    if item_type == 'movies':
-        sort = { 'method': 'label' }
-        library = xbmc.VideoLibrary.GetMovies(sort=sort)
+        if item_type == 'movies':
+            sort = { 'method': 'label' }
+            library = xbmc.VideoLibrary.GetMovies(sort=sort)
 
-    if item_type == 'shows':
-        title = "TV shows"
-        library = xbmc.VideoLibrary.GetTVShows()
+        if item_type == 'shows':
+            title = "TV shows"
+            library = xbmc.VideoLibrary.GetTVShows()
+
+    except:
+        return render_library(message="There was a problem connecting to the XBMC server.")
 
     return render_library(library, title)
 
