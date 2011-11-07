@@ -444,7 +444,7 @@ $(document).ready(function() {
         var existing_server_settings = $('#server_settings').closest('li');
 
         if (existing_server_settings.length === 0) {
-          var existing_server_settings = $('#col1 ul.modules').prepend('<li>').find('li:first-child');
+          var existing_server_settings = $('#col1 ul.modules').prepend('<li>').find('> li:first-child');
         }
 
         existing_server_settings.empty().append(data);
