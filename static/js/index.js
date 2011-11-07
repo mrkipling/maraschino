@@ -30,6 +30,25 @@ $(document).ready(function() {
     });
   }
 
+  function validate_form(form) {
+    var valid = true;
+    var required = $(form).find('.required');
+
+    required.each(function() {
+      var formrow = $(this).closest('.formrow');
+
+      if ($(this).val() == '') {
+        valid = false;
+        formrow.addClass('invalid');
+
+      } else {
+        formrow.removeClass('invalid');
+      }
+    });
+
+    return valid;
+  }
+
   // get/poll module
 
   function get_module(module, customsettings) {
@@ -578,7 +597,13 @@ $(document).ready(function() {
   });
 
   $('#add_edit_application_dialog .choices .save').live('click', function() {
-    var settings = $('#add_edit_application_dialog form').serialize();
+    var form = $('#add_edit_application_dialog form');
+
+    if (!validate_form(form)) {
+      return false;
+    }
+
+    var settings = form.serialize();
     $.post('/xhr/add_edit_application', settings, function(data) {
       if (!data.status) {
         $('#applications').replaceWith(data);

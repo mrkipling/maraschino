@@ -12,12 +12,12 @@
 
     <div class="formrow">
       <label for="id_application_name">Name (required)</label>
-      <input id="id_application_name" name="name" type="text"{% if application %} value="{{ application.name }}"{% endif %}>
+      <input id="id_application_name" class="required" name="name" type="text"{% if application %} value="{{ application.name }}"{% endif %}>
     </div>
 
     <div class="formrow">
       <label for="id_application_url">URL (required)</label>
-      <input id="id_application_url" name="url" type="text"{% if application %} value="{{ application.url }}"{% endif %}>
+      <input id="id_application_url" class="required" name="url" type="text"{% if application %} value="{{ application.url }}"{% endif %}>
     </div>
 
     <div class="formrow">
