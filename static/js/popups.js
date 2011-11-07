@@ -10,7 +10,7 @@ jQuery.blankScreen = function(settings)
   var blank_screen = {
     clear: false,
     color: '#000',
-    opacity: 0.25
+    opacity: 0.75
   };
 
   if (settings !== undefined) { jQuery.extend(blank_screen, settings); }
