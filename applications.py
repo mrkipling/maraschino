@@ -4,6 +4,8 @@ from maraschino import app
 from settings import *
 from tools import *
 
+from models import Application
+
 @app.route('/xhr/applications')
 @requires_auth
 def xhr_applications():
