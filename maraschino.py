@@ -44,7 +44,7 @@ def index():
 
     return render_template('index.html',
         modules = modules,
-        show_currently_playing = get_setting('server_hostname') != None,
+        show_currently_playing = True,
         fanart_backgrounds = fanart_backgrounds,
         #applications = APPLICATIONS,
         show_tutorial = show_tutorial,
