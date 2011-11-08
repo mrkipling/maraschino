@@ -11,6 +11,7 @@ from tools import *
 from applications import *
 from controls import *
 from currently_playing import *
+from diskspace import *
 from library import *
 from recently_added import *
 from sabnzbd import *

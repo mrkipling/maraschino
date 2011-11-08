@@ -24,6 +24,14 @@ AVAILABLE_MODULES = [
         'delay': 0,
     },
     {
+        'name': 'diskspace',
+        'label': 'Disk space',
+        'description': 'Shows you available disk space on your various drives.',
+        'static': False,
+        'poll': 350,
+        'delay': 0,
+    },
+    {
         'name': 'library',
         'label': 'Media library',
         'description': 'Allows you to browse your media library and select items to play in XBMC.',
