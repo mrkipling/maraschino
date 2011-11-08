@@ -6,10 +6,16 @@ from settings import *
 from noneditable import *
 from tools import *
 
+from models import Disk
+
 @app.route('/xhr/diskspace')
 @requires_auth
 def xhr_diskspace():
-    disks = [disk_usage('/')]
+    disks = []
+    disks_db = Disk.query.order_by(Disk.position)
+
+    if disks_db.count() > 0:
+        disks.append(disk_usage(disks_db.path))
 
     return render_template('diskspace.html',
         disks = disks,

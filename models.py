@@ -62,3 +62,27 @@ class Application(Base):
 
     def __repr__(self):
         return '<Application %r>' % (self.name)
+
+class Disk(Base):
+    __tablename__ = 'disks'
+    id = Column(Integer, primary_key=True)
+    path = Column(String(500))
+    position = Column(Integer)
+
+    def __init__(self, path, position=None):
+        self.path = path
+
+        if position == None:
+            highest_position = 0
+            applications = Application.query.all()
+
+            for application in applications:
+                if application.position > highest_position:
+                    highest_position = application.position
+
+            position = highest_position + 1
+
+        self.position = position
+
+    def __repr__(self):
+        return '<Disk %r>' % (self.path)
