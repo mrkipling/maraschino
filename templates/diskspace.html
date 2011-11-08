@@ -1,4 +1,4 @@
-<div id="diskspace" class="module" data-module="diskspace">
+<div id="diskspace" class="module generic" data-module="diskspace">
 
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
@@ -6,6 +6,24 @@
   <h2>Disk space</h2>
 
   <div class="inner">
+
+    <ul>
+      {% for disk in disks %}
+        <li>
+          <div class="clearfix">
+            <div class="path">{{ disk.path }}</div>
+            <div class="stats">
+              {{ disk.used }} GB used,
+              {{ disk.free }} GB free
+            </div>
+          </div>
+          <div class="bar">
+            <div class="inner" style="width: {{ disk.percentage_used }}%;"></div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
   </div>
 
 </div>

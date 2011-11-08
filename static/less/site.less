@@ -905,6 +905,23 @@ ul.episodes img
   margin-top: 0;
 }
 
+/* generic bar */
+
+.module .bar
+{
+  border: 1px solid #777;
+  height: 5px;
+  margin-bottom: 17px 0 6px;
+
+  .border-radius(3px);
+}
+
+.module .bar .inner
+{
+  background-color: #eee;
+  height: 5px;
+}
+
 
 
 
@@ -941,17 +958,7 @@ ul.episodes img
 
 #sabnzbd .bar
 {
-  border: 1px solid #777;
-  height: 5px;
-  margin: 17px 0 6px;
-
-  .border-radius(3px);
-}
-
-#sabnzbd .bar .inner
-{
-  background-color: #eee;
-  height: 5px;
+  margin-top: 17px;
 }
 
 #sabnzbd .remaining
@@ -965,6 +972,27 @@ ul.episodes img
   float: right;
   font-size: 0.9em;
   margin: 0;
+}
+
+
+
+
+
+/*--- disk space ---*/
+
+#diskspace .path
+{
+  float: left;
+}
+
+#diskspace .stats
+{
+  float: right;
+}
+
+#diskspace .bar
+{
+  margin-top: 5px;
 }
 
 

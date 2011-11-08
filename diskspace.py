@@ -9,7 +9,12 @@ from tools import *
 @app.route('/xhr/diskspace')
 @requires_auth
 def xhr_diskspace():
-    return render_template('diskspace.html')
+    disks = [disk_usage('/')]
+    print disks
+
+    return render_template('diskspace.html',
+        disks = disks,
+    )
 
 def disk_usage(path):
     st = os.statvfs(path)
@@ -19,7 +24,9 @@ def disk_usage(path):
     used = float((st.f_blocks - st.f_bfree) * st.f_frsize) / 1073741824
 
     return {
-        'total': total,
-        'used': used,
-        'free': free,
+        'path': path,
+        'total': "%.2f" % total,
+        'used': "%.2f" % used,
+        'free': "%.2f" % free,
+        'percentage_used': int(used/total * 100),
     }
