@@ -75,3 +75,16 @@ def add_edit_application():
     db_session.commit()
 
     return xhr_applications()
+
+@app.route('/xhr/delete_application/<application_id>', methods=['POST'])
+@requires_auth
+def delete_application(application_id):
+    try:
+        application = Application.query.filter(Application.id == application_id).first()
+        db_session.delete(application)
+        db_session.commit()
+
+    except:
+        return jsonify({ 'status': 'error' })
+
+    return xhr_applications()

@@ -612,4 +612,14 @@ $(document).ready(function() {
     });
   });
 
+  $('#add_edit_application_dialog .choices .delete').live('click', function() {
+    var application_id = $('#add_edit_application_dialog input[name=application_id]').val();
+    $.post('/xhr/delete_application/' + application_id, {}, function(data) {
+      if (!data.status) {
+        $('#applications').replaceWith(data);
+        $('#add_edit_application_dialog .close').click();
+      }
+    });
+  });
+
 });
