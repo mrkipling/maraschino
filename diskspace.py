@@ -21,6 +21,30 @@ def xhr_diskspace():
         disks = disks,
     )
 
+@app.route('/xhr/add_disk_dialog')
+@requires_auth
+def add_disk_dialog():
+    return add_edit_disk_dialog()
+
+@app.route('/xhr/edit_disk_dialog/<disk_id>')
+@requires_auth
+def edit_disk_dialog(disk_id):
+    return add_edit_disk_dialog(disk_id)
+
+def add_edit_disk_dialog(disk_id=None):
+    disk = None
+
+    if disk_id:
+        try:
+            disk = Disk.query.filter(Disk.id == disk_id).first()
+
+        except:
+            pass
+
+    return render_template('add_edit_disk_dialog.html',
+        disk = disk,
+    )
+
 def disk_usage(path):
     st = os.statvfs(path)
 

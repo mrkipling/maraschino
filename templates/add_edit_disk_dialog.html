@@ -1,0 +1,31 @@
+<div id="add_edit_disk_dialog" class="dialog">
+
+  <div class="close">x</div>
+
+  <h2>{% if disk %}Edit{% else %}Add{% endif %} disk</h2>
+
+  <form method="" action="">
+
+    {% if disk %}
+      <input type="hidden" name="disk_id" value="{{ disk.id }}">
+    {% endif %}
+
+    <div class="formrow">
+      <label for="id_disk_path">Path (required)</label>
+      <input id="id_disk_path" class="required" name="name" type="text"{% if disk %} value="{{ disk.path }}"{% endif %}>
+    </div>
+
+    <div class="formrow">
+      <label for="id_disk_position">Position</label>
+      <input id="id_disk_position" name="position" type="text"{% if disk %} value="{{ disk.position }}"{% endif %}>
+    </div>
+
+    <div class="choices">
+      <div class="save add_disk">{% if disk %}Save{% else %}Add{% endif %} disk</div>
+      {% if disk %}<div class="delete">Delete</div>{% endif %}
+      <div class="cancel">Cancel</div>
+    </div>
+
+  </form>
+
+</div>

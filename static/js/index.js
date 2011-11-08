@@ -622,4 +622,51 @@ $(document).ready(function() {
     });
   });
 
+  // add/edit disk
+
+  $('#add_disk').live('click', function() {
+    $.get('/xhr/add_disk_dialog', function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
+  /*
+  $('.f_settings_mode #disks li a').live('click', function() {
+    $.get('/xhr/edit_disk_dialog/' + $(this).data('id'), function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+    return false;
+  });
+
+  $('#add_edit_disk_dialog .choices .save').live('click', function() {
+    var form = $('#add_edit_disk_dialog form');
+
+    if (!validate_form(form)) {
+      return false;
+    }
+
+    var settings = form.serialize();
+    $.post('/xhr/add_edit_disk', settings, function(data) {
+      if (!data.status) {
+        $('#disks').replaceWith(data);
+        $('#add_edit_disk_dialog .close').click();
+      }
+    });
+  });
+
+  $('#add_edit_disk_dialog .choices .delete').live('click', function() {
+    var disk_id = $('#add_edit_disk_dialog input[name=disk_id]').val();
+    $.post('/xhr/delete_disk/' + disk_id, {}, function(data) {
+      if (!data.status) {
+        $('#disks').replaceWith(data);
+        $('#add_edit_disk_dialog .close').click();
+      }
+    });
+  });
+  */
+
 });
