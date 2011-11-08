@@ -632,8 +632,7 @@ $(document).ready(function() {
     });
   });
 
-  /*
-  $('.f_settings_mode #disks li a').live('click', function() {
+  $('.f_settings_mode #diskspace li').live('click', function() {
     $.get('/xhr/edit_disk_dialog/' + $(this).data('id'), function(data) {
       var popup = $(data);
       $('body').append(popup);
@@ -652,7 +651,7 @@ $(document).ready(function() {
     var settings = form.serialize();
     $.post('/xhr/add_edit_disk', settings, function(data) {
       if (!data.status) {
-        $('#disks').replaceWith(data);
+        $('#diskspace').replaceWith(data);
         $('#add_edit_disk_dialog .close').click();
       }
     });
@@ -662,11 +661,10 @@ $(document).ready(function() {
     var disk_id = $('#add_edit_disk_dialog input[name=disk_id]').val();
     $.post('/xhr/delete_disk/' + disk_id, {}, function(data) {
       if (!data.status) {
-        $('#disks').replaceWith(data);
+        $('#diskspace').replaceWith(data);
         $('#add_edit_disk_dialog .close').click();
       }
     });
   });
-  */
 
 });

@@ -11,7 +11,7 @@
 
     <ul>
       {% for disk in disks %}
-        <li>
+        <li data-id="{{ disk.id }}">
           <div class="clearfix">
             <div class="path">{{ disk.path }}</div>
             <div class="stats">

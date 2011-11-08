@@ -15,7 +15,11 @@ def xhr_diskspace():
     disks_db = Disk.query.order_by(Disk.position)
 
     if disks_db.count() > 0:
-        disks.append(disk_usage(disks_db.path))
+        for disk_db in disks_db:
+            disk = disk_usage(disk_db.path)
+            disk['path'] = disk_db.path
+            disk['id'] = disk_db.id
+            disks.append(disk)
 
     return render_template('diskspace.html',
         disks = disks,
@@ -45,6 +49,47 @@ def add_edit_disk_dialog(disk_id=None):
         disk = disk,
     )
 
+@app.route('/xhr/add_edit_disk', methods=['POST'])
+@requires_auth
+def add_edit_disk():
+    path = request.form['path']
+    position = request.form['position']
+
+    if path == '':
+        return jsonify({ 'status': 'error' })
+
+    if position == '':
+        position = None
+
+    if 'disk_id' in request.form:
+        disk = Disk.query.filter(Disk.id == request.form['disk_id']).first()
+        disk.path = path
+        disk.position = position
+
+    else:
+        disk = Disk(
+            path,
+            position,
+        )
+
+    db_session.add(disk)
+    db_session.commit()
+
+    return xhr_diskspace()
+
+@app.route('/xhr/delete_disk/<disk_id>', methods=['POST'])
+@requires_auth
+def delete_disk(disk_id):
+    try:
+        disk = Disk.query.filter(Disk.id == disk_id).first()
+        db_session.delete(disk)
+        db_session.commit()
+
+    except:
+        return jsonify({ 'status': 'error' })
+
+    return xhr_diskspace()
+
 def disk_usage(path):
     st = os.statvfs(path)
 
@@ -53,7 +98,6 @@ def disk_usage(path):
     used = float((st.f_blocks - st.f_bfree) * st.f_frsize) / 1073741824
 
     return {
-        'path': path,
         'total': "%.2f" % total,
         'used': "%.2f" % used,
         'free': "%.2f" % free,
