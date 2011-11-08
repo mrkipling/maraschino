@@ -10,7 +10,6 @@ from tools import *
 @requires_auth
 def xhr_diskspace():
     disks = [disk_usage('/')]
-    print disks
 
     return render_template('diskspace.html',
         disks = disks,
