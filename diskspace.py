@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template
 import jsonrpclib, os
 
 from maraschino import app
@@ -72,8 +72,13 @@ def add_edit_disk():
             position,
         )
 
-    db_session.add(disk)
-    db_session.commit()
+    try:
+        disk_usage(disk.path)
+        db_session.add(disk)
+        db_session.commit()
+
+    except:
+        return jsonify({ 'status': 'error' })
 
     return xhr_diskspace()
 

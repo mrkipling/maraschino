@@ -653,6 +653,9 @@ $(document).ready(function() {
       if (!data.status) {
         $('#diskspace').replaceWith(data);
         $('#add_edit_disk_dialog .close').click();
+
+      } else {
+        $('#add_edit_disk_dialog label[for=id_disk_path]').html('Path (required) <span class="invalid">(invalid)</span>');
       }
     });
   });
