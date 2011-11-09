@@ -74,11 +74,11 @@ class Disk(Base):
 
         if position == None:
             highest_position = 0
-            applications = Application.query.all()
+            disks = Disk.query.all()
 
-            for application in applications:
-                if application.position > highest_position:
-                    highest_position = application.position
+            for disk in disks:
+                if disk.position > highest_position:
+                    highest_position = disk.position
 
             position = highest_position + 1
 
