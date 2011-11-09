@@ -49,16 +49,10 @@ class Application(Base):
         self.image = image
 
         if position == None:
-            highest_position = 0
-            applications = Application.query.all()
+            self.position = highest_position(Application)
 
-            for application in applications:
-                if application.position > highest_position:
-                    highest_position = application.position
-
-            position = highest_position + 1
-
-        self.position = position
+        else:
+            self.position = position
 
     def __repr__(self):
         return '<Application %r>' % (self.name)
@@ -73,16 +67,21 @@ class Disk(Base):
         self.path = path
 
         if position == None:
-            highest_position = 0
-            disks = Disk.query.all()
+            self.position = highest_position(Disk)
 
-            for disk in disks:
-                if disk.position > highest_position:
-                    highest_position = disk.position
-
-            position = highest_position + 1
-
-        self.position = position
+        else:
+            self.position = position
 
     def __repr__(self):
         return '<Disk %r>' % (self.path)
+
+def highest_position(model):
+    highest_position = 0
+
+    items = model.query.all()
+
+    for item in items:
+        if item.position > highest_position:
+            highest_position = item.position
+
+    return highest_position + 1
