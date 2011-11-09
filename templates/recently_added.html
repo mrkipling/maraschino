@@ -5,10 +5,10 @@
 
   <h2>Recently added episodes</h2>
 
-  {% if recently_added %}
+  {% if recently_added_episodes %}
 
   <ul class="episodes listfix">
-    {% for episode in recently_added %}
+    {% for episode in recently_added_episodes %}
       <li data-episodeid="{{ episode.episodeid }}" title="Play episode"{% if episode.lastplayed %} class="watched"{% endif %}>
 
         {% if episode.thumbnail %}
@@ -26,7 +26,7 @@
   </ul>
 
   <div class="clearfix">
-    {% if offset + recently_added|length < 25 %}
+    {% if offset + recently_added_episodes|length < 25 %}
       <a href="#" class="view_older" title="Older">&raquo;</a>
     {% endif %}
     {% if offset > 0 %}
