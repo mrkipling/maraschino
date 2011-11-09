@@ -32,6 +32,8 @@ What features does it have?
 * trakt.tv widget which shows you what people are saying about the episode or movie that you're
   watching (requires a free trakt.tv account)
 
+* Disk space widget showing you used/remaining space on your various drives
+
 * Full-screen background image changes to the fanart of what you're currently watching (optional,
   can be turned off)
 
