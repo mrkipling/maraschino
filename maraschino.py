@@ -48,8 +48,7 @@ def index():
         try:
             backgrounds = []
             backgrounds.extend(get_file_list('static/images/backgrounds', ['.jpg', '.png']))
-            background = random.choice(backgrounds)
-            print background
+            background = backgrounds[random.randrange(0, len(backgrounds))]
 
         except:
             background = None
