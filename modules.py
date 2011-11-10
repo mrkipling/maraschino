@@ -128,7 +128,13 @@ SERVER_SETTINGS = [
     {
         'key': 'fanart_backgrounds',
         'value': '1',
-        'description': 'Show fanart backgrounds',
+        'description': 'Show fanart backgrounds when watching media',
+        'type': 'bool',
+    },
+    {
+        'key': 'random_backgrounds',
+        'value': '0',
+        'description': 'Use a random background when not watching media',
         'type': 'bool',
     },
 ]

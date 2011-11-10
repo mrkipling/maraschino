@@ -1,6 +1,7 @@
 from flask import request, Response
 from functools import wraps
 from settings import *
+import os
 
 from database import *
 from models import Setting
@@ -73,3 +74,13 @@ def get_setting_value(key):
 
     except:
         return None
+
+def get_file_list(dir, extensions):
+    filelist = []
+
+    for root, subFolders, files in os.walk(dir):
+        for file in files:
+            if os.path.splitext(file)[1] in extensions:
+                filelist.append(os.path.join(root,file))
+
+    return filelist

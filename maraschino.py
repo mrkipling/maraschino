@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template, request
 from database import db_session
-import hashlib, json, jsonrpclib, urllib
+import hashlib, json, jsonrpclib, random, urllib
 
 app = Flask(__name__)
 
@@ -32,8 +32,6 @@ def index():
         module.static = module_info['static']
         modules[module.column - 1].append(module)
 
-    fanart_backgrounds = get_setting_value('fanart_backgrounds') == '1'
-
     applications = []
 
     try:
@@ -42,9 +40,27 @@ def index():
     except:
         pass
 
+    # select random background when not watching media
+
+    background = None
+
+    if get_setting_value('random_backgrounds') == '1':
+        try:
+            backgrounds = []
+            backgrounds.extend(get_file_list('static/images/backgrounds', ['.jpg', '.png']))
+            background = random.choice(backgrounds)
+            print background
+
+        except:
+            background = None
+
+    # show fanart backgrounds when watching media
+    fanart_backgrounds = get_setting_value('fanart_backgrounds') == '1'
+
     return render_template('index.html',
         modules = modules,
         show_currently_playing = True,
+        background = background,
         fanart_backgrounds = fanart_backgrounds,
         applications = applications,
         show_tutorial = unorganised_modules.count() == 0,
