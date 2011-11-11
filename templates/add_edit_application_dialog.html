@@ -29,7 +29,7 @@
       <label for="id_application_image">Image filename</label>
       <select style="width:63%;" id="id_application_image" name="image">
       {% for icon in icons %}
-        <option value="{{ icon[27:] }}">{{ icon[27:] }}</option>
+        <option value="{{ icon[27:] }}" {%if application.image==icon[27:] %} SELECTED {% endif %}>{{ icon[27:] }}</option>
       {% endfor %}
       </select>
     </div>
