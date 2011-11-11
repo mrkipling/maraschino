@@ -27,7 +27,12 @@
 
     <div class="formrow">
       <label for="id_application_image">Image filename</label>
-      <input id="id_application_image" name="image" type="text"{% if application %} value="{{ application.image }}"{% endif %}>
+      <select style="width:63%;" id="id_application_image" name="image">
+        <option value="" {%if application.image=='' %} SELECTED {% endif %}></option>
+      {% for icon in icons %}
+        <option value="{{ icon[27:] }}" {%if application.image==icon[27:] %} SELECTED {% endif %}>{{ icon[27:] }}</option>
+      {% endfor %}
+      </select>
     </div>
 
     <div class="formrow">

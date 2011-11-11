@@ -27,7 +27,8 @@ def edit_application_dialog(application_id):
 
 def add_edit_application_dialog(application_id=None):
     application = None
-
+    icons = get_file_list('static/images/applications', ['.png', '.jpg'])
+    
     if application_id:
         try:
             application = Application.query.filter(Application.id == application_id).first()
@@ -36,7 +37,7 @@ def add_edit_application_dialog(application_id=None):
             pass
 
     return render_template('add_edit_application_dialog.html',
-        application = application,
+        application = application, icons = icons
     )
 
 @app.route('/xhr/add_edit_application', methods=['POST'])
