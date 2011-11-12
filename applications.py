@@ -31,7 +31,7 @@ def add_edit_application_dialog(application_id=None):
     application = None
 
     icons = get_file_list(
-        dir = '%s/static/images/applications' % (os.getcwd()),
+        dir = '%s/static/images/applications' % (os.environ['PWD']),
         extensions = ['.png', '.jpg'],
         prepend_path = False,
     )
