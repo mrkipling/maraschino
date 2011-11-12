@@ -26,7 +26,7 @@
     </div>
 
     <div class="formrow">
-      <label for="id_application_image">Image filename</label>
+      <label for="id_application_image">Icon</label>
       <select id="id_application_image" name="image">
         <option value=""{% if application.image == '' %} selected="selected"{% endif %}></option>
         {% for icon in icons %}
