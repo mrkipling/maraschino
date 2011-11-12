@@ -1,3 +1,5 @@
+import sys
+
 from flask import Flask, jsonify, render_template
 
 from maraschino import app
@@ -28,8 +30,14 @@ def edit_application_dialog(application_id):
 def add_edit_application_dialog(application_id=None):
     application = None
 
+    dir = 'static/images/applications'
+
+    for path in sys.path:
+        if 'maraschino' in path:
+            dir = '%s/%s' % (path, dir)
+
     icons = get_file_list(
-        dir = 'static/images/applications',
+        dir = '%s/static/images/applications' % (sys.path[0]),
         extensions = ['.png', '.jpg'],
         prepend_path = False,
     )
