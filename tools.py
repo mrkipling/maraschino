@@ -75,12 +75,15 @@ def get_setting_value(key):
     except:
         return None
 
-def get_file_list(dir, extensions):
+def get_file_list(dir, extensions, prepend_path=True):
     filelist = []
 
     for root, subFolders, files in os.walk(dir):
         for file in files:
             if os.path.splitext(file)[1] in extensions:
-                filelist.append(os.path.join(root,file))
+                if prepend_path:
+                    filelist.append(os.path.join(root,file))
+                else:
+                    filelist.append(file)
 
     return filelist
