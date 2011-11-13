@@ -104,7 +104,7 @@ AVAILABLE_MODULES = [
     },
     {
         'name': 'recommendations',
-        'label': 'recommendations',
+        'label': 'Recommendations',
         'description': 'Movies that may suit you.',
         'static': True,
         'poll': 0,

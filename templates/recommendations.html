@@ -1,6 +1,4 @@
-{% if trakt %}
-
-<div id="trakt" class="module generic" data-module="trakt">
+<div id="recommendations" class="module generic" data-module="recommendations">
 
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
@@ -8,14 +6,9 @@
   <h2>Recommended Movies</h2>
 
   <div class="inner">
-    {{trakt}}
+    <h4>Test</h4>
+    <!-- <pre> -->
+      {{ result }}
+    <!-- </pre> -->
   </div>
-  
-
-{% else %}
-<div id="trakt_inactive" class="module generic" data-module="trakt">
-  <div class="module_settings"><span>Settings</span></div>
-  <div class="module_remove"><span>Remove</span></div>
-  <h2>trakt.tv</h2>
 </div>
-{% endif %}
