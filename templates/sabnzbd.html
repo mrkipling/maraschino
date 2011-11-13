@@ -6,7 +6,13 @@
   <div class="module_remove"><span>Remove</span></div>
 
   <h2>SABnzbd+</h2>
-
+	<div class="status">
+		{% if sabnzbd.paused == True %}
+		<a onclick="ajax_call('/sabnzbd/resume');">Paused</a>
+		{% else %}
+		<a onclick="ajax_call('/sabnzbd/pause');">Downloading</a>
+		{% endif %}
+	</div>
   <div class="inner">
 
     <div class="speed">{{ download_speed }}</div>

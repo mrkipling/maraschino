@@ -37,3 +37,21 @@ def xhr_sabnzbd():
         percentage_total = percentage_total,
         download_speed = download_speed,
     )
+    
+@app.route('/sabnzbd/<state>')
+def state_change(state):
+    SABNZBD_URL = get_setting_value('sabnzbd_url')
+    
+    try:
+        if SABNZBD_URL == None:
+            raise Exception
+
+        url = '%s&mode=%s' % (SABNZBD_URL, state)
+        result = urllib.urlopen(url).read()
+            
+    except:
+        sabnzbd = None
+        percentage_total = None
+        download_speed = None
+        
+    return result
