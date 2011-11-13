@@ -30,11 +30,11 @@ def edit_application_dialog(application_id):
 def add_edit_application_dialog(application_id=None):
     application = None
 
-    dir = '%s/static/images/applications' % (os.environ['PWD']),
+    dir = 'static/images/applications'
 
     for path in sys.path:
         if 'maraschino' in path:
-            dir = '%s/static/images/applications' % (path)
+            dir = '%s/%s' % (path, dir)
 
     icons = get_file_list(
         dir = dir,
