@@ -21,9 +21,6 @@ def xhr_sabnzbd():
         percentage_total = 0
         download_speed = '%s kB/s' % (int(sabnzbd['kbpersec']))
 
-        if sabnzbd['paused']:
-            download_speed = "PAUSED"
-
         if sabnzbd['jobs']:
             percentage_total = int(100 - (sabnzbd['mbleft'] / sabnzbd['mb'] * 100))
 
@@ -53,5 +50,21 @@ def state_change(state):
         sabnzbd = None
         percentage_total = None
         download_speed = None
+        
+    return result
+
+@app.route('/sabnzbd/set_speed/<speed>')
+def set_speed(speed):
+    SABNZBD_URL = get_setting_value('sabnzbd_url')
+    
+    try:
+        if SABNZBD_URL == None:
+            raise Exception
+
+        url = '%s&mode=config&name=speedlimit&value=%s' % (SABNZBD_URL, speed)
+        result = urllib.urlopen(url).read()
+            
+    except:
+        sabnzbd = None
         
     return result
