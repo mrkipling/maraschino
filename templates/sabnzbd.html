@@ -6,17 +6,18 @@
   <div class="module_remove"><span>Remove</span></div>
 
   <h2>SABnzbd+</h2>
-	<div class="status">
-		{% if sabnzbd.paused == True %}
-		<a onclick="ajax_call('/sabnzbd/resume');">Paused</a>
-		{% else %}
-		<a onclick="ajax_call('/sabnzbd/pause');">Downloading</a>
-		{% endif %}
-	</div>
   <div class="inner">
+    <div class="status">
+		  {% if sabnzbd.paused == True %}
+		  <a onclick="ajax_call('/sabnzbd/resume');">Paused</a>
+		  {% else %}
+		  <a onclick="ajax_call('/sabnzbd/pause');">Downloading</a>
+	    {% endif %}
+    </div>
 
-    <div class="speed">{{ download_speed }}</div>
-
+    <div class="speed">
+      <input id="sab_speed" type="text" value="{{ download_speed[:-5] }}" size="6" onkeydown="if(event.keyCode == 13){ajax_call('/sabnzbd/set_speed/'+$(this).val());}"/>{{ download_speed[-5:] }}
+    </div>
     <p>
       <strong>Currently downloading:</strong>
       "{{ sabnzbd.jobs[0].filename }}"
@@ -39,6 +40,7 @@
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
   <h2>SABnzbd+</h2>
+  <pre>sabnzbd</pre>
 </div>
 {% endif %}
 
