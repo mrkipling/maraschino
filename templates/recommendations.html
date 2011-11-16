@@ -1,14 +1,17 @@
-<div id="recommendations" class="module generic" data-module="recommendations">
-
+<div id="recommendations" class="module" data-module="recommendations">
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
-
   <h2>Recommended Movies</h2>
-
-  <div class="inner">
-    <h4>Test</h4>
-    <!-- <pre> -->
-      {{ result }}
-    <!-- </pre> -->
-  </div>
+  <div>
+    <a href="{{ url }}"><h2>{{ title }} [{{year}}]</h2></a>
+    <div id="movie-description" style="overflow: none;">
+    	<img src="{{ image }}" style="height: 140px; float: left" />
+    	<div style="overflow: none; height: 150px; text-align: justify;">{{ overview }}</div>
+    </div>
+    <div class="bar" style="height: 10px; overflow: none;">
+      <div class="inner" style="width: {{ liked }}%;height: 10px;">
+      	<div style="color: black; text-align:center;">Liked by: {{ liked }}%</div>
+     	</div>
+  	</div>
+	</div>
 </div>

@@ -106,9 +106,9 @@ AVAILABLE_MODULES = [
         'name': 'recommendations',
         'label': 'Recommendations',
         'description': 'Movies that may suit you.',
-        'static': True,
+        'static': False,
         'poll': 0,
-        'delay': 0,
+        'delay': 10,
         'settings': [
             {
                 'key': 'trakt_api_key',
