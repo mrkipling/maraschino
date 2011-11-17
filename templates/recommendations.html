@@ -1,21 +1,26 @@
 <div id="recommendations" class="module" data-module="recommendations">
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
-  <h2>Recommended Movies</h2>
-  <div>
-    <a href="{{ url }}"><h2>{{ title }} [{{ year }}]</h2></a>
-    {% if watchlist %}
-    	<a onclick="ajax_call('/trakt/add_to_watchlist/{{ id }}/{{ title }}/{{ year }}/');">Add to watchlist</a>
-    {% endif %}	
-    <a onclick="ajax_call('/trakt/dismiss_rec/{{ id }}/{{ title }}/{{ year }}/');">Dismiss</a>
+<!--   <h2>Recommended Movies</h2> -->
+  <div id="movies">
+  	<div id="options" style="float: right;">
+	    {% if not movie.watchlist %}
+	    	<a onclick="ajax_call('/trakt/add_to_watchlist/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');">Add to watchlist</a> | 
+	    {% endif %}	
+	    <a onclick="ajax_call('/trakt/dismiss_rec/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');">Dismiss</a>
+    </div>
+    <a href="{{ movie.url }}"><h2>{{ movie.title }} [{{ movie.year }}]</h2></a>
     <div id="movie-description" style="overflow: none;">
-    	<img src="{{ image }}" style="height: 140px; float: left" />
-    	<div style="overflow: none; height: 150px; text-align: justify;">{{ overview }}</div>
+    	<img src="{{ movie.image }}" style="height: 140px; float: left" />
+    	<div style="overflow: none; height: 150px; text-align: justify;">{{ movie.overview }}</div>
     </div>
     <div class="bar" style="height: 10px; overflow: none;">
-      <div class="inner" style="width: {{ liked }}%;height: 10px;">
-      	<div style="color: black; text-align:center;">Liked by: {{ liked }}%</div>
+      <div class="inner" style="width: {{ movie.liked }}%; height: 10px;">
+      	<div style="color: black; text-align:center;">Liked by: {{ movie.liked }}%</div>
      	</div>
   	</div>
+	</div>
+	<div id="TV">
+		
 	</div>
 </div>
