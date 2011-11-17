@@ -29,20 +29,25 @@ def xhr_recommendations():
 	result = json.JSONDecoder().decode(result)
 	movie = result[rand]
 	
+	# checking if imdb id is present, otherwise, use tvdb id as per trakt instructions
 	if movie['imdb_id'] != '':
 		movie_id = movie['imdb_id']
 	else:
 		movie_id = movie['tmdb_id']
 		
+	# creating movie object to pass to template	
+	mov = {}
+	mov['url'] = movie['url']
+	mov['title'] = movie['title']
+	mov['image'] = movie['images']['poster']
+	mov['overview'] = movie['overview']
+	mov['year'] = movie['year']
+	mov['liked'] = movie['ratings']['percentage']
+	mov['id'] = movie_id
+	mov['watchlist'] = movie['in_watchlist']
+	
 	return render_template('recommendations.html',
-	  url = movie['url'],
-	  title = movie['title'],
-	  image = movie['images']['poster'],
-	  overview = movie['overview'],
-	  year = movie['year'],
-	  liked = movie['ratings']['percentage'],
-	  id = movie_id,
-	  watchlist = movie['in_watchlist']
+		movie = mov,
 	  )
 	  
 @app.route('/trakt/add_to_watchlist/<movieid>/<title>/<year>/')
