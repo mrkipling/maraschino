@@ -1,7 +1,8 @@
 <div id="recommendations" class="module" data-module="recommendations">
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
-<!--   <h2>Recommended Movies</h2> -->
+  {% if movie %}
+	<!--   <h2>Recommended Movies</h2> -->
   <div id="movies">
   	<div id="options" style="float: right;">
 	    {% if not movie.watchlist %}
@@ -20,7 +21,25 @@
      	</div>
   	</div>
 	</div>
+	{% endif%}
+	{% if tv %}
 	<div id="TV">
-		
+  	<div id="options" style="float: right;">
+	    {% if not tv.watchlist %}
+	    	<a onclick="ajax_call('/trakt/add_to_watchlist/{{ tv.id }}/{{ tv.title }}/{{ tv.year }}/');">Add to watchlist</a> | 
+	    {% endif %}	
+	    <a onclick="ajax_call('/trakt/dismiss_rec/{{ tv.id }}/{{ tv.title }}/{{ tv.year }}/');">Dismiss</a>
+    </div>
+    <a href="{{ tv.url }}"><h2>{{ tv.title }} [{{ tv.year }}]</h2></a>
+    <div id="tv-description" style="overflow: none;">
+    	<img src="{{ tv.image }}" style="height: 140px; float: left" />
+    	<div style="overflow: hidden; height: 150px; text-align: justify;">{{ tv.overview }}</div>
+    </div>
+    <div class="bar" style="height: 10px; overflow: none;">
+      <div class="inner" style="width: {{ tv.liked }}%; height: 10px;">
+      	<div style="color: black; text-align:center;">Liked by: {{ tv.liked }}%</div>
+     	</div>
+  	</div>
 	</div>
+	{% endif %}
 </div>

@@ -14,7 +14,7 @@ TRAKT_PASSWORD = get_setting_value('trakt_password')
 @app.route('/xhr/recommendations')
 def xhr_recommendations():
 	rand = random.randint(0,10)
-	
+	# setting up username and password to pass to POST request
 	try:
 		params = {
 	  	'username': TRAKT_USERNAME,
@@ -22,32 +22,66 @@ def xhr_recommendations():
 		}
 	except:
 		params = {}
-		
+	
+	# Movie show recommendation request
 	url = 'http://api.trakt.tv/recommendations/movies/%s' % (TRAKT_API_KEY)
 	params = urllib.urlencode(params)
 	result = urllib.urlopen(url, params).read()
 	result = json.JSONDecoder().decode(result)
-	movie = result[rand]
-	
-	# checking if imdb id is present, otherwise, use tvdb id as per trakt instructions
-	if movie['imdb_id'] != '':
-		movie_id = movie['imdb_id']
+	#if result is empty, set mov object as empty
+	if not result:
+		mov = {}
 	else:
-		movie_id = movie['tmdb_id']
+		movie = result[rand]
 		
-	# creating movie object to pass to template	
-	mov = {}
-	mov['url'] = movie['url']
-	mov['title'] = movie['title']
-	mov['image'] = movie['images']['poster']
-	mov['overview'] = movie['overview']
-	mov['year'] = movie['year']
-	mov['liked'] = movie['ratings']['percentage']
-	mov['id'] = movie_id
-	mov['watchlist'] = movie['in_watchlist']
+		# checking if imdb id is present, otherwise, use tvdb id as per trakt instructions
+		if movie['imdb_id'] != '':
+			movie_id = movie['imdb_id']
+		else:
+			movie_id = movie['tmdb_id']
+			
+		# creating movie object to pass to template	
+		mov = {}
+		mov['url'] = movie['url']
+		mov['title'] = movie['title']
+		mov['image'] = movie['images']['poster']
+		mov['overview'] = movie['overview']
+		mov['year'] = movie['year']
+		mov['liked'] = movie['ratings']['percentage']
+		mov['id'] = movie_id
+		mov['watchlist'] = movie['in_watchlist']
+	
+	# making TV Show Recommendation request
+	url = 'http://api.trakt.tv/recommendations/shows/%s' % (TRAKT_API_KEY)
+	result = urllib.urlopen(url, params).read()
+	result = json.JSONDecoder().decode(result)
+	#if result is empty, set tv object as empty
+	if not result:
+		tv = {}
+	else:
+		tv_result = result[rand]
+		
+		# checking if imdb id is present, otherwise, use tvdb id as per trakt instructions
+		if tv_result['imdb_id'] != '':
+			tv_id = tv_result['imdb_id']
+		else:
+			tv_id = tv_result['tmdb_id']
+			
+		# creating movie object to pass to template	
+		tv = {}
+		tv['url'] = tv_result['url']
+		tv['title'] = tv_result['title']
+		tv['image'] = tv_result['images']['poster']
+		tv['overview'] = tv_result['overview']
+		tv['year'] = tv_result['year']
+		tv['liked'] = tv_result['ratings']['percentage']
+		tv['id'] = tv_id
+		tv['watchlist'] = tv_result['in_watchlist']
+
 	
 	return render_template('recommendations.html',
 		movie = mov,
+		tv = tv,
 	  )
 	  
 @app.route('/trakt/add_to_watchlist/<movieid>/<title>/<year>/')
