@@ -3,7 +3,11 @@
   <div class="module_remove"><span>Remove</span></div>
   <h2>Recommended Movies</h2>
   <div>
-    <a href="{{ url }}"><h2>{{ title }} [{{year}}]</h2></a>
+    <a href="{{ url }}"><h2>{{ title }} [{{ year }}]</h2></a>
+    {% if watchlist %}
+    	<a onclick="ajax_call('/trakt/add_to_watchlist/{{ id }}/{{ title }}/{{ year }}/');">Add to watchlist</a>
+    {% endif %}	
+    <a onclick="ajax_call('/trakt/dismiss_rec/{{ id }}/{{ title }}/{{ year }}/');">Dismiss</a>
     <div id="movie-description" style="overflow: none;">
     	<img src="{{ image }}" style="height: 140px; float: left" />
     	<div style="overflow: none; height: 150px; text-align: justify;">{{ overview }}</div>
