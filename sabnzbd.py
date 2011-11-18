@@ -26,15 +26,19 @@ def xhr_sabnzbd():
             slotA = sabnzbd['slots'][0]
             percentage_total = int(100 - (float(slotA['mbleft']) / float(slotA['mb']) * 100))
 
+        currentdl = sabnzbd['slots'][0]
+
     except:
         sabnzbd = None
         percentage_total = None
         download_speed = None
+        currentdl = None
 
     return render_template('sabnzbd.html',
         sabnzbd = sabnzbd,
         percentage_total = percentage_total,
         download_speed = download_speed,
+        currentdl = currentdl,
     )
     
 @app.route('/sabnzbd/<state>')
