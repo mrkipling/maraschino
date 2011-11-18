@@ -1,4 +1,4 @@
-{% if sabnzbd.jobs %}
+{% if sabnzbd.slots %}
 
 <div id="sabnzbd" class="module" data-module="sabnzbd">
 
@@ -20,7 +20,9 @@
     </div>
     <p>
       <strong>Currently downloading:</strong>
-      "{{ sabnzbd.jobs[0].filename }}"
+    </p>
+    <p>
+      "{{ sabnzbd.slots[0].filename }}"
     </p>
 
     <div class="bar">

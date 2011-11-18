@@ -14,15 +14,17 @@ def xhr_sabnzbd():
         if SABNZBD_URL == None:
             raise Exception
 
-        url = '%s&mode=qstatus&output=json' % (SABNZBD_URL)
+        url = '%s&mode=queue&start=START&limit=LIMIT&output=json' % (SABNZBD_URL)
         result = urllib.urlopen(url).read()
-        sabnzbd = json.JSONDecoder().decode(result)
+        sabnzbd_base = json.JSONDecoder().decode(result)
+        sabnzbd = sabnzbd_base['queue']
 
         percentage_total = 0
-        download_speed = '%s kB/s' % (int(sabnzbd['kbpersec']))
+        download_speed = '%s kB/s' % (int(float(sabnzbd['kbpersec'])))
 
-        if sabnzbd['jobs']:
-            percentage_total = int(100 - (sabnzbd['mbleft'] / sabnzbd['mb'] * 100))
+        if sabnzbd['slots']:
+            slotA = sabnzbd['slots'][0]
+            percentage_total = int(100 - (float(slotA['mbleft']) / float(slotA['mb']) * 100))
 
     except:
         sabnzbd = None
