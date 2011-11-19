@@ -16,7 +16,7 @@
     </div>
 
     <div class="speed">
-      <input id="sab_speed" type="text" value="{{ download_speed[:-5] }}" size="6" onkeydown="if(event.keyCode == 13){ajax_call('/sabnzbd/set_speed/'+$(this).val());}"/>{{ download_speed[-5:] }}
+      <input class="sab_speed" type="text" value="{{ download_speed[:-5] }}" size="6" onkeydown="if(event.keyCode == 13){ajax_call('/sabnzbd/set_speed/'+$(this).val());}"/>{{ download_speed[-5:] }}
     </div>
     <p>
       <strong>Currently downloading:</strong>
