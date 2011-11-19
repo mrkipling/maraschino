@@ -10,7 +10,7 @@ function ajax_call(url){
         success: function (data)
         {
             // successful request; do something with the data
-            alert(data);
+            //alert(data);
         },
         error: function ()
         {
