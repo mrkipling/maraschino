@@ -8,21 +8,20 @@
   <h2>SABnzbd+</h2>
   <div class="inner">
     <div class="status">
+    	<a>
 		  {% if sabnzbd.paused == True %}
-		  <a onclick="ajax_call('/sabnzbd/resume');">Paused</a>
+		  <strong onclick="ajax_call('/sabnzbd/resume');">Paused</strong>
 		  {% else %}
-		  <a onclick="ajax_call('/sabnzbd/pause');">Downloading</a>
+		  <strong onclick="ajax_call('/sabnzbd/pause');">Downloading</strong>
 	    {% endif %}
+	    </a>
     </div>
 
     <div class="speed">
       <input class="sab_speed" type="text" value="{{ download_speed[:-5] }}" size="6" onkeydown="if(event.keyCode == 13){ajax_call('/sabnzbd/set_speed/'+$(this).val());}"/>{{ download_speed[-5:] }}
     </div>
     <p>
-      <strong>Currently downloading:</strong>
-    </p>
-    <p>
-      "{{ sabnzbd.slots[0].filename }}"
+      {{ sabnzbd.slots[0].filename }}
     </p>
 
     <div class="bar">
@@ -33,7 +32,22 @@
       <p class="remaining"><strong>Remaining:</strong> {{ currentdl.timeleft }} / {{ currentdl.mbleft|int }} MB</p>
       <p class="percentage_complete">{{ percentage_total }}% complete</p>
     </div>
-
+    {% if (sabnzbd.slots) > 0 %}
+    	<br>
+    	<p class="queue_sign" onclick="$('#sabnzbd .sabnzbd_next').toggle();">More</p>
+  		<div class="sabnzbd_next">
+  			<table style="width: 100%; table-layout:fixed;">
+	  	  		{% for i in sabnzbd.slots %}
+	  	  		{% if i.index != 0 %}
+  						<tr>
+	    					<td width="80%" style="overflow: hidden; white-space:nowrap;" title="{{ i.filename }}">{{ i.filename }}<td/>
+	    					<td width="20%" align="right">{{ i.mb|int }} MB</td>
+	    				</tr>
+	    			{% endif %}
+	    			{% endfor %}
+	    	</table>
+    	</div>
+    {% endif %}
   </div>
 </div>
 
