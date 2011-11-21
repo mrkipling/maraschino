@@ -1,5 +1,3 @@
-{% if sabnzbd.slots %}
-
 <div id="sabnzbd" class="module" data-module="sabnzbd">
 
   <div class="module_settings"><span>Settings</span></div>
@@ -16,10 +14,10 @@
 	    {% endif %}
 	    </a>
     </div>
-
     <div class="speed">
       <input class="sab_speed" type="text" value="{{ download_speed[:-5] }}" size="6" onkeydown="if(event.keyCode == 13){ajax_call('/sabnzbd/set_speed/'+$(this).val());}"/>{{ download_speed[-5:] }}
     </div>
+		{% if sabnzbd.slots %}
     <p>
       {{ sabnzbd.slots[0].filename }}
     </p>
@@ -29,13 +27,13 @@
     </div>
 
     <div class="clearfix">
-      <p class="remaining"><strong>Remaining:</strong> {{ currentdl.timeleft }} / {{ currentdl.mbleft|int }} MB</p>
+      <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.slots[0].timeleft }} / {{ sabnzbd.slots[0].mbleft|int }} MB</p>
       <p class="percentage_complete">{{ percentage_total }}% complete</p>
     </div>
     {% if (sabnzbd.slots) > 0 %}
     	<br>
-    	<p class="queue_sign" onclick="$('#sabnzbd .sabnzbd_next').toggle();">More</p>
-  		<div class="sabnzbd_next">
+    	<p class="queue_sign" onclick="$('#sabnzbd .queue_sign .sabnzbd_next').toggle();">More</p>
+  		<div class="status">
   			<table style="width: 100%; table-layout:fixed;">
 	  	  		{% for i in sabnzbd.slots %}
 	  	  		{% if i.index != 0 %}
@@ -48,10 +46,10 @@
 	    	</table>
     	</div>
     {% endif %}
+	{% else %}
   </div>
 </div>
 
-{% else %}
 <div class="placeholder" data-module="sabnzbd">
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
