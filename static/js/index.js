@@ -475,6 +475,10 @@ $(document).ready(function() {
 		remove_loading_gif($(this));
 	});
 
+	$('#sickbeard #missed').live('click', function(){
+		$('#sickbeard .missed').toggle();
+	});
+
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
   }
