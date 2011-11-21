@@ -38,7 +38,7 @@
 	  	  		{% for i in sabnzbd.slots %}
 	  	  		{% if i.index != 0 %}
   						<tr>
-	    					<td width="80%" style="overflow: hidden; white-space:nowrap;" title="{{ i.filename }}">{{ i.filename }}<td/>
+	    					<td width="80%" class="extra_name" title="{{ i.filename }}">{{ i.filename }}<td/>
 	    					<td width="20%" align="right">{{ i.mb|int }} MB</td>
 	    				</tr>
 	    			{% endif %}
