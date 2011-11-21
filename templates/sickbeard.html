@@ -1,0 +1,25 @@
+{% if sickbeard %}
+<div id="sickbeard" class="module" data-module="sickbeard">
+	
+	<div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+	<h2>Coming Episodes</h2>
+	{% if missed|length %}
+	<div id="missed">SB has missed {{missed|length}} episodes</div>
+	{% endif %}
+	<div id="soon">
+		{% for i in soon %}
+			<a>{{ i.show_name }} - S{{ i.season }}E{{ i.episode }} - {{ i.ep_name }}</a>
+			<img class="coming_ep" src="http://{{ url }}/showPoster/?show={{i.tvdbid}}&which=banner"
+		{% endfor %}
+	</div>
+</div>
+{% else %}
+<div class="placeholder" data-module="sickbeard">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+  <h2>Sickbeard</h2>
+</div>
+
+{% endif %}

@@ -102,6 +102,41 @@ AVAILABLE_MODULES = [
             },
         ]
     },
+    {
+        'name': 'sickbeard',
+        'label': 'Sickbeard Manager',
+        'description': 'Manage Sickbeard from within Maraschino',
+        'static': True,
+        'poll': 0,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'sickbeard_api',
+                'value': '',
+                'description': 'Sickbeard API key',
+            },
+            {
+                'key': 'sickbeard_user',
+                'value': '',
+                'description': 'Sickbeard username',
+            },
+            {
+                'key': 'sickbeard_pw',
+                'value': '',
+                'description': 'Sickbeard password',
+            },
+            {
+                'key': 'sickbeard_ip',
+                'value': '',
+                'description': 'Sickbeard IP',
+            },
+            {
+                'key': 'sickbeard_port',
+                'value': '',
+                'description': 'Sickbeard PORT',
+            },
+        ]
+    },
 ]
 
 SERVER_SETTINGS = [
