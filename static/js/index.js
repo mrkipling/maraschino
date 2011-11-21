@@ -430,6 +430,12 @@ $(document).ready(function() {
 	});
 	
 
+	/*** SICKBEARD ***/
+
+	$('#sickbeard div.options img.search').live('click', function(){
+		alert('Not yet implemented');
+	});
+
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
   }
