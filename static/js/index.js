@@ -404,11 +404,7 @@ $(document).ready(function() {
 	// sabnzbd module live functions
 	$('#sabnzbd #extra-queue').live('click', function() {
 		$('#sabnzbd_next').toggle('slow');
-		if($('#sabnzbd #extra-queue').html() == 'More'){
-			$('#sabnzbd #extra-queue').html('Less');
-		}	else {
-			$('#sabnzbd #extra-queue').html('More');		
-		}
+		$('#sabnzbd #extra-queue').toggleClass('rotate');
 	});
 	
 	$('#sabnzbd .inner #status').live('click', function(){

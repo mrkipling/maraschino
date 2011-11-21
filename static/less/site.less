@@ -985,9 +985,9 @@ ul.episodes img
   cursor: pointer;
 }
 
-#sabnzbd img.remove:hover
+#sabnzbd img.remove:hover, #sabnzbd #extra-queue:hover
 {
-  background: url(/static/images/alpha/fff_40.png);
+  background: url(/static/images/alpha/fff_20.png);
 }
 
 #sabnzbd .sab_speed:hover, #sabnzbd .sab_speed:focus
@@ -995,6 +995,27 @@ ul.episodes img
 	background-color:white;
 	color: black;
 	border:none;
+}
+#sabnzbd #extra-queue
+{
+  background: url(/static/images/alpha/fff_10.png);
+  cursor: pointer;
+  display: block;
+  margin-bottom: 5px;
+}
+#sabnzbd #extra-queue span
+{
+  background: url(/static/images/arrow_down.png) no-repeat center center;
+  display: block;
+  height: 10px;
+  width: 100%;
+  padding-bottom: 4px;
+}
+
+#sabnzbd .rotate
+{
+	-webkit-transform: rotate(-180deg);
+	-moz-transform: rotate(-180deg);
 }
 
 #sabnzbd td.extra_name
