@@ -401,12 +401,13 @@ $(document).ready(function() {
     });
   });
 
-	// sabnzbd module live functions
+	// SABNZBD
 	$('#sabnzbd #extra-queue').live('click', function() {
 		$('#sabnzbd_next').toggle('slow');
 		$('#sabnzbd #extra-queue').toggleClass('rotate');
 	});
 	
+	//Pause/Resume Sab Queue
 	$('#sabnzbd .inner #status').live('click', function(){
 		if($('#sabnzbd .inner #status').text().indexOf('Paused') >= 0){
 			$.get('/sabnzbd/resume');
@@ -415,6 +416,7 @@ $(document).ready(function() {
 		}
 	});
 
+	//Speed Box: when enter is pressed, it runs the get request.
 	$('#sabnzbd .inner .speed input').live('keydown', function(){
 		if(event.keyCode == 13){
 			$.get('/sabnzbd/set_speed/'+$(this).val());
