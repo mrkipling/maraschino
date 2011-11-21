@@ -431,7 +431,7 @@ $(document).ready(function() {
 	
 
 	/*** SICKBEARD ***/
-
+	//Search Episode Functionality on Magnifying Glass png
 	$('#sickbeard div.options img.search').live('click', function(){
 		$(this).attr('src','/static/images/xhrloading.gif');
 		var ep = $(this).attr('episode');
@@ -448,6 +448,12 @@ $(document).ready(function() {
 		.error(function(){
 			alert('Could not reach Sick-Beard.');	
 		})
+	});
+
+	//Air time on hover
+	$('#sickbeard .coming_ep').live('hover', function(){
+		var id = ($(this).attr('id'));
+		$('#sickbeard #'+id+' .details').toggle('slow');
 	});
 
   function add_loading_gif(element) {
