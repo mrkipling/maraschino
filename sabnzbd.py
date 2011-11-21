@@ -38,6 +38,7 @@ def xhr_sabnzbd():
     )
     
 @app.route('/sabnzbd/<state>')
+@requires_auth
 def state_change(state):    
     try:
         if SABNZBD_URL == None:
@@ -54,6 +55,7 @@ def state_change(state):
     return result
 
 @app.route('/sabnzbd/set_speed/<speed>')
+@requires_auth
 def set_speed(speed):    
     try:
         if SABNZBD_URL == None:
@@ -68,6 +70,7 @@ def set_speed(speed):
     return result
     
 @app.route('/sabnzbd/remove/<sabid>')
+@requires_auth
 def remove_item(sabid):
     try:
         if SABNZBD_URL == None:
