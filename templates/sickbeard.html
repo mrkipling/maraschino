@@ -10,16 +10,18 @@
 	{% endif %}
 	{% if today|length %}
 	<div id="today">
+		<h3>Today</h3>
 		{% for i in today %}
 			<div class="coming_ep">
-				<img src="http://{{ url }}/showPoster/?show={{i.tvdbid}}&which=banner" />
-				<h2 class="name">{{ i.show_name }} - S{{ i.season }}E{{ i.episode }} <br /> {{ i.ep_name }}</h2>
+				<img width="100%" src="http://{{ url }}/showPoster/?show={{i.tvdbid}}&which=banner" />
+				<h2><a href="http://{{url}}/home/displayShow?show={{i.tvdbid}}">{{ i.show_name }} - S{{ i.season }}E{{ i.episode }} - {{ i.ep_name }}</a></h2>
 			</div>
 		{% endfor %}
 	</div>
 	{% endif %}
 	{% if soon|length %}
 	<div id="soon">
+		<h3>Soon</h3>
 		{% for i in soon %}
 			<div class="coming_ep">
 				<img width="100%" src="http://{{ url }}/showPoster/?show={{i.tvdbid}}&which=banner" />
