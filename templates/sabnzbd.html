@@ -6,17 +6,17 @@
 
   <h2>SABnzbd+</h2>
   <div class="inner">
-    <div class="status">
+    <div class="status" id="status">
     	<a>
 		  {% if sabnzbd.paused == True %}
-		  <strong onclick="ajax_call('/sabnzbd/resume');">Paused</strong>
+		  <strong>Paused</strong>
 		  {% else %}
-		  <strong onclick="ajax_call('/sabnzbd/pause');">Downloading</strong>
+		  <strong>Downloading</strong>
 	    {% endif %}
 	    </a>
     </div>
     <div class="speed">
-      <input class="sab_speed" type="text" value="{{ download_speed[:-5] }}" size="6" onkeydown="if(event.keyCode == 13){ajax_call('/sabnzbd/set_speed/'+$(this).val());}"/>{{ download_speed[-5:] }}
+      <input class="sab_speed" type="text" value="{{ download_speed[:-5] }}" size="6"/>{{ download_speed[-5:] }}
     </div>
     <p>
       {{ sabnzbd.slots[0].filename }}

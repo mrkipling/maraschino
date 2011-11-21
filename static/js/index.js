@@ -410,7 +410,20 @@ $(document).ready(function() {
 			$('#sabnzbd #extra-queue').html('More');		
 		}
 	});
+	
+	$('#sabnzbd .inner #status').live('click', function(){
+		if($('#sabnzbd .inner #status').text().indexOf('Paused') >= 0){
+			$.get('/sabnzbd/resume');
+		} else {
+			$.get('/sabnzbd/pause');		
+		}
+	});
 
+	$('#sabnzbd .inner .speed input').live('keydown', function(){
+		if(event.keyCode == 13){
+			ajax_call('/sabnzbd/set_speed/'+$(this).val());
+		}
+	});
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
