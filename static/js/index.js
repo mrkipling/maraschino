@@ -421,7 +421,7 @@ $(document).ready(function() {
 
 	$('#sabnzbd .inner .speed input').live('keydown', function(){
 		if(event.keyCode == 13){
-			ajax_call('/sabnzbd/set_speed/'+$(this).val());
+			$.get('/sabnzbd/set_speed/'+$(this).val());
 		}
 	});
 
