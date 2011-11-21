@@ -27,12 +27,12 @@
 	<div id="soon">
 		<h3>Soon</h3>
 		{% for i in soon %}
-			<div class="coming_ep">
+			<div class="coming_ep" id="{{i.tvdbid}}">
 				<img width="100%" src="http://{{ url }}/showPoster/?show={{i.tvdbid}}&which=banner" />
 				<h2><a href="http://{{url}}/home/displayShow?show={{i.tvdbid}}">{{ i.show_name }} - S{{ i.season }}E{{ i.episode }} - {{ i.ep_name }}</a></h2>
 				<div class="options">
 					<a href="http://www.thetvdb.com/?tab=series&id={{i.tvdbid}}" target="_blank"><img class="tvdb" src="/static/images/tvdb.png" title="{{i.show_name}} on TVDB"/></a>
-					<img class="search" src="/static/images/search.png" title="Search for episode"/>
+					<img class="search" src="/static/images/search.png" id="{{i.tvdbid}}" episode="{{i.episode}}" season="{{i.season}}" title="Search for episode"/>
 				</div>
 			</div>
 		{% endfor %}

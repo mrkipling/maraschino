@@ -433,7 +433,21 @@ $(document).ready(function() {
 	/*** SICKBEARD ***/
 
 	$('#sickbeard div.options img.search').live('click', function(){
-		alert('Not yet implemented');
+		$(this).attr('src','/static/images/xhrloading.gif');
+		var ep = $(this).attr('episode');
+		var season = $(this).attr('season');
+		var id = $(this).attr('id');
+		$.get('/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
+		.success(function(data){
+			if(data){
+				$('#sickbeard #'+id+' div.options img.search').attr('src','/static/images/yes.png');
+			} else {
+				$('#sickbeard #'+id+' div.options img.search').attr('src','/static/images/no.png');
+			}
+		})
+		.error(function(){
+			alert('Could not reach Sick-Beard.');	
+		})
 	});
 
   function add_loading_gif(element) {

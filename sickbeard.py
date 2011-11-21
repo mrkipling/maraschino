@@ -38,3 +38,18 @@ def xhr_sickbeard():
 		today = sickbeard['today'],
 		soon = sickbeard['soon']
 	)
+	
+@app.route('/sickbeard/search_ep/<tvdbid>/<season>/<episode>')
+@requires_auth
+def search_ep(tvdbid, season, episode):
+	try:
+		url = '%s/?cmd=episode.search&tvdbid=%s&season=%s&episode=%s' %(SICKBEARD_URL, tvdbid, season, episode)
+		result = urllib.urlopen(url).read()
+ 		sickbeard = json.JSONDecoder().decode(result)
+	except:
+		raise Exception
+		
+	if sickbeard['result'].rfind('success') >= 0:
+		return sickbeard
+		
+	return ''
