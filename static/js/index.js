@@ -424,6 +424,11 @@ $(document).ready(function() {
 			$.get('/sabnzbd/set_speed/'+$(this).val());
 		}
 	});
+	
+	$('#sabnzbd .inner #sabnzbd_next img.remove').live('click', function(){
+			$.get('/sabnzbd/remove/'+$(this).attr('id'));
+	});
+	
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');

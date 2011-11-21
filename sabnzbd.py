@@ -5,10 +5,11 @@ from maraschino import app
 from settings import *
 from tools import *
 
+SABNZBD_URL = get_setting_value('sabnzbd_url')
+
 @app.route('/xhr/sabnzbd')
 @requires_auth
 def xhr_sabnzbd():
-    SABNZBD_URL = get_setting_value('sabnzbd_url')
 
     try:
         if SABNZBD_URL == None:
@@ -37,9 +38,7 @@ def xhr_sabnzbd():
     )
     
 @app.route('/sabnzbd/<state>')
-def state_change(state):
-    SABNZBD_URL = get_setting_value('sabnzbd_url')
-    
+def state_change(state):    
     try:
         if SABNZBD_URL == None:
             raise Exception
@@ -55,9 +54,7 @@ def state_change(state):
     return result
 
 @app.route('/sabnzbd/set_speed/<speed>')
-def set_speed(speed):
-    SABNZBD_URL = get_setting_value('sabnzbd_url')
-    
+def set_speed(speed):    
     try:
         if SABNZBD_URL == None:
             raise Exception
@@ -69,3 +66,18 @@ def set_speed(speed):
         sabnzbd = None
         
     return result
+    
+@app.route('/sabnzbd/remove/<sabid>')
+def remove_item(sabid):
+    try:
+        if SABNZBD_URL == None:
+            raise Exception
+
+        url = '%s&mode=queue&name=delete&value=%s' % (SABNZBD_URL, sabid)
+        result = urllib.urlopen(url).read()
+            
+    except:
+        sabnzbd = None
+        
+    return result
+

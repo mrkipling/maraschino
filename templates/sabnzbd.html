@@ -38,8 +38,9 @@
 	  	  		{% for i in sabnzbd.slots %}
 	  	  		{% if i.index != 0 %}
   						<tr>
-	    					<td width="80%" class="extra_name" title="{{ i.filename }}">{{ i.filename }}<td/>
-	    					<td width="20%" align="right">{{ i.mb|int }} MB</td>
+	    					<td width="75%" class="extra_name" title="{{ i.filename }}">{{ i.filename }}<td/>
+	    					<td width="20%">{{ i.mb|int }} MB</td>
+	    					<td width="5%"><img class="remove" id="{{ i.nzo_id }}" title="delete {{ i.filename }} from queue" src="/static/images/remove_icon.png"></td>
 	    				</tr>
 	    			{% endif %}
 	    			{% endfor %}
