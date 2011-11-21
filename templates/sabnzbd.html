@@ -1,3 +1,4 @@
+{% if sabnzbd.slots %}
 <div id="sabnzbd" class="module" data-module="sabnzbd">
 
   <div class="module_settings"><span>Settings</span></div>
@@ -17,7 +18,6 @@
     <div class="speed">
       <input class="sab_speed" type="text" value="{{ download_speed[:-5] }}" size="6" onkeydown="if(event.keyCode == 13){ajax_call('/sabnzbd/set_speed/'+$(this).val());}"/>{{ download_speed[-5:] }}
     </div>
-		{% if sabnzbd.slots %}
     <p>
       {{ sabnzbd.slots[0].filename }}
     </p>
@@ -32,8 +32,8 @@
     </div>
     {% if (sabnzbd.slots) > 0 %}
     	<br>
-    	<p class="queue_sign" onclick="$('#sabnzbd .queue_sign .sabnzbd_next').toggle();">More</p>
-  		<div class="status">
+    	<a class="status" id="extra-queue">More</a>
+  		<div id="sabnzbd_next" style="display:none;">
   			<table style="width: 100%; table-layout:fixed;">
 	  	  		{% for i in sabnzbd.slots %}
 	  	  		{% if i.index != 0 %}

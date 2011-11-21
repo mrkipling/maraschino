@@ -401,6 +401,17 @@ $(document).ready(function() {
     });
   });
 
+	// sabnzbd module live functions
+	$('#sabnzbd #extra-queue').live('click', function() {
+		$('#sabnzbd_next').toggle('slow');
+		if($('#sabnzbd #extra-queue').html() == 'More'){
+			$('#sabnzbd #extra-queue').html('Less');
+		}	else {
+			$('#sabnzbd #extra-queue').html('More');		
+		}
+	});
+
+
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
   }
