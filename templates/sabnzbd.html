@@ -37,9 +37,9 @@
   			<table style="width: 100%; table-layout:fixed;">
 	  	  		{% for i in sabnzbd.slots %}
 	  	  		{% if i.index != 0 %}
-  						<tr>
+  						<tr id="{{ i.nzo_id }}">
 	    					<td width="80%" class="extra_name" title="{{ i.filename }}">{{ i.filename }}<td/>
-	    					<td width="25%" align="right">{{ i.mb|int }} MB  <img class="remove" id="{{ i.nzo_id }}" title="delete {{ i.filename }} from queue" src="/static/images/remove_icon.png"></td>
+	    					<td width="25%" align="right">{{ i.mb|int }} MB  <img class="remove" value="{{i.nzo_id}}" title="Delete {{ i.filename }} from queue" src="/static/images/remove_icon.png"></td>
 	    				</tr>
 	    			{% endif %}
 	    			{% endfor %}

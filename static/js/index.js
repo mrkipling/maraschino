@@ -426,7 +426,9 @@ $(document).ready(function() {
 	});
 	
 	$('#sabnzbd .inner #sabnzbd_next img.remove').live('click', function(){
-			$.get('/sabnzbd/remove/'+$(this).attr('id'));
+			$.get('/sabnzbd/remove/'+$(this).attr('value')).success(function(data) {
+							$('#'+data).hide(1000);
+						});
 	});
 	
 

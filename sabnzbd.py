@@ -78,9 +78,11 @@ def remove_item(sabid):
 
         url = '%s&mode=queue&name=delete&value=%s' % (SABNZBD_URL, sabid)
         result = urllib.urlopen(url).read()
+        if result.rfind('ok') >= 0:
+        	result = sabid
             
     except:
-        sabnzbd = None
+        result = False
         
     return result
 
