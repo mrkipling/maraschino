@@ -53,3 +53,19 @@ def search_ep(tvdbid, season, episode):
 		return sickbeard
 		
 	return ''
+	
+@app.route('/sickbeard/get_plot/<tvdbid>/<season>/<episode>')
+def get_plot(tvdbid, season, episode):
+	try:
+		url = '%s/?cmd=episode&tvdbid=%s&season=%s&episode=%s' %(SICKBEARD_URL, tvdbid, season, episode)
+		result = urllib.urlopen(url).read()
+ 		sickbeard = json.JSONDecoder().decode(result)
+	except:
+		raise Exception
+		
+	if sickbeard['result'].rfind('success') >= 0:
+		return sickbeard['data']['description']
+		
+	return ''
+	
+	

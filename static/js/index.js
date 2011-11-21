@@ -447,13 +447,32 @@ $(document).ready(function() {
 		})
 		.error(function(){
 			alert('Could not reach Sick-Beard.');	
-		})
+		});
 	});
 
 	//Air time on hover
 	$('#sickbeard .coming_ep').live('hover', function(){
 		var id = ($(this).attr('id'));
 		$('#sickbeard #'+id+' .details').toggle('slow');
+	});
+
+	//Plot display function
+	$('#sickbeard .coming_ep .details .plot').live('click', function(){
+		add_loading_gif($(this));
+		var id = $(this).closest('div.coming_ep').attr('id');
+		var tv = $('#'+id+' .search').attr('id');
+		var se = $('#'+id+' .search').attr('season');
+		var ep = $('#'+id+' .search').attr('episode');
+		$.get('/sickbeard/get_plot/'+tv+'/'+se+'/'+ep)
+		.success(function(data){
+			if(data){
+				alert(data);
+			}
+		})
+		.error(function(){
+			alert('Could not reach Sick-Beard.');	
+		});
+		remove_loading_gif($(this));
 	});
 
   function add_loading_gif(element) {
