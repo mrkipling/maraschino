@@ -8,12 +8,30 @@
 	{% if missed|length %}
 	<div id="missed">SB has missed {{missed|length}} episodes</div>
 	{% endif %}
-	<div id="soon">
-		{% for i in soon %}
-			<a>{{ i.show_name }} - S{{ i.season }}E{{ i.episode }} - {{ i.ep_name }}</a>
-			<img class="coming_ep" src="http://{{ url }}/showPoster/?show={{i.tvdbid}}&which=banner"
+	{% if today|length %}
+	<div id="today">
+		{% for i in today %}
+			<div class="coming_ep">
+				<img src="http://{{ url }}/showPoster/?show={{i.tvdbid}}&which=banner" />
+				<h2 class="name">{{ i.show_name }} - S{{ i.season }}E{{ i.episode }} <br /> {{ i.ep_name }}</h2>
+			</div>
 		{% endfor %}
 	</div>
+	{% endif %}
+	{% if soon|length %}
+	<div id="soon">
+		{% for i in soon %}
+			<div class="coming_ep">
+				<img width="100%" src="http://{{ url }}/showPoster/?show={{i.tvdbid}}&which=banner" />
+				<h2><a href="http://{{url}}/home/displayShow?show={{i.tvdbid}}">{{ i.show_name }} - S{{ i.season }}E{{ i.episode }} - {{ i.ep_name }}</a></h2>
+			</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+	{% if later|length %}
+	<div id="later">
+	</div>
+	{% endif %}
 </div>
 {% else %}
 <div class="placeholder" data-module="sickbeard">
