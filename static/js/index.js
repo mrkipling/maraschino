@@ -440,9 +440,9 @@ $(document).ready(function() {
 		$.get('/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
 		.success(function(data){
 			if(data){
-				$('#sickbeard #'+id+' div.options img.search').attr('src','/static/images/yes.png');
+				$('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src','/static/images/yes.png');
 			} else {
-				$('#sickbeard #'+id+' div.options img.search').attr('src','/static/images/no.png');
+				$('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src','/static/images/no.png');
 			}
 		})
 		.error(function(){
