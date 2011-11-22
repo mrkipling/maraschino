@@ -79,7 +79,16 @@
 		{%for i in sickbeard%}
 			<div id="{{i}}" class="sbshow">
 				{% set show = sickbeard[i]%}
-				<img src="{{show.url}}" height="25px" /><span class="sb-name" tvdb="{{ i }}">{{show.show_name}}</span><span class="quality">{{show.quality}}</span>
+				<img src="{{show.url}}" class="sb-image" />
+				<li class="sb-name" tvdb="{{ i }}">{{show.show_name}}</li>
+				<li class="quality"><img src="/static/images/
+					{% if show.quality=='SD' %}
+						sd-icon
+					{% else %}
+						hd-icon
+					{% endif %}
+					.png" class="sb-image"/>
+				</li>
 			</div>
 		{% endfor %}
 	</div>
