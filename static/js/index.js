@@ -474,7 +474,8 @@ $(document).ready(function() {
 		});
 		remove_loading_gif($(this));
 	});
-
+	
+	//Plot hide function
 	$('#sickbeard .coming_ep .details .plot').live('mouseleave', function(){
 		var id = $(this).closest('div.coming_ep').attr('id');
 		$('#sickbeard #'+id+' .details .plot').css('height','').css('top','').css('width','').css('bottom','0').css('background', 'rgba(0, 0, 0, 0.5)').html('Plot');
@@ -485,10 +486,23 @@ $(document).ready(function() {
 		$('#sickbeard .missed').toggle();
 	});
 	
+	//Change menu
 	$('body').delegate('#sickbeard .all', 'click', function(){
 		$.get('/sickbeard/get_all', function(data){
-			$('#sickbeard').html(data);
+			var content = $(data);
+			$('#sickbeard #content').html(content.find('#content'));
 		});
+	});
+	//Change Menu
+	$('body').delegate('#sickbeard .upcoming', 'click', function(){
+		$.get('/xhr/sickbeard', function(data){
+			var content = $(data);
+			$('#sickbeard #content').html(content.find('#content'));
+		});
+	});
+	//Show Menu
+	$('body').delegate('#sickbeard .menu-icon', 'click', function(){
+		$('#sickbeard .menu').toggle('slow');
 	});
 
   function add_loading_gif(element) {
