@@ -16,6 +16,7 @@ except:
 	LOGIN = ''
 	
 SICKBEARD_URL = 'http://%s%s:%s/api/%s' % (LOGIN, SICKBEARD_IP, SICKBEARD_PORT, SICKBEARD_API)
+URL = 'http://%s%s:%s/' % (LOGIN, SICKBEARD_IP, SICKBEARD_PORT)
 
 @app.route('/xhr/sickbeard')
 def xhr_sickbeard():
@@ -30,13 +31,14 @@ def xhr_sickbeard():
 		sickbeard = sickbeard['data']
 	else:
 		sickbeard = ''
-		
+	
 	return render_template('sickbeard.html',
 		url = '%s:%s' %(SICKBEARD_IP, SICKBEARD_PORT) ,
 		sickbeard = sickbeard,
 		missed = sickbeard['missed'],
 		today = sickbeard['today'],
-		soon = sickbeard['soon']
+		soon = sickbeard['soon'],
+		type = 'FUTURE',
 	)
 	
 @app.route('/sickbeard/search_ep/<tvdbid>/<season>/<episode>')
@@ -57,15 +59,36 @@ def search_ep(tvdbid, season, episode):
 @app.route('/sickbeard/get_plot/<tvdbid>/<season>/<episode>')
 def get_plot(tvdbid, season, episode):
 	try:
-		url = '%s/?cmd=episode&tvdbid=%s&season=%s&episode=%s' %(SICKBEARD_URL, tvdbid, season, episode)
+		url = '%s/home/plotDetails?show=%s&episode=%s&season=%s' %(URL, tvdbid, episode, season)
+		plot = urllib.urlopen(url).read()
+	except:
+		raise Exception
+		
+	if plot:
+		return plot
+		
+	return ''
+
+@app.route('/sickbeard/get_all')
+def get_all():
+	try:
+		url = '%s/?cmd=shows' %(SICKBEARD_URL)
 		result = urllib.urlopen(url).read()
  		sickbeard = json.JSONDecoder().decode(result)
 	except:
 		raise Exception
 		
 	if sickbeard['result'].rfind('success') >= 0:
-		return sickbeard['data']['description']
-		
-	return ''
+		sickbeard = sickbeard['data']
+		for show in sickbeard:
+			sickbeard[show]['url'] = get_pic(show)
+		sickbeard['type'] = 'ALL'
 	
-	
+	return render_template('sickbeard.html',
+		sickbeard = sickbeard,
+		type = 'ALL',
+	)
+
+def get_pic(tvdb, style='banner'):
+	url = '%s:%s' %(SICKBEARD_IP, SICKBEARD_PORT)
+	return 'http://%s/showPoster/?show=%s&which=%s' %(url, tvdb, style)

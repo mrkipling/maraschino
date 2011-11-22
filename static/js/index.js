@@ -457,7 +457,7 @@ $(document).ready(function() {
 	});
 
 	//Plot display function
-	$('#sickbeard .coming_ep .details .plot').live('click', function(){
+	$('#sickbeard .coming_ep .details .plot').live('mouseenter', function(){
 		add_loading_gif($(this));
 		var id = $(this).closest('div.coming_ep').attr('id');
 		var tv = $('#'+id+' .search').attr('id');
@@ -466,7 +466,7 @@ $(document).ready(function() {
 		$.get('/sickbeard/get_plot/'+tv+'/'+se+'/'+ep)
 		.success(function(data){
 			if(data){
-				alert(data);
+				$('#sickbeard #'+id+' .details .plot').css('height','90%').css('width','90%').css('top','0').css('background', 'rgba(0, 0, 0, 0.9)').html(data)
 			}
 		})
 		.error(function(){
@@ -475,8 +475,20 @@ $(document).ready(function() {
 		remove_loading_gif($(this));
 	});
 
+	$('#sickbeard .coming_ep .details .plot').live('mouseleave', function(){
+		var id = $(this).closest('div.coming_ep').attr('id');
+		$('#sickbeard #'+id+' .details .plot').css('height','').css('top','').css('width','').css('bottom','0').css('background', 'rgba(0, 0, 0, 0.5)').html('Plot');
+	});
+
+	//Toggle missed episodes
 	$('#sickbeard #missed').live('click', function(){
 		$('#sickbeard .missed').toggle();
+	});
+	
+	$('body').delegate('#sickbeard .all', 'click', function(){
+		$.get('/sickbeard/get_all', function(data){
+			$('#sickbeard').html(data);
+		});
 	});
 
   function add_loading_gif(element) {
