@@ -88,6 +88,25 @@ def get_all():
 		type = 'ALL',
 	)
 
+@app.route('/sickbeard/get_show_info/<tvdbid>')
+def show_info(tvdbid):
+	try:
+		url = '%s/?cmd=show&tvdbid=%s' %(SICKBEARD_URL, tvdbid)
+		result = urllib.urlopen(url).read()
+ 		sickbeard = json.JSONDecoder().decode(result)
+	except:
+		raise Exception
+		
+	if sickbeard['result'].rfind('success') >= 0:
+		sickbeard = sickbeard['data']
+		sickbeard['url'] = get_pic(tvdbid, 'poster')
+		sickbeard['tvdb'] = tvdbid
+	
+	return render_template('sickbeard.html',
+		sickbeard = sickbeard,
+		type = 'SHOW',
+	)
+
 def get_pic(tvdb, style='banner'):
 	url = '%s:%s' %(SICKBEARD_IP, SICKBEARD_PORT)
 	return 'http://%s/showPoster/?show=%s&which=%s' %(url, tvdb, style)

@@ -490,20 +490,34 @@ $(document).ready(function() {
 	$('body').delegate('#sickbeard .all', 'click', function(){
 		$.get('/sickbeard/get_all', function(data){
 			var content = $(data);
-			$('#sickbeard #content').html(content.find('#content'));
+			$('#sickbeard #content').html(content.find('#content').html());
 		});
 	});
 	//Change Menu
 	$('body').delegate('#sickbeard .upcoming', 'click', function(){
 		$.get('/xhr/sickbeard', function(data){
 			var content = $(data);
-			$('#sickbeard #content').html(content.find('#content'));
+			$('#sickbeard #content').html(content.find('#content').html());
 		});
 	});
 	//Show Menu
 	$('body').delegate('#sickbeard .menu-icon', 'click', function(){
 		$('#sickbeard .menu').toggle('slow');
 	});
+	
+	$('body').delegate('#sickbeard #sickbeard-list li.sb-name', 'click', function(){
+		var id = $(this).attr('tvdb');
+		$.get('/sickbeard/get_show_info/'+id, function(data){
+				$('#sickbeard #sickbeard-list').hide();
+				$('#sickbeard #show-info-result').html($(data).find('#content').html());
+		});
+	});
+	
+	$('body').delegate('#sickbeard #show-info-result .sb-back', 'click', function(){
+				$('#sickbeard #sickbeard-list').show();
+				$('#sickbeard #show-info-result').html('');
+	});
+	
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');

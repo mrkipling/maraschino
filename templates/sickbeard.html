@@ -91,6 +91,20 @@
 				</div>
 			{% endfor %}
 		</div>
+		<div id="show-info-result"></div>
+	{% elif type == 'SHOW'%}
+		<div id='show'>
+			<p style="float:right;" class="sb-back">BACK</p>
+			<p>{{sickbeard.airs}}</p>
+			{% for season in sickbeard.season_list %}
+				<p>{{ season }}</p>
+			{% endfor %}
+			<img src="{{sickbeard.url}}" height="100px" />
+			<p>{{sickbeard.quality}}</p>
+			{% for genre in sickbeard.genre %}
+				<p>{{ genre }}</p>
+			{% endfor %}
+		</div>
 	{% endif %}
 	</div>
 </div>
