@@ -78,7 +78,7 @@
 	<!-- 	ALL SHOWS	 -->
 	{% elif type == 'ALL'%}
 		<div id="sickbeard-list">
-			{%for i in sickbeard%}
+			{%for i in sickbeard %}
 				<div id="{{i}}" class="sbshow">
 					{% set show = sickbeard[i]%}
 					<img src="{{show.url}}" class="sb-image" />
@@ -92,6 +92,7 @@
 			{% endfor %}
 		</div>
 		<div id="show-info-result"></div>
+	<!-- 	INDIVIDUAL SHOW INFO	 -->
 	{% elif type == 'SHOW'%}
 		<div id='show'>
 			<p style="float:right;" class="sb-back">BACK</p>
