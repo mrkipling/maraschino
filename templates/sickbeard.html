@@ -78,11 +78,11 @@
 	<!-- 	ALL SHOWS	 -->
 	{% elif type == 'ALL'%}
 		<div id="sickbeard-list">
-			{%for i in sickbeard %}
-				<div id="{{i}}" class="sbshow">
+			{%for i in sickbeard|sort %}
+				<div id="{{i.tvdbid}}" class="sbshow">
 					{% set show = sickbeard[i]%}
 					<img src="{{show.url}}" class="sb-image" />
-					<li class="sb-name" tvdb="{{ i }}">{{show.show_name}}</li>
+					<li class="sb-name" tvdb="{{ show.tvdbid }}">{{i}}</li>
 					<li class="quality">
 						{% if show.quality=='HD' %}
 							<img src="/static/images/hd-icon.png" class="sb-image"/>

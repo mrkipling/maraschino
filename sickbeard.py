@@ -72,16 +72,16 @@ def get_plot(tvdbid, season, episode):
 @app.route('/sickbeard/get_all')
 def get_all():
 	try:
-		url = '%s/?cmd=shows' %(SICKBEARD_URL)
+		url = '%s/?cmd=shows&sort=name' %(SICKBEARD_URL)
 		result = urllib.urlopen(url).read()
  		sickbeard = json.JSONDecoder().decode(result)
 	except:
 		raise Exception
 		
-	if sickbeard['result'].rfind('success') >= 0:
+	if sickbeard['result'].rfind('success') >=0:
 		sickbeard = sickbeard['data']
 		for show in sickbeard:
-			sickbeard[show]['url'] = get_pic(show, 'poster')
+			sickbeard[show]['url'] = get_pic(sickbeard[show]['tvdbid'], 'poster')
 	
 	return render_template('sickbeard.html',
 		sickbeard = sickbeard,
