@@ -60,7 +60,7 @@
               <div class="inner">
                 <h3>{{ movie.title }}</h3>
                 <p>Year: {{ movie.year }}</p>
-                <p class="title">Rating: {{ movie.rating }}</p>
+                <p class="title">Rating: {{ movie.rating|float|round(1, 'common') }}</p>
               </div>
 
             </li>
