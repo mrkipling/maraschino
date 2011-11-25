@@ -27,7 +27,7 @@
     </div>
 
     <div class="clearfix">
-      <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.slots[0].timeleft }} / {{ sabnzbd.slots[0].mbleft|int }} MB</p>
+      <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.slots[0].timeleft }} - {{ sabnzbd.slots[0].mbleft|int }}/{{ sabnzbd.slots[0].mb|int }} MB</p>
       <p class="percentage_complete">{{ percentage_total }}% complete</p>
     </div>
     {% if (sabnzbd.slots) > 0 %}
@@ -35,14 +35,12 @@
     	<a class="status" id="extra-queue"><span></span></a>
   		<div id="sabnzbd_next" style="display:none;">
   			<table style="width: 100%; table-layout:fixed;">
-	  	  		{% for i in sabnzbd.slots %}
-	  	  		{% if i.index != 0 %}
-  						<tr id="{{ i.nzo_id }}">
-	    					<td width="80%" class="extra_name" title="{{ i.filename }}">{{ i.filename }}<td/>
-	    					<td width="25%" align="right">{{ i.mb|int }} MB  <img class="remove" value="{{i.nzo_id}}" title="Delete {{ i.filename }} from queue" src="/static/images/remove_icon.png" /></td>
-	    				</tr>
-	    			{% endif %}
-	    			{% endfor %}
+	  	  		{% for i in range(1, num_queue_items + 1) %}
+					<tr id="{{ sabnzbd.slots[i].nzo_id }}">
+    					<td width="80%" class="extra_name" title="{{ sabnzbd.slots[i].filename }}">{{ sabnzbd.slots[i].filename }}<td/>
+    					<td width="25%" align="right">{{ sabnzbd.slots[i].mb|int }} MB  <img class="remove" value="{{sabnzbd.slots[i].nzo_id}}" title="Delete {{ sabnzbd.slots[i].filename }} from queue" src="/static/images/remove_icon.png" /></td>
+    				</tr>
+    			{% endfor %}
 	    	</table>
     	</div>
     {% endif %}

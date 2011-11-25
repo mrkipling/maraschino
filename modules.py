@@ -67,6 +67,11 @@ AVAILABLE_MODULES = [
                 'value': 'http://<hostname>:<port>/api?apikey=<apikeygoeshere>',
                 'description': 'SABnzbd URL',
             },
+            {
+                'key': 'num_queue_items',
+                'value': 5,
+                'description': 'Number of queue items to show',
+            },
         ]
     },
     {

@@ -6,6 +6,7 @@ from settings import *
 from tools import *
 
 SABNZBD_URL = get_setting_value('sabnzbd_url')
+NUM_QUEUE_ITEMS = get_setting_value('num_queue_items')
 
 @app.route('/xhr/sabnzbd')
 @requires_auth
@@ -24,16 +25,25 @@ def xhr_sabnzbd():
         
         if sabnzbd['slots']:
             percentage_total = int(sabnzbd['slots'][0]['percentage'])
-
+        
+        num_queue_items = int(NUM_QUEUE_ITEMS)
+        
+        if num_queue_items > len(sabnzbd['slots']) + 1:
+            num_queue_items = len(sabnzbd['slots']) - 1
+            if num_queue_items < 0:
+                num_queue_items = 0
+        
     except:
         sabnzbd = None
         percentage_total = None
         download_speed = None
+        num_queue_items = None
 
     return render_template('sabnzbd.html',
         sabnzbd = sabnzbd,
         percentage_total = percentage_total,
         download_speed = download_speed,
+        num_queue_items = num_queue_items,
     )
     
 @app.route('/sabnzbd/<state>')
