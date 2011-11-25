@@ -84,22 +84,3 @@ def remove_item(sabid):
         result = False
         
     return result
-
-@app.route('/sabnzbd/history')
-@requires_auth
-def sab_history():
-    try:
-        if SABNZBD_URL == None:
-            raise Exception
-
-        url = '%s&mode=history&start=START&limit=LIMIT&output=json' % (SABNZBD_URL)
-        result = urllib.urlopen(url).read()
-        history = json.JSONDecoder().decode(result)
-
-    except:
-        sabnzbd = None
-
-    return render_template('sabnzbd.html',
-    	sabnzbd = 0,
-    	history = history['history']['slots'],
-    )
