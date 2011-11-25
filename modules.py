@@ -102,6 +102,21 @@ AVAILABLE_MODULES = [
             },
         ]
     },
+    {
+        'name': 'xbmc_control',
+        'label': 'XBMC controls',
+        'description': 'Controls your XBMC',
+        'static': False,
+        'poll': 120,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'server_macaddress',
+                'value': '',
+                'description': 'XBMC mac address',
+            },
+        ]
+    },
 ]
 
 SERVER_SETTINGS = [
