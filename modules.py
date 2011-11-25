@@ -48,9 +48,9 @@ AVAILABLE_MODULES = [
         'delay': 0,
         'settings': [
             {
-                'key': 'num_recent_episodes',
-                'value': 5,
-                'description': 'Number of episodes to display',
+                'key': 'num_recent_videos',
+                'value': 2,
+                'description': 'Number of videos of each type to display',
             },
         ]
     },

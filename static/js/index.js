@@ -363,16 +363,32 @@ $(document).ready(function() {
 
   // view more recently added episodes
 
-  $('#recently_added .view_older').live('click', function() {
+  $('#recently_added .view_older_episodes').live('click', function() {
     get_module('recently_added', {
-      params: [$('#recently_added').data('offset') + $('#recently_added .episodes > li').length]
+      params: [$('#recently_added').data('episode_offset') + $('#recently_added .episodes > li').length, $('#recently_added').data('movie_offset')]
     });
     return false;
   });
 
-  $('#recently_added .view_newer').live('click', function() {
+  $('#recently_added .view_newer_episodes').live('click', function() {
     get_module('recently_added', {
-      params: [$('#recently_added').data('offset') - $('#recently_added .episodes > li').length]
+      params: [$('#recently_added').data('episode_offset') - $('#recently_added .episodes > li').length, $('#recently_added').data('movie_offset')]
+    });
+    return false;
+  });
+
+  // view more recently added movies
+
+  $('#recently_added .view_older_movies').live('click', function() {
+    get_module('recently_added', {
+      params: [$('#recently_added').data('episode_offset'), $('#recently_added').data('movie_offset') + $('#recently_added .movies > li').length]
+    });
+    return false;
+  });
+
+  $('#recently_added .view_newer_movies').live('click', function() {
+    get_module('recently_added', {
+      params: [$('#recently_added').data('episode_offset'), $('#recently_added').data('movie_offset') - $('#recently_added .movies > li'). length]
     });
     return false;
   });
