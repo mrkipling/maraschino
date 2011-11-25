@@ -45,4 +45,10 @@ def xhr_controls(command):
     elif command == 'stop':
         xbmc.Player.Stop(playerid=1)
 
+    elif command == 'update_video':
+    	xbmc.VideoLibrary.Scan()
+	
+    elif command == 'clean_video':
+    	xbmc.VideoLibrary.Clean()
+
     return jsonify({ 'success': True })

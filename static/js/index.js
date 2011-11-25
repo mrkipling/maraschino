@@ -273,6 +273,18 @@ $(document).ready(function() {
     });
   }
 
+  // update video library control
+  
+  $('#library #video-update').live('click', function() {
+	$.get('/xhr/controls/update_video');
+  });
+  
+  // clean video library control
+  
+  $('#library #video-clean').live('click', function() {
+	$.get('/xhr/controls/clean_video');
+  });
+  
   // post trakt shout
 
   $('#add_shout .submit').live('click', function() {
