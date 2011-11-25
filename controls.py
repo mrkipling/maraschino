@@ -51,4 +51,10 @@ def xhr_controls(command):
     elif command == 'clean_video':
     	xbmc.VideoLibrary.Clean()
 
+    elif command == 'update_audio':
+        xbmc.AudioLibrary.Scan()
+
+    elif command == 'clean_audio':
+        xbmc.AudioLibrary.Clean()
+    	
     return jsonify({ 'success': True })
