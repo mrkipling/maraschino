@@ -48,10 +48,12 @@
     {% endif %}
     <div class="history">HISTORY</div>
   </div>
+  <div class="result"></div>
 </div>
 {% elif history %}
 <div id="sabnzbd" class="module" data-module="sabnzbd">
 	<h2>History</h2>
+	<div class="back-button">BACK</div>
 	<table id="history" class="tablesorter">
 		<thead> 
 			<tr> 
@@ -65,11 +67,11 @@
 		<tbody align="center">
 			{% for i in history %}
 			<tr>
-				<td width="50%">{{ i.name }}</td>
-				<td>{{ i.status }}</td>
-				<td>{{ i.size }}</td>
-				<td>{{ (i.download_time/60)|int }}:{{i.download_time%60}} minutes</td>
-				<td>{{ i.category }}</td>
+				<td class="name">{{ i.name }}</td>
+				<td class="status">{{ i.status }}</td>
+				<td class="size">{{ i.size }}</td>
+				<td class="time">{{ (i.download_time/60)|int }}:{{i.download_time%60}} minutes</td>
+				<td class="cat">{{ i.category }}</td>
 			</tr>
 			{% endfor %}
 		</tbody>
@@ -87,6 +89,7 @@
 				<option  value="40">40</option>
 			</select>
 	</div>
+	<div style="clear: both; height: 100px;"></div>
 </div>
 {% else %}
 <div class="placeholder" data-module="sabnzbd">

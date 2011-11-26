@@ -430,11 +430,16 @@ $(document).ready(function() {
 	
 	$('#sabnzbd .history').live('click', function(){
 		$.get('/sabnzbd/history' , function(data, responseText){
-			$('#sabnzbd').replaceWith(data);
+			var content = $(data);
+			$('#sabnzbd .result').html(content.html());
+			$('#sabnzbd .inner').hide();
 			$("#history").tablesorter({widthFixed: true}).tablesorterPager({container: $("#pager")});
 		});
 	});
-	
+	$('#sabnzbd .back-button').live('click', function(){
+			$('#sabnzbd .result').hide();
+			$('#sabnzbd .inner').show('slow');
+	});
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
