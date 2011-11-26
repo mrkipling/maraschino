@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
   // helper functions
 
   var settings_buttons = '<div class="module_settings"><span>Settings</span></div><div class="module_remove"><span>Remove</span></div>';
@@ -429,6 +428,13 @@ $(document).ready(function() {
 						});
 	});
 	
+	$('#sabnzbd .history').live('click', function(){
+		$.get('/sabnzbd/history' , function(data, responseText){
+			$('#sabnzbd').replaceWith(data);
+			$("#history").tablesorter({widthFixed: true}).tablesorterPager({container: $("#pager")});
+		});
+	});
+	
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
@@ -698,5 +704,4 @@ $(document).ready(function() {
       }
     });
   });
-
 });

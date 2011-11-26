@@ -46,20 +46,11 @@
 	    	</table>
     	</div>
     {% endif %}
+    <div class="history">HISTORY</div>
   </div>
 </div>
-<!--
 {% elif history %}
 <div id="sabnzbd" class="module" data-module="sabnzbd">
-	<script src="/static/js/lib/jquery.js"></script>
-	<script src="/static/js/lib/jquery.tablesorter.min.js"></script>
-	<script src="/static/js/lib/jquery.tablesorter.pager.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function() 
-    { 
-    	$("#history").tablesorter({widthFixed: true, widgets: ['zebra']}).tablesorterPager({container: $("#pager")});
-    }); 
-	</script>
 	<h2>History</h2>
 	<table id="history" class="tablesorter">
 		<thead> 
@@ -97,7 +88,6 @@
 			</select>
 	</div>
 </div>
--->
 {% else %}
 <div class="placeholder" data-module="sabnzbd">
   <div class="module_settings"><span>Settings</span></div>
