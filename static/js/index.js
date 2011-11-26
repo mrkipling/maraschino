@@ -428,18 +428,41 @@ $(document).ready(function() {
 						});
 	});
 	
-	$('#sabnzbd .history').live('click', function(){
+	$('#sabnzbd .menu .history').live('click', function(){
 		$.get('/sabnzbd/history' , function(data, responseText){
 			var content = $(data);
-			$('#sabnzbd .result').html(content.html());
-			$('#sabnzbd .inner').hide();
+			$('#sabnzbd').html(content.html());
 			$("#history").tablesorter({widthFixed: true}).tablesorterPager({container: $("#pager")});
 		});
 	});
+
+	$('#sabnzbd .menu .queue').live('click', function(){
+		$.get('/xhr/sabnzbd' , function(data, responseText){
+			var content = $(data);
+			$('#sabnzbd').html(content.html());
+		});
+	});
+	
 	$('#sabnzbd .back-button').live('click', function(){
 			$('#sabnzbd .result').hide();
 			$('#sabnzbd .inner').show('slow');
 	});
+
+	// SAB Menu SHOW
+/*
+	$('#sabnzbd .title').live('focusin', function(){
+		$('#sabnzbd .menu').show('slow');
+	});
+*/
+	$('#sabnzbd .title').live('click', function(){
+		$('#sabnzbd .menu').toggle('slow');
+	});
+
+	//SAB Menu HIDE
+	$('#sabnzbd .title').live('focusout', function(){
+		$('#sabnzbd .menu').hide();
+	});
+
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');

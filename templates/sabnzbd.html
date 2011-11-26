@@ -4,7 +4,11 @@
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
 
-  <h2>SABnzbd+</h2>
+  <h2 class="title">SABnzbd+</h2>
+  <div class="menu">
+  	<p class="queue">Queue</p>
+  	<p class="history">History</p>
+  </div>
   <div class="inner">
     <div class="status" id="status">
     	<a>
@@ -46,13 +50,19 @@
 	    	</table>
     	</div>
     {% endif %}
-    <div class="history">HISTORY</div>
   </div>
-  <div class="result"></div>
 </div>
 {% elif history %}
 <div id="sabnzbd" class="module" data-module="sabnzbd">
-	<h2>History</h2>
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2 class="title">SABnzbd+ History</h2>
+  <div class="menu">
+  	<p class="queue">Queue</p>
+  	<p class="history">History</p>
+  </div>
 	<div class="back-button">BACK</div>
 	<table id="history" class="tablesorter">
 		<thead> 
