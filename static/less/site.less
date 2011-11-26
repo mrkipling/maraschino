@@ -259,6 +259,13 @@ ul.modules
   margin: -12px 15px 15px;
 }
 
+.module .subheading
+{
+  color: #ccc;
+  font-size: 1.3em;
+  margin: 0px 6px -3px;
+}
+
 .f_settings_mode .module,
 .f_settings_mode .inactive_module,
 .f_settings_mode .placeholder
@@ -603,7 +610,8 @@ ul.modules
 
 /*--- episodes list ---*/
 
-ul.episodes li
+ul.episodes li,
+ul.movies li
 {
   background: url(/static/images/alpha/fff_10.png);
   border: 1px solid #222;
@@ -615,46 +623,54 @@ ul.episodes li
   .border-radius(4px);
 }
 
-ul.episodes li:first-child
+ul.episodes li:first-child,
+ul.movies li:first-child
 {
-  margin-top: 0;
+  margin-top: -8px;
 }
 
-ul.episodes li:hover
+ul.episodes li:hover,
+ul.movies li:hover
 {
   background: url(/static/images/alpha/fff_20.png);
   cursor: pointer;
 }
 
-ul.episodes .inner
+ul.episodes .inner,
+ul.movies .inner
 {
   padding: 5px 107px 5px 15px;
   .border-radius(4px);
 }
 
-ul.episodes li.watched .inner
+ul.episodes li.watched .inner,
+ul.movies li.watched .inner
 {
   border-left: 3px solid #ccc;
   padding-left: 12px;
 }
 
-ul.episodes h3
+ul.episodes h3,
+ul.movies h3
 {
   font-size: 1.2em;
   margin-top: 6px;
 }
 
-ul.episodes p
+ul.episodes p,
+ul.movies p
 {
   color: #ccc;
 }
 
-ul.episodes .title
+ul.episodes .title,
+ul.movies .title
 {
   margin-bottom: 6px;
 }
 
-ul.episodes img
+ul.episodes img,
+ul.movies img
 {
   position: absolute;
   right: 5px;
@@ -1142,7 +1158,9 @@ ul.episodes img
 }
 
 #library li,
-#library .back
+#library .back,
+#library .update,
+#library .clean
 {
   background: url(/static/images/alpha/fff_10.png);
   border: 1px solid #222;
@@ -1166,7 +1184,9 @@ ul.episodes img
 }
 
 #library li:hover,
-#library .back:hover
+#library .back:hover,
+#library .update:hover,
+#library .clean:hover
 {
   background: url(/static/images/alpha/fff_20.png);
 }
@@ -1200,7 +1220,29 @@ ul.episodes img
   text-indent: -9999px;
 }
 
+#library .update
+{
+  color: #ccc;
+  font-size: 1.2em;
+  font-weight: bold;
+  position: absolute;
+  margin-top: 0;
+  padding: 3px 15px;
+  right: 109px;
+  top: 12px;
+}
 
+#library .clean
+{
+  color: #ccc;
+  font-size: 1.2em;
+  font-weight: bold;
+  position: absolute;
+  margin-top: 0;
+  padding: 3px 15px;
+  right: 65px;
+  top: 12px;
+}
 
 
 
@@ -1211,6 +1253,10 @@ ul.episodes img
   margin: -7px 15px 15px;
 }
 
+#recently_added .recentvidtitle
+{
+  margin-bottom: -11px;
+}
 
 
 
@@ -1228,30 +1274,82 @@ ul.episodes img
 
 /*--- view more ---*/
 
-.view_older,
-.view_newer
+.view_older_episodes,
+.view_newer_episodes,
+.view_older_movies,
+.view_newer_movies
 {
   background: url(/static/images/alpha/fff_10.png);
   border: 1px solid #222;
   color: #ccc;
-  display: block;
-  float: left;
+  display: inline;
   font-size: 1.2em;
   margin-top: 5px;
   padding: 2px 14px;
-  position: relative;
+  position: absolute;
+  top: 4px;
+  right: 50px;
   text-align: center;
+  cursor: pointer;
 
   .border-radius(4px);
 }
 
-.view_older
+.view_older_episodes,
+.view_older_movies
 {
-  float: right;
+  right: 10px;
 }
 
-.view_older:hover,
-.view_newer:hover
+.view_older_episodes:hover,
+.view_newer_episodes:hover,
+.view_older_movies:hover,
+.view_newer_movies:hover
 {
   background: url(/static/images/alpha/fff_20.png);
+}
+
+
+
+/*--- xbmc control ---*/
+
+#xbmc_control .ctrlholder
+{
+  margin-bottom: 7px;
+  cursor: default;
+}
+
+#xbmc_control .control
+{
+  background: url(/static/images/alpha/fff_10.png);
+  border: 1px solid #222;
+  cursor: pointer;
+  line-height: 1.3em;
+  margin-top: 5px;
+  padding: 5px 8px;
+
+  .border-radius(4px);
+}
+
+#xbmc_control .control:hover
+{
+  background: url(/static/images/alpha/fff_20.png);
+}
+
+#xbmc_control #xbmc_suspend,
+#xbmc_control #xbmc_poweroff,
+#xbmc_control #xbmc_reboot,
+#xbmc_control #xbmc_poweron
+{
+  color: #ccc;
+  font-size: 1.2em;
+}
+
+#xbmc_control #xbmc_poweron
+{
+  position: absolute;
+  margin-top: 0;
+  margin-bottom: 0;
+  right: 20%;
+  top: 10px;
 }

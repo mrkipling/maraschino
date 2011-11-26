@@ -48,9 +48,9 @@ AVAILABLE_MODULES = [
         'delay': 0,
         'settings': [
             {
-                'key': 'num_recent_episodes',
-                'value': 5,
-                'description': 'Number of episodes to display',
+                'key': 'num_recent_videos',
+                'value': 2,
+                'description': 'Number of videos of each type to display',
             },
         ]
     },
@@ -66,6 +66,11 @@ AVAILABLE_MODULES = [
                 'key': 'sabnzbd_url',
                 'value': 'http://<hostname>:<port>/api?apikey=<apikeygoeshere>',
                 'description': 'SABnzbd URL',
+            },
+            {
+                'key': 'num_queue_items',
+                'value': 5,
+                'description': 'Number of queue items to show',
             },
         ]
     },
@@ -99,6 +104,21 @@ AVAILABLE_MODULES = [
                 'key': 'trakt_password',
                 'value': '',
                 'description': 'Trakt password',
+            },
+        ]
+    },
+    {
+        'name': 'xbmc_control',
+        'label': 'XBMC controls',
+        'description': 'Controls your XBMC',
+        'static': False,
+        'poll': 120,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'server_macaddress',
+                'value': '',
+                'description': 'XBMC mac address',
             },
         ]
     },
