@@ -96,15 +96,17 @@
 	{% elif type == 'SHOW'%}
 		<div id='show'>
 			<p style="float:right;" class="sb-back">BACK</p>
+			<img class="sb-img" src="{{sickbeard.url}}" />
 			<p>{{sickbeard.airs}}</p>
-			{% for season in sickbeard.season_list %}
-				<p>{{ season }}</p>
-			{% endfor %}
-			<img src="{{sickbeard.url}}" height="100px" />
 			<p>{{sickbeard.quality}}</p>
 			{% for genre in sickbeard.genre %}
 				<p>{{ genre }}</p>
 			{% endfor %}
+			<div class="seasons">
+			{% for season in sickbeard.season_list|sort %}
+				<p>{{ season }}</p>
+			{% endfor %}
+			</div>
 		</div>
 	{% endif %}
 	</div>

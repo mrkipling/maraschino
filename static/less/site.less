@@ -1353,10 +1353,32 @@ ul.episodes img
 	vertical-align: inherit;
 	padding-right: 5px;
 }
-#sickbeard .show-info-result
+
+#sickbeard #show-info-result #show .seasons
 {
-	display: none;
+	display: table;
+	table-layout: fixed;
+	width: 40%;
+	right: 10;
 }
+#sickbeard #show-info-result #show .sb-img
+{
+	float: left;
+	height: 200px;
+}
+
+#sickbeard #show-info-result #show .seasons p
+{
+	display: table-row;
+	background: url(/static/images/alpha/fff_10.png);
+	padding: 5px;
+}
+
+#sickbeard #show-info-result #show .seasons p:hover
+{
+	background: url(/static/images/alpha/fff_20.png);
+}
+
 /*--- recently added ---*/
 
 #recently_added .problem
