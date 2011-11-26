@@ -55,6 +55,31 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'recommendations',
+        'label': 'Recommendations',
+        'description': 'Movies that may suit you.',
+        'static': False,
+        'poll': 0,
+        'delay': 10,
+        'settings': [
+            {
+                'key': 'trakt_api_key',
+                'value': '',
+                'description': 'Trakt API key',
+            },
+            {
+                'key': 'trakt_username',
+                'value': '',
+                'description': 'Trakt username',
+            },
+            {
+                'key': 'trakt_password',
+                'value': '',
+                'description': 'Trakt password',
+            },
+        ]
+    },
+    {
         'name': 'sabnzbd',
         'label': 'SABnzbd+',
         'description': 'Shows you information about your SABnzbd+ downloads.',
