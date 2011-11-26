@@ -30,7 +30,7 @@
       <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.slots[0].timeleft }} / {{ sabnzbd.slots[0].mbleft|int }} MB</p>
       <p class="percentage_complete">{{ percentage_total }}% complete</p>
     </div>
-    {% if (sabnzbd.slots) > 0 %}
+    {% if sabnzbd.slots|length > 1 %}
     	<br>
     	<a class="status" id="extra-queue"><span></span></a>
   		<div id="sabnzbd_next" style="display:none;">
