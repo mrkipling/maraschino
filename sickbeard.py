@@ -107,6 +107,23 @@ def show_info(tvdbid):
 		type = 'SHOW',
 	)
 
+@app.route('/sickbeard/get_season/<tvdbid>/<season>')
+def get_season(tvdbis, season):
+	try:
+		url = '%s/?cmd=show.seasons&tvdbid=%s&season=%s' %(SICKBEARD_URL, tvdbid, season)
+		result = urllib.urlopen(url).read()
+ 		sickbeard = json.JSONDecoder().decode(result)
+	except:
+		raise Exception
+		
+	if sickbeard['result'].rfind('success') >= 0:
+		sickbeard = sickbeard['data']
+	
+	return render_template('sickbeard.html',
+		sickbeard = sickbeard,
+		type = 'SHOW',
+	)
+
 def get_pic(tvdb, style='banner'):
 	url = '%s:%s' %(SICKBEARD_IP, SICKBEARD_PORT)
 	return 'http://%s/showPoster/?show=%s&which=%s' %(url, tvdb, style)
