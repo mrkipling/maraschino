@@ -145,6 +145,12 @@ SERVER_SETTINGS = [
         'value': '',
         'description': 'XBMC password',
     },
+#     {
+#         'key': 'global_auth',
+#         'value': '0',
+#         'description': 'Use the same username/password throughout the app.',
+#         'type': 'bool',
+#     },
     {
         'key': 'fanart_backgrounds',
         'value': '1',

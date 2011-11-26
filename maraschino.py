@@ -14,6 +14,7 @@ from currently_playing import *
 from diskspace import *
 from library import *
 from recently_added import *
+from recommendations import *
 from sabnzbd import *
 from trakt import *
 from xbmc_control import *
