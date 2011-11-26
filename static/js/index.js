@@ -285,29 +285,27 @@ $(document).ready(function() {
 	$.get('/xhr/controls/clean_video');
   });
   
-  //xbmc control
-  
   // xbmc poweron
   
-  $('#xbmc_control #xbmc_poweron').live('click', function() {
+  $('#library #poweron').live('click', function() {
     $.get('/xhr/controls/poweron');
   });
 
   // xbmc poweroff
   
-  $('#xbmc_control #xbmc_poweroff').live('click', function() {
+  $('#library #poweroff').live('click', function() {
     $.get('/xhr/controls/poweroff');
   });
 
   // xbmc reboot
   
-  $('#xbmc_control #xbmc_reboot').live('click', function() {
+  $('#library #eboot').live('click', function() {
     $.get('/xhr/controls/reboot');
   });
 
   // xbmc suspend
   
-  $('#xbmc_control #xbmc_suspend').live('click', function() {
+  $('#library #suspend').live('click', function() {
     $.get('/xhr/controls/suspend');
   });
 

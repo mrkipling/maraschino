@@ -52,6 +52,7 @@
 
     {% if message %}
       <p class="message">{{ message }}</p>
+      <a class="power" id="poweron" >Power on</a>
     {% endif %}
 
     <ul>
@@ -60,5 +61,10 @@
     </ul>
 
   {% endif %}
-
+  
+    <div class="powerholder" >
+      <a class="power" id="suspend" >Suspend</a>
+      <a class="power" id="reboot" >Reboot</a>
+      <a class="power" id="poweroff" >Shutdown</a>
+    </div>
 </div>

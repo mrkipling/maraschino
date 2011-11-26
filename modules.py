@@ -107,21 +107,6 @@ AVAILABLE_MODULES = [
             },
         ]
     },
-    {
-        'name': 'xbmc_control',
-        'label': 'XBMC controls',
-        'description': 'Controls your XBMC',
-        'static': False,
-        'poll': 120,
-        'delay': 0,
-        'settings': [
-            {
-                'key': 'server_macaddress',
-                'value': '',
-                'description': 'XBMC mac address',
-            },
-        ]
-    },
 ]
 
 SERVER_SETTINGS = [
@@ -162,6 +147,11 @@ SERVER_SETTINGS = [
         'value': '0',
         'description': 'Use a random background when not watching media',
         'type': 'bool',
+    },
+    {
+        'key': 'server_macaddress',
+        'value': '',
+        'description': 'XBMC mac address',
     },
 ]
 

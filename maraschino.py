@@ -17,7 +17,6 @@ from recently_added import *
 from recommendations import *
 from sabnzbd import *
 from trakt import *
-from xbmc_control import *
 
 from modules import *
 from models import Module, Setting
