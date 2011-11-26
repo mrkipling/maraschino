@@ -395,8 +395,14 @@ $(document).ready(function() {
 
   // play recently added episodes when clicking on them
 
-  $('#recently_added li').live('click', function() {
+  $('#recently_added .episodes li').live('click', function() {
     $.get('/xhr/play_episode/' + $(this).data('episodeid'));
+  });
+
+  // play recently added episodes when clicking on them
+
+  $('#recently_added .movies li').live('click', function() {
+    $.get('/xhr/play_movie/' + $(this).data('movieid'));
   });
 
   // browse library
