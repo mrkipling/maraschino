@@ -518,6 +518,13 @@ $(document).ready(function() {
 				$('#sickbeard #show-info-result').html('');
 	});
 	
+	$('#sickbeard #show-info-result #show .seasons p').live('click', function(){
+		$.get('/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
+			alert(data);
+		});
+
+	});
+	
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');

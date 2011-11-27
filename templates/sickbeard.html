@@ -105,7 +105,7 @@
 			{% endfor %}
 			<div class="seasons">
 			{% for season in sickbeard.season_list|sort %}
-				<p>{{ season }}</p>
+				<p season="{{season}}" tvdbid="{{sickbeard.tvdb}}">{{ season }}</p>
 			{% endfor %}
 			</div>
 		</div>

@@ -108,7 +108,7 @@ def show_info(tvdbid):
 	)
 
 @app.route('/sickbeard/get_season/<tvdbid>/<season>')
-def get_season(tvdbis, season):
+def get_season(tvdbid, season):
 	try:
 		url = '%s/?cmd=show.seasons&tvdbid=%s&season=%s' %(SICKBEARD_URL, tvdbid, season)
 		result = urllib.urlopen(url).read()
