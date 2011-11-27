@@ -520,9 +520,9 @@ $(document).ready(function() {
 	
 	$('#sickbeard #show-info-result #show .seasons p').live('click', function(){
 		$.get('/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
-			alert(data);
+			$('#sickbeard').html($(data).html());
 		});
-
+		$('#sickbeard #content .tablesorter').tablesorter();
 	});
 	
 

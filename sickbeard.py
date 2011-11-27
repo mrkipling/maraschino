@@ -119,9 +119,8 @@ def get_season(tvdbid, season):
 	if sickbeard['result'].rfind('success') >= 0:
 		sickbeard = sickbeard['data']
 	
-	return render_template('sickbeard.html',
+	return render_template('sickbeard-season.html',
 		sickbeard = sickbeard,
-		type = 'SHOW',
 	)
 
 def get_pic(tvdb, style='banner'):
