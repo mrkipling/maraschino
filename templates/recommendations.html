@@ -1,44 +1,39 @@
 <div id="recommendations" class="module" data-module="recommendations">
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
-  {% if movie %}
-  <div id="movies" style="padding-bottom: 8px;">
-  	<div id="options" style="float: right;">
-	    {% if not movie.watchlist %}
-	    	<a onclick="ajax_call('/trakt/add_to_watchlist/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');">Add to watchlist</a> | 
-	    {% endif %}	
-	    <a onclick="ajax_call('/trakt/dismiss_rec/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');">Dismiss</a>
-    </div>
-    <h2>Movie: <a href="{{ movie.url }}" target="_blank">{{ movie.title }} [{{ movie.year }}]</a></h2>
-    <div id="movie-description" style="overflow: none;">
-    	<img src="{{ movie.image }}" style="height: 140px; float: left; padding-right: 5px;" />
-    	<div style="overflow: none; height: 150px; text-align: justify;">{{ movie.overview }}</div>
-    </div>
-    <div class="bar" style="height: 10px; overflow: none;">
-      <div class="inner" style="width: {{ movie.liked }}%; height: 10px;">
-      	<div style="color: black; text-align:center;">Liked by: {{ movie.liked }}%</div>
-     	</div>
-  	</div>
-	</div>
-	{% endif%}
-	{% if tv %}
-	<div id="TV">
-  	<div id="options" style="float: right;">
-	    {% if not tv.watchlist %}
-	    	<a onclick="ajax_call('/trakt/add_to_watchlist/{{ tv.id }}/{{ tv.title }}/{{ tv.year }}/');">Add to watchlist</a> | 
-	    {% endif %}	
-	    <a onclick="ajax_call('/trakt/dismiss_rec/{{ tv.id }}/{{ tv.title }}/{{ tv.year }}/');">Dismiss</a>
-    </div>
-    <h2>TV: <a href="{{ tv.url }}" target="_blank">{{ tv.title }} [{{ tv.year }}]</a></h2>
-    <div id="tv-description" style="overflow: none;">
-    	<img src="{{ tv.image }}" style="height: 140px; float: left; padding-right: 5px;" />
-    	<div style="overflow: hidden; height: 150px; text-align: justify;">{{ tv.overview }}</div>
-    </div>
-    <div class="bar" style="height: 10px; overflow: none;">
-      <div class="inner" style="width: {{ tv.liked }}%; height: 10px;">
-      	<div style="color: black; text-align:center;">Liked by: {{ tv.liked }}%</div>
-     	</div>
-  	</div>
-	</div>
-	{% endif %}
+
+  <h2>Recommendations</h2>
+	<ul class="episodes listfix">
+	 {% if movie %}
+	  <li title="Recommended Movie">
+	   <div class="inner" style="height:140px">
+	    <strong>Movie<br><a href="{{ movie.url }}" target="_blank">{{ movie.title }} ({{ movie.year }})</a></strong>
+         <img src="{{ movie.image }}" style="height: 140px; padding-right: 5px;">
+	     <p>{{ movie.overview|truncate(200, true) }} <a href="#" title="More">[+]</a></p>
+         <p><strong>Rating: {{ movie.liked }}%</strong></p>
+  	   </div>
+	   <div id="options" style="float: right;">
+	     {% if not movie.watchlist %}
+	     <a onclick="ajax_call('/trakt/add_to_watchlist/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');">Add to watchlist</a> | 
+	     {% endif %}	
+	     <a onclick="ajax_call('/trakt/dismiss_rec/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');">Dismiss</a>
+	   </div>
+	  </li>
+	 {% endif%}
+	 {% if tv %}
+	  <li title="Recommended TV Show">
+	   <div class="inner" style="height:140px">
+		<strong>TV Show<br><a href="{{ tv.url }}" target="_blank">{{ tv.title }} ({{ tv.year }})</a></strong>
+          <img src="{{ tv.image }}" style="height: 140px; padding-right: 5px;">
+		  <p>{{ tv.overview|truncate(200, true) }} <a href="#" title="More">[+]</a></p>
+       	  <p><strong>Rating: {{ tv.liked }}%</strong></p>
+	   </div>
+  	   <div id="options" style="float: right;">
+	     {% if not tv.watchlist %}
+	     <a onclick="ajax_call('/trakt/add_to_watchlist/{{ tv.id }}/{{ tv.title }}/{{ tv.year }}/');">Add to watchlist</a> | 
+	     {% endif %}	
+	     <a onclick="ajax_call('/trakt/dismiss_rec/{{ tv.id }}/{{ tv.title }}/{{ tv.year }}/');">Dismiss</a>
+       </div>
+	 {% endif %}
+	  </li>
 </div>
