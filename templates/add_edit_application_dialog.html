@@ -46,12 +46,6 @@
       <input id="id_application_position" name="position" type="text"{% if application %} value="{{ application.position }}"{% endif %}>
     </div>
 
-    {% if application %}
-      <div>
-        <iframe src="{{ application.url }}" width="500" ></iframe>
-      </div>
-    {% endif %}
-
     <div class="choices">
       <div class="save add_application">{% if application %}Save{% else %}Add{% endif %} application</div>
       {% if application %}<div class="delete">Delete</div>{% endif %}
