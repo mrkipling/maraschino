@@ -3,6 +3,9 @@
   {% if message %}
     <strong>{{ message }}</strong>
   {% else %}
-      <iframe class="window" src='{{ application.url }}'></iframe>
+    <div>
+      <h3>{{ application.name }}</h3>
+    </div>
+    <iframe class="window" src='{{ application.url }}'></iframe>
   {% endif %}
 </div>
