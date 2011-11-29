@@ -369,7 +369,8 @@ ul.modules
 
 /* confirmation dialog */
 
-#confirmation_dialog h3
+#confirmation_dialog h3,
+#application_window h3
 {
   font-size: 1.2em;
   font-weight: normal;
@@ -444,6 +445,34 @@ ul.modules
 
 
 
+
+/*--- application window --*/
+
+#application_window
+{
+  background: url(/static/images/alpha/000_80.png);
+  border: 2px solid #ccc;
+  padding: 0px;
+  width: 85%;
+  height: 80%;
+
+  .border-radius(4px);
+  .box-shadow(#222, 0, 0, 5px);
+}
+
+#application_window h2
+{
+  font-size: 1.2em;
+  margin: 10px 0px 10px 10px;
+}
+
+.window
+{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
 /*--- generic formrow/choices ---*/
 
@@ -557,6 +586,7 @@ ul.modules
 {
   display: block;
   padding: 10px 15px;
+  cursor: pointer;
 }
 
 #applications li .name
