@@ -542,6 +542,7 @@ $(document).ready(function() {
 
   $('#settings_icon').live('click', function() {
     $('body').toggleClass('f_settings_mode');
+    $('body').toggleClass('f_operation_mode');
     $('#tutorial').remove();
 
     if ($('body').hasClass('f_settings_mode')) {
@@ -711,15 +712,13 @@ $(document).ready(function() {
 
   // show application window
 
-  if ( $('body').hasClass('f_settings_mode')) {
-    $('#applications li a').live('click', function() {
-      $.get('/xhr/show_application/' + $(this).data('id'), function(data) {
-        var popup = $(data);
-        $('body').append(popup);
-        popup.showPopup({ dispose: true });
-      });
+  $('.f_operation_mode #applications li a').live('click', function() {
+    $.get('/xhr/show_application/' + $(this).data('id'), function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
     });
-  }
+  });
 
   // add/edit disk
 
