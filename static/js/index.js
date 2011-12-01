@@ -394,13 +394,13 @@ $(document).ready(function() {
   // play recently added episodes when clicking on them
 
   $('#recently_added .episodes li').live('click', function() {
-    $.get('/xhr/play_episode/' + $(this).data('episodeid'));
+    $.get('/xhr/play_video/episode/' + $(this).data('episodeid'));
   });
 
   // play recently added episodes when clicking on them
 
   $('#recently_added .movies li').live('click', function() {
-    $.get('/xhr/play_movie/' + $(this).data('movieid'));
+    $.get('/xhr/play_video/movie/' + $(this).data('movieid'));
   });
 
   // browse library
@@ -424,7 +424,7 @@ $(document).ready(function() {
     var li = this;
     add_loading_gif(li);
 
-    $.get('/xhr/play_episode/' + $(this).data('episodeid'), function() {
+    $.get('/xhr/play_video/episode/' + $(this).data('episodeid'), function() {
       remove_loading_gif(li);
     });
   });
@@ -433,7 +433,7 @@ $(document).ready(function() {
     var li = this;
     add_loading_gif(li);
 
-    $.get('/xhr/play_movie/' + $(this).data('movieid'), function() {
+    $.get('/xhr/play_video/movie/' + $(this).data('movieid'), function() {
       remove_loading_gif(li);
     });
   });

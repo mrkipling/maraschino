@@ -6,32 +6,50 @@ from settings import *
 from noneditable import *
 from tools import *
 
-@app.route('/xhr/play_episode/<int:episode_id>')
+@app.route('/xhr/play_video/<video_type>/<int:video_id>')
 @requires_auth
-def xhr_play_episode(episode_id):
+def xhr_play_video(video_type, video_id):
     xbmc = jsonrpclib.Server(server_api_address())
-    xbmc.Playlist.Clear(playlistid=1)
-
-    item = { 'episodeid': episode_id }
+    xhr_clear_playlist('video')
+    
+    item = { video_type + 'id': video_id }
     xbmc.Playlist.Add(playlistid=1, item=item)
-
+    
     item = { 'playlistid': 1 }
     xbmc.Player.Open(item)
-
+    
     return jsonify({ 'success': True })
 
-@app.route('/xhr/play_movie/<int:movie_id>')
+@app.route('/xhr/enqueue_video/<video_type>/<int:video_id>')
 @requires_auth
-def xhr_play_movie(movie_id):
+def xhr_enqueue_video(video_type, video_id):
     xbmc = jsonrpclib.Server(server_api_address())
-    xbmc.Playlist.Clear(playlistid=1)
-
-    item = { 'movieid': movie_id }
+    
+    item = { video_type + 'id': video_id }
     xbmc.Playlist.Add(playlistid=1, item=item)
+    
+    return jsonify({ 'success': True })
 
-    item = { 'playlistid': 1 }
-    xbmc.Player.Open(item)
+@app.route('/xhr/enqueue_audio/<audio_type>/<int:audio_id>')
+@requires_auth
+def xhr_enqueue_audio(audio_id):
+    xbmc = jsonrpclib.Server(server_api_address())
+    
+    item = { audio_type + 'id': audio_id }
+    xbmc.Playlist.Add(playlistid=0, item=item)
+    
+    return jsonify({ 'success': True })
 
+@app.route('/xhr/clear_playlist/<playlist_type>')
+@requires_auth
+def xhr_clear_playlist(playlist_type):
+    xbmc = jsonrpclib.Server(server_api_address())
+    
+    if playlist_type == 'audio':
+        xbmc.Playlist.Clear(playlistid=0)
+    elif playlist_type == 'video':
+        xbmc.Playlist.Clear(playlistid=1)
+    
     return jsonify({ 'success': True })
 
 @app.route('/xhr/controls/<command>')
