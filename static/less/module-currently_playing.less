@@ -1,0 +1,94 @@
+@import "mixins.less";
+
+#currently_playing
+{
+  background: url(/static/images/alpha/000_80.png);
+  bottom: 0;
+  left: 0;
+  min-width: 900px;
+  padding: 20px;
+  position: fixed;
+  right: 0;
+
+  .box-shadow(#222, 0, 0, 10px);
+
+  .item_info {
+    float: left;
+    line-height: 1.5em;
+    width: 400px;
+
+    .show:hover,
+    .season:hover {
+      border-bottom: 1px solid #555;
+      cursor: pointer;
+    }
+
+    .separator {
+      margin: 0 3px;
+    }
+  }
+
+  .controls {
+    margin: 0 auto;
+    width: 80px;
+
+    .play_pause,
+    .stop {
+      background: #111 url(/static/images/player_sprite.png) no-repeat 11px 11px;
+      border: 1px solid #555;
+      cursor: pointer;
+      float: left;
+      height: 33px;
+      text-indent: -9999px;
+      width: 33px;
+
+      .border-radius(20px);
+      
+      &:hover {
+        background-color: #333;
+      }
+    }
+
+    .stop {
+      background-position: 8px -28px;
+      margin-right: 10px;
+    }
+  }
+
+  .progress {
+    float: right;
+    font-size: 0.9em;
+    height: 40px;
+    position: relative;
+    width: 400px;
+    
+    .current {
+      bottom: 8px;
+      left: 0;
+      position: absolute;
+    }
+    
+    .total {
+      bottom: 8px;
+      right: 0;
+      position: absolute;
+    }
+    
+    .bar {
+      border: 1px solid #777;
+      height: 5px;
+      margin-top: 8px;
+      width: 398px;
+      .border-radius(3px);
+      
+      .inner {
+        background-color: #eee;
+        height: 5px;
+      }
+    }
+  }
+  
+  .synopsis {
+    display: none;
+  }
+}

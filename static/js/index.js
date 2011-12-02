@@ -272,6 +272,42 @@ $(document).ready(function() {
     });
   }
 
+  // update video library control
+  
+  $('#library #video-update').live('click', function() {
+	$.get('/xhr/controls/update_video');
+  });
+  
+  // clean video library control
+  
+  $('#library #video-clean').live('click', function() {
+	$.get('/xhr/controls/clean_video');
+  });
+  
+  // xbmc poweron
+  
+  $('#library #poweron').live('click', function() {
+    $.get('/xhr/controls/poweron');
+  });
+
+  // xbmc poweroff
+  
+  $('#library #poweroff').live('click', function() {
+    $.get('/xhr/controls/poweroff');
+  });
+
+  // xbmc reboot
+  
+  $('#library #eboot').live('click', function() {
+    $.get('/xhr/controls/reboot');
+  });
+
+  // xbmc suspend
+  
+  $('#library #suspend').live('click', function() {
+    $.get('/xhr/controls/suspend');
+  });
+
   // post trakt shout
 
   $('#add_shout .submit').live('click', function() {
@@ -324,24 +360,46 @@ $(document).ready(function() {
 
   // view more recently added episodes
 
-  $('#recently_added .view_older').live('click', function() {
+  $('#recently_added .view_older_episodes').live('click', function() {
     get_module('recently_added', {
-      params: [$('#recently_added').data('offset') + $('#recently_added .episodes > li').length]
+      params: [$('#recently_added').data('episode_offset') + $('#recently_added .episodes > li').length, $('#recently_added').data('movie_offset')]
     });
     return false;
   });
 
-  $('#recently_added .view_newer').live('click', function() {
+  $('#recently_added .view_newer_episodes').live('click', function() {
     get_module('recently_added', {
-      params: [$('#recently_added').data('offset') - $('#recently_added .episodes > li').length]
+      params: [$('#recently_added').data('episode_offset') - $('#recently_added .episodes > li').length, $('#recently_added').data('movie_offset')]
+    });
+    return false;
+  });
+
+  // view more recently added movies
+
+  $('#recently_added .view_older_movies').live('click', function() {
+    get_module('recently_added', {
+      params: [$('#recently_added').data('episode_offset'), $('#recently_added').data('movie_offset') + $('#recently_added .movies > li').length]
+    });
+    return false;
+  });
+
+  $('#recently_added .view_newer_movies').live('click', function() {
+    get_module('recently_added', {
+      params: [$('#recently_added').data('episode_offset'), $('#recently_added').data('movie_offset') - $('#recently_added .movies > li'). length]
     });
     return false;
   });
 
   // play recently added episodes when clicking on them
 
-  $('#recently_added li').live('click', function() {
-    $.get('/xhr/play_episode/' + $(this).data('episodeid'));
+  $('#recently_added .episodes li').live('click', function() {
+    $.get('/xhr/play_video/episode/' + $(this).data('episodeid'));
+  });
+
+  // play recently added episodes when clicking on them
+
+  $('#recently_added .movies li').live('click', function() {
+    $.get('/xhr/play_video/movie/' + $(this).data('movieid'));
   });
 
   // browse library
@@ -365,7 +423,7 @@ $(document).ready(function() {
     var li = this;
     add_loading_gif(li);
 
-    $.get('/xhr/play_episode/' + $(this).data('episodeid'), function() {
+    $.get('/xhr/play_video/episode/' + $(this).data('episodeid'), function() {
       remove_loading_gif(li);
     });
   });
@@ -374,7 +432,7 @@ $(document).ready(function() {
     var li = this;
     add_loading_gif(li);
 
-    $.get('/xhr/play_movie/' + $(this).data('movieid'), function() {
+    $.get('/xhr/play_video/movie/' + $(this).data('movieid'), function() {
       remove_loading_gif(li);
     });
   });
@@ -606,6 +664,7 @@ $(document).ready(function() {
 
   $('#settings_icon').live('click', function() {
     $('body').toggleClass('f_settings_mode');
+    $('body').toggleClass('f_operation_mode');
     $('#tutorial').remove();
 
     if ($('body').hasClass('f_settings_mode')) {
@@ -770,6 +829,16 @@ $(document).ready(function() {
         $('#applications').replaceWith(data);
         $('#add_edit_application_dialog .close').click();
       }
+    });
+  });
+
+  // show application window
+
+  $('.f_operation_mode #applications li a').live('click', function() {
+    $.get('/xhr/show_application/' + $(this).data('id'), function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
     });
   });
 

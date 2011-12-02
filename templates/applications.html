@@ -9,7 +9,7 @@
     <ul>
       {% for application in applications %}
         <li>
-          <a href="{{ application.url }}" class="clearfix" data-id="{{ application.id }}">
+          <a class="clearfix" data-id="{{ application.id }}">
             <span class="name">
               {% if application.image %}<img src="/static/images/applications/{{ application.image }}" height="20" width="20">{% endif %}
               <span>{{ application.name }}</span>

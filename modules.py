@@ -48,9 +48,34 @@ AVAILABLE_MODULES = [
         'delay': 0,
         'settings': [
             {
-                'key': 'num_recent_episodes',
-                'value': 5,
-                'description': 'Number of episodes to display',
+                'key': 'num_recent_videos',
+                'value': 2,
+                'description': 'Number of videos of each type to display',
+            },
+        ]
+    },
+    {
+        'name': 'recommendations',
+        'label': 'Recommendations',
+        'description': 'Movies that may suit you.',
+        'static': False,
+        'poll': 0,
+        'delay': 10,
+        'settings': [
+            {
+                'key': 'trakt_api_key',
+                'value': '',
+                'description': 'Trakt API key',
+            },
+            {
+                'key': 'trakt_username',
+                'value': '',
+                'description': 'Trakt username',
+            },
+            {
+                'key': 'trakt_password',
+                'value': '',
+                'description': 'Trakt password',
             },
         ]
     },
@@ -66,6 +91,11 @@ AVAILABLE_MODULES = [
                 'key': 'sabnzbd_url',
                 'value': 'http://<hostname>:<port>/api?apikey=<apikeygoeshere>',
                 'description': 'SABnzbd URL',
+            },
+            {
+                'key': 'num_queue_items',
+                'value': 5,
+                'description': 'Number of queue items to show',
             },
         ]
     },
@@ -137,31 +167,6 @@ AVAILABLE_MODULES = [
             },
         ]
     },
-    {
-        'name': 'recommendations',
-        'label': 'Recommendations',
-        'description': 'Movies that may suit you.',
-        'static': False,
-        'poll': 0,
-        'delay': 10,
-        'settings': [
-            {
-                'key': 'trakt_api_key',
-                'value': '',
-                'description': 'Trakt API key',
-            },
-            {
-                'key': 'trakt_username',
-                'value': '',
-                'description': 'Trakt username',
-            },
-            {
-                'key': 'trakt_password',
-                'value': '',
-                'description': 'Trakt password',
-            },
-        ]
-    },
 ]
 
 SERVER_SETTINGS = [
@@ -202,6 +207,11 @@ SERVER_SETTINGS = [
         'value': '0',
         'description': 'Use a random background when not watching media',
         'type': 'bool',
+    },
+    {
+        'key': 'server_macaddress',
+        'value': '',
+        'description': 'XBMC mac address',
     },
 ]
 

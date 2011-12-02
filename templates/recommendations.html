@@ -3,37 +3,39 @@
   <div class="module_remove"><span>Remove</span></div>
 
   <h2>Recommendations</h2>
-	<ul class="episodes listfix">
-	 {% if movie %}
+
+  <ul class="episodes listfix">
+	{% if movie %}
 	  <li title="Recommended Movie">
-	   <div class="inner" style="height:140px">
-	    <p><strong><br>Movie<br><a href="{{ movie.url }}" target="_blank" title="Veiw {{ movie.title }} at trak.tv">{{ movie.title }} ({{ movie.year }})</a></strong></p>
-         <img src="{{ movie.image }}" style="height: 140px;">
-	     <p>{{ movie.overview|truncate(150, false) }} <a href="#" title="More">[+]</a></p>
-  	     <p><strong>Rating: {{ movie.liked }}%</strong></p>
-	   </div>
-	   <div id="options" style="float: right; padding:0px 15px 0px 0px">
-	     {% if not movie.watchlist %}
-	     <a onclick="ajax_call('/trakt/add_to_watchlist/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');" title="Add {{ movie.title }} to Watchlist">Add</a> | 
-	     {% endif %}	
-	     <a onclick="ajax_call('/trakt/dismiss_rec/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');" title="Dismiss {{ movie.title }}">Dismiss</a>
-	   </div>
+	    <div class="inner" style="height:140px">
+	      <p><strong><br>Movie<br><a href="{{ movie.url }}" target="_blank" title="Veiw {{ movie.title }} at trak.tv">{{ movie.title }} ({{ movie.year }})</a></strong></p>
+          <img src="{{ movie.image }}" style="height: 140px;">
+	      <p>{{ movie.overview|truncate(150, false) }} <a href="#" title="More">[+]</a></p>
+  	      <p><strong>Rating: {{ movie.liked }}%</strong></p>
+	    </div>
+	    <div id="options" style="float: right; padding:0px 15px 0px 0px">
+	      {% if not movie.watchlist %}
+	        <a onclick="ajax_call('/trakt/add_to_watchlist/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');" title="Add {{ movie.title }} to Watchlist">Add</a> | 
+	      {% endif %}	
+	      <a onclick="ajax_call('/trakt/dismiss_rec/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');" title="Dismiss {{ movie.title }}">Dismiss</a>
+	    </div>
 	  </li>
-	 {% endif%}
-	 {% if tv %}
+  {% endif%}
+  {% if tv %}
 	  <li title="Recommended TV Show">
-	   <div class="inner" style="height:140px">
-		<p><strong><br>TV Show<br><a href="{{ tv.url }}" target="_blank" title="Veiw {{ tv.title }} at trak.tv">{{ tv.title }} ({{ tv.year }})</a></strong></p>
-         <img src="{{ tv.image }}" style="height: 140px;">
-		 <p>{{ tv.overview|truncate(150, false) }}<a href="#" title="More">[+]</a></p>
-		 <p><strong>Rating: {{ tv.liked }}%</strong></p>
-	   </div>
-	   <div id="options" style="float: right; padding:0px 15px 0px 0px">
-	     {% if not tv.watchlist %}
-	     <a onclick="ajax_call('/trakt/add_to_watchlist/{{ tv.id }}/{{ tv.title }}/{{ tv.year }}/');" title="Add {{ tv.title }} to Watchlist">Add</a> | 
-	     {% endif %}	
-	     <a onclick="ajax_call('/trakt/dismiss_rec/{{ tv.id }}/{{ tv.title }}/{{ tv.year }}/');" title="Dismiss {{ tv.title }}">Dismiss</a>
-       </div>
-	 {% endif %}
+	    <div class="inner" style="height:140px">
+	      <p><strong><br>TV Show<br><a href="{{ tv.url }}" target="_blank" title="Veiw {{ tv.title }} at trak.tv">{{ tv.title }} ({{ tv.year }})</a></strong></p>
+          <img src="{{ tv.image }}" style="height: 140px;">
+	      <p>{{ tv.overview|truncate(150, false) }}<a href="#" title="More">[+]</a></p>
+		  <p><strong>Rating: {{ tv.liked }}%</strong></p>
+	    </div>
+	    <div id="options" style="float: right; padding:0px 15px 0px 0px">
+	      {% if not tv.watchlist %}
+	        <a onclick="ajax_call('/trakt/add_to_watchlist/{{ tv.id }}/{{ tv.title }}/{{ tv.year }}/');" title="Add {{ tv.title }} to Watchlist">Add</a> | 
+	      {% endif %}	
+	      <a onclick="ajax_call('/trakt/dismiss_rec/{{ tv.id }}/{{ tv.title }}/{{ tv.year }}/');" title="Dismiss {{ tv.title }}">Dismiss</a>
+        </div>
 	  </li>
+  {% endif %}
+  </ul>
 </div>

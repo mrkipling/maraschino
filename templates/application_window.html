@@ -1,0 +1,11 @@
+<div id="application_window" class="dialog">
+  <div class="close">x</div>
+  {% if message %}
+    <strong>{{ message }}</strong>
+  {% else %}
+    <div>
+      <h3>{{ application.name }}</h3>
+    </div>
+    <iframe class="window" src='{{ application.url }}'></iframe>
+  {% endif %}
+</div>
