@@ -942,6 +942,24 @@ ul.episodes img
   position: relative;
 }
 
+#sabnzbd .menu
+{
+	background: white;
+	color: black;
+	position: absolute;
+	width: 30%;
+	display: none;
+	cursor: pointer;
+}
+
+#sabnzbd .title:hover
+{
+	background: url(/static/images/dropdown.png) no-repeat;
+	background-position: left;
+	cursor: pointer;
+}
+
+
 #sabnzbd > .inner
 {
   line-height: 1.3em;
@@ -960,6 +978,70 @@ ul.episodes img
   .border-radius(4px);
 }
 
+#sabnzbd .sab_speed
+{
+	background-color:transparent;
+	color:white;
+	border:none;
+	text-align:right;
+}
+#sabnzbd .inner #status
+{
+  padding: 4px 8px 2px;
+  position: absolute;
+  top: 14px;
+  left: 40%;
+}
+#sabnzbd .status
+{
+	cursor: pointer;
+}
+
+#sabnzbd img.remove
+{
+  background: url(/static/images/alpha/fff_10.png);
+  cursor: pointer;
+}
+
+#sabnzbd img.remove:hover, #sabnzbd #extra-queue:hover
+{
+  background: url(/static/images/alpha/fff_20.png);
+}
+
+#sabnzbd .sab_speed:hover, #sabnzbd .sab_speed:focus
+{
+	background-color:white;
+	color: black;
+	border:none;
+}
+#sabnzbd #extra-queue
+{
+  background: url(/static/images/alpha/fff_10.png);
+  cursor: pointer;
+  display: block;
+  margin-bottom: 5px;
+}
+#sabnzbd #extra-queue span
+{
+  background: url(/static/images/arrow_down.png) no-repeat center center;
+  display: block;
+  height: 10px;
+  width: 100%;
+  padding-bottom: 4px;
+}
+
+#sabnzbd .rotate
+{
+	-webkit-transform: rotate(-180deg);
+	-moz-transform: rotate(-180deg);
+}
+
+#sabnzbd td.extra_name
+{
+	overflow: hidden; 
+	white-space:nowrap;
+	font-size: smaller;
+}
 .f_settings_mode #sabnzbd .speed
 {
   display: none;
@@ -967,7 +1049,7 @@ ul.episodes img
 
 #sabnzbd .bar
 {
-  margin-top: 17px;
+  margin-top: 5px;
   margin-bottom: 5px;
 }
 
@@ -975,6 +1057,7 @@ ul.episodes img
 {
   float: left;
   font-size: 0.9em;
+  font-size: smaller;
 }
 
 #sabnzbd .percentage_complete
@@ -982,6 +1065,44 @@ ul.episodes img
   float: right;
   font-size: 0.9em;
   margin: 0;
+  font-size: smaller;
+}
+#sabnzbd #history
+{
+	width: 100%;
+	max-width: 100%;
+	table-layout: fixed;
+	overflow: hidden;
+	white-space: nowrap;
+}
+#sabnzbd #history th
+{
+	cursor: pointer;
+}
+#sabnzbd #history td
+{
+	overflow: hidden;
+}
+#sabnzbd #history .name
+{
+	width: 50%;
+}
+#sabnzbd #history .size
+{
+	width: 10%;
+}
+#sabnzbd #history .status
+{
+	width: 10%;
+	cursor: default;
+}
+#sabnzbd #history .cat
+{
+	width: 15%;
+}
+#sabnzbd #history .time
+{
+	width: 15%;
 }
 
 
