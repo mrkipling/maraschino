@@ -137,6 +137,31 @@ AVAILABLE_MODULES = [
             },
         ]
     },
+    {
+        'name': 'recommendations',
+        'label': 'Recommendations',
+        'description': 'Movies that may suit you.',
+        'static': False,
+        'poll': 0,
+        'delay': 10,
+        'settings': [
+            {
+                'key': 'trakt_api_key',
+                'value': '',
+                'description': 'Trakt API key',
+            },
+            {
+                'key': 'trakt_username',
+                'value': '',
+                'description': 'Trakt username',
+            },
+            {
+                'key': 'trakt_password',
+                'value': '',
+                'description': 'Trakt password',
+            },
+        ]
+    },
 ]
 
 SERVER_SETTINGS = [
@@ -160,6 +185,12 @@ SERVER_SETTINGS = [
         'value': '',
         'description': 'XBMC password',
     },
+#     {
+#         'key': 'global_auth',
+#         'value': '0',
+#         'description': 'Use the same username/password throughout the app.',
+#         'type': 'bool',
+#     },
     {
         'key': 'fanart_backgrounds',
         'value': '1',
