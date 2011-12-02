@@ -55,17 +55,15 @@ textarea, input, select
 .formrow
 {
   min-height: 0;
-}
-
-.clearfix:after,
-.listfix li:after,
-.formrow:after
-{
+  
+  &:after
+  {
   content: ".";
   height: 0;
   display: block;
   clear: both;
   visibility: hidden;
+  }
 }
 
 * html .clearfix,
