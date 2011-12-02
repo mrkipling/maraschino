@@ -1,0 +1,36 @@
+{% if sickbeard %}
+<div id="sickbeard" class="module" data-module="sickbeard">
+	<div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+	<img src="/static/images/sickbeard.png" class="menu-icon"/>
+	<div class="menu">
+		<li class="all">All Shows</li>
+		<li class="upcoming">Coming Episodes</li>
+	</div>
+	<div style="clear: both;"></div>
+  <div id="content">
+		<table id="season" class="tablesorter">
+			<thead>
+				<th>#</th>
+				<th>Name</th>
+				<th>Status</th>
+				<th>Quality</th>
+				<th>Air Date</th>
+			</thead>
+			<tbody>
+			{% for episode in sickbeard|sort %}
+				<tr>
+					<td>{{episode}}</td><td>{{sickbeard[episode].name}}</td><td>{{sickbeard[episode].status}}</td><td>{{sickbeard[episode].quality}}</td><td>{{sickbeard[episode].airdate}}</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+  </div>
+</div>
+{% else %}
+<div class="placeholder" data-module="sickbeard">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+  <h2>Sickbeard</h2>
+</div>
+{% endif %}

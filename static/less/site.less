@@ -1254,11 +1254,194 @@ ul.episodes img
   background: url(/static/images/xhrloading.gif) no-repeat center center;
   text-indent: -9999px;
 }
+/* Sickbeard */
+#sickbeard .menu-icon
+{
+	height: 30px;
+	cursor: pointer;
+	float: left;
+}
+
+#sickbeard .menu
+{
+	display: none;
+	left: 0;
+	top: 0;
+	float: left;
+	background: black;
+}
+
+#sickbeard #content
+{
+	max-height: 200px;
+	overflow: auto;
+}
+#sickbeard .menu li
+{
+	cursor: pointer;
+}
+
+#sickbeard .coming_ep
+{
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+#sickbeard .coming_ep h2
+{
+   position: absolute;
+   top: 0;
+   max-width: 70%;
+   left: 0;
+   color: white;
+   font: bold 10px/18px Helvetica, Sans-Serif;
+   letter-spacing: 3px;
+   background: rgb(0, 0, 0); /* fallback color */
+   background: rgba(0, 0, 0, 0.5);
+   padding: 5px;
+}
+
+#sickbeard .coming_ep h2 a:hover
+{
+   background: rgba(0, 0, 0, 0.2);
+}
 
 
+#sickbeard .coming_ep .options
+{
+   position: absolute;
+   top: 0;
+   right: 0;
+   width: 45px;
+   height: 19px;
+   background: rgb(0, 0, 0); /* fallback color */
+   background: rgba(0, 0, 0, 0.5);
+   padding: 5px;
+}
+
+#sickbeard #missed
+{
+	cursor: pointer;
+	float: right;
+}
+#sickbeard .missed
+{
+	display: none;
+}
 
 
+#sickbeard .coming_ep .options img
+{
+	cursor: pointer;
+	width: 15px;
+	padding: 2.5px;
+}
 
+#sickbeard .coming_ep .details
+{
+	display: none;
+}
+#sickbeard .coming_ep .details .airs
+{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+  background: rgb(0, 0, 0); /* fallback color */
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px;
+}
+
+#sickbeard .coming_ep .details .plot
+{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+  background: rgb(0, 0, 0); /* fallback color */
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px;
+}
+
+#sickbeard .coming_ep .details .plot:hover
+{
+	cursor: pointer;
+}
+
+#sickbeard #sickbeard-list
+{
+	display: table;
+	width: 98%;
+	max-height: 200px;
+	clear: both;
+	padding: 5px;
+
+}
+#sickbeard #sickbeard-list .sbshow
+{
+	display: table-row;
+	background: url(/static/images/alpha/fff_10.png);
+	cursor: pointer;
+	vertical-align: middle;
+}
+#sickbeard #sickbeard-list .sbshow:hover
+{
+	background: url(/static/images/alpha/fff_20.png);
+}
+
+#sickbeard #sickbeard-list .sbshow .sb-image
+{
+	display: table-cell;
+	width: 20px;
+	vertical-align: middle;
+	
+}
+#sickbeard #sickbeard-list .sbshow .sb-name
+{
+	display: table-cell;
+	vertical-align: inherit;
+}
+#sickbeard #sickbeard-list .sbshow .quality
+{
+	display: table-cell;
+	width: 10%;
+	text-align: right;
+	vertical-align: inherit;
+	padding-right: 5px;
+}
+
+#sickbeard #show-info-result #show .seasons
+{
+	display: table;
+	table-layout: fixed;
+	width: 10%;
+	right: 10;
+	text-align: center;
+	cursor: pointer;
+}
+#sickbeard #show-info-result #show .sb-img
+{
+	float: left;
+	height: 200px;
+}
+
+#sickbeard #show-info-result #show .seasons p
+{
+	display: table-row;
+	background: url(/static/images/alpha/fff_10.png);
+	padding: 5px;
+	text-align: center;
+}
+
+#sickbeard #show-info-result #show .seasons p:hover
+{
+	background: url(/static/images/alpha/fff_20.png);
+}
+#sickbeard table#season
+{
+	table-layout: fixed;
+	width: 100%;
+	text-align: center;
+}
 /*--- recently added ---*/
 
 #recently_added .problem
