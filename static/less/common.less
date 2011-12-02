@@ -1,0 +1,196 @@
+@import "mixins.less";
+
+#fanart
+{
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+
+  background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+}
+
+
+#wrapper
+{
+  min-width: 900px;
+  padding: 2% 2% 60px;
+  position: relative;
+}
+
+
+.f_settings_mode #wrapper
+{
+  padding-bottom: 120px;
+}
+
+
+.dialog
+{
+  background: url(/static/images/alpha/000_80.png);
+  border: 2px solid #ccc;
+  padding: 15px;
+  width: 500px;
+
+  .border-radius(4px);
+  .box-shadow(#222, 0, 0, 5px);
+
+  .close {
+    background-color: #000;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    height: 18px;
+    line-height: 16px;
+    position: absolute;
+    right: -10px;
+    text-align: center;
+    top: -10px;
+    width: 18px;
+    .border-radius(15px);
+    z-index: 1;
+  }
+
+  .formrow select {
+    width: 63%;
+  }
+}
+
+
+#confirmation_dialog h3
+{
+  font-size: 1.2em;
+  font-weight: normal;
+  margin: 10px 0 20px;
+  text-align: center;
+}
+
+
+.choices
+{
+  margin-top: 20px;
+  text-align: center;
+
+  .save,
+  .confirm,
+  .cancel,
+  .delete {
+    background: url(/static/images/alpha/fff_20.png);
+    display: inline-block;
+    padding: 8px;
+    width: 60px;
+
+    .border-radius(4px);
+  
+    &:hover {
+      background: url(/static/images/alpha/fff_40.png);
+      cursor: pointer;
+    }
+  }
+
+  .save,
+  .confirm,
+  .delete {
+    margin-right: 10px;
+  }
+
+  .saved,
+  .confirmed {
+    width: 110px;
+  }
+}
+
+.formrow
+{
+  margin-top: 5px;
+
+  label {
+    float: left;
+    margin-top: 6px;
+    width: 33%;
+  }
+
+  input[type=text],
+  input[type=password],
+  select {
+    background-color: #fff;
+    border: 1px solid #555;
+    float: right;
+    padding: 4px 6px;
+    width: 60%;
+
+    .border-radius(3px);
+  }
+
+  select {
+    padding: 3px 6px;
+    width: auto;
+  }
+}
+
+.formrow.invalid,
+.formrow .invalid
+{
+  color: #d92525;
+}
+
+
+/*--- video list ---*/
+
+ul.episodes,
+ul.movies
+{
+  li {
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    font-size: 0.9em;
+    line-height: 1.3em;
+    margin-top: 5px;
+    position: relative;
+
+    .border-radius(4px);
+  
+    &:first-child {
+      margin-top: -8px;
+    }
+  
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+      cursor: pointer;
+    }
+  }
+    
+  li.watched .inner {
+    border-left: 3px solid #ccc;
+    padding-left: 12px;
+  }
+  
+  .inner {
+    padding: 5px 107px 5px 15px;
+    .border-radius(4px);
+  }
+  
+  h3 {
+    font-size: 1.2em;
+    margin-top: 6px;
+  }
+  
+  p {
+    color: #ccc;
+  }
+  
+  .title {
+    margin-bottom: 6px;
+  }
+  
+  img {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    .box-shadow(#222, 0, 0, 2px);
+  }
+}
+
