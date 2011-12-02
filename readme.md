@@ -1,6 +1,7 @@
 #Maraschino<img src=https://github.com/Maraschino/maraschino/raw/master/static/images/maraschino_logo.png width="40">
 
-##THIS IS THE TESTING REPO FOR MARASCHINO. IT IS WHERE ALL COLLABORATOS CAN MERGE THEIR BETA MODULES IN SO END USERS CAN SEE WHAT THINGS ARE HAPPENING. THIS WILL LIKELY BECOME THE OFFICIAL REPO EVENTUALLY.
+##THIS IS THE TESTING REPO FOR MARASCHINO. 
+Cloning should work fine, but beware that this is all the modules being worked on rolled into one Repo, so things could break.
 
 ##What is Maraschino?
 
