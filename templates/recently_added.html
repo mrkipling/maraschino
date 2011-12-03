@@ -3,13 +3,13 @@
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
 
-  <h2 class="recentvidtitle">Recently added videos</h2>
+  <h2 class="recentvidtitle">Recently Added Videos</h2>
   {% if recently_added_episodes or recently_added_movies %}
 
     {% if recently_added_episodes %}
       <div>
         <div class="clearfix">
-          <h2 class="subheading">Episodes</h2>
+          <h2 class="subheading">TV Shows</h2>
           {% if episode_offset + recently_added_episodes|length < 25 %}
             <a class="view_older_episodes" title="Older">&raquo;</a>
           {% endif %}
