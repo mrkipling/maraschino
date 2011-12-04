@@ -4,7 +4,7 @@
     <strong>{{ message }}</strong>
   {% else %}
     <div>
-      <h3>{{ application.name }}</h3>
+      <h3><img src="/static/images/applications/{{application.image}}" width="14" height="14"> {{ application.name }}</h3>
     </div>
     <iframe class="window" src='{{ application.url }}'></iframe>
   {% endif %}

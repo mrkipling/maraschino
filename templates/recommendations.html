@@ -1,9 +1,11 @@
 <div id="recommendations" class="module" data-module="recommendations">
   
   <div class="module_settings"><span>Settings</span></div>
-  <div class="module_remove"><span>Remove</span></div>
+  <div class="module_remove"><span>Remove</span></div> 
 
-  <h2>Recommendations</h2>
+  <script src="/static/js/lib/tipsy.js" type="text/javascript"></script>  
+  
+  <h2>trakt.tv Recommends</h2>
       <div>
 		<div class="clearfix">
 		  <h2 class="subheading">Movie</h2>
@@ -34,7 +36,7 @@
 		</div>
 		<ul class="episodes listfix">
 		  {% if tv %}
-		    <li title="Recommended TV Shows">
+		    <li title="Recommended TV Show">
 	     <img src="{{ tv.image }}" style="height: 140px;"/>
 		 <div class="inner" style="height:140px">
 	      <h3>{{ tv.title }}</h3>

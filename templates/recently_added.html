@@ -1,8 +1,10 @@
 <div id="recently_added" class="module" data-module="recently_added" data-episode_offset="{{ episode_offset }}" data-movie_offset="{{ movie_offset }}">
 
   <div class="module_settings"><span>Settings</span></div>
-  <div class="module_remove"><span>Remove</span></div>
+  <div class="module_remove"><span>Remove</span></div>  
 
+  <script src="/static/js/lib/tipsy.js" type="text/javascript"></script>
+  
   <h2 class="recentvidtitle">Recently Added Videos</h2>
   {% if recently_added_episodes or recently_added_movies %}
 
@@ -20,7 +22,7 @@
 
         <ul class="episodes listfix">
           {% for episode in recently_added_episodes %}
-            <li data-episodeid="{{ episode.episodeid }}" title="Play episode"{% if episode.lastplayed %} class="watched"{% endif %}>
+            <li data-episodeid="{{ episode.episodeid }}" title="Play {{ episode.showtitle }} - {{ episode.title }}" {% if episode.lastplayed %} class="watched"{% endif %}>
 
               {% if episode.thumbnail %}
                 <img src="{{ vfs_url }}{{ episode.thumbnail }}" width="100" height="56" alt="">
@@ -51,7 +53,7 @@
 
         <ul class="movies listfix">
           {% for movie in recently_added_movies %}
-            <li data-movieid="{{ movie.movieid }}" title="Play movie"{% if movie.lastplayed %} class="watched"{% endif %}>
+            <li data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})"{% if movie.lastplayed %} class="watched"{% endif %}>
 
               {% if movie.fanart %}
                 <img src="{{ vfs_url }}{{ movie.fanart }}" width="100" height="56" alt="">
