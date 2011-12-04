@@ -1,35 +1,11 @@
 <div id="recommendations" class="module" data-module="recommendations">
-  
+
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div> 
 
   <script src="/static/js/lib/tipsy.js" type="text/javascript"></script>  
   
-  <h2>trakt.tv Recommends</h2>
-      <div>
-		<div class="clearfix">
-		  <h2 class="subheading">Movie</h2>
-		</div>
-		<ul class="episodes listfix">
-		  {% if movie %}
-		    <li title="Recommended Movie">
-	     <img src="{{ movie.image }}" style="height: 140px;"/>
-		 <div class="inner" style="height:140px">
-	      <h3>{{ movie.title }}</h3>
-		  <p>Year: {{ movie.year }}</p>
-          <p>Rating: {{ movie.liked }}%</p>
-		  <p>Overview: {{ movie.overview|truncate(200, false) }} <a href="#" title="More">[+]</a></p>
-  	     </div>
-	     <div id="options" style="float: right; padding:0px 15px 0px 0px">
-	      {% if not movie.watchlist %}
-	        <a onclick="ajax_call('/trakt/add_to_watchlist/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');" title="Add {{ movie.title }} to Watchlist">Add</a> | 
-	      {% endif %}	
-	        <a onclick="ajax_call('/trakt/dismiss_rec/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');" title="Dismiss {{ movie.title }}">Dismiss</a>
-	     </div>
-		    </li>
-		  {% endif%}
-		</ul>
-     </div>
+  <h2>trakt Recommends</h2>
       <div>
 		<div class="clearfix">
 		  <h2 class="subheading">TV Shows</h2>
@@ -53,5 +29,30 @@
 		    </li>
 		{% endif %}
 	    </ul>
-     </div>
+      </div>
+       <div>
+	 	<div class="clearfix">
+		  <h2 class="subheading">Movie</h2>
+		</div>
+		<ul class="episodes listfix">
+		  {% if movie %}
+		    <li title="Recommended Movie">
+	     <img src="{{ movie.image }}" style="height: 140px;"/>
+		 <div class="inner" style="height:140px">
+	      <h3>{{ movie.title }}</h3>
+		  <p>Year: {{ movie.year }}</p>
+          <p>Rating: {{ movie.liked }}%</p>
+		  <p>Overview: {{ movie.overview|truncate(200, false) }} <a href="#" title="More">[+]</a></p>
+  	     </div>
+	     <div id="options" style="float: right; padding:0px 15px 0px 0px">
+	      {% if not movie.watchlist %}
+	        <a onclick="ajax_call('/trakt/add_to_watchlist/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');" title="Add {{ movie.title }} to Watchlist">Add</a> | 
+	      {% endif %}	
+	        <a onclick="ajax_call('/trakt/dismiss_rec/{{ movie.id }}/{{ movie.title }}/{{ movie.year }}/');" title="Dismiss {{ movie.title }}">Dismiss</a>
+	     </div>
+		    </li>
+		  {% endif%}
+		</ul>
+       </div>
+	 
 </div>
