@@ -17,14 +17,14 @@
     <div class="status" id="status">
     	<a>
 		  {% if sabnzbd.paused == True %}
-		  <strong title="Click to Resume SabNZBd+">Paused</strong>
+		  <strong title="Resume SabNZBd+">Paused</strong>
 		  {% else %}
-		  <strong title="Click to Pause SabNZBd+">Downloading</strong>
+		  <strong title="Pause SabNZBd+">Downloading</strong>
 	    {% endif %}
 	    </a>
     </div>
     <div class="speed">
-      <input class="sab_speed" type="text" value="{{ download_speed[:-5] }}" size="6"/>{{ download_speed[-5:] }}
+      <input class="sab_speed" type="text" value="{{ download_speed[:-5] }}" title="Adjust Speed" size="6"/>{{ download_speed[-5:] }}
     </div>
     <p>
       {{ sabnzbd.slots[0].filename }}
@@ -40,13 +40,13 @@
     </div>
     {% if sabnzbd.slots|length > 1 %}
     	<br>
-    	<a class="status" id="extra-queue"><span></span></a>
+    	<a class="status" id="extra-queue" title="Toggle Queue"><span></span></a>
   		<div id="sabnzbd_next" style="display:none;">
   			<table style="width: 100%; table-layout:fixed;">
 	  	  		{% for i in range(1, num_queue_items + 1) %}
 					<tr id="{{ sabnzbd.slots[i].nzo_id }}">
-    					<td width="80%" class="extra_name" title="{{ sabnzbd.slots[i].filename }}">{{ sabnzbd.slots[i].filename }}<td/>
-    					<td width="25%" align="right">{{ sabnzbd.slots[i].mb|int }} MB  <img class="remove" value="{{sabnzbd.slots[i].nzo_id}}" title="Delete {{ sabnzbd.slots[i].filename }} from queue" src="/static/images/remove_icon.png" /></td>
+    					<td width="80%" class="extra_name">{{ sabnzbd.slots[i].filename }}<td/>
+    					<td width="25%" align="right">{{ sabnzbd.slots[i].mb|int }} MB  <img class="remove" id="tipsy" value="{{sabnzbd.slots[i].nzo_id}}" title="Remove" src="/static/images/remove_icon.png" width="8" height="8" /></td>
     				</tr>
     			{% endfor %}
 	    	</table>
