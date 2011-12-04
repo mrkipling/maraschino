@@ -33,7 +33,7 @@ AVAILABLE_MODULES = [
     },
     {
         'name': 'library',
-        'label': 'Media library',
+        'label': 'Media Library',
         'description': 'Allows you to browse your media library and select items to play in XBMC.',
         'static': True,
         'poll': 0,
@@ -42,7 +42,7 @@ AVAILABLE_MODULES = [
     {
         'name': 'recently_added',
         'label': 'Recently added',
-        'description': 'Shows you episodes recently added to your library.',
+        'description': 'Shows you Movies & TV Episodes recently added to your library.',
         'static': False,
         'poll': 350,
         'delay': 0,
@@ -173,22 +173,26 @@ SERVER_SETTINGS = [
     {
         'key': 'server_hostname',
         'value': 'localhost',
-        'description': 'XBMC hostname/IP',
+        'description': 'XBMC IP',
+		'tipsy': 'Hostnames are NOT supported',
     },
     {
         'key': 'server_port',
         'value': '8080',
-        'description': 'XBMC port ',
+        'description': 'XBMC Port ',
+		'tipsy': 'As set in System > Network',
     },
     {
         'key': 'server_username',
         'value': '',
-        'description': 'XBMC username',
+        'description': 'XBMC Username',
+		'tipsy': 'If applicable',
     },
     {
         'key': 'server_password',
         'value': '',
-        'description': 'XBMC password',
+        'description': 'XBMC Password',
+		'tipsy': 'If applicable',
     },
 #     {
 #         'key': 'global_auth',
@@ -211,7 +215,8 @@ SERVER_SETTINGS = [
     {
         'key': 'server_macaddress',
         'value': '',
-        'description': 'XBMC mac address',
+        'description': 'XBMC Mac Address',
+		'tipsy': 'XBMC Mac Address is found in System Info',
     },
 ]
 

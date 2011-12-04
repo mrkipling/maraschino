@@ -1,5 +1,10 @@
 <div id="currently_playing" data-id="{{ currently_playing.id }}"{% if fanart %} data-fanart="{{ fanart }}"{% endif %}>
 
+
+
+
+  <script src="/static/js/lib/tipsy.js" type="text/javascript"></script> 
+
   <p class="item_info">
     <strong>Currently playing:</strong><br>
 
@@ -15,7 +20,7 @@
     {% endif %}
   </p>
 
-  <div class="progress">
+  <div class="progress" title="{{ percentage_progress }}%">
     <div class="bar">
       <div class="inner" style="width: {{ percentage_progress }}%;"></div>
     </div>
@@ -36,7 +41,7 @@
           {{ currently_playing.season }}x{{ currently_playing.episode }} -
           "{{ currently_playing.title }}"
         {% else %}
-          {{ currently_playing.title }}
+          {{ currently_playing.title }} {{ currently_playing.year }}
         {% endif %}
       </h2>
       <p>{{ currently_playing.plot|truncate(750) }}</p>

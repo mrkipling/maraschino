@@ -1,6 +1,10 @@
 <div id="server_settings" class="module generic_module edit_settings" data-module="server_settings">
 
-  <h2>Server settings</h2>
+
+
+
+  <script src="/static/js/lib/tipsy.js" type="text/javascript"></script>
+  <h2>Server Settings</h2>
 
   <form class="inner" method="post" action="">
 
@@ -14,7 +18,7 @@
             <option value="1"{% if setting.value == "1" %} selected="selected"{% endif %}>Yes</option>
           </select>
         {% else %}
-          <input id="id_{{ setting.key }}" name="{{ setting.key }}" type="{% if "password" in setting.key %}password{% else %}text{% endif %}" value="{{ setting.value }}">
+          <input title="{{ setting.tipsy }}" id="id_{{ setting.key }}" name="{{ setting.key }}" type="{% if "password" in setting.key %}password{% else %}text{% endif %}" value="{{ setting.value }}">
         {% endif %}
 
       </div>
@@ -22,7 +26,7 @@
 
     <div class="choices">
       {% if updated %}
-        <div class="save saved">Settings saved</div>
+        <div class="save saved">Settings Saved</div>
       {% else %}
         <div class="save">Save</div>
       {% endif %}
