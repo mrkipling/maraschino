@@ -80,7 +80,7 @@ def get_all():
 	if sickbeard['result'].rfind('success') >=0:
 		sickbeard = sickbeard['data']
 		for show in sickbeard:
-			sickbeard[show]['url'] = get_pic(sickbeard[show]['tvdbid'], 'poster')
+			sickbeard[show]['url'] = get_pic(sickbeard[show]['tvdbid'], 'banner')
 	
 	return render_template('sickbeard-all.html',
 		sickbeard = sickbeard,

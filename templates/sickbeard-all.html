@@ -16,9 +16,11 @@
 						<img src="{{show.url}}" class="show-image" />
 						<span class="show-name">{{ i }}</span>
 						{% if show.quality=='HD' %}
-							<img src="/static/images/hd-icon.png" class="sb-image"/>
-						{% endif %}					
-					</li>
+							<img src="/static/images/hd-icon.png" class="hd-image"/>
+						{% else %}
+						    <img src="/static/images/sd-icon.png" class="hd-image"/>
+						{% endif %}
+						</li>
 				</ul>
 			{% endfor %}
 		</div>
