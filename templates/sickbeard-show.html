@@ -10,18 +10,20 @@
   <div id="content">
 		<div id='show'>
 			<p style="float:right;" class="sb-back">BACK</p>
-			<h2>{{sickbeard.show_name}}</h2>
-			<img class="sb-img" src="{{sickbeard.url}}" />
-			<p>{{sickbeard.airs}}</p>
-			<p>{{sickbeard.quality}}</p>
-			{% for genre in sickbeard.genre %}
-				<p>{{ genre }}</p>
-			{% endfor %}
-			<div class="seasons">
-			{% for season in sickbeard.season_list|sort %}
-				<p season="{{season}}" tvdbid="{{sickbeard.tvdb}}">{{ season }}</p>
-			{% endfor %}
+			<div class="banner">
+				<h2 class="show-name">{{sickbeard.show_name}}</h2>
+				<img src="{{sickbeard.url}}" />
+				<p class="airtime">{{sickbeard.airs}}</p>
+				<p class="quality">{{sickbeard.quality}}</p>
+				{% for genre in sickbeard.genre %}
+					<p class="genre">{{ genre }}</p>
+				{% endfor %}
 			</div>
+			<ul class="seasons">
+			{% for season in sickbeard.season_list|sort %}
+				<li season="{{season}}" tvdbid="{{sickbeard.tvdb}}">Season {{ season }}</li>
+			{% endfor %}
+			</ul>
 		</div>
 	</div>
 </div>

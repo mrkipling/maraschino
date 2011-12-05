@@ -97,7 +97,7 @@ def show_info(tvdbid):
 		
 	if sickbeard['result'].rfind('success') >= 0:
 		sickbeard = sickbeard['data']
-		sickbeard['url'] = get_pic(tvdbid, 'poster')
+		sickbeard['url'] = get_pic(tvdbid, 'banner')
 		sickbeard['tvdb'] = tvdbid
 	
 	return render_template('sickbeard-show.html',
