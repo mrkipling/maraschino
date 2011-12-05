@@ -105,6 +105,43 @@
     margin: 0;
     font-size: smaller;
   }
+  #history {
+	width: 100%;
+	max-width: 100%;
+	table-layout: fixed;
+	overflow: hidden;
+	white-space: nowrap;
+	
+		th
+		{
+			cursor: pointer;
+		}
+		td
+		{
+			overflow: hidden;
+		}
+		.name
+		{
+			width: 50%;
+		}
+		.size
+		{
+			width: 10%;
+		}
+		.status
+		{
+			width: 10%;
+			cursor: default;
+		}
+		.cat
+		{
+			width: 15%;
+		}
+		.time
+		{
+			width: 15%;
+		}
+	}
 }
 
 .f_settings_mode #sabnzbd .speed

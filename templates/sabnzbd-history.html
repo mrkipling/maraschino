@@ -1,0 +1,49 @@
+{% if history %}
+<div id="sabnzbd" class="module" data-module="sabnzbd">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2 class="title">SABnzbd+ History</h2>
+  <div class="menu">
+  	<p class="queue">Queue</p>
+  	<p class="history">History</p>
+  </div>
+	<table id="history" class="tablesorter">
+		<thead> 
+			<tr> 
+			    <th>Name</th> 
+			    <th>Status</th> 
+			    <th>Size</th> 
+			    <th>DL Time</th> 
+			    <th>Category</th> 
+			</tr>
+		</thead>		
+		<tbody align="center">
+			{% for i in history %}
+			<tr>
+				<td class="name">{{ i.name }}</td>
+				<td class="status">{{ i.status }}</td>
+				<td class="size">{{ i.size }}</td>
+				<td class="time">{{ (i.download_time/60)|int }}:{{i.download_time%60}} minutes</td>
+				<td class="cat">{{ i.category }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div id="pager" class="pager" style="width:99%; margin:0 auto; text-align:center;">
+			<a href="#" class="first"> First </a>
+			<a href="#" class="prev"> Prev </a>
+			<a href="#" class="next"> Next </a>
+			<a href="#" class="last"> Last </a>
+			<br />
+			<select class="pagesize">
+				<option selected="selected"  value="10">10</option>
+				<option value="20">20</option>
+				<option value="30">30</option>
+				<option  value="40">40</option>
+			</select>
+	</div>
+	<div style="clear: both; height: 100px;"></div>
+</div>
+{% endif %}
