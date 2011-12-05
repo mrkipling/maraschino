@@ -10,10 +10,7 @@
 	</div>
 	<div style="clear: both;"></div>
   <div id="content">
-  
-	<!-- COMING EPISODES 	 -->
-  {% if type == 'FUTURE' %}
-		<div id="future">
+  	<div id="future">
 			{% if missed|length %}
 			<div id="missed"><b>{{missed|length}}</b> episodes have been missed.</div>
 			<div class="missed">
@@ -76,41 +73,6 @@
 			</div>
 			{% endif %}
 		</div>
-	<!-- 	ALL SHOWS	 -->
-	{% elif type == 'ALL'%}
-		<div id="sickbeard-list">
-			{%for i in sickbeard|sort %}
-				<div id="{{i.tvdbid}}" class="sbshow">
-					{% set show = sickbeard[i]%}
-					<img src="{{show.url}}" class="sb-image" />
-					<li class="sb-name" tvdb="{{ show.tvdbid }}">{{i}}</li>
-					<li class="quality">
-						{% if show.quality=='HD' %}
-							<img src="/static/images/hd-icon.png" class="sb-image"/>
-						{% endif %}					
-					</li>
-				</div>
-			{% endfor %}
-		</div>
-		<div id="show-info-result"></div>
-	<!-- 	INDIVIDUAL SHOW INFO	 -->
-	{% elif type == 'SHOW'%}
-		<div id='show'>
-			<p style="float:right;" class="sb-back">BACK</p>
-			<h2>{{sickbeard.show_name}}</h2>
-			<img class="sb-img" src="{{sickbeard.url}}" />
-			<p>{{sickbeard.airs}}</p>
-			<p>{{sickbeard.quality}}</p>
-			{% for genre in sickbeard.genre %}
-				<p>{{ genre }}</p>
-			{% endfor %}
-			<div class="seasons">
-			{% for season in sickbeard.season_list|sort %}
-				<p season="{{season}}" tvdbid="{{sickbeard.tvdb}}">{{ season }}</p>
-			{% endfor %}
-			</div>
-		</div>
-	{% endif %}
 	</div>
 </div>
 {% else %}

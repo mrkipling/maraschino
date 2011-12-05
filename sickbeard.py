@@ -38,7 +38,6 @@ def xhr_sickbeard():
 		missed = sickbeard['missed'],
 		today = sickbeard['today'],
 		soon = sickbeard['soon'],
-		type = 'FUTURE',
 	)
 	
 @app.route('/sickbeard/search_ep/<tvdbid>/<season>/<episode>')
@@ -83,9 +82,8 @@ def get_all():
 		for show in sickbeard:
 			sickbeard[show]['url'] = get_pic(sickbeard[show]['tvdbid'], 'poster')
 	
-	return render_template('sickbeard.html',
+	return render_template('sickbeard-all.html',
 		sickbeard = sickbeard,
-		type = 'ALL',
 	)
 
 @app.route('/sickbeard/get_show_info/<tvdbid>')
@@ -102,9 +100,8 @@ def show_info(tvdbid):
 		sickbeard['url'] = get_pic(tvdbid, 'poster')
 		sickbeard['tvdb'] = tvdbid
 	
-	return render_template('sickbeard.html',
+	return render_template('sickbeard-show.html',
 		sickbeard = sickbeard,
-		type = 'SHOW',
 	)
 
 @app.route('/sickbeard/get_season/<tvdbid>/<season>')
