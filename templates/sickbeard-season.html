@@ -1,11 +1,10 @@
-{% if sickbeard %}
 <div id="sickbeard" class="module" data-module="sickbeard">
 	<div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
-	<img src="/static/images/sickbeard.png" class="menu-icon"/>
+	
+	<h2 class="title">Season</h2><div class="update menu-icon" title="Touch Me!">Menu</div>
 	<div class="menu">
-		<li class="all">All Shows</li>
-		<li class="upcoming">Coming Episodes</li>
+		<span class="all">All</span> | <span class="upcoming">Soon</span>
 	</div>
 	<div style="clear: both;"></div>
   <div id="content">
@@ -27,10 +26,3 @@
 		</table>
   </div>
 </div>
-{% else %}
-<div class="placeholder" data-module="sickbeard">
-  <div class="module_settings"><span>Settings</span></div>
-  <div class="module_remove"><span>Remove</span></div>
-  <h2>Sickbeard</h2>
-</div>
-{% endif %}
