@@ -22,7 +22,7 @@
       <input class="sab_speed" type="text" value="{{ download_speed[:-5] }}" title="Adjust Speed" size="6"/>{{ download_speed[-5:] }}
     </div>
     <p>
-      {{ sabnzbd.slots[0].filename }}
+      {{ sabnzbd.slots[0].filename|truncate(42,true)}}
     </p>
 
     <div class="bar">
