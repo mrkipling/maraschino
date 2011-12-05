@@ -10,16 +10,16 @@
   <div id="content">
 		<div id="sickbeard-list">
 			{%for i in sickbeard|sort %}
-				<div id="{{i.tvdbid}}" class="sbshow">
+				<ul id="{{i.tvdbid}}" class="sbshow">
 					{% set show = sickbeard[i]%}
-					<img src="{{show.url}}" class="sb-image" />
-					<li class="sb-name" tvdb="{{ show.tvdbid }}">{{i}}</li>
-					<li class="quality">
+					<li>
+						<img src="{{show.url}}" class="show-image" />
+						<span class="show-name" tvdb="{{ show.tvdbid }}">{{i}}</span>
 						{% if show.quality=='HD' %}
 							<img src="/static/images/hd-icon.png" class="sb-image"/>
 						{% endif %}					
 					</li>
-				</div>
+				</ul>
 			{% endfor %}
 		</div>
 		<div id="show-info-result"></div>
