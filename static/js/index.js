@@ -889,4 +889,13 @@ $(document).ready(function() {
       }
     });
   });
+  
+  //Tipsy Initialisation
+  $('li').tipsy({gravity:'s', live: true});
+  $('a').tipsy({gravity:'s', live: true});
+  $('div').tipsy({gravity:'s', live: true});
+  $('strong').tipsy({gravity:'s', live: true});
+  $('input').tipsy({gravity:'s', live: true});
+  $('img').tipsy({gravity:'s', live: true});
+
 });
