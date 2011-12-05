@@ -589,8 +589,8 @@ $(document).ready(function() {
 		$('#sickbeard .menu').toggle('slow');
 	});
 	
-	$('body').delegate('#sickbeard #sickbeard-list li.sb-name', 'click', function(){
-		var id = $(this).attr('tvdb');
+	$('body').delegate('#sickbeard #sickbeard-list ul', 'click', function(){
+		var id = $(this).attr('id');
 		$.get('/sickbeard/get_show_info/'+id, function(data){
 				$('#sickbeard #sickbeard-list').hide();
 				$('#sickbeard #show-info-result').html($(data).find('#content').html());
