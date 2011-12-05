@@ -38,7 +38,7 @@
     	<a class="status" id="extra-queue" title="Toggle Queue"><span></span></a>
   		<div id="sabnzbd_next" style="display:none;">
   			<table style="width: 100%; table-layout:fixed;">
-	  	  		{% for i in range(1, num_queue_items + 1) %}
+	  	  		{% for i in range(1, num_queue_items-1) %}
 					<tr id="{{ sabnzbd.slots[i].nzo_id }}">
     					<td width="80%" class="extra_name">{{ sabnzbd.slots[i].filename }}<td/>
     					<td width="25%" align="right">{{ sabnzbd.slots[i].mb|int }} MB  <img class="remove" id="tipsy" value="{{sabnzbd.slots[i].nzo_id}}" title="Remove" src="/static/images/remove_icon.png" width="8" height="8" /></td>
