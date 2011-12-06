@@ -628,7 +628,7 @@ $(document).ready(function() {
 	  var id = $(this).attr('tv-id');
 	  var title = $(this).attr('tv-title');
 	  var year = $(this).attr('tv-year');
-	  $.get('/trakt/add_to_watchlist/'+id+'/'+title+'/'+year+'/', 
+	  $.get('/trakt/add_tv_watchlist/'+id+'/'+title+'/'+year+'/', 
 	    function(data){
 	      alert(data);
 	    }
@@ -639,17 +639,18 @@ $(document).ready(function() {
 	  var id = $(this).attr('tv-id');
 	  var title = $(this).attr('tv-title');
 	  var year = $(this).attr('tv-year');
-	  $.get('/trakt/dismiss_rec/'+id+'/'+title+'/'+year+'/', 
+	  $.get('/trakt/dismiss_tv/'+id+'/'+title+'/'+year+'/', 
 	    function(data){
 	      alert(data);
 	    }
 	  );
 	});
-		$('#recommendations .movie #options .watchlist').live('click', function(){
+	//Movie Add to watchlist
+	$('#recommendations .movie #options .watchlist').live('click', function(){
 	  var id = $(this).attr('movie-id');
 	  var title = $(this).attr('movie-title');
 	  var year = $(this).attr('movie-year');
-	  $.get('/trakt/add_to_watchlist/'+id+'/'+title+'/'+year+'/', 
+	  $.get('/trakt/add_movie_watchlist/'+id+'/'+title+'/'+year+'/', 
 	    function(data){
 	      alert(data);
 	    }
@@ -660,7 +661,7 @@ $(document).ready(function() {
 	  var id = $(this).attr('movie-id');
 	  var title = $(this).attr('movie-title');
 	  var year = $(this).attr('movie-year');
-	  $.get('/trakt/dismiss_rec/'+id+'/'+title+'/'+year+'/', 
+	  $.get('/trakt/dismiss_movie/'+id+'/'+title+'/'+year+'/', 
 	    function(data){
 	      alert(data);
 	    }

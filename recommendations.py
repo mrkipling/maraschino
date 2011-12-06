@@ -84,9 +84,9 @@ def xhr_recommendations():
 		tv = tv,
 	  )
 	  
-@app.route('/trakt/add_to_watchlist/<movieid>/<title>/<year>/')
+@app.route('/trakt/add_movie_watchlist/<movieid>/<title>/<year>/')
 @requires_auth
-def add_to_watchlist(movieid, title, year):
+def add_movie_watchlist(movieid, title, year):
 		try:
 			params = {
 		  	'username': TRAKT_USERNAME,
@@ -103,7 +103,9 @@ def add_to_watchlist(movieid, title, year):
 			url = 'http://api.trakt.tv/movie/watchlist/%s' % (TRAKT_API_KEY)
 			params = urllib.urlencode(params)
 			result = urllib.urlopen(url, params).read()
+			print(result)
 			result = json.JSONDecoder().decode(result)
+			
 			
 			if result['status'] == 'success':
 				return 'Item successfully added to Watchlist'
@@ -113,9 +115,9 @@ def add_to_watchlist(movieid, title, year):
 		except:
 			return ''
 
-@app.route('/trakt/dismiss_rec/<movieid>/<title>/<year>/')
+@app.route('/trakt/dismiss_movie/<movieid>/<title>/<year>/')
 @requires_auth
-def dimiss_reccomendation(movieid, title, year):
+def dimiss_movie(movieid, title, year):
 		try:
 			params = {
 		  	'username': TRAKT_USERNAME,
@@ -129,6 +131,63 @@ def dimiss_reccomendation(movieid, title, year):
 			
 		try:
 			url = 'http://api.trakt.tv/recommendations/movies/dismiss/%s' % (TRAKT_API_KEY)
+			params = urllib.urlencode(params)
+			result = urllib.urlopen(url, params).read()
+			result = json.JSONDecoder().decode(result)
+			
+			if result['status'] == 'success':
+				return '%s: %s' % (result['status'], result['message'])
+			else:
+				return 'I\'m sorry, an error ocurred: %s' % (result)
+		
+		except:
+			return ''
+
+@app.route('/trakt/add_tv_watchlist/<tvid>/<title>/<year>/')
+@requires_auth
+def add_tv_watchlist(tvid, title, year):
+		try:
+			params = {
+		  	'username': TRAKT_USERNAME,
+		  	'password': hashlib.sha1(TRAKT_PASSWORD).hexdigest(),
+				'shows': {	'tvdb_id': tvid, 
+										'title': title, 
+										'year': year
+									}
+			}
+		except:
+			raise Exception
+			
+		try:
+			url = 'http://api.trakt.tv/show/watchlist/%s' % (TRAKT_API_KEY)
+			params = urllib.urlencode(params)
+			result = urllib.urlopen(url, params).read()
+			result = json.JSONDecoder().decode(result)
+			
+			if result['status'] == 'success':
+				return 'Item successfully added to Watchlist'
+			else:
+				return 'I\'m sorry, an error ocurred: %s' % (result)
+		
+		except:
+			return ''
+
+@app.route('/trakt/dismiss_tv/<tvid>/<title>/<year>/')
+@requires_auth
+def dimiss_tv(tvid, title, year):
+		try:
+			params = {
+		  	'username': TRAKT_USERNAME,
+		  	'password': hashlib.sha1(TRAKT_PASSWORD).hexdigest(),
+				'tvdb_id': tvid, 
+				'title': title, 
+				'year': year
+			}
+		except:
+			raise Exception
+			
+		try:
+			url = 'http://api.trakt.tv/recommendations/shows/dismiss/%s' % (TRAKT_API_KEY)
 			params = urllib.urlencode(params)
 			result = urllib.urlopen(url, params).read()
 			result = json.JSONDecoder().decode(result)
