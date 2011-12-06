@@ -10,7 +10,7 @@
   <div id="content">
   	<div class="history">
 	  	{% for item in history %}
-	  		<ul id="{{ item.tvdbid }}{{item.season}}{{item.episode}}">
+	  		<ul id="{{item.tvdbid}}{{item.season}}{{item.episode}}{{item.status}}">
 		  		<span class="status" title="{{item.status}} on {{ item.date }}">{{item.status}}</span>
 		  		<span class="name">{{item.show_name}} S{{item.season}}E{{item.episode}}</span>
 		  		<img src="{{ item.image }}" />
