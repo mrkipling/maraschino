@@ -38,6 +38,7 @@ def xhr_sickbeard():
 		missed = sickbeard['missed'],
 		today = sickbeard['today'],
 		soon = sickbeard['soon'],
+		later = sickbeard['later'],
 	)
 	
 @app.route('/sickbeard/search_ep/<tvdbid>/<season>/<episode>')

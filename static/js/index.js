@@ -541,28 +541,17 @@ $(document).ready(function() {
 	});
 
 	//Plot display function
-	$('#sickbeard .coming_ep .details .plot').live('mouseenter', function(){
-		add_loading_gif($(this));
+	$('#sickbeard .coming_ep .details .plot-title').live('mouseenter', function(){
+		$(this).toggle();
 		var id = $(this).closest('div.coming_ep').attr('id');
-		var tv = $('#'+id+' .search').attr('id');
-		var se = $('#'+id+' .search').attr('season');
-		var ep = $('#'+id+' .search').attr('episode');
-		$.get('/sickbeard/get_plot/'+tv+'/'+se+'/'+ep)
-		.success(function(data){
-			if(data){
-				$('#sickbeard #'+id+' .details .plot').css('height','90%').css('width','90%').css('top','0').css('background', 'rgba(0, 0, 0, 0.9)').html(data)
-			}
-		})
-		.error(function(){
-			alert('Could not reach Sick-Beard.');	
-		});
-		remove_loading_gif($(this));
+		$('#sickbeard #'+id+' .details .plot').toggle();
 	});
 	
 	//Plot hide function
 	$('#sickbeard .coming_ep .details .plot').live('mouseleave', function(){
 		var id = $(this).closest('div.coming_ep').attr('id');
-		$('#sickbeard #'+id+' .details .plot').css('height','').css('top','').css('width','').css('bottom','0').css('background', 'rgba(0, 0, 0, 0.5)').html('Plot');
+		$('#sickbeard #'+id+' .details .plot-title').toggle();
+		$('#sickbeard #'+id+' .details .plot').toggle();
 	});
 
 	//Toggle missed episodes

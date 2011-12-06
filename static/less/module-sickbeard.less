@@ -101,7 +101,8 @@
         padding: 5px;
       }
       
-      .plot {
+      .plot, 
+      .plot-title {
 	      position: absolute;
 	      bottom: 0;
 	      right: 0;
@@ -112,6 +113,14 @@
         &:hover {
           cursor: pointer;
         }
+      }
+      
+      .plot {
+      	display: none;
+      	height: 90%;
+      	width: 90%;
+      	top: 0;
+      	background: rgba(0, 0, 0, 0.9);
       }
     }
   }
