@@ -1,0 +1,25 @@
+<div id="sickbeard" class="module" data-module="sickbeard">
+	<div class="module_settings"><span>Settings</span></div>
+	<div class="module_remove"><span>Remove</span></div>
+
+	<h2 class="title">History</h2><div class="update menu-icon" title="Touch Me!">Menu</div>
+	<div class="menu">
+		<span class="all">All</span> | <span class="upcoming">Soon</span> | <span class="history">History</span>
+	</div>
+	<div style="clear: both;"></div>
+  <div id="content">
+  	<div class="history">
+	  	{% for item in history %}
+	  		<ul id="{{ item.tvdbid }}{{item.season}}{{item.episode}}">
+		  		<span class="status" title="{{item.status}} on {{ item.date }}">{{item.status}}</span>
+		  		<span class="name">{{item.show_name}} S{{item.season}}E{{item.episode}}</span>
+		  		<img src="{{ item.image }}" />
+		  		<span class="extra-info">
+		  			<p>Quality: {{ item.quality }} </p>
+		  			<p>{{ item.resource_path }} </p>
+		  		</span>
+				</ul>
+	  	{% endfor %}
+	  </div>
+	</div>
+</div>

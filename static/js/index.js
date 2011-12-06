@@ -559,20 +559,29 @@ $(document).ready(function() {
 		$('#sickbeard .missed').toggle();
 	});
 	
-	//Change menu
+	//All Shows menu
 	$('body').delegate('#sickbeard .all', 'click', function(){
 		$.get('/sickbeard/get_all', function(data){
 			var content = $(data);
 			$('#sickbeard #content').html(content.find('#content').html());
 		});
 	});
-	//Change Menu
+	//Coming episodes Menu
 	$('body').delegate('#sickbeard .upcoming', 'click', function(){
 		$.get('/xhr/sickbeard', function(data){
 			var content = $(data);
 			$('#sickbeard #content').html(content.find('#content').html());
 		});
 	});
+	
+	//History menu
+	$('#sickbeard .menu .history').live('click', function(){
+		$.get('/sickbeard/history/30', function(data){
+			var content = $(data);
+			$('#sickbeard #content').html(content.find('#content').html());
+		});
+	});
+	
 	//Show Menu
 	$('body').delegate('#sickbeard .menu-icon', 'click', function(){
 		$('#sickbeard .menu').toggle('slow');
@@ -587,6 +596,17 @@ $(document).ready(function() {
 		});
 	});
 	
+	//History Extra Details
+	$('#sickbeard .history ul').live({
+		mouseenter: function(){
+			var id = $(this).attr('id');
+			$('#sickbeard .history #'+id+' .extra-info').toggle();
+		},
+		mouseleave: function(){
+			var id = $(this).attr('id');
+			$('#sickbeard .history #'+id+' .extra-info').toggle();
+		}
+	});
 	
 	$('body').delegate('#sickbeard #show-info-result .sb-back', 'click', function(){
 				$('#sickbeard #sickbeard-list').show();
