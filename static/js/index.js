@@ -622,6 +622,53 @@ $(document).ready(function() {
 	});
 	
 
+	/* Trakt Recommendations Functions */
+	//TV Add to watchlist
+	$('#recommendations .tv #options .watchlist').live('click', function(){
+	  var id = $(this).attr('tv-id');
+	  var title = $(this).attr('tv-title');
+	  var year = $(this).attr('tv-year');
+	  $.get('/trakt/add_to_watchlist/'+id+'/'+title+'/'+year+'/', 
+	    function(data){
+	      alert(data);
+	    }
+	  );
+	});
+	//TV Dismis
+	$('#recommendations .tv #options .dismiss').live('click', function(){
+	  var id = $(this).attr('tv-id');
+	  var title = $(this).attr('tv-title');
+	  var year = $(this).attr('tv-year');
+	  $.get('/trakt/dismiss_rec/'+id+'/'+title+'/'+year+'/', 
+	    function(data){
+	      alert(data);
+	    }
+	  );
+	});
+		$('#recommendations .movie #options .watchlist').live('click', function(){
+	  var id = $(this).attr('movie-id');
+	  var title = $(this).attr('movie-title');
+	  var year = $(this).attr('movie-year');
+	  $.get('/trakt/add_to_watchlist/'+id+'/'+title+'/'+year+'/', 
+	    function(data){
+	      alert(data);
+	    }
+	  );
+	});
+	
+	$('#recommendations .movie #options .dismiss').live('click', function(){
+	  var id = $(this).attr('movie-id');
+	  var title = $(this).attr('movie-title');
+	  var year = $(this).attr('movie-year');
+	  $.get('/trakt/dismiss_rec/'+id+'/'+title+'/'+year+'/', 
+	    function(data){
+	      alert(data);
+	    }
+	  );
+	});
+
+
+
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
   }
