@@ -3,16 +3,16 @@
 #sickbeard
 {
   .menu-icon {
-  	height: 17px;
-  	cursor: pointer;
-	  float: right;
+    height: 17px;
+    cursor: pointer;
+    float: right;
     color: #ccc;
     font-size: 1.2em;
     font-weight: bold;
     position: absolute;
     margin-top: 0;
     padding: 3px 15px;
-    right: 65px;
+    right: 70px;
     top: 12px;
     background: url(/static/images/alpha/fff_10.png);
     cursor: pointer;
@@ -24,20 +24,20 @@
     &:hover {
       background: url(/static/images/alpha/fff_20.png);
     }
-	}
+  }
   
   .menu {
-	  display: none;
-	  left: 0;
-	  top: 0;
-	  vertical-align: middle
-	  background: transparent;
-	  white-space:nowrap;
-	  float: right;
-	  font-weight: bolder;
-	  color: #67c0f8;
+    display: none;
+    left: 0;
+    top: 0;
+    vertical-align: middle
+    background: transparent;
+    white-space:nowrap;
+    float: right;
+    font-weight: bolder;
+    color: #67c0f8;
       padding: 3px 65px 5px 5px;
-	  cursor: pointer;
+    cursor: pointer;
     &:hover {
       color: #add6ef
     }    
@@ -47,14 +47,14 @@
   }
 
   #content {
-	  max-height: 270px;
-	  overflow: auto;
+    max-height: 270px;
+    overflow: auto;
   }
   
   .coming_ep {
-  	width: 100%;
-  	position: relative;
-  	overflow: hidden;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
     
     h2 {
       position: absolute;
@@ -83,19 +83,19 @@
       padding: 5px;
       
       img {
-	      cursor: pointer;
-	      width: 15px;
-	      padding: 2.5px;
+        cursor: pointer;
+        width: 15px;
+        padding: 2.5px;
       }
     }
     
     .details {
-	    display: none;
+      display: none;
       
       .airs {
-	      position: absolute;
-	      bottom: 0;
-	      left: 0;
+        position: absolute;
+        bottom: 0;
+        left: 0;
         background: rgb(0, 0, 0); /* fallback color */
         background: rgba(0, 0, 0, 0.5);
         padding: 5px;
@@ -103,9 +103,9 @@
       
       .plot, 
       .plot-title {
-	      position: absolute;
-	      bottom: 0;
-	      right: 0;
+        position: absolute;
+        bottom: 0;
+        right: 0;
         background: rgb(0, 0, 0); /* fallback color */
         background: rgba(0, 0, 0, 0.5);
         padding: 5px;
@@ -116,222 +116,262 @@
       }
       
       .plot {
-      	display: none;
-      	height: 90%;
-      	width: 90%;
-      	top: 0;
-      	background: rgba(0, 0, 0, 0.9);
+        display: none;
+        height: 90%;
+        width: 90%;
+        top: 0;
+        background: rgba(0, 0, 0, 0.9);
       }
     }
   }
 
   #sickbeard-list
   {  
-  	ul {
+    ul {
       overflow: auto;
       width: 100%;
       text-align: center;
       overflow: hidden;
-	  }
-	  li,
-	  .back{
-	    background: url(/static/images/alpha/fff_10.png);
-	    border: 1px solid #222;
-	    cursor: pointer;
-	    line-height: 1.5em;
-	    margin-top: 5px;
-	    padding: 5px 15px;
-	
-	    .border-radius(4px);
-	    
-	    &:hover {
-	      background: url(/static/images/alpha/fff_20.png);
-	    }
-	  }
-	
-	  li {
-	    position: relative;
+    }
+    li,
+    .back{
+      background: url(/static/images/alpha/fff_10.png);
+      border: 1px solid #222;
+      cursor: pointer;
+      line-height: 1.5em;
+      margin-top: 5px;
+      padding: 5px 15px;
+  
+      .border-radius(4px);
+      
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+      }
+    }
+  
+    li {
+      position: relative;
 
-	    &:first-child {
-	      margin-top: 0;
-	    }
-	
-	    .xhrloading {
-	      position: absolute;
-	      right: 5px;
-	      top: 6px;
-	    }
-	    
-	    .show-image{
-	    	left: 10px;
-	    	position: absolute;
-	    	height: 20px;
-	    }
-	    
-	    .show-name{
-	    	text-align: center;
-	    }
-	    
-		.hd-image {
-	    	right: 10px;
-			position: absolute;
-	    }		
-	    
+      &:first-child {
+        margin-top: 0;
+      }
+  
+      .xhrloading {
+        position: absolute;
+        right: 5px;
+        top: 6px;
+      }
+      
+      .show-image{
+        left: 10px;
+        position: absolute;
+        height: 20px;
+      }
+      
+      .show-name{
+        text-align: center;
+      }
+      
+    .hd-image {
+        right: 10px;
+      position: absolute;
+      }    
+      
     }
   }
 
-  #show-info-result #show {
-  	ul {
+  #content >#show{
+    ul {
       overflow: auto;
       width: 100%;
       text-align: center;
       overflow: hidden;
-	  }
-	  li,
-	  .back{
-	    background: url(/static/images/alpha/fff_10.png);
-	    border: 1px solid #222;
-	    cursor: pointer;
-	    line-height: 1.5em;
-	    margin-top: 5px;
-	    padding: 5px 15px;
-	
-	    .border-radius(4px);
-	    
-	    &:hover {
-	      background: url(/static/images/alpha/fff_20.png);
-	    }
-	  }
-	
-	  li {
-	    position: relative;
+    }
+    li {
+      background: url(/static/images/alpha/fff_10.png);
+      border: 1px solid #222;
+      cursor: pointer;
+      line-height: 1.5em;
+      margin-top: 5px;
+      padding: 5px 15px;
+  
+      .border-radius(4px);
+      
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+      }
+    }
+     
+    >.sb-back{
+      background: url(/static/images/alpha/fff_10.png);
+      cursor: pointer;
+      line-height: 1.3em;
+      margin-top: 5px;
+      padding: 5px 15px;
+      .border-radius(4px);
+      right: 5px;
+      top: 12px;
+      position: absolute;
+      color: #ccc;
+      font-size: 1.2em;
+      height: 17px;
+      
+      &:hover{
+        background: url(/static/images/alpha/fff_20.png);
+      }
+    }
+    li {
+      position: relative;
 
-	    &:first-child {
-	      margin-top: 0;
-	    }
-	
-	    .xhrloading {
-	      position: absolute;
-	      right: 5px;
-	      top: 6px;
-	    }	    
+      &:first-child {
+        margin-top: 0;
+      }
+  
+      .xhrloading {
+        position: absolute;
+        right: 5px;
+        top: 6px;
+      }      
     }
     
     div.banner{
-    	width: 100%;
-	  	position: relative;
-  		overflow: hidden;
-  		
-  		img{
-  			width: 100%;
-  		}
-    	
-    	h2{
-	      top: 0;
-	      max-width: 70%;
-	      left: 0;
-	      font: bold 18px/20px Arial;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      
+      img{
+        width: 100%;
+      }
+      
+      h2{
+        top: 0;
+        max-width: 70%;
+        left: 0;
+        font: bold 18px/20px Arial;
 
-	      a:hover {
-  	      background: rgba(0, 0, 0, 0.2);
-    	  }  
-    	}
-    	
-    	h2, p {
-	      position: absolute;
-	      color: white;
-	      background: rgb(0, 0, 0); /* fallback color */
-	      background: rgba(0, 0, 0, 0.5);
-	      padding: 5px;
-    	}
-    	
-    	p {
-	      font: bold 10px/14px Arial;
-	    }
+        a:hover {
+          background: rgba(0, 0, 0, 0.2);
+        }  
+      }
+      
+      h2, p {
+        position: absolute;
+        color: white;
+        background: rgb(0, 0, 0); /* fallback color */
+        background: rgba(0, 0, 0, 0.5);
+        padding: 5px;
+      }
+      
+      p {
+        font: bold 10px/14px Arial;
+      }
 
-    	p.airtime {
-    		bottom: 0;
-    		right: 0;
-    	}
-			p.quality {
-    		right: 0;
-    		top: 0;
-    	}
-    	p.genre {
-    		left: 0;
-    		bottom: 0;
-    	}
-  	}
+      p.airtime {
+        bottom: 0;
+        right: 0;
+      }
+      p.quality {
+        right: 0;
+        top: 0;
+      }
+      p.genre {
+        left: 0;
+        bottom: 0;
+      }
+    }
   }
   #missed {
-	  cursor: pointer;
-	  float: right;
+    cursor: pointer;
+    float: right;
   }
   
   .missed {
-	  display: none;
+    display: none;
   }
   
   table#season {
-	  table-layout: fixed;
-	  width: 100%;
-	  text-align: center;
+    table-layout: fixed;
+    width: 100%;
+    text-align: center;
   }
   
   .history {
-  	max-height: 300px;
-  	width: 100%;
-  	
-	  ul {
-	  		position: relative;
-	  		overflow: hidden;
-	  	img {
-	  		width: 100%;
-	  		height: 6%;
-	  	}
-	    
-	    .name {
-	      position: absolute;
-	      top: 0;
-	      max-width: 70%;
-	      left: 0;
-	      color: white;
-	      font: bold 10px/12px Arial;
-	      background: rgb(0, 0, 0); /* fallback color */
-	      background: rgba(0, 0, 0, 0.5);
-	      padding: 5px;
-	      
-	      a:hover {
-	        background: rgba(0, 0, 0, 0.2);
-	      }
-	    }
-	    
-	    .status {
-	      position: absolute;
-	      top: 0;
-	      right: 0;
-	      height: 19px;
-	      background: rgb(0, 0, 0); /* fallback color */
-	      background: rgba(0, 0, 0, 0.5);
-	      padding: 5px;
-	      
-	      img {
-		      cursor: pointer;
-		      width: 15px;
-		      padding: 2.5px;
-	      }
-	    }
-	    
-	    .extra-info {
-		    display: none;
-	     	position: absolute;
-		    bottom: 0;
-		    left: 0;
-	      background: rgb(0, 0, 0); /* fallback color */
-	      background: rgb(0, 0, 0);
-	      padding: 5px;
-	      font-size: xx-small;
-	    }
-	  }
+    max-height: 300px;
+    width: 100%;
+    
+    ul {
+        position: relative;
+        overflow: hidden;
+      img {
+        width: 100%;
+        height: 6%;
+      }
+      
+      .name {
+        position: absolute;
+        top: 0;
+        max-width: 70%;
+        left: 0;
+        color: white;
+        font: bold 10px/12px Arial;
+        background: rgb(0, 0, 0); /* fallback color */
+        background: rgba(0, 0, 0, 0.5);
+        padding: 5px;
+        
+        a:hover {
+          background: rgba(0, 0, 0, 0.2);
+        }
+      }
+      
+      .status {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 19px;
+        background: rgb(0, 0, 0); /* fallback color */
+        background: rgba(0, 0, 0, 0.5);
+        padding: 5px;
+        
+        img {
+          cursor: pointer;
+          width: 15px;
+          padding: 2.5px;
+        }
+      }
+      
+      .extra-info {
+        display: none;
+         position: absolute;
+        bottom: 0;
+        left: 0;
+        background: rgb(0, 0, 0); /* fallback color */
+        background: rgb(0, 0, 0);
+        padding: 5px;
+        font-size: xx-small;
+      }
+    }
+  }
+  
+  .episode-list{
+     > .back{
+      background: url(/static/images/alpha/fff_10.png);
+      cursor: pointer;
+      line-height: 1.3em;
+      margin-top: 5px;
+      padding: 5px 15px;
+      .border-radius(4px);
+      right: 5px;
+      top: 12px;
+      position: absolute;
+      color: #ccc;
+      font-size: 1.2em;
+      height: 17px;
+      
+      &:hover{
+        background: url(/static/images/alpha/fff_20.png);
+      }
+    }
+  
+  
   }
 }

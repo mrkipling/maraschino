@@ -591,8 +591,7 @@ $(document).ready(function() {
 	$('body').delegate('#sickbeard #sickbeard-list ul', 'click', function(){
 		var id = $(this).attr('id');
 		$.get('/sickbeard/get_show_info/'+id, function(data){
-				$('#sickbeard #sickbeard-list').hide();
-				$('#sickbeard #show-info-result').html($(data).find('#content').html());
+				$('#sickbeard #content').html($(data).find('#content').html());
 		});
 	});
 	
@@ -608,21 +607,29 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('body').delegate('#sickbeard #show-info-result .sb-back', 'click', function(){
-				$('#sickbeard #sickbeard-list').show();
-				$('#sickbeard #show-info-result').html('');
+	$('body').delegate('#sickbeard #content >#show .sb-back', 'click', function(){
+		$.get('/sickbeard/get_all', function(data){
+			var content = $(data);
+			$('#sickbeard #content').html(content.find('#content').html());
+		});
 	});
 
 		
-	$('#sickbeard #show-info-result #show ul.seasons li').live('click', function(){
+	$('#sickbeard #content >#show ul.seasons li').live('click', function(){
 		$.get('/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
 			$('#sickbeard').html($(data).html());
 		});
 		$('#sickbeard #content .tablesorter').tablesorter();
 	});
 	
-
-	/* Trakt Recommendations Functions */
+	//Back Button Episode List
+	$('#sickbeard .episode-list >.back').live('click', function(){
+		$.get('/sickbeard/get_show_info/'+$(this).attr('tvdbid'), function(data){
+			$('#sickbeard').html($(data).html());
+		});		
+	});
+	
+  /* Trakt Recommendations Functions */
 	//TV Add to watchlist
 	$('#recommendations .tv #options .watchlist').live('click', function(){
 	  var id = $(this).attr('tv-id');

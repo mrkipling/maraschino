@@ -119,6 +119,8 @@ def get_season(tvdbid, season):
 	
 	return render_template('sickbeard-season.html',
 		sickbeard = sickbeard,
+		id = tvdbid,
+		season = season,
 	)
 
 @app.route('/sickbeard/history/<limit>')
