@@ -575,7 +575,7 @@ $(document).ready(function() {
 	});
 	
 	//History menu
-	$('#sickbeard .menu .history').live('click', function(){
+	$('#sickbeard .history').live('click', function(){
 		$.get('/sickbeard/history/30', function(data){
 			var content = $(data);
 			$('#sickbeard #content').html(content.find('#content').html());
