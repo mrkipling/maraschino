@@ -5,7 +5,12 @@ from maraschino import app
 from settings import *
 from tools import *
 
-SABNZBD_URL = get_setting_value('sabnzbd_url')
+SABNZBD_IP = get_setting_value('sabnzbd_ip')
+SABNZBD_PORT = get_setting_value('sabnzbd_port')
+SABNZBD_API = get_setting_value('sabnzbd_api')
+    
+SABNZBD_URL = 'http://%s:%s/api?apikey=%s' % (SABNZBD_IP, SABNZBD_PORT, SABNZBD_API)
+
 NUM_QUEUE_ITEMS = get_setting_value('num_queue_items')
 
 @app.route('/xhr/sabnzbd')
