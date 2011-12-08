@@ -958,11 +958,12 @@ $(document).ready(function() {
   });
   
   //Tipsy Initialisation
-  $('li').tipsy({gravity:'s', live: true});
-  $('a').tipsy({gravity:'s', live: true});
-  $('div').tipsy({gravity:'s', live: true});
-  $('strong').tipsy({gravity:'s', live: true});
-  $('input').tipsy({gravity:'s', live: true});
-  $('img').tipsy({gravity:'s', live: true});
+  $('li').tipsy({gravity:'s', live: true, fade:true});
+  $('a').tipsy({gravity:'s', live: true, fade:true});
+  $('div').tipsy({gravity:'s', live: true, fade:true});
+  $('strong').tipsy({gravity:'s', live: true, fade:true});
+  $('input').tipsy({gravity:'s', live: true, fade:true});
+  $('img').tipsy({gravity:'s', live: true, fade:true});
+  $('.status').tipsy({gravity:'s', live: true, fade:true});  
 
 });
