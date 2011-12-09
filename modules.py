@@ -18,7 +18,7 @@ AVAILABLE_MODULES = [
     {
         'name': 'applications',
         'label': 'Applications',
-        'description': 'Allows you to link to whatever applications you want (SABnzbd, SickBeard, etc.)',
+        'description': 'Allows you to link to whatever applications you want (SabNZBd, SickBeard, etc.)',
         'static': True,
         'poll': 0,
         'delay': 0,
@@ -65,24 +65,24 @@ AVAILABLE_MODULES = [
             {
                 'key': 'trakt_api_key',
                 'value': '',
-                'description': 'Trakt API key',
+                'description': 'Trakt API Key',
             },
             {
                 'key': 'trakt_username',
                 'value': '',
-                'description': 'Trakt username',
+                'description': 'Trakt Username',
             },
             {
                 'key': 'trakt_password',
                 'value': '',
-                'description': 'Trakt password',
+                'description': 'Trakt Password',
             },
         ]
     },
     {
         'name': 'sabnzbd',
         'label': 'SABnzbd+',
-        'description': 'Shows you information about your SABnzbd+ downloads.',
+        'description': 'Shows you information about your SabNZBd+ downloads.',
         'static': False,
         'poll': 10,
         'delay': 0,
@@ -90,17 +90,17 @@ AVAILABLE_MODULES = [
             {
                 'key': 'sabnzbd_ip',
                 'value': '',
-                'description': 'Sabnzbd++ IP',
+                'description': 'SabNZBd+ IP',
             },
 			{
                 'key': 'sabnzbd_port',
                 'value': '',
-                'description': 'Sabnzbd++ PORT',
+                'description': 'SabNZBd+ Port',
             },
 			{
                 'key': 'sabnzbd_api',
                 'value': '',
-                'description': 'Sabnzbd++ API key',
+                'description': 'SabNZBd+ API Key',
             },
             {
                 'key': 'num_queue_items',
@@ -128,17 +128,17 @@ AVAILABLE_MODULES = [
             {
                 'key': 'trakt_api_key',
                 'value': '',
-                'description': 'Trakt API key',
+                'description': 'Trakt API Key',
             },
             {
                 'key': 'trakt_username',
                 'value': '',
-                'description': 'Trakt username',
+                'description': 'Trakt Username',
             },
             {
                 'key': 'trakt_password',
                 'value': '',
-                'description': 'Trakt password',
+                'description': 'Trakt Password',
             },
         ]
     },
@@ -153,17 +153,17 @@ AVAILABLE_MODULES = [
             {
                 'key': 'sickbeard_api',
                 'value': '',
-                'description': 'Sickbeard API key',
+                'description': 'Sickbeard API Key',
             },
             {
                 'key': 'sickbeard_user',
                 'value': '',
-                'description': 'Sickbeard username',
+                'description': 'Sickbeard Username',
             },
             {
                 'key': 'sickbeard_pw',
                 'value': '',
-                'description': 'Sickbeard password',
+                'description': 'Sickbeard Password',
             },
             {
                 'key': 'sickbeard_ip',
@@ -173,7 +173,7 @@ AVAILABLE_MODULES = [
             {
                 'key': 'sickbeard_port',
                 'value': '',
-                'description': 'Sickbeard PORT',
+                'description': 'Sickbeard Port',
             },
         ]
     },
@@ -190,7 +190,7 @@ SERVER_SETTINGS = [
         'key': 'server_port',
         'value': '8080',
         'description': 'XBMC Port ',
-		'tipsy': 'As set in System > Network',
+		'tipsy': 'As System > Network',
     },
     {
         'key': 'server_username',
