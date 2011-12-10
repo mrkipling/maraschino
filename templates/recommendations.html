@@ -4,8 +4,7 @@
   <div class="module_remove"><span>Remove</span></div> 
 
   <h2>Trakt Recommends</h2>
-  <div>
-		<div class="clearfix">
+  <div><div class="clearfix">
 		  <h2 class="subheading">TV Shows</h2>
 		</div>
 		<ul class="tv listfix">
@@ -16,15 +15,15 @@
     	        <img src="{{ tv.image }}" />
   	          <div id="options">
 	              {% if not tv.watchlist %}
-	                <a class="watchlist" tv-id="{{ tv.id }}" tv-title="{{ tv.title }}" tv-year="{{ tv.year }}" title="Add {{ tv.title }} to Watchlist">Add</a> | 
+<!--	                <a class="watchlist" tv-id="{{ tv.id }}" tv-title="{{ tv.title }}" tv-year="{{ tv.year }}" title="Add {{ tv.title }} to Watchlist">Add</a> | 
 	              {% endif %}	
-	              <a class="dismiss" tv-id="{{ tv.id }}" tv-title="{{ tv.title }}" tv-year="{{ tv.year }}" title="Dismiss {{ tv.title }}">Dismiss</a>
+	              <a class="dismiss" tv-id="{{ tv.id }}" tv-title="{{ tv.title }}" tv-year="{{ tv.year }}" title="Dismiss {{ tv.title }}">Dismiss</a>-->
 	            </div>
 	          </div>
 	          <h3><a href="{{ tv.url }}" target="_blank" title="See {{ tv.title }} on The TVDB">{{ tv.title }}</a></h3>
 		        <p>Year: {{ tv.year }}</p>
             <p>Rating: {{ tv.liked }}%</p>
-		        <p>Overview: {{ tv.overview|truncate(200, false) }}</p>
+		        <p style="text-align:justify; height:92px; overflow:hidden">Overview: {{ tv.overview }}</p>
 	        </div>
 		    </li>
 		  {% endif %}
@@ -40,17 +39,17 @@
 		      <div class="inner">
   	        <div class="right">
   	          <img src="{{ movie.image }}" />
-  	          <div id="options">
+	          <div id="options">
   	            {% if not movie.watchlist %}
-	                <a class="watchlist" movie-id="{{ movie.id }}" movie-title="{{ movie.title }}" movie-year="{{ movie.year }}" title="Add {{ movie.title }} to Watchlist">Add</a> | 
+<!--	                <a class="watchlist" movie-id="{{ movie.id }}" movie-title="{{ movie.title }}" movie-year="{{ movie.year }}" title="Add {{ movie.title }} to Watchlist">Add</a> | 
 	              {% endif %}	
-	              <a class="dismiss" movie-id="{{ movie.id }}" movie-title="{{ movie.title }}" movie-year="{{ movie.year }}" title="Dismiss {{ movie.title }}">Dismiss</a>
+  	              <a class="dismiss" movie-id="{{ movie.id }}" movie-title="{{ movie.title }}" movie-year="{{ movie.year }}" title="Dismiss {{ movie.title }}">Dismiss</a> -->
 	            </div>
   	        </div>
 	          <a href="{{ movie.url }}" target="_blank" title="See {{ movie.title }} on The TVDB"><h3>{{ movie.title }}</h3></a>
 		        <p>Year: {{ movie.year }}</p>
             <p>Rating: {{ movie.liked }}%</p>
-		        <p>Overview: {{ movie.overview|truncate(200, false) }}</p>
+		        <p style="text-align:justify; height:92px; overflow:hidden">Overview: {{ movie.overview }}</p>
   	      </div>
 		    </li>
 		  {% endif%}
