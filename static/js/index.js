@@ -956,7 +956,8 @@ $(document).ready(function() {
       }
     });
   });
-  
+
+  /*
   //Tipsy Initialisation
   $('li').tipsy({gravity:'s', live: true, fade:true});
   $('a').tipsy({gravity:'s', live: true, fade:true});
@@ -964,6 +965,7 @@ $(document).ready(function() {
   $('strong').tipsy({gravity:'s', live: true, fade:true});
   $('input').tipsy({gravity:'s', live: true, fade:true});
   $('img').tipsy({gravity:'s', live: true, fade:true});
-  $('.status').tipsy({gravity:'s', live: true, fade:true});  
+  $('.status').tipsy({gravity:'s', live: true, fade:true});
+  */
 
 });
