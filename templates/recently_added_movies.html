@@ -1,0 +1,41 @@
+<div id="recently_added_movies" class="module" data-module="recently_added_movies" data-movie_offset="{{ movie_offset }}">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2 class="recentvidtitle">Recently Added Movies</h2>
+
+  {% if recently_added_movies %}
+
+      <ul class="movies listfix">
+        {% for movie in recently_added_movies %}
+          <li data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})"{% if movie.lastplayed %} class="watched"{% endif %}>
+
+            {% if movie.fanart %}
+              <img src="{{ vfs_url }}{{ movie.fanart }}" width="100" height="56" alt="">
+            {% endif %}
+
+            <div class="inner">
+              <h3>{{ movie.title }}</h3>
+              <p>Year: {{ movie.year }}</p>
+              <p class="title">Rating: {{ movie.rating|float|round(1, 'common') }}</p>
+            </div>
+
+          </li>
+        {% endfor %}
+      </ul>
+
+      <div class="clearfix">
+        {% if movie_offset + recently_added_movies|length < 25 %}
+          <a class="view_older" title="Older">&raquo;</a>
+        {% endif %}
+        {% if movie_offset > 0 %}
+          <a class="view_newer" title="Newer">&laquo;</a>
+        {% endif %}
+      </div>
+
+  {% else %}
+    <p class="problem">There was a problem connecting to the XBMC server.</p>
+  {% endif %}
+
+</div>

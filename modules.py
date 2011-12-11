@@ -41,16 +41,31 @@ AVAILABLE_MODULES = [
     },
     {
         'name': 'recently_added',
-        'label': 'Recently added',
-        'description': 'Shows you Movies & TV Episodes recently added to your library.',
+        'label': 'Recently added episodes',
+        'description': 'Shows you TV Episodes recently added to your library.',
         'static': False,
         'poll': 350,
         'delay': 0,
         'settings': [
             {
-                'key': 'num_recent_videos',
-                'value': 2,
-                'description': 'Number of videos of each type to display',
+                'key': 'num_recent_episodes',
+                'value': 3,
+                'description': 'Number of episodes to display',
+            },
+        ]
+    },
+    {
+        'name': 'recently_added_movies',
+        'label': 'Recently added movies',
+        'description': 'Shows you Movies recently added to your library.',
+        'static': False,
+        'poll': 350,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'num_recent_movies',
+                'value': 3,
+                'description': 'Number of movies to display',
             },
         ]
     },

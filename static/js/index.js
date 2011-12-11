@@ -360,32 +360,32 @@ $(document).ready(function() {
 
   // view more recently added episodes
 
-  $('#recently_added .view_older_episodes').live('click', function() {
+  $('#recently_added .view_older').live('click', function() {
     get_module('recently_added', {
-      params: [$('#recently_added').data('episode_offset') + $('#recently_added .episodes > li').length, $('#recently_added').data('movie_offset')]
+      params: [$('#recently_added').data('episode_offset') + $('#recently_added .episodes > li').length]
     });
     return false;
   });
 
-  $('#recently_added .view_newer_episodes').live('click', function() {
+  $('#recently_added .view_newer').live('click', function() {
     get_module('recently_added', {
-      params: [$('#recently_added').data('episode_offset') - $('#recently_added .episodes > li').length, $('#recently_added').data('movie_offset')]
+      params: [$('#recently_added').data('episode_offset') - $('#recently_added .episodes > li').length]
     });
     return false;
   });
 
   // view more recently added movies
 
-  $('#recently_added .view_older_movies').live('click', function() {
-    get_module('recently_added', {
-      params: [$('#recently_added').data('episode_offset'), $('#recently_added').data('movie_offset') + $('#recently_added .movies > li').length]
+  $('#recently_added_movies .view_older').live('click', function() {
+    get_module('recently_added_movies', {
+      params: [$('#recently_added_movies').data('movie_offset') + $('#recently_added_movies .movies > li').length]
     });
     return false;
   });
 
-  $('#recently_added .view_newer_movies').live('click', function() {
-    get_module('recently_added', {
-      params: [$('#recently_added').data('episode_offset'), $('#recently_added').data('movie_offset') - $('#recently_added .movies > li'). length]
+  $('#recently_added_movies .view_newer').live('click', function() {
+    get_module('recently_added_movies', {
+      params: [$('#recently_added_movies').data('movie_offset') - $('#recently_added_movies .movies > li'). length]
     });
     return false;
   });
