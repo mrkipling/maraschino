@@ -144,3 +144,21 @@ def history(limit):
 def get_pic(tvdb, style='banner'):
 	url = '%s:%s' %(SICKBEARD_IP, SICKBEARD_PORT)
 	return 'http://%s/showPoster/?show=%s&which=%s' %(url, tvdb, style)
+
+@app.route('/sickbeard/get_ep_info/<tvdbid>/<season>/<ep>')
+def get_episode_info(tvdbid, season, ep):
+	try:
+		url = '%s/?cmd=episode&tvdbid=%s&season=%s&episode=%s&full_path=1' %(SICKBEARD_URL, tvdbid, season, ep)
+		result = urllib.urlopen(url).read()
+ 		sickbeard = json.JSONDecoder().decode(result)
+	except:
+		raise Exception
+		
+	if sickbeard['result'].rfind('success') >= 0:
+		sickbeard = sickbeard['data']
+	
+	return render_template('sickbeard-episode.html',
+		sickbeard = sickbeard,
+		id = tvdbid,
+		season = season,
+	)
