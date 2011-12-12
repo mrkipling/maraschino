@@ -1,14 +1,15 @@
 <div id="applications" class="module" data-module="applications">
 
   <div class="module_settings"><span>Settings</span></div>
-  <div class="module_remove"><span>Remove</span></div>  
+  <div class="module_remove"><span>Remove</span></div>
+
   <h2>Applications</h2>
 
   {% if applications %}
     <ul>
       {% for application in applications %}
         <li>
-          <a class="clearfix" data-id="{{ application.id }}" title="Launch {{ application.name }}">
+          <a class="clearfix" data-id="{{ application.id }}" title="Launch {{ application.name }}" href="{{ application.url }}">
             <span class="name">
               {% if application.image %}<img src="/static/images/applications/{{ application.image }}" height="20" width="20">{% endif %}
               <span>{{ application.name }}</span>

@@ -922,16 +922,6 @@ $(document).ready(function() {
     });
   });
 
-  // show application window
-
-  $('.f_operation_mode #applications li a').live('click', function() {
-    $.get('/xhr/show_application/' + $(this).data('id'), function(data) {
-      var popup = $(data);
-      $('body').append(popup);
-      popup.showPopup({ dispose: true });
-    });
-  });
-
   // add/edit disk
 
   $('#add_disk').live('click', function() {
