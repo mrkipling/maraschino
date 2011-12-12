@@ -10,13 +10,13 @@
   	<div class="history">
 	  	{% for item in history %}
 	  		<ul id="{{item.tvdbid}}{{item.season}}{{item.episode}}{{item.status}}" class="{{item.status}}">
-		  		<span class="status" title="{{item.status}} on {{ item.date }}">{{item.status}}</span>
-		  		<span class="name">{{item.show_name}} S{{item.season}}E{{item.episode}}</span>
-		  		<img src="{{ item.image }}" />
-		  		<span class="extra-info">
-		  			<p>Quality: {{ item.quality }} </p>
-		  			<p>{{ item.resource_path }} </p>
-		  		</span>
+	  			<li>
+  		  		<span class="status" title="{{item.status}} on {{ item.date }}">{{item.status}}</span>
+	  	  		<span class="name" title="Path: {{ item.resource_path }}">{{item.show_name}} S{{item.season}}E{{item.episode}}</span>
+		    		<img src="{{ item.image }}" />
+		    		<span class="extra-info">
+		  		  </span>
+		  		</li>
 				</ul>
 	  	{% endfor %}
 	  </div>
