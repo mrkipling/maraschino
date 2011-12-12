@@ -607,6 +607,8 @@ $(document).ready(function() {
 		}
 	});
 	
+	
+	//Episode list back button functionality
 	$('body').delegate('#sickbeard #content >#show .sb-back', 'click', function(){
 		$.get('/sickbeard/get_all', function(data){
 			var content = $(data);
@@ -614,13 +616,29 @@ $(document).ready(function() {
 		});
 	});
 
-		
+	//Season info
 	$('#sickbeard #content >#show ul.seasons li').live('click', function(){
 		$.get('/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
 			$('#sickbeard').html($(data).html());
 			$('#sickbeard .episode-list .tablesorter').tablesorter({sortList: [[0,0]]});
 		});
 	});
+
+	//Going into episode info
+	$('#sickbeard .episode-list #season tbody tr').live('click', function(){
+		$.get('/sickbeard/get_ep_info/'+$(this).attr('link'), function(data){
+			$('#sickbeard').html($(data).html());
+		});
+	});
+	
+	//Episode info back button functionality
+	$('body').delegate('#sickbeard .episode-info .back', 'click', function(){
+		$.get('/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
+			$('#sickbeard').html($(data).html());
+		});
+	});
+
+		/******  END SICKBEARD Functions  *******/
 	
 	//Back Button Episode List
 	$('#sickbeard .episode-list >.back').live('click', function(){

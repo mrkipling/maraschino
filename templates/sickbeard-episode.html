@@ -1,0 +1,20 @@
+<div id="sickbeard" class="module" data-module="sickbeard">
+	<div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+	
+	<h2 class="title">Episode Manager</h2>
+	<span class="all"><div class="menu-icon-all" title="View All">All</div></span>
+	<span class="upcoming"><div class="menu-icon-upcoming" title="View Upcoming"><img src="/static/images/coming.png" width="14" height="14" /></div></span>
+	<span class="history"><div class="menu-icon-history" title="View History"><img src="/static/images/history.png" width="14" height="14" /></div></span>
+  <div id="content" class="episode-info">
+    <div class="back" tvdbid="{{ id }}" season="{{ season }}">
+	 	  <p class="back">&laquo;</p>
+    </div>
+    <p>{{ sickbeard.status }}</p>
+    <p>{{ sickbeard.description }}</p>
+    <p>{{ sickbeard.airdate }}</p>
+    <p>{{ sickbeard.location }}</p>
+    <p>{{ sickbeard.quality }}</p>
+    <p>{{ sickbeard.name }}</p>
+  </div>
+</div>

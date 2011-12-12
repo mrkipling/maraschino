@@ -20,7 +20,7 @@
 			</thead>
 			<tbody>
 			{% for episode in sickbeard|sort %}
-				<tr>
+				<tr link="{{ id }}/{{ season }}/{{ episode }}">
 					<td>{{episode}}</td>
 					<td>{{sickbeard[episode].name}}</td>
 					<td><img src="static/images/{% if sickbeard[episode].status == "Downloaded" %}yes{% else %}no{% endif %}.png" /></td>
