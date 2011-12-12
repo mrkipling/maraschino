@@ -12,16 +12,20 @@
   	</div>
 		<table id="season" class="tablesorter">
 			<thead>
-				<th>#</th>
-				<th>Name</th>
-				<th>Status</th>
-				<th>Quality</th>
-				<th>Air Date</th>
+				<th class="ep">#</th>
+				<th class="name">Name</th>
+				<th class="status">Status</th>
+				<th class="quality">Quality</th>
+				<th class="airdate">Air Date</th>
 			</thead>
 			<tbody>
 			{% for episode in sickbeard|sort %}
 				<tr>
-					<td>{{episode}}</td><td>{{sickbeard[episode].name}}</td><td>{{sickbeard[episode].status}}</td><td>{{sickbeard[episode].quality}}</td><td>{{sickbeard[episode].airdate}}</td>
+					<td>{{episode}}</td>
+					<td>{{sickbeard[episode].name}}</td>
+					<td>{{sickbeard[episode].status}}</td>
+					<td>{{sickbeard[episode].quality}}</td>
+					<td>{{sickbeard[episode].airdate}}</td>
 				</tr>
 			{% endfor %}
 			</tbody>
