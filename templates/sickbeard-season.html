@@ -23,7 +23,7 @@
 				<tr>
 					<td>{{episode}}</td>
 					<td>{{sickbeard[episode].name}}</td>
-					<td>{{sickbeard[episode].status}}</td>
+					<td><img src="static/images/{% if sickbeard[episode].status == "Downloaded" %}yes{% else %}no{% endif %}.png" /></td>
 					<td>{{sickbeard[episode].quality}}</td>
 					<td>{{sickbeard[episode].airdate}}</td>
 				</tr>
