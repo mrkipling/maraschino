@@ -1,23 +1,33 @@
 @import "mixins.less";
 
-#recommendations
+#recommendations ul.recommendations li
 {
-	.listfix{
-		background: url(/static/images/alpha/fff_10.png);
-    padding: 15px 0px 0px 15px;
-    .border-radius(5px);
-    height: 140px;
-	overflow:hidden;
+  background: url(/static/images/alpha/fff_10.png);
+  margin-top: 5px;
+  padding: 10px 5px 10px 15px;
+  .border-radius(5px);
 
-		div.right{
-			float: right;
-			padding: 5px;
-			height: 98%;
-			
-			img{
-				height: 95%;
-				padding-bottom: 5px;
-			}
-		}
-	}	
+  .poster_options {
+    float: right;
+    margin-left: 10px;
+
+    img {
+      display: block;
+      width: 80px;
+    }
+  }
+
+  h3 {
+    font-size: 1.2em;
+  }
+
+  .info {
+    margin: 7px 0;
+  }
+
+  .overview {
+    color: #ccc;
+    font-size: 0.85em;
+    line-height: 1.4em;
+  }
 }
