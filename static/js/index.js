@@ -635,6 +635,7 @@ $(document).ready(function() {
 	$('body').delegate('#sickbeard .episode-info .back', 'click', function(){
 		$.get('/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
 			$('#sickbeard').html($(data).html());
+			$('#sickbeard .episode-list .tablesorter').tablesorter({sortList: [[0,0]]});
 		});
 	});
 
