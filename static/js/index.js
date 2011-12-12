@@ -575,12 +575,16 @@ $(document).ready(function() {
 	});
 	
 	//History menu
-	$('#sickbeard .history').live('click', function(){
+	$('#sickbeard span.history').live('click', function(){
 		$.get('/sickbeard/history/30', function(data){
-			var content = $(data);
-			$('#sickbeard #content').html(content.find('#content').html());
+			$('#sickbeard').html($(data).html());
 		});
 	});
+	
+	$('#sickbeard .history ul.toggle').live('click', function(){
+    $('#sickbeard .history .Snatched').toggle();		 
+  });
+	
 	
 	//Show Menu
 	$('body').delegate('#sickbeard .menu-icon', 'click', function(){
