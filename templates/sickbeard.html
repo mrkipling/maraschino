@@ -29,7 +29,7 @@
   <div id="content">
     <div id="future">
       {% if missed|length %}
-      <div id="missed"><b>{{missed|length}}</b> episodes have been missed.</div>
+      <div id="missed"><b>{{missed|length}}</b></div>
       <div class="missed">
         {% for show in missed %}
           {{item(show)}}
