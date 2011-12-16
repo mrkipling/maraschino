@@ -1,25 +1,25 @@
 <div id="sickbeard" class="module" data-module="sickbeard">
-	<div class="module_settings"><span>Settings</span></div>
-	<div class="module_remove"><span>Remove</span></div>
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
 
-	<h2 class="title">History</h2>
+  <h2 class="title">History</h2>
   <span class="all"><div class="menu-icon-all" title="View All">All</div></span>
-	<span class="upcoming"><div class="menu-icon-upcoming" title="View Upcoming"><img src="/static/images/coming.png" width="14" height="14" /></div></span>
-	<span class="history"><div class="menu-icon-history" title="View History"><img src="/static/images/history.png" width="14" height="14" /></div></span>
-	<div id="content">
-  	<div class="history">
-	  	{% for item in history %}
-	  		<ul id="{{item.tvdbid}}{{item.season}}{{item.episode}}{{item.status}}" class="{{item.status}}">
-	  			<li>
-  		  		<span class="status" title="{{item.status}} on {{ item.date }}">{{item.status}}</span>
-	  	  		<span class="name" title="Path: {{ item.resource_path }}">{{item.show_name}} S{{item.season}}E{{item.episode}}</span>
-		    		<img src="{{ item.image }}" />
-		    		<span class="extra-info">
-		  		  </span>
-		  		</li>
-				</ul>
-	  	{% endfor %}
-  		<ul class="toggle"><li>Snatched</li></ul>
-	  </div>
-	</div>
+  <span class="upcoming"><div class="menu-icon-upcoming" title="View Upcoming"><img src="/static/images/coming.png" width="14" height="14" /></div></span>
+  <span class="history"><div class="menu-icon-history" title="View History"><img src="/static/images/history.png" width="14" height="14" /></div></span>
+  <div id="content">
+    <div class="history">
+      {% for item in history %}
+        <ul id="{{item.tvdbid}}{{item.season}}{{item.episode}}{{item.status}}" class="{{item.status}}">
+          <li>
+            <span class="status" title="{{item.status}} on {{ item.date }}">{{item.status}}</span>
+            <span class="name" title="Path: {{ item.resource_path }}">{{item.show_name}} S{{item.season}}E{{item.episode}}</span>
+            <img src="{{ item.image }}" />
+            <span class="extra-info">
+            </span>
+          </li>
+        </ul>
+      {% endfor %}
+      <ul class="toggle"><li>Snatched</li></ul>
+    </div>
+  </div>
 </div>

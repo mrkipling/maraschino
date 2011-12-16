@@ -6,26 +6,23 @@
   <h2>trakt.tv Recommends</h2>
 
   <ul class="recommendations listfix">
-
     {% if tv %}
     <li>
       <div class="inner">
-    	<div class="poster_options">
-    	  <img src="{{ tv.image }}">
-
+        <div class="poster_options">
+          <img src="{{ tv.image }}">
           <!--
-  	  <div id="options">
-	    {% if not tv.watchlist %}
-            <a class="watchlist" tv-id="{{ tv.id }}" tv-title="{{ tv.title }}" tv-year="{{ tv.year }}" title="Add {{ tv.title }} to Watchlist">Add</a> |
-	    {% endif %}
-	    <a class="dismiss" tv-id="{{ tv.id }}" tv-title="{{ tv.title }}" tv-year="{{ tv.year }}" title="Dismiss {{ tv.title }}">Dismiss</a>
-	  </div>
+          <div id="options">
+            {% if not tv.watchlist %}
+              <a class="watchlist" tv-id="{{ tv.id }}" tv-title="{{ tv.title }}" tv-year="{{ tv.year }}" title="Add {{ tv.title }} to Watchlist">Add</a> |
+            {% endif %}
+            <a class="dismiss" tv-id="{{ tv.id }}" tv-title="{{ tv.title }}" tv-year="{{ tv.year }}" title="Dismiss {{ tv.title }}">Dismiss</a>
+          </div>
           -->
-
-	</div>
-	<h3>TV show: <a href="{{ tv.url }}" target="_blank" title="See {{ tv.title }} on The TVDB">{{ tv.title }}</a></h3>
-	<p class="info">Year: {{ tv.year }}, Rating: {{ tv.liked }}%</p>
-	<p class="overview">
+        </div>
+        <h3>TV show: <a href="{{ tv.url }}" target="_blank" title="See {{ tv.title }} on The TVDB">{{ tv.title }}</a></h3>
+        <p class="info">Year: {{ tv.year }}, Rating: {{ tv.liked }}%</p>
+        <p class="overview">
           <span class="truncated">{{ tv.overview|truncate(400, false) }}</span>
           <span class="expanded" style="display: none;">{{ tv.overview }}</span>
           {% if tv.overview|count > 400 %}
@@ -39,23 +36,20 @@
     {% if movie %}
     <li>
       <div class="inner">
-  	<div class="poster_options">
-  	  <img src="{{ movie.image }}">
-
+        <div class="poster_options">
+          <img src="{{ movie.image }}">
           <!--
-	  <div id="options">
-  	    {% if not movie.watchlist %}
-            <a class="watchlist" movie-id="{{ movie.id }}" movie-title="{{ movie.title }}" movie-year="{{ movie.year }}" title="Add {{ movie.title }} to Watchlist">Add</a> |
-	    {% endif %}
-  	    <a class="dismiss" movie-id="{{ movie.id }}" movie-title="{{ movie.title }}" movie-year="{{ movie.year }}" title="Dismiss {{ movie.title }}">Dismiss</a>
-	  </div>
+          <div id="options">
+            {% if not movie.watchlist %}
+              <a class="watchlist" movie-id="{{ movie.id }}" movie-title="{{ movie.title }}" movie-year="{{ movie.year }}" title="Add {{ movie.title }} to Watchlist">Add</a> |
+            {% endif %}
+            <a class="dismiss" movie-id="{{ movie.id }}" movie-title="{{ movie.title }}" movie-year="{{ movie.year }}" title="Dismiss {{ movie.title }}">Dismiss</a>
+          </div>
           -->
-
-  	</div>
-
+        </div>
         <h3>Movie: <a href="{{ movie.url }}" target="_blank" title="See {{ movie.title }} on The TVDB">{{ movie.title }}</a></h3>
-	<p class="info">Year: {{ movie.year }}, Rating: {{ movie.liked }}%</p>
-	<p class="overview">
+        <p class="info">Year: {{ movie.year }}, Rating: {{ movie.liked }}%</p>
+        <p class="overview">
           <span class="truncated">{{ movie.overview|truncate(400, false) }}</span>
           <span class="expanded" style="display: none;">{{ movie.overview }}</span>
           {% if movie.overview|count > 400 %}
@@ -65,7 +59,5 @@
       </div>
     </li>
     {% endif %}
-
   </ul>
-
 </div>
