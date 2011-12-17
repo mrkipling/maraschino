@@ -168,7 +168,7 @@ AVAILABLE_MODULES = [
             {
                 'key': 'sickbeard_ip',
                 'value': '',
-                'description': 'Sickbeard IP',
+                'description': 'Sickbeard Hostname',
             },
             {
                 'key': 'sickbeard_port',
@@ -183,7 +183,7 @@ SERVER_SETTINGS = [
     {
         'key': 'server_hostname',
         'value': 'localhost',
-        'description': 'XBMC IP',
+        'description': 'XBMC Hostname',
     },
     {
         'key': 'server_port',
