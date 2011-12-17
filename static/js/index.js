@@ -273,37 +273,37 @@ $(document).ready(function() {
   }
 
   // update video library control
-  
+
   $('#library #video-update').live('click', function() {
-	$.get('/xhr/controls/update_video');
+    $.get('/xhr/controls/update_video');
   });
-  
+
   // clean video library control
-  
+
   $('#library #video-clean').live('click', function() {
-	$.get('/xhr/controls/clean_video');
+    $.get('/xhr/controls/clean_video');
   });
-  
+
   // xbmc poweron
-  
+
   $('#library #poweron').live('click', function() {
     $.get('/xhr/controls/poweron');
   });
 
   // xbmc poweroff
-  
+
   $('#library #poweroff').live('click', function() {
     $.get('/xhr/controls/poweroff');
   });
 
   // xbmc reboot
-  
+
   $('#library #eboot').live('click', function() {
     $.get('/xhr/controls/reboot');
   });
 
   // xbmc suspend
-  
+
   $('#library #suspend').live('click', function() {
     $.get('/xhr/controls/suspend');
   });
@@ -595,52 +595,8 @@ $(document).ready(function() {
 			$('#sickbeard').html($(data).html());
 		});		
 	});
-	
-  /* Trakt Recommendations Functions */
-	//TV Add to watchlist
-	$('#recommendations .tv #options .watchlist').live('click', function(){
-	  var id = $(this).attr('tv-id');
-	  var title = $(this).attr('tv-title');
-	  var year = $(this).attr('tv-year');
-	  $.get('/trakt/add_tv_watchlist/'+id+'/'+title+'/'+year+'/', 
-	    function(data){
-	      alert(data);
-	    }
-	  );
-	});
-	//TV Dismis
-	$('#recommendations .tv #options .dismiss').live('click', function(){
-	  var id = $(this).attr('tv-id');
-	  var title = $(this).attr('tv-title');
-	  var year = $(this).attr('tv-year');
-	  $.get('/trakt/dismiss_tv/'+id+'/'+title+'/'+year+'/', 
-	    function(data){
-	      alert(data);
-	    }
-	  );
-	});
-	//Movie Add to watchlist
-	$('#recommendations .movie #options .watchlist').live('click', function(){
-	  var id = $(this).attr('movie-id');
-	  var title = $(this).attr('movie-title');
-	  var year = $(this).attr('movie-year');
-	  $.get('/trakt/add_movie_watchlist/'+id+'/'+title+'/'+year+'/', 
-	    function(data){
-	      alert(data);
-	    }
-	  );
-	});
-	
-	$('#recommendations .movie #options .dismiss').live('click', function(){
-	  var id = $(this).attr('movie-id');
-	  var title = $(this).attr('movie-title');
-	  var year = $(this).attr('movie-year');
-	  $.get('/trakt/dismiss_movie/'+id+'/'+title+'/'+year+'/', 
-	    function(data){
-	      alert(data);
-	    }
-	  );
-	});
+
+
 
 
 
