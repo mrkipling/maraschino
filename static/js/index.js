@@ -458,143 +458,163 @@ $(document).ready(function() {
     });
   });
 
-	/*** SICKBEARD ***/
-	//Search Episode Functionality on Magnifying Glass png
-	$('#sickbeard div.options img.search').live('click', function(){
-		$(this).attr('src','/static/images/xhrloading.gif');
-		var ep = $(this).attr('episode');
-		var season = $(this).attr('season');
-		var id = $(this).attr('id');
-		$.get('/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
-		.success(function(data){
-			if(data){
-				$('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src','/static/images/yes.png');
-			} else {
-				$('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src','/static/images/no.png');
-			}
-		})
-		.error(function(){
-			alert('Could not reach Sick-Beard.');	
-		});
-	});
 
-	//Air time on hover
-	$('#sickbeard .coming_ep').live('hover', function(){
-		var id = ($(this).attr('id'));
-		$('#sickbeard #'+id+' .details').toggle('slow');
-	});
 
-	//Plot display function
-	$('#sickbeard .coming_ep .details .plot-title').live('mouseenter', function(){
-		$(this).toggle();
-		var id = $(this).closest('div.coming_ep').attr('id');
-		$('#sickbeard #'+id+' .details .plot').toggle();
-	});
-	
-	//Plot hide function
-	$('#sickbeard .coming_ep .details .plot').live('mouseleave', function(){
-		var id = $(this).closest('div.coming_ep').attr('id');
-		$('#sickbeard #'+id+' .details .plot-title').toggle();
-		$('#sickbeard #'+id+' .details .plot').toggle();
-	});
 
-	//Toggle missed episodes
-	$('#sickbeard #missed').live('click', function(){
-		$('#sickbeard .missed').toggle();
-	});
-	
-	//All Shows menu
-	$('body').delegate('#sickbeard .all', 'click', function(){
-		$.get('/sickbeard/get_all', function(data){
-			var content = $(data);
-			$('#sickbeard #content').html(content.find('#content').html());
-		});
-	});
-	//Coming episodes Menu
-	$('body').delegate('#sickbeard .upcoming', 'click', function(){
-		$.get('/xhr/sickbeard', function(data){
-			var content = $(data);
-			$('#sickbeard #content').html(content.find('#content').html());
-		});
-	});
-	
-	//History menu
-	$('#sickbeard span.history').live('click', function(){
-		$.get('/sickbeard/history/30', function(data){
-			$('#sickbeard').html($(data).html());
-		});
-	});
-	
-	$('#sickbeard .history ul.toggle').live('click', function(){
-    $('#sickbeard .history .Snatched').toggle();		 
+
+  /*** SICKBEARD ***/
+
+  // Search Episode Functionality on Magnifying Glass png
+
+  $('#sickbeard div.options img.search').live('click', function(){
+    $(this).attr('src','/static/images/xhrloading.gif');
+    var ep = $(this).attr('episode');
+    var season = $(this).attr('season');
+    var id = $(this).attr('id');
+    $.get('/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
+      .success(function(data){
+	if(data){
+	  $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src','/static/images/yes.png');
+	} else {
+	  $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src','/static/images/no.png');
+	}
+      })
+      .error(function(){
+	alert('Could not reach Sick-Beard.');
+      });
   });
-	
-	
-	//Show Menu
-	$('body').delegate('#sickbeard .menu-icon', 'click', function(){
-		$('#sickbeard .menu').toggle('slow');
-	});
-	
-	//Show info
-	$('body').delegate('#sickbeard #sickbeard-list ul', 'click', function(){
-		var id = $(this).attr('id');
-		$.get('/sickbeard/get_show_info/'+id, function(data){
-				$('#sickbeard #content').html($(data).find('#content').html());
-		});
-	});
-	
-	//History Extra Details
-	$('#sickbeard .history ul').live({
-		mouseenter: function(){
-			var id = $(this).attr('id');
-			$('#sickbeard .history #'+id+' .extra-info').toggle();
-		},
-		mouseleave: function(){
-			var id = $(this).attr('id');
-			$('#sickbeard .history #'+id+' .extra-info').toggle();
-		}
-	});
-	
-	
-	//Episode list back button functionality
-	$('body').delegate('#sickbeard #content >#show .sb-back', 'click', function(){
-		$.get('/sickbeard/get_all', function(data){
-			var content = $(data);
-			$('#sickbeard #content').html(content.find('#content').html());
-		});
-	});
 
-	//Season info
-	$('#sickbeard #content >#show ul.seasons li').live('click', function(){
-		$.get('/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
-			$('#sickbeard').html($(data).html());
-			$('#sickbeard .episode-list .tablesorter').tablesorter({sortList: [[0,0]]});
-		});
-	});
+  // Air time on hover
 
-	//Going into episode info
-	$('#sickbeard .episode-list #season tbody tr').live('click', function(){
-		$.get('/sickbeard/get_ep_info/'+$(this).attr('link'), function(data){
-			$('#sickbeard').html($(data).html());
-		});
-	});
-	
-	//Episode info back button functionality
-	$('body').delegate('#sickbeard .episode-info .back', 'click', function(){
-		$.get('/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
-			$('#sickbeard').html($(data).html());
-			$('#sickbeard .episode-list .tablesorter').tablesorter({sortList: [[0,0]]});
-		});
-	});
+  $('#sickbeard .coming_ep').live('hover', function(){
+    var id = ($(this).attr('id'));
+    $('#sickbeard #'+id+' .details').toggle('slow');
+  });
 
-		/******  END SICKBEARD Functions  *******/
-	
-	//Back Button Episode List
-	$('#sickbeard .episode-list >.back').live('click', function(){
-		$.get('/sickbeard/get_show_info/'+$(this).attr('tvdbid'), function(data){
-			$('#sickbeard').html($(data).html());
-		});		
-	});
+  // Plot display function
+
+  $('#sickbeard .coming_ep .details .plot-title').live('mouseenter', function(){
+    $(this).toggle();
+    var id = $(this).closest('div.coming_ep').attr('id');
+    $('#sickbeard #'+id+' .details .plot').toggle();
+  });
+
+  // Plot hide function
+
+  $('#sickbeard .coming_ep .details .plot').live('mouseleave', function(){
+    var id = $(this).closest('div.coming_ep').attr('id');
+    $('#sickbeard #'+id+' .details .plot-title').toggle();
+    $('#sickbeard #'+id+' .details .plot').toggle();
+  });
+
+  // Toggle missed episodes
+
+  $('#sickbeard #missed').live('click', function(){
+    $('#sickbeard .missed').toggle();
+  });
+
+  // All Shows menu
+
+  $('body').delegate('#sickbeard .all', 'click', function(){
+    $.get('/sickbeard/get_all', function(data){
+      var content = $(data);
+      $('#sickbeard #content').html(content.find('#content').html());
+    });
+  });
+
+  // Coming episodes Menu
+
+  $('body').delegate('#sickbeard .upcoming', 'click', function(){
+    $.get('/xhr/sickbeard', function(data){
+      var content = $(data);
+      $('#sickbeard #content').html(content.find('#content').html());
+    });
+  });
+
+  // History menu
+
+  $('#sickbeard span.history').live('click', function(){
+    $.get('/sickbeard/history/30', function(data){
+      $('#sickbeard').html($(data).html());
+    });
+  });
+
+  $('#sickbeard .history ul.toggle').live('click', function(){
+    $('#sickbeard .history .Snatched').toggle();
+  });
+
+  // Show Menu
+
+  $('body').delegate('#sickbeard .menu-icon', 'click', function(){
+    $('#sickbeard .menu').toggle('slow');
+  });
+
+  // Show info
+
+  $('body').delegate('#sickbeard #sickbeard-list ul', 'click', function(){
+    var id = $(this).attr('id');
+    $.get('/sickbeard/get_show_info/'+id, function(data){
+      $('#sickbeard #content').html($(data).find('#content').html());
+    });
+  });
+
+  // History Extra Details
+
+  $('#sickbeard .history ul').live({
+    mouseenter: function(){
+      var id = $(this).attr('id');
+      $('#sickbeard .history #'+id+' .extra-info').toggle();
+    },
+    mouseleave: function(){
+      var id = $(this).attr('id');
+      $('#sickbeard .history #'+id+' .extra-info').toggle();
+    }
+  });
+
+  // Episode list back button functionality
+
+  $('body').delegate('#sickbeard #content >#show .sb-back', 'click', function(){
+    $.get('/sickbeard/get_all', function(data){
+      var content = $(data);
+      $('#sickbeard #content').html(content.find('#content').html());
+    });
+  });
+
+  // Season info
+
+  $('#sickbeard #content >#show ul.seasons li').live('click', function(){
+    $.get('/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
+      $('#sickbeard').html($(data).html());
+      $('#sickbeard .episode-list .tablesorter').tablesorter({sortList: [[0,0]]});
+    });
+  });
+
+  // Going into episode info
+
+  $('#sickbeard .episode-list #season tbody tr').live('click', function(){
+    $.get('/sickbeard/get_ep_info/'+$(this).attr('link'), function(data){
+      $('#sickbeard').html($(data).html());
+    });
+  });
+
+  // Episode info back button functionality
+
+  $('body').delegate('#sickbeard .episode-info .back', 'click', function(){
+    $.get('/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
+      $('#sickbeard').html($(data).html());
+      $('#sickbeard .episode-list .tablesorter').tablesorter({sortList: [[0,0]]});
+    });
+  });
+
+  // Back Button Episode List
+
+  $('#sickbeard .episode-list >.back').live('click', function(){
+    $.get('/sickbeard/get_show_info/'+$(this).attr('tvdbid'), function(data){
+      $('#sickbeard').html($(data).html());
+    });
+  });
+
+  /******  END SICKBEARD Functions  *******/
 
 
 
