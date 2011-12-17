@@ -541,6 +541,7 @@ $(document).ready(function() {
 
   $('#sickbeard .history ul.toggle').live('click', function(){
     $('#sickbeard .history .Snatched').toggle();
+    $(this).toggleClass('active');
   });
 
   // Show Menu

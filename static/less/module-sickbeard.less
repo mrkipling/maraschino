@@ -358,15 +358,24 @@
         }
       }
 
-    	&.toggle {
-    		position: absolute;
-    		top: 12px;
-    		right: 5px;
-    		width: 15%;
+      &.toggle {
+        cursor: pointer;
+    	position: absolute;
+    	top: 10px;
+    	right: 120px;
         line-height: 1.3em;
-        padding: 5px 5px;
+        width: auto;
         .border-radius(4px);
-    	}
+
+        &.active {
+          background: url(/static/images/alpha/fff_20.png);
+        }
+
+        li {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+      }
     }
   }
 
