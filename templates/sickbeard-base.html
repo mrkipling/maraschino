@@ -16,7 +16,10 @@
         <div class="airs">{{i.airs}}</div>
         {% if i.ep_plot|length > 2 %}
           <div class="plot-title">Plot</div>
-          <div class="plot">{{i.ep_plot}}</div>
+          <div class="plot">
+            <h4>{{ i.show_name }} - {{ i.season }}x{{ i.episode }} - {{ i.ep_name }}</h4>
+            <p>{{ i.ep_plot|truncate(400) }}</p>
+          </div>
         {% endif %}
       </div>
     </div>
