@@ -161,7 +161,7 @@ AVAILABLE_MODULES = [
                 'description': 'Sickbeard Username',
             },
             {
-                'key': 'sickbeard_pw',
+                'key': 'sickbeard_password',
                 'value': '',
                 'description': 'Sickbeard Password',
             },
