@@ -184,25 +184,21 @@ SERVER_SETTINGS = [
         'key': 'server_hostname',
         'value': 'localhost',
         'description': 'XBMC IP',
-		'tipsy': 'Hostnames are NOT supported',
     },
     {
         'key': 'server_port',
         'value': '8080',
         'description': 'XBMC Port ',
-		'tipsy': 'As System > Network',
     },
     {
         'key': 'server_username',
         'value': '',
         'description': 'XBMC Username',
-		'tipsy': 'If applicable',
     },
     {
         'key': 'server_password',
         'value': '',
         'description': 'XBMC Password',
-		'tipsy': 'If applicable',
     },
     {
         'key': 'fanart_backgrounds',
@@ -220,7 +216,6 @@ SERVER_SETTINGS = [
         'key': 'server_macaddress',
         'value': '',
         'description': 'XBMC Mac Address',
-		'tipsy': 'XBMC Mac Address is found in System Info',
     },
 ]
 

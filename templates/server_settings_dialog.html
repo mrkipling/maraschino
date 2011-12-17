@@ -14,7 +14,7 @@
             <option value="1"{% if setting.value == "1" %} selected="selected"{% endif %}>Yes</option>
           </select>
         {% else %}
-          <input title="{{ setting.tipsy }}" id="id_{{ setting.key }}" name="{{ setting.key }}" type="{% if "password" in setting.key %}password{% else %}text{% endif %}" value="{{ setting.value }}">
+          <input id="id_{{ setting.key }}" name="{{ setting.key }}" type="{% if "password" in setting.key %}password{% else %}text{% endif %}" value="{{ setting.value }}">
         {% endif %}
 
       </div>
