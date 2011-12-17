@@ -488,7 +488,7 @@ $(document).ready(function() {
 
   $('#sickbeard .coming_ep').live('hover', function(){
     var id = ($(this).attr('id'));
-    $('#sickbeard #'+id+' .details').toggle(200);
+    $('#sickbeard #'+id+' .details').fadeToggle(200);
   });
 
   // Plot display function
@@ -546,7 +546,7 @@ $(document).ready(function() {
   // Show Menu
 
   $('body').delegate('#sickbeard .menu-icon', 'click', function(){
-    $('#sickbeard .menu').toggle(200);
+    $('#sickbeard .menu').fadeToggle(200);
   });
 
   // Show info
