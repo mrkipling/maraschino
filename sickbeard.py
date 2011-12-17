@@ -150,7 +150,7 @@ def history(limit):
             show['image'] = get_pic(show['tvdbid'])
 
     return render_template('sickbeard-history.html',
-        history = sickbeard,
+        sickbeard = sickbeard,
     )
 
 def get_pic(tvdb, style='banner'):

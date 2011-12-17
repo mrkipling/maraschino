@@ -515,7 +515,7 @@ $(document).ready(function() {
 
   // All Shows menu
 
-  $('body').delegate('#sickbeard .all', 'click', function(){
+  $('body').delegate('#sickbeard .menu .all', 'click', function(){
     $.get('/sickbeard/get_all', function(data){
       var content = $(data);
       $('#sickbeard #content').html(content.find('#content').html());
@@ -524,7 +524,7 @@ $(document).ready(function() {
 
   // Coming episodes Menu
 
-  $('body').delegate('#sickbeard .upcoming', 'click', function(){
+  $('body').delegate('#sickbeard .menu .upcoming', 'click', function(){
     $.get('/xhr/sickbeard', function(data){
       var content = $(data);
       $('#sickbeard #content').html(content.find('#content').html());
@@ -533,7 +533,7 @@ $(document).ready(function() {
 
   // History menu
 
-  $('#sickbeard span.history').live('click', function(){
+  $('#sickbeard .menu .history').live('click', function(){
     $.get('/sickbeard/history/30', function(data){
       $('#sickbeard').html($(data).html());
     });

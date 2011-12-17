@@ -1,28 +1,25 @@
-<div id="sickbeard" class="module" data-module="sickbeard">
-  <div class="module_settings"><span>Settings</span></div>
-  <div class="module_remove"><span>Remove</span></div>
+{% extends "sickbeard-base.html" %}
 
-  <h2 class="title">Episode Manager</h2>
-  <span class="all"><div class="menu-icon-all" title="View All">All</div></span>
-  <span class="upcoming"><div class="menu-icon-upcoming" title="View Upcoming"><img src="/static/images/coming.png" width="14" height="14" /></div></span>
-  <span class="history"><div class="menu-icon-history" title="View History"><img src="/static/images/history.png" width="14" height="14" /></div></span>
-  <div id="content">
-    <div id='show'>
-      <p style="float:right;" class="sb-back">&laquo;</p>
-      <div class="banner">
-        <h2 class="show-name">{{sickbeard.show_name}}</h2>
-        <img src="{{sickbeard.url}}" />
-        <p class="airtime">{{sickbeard.airs}}</p>
-        <p class="quality">{{sickbeard.quality}}</p>
-        {% for genre in sickbeard.genre %}
-          <p class="genre">{{ genre }}</p>
-        {% endfor %}
-      </div>
-      <ul class="seasons">
-        {% for season in sickbeard.season_list|sort %}
-          <li season="{{season}}" tvdbid="{{sickbeard.tvdb}}">Season {{ season }}</li>
-        {% endfor %}
-      </ul>
+{% block sickbeard_content %}
+
+<div id="content">
+  <div id='show'>
+    <p style="float:right;" class="sb-back">&laquo;</p>
+    <div class="banner">
+      <h2 class="show-name">{{sickbeard.show_name}}</h2>
+      <img src="{{sickbeard.url}}" />
+      <p class="airtime">{{sickbeard.airs}}</p>
+      <p class="quality">{{sickbeard.quality}}</p>
+      {% for genre in sickbeard.genre %}
+      <p class="genre">{{ genre }}</p>
+      {% endfor %}
     </div>
+    <ul class="seasons">
+      {% for season in sickbeard.season_list|sort %}
+      <li season="{{season}}" tvdbid="{{sickbeard.tvdb}}">Season {{ season }}</li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
+
+{% endblock %}
