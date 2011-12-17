@@ -5,25 +5,25 @@ from maraschino import app
 from settings import *
 from tools import *
 
-SICKBEARD_IP = get_setting_value('sickbeard_ip')
-SICKBEARD_PORT = get_setting_value('sickbeard_port')
-SICKBEARD_API = get_setting_value('sickbeard_api')
+def login_string():
+    try:
+        login = '%s:%s@' % (get_setting('sickbeard_user')['value'], get_setting('sickbeard_pw')['value'])
 
-try:
-    SICKEBARD_USER = get_setting_value('sickbeard_user')
-    SICKBEARD_PW = get_setting_value('sickbeard_pw')
-    LOGIN = '%s:%s@' % (SICKEBARD_USER, SICKBEARD_PW)
+    except:
+        login = ''
 
-except:
-    LOGIN = ''
+    return login
 
-SICKBEARD_URL = 'http://%s%s:%s/api/%s' % (LOGIN, SICKBEARD_IP, SICKBEARD_PORT, SICKBEARD_API)
-URL = 'http://%s%s:%s/' % (LOGIN, SICKBEARD_IP, SICKBEARD_PORT)
+def sickbeard_url():
+    return 'http://%s%s:%s/api/%s' % (login_string(), get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'), get_setting_value('sickbeard_api'))
+
+def sickbeard_url_no_api():
+    return 'http://%s%s:%s/' % (login_string(), get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'))
 
 @app.route('/xhr/sickbeard')
 def xhr_sickbeard():
     try:
-        url = '%s/?cmd=future&sort=date' % (SICKBEARD_URL)
+        url = '%s/?cmd=future&sort=date' % (sickbeard_url())
         result = urllib.urlopen(url).read()
         sickbeard = json.JSONDecoder().decode(result)
 
@@ -37,7 +37,7 @@ def xhr_sickbeard():
         sickbeard = ''
 
     return render_template('sickbeard.html',
-        url = '%s:%s' %(SICKBEARD_IP, SICKBEARD_PORT) ,
+        url = '%s:%s' %(get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port')) ,
         sickbeard = sickbeard,
         missed = sickbeard['missed'],
         today = sickbeard['today'],
@@ -49,7 +49,7 @@ def xhr_sickbeard():
 @requires_auth
 def search_ep(tvdbid, season, episode):
     try:
-        url = '%s/?cmd=episode.search&tvdbid=%s&season=%s&episode=%s' %(SICKBEARD_URL, tvdbid, season, episode)
+        url = '%s/?cmd=episode.search&tvdbid=%s&season=%s&episode=%s' %(sickbeard_url(), tvdbid, season, episode)
         result = urllib.urlopen(url).read()
         sickbeard = json.JSONDecoder().decode(result)
 
@@ -64,7 +64,7 @@ def search_ep(tvdbid, season, episode):
 @app.route('/sickbeard/get_plot/<tvdbid>/<season>/<episode>')
 def get_plot(tvdbid, season, episode):
     try:
-        url = '%s/home/plotDetails?show=%s&episode=%s&season=%s' %(URL, tvdbid, episode, season)
+        url = '%s/home/plotDetails?show=%s&episode=%s&season=%s' %(sickbeard_url_no_api(), tvdbid, episode, season)
         plot = urllib.urlopen(url).read()
 
     except:
@@ -78,7 +78,7 @@ def get_plot(tvdbid, season, episode):
 @app.route('/sickbeard/get_all')
 def get_all():
     try:
-        url = '%s/?cmd=shows&sort=name' %(SICKBEARD_URL)
+        url = '%s/?cmd=shows&sort=name' %(sickbeard_url())
         result = urllib.urlopen(url).read()
         sickbeard = json.JSONDecoder().decode(result)
 
@@ -98,7 +98,7 @@ def get_all():
 @app.route('/sickbeard/get_show_info/<tvdbid>')
 def show_info(tvdbid):
     try:
-        url = '%s/?cmd=show&tvdbid=%s' %(SICKBEARD_URL, tvdbid)
+        url = '%s/?cmd=show&tvdbid=%s' %(sickbeard_url(), tvdbid)
         result = urllib.urlopen(url).read()
         sickbeard = json.JSONDecoder().decode(result)
 
@@ -117,7 +117,7 @@ def show_info(tvdbid):
 @app.route('/sickbeard/get_season/<tvdbid>/<season>')
 def get_season(tvdbid, season):
     try:
-        url = '%s/?cmd=show.seasons&tvdbid=%s&season=%s' %(SICKBEARD_URL, tvdbid, season)
+        url = '%s/?cmd=show.seasons&tvdbid=%s&season=%s' %(sickbeard_url(), tvdbid, season)
         result = urllib.urlopen(url).read()
         sickbeard = json.JSONDecoder().decode(result)
 
@@ -136,7 +136,7 @@ def get_season(tvdbid, season):
 @app.route('/sickbeard/history/<limit>')
 def history(limit):
     try:
-        url = '%s/?cmd=history&limit=%s' %(SICKBEARD_URL, limit)
+        url = '%s/?cmd=history&limit=%s' %(sickbeard_url(), limit)
         result = urllib.urlopen(url).read()
         sickbeard = json.JSONDecoder().decode(result)
 
@@ -154,13 +154,13 @@ def history(limit):
     )
 
 def get_pic(tvdb, style='banner'):
-    url = '%s:%s' %(SICKBEARD_IP, SICKBEARD_PORT)
+    url = '%s:%s' %(get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'))
     return 'http://%s/showPoster/?show=%s&which=%s' %(url, tvdb, style)
 
 @app.route('/sickbeard/get_ep_info/<tvdbid>/<season>/<ep>')
 def get_episode_info(tvdbid, season, ep):
     try:
-        url = '%s/?cmd=episode&tvdbid=%s&season=%s&episode=%s&full_path=1' %(SICKBEARD_URL, tvdbid, season, ep)
+        url = '%s/?cmd=episode&tvdbid=%s&season=%s&episode=%s&full_path=1' %(sickbeard_url(), tvdbid, season, ep)
         result = urllib.urlopen(url).read()
         sickbeard = json.JSONDecoder().decode(result)
 
@@ -179,7 +179,7 @@ def get_episode_info(tvdbid, season, ep):
 @app.route('/sickbeard/set_ep_status/<tvdbid>/<season>/<ep>/<status>')
 def set_episode_status(tvdbid, season, ep):
     try:
-        url = '%s/?cmd=episode.setstatus&tvdbid=%s&season=%s&episode=%s&status=%s' %(SICKBEARD_URL, tvdbid, season, ep,status)
+        url = '%s/?cmd=episode.setstatus&tvdbid=%s&season=%s&episode=%s&status=%s' %(sickbeard_url(), tvdbid, season, ep,status)
         result = urllib.urlopen(url).read()
         sickbeard = json.JSONDecoder().decode(result)
 
