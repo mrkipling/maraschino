@@ -1,28 +1,19 @@
-{% if sabnzbd.slots %}
+{% if sabnzbd.jobs %}
+
 <div id="sabnzbd" class="module" data-module="sabnzbd">
+
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
 
-  <h2 class="title">SabNZBd+</h2>
-  <div class="menu">
-  	<p class="queue">Queue</p>
-  	<p class="history">History</p>
-  </div> 
+  <h2>SABnzbd+</h2>
+
   <div class="inner">
-    <div class="status" id="status">
-    	<a>
-		  {% if sabnzbd.paused == True %}
-		  <strong title="Resume SabNZBd+">Paused</strong>
-		  {% else %}
-		  <strong title="Pause SabNZBd+">Downloading</strong>
-	    {% endif %}
-	    </a>
-    </div>
-    <div class="speed">
-      <input class="sab_speed" type="text" value="{{ download_speed[:-5] }}" title="Adjust Speed" size="6"/>{{ download_speed[-5:] }}
-    </div>
+
+    <div class="speed">{{ download_speed }}</div>
+
     <p>
-      {{ sabnzbd.slots[0].filename|truncate(42,true)}}
+      <strong>Currently downloading:</strong>
+      "{{ sabnzbd.jobs[0].filename }}"
     </p>
 
     <div class="bar">
@@ -30,30 +21,17 @@
     </div>
 
     <div class="clearfix">
-      <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.slots[0].timeleft }} - {{ sabnzbd.slots[0].mbleft|int }}/{{ sabnzbd.slots[0].mb|int }} MB</p>
+      <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.timeleft }} / {{ sabnzbd.mbleft|int }} MB</p>
       <p class="percentage_complete">{{ percentage_total }}% complete</p>
     </div>
-    {% if sabnzbd.slots|length > 1 %}
-    	<br>
-    	<a class="status" id="extra-queue" title="Toggle Queue"><span></span></a>
-  		<div id="sabnzbd_next" style="display:none;">
-  			<table style="width: 100%; table-layout:fixed;">
-	  	  		{% for i in range(1, num_queue_items-1) %}
-					<tr id="{{ sabnzbd.slots[i].nzo_id }}">
-    					<td width="80%" class="extra_name">{{ sabnzbd.slots[i].filename }}<td/>
-    					<td width="25%" align="right">{{ sabnzbd.slots[i].mb|int }} MB  <img class="remove" id="tipsy" value="{{sabnzbd.slots[i].nzo_id}}" title="Remove" src="/static/images/remove_icon.png" width="8" height="8" /></td>
-    				</tr>
-    			{% endfor %}
-	    	</table>
-    	</div>
-    {% endif %}
+
   </div>
 </div>
+
 {% else %}
 <div class="placeholder" data-module="sabnzbd">
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
-  <h2>SabNZBd+</h2>
+  <h2>SABnzbd+</h2>
 </div>
 {% endif %}
-

@@ -458,62 +458,6 @@ $(document).ready(function() {
     });
   });
 
-	// SABNZBD
-	$('#sabnzbd #extra-queue').live('click', function() {
-		$('#sabnzbd_next').toggle('slow');
-		$('#sabnzbd #extra-queue').toggleClass('rotate');
-	});
-	
-	//Pause/Resume Sab Queue
-	$('#sabnzbd .inner #status').live('click', function(){
-		if($('#sabnzbd .inner #status').text().indexOf('Paused') >= 0){
-			$.get('/sabnzbd/resume');
-		} else {
-			$.get('/sabnzbd/pause');		
-		}
-	});
-
-	//Speed Box: when enter is pressed, it runs the get request.
-	$('#sabnzbd .inner .speed input').live('keydown', function(){
-		if(event.keyCode == 13){
-			$.get('/sabnzbd/set_speed/'+$(this).val());
-		}
-	});
-	
-	$('#sabnzbd .inner #sabnzbd_next img.remove').live('click', function(){
-			$.get('/sabnzbd/remove/'+$(this).attr('value')).success(function(data) {
-							$('#'+data).hide(1000);
-						});
-	});
-	
-	$('#sabnzbd .menu .history').live('click', function(){
-		$.get('/sabnzbd/history' , function(data, responseText){
-			var content = $(data);
-			$('#sabnzbd').html(content.html());
-			$("#history").tablesorter({widthFixed: true}).tablesorterPager({container: $("#pager")});
-		});
-	});
-
-	$('#sabnzbd .menu .queue').live('click', function(){
-		$.get('/xhr/sabnzbd' , function(data, responseText){
-			var content = $(data);
-			$('#sabnzbd').html(content.html());
-		});
-	});
-
-	// SAB Menu SHOW
-/*
-	$('#sabnzbd .title').live('focusin', function(){
-		$('#sabnzbd .menu').show('slow');
-	});
-	$('#sabnzbd .title').live('focusout', function(){
-		$('#sabnzbd .menu').hide();
-	});
-*/
-	$('#sabnzbd .title').live('click', function(){
-		$('#sabnzbd .menu').toggle('slow');
-	});
-
 	/*** SICKBEARD ***/
 	//Search Episode Functionality on Magnifying Glass png
 	$('#sickbeard div.options img.search').live('click', function(){

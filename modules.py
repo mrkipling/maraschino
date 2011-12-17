@@ -97,30 +97,15 @@ AVAILABLE_MODULES = [
     {
         'name': 'sabnzbd',
         'label': 'SABnzbd+',
-        'description': 'Shows you information about your SabNZBd+ downloads.',
+        'description': 'Shows you information about your SABnzbd+ downloads.',
         'static': False,
         'poll': 10,
         'delay': 0,
         'settings': [
             {
-                'key': 'sabnzbd_ip',
-                'value': '',
-                'description': 'SabNZBd+ IP',
-            },
-			{
-                'key': 'sabnzbd_port',
-                'value': '',
-                'description': 'SabNZBd+ Port',
-            },
-			{
-                'key': 'sabnzbd_api',
-                'value': '',
-                'description': 'SabNZBd+ API Key',
-            },
-            {
-                'key': 'num_queue_items',
-                'value': 5,
-                'description': 'Number of queue items to show',
+                'key': 'sabnzbd_url',
+                'value': 'http://<hostname>:<port>/api?apikey=<apikeygoeshere>',
+                'description': 'SABnzbd URL',
             },
         ]
     },
