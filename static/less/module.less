@@ -43,7 +43,7 @@ ul.modules
 
   .border-radius(2px);
   .box-shadow(#222, 0, 0, 10px);
-  
+
   h2 {
     display: block;
     font-size: 1.5em;
@@ -78,7 +78,7 @@ ul.modules
     margin-bottom: 17px 0 6px;
 
     .border-radius(3px);
-  
+
     .inner {
       background-color: #eee;
       height: 5px;
@@ -109,11 +109,11 @@ ul.modules
   width: 30px;
 
   .border-radius(4px);
-  
+
   &:hover {
     background: url(/static/images/alpha/fff_20.png);
   }
-  
+
   span {
     background: url(/static/images/remove_icon.png) no-repeat center center;
     display: block;
@@ -126,7 +126,7 @@ ul.modules
 .module_settings
 {
   right: 47px;
-  
+
   span {
     background: url(/static/images/settings_icon_small.png) no-repeat center center;
   }
@@ -199,3 +199,41 @@ ul.modules
   }
 }
 
+
+
+
+/*--- module menu ---*/
+
+.module > ul.menu
+{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+
+  li {
+    background: url(/static/images/alpha/fff_10.png);
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    margin-left: 4px;
+    text-indent: -9999px;
+    width: 30px;
+
+    .border-radius(4px);
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+
+    span {
+      display: block;
+      height: 30px;
+      width: 30px;
+    }
+  }
+}
+
+.f_settings_mode .module > ul.menu
+{
+  display: none;
+}
