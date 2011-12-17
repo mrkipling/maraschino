@@ -8,7 +8,7 @@ from tools import *
 SABNZBD_IP = get_setting_value('sabnzbd_ip')
 SABNZBD_PORT = get_setting_value('sabnzbd_port')
 SABNZBD_API = get_setting_value('sabnzbd_api')
-    
+
 SABNZBD_URL = 'http://%s:%s/api?apikey=%s' % (SABNZBD_IP, SABNZBD_PORT, SABNZBD_API)
 
 NUM_QUEUE_ITEMS = get_setting_value('num_queue_items')
@@ -27,17 +27,17 @@ def xhr_sabnzbd():
 
         percentage_total = 0
         download_speed = '%s kB/s' % (int(float(sabnzbd['kbpersec'])))
-        
+
         if sabnzbd['slots']:
             percentage_total = int(sabnzbd['slots'][0]['percentage'])
-        
+
         num_queue_items = int(NUM_QUEUE_ITEMS)
-        
+
         if num_queue_items > len(sabnzbd['slots']) + 1:
             num_queue_items = len(sabnzbd['slots']) - 1
             if num_queue_items < 0:
                 num_queue_items = 0
-        
+
     except:
         sabnzbd = None
         percentage_total = None
@@ -50,39 +50,39 @@ def xhr_sabnzbd():
         download_speed = download_speed,
         num_queue_items = num_queue_items,
     )
-    
+
 @app.route('/sabnzbd/<state>')
 @requires_auth
-def state_change(state):    
+def state_change(state):
     try:
         if SABNZBD_URL == None:
             raise Exception
 
         url = '%s&mode=%s' % (SABNZBD_URL, state)
         result = urllib.urlopen(url).read()
-            
+
     except:
         sabnzbd = None
         percentage_total = None
         download_speed = None
-        
+
     return result
 
 @app.route('/sabnzbd/set_speed/<speed>')
 @requires_auth
-def set_speed(speed):    
+def set_speed(speed):
     try:
         if SABNZBD_URL == None:
             raise Exception
 
         url = '%s&mode=config&name=speedlimit&value=%s' % (SABNZBD_URL, speed)
         result = urllib.urlopen(url).read()
-            
+
     except:
         sabnzbd = None
-        
+
     return result
-    
+
 @app.route('/sabnzbd/remove/<sabid>')
 @requires_auth
 def remove_item(sabid):
@@ -94,10 +94,10 @@ def remove_item(sabid):
         result = urllib.urlopen(url).read()
         if result.rfind('ok') >= 0:
         	result = sabid
-            
+
     except:
         result = False
-        
+
     return result
 
 @app.route('/sabnzbd/history')
