@@ -42,7 +42,6 @@ def xhr_sickbeard():
 
     if sickbeard['result'].rfind('success') >= 0:
         sickbeard = sickbeard['data']
-        print sickbeard
 
     else:
         sickbeard = ''
