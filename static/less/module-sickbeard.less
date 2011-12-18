@@ -388,40 +388,52 @@
 
   .episode-list{
     .tablesorter {
-    	table-layout: fixed;
-    	width: 100%;
-  	  .ep {
-    		width: 5%;
-    	}
-    	.name {
-    		width: 45%;
-    	}
-    	.status {
-    		width: 20%;
-    	}
-    	.airdate {
-    		width: 20%;
-    	}
-    	.quality {
-    		width: 10%;
-    	}
-    	thead th {
-    		cursor: pointer;
-    	}
-    	tbody tr {
+      table-layout: fixed;
+      width: 100%;
+      .ep {
+    	width: 5%;
+      }
+      .name {
+    	width: 45%;
+      }
+      .status {
+    	width: 20%;
+      }
+      .airdate {
+    	width: 20%;
+      }
+      .quality {
+    	width: 10%;
+      }
+      thead th {
+    	cursor: pointer;
+      }
+      tbody tr {
         color: white;
-	      background: url(/static/images/alpha/fff_10.png);
+        cursor: pointer;
+	background: url(/static/images/alpha/fff_10.png);
         padding: 5px;
 
         &:hover {
           background: url(/static/images/alpha/fff_20.png);
         }
 
-    	  td {
-    	  	overflow: hidden;
-    	  	white-space: nowrap;
-    	  }
+    	td {
+    	  overflow: hidden;
+    	  white-space: nowrap;
     	}
+      }
+
+      th {
+        text-align: left;
+      }
+
+      td, th {
+        padding: 5px;
+      }
+      td:first-child, th:first-child {
+        padding-left: 15px;
+      }
     }
   }
 }
