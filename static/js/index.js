@@ -782,6 +782,7 @@ $(document).ready(function() {
 
         if (module_name == 'server_settings') {
           get_module('recently_added');
+          get_module('recently_added_movies');
         }
       }
     );
