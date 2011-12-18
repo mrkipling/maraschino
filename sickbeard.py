@@ -7,7 +7,7 @@ from tools import *
 
 def login_string():
     try:
-        login = '%s:%s@' % (get_setting('sickbeard_user')['value'], get_setting('sickbeard_pw')['value'])
+        login = '%s:%s@' % (get_setting('sickbeard_user').value, get_setting('sickbeard_password').value)
 
     except:
         login = ''
@@ -15,10 +15,20 @@ def login_string():
     return login
 
 def sickbeard_url():
-    return 'http://%s%s:%s/api/%s' % (login_string(), get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'), get_setting_value('sickbeard_api'))
+    url = '%s:%s/api/%s' % (get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'), get_setting_value('sickbeard_api'))
+
+    if using_auth():
+        return 'http://%s%s' % (login_string(), url)
+
+    return 'http://%s' % (url)
 
 def sickbeard_url_no_api():
-    return 'http://%s%s:%s/' % (login_string(), get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'))
+    url = '%s:%s/' % (get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'))
+
+    if using_auth():
+        return 'http://%s%s' % (login_string(), url)
+
+    return 'http://%s' % (url)
 
 @app.route('/xhr/sickbeard')
 def xhr_sickbeard():
@@ -32,12 +42,13 @@ def xhr_sickbeard():
 
     if sickbeard['result'].rfind('success') >= 0:
         sickbeard = sickbeard['data']
+        print sickbeard
 
     else:
         sickbeard = ''
 
     return render_template('sickbeard.html',
-        url = '%s:%s' %(get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port')) ,
+        url = sickbeard_url_no_api(),
         sickbeard = sickbeard,
         missed = sickbeard['missed'],
         today = sickbeard['today'],
