@@ -8,34 +8,36 @@
     <p class="back">&laquo;</p>
   </div>
 
-  <p>Episode: {{ sickbeard.name }}
-    {% if sickbeard.status =='Downloaded' %}
-    <img src="/static/images/yes.png" style="float:right;" />
-    {% else %}
-    <select class="status" style="float: right;">
+  <div class="clearfix">
+    <h4{% if sickbeard.status =='Downloaded' %} class="downloaded"{% endif %}>Episode: {{ sickbeard.name }}</h4>
+
+    {% if not sickbeard.status =='Downloaded' %}
+    <select class="status">
       <option {% if sickbeard.status =='Skipped' %}selected{% endif %}>Skipped</option>
       <option {% if sickbeard.status =='Archived' %}selected{% endif %}>Archived</option>
       <option {% if sickbeard.status =='Ignored' %}selected{% endif %}>Ignored</option>
       <option {% if sickbeard.status =='Wanted' %}selected{% endif %}>Wanted</option>
     </select>
     {% endif %}
-  </p>
+  </div>
 
   {% if sickbeard.description != '' %}
-  <p style="clear: both;">Plot: {{ sickbeard.description }}</p>
+  <p class="plot">{{ sickbeard.description }}</p>
   {% endif %}
 
-  {% if sickbeard.airdate != '' %}
-  <p>Aired: {{ sickbeard.airdate }}</p>
-  {% endif %}
+  <div class="details">
+    {% if sickbeard.airdate != '' %}
+    <div class="airdate"><strong>Aired:</strong> {{ sickbeard.airdate }}</div>
+    {% endif %}
 
-  {% if sickbeard.location != '' %}
-  <p>Path: {{ sickbeard.location }}</p>
-  {% endif %}
+    {% if sickbeard.location != '' %}
+    <div class="location"><strong>Path:</strong> {{ sickbeard.location }}</div>
+    {% endif %}
 
-  {% if sickbeard.quality   != '' %}
-  <p>Quality: {{ sickbeard.quality }}</p>
-  {% endif %}
+    {% if sickbeard.quality   != '' %}
+    <div class="quality"><strong>Quality:</strong> {{ sickbeard.quality }}</div>
+    {% endif %}
+  </div>
 
 </div>
 
