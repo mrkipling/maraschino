@@ -12,12 +12,7 @@
     <h4{% if sickbeard.status =='Downloaded' %} class="downloaded"{% endif %}>Episode: {{ sickbeard.name }}</h4>
 
     {% if not sickbeard.status =='Downloaded' %}
-    <select class="status">
-      <option {% if sickbeard.status =='Skipped' %}selected{% endif %}>Skipped</option>
-      <option {% if sickbeard.status =='Archived' %}selected{% endif %}>Archived</option>
-      <option {% if sickbeard.status =='Ignored' %}selected{% endif %}>Ignored</option>
-      <option {% if sickbeard.status =='Wanted' %}selected{% endif %}>Wanted</option>
-    </select>
+    <p class="status">{{ sickbeard.status }}</p>
     {% endif %}
   </div>
 
