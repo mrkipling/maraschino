@@ -1,17 +1,1191 @@
-@import "module-applications.less";
-@import "module-currently_playing.less";
-@import "module-disk_space.less";
-@import "module-library.less";
-@import "module-recently_added.less";
-@import "module-sabnzbd.less";
-@import "module-sickbeard.less";
-@import "module-synopsis.less";
-@import "module-trakt.less";
-@import "module-recommendations.less";
+/*--- mixins and useful things ---*/
 
-@import "settings.less";
-@import "tutorial.less";
-@import "common.less";
-@import "columns.less";
-@import "module.less";
-@import "tipsy.less";
+.border-radius (@radius: 5px)
+{
+  border-radius: @radius;
+  -moz-border-radius: @radius;
+  -o-border-radius: @radius;
+  -webkit-border-radius: @radius;
+}
+
+.opacity (@opacity: 0.5)
+{
+  opacity: @opacity;
+  -moz-opacity: @opacity;
+  -o-opacity: @opacity;
+  -webkit-opacity: @opacity;
+}
+
+.box-shadow (@color: #000, @x: 1px, @y: 1px, @radius: 2px)
+{
+  box-shadow: @color @x @y @radius;
+  -moz-box-shadow: @color @x @y @radius;
+  -o-box-shadow: @color @x @y @radius;
+  -webkit-box-shadow: @color @x @y @radius;
+}
+
+.box-shadow-inset (@color: #000, @x: 1px, @y: 1px, @radius: 2px)
+{
+  box-shadow: inset @color @x @y @radius;
+  -moz-box-shadow: inset @color @x @y @radius;
+  -o-box-shadow: inset @color @x @y @radius;
+  -webkit-box-shadow: inset @color @x @y @radius;
+}
+
+
+
+
+
+/*--- settings icon ---*/
+
+#settings_icon
+{
+  background: url(/static/images/alpha/000_70.png);
+  height: 40px;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 40px;
+  z-index: 1;
+
+  border-bottom-right-radius: 40px;
+  -moz-border-radius-bottomright: 40px;
+  -o-border-bottom-right-radius: 40px;
+  -webkit-border-bottom-right-radius: 40px;
+
+  transition: opacity 0.3s;
+  -transition: opacity 0.3s;
+  -webkit-transition: opacity 0.3s;
+  -moz-transition: opacity 0.3s;
+}
+
+#settings_icon:hover,
+.f_settings_mode #settings_icon
+{
+  cursor: pointer;
+  opacity: 1;
+}
+
+#settings_icon .inner
+{
+  background: url(/static/images/settings_icon.png) no-repeat 5px 5px;
+  height: 40px;
+  width: 40px;
+}
+
+
+
+
+/*--- tutorial ---*/
+
+#tutorial
+{
+  background: url(/static/images/alpha/fff_20.png);
+  border: 1px solid #bbb;
+  left: 50px;
+  line-height: 1.5em;
+  padding: 20px;
+  position: absolute;
+  top: 50px;
+
+  .border-radius(5px);
+  .box-shadow(#555, 1px, 1px, 8px);
+}
+
+#tutorial .inner
+{
+  background: url(/static/images/maraschino_logo.png) no-repeat;
+  min-height: 80px;
+  padding-left: 90px;
+  width: 300px;
+
+  text-shadow: #555 1px 1px 1px;
+  -moz-text-shadow: #555 1px 1px 1px;
+  -o-text-shadow: #555 1px 1px 1px;
+  -webkit-text-shadow: #555 1px 1px 1px;
+}
+
+#tutorial h1
+{
+  font-size: 1.2em;
+}
+
+#tutorial p
+{
+  margin-top: 10px;
+}
+
+#tutorial a
+{
+  border-bottom: 1px dotted #fff;
+  color: #fff;
+}
+
+#tutorial a:hover
+{
+  background: url(/static/images/alpha/fff_20.png);
+}
+
+
+
+
+
+/*--- columns ---*/
+
+#fanart
+{
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+
+  background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+}
+
+#wrapper
+{
+  min-width: 900px;
+  padding: 2% 2% 60px;
+  position: relative;
+}
+
+.f_settings_mode #wrapper
+{
+  padding-bottom: 120px;
+}
+
+.col
+{
+  margin-left: 2%;
+  width: 32%;
+}
+
+#col1
+{
+  float: left;
+  margin-left: 0;
+}
+
+#col2
+{
+  float: left;
+}
+
+#col3
+{
+  float: right;
+}
+
+
+
+
+
+/*--- add module ---*/
+
+.add_module
+{
+  opacity: 0;
+}
+
+.f_settings_mode .add_module
+{
+  background: url(/static/images/alpha/fff_20.png);
+  border: 2px dashed #ddd;
+  cursor: pointer;
+  display: block;
+  opacity: 1;
+  padding: 7px;
+  text-align: center;
+
+  .border-radius(2px);
+}
+
+
+
+
+
+/*--- module ---*/
+
+ul.modules
+{
+  min-height: 20px;
+}
+
+.placeholder
+{
+  display: none;
+}
+
+.module,
+.f_settings_mode .inactive_module,
+.f_settings_mode .placeholder
+{
+  background: url(/static/images/alpha/000_80.png);
+  border: 1px solid #333;
+  display: block !important;
+  margin-bottom: 40px;
+  padding: 5px;
+  position: relative;
+
+  .border-radius(2px);
+  .box-shadow(#222, 0, 0, 10px);
+}
+
+.inactive_module
+{
+  display: none;
+}
+
+.module h2,
+.f_settings_mode .inactive_module h2,
+.f_settings_mode .placeholder h2
+{
+  display: block;
+  font-size: 1.5em;
+  font-weight: normal;
+  line-height: 1.3em;
+  padding: 10px 15px 12px;
+}
+
+.module h2 + .subtitle
+{
+  color: #ccc;
+  font-size: 0.9em;
+  margin: -12px 15px 15px;
+}
+
+.f_settings_mode .module,
+.f_settings_mode .inactive_module,
+.f_settings_mode .placeholder
+{
+  cursor: move;
+}
+
+/* settings mode - settings/remove buttons */
+
+.module_settings,
+.module_remove
+{
+  background: url(/static/images/alpha/fff_10.png);
+  cursor: pointer;
+  display: none;
+  height: 30px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  text-indent: -9999px;
+  width: 30px;
+
+  .border-radius(4px);
+}
+
+.module_settings
+{
+  right: 47px;
+}
+
+#applications .module_settings,
+#library .module_settings,
+#synopsis .module_settings,
+#synopsis_inactive .module_settings
+{
+  display: none;
+}
+
+.module_settings span,
+.module_remove span
+{
+  background: url(/static/images/remove_icon.png) no-repeat center center;
+  display: block;
+  height: 30px;
+  width: 30px;
+}
+
+.module_settings span
+{
+  background: url(/static/images/settings_icon_small.png) no-repeat center center;
+}
+
+.module_settings:hover,
+.module_remove:hover
+{
+  background: url(/static/images/alpha/fff_20.png);
+}
+
+.f_settings_mode .module_settings,
+.f_settings_mode .module_remove
+{
+  display: block;
+}
+
+
+
+
+
+/*--- dialog ---*/
+
+.dialog
+{
+  background: url(/static/images/alpha/000_80.png);
+  border: 2px solid #ccc;
+  padding: 15px;
+  width: 500px;
+
+  .border-radius(4px);
+  .box-shadow(#222, 0, 0, 5px);
+}
+
+.dialog .close
+{
+  background-color: #000;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  height: 18px;
+  line-height: 16px;
+  position: absolute;
+  right: -10px;
+  text-align: center;
+  top: -10px;
+  width: 18px;
+  .border-radius(15px);
+}
+
+.dialog .formrow select
+{
+  width: 63%;
+}
+
+/* confirmation dialog */
+
+#confirmation_dialog h3
+{
+  font-size: 1.2em;
+  font-weight: normal;
+  margin: 10px 0 20px;
+  text-align: center;
+}
+
+
+
+
+
+/*--- add module dialog ---*/
+
+#add_module_dialog h2
+{
+  display: inline;
+}
+
+#add_module_dialog #select_module
+{
+  display: inline;
+  margin-left: 5px;
+}
+
+#add_module_dialog .description
+{
+  height: 30px;
+  margin: 20px 0;
+}
+
+#add_module_dialog .submit
+{
+  background: url(/static/images/alpha/fff_40.png);
+  border: 1px solid #999;
+  cursor: pointer;
+  display: inline-block;
+  float: right;
+  height: 11px;
+  padding: 8px 12px;
+
+  .border-radius(4px);
+}
+
+
+
+
+
+/*--- module settings ---*/
+
+.edit_settings > .inner
+{
+  padding: 0 15px 15px;
+}
+
+
+
+
+
+/*--- add application dialog ---*/
+
+#add_edit_application_dialog h2
+{
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+#add_edit_application_dialog .add_application
+{
+  width: 110px;
+}
+
+
+
+
+
+/*--- generic formrow/choices ---*/
+
+.choices
+{
+  margin-top: 20px;
+  text-align: center;
+}
+
+.choices .save,
+.choices .confirm,
+.choices .cancel,
+.choices .delete
+{
+  background: url(/static/images/alpha/fff_20.png);
+  display: inline-block;
+  padding: 8px;
+  width: 60px;
+
+  .border-radius(4px);
+}
+
+.choices .save:hover,
+.choices .confirm:hover,
+.choices .cancel:hover,
+.choices .delete:hover
+{
+  background: url(/static/images/alpha/fff_40.png);
+  cursor: pointer;
+}
+
+.choices .save,
+.choices .confirm,
+.choices .delete
+{
+  margin-right: 10px;
+}
+
+.choices .saved,
+.choices .confirmed
+{
+  width: 110px;
+}
+
+.formrow
+{
+  margin-top: 5px;
+}
+
+.formrow.invalid,
+.formrow .invalid
+{
+  color: #d92525;
+}
+
+.formrow label
+{
+  float: left;
+  margin-top: 6px;
+  width: 33%;
+}
+
+.formrow input[type=text],
+.formrow input[type=password],
+.formrow select
+{
+  background-color: #fff;
+  border: 1px solid #555;
+  float: right;
+  padding: 4px 6px;
+  width: 60%;
+
+  .border-radius(3px);
+}
+
+.formrow select
+{
+  padding: 3px 6px;
+  width: auto;
+}
+
+
+
+
+
+/*--- applications ---*/
+
+#applications li
+{
+  background: url(/static/images/alpha/fff_10.png);
+  border: 1px solid #222;
+  line-height: 1.3em;
+  margin-top: 5px;
+  min-height: 40px;
+  padding: 0;
+
+  .border-radius(4px);
+}
+
+#applications li:hover
+{
+  background: url(/static/images/alpha/fff_20.png);
+}
+
+#applications li:first-child
+{
+  margin-top: 0;
+}
+
+#applications li a
+{
+  display: block;
+  padding: 10px 15px;
+}
+
+#applications li .name
+{
+  float: left;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+#applications li img
+{
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+#applications li .name span
+{
+  vertical-align: middle;
+}
+
+#applications li .description
+{
+  color: #ddd;
+  float: right;
+  font-size: 0.9em;
+  margin-top: 2px;
+}
+
+#applications #add_application
+{
+  display: none;
+}
+
+.f_settings_mode #applications #add_application
+{
+  background: url(/static/images/alpha/fff_20.png);
+  border: 2px dashed #ddd;
+  cursor: pointer;
+  display: block;
+  margin: 10px 5px 5px;
+  opacity: 1;
+  padding: 7px;
+  text-align: center;
+
+  .border-radius(2px);
+}
+
+
+
+
+
+/*--- episodes list ---*/
+
+ul.episodes li
+{
+  background: url(/static/images/alpha/fff_10.png);
+  border: 1px solid #222;
+  font-size: 0.9em;
+  line-height: 1.3em;
+  margin-top: 5px;
+  position: relative;
+
+  .border-radius(4px);
+}
+
+ul.episodes li:first-child
+{
+  margin-top: 0;
+}
+
+ul.episodes li:hover
+{
+  background: url(/static/images/alpha/fff_20.png);
+  cursor: pointer;
+}
+
+ul.episodes .inner
+{
+  padding: 5px 107px 5px 15px;
+  .border-radius(4px);
+}
+
+ul.episodes li.watched .inner
+{
+  border-left: 3px solid #ccc;
+  padding-left: 12px;
+}
+
+ul.episodes h3
+{
+  font-size: 1.2em;
+  margin-top: 6px;
+}
+
+ul.episodes p
+{
+  color: #ccc;
+}
+
+ul.episodes .title
+{
+  margin-bottom: 6px;
+}
+
+ul.episodes img
+{
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  .box-shadow(#222, 0, 0, 2px);
+}
+
+
+
+
+
+/*--- currently playing ---*/
+
+#currently_playing
+{
+  background: url(/static/images/alpha/000_80.png);
+  bottom: 0;
+  left: 0;
+  min-width: 900px;
+  padding: 20px;
+  position: fixed;
+  right: 0;
+
+  .box-shadow(#222, 0, 0, 10px);
+}
+
+#currently_playing .item_info
+{
+  float: left;
+  line-height: 1.5em;
+  width: 400px;
+}
+
+#currently_playing .item_info .show:hover,
+#currently_playing .item_info .season:hover
+{
+  border-bottom: 1px solid #555;
+  cursor: pointer;
+}
+
+#currently_playing .item_info .separator
+{
+  margin: 0 3px;
+}
+
+#currently_playing .controls
+{
+  margin: 0 auto;
+  width: 80px;
+}
+
+#currently_playing .controls .play_pause,
+#currently_playing .controls .stop
+{
+  background: #111 url(/static/images/player_sprite.png) no-repeat 11px 11px;
+  border: 1px solid #555;
+  cursor: pointer;
+  float: left;
+  height: 33px;
+  text-indent: -9999px;
+  width: 33px;
+
+  .border-radius(20px);
+}
+
+#currently_playing .controls .stop
+{
+  background-position: 8px -28px;
+  margin-right: 10px;
+}
+
+#currently_playing .controls .play_pause:hover,
+#currently_playing .controls .stop:hover
+{
+  background-color: #333;
+}
+
+#currently_playing .progress
+{
+  float: right;
+  font-size: 0.9em;
+  height: 40px;
+  position: relative;
+  width: 400px;
+}
+
+#currently_playing .progress .current
+{
+  bottom: 8px;
+  left: 0;
+  position: absolute;
+}
+
+#currently_playing .progress .total
+{
+  bottom: 8px;
+  right: 0;
+  position: absolute;
+}
+
+#currently_playing .progress .bar
+{
+  border: 1px solid #777;
+  height: 5px;
+  margin-top: 8px;
+  width: 398px;
+  .border-radius(3px);
+}
+
+#currently_playing .progress .bar .inner
+{
+  background-color: #eee;
+  height: 5px;
+}
+
+#currently_playing .synopsis
+{
+  display: none;
+}
+
+
+
+
+
+/*--- trakt ---*/
+
+#trakt > .inner
+{
+  margin-top: -5px;
+}
+
+#trakt .overview
+{
+  color: #ccc;
+}
+
+#trakt .overview strong
+{
+  color: #fff;
+}
+
+#trakt h3
+{
+  color: #eee;
+  font-weight: normal;
+}
+
+#trakt .shouts li
+{
+  font-size: 0.9em;
+  line-height: 1.2em;
+  margin-top: 10px;
+  position: relative;
+}
+
+#trakt .shouts .avatar
+{
+  left: 0;
+  position: absolute;
+  top: 20px;
+}
+
+#trakt .shouts .shout
+{
+  background: url(/static/images/alpha/fff_10.png);
+  border: 1px solid #222;
+  line-height: 1.3em;
+  margin-left: 25px;
+  padding: 5px;
+
+  .border-radius(4px);
+}
+
+#trakt .shouts li.me .shout
+{
+  background: url(/static/images/alpha/lightblue_30.png);
+}
+
+#trakt .shouts + #add_shout
+{
+  margin-top: 20px;
+}
+
+#trakt #add_shout h3
+{
+  margin-bottom: 10px;
+}
+
+#trakt #add_shout textarea
+{
+  background: url(/static/images/alpha/fff_20.png);
+  border: none;
+  color: #ccc;
+  display: block;
+  font-size: 0.9em;
+  height: 55px;
+  width: 100%;
+
+  .border-radius(2px);
+}
+
+#trakt #add_shout .submit_wrapper.xhrloading
+{
+  background: url(/static/images/xhrloading.gif) no-repeat 210px 11px;
+}
+
+#trakt #add_shout .submit
+{
+  background: url(/static/images/alpha/fff_20.png);
+  border: 1px solid #222;
+  float: right;
+  font-size: 0.9em;
+  margin-top: 5px;
+  padding: 4px 12px;
+
+  .border-radius(2px);
+}
+
+#trakt #add_shout .submit:hover
+{
+  background: url(/static/images/alpha/fff_40.png);
+  cursor: pointer;
+}
+
+#trakt #add_shout .submit_wrapper p
+{
+  float: left;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+
+
+
+
+
+/*--- generic module ---*/
+
+.module.generic > .inner
+{
+  color: #ccc;
+  line-height: 1.3em;
+  padding: 0 15px 15px;
+}
+
+.module.generic > .inner p
+{
+  margin-top: 5px;
+}
+
+.module.generic > .inner p strong
+{
+  color: #fff;
+}
+
+.module.generic > .inner p:first-child
+{
+  margin-top: 0;
+}
+
+/* generic bar */
+
+.module .bar
+{
+  border: 1px solid #777;
+  height: 5px;
+  margin-bottom: 17px 0 6px;
+
+  .border-radius(3px);
+}
+
+.module .bar .inner
+{
+  background-color: #eee;
+  height: 5px;
+}
+
+
+
+
+
+/*--- SABnzbd+ ---*/
+
+#sabnzbd
+{
+  position: relative;
+}
+
+#sabnzbd > .inner
+{
+  line-height: 1.3em;
+  padding: 0 15px 15px;
+}
+
+#sabnzbd .speed
+{
+  background: url(/static/images/alpha/fff_10.png);
+  border: 1px solid #222;
+  padding: 4px 8px 2px;
+  position: absolute;
+  right: 20px;
+  top: 14px;
+
+  .border-radius(4px);
+}
+
+.f_settings_mode #sabnzbd .speed
+{
+  display: none;
+}
+
+#sabnzbd .bar
+{
+  margin-top: 17px;
+  margin-bottom: 5px;
+}
+
+#sabnzbd .remaining
+{
+  float: left;
+  font-size: 0.9em;
+}
+
+#sabnzbd .percentage_complete
+{
+  float: right;
+  font-size: 0.9em;
+  margin: 0;
+}
+
+
+
+
+
+/*--- disk space ---*/
+
+#diskspace li
+{
+  margin-top: 15px;
+}
+
+#diskspace li:first-child
+{
+  margin-top: 0;
+}
+
+#diskspace .path
+{
+  float: left;
+}
+
+#diskspace .stats
+{
+  float: right;
+}
+
+#diskspace .bar
+{
+  margin-top: 3px;
+}
+
+#diskspace #add_disk
+{
+  display: none;
+}
+
+.f_settings_mode #diskspace #add_disk
+{
+  background: url(/static/images/alpha/fff_20.png);
+  border: 2px dashed #ddd;
+  cursor: pointer;
+  display: block;
+  margin: 10px 5px 5px;
+  opacity: 1;
+  padding: 7px;
+  text-align: center;
+
+  .border-radius(2px);
+}
+
+.f_settings_mode #diskspace li:hover
+{
+  background: url(/static/images/alpha/fff_20.png);
+  cursor: pointer;
+}
+
+/* add/edit disk dialog */
+
+#add_edit_disk_dialog h2
+{
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+
+
+
+
+/*--- media library ---*/
+
+#library
+{
+  position: relative;
+}
+
+#library h2
+{
+  padding-right: 55px;
+}
+
+#library .message
+{
+  margin: -7px 15px 10px;
+}
+
+#library ul
+{
+  max-height: 196px;
+  overflow: auto;
+}
+
+#library li,
+#library .back
+{
+  background: url(/static/images/alpha/fff_10.png);
+  border: 1px solid #222;
+  cursor: pointer;
+  line-height: 1.3em;
+  margin-top: 5px;
+  padding: 5px 15px;
+
+  .border-radius(4px);
+}
+
+.f_settings_mode #library .back
+{
+  display: none;
+}
+
+#library li
+{
+  padding-right: 28px;
+  position: relative;
+}
+
+#library li:hover,
+#library .back:hover
+{
+  background: url(/static/images/alpha/fff_20.png);
+}
+
+#library li:first-child
+{
+  margin-top: 0;
+}
+
+#library li .xhrloading
+{
+  position: absolute;
+  right: 5px;
+  top: 6px;
+}
+
+#library .back
+{
+  color: #ccc;
+  font-size: 1.2em;
+  position: absolute;
+  margin-top: 0;
+  padding: 3px 15px;
+  right: 5px;
+  top: 12px;
+}
+
+#library .back.xhrloading
+{
+  background: url(/static/images/xhrloading.gif) no-repeat center center;
+  text-indent: -9999px;
+}
+
+
+
+
+
+/*--- recently added ---*/
+
+#recently_added .problem
+{
+  margin: -7px 15px 15px;
+}
+
+
+
+
+
+/*--- expand ---*/
+
+.expand
+{
+  text-decoration: none;
+}
+
+
+
+
+
+/*--- view more ---*/
+
+.view_older,
+.view_newer
+{
+  background: url(/static/images/alpha/fff_10.png);
+  border: 1px solid #222;
+  color: #ccc;
+  display: block;
+  float: left;
+  font-size: 1.2em;
+  margin-top: 5px;
+  padding: 2px 14px;
+  position: relative;
+  text-align: center;
+
+  .border-radius(4px);
+}
+
+.view_older
+{
+  float: right;
+}
+
+.view_older:hover,
+.view_newer:hover
+{
+  background: url(/static/images/alpha/fff_20.png);
+}

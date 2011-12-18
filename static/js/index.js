@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
   // helper functions
 
   var settings_buttons = '<div class="module_settings"><span>Settings</span></div><div class="module_remove"><span>Remove</span></div>';
@@ -272,42 +273,6 @@ $(document).ready(function() {
     });
   }
 
-  // update video library control
-  
-  $('#library #video-update').live('click', function() {
-	$.get('/xhr/controls/update_video');
-  });
-  
-  // clean video library control
-  
-  $('#library #video-clean').live('click', function() {
-	$.get('/xhr/controls/clean_video');
-  });
-  
-  // xbmc poweron
-  
-  $('#library #poweron').live('click', function() {
-    $.get('/xhr/controls/poweron');
-  });
-
-  // xbmc poweroff
-  
-  $('#library #poweroff').live('click', function() {
-    $.get('/xhr/controls/poweroff');
-  });
-
-  // xbmc reboot
-  
-  $('#library #eboot').live('click', function() {
-    $.get('/xhr/controls/reboot');
-  });
-
-  // xbmc suspend
-  
-  $('#library #suspend').live('click', function() {
-    $.get('/xhr/controls/suspend');
-  });
-
   // post trakt shout
 
   $('#add_shout .submit').live('click', function() {
@@ -360,46 +325,24 @@ $(document).ready(function() {
 
   // view more recently added episodes
 
-  $('#recently_added .view_older_episodes').live('click', function() {
+  $('#recently_added .view_older').live('click', function() {
     get_module('recently_added', {
-      params: [$('#recently_added').data('episode_offset') + $('#recently_added .episodes > li').length, $('#recently_added').data('movie_offset')]
+      params: [$('#recently_added').data('offset') + $('#recently_added .episodes > li').length]
     });
     return false;
   });
 
-  $('#recently_added .view_newer_episodes').live('click', function() {
+  $('#recently_added .view_newer').live('click', function() {
     get_module('recently_added', {
-      params: [$('#recently_added').data('episode_offset') - $('#recently_added .episodes > li').length, $('#recently_added').data('movie_offset')]
-    });
-    return false;
-  });
-
-  // view more recently added movies
-
-  $('#recently_added .view_older_movies').live('click', function() {
-    get_module('recently_added', {
-      params: [$('#recently_added').data('episode_offset'), $('#recently_added').data('movie_offset') + $('#recently_added .movies > li').length]
-    });
-    return false;
-  });
-
-  $('#recently_added .view_newer_movies').live('click', function() {
-    get_module('recently_added', {
-      params: [$('#recently_added').data('episode_offset'), $('#recently_added').data('movie_offset') - $('#recently_added .movies > li'). length]
+      params: [$('#recently_added').data('offset') - $('#recently_added .episodes > li').length]
     });
     return false;
   });
 
   // play recently added episodes when clicking on them
 
-  $('#recently_added .episodes li').live('click', function() {
-    $.get('/xhr/play_video/episode/' + $(this).data('episodeid'));
-  });
-
-  // play recently added episodes when clicking on them
-
-  $('#recently_added .movies li').live('click', function() {
-    $.get('/xhr/play_video/movie/' + $(this).data('movieid'));
+  $('#recently_added li').live('click', function() {
+    $.get('/xhr/play_episode/' + $(this).data('episodeid'));
   });
 
   // browse library
@@ -423,7 +366,7 @@ $(document).ready(function() {
     var li = this;
     add_loading_gif(li);
 
-    $.get('/xhr/play_video/episode/' + $(this).data('episodeid'), function() {
+    $.get('/xhr/play_episode/' + $(this).data('episodeid'), function() {
       remove_loading_gif(li);
     });
   });
@@ -432,7 +375,7 @@ $(document).ready(function() {
     var li = this;
     add_loading_gif(li);
 
-    $.get('/xhr/play_video/movie/' + $(this).data('movieid'), function() {
+    $.get('/xhr/play_movie/' + $(this).data('movieid'), function() {
       remove_loading_gif(li);
     });
   });
@@ -457,225 +400,6 @@ $(document).ready(function() {
       $('#library').replaceWith(data);
     });
   });
-
-	// SABNZBD
-	$('#sabnzbd #extra-queue').live('click', function() {
-		$('#sabnzbd_next').toggle('slow');
-		$('#sabnzbd #extra-queue').toggleClass('rotate');
-	});
-	
-	//Pause/Resume Sab Queue
-	$('#sabnzbd .inner #status').live('click', function(){
-		if($('#sabnzbd .inner #status').text().indexOf('Paused') >= 0){
-			$.get('/sabnzbd/resume');
-		} else {
-			$.get('/sabnzbd/pause');		
-		}
-	});
-
-	//Speed Box: when enter is pressed, it runs the get request.
-	$('#sabnzbd .inner .speed input').live('keydown', function(){
-		if(event.keyCode == 13){
-			$.get('/sabnzbd/set_speed/'+$(this).val());
-		}
-	});
-	
-	$('#sabnzbd .inner #sabnzbd_next img.remove').live('click', function(){
-			$.get('/sabnzbd/remove/'+$(this).attr('value')).success(function(data) {
-							$('#'+data).hide(1000);
-						});
-	});
-	
-	$('#sabnzbd .menu .history').live('click', function(){
-		$.get('/sabnzbd/history' , function(data, responseText){
-			var content = $(data);
-			$('#sabnzbd').html(content.html());
-			$("#history").tablesorter({widthFixed: true}).tablesorterPager({container: $("#pager")});
-		});
-	});
-
-	$('#sabnzbd .menu .queue').live('click', function(){
-		$.get('/xhr/sabnzbd' , function(data, responseText){
-			var content = $(data);
-			$('#sabnzbd').html(content.html());
-		});
-	});
-
-	// SAB Menu SHOW
-/*
-	$('#sabnzbd .title').live('focusin', function(){
-		$('#sabnzbd .menu').show('slow');
-	});
-	$('#sabnzbd .title').live('focusout', function(){
-		$('#sabnzbd .menu').hide();
-	});
-*/
-	$('#sabnzbd .title').live('click', function(){
-		$('#sabnzbd .menu').toggle('slow');
-	});
-
-	/*** SICKBEARD ***/
-	//Search Episode Functionality on Magnifying Glass png
-	$('#sickbeard div.options img.search').live('click', function(){
-		$(this).attr('src','/static/images/xhrloading.gif');
-		var ep = $(this).attr('episode');
-		var season = $(this).attr('season');
-		var id = $(this).attr('id');
-		$.get('/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
-		.success(function(data){
-			if(data){
-				$('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src','/static/images/yes.png');
-			} else {
-				$('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src','/static/images/no.png');
-			}
-		})
-		.error(function(){
-			alert('Could not reach Sick-Beard.');	
-		});
-	});
-
-	//Air time on hover
-	$('#sickbeard .coming_ep').live('hover', function(){
-		var id = ($(this).attr('id'));
-		$('#sickbeard #'+id+' .details').toggle('slow');
-	});
-
-	//Plot display function
-	$('#sickbeard .coming_ep .details .plot-title').live('mouseenter', function(){
-		$(this).toggle();
-		var id = $(this).closest('div.coming_ep').attr('id');
-		$('#sickbeard #'+id+' .details .plot').toggle();
-	});
-	
-	//Plot hide function
-	$('#sickbeard .coming_ep .details .plot').live('mouseleave', function(){
-		var id = $(this).closest('div.coming_ep').attr('id');
-		$('#sickbeard #'+id+' .details .plot-title').toggle();
-		$('#sickbeard #'+id+' .details .plot').toggle();
-	});
-
-	//Toggle missed episodes
-	$('#sickbeard #missed').live('click', function(){
-		$('#sickbeard .missed').toggle();
-	});
-	
-	//All Shows menu
-	$('body').delegate('#sickbeard .all', 'click', function(){
-		$.get('/sickbeard/get_all', function(data){
-			var content = $(data);
-			$('#sickbeard #content').html(content.find('#content').html());
-		});
-	});
-	//Coming episodes Menu
-	$('body').delegate('#sickbeard .upcoming', 'click', function(){
-		$.get('/xhr/sickbeard', function(data){
-			var content = $(data);
-			$('#sickbeard #content').html(content.find('#content').html());
-		});
-	});
-	
-	//History menu
-	$('#sickbeard .history').live('click', function(){
-		$.get('/sickbeard/history/30', function(data){
-			var content = $(data);
-			$('#sickbeard #content').html(content.find('#content').html());
-		});
-	});
-	
-	//Show Menu
-	$('body').delegate('#sickbeard .menu-icon', 'click', function(){
-		$('#sickbeard .menu').toggle('slow');
-	});
-	
-	//Show info
-	$('body').delegate('#sickbeard #sickbeard-list ul', 'click', function(){
-		var id = $(this).attr('id');
-		$.get('/sickbeard/get_show_info/'+id, function(data){
-				$('#sickbeard #content').html($(data).find('#content').html());
-		});
-	});
-	
-	//History Extra Details
-	$('#sickbeard .history ul').live({
-		mouseenter: function(){
-			var id = $(this).attr('id');
-			$('#sickbeard .history #'+id+' .extra-info').toggle();
-		},
-		mouseleave: function(){
-			var id = $(this).attr('id');
-			$('#sickbeard .history #'+id+' .extra-info').toggle();
-		}
-	});
-	
-	$('body').delegate('#sickbeard #content >#show .sb-back', 'click', function(){
-		$.get('/sickbeard/get_all', function(data){
-			var content = $(data);
-			$('#sickbeard #content').html(content.find('#content').html());
-		});
-	});
-
-		
-	$('#sickbeard #content >#show ul.seasons li').live('click', function(){
-		$.get('/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
-			$('#sickbeard').html($(data).html());
-		});
-		$('#sickbeard #content .tablesorter').tablesorter();
-	});
-	
-	//Back Button Episode List
-	$('#sickbeard .episode-list >.back').live('click', function(){
-		$.get('/sickbeard/get_show_info/'+$(this).attr('tvdbid'), function(data){
-			$('#sickbeard').html($(data).html());
-		});		
-	});
-	
-  /* Trakt Recommendations Functions */
-	//TV Add to watchlist
-	$('#recommendations .tv #options .watchlist').live('click', function(){
-	  var id = $(this).attr('tv-id');
-	  var title = $(this).attr('tv-title');
-	  var year = $(this).attr('tv-year');
-	  $.get('/trakt/add_tv_watchlist/'+id+'/'+title+'/'+year+'/', 
-	    function(data){
-	      alert(data);
-	    }
-	  );
-	});
-	//TV Dismis
-	$('#recommendations .tv #options .dismiss').live('click', function(){
-	  var id = $(this).attr('tv-id');
-	  var title = $(this).attr('tv-title');
-	  var year = $(this).attr('tv-year');
-	  $.get('/trakt/dismiss_tv/'+id+'/'+title+'/'+year+'/', 
-	    function(data){
-	      alert(data);
-	    }
-	  );
-	});
-	//Movie Add to watchlist
-	$('#recommendations .movie #options .watchlist').live('click', function(){
-	  var id = $(this).attr('movie-id');
-	  var title = $(this).attr('movie-title');
-	  var year = $(this).attr('movie-year');
-	  $.get('/trakt/add_movie_watchlist/'+id+'/'+title+'/'+year+'/', 
-	    function(data){
-	      alert(data);
-	    }
-	  );
-	});
-	
-	$('#recommendations .movie #options .dismiss').live('click', function(){
-	  var id = $(this).attr('movie-id');
-	  var title = $(this).attr('movie-title');
-	  var year = $(this).attr('movie-year');
-	  $.get('/trakt/dismiss_movie/'+id+'/'+title+'/'+year+'/', 
-	    function(data){
-	      alert(data);
-	    }
-	  );
-	});
-
-
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
@@ -731,7 +455,6 @@ $(document).ready(function() {
 
   $('#settings_icon').live('click', function() {
     $('body').toggleClass('f_settings_mode');
-    $('body').toggleClass('f_operation_mode');
     $('#tutorial').remove();
 
     if ($('body').hasClass('f_settings_mode')) {
@@ -899,16 +622,6 @@ $(document).ready(function() {
     });
   });
 
-  // show application window
-
-  $('.f_operation_mode #applications li a').live('click', function() {
-    $.get('/xhr/show_application/' + $(this).data('id'), function(data) {
-      var popup = $(data);
-      $('body').append(popup);
-      popup.showPopup({ dispose: true });
-    });
-  });
-
   // add/edit disk
 
   $('#add_disk').live('click', function() {
@@ -956,14 +669,5 @@ $(document).ready(function() {
       }
     });
   });
-  
-  //Tipsy Initialisation
-  $('li').tipsy({gravity:'s', live: true, fade:true});
-  $('a').tipsy({gravity:'s', live: true, fade:true});
-  $('div').tipsy({gravity:'s', live: true, fade:true});
-  $('strong').tipsy({gravity:'s', live: true, fade:true});
-  $('input').tipsy({gravity:'s', live: true, fade:true});
-  $('img').tipsy({gravity:'s', live: true, fade:true});
-  $('.status').tipsy({gravity:'s', live: true, fade:true});  
 
 });

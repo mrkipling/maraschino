@@ -18,7 +18,7 @@ AVAILABLE_MODULES = [
     {
         'name': 'applications',
         'label': 'Applications',
-        'description': 'Allows you to link to whatever applications you want (SabNZBd, SickBeard, etc.)',
+        'description': 'Allows you to link to whatever applications you want (SABnzbd, SickBeard, etc.)',
         'static': True,
         'poll': 0,
         'delay': 0,
@@ -33,7 +33,7 @@ AVAILABLE_MODULES = [
     },
     {
         'name': 'library',
-        'label': 'Media Library',
+        'label': 'Media library',
         'description': 'Allows you to browse your media library and select items to play in XBMC.',
         'static': True,
         'poll': 0,
@@ -42,70 +42,30 @@ AVAILABLE_MODULES = [
     {
         'name': 'recently_added',
         'label': 'Recently added',
-        'description': 'Shows you Movies & TV Episodes recently added to your library.',
+        'description': 'Shows you episodes recently added to your library.',
         'static': False,
         'poll': 350,
         'delay': 0,
         'settings': [
             {
-                'key': 'num_recent_videos',
-                'value': 2,
-                'description': 'Number of videos of each type to display',
-            },
-        ]
-    },
-    {
-        'name': 'recommendations',
-        'label': 'Recommendations',
-        'description': 'Movies that may suit you.',
-        'static': False,
-        'poll': 0,
-        'delay': 10,
-        'settings': [
-            {
-                'key': 'trakt_api_key',
-                'value': '',
-                'description': 'Trakt API Key',
-            },
-            {
-                'key': 'trakt_username',
-                'value': '',
-                'description': 'Trakt Username',
-            },
-            {
-                'key': 'trakt_password',
-                'value': '',
-                'description': 'Trakt Password',
+                'key': 'num_recent_episodes',
+                'value': 5,
+                'description': 'Number of episodes to display',
             },
         ]
     },
     {
         'name': 'sabnzbd',
         'label': 'SABnzbd+',
-        'description': 'Shows you information about your SabNZBd+ downloads.',
+        'description': 'Shows you information about your SABnzbd+ downloads.',
         'static': False,
         'poll': 10,
         'delay': 0,
         'settings': [
             {
-                'key': 'sabnzbd_ip',
-                'value': '',
-                'description': 'SabNZBd+ IP',
-            },
-			{
-                'key': 'sabnzbd_port',
-                'value': '',
-                'description': 'SabNZBd+ Port',
-            },
-			{
-                'key': 'sabnzbd_api',
-                'value': '',
-                'description': 'SabNZBd+ API Key',
-            },
-            {
-                'key': 'num_queue_items',
-                'value': 5,
-                'description': 'Number of queue items to show',
+                'key': 'sabnzbd_url',
+                'value': 'http://<hostname>:<port>/api?apikey=<apikeygoeshere>',
+                'description': 'SABnzbd URL',
             },
         ]
     },
@@ -128,52 +88,17 @@ AVAILABLE_MODULES = [
             {
                 'key': 'trakt_api_key',
                 'value': '',
-                'description': 'Trakt API Key',
+                'description': 'Trakt API key',
             },
             {
                 'key': 'trakt_username',
                 'value': '',
-                'description': 'Trakt Username',
+                'description': 'Trakt username',
             },
             {
                 'key': 'trakt_password',
                 'value': '',
-                'description': 'Trakt Password',
-            },
-        ]
-    },
-    {
-        'name': 'sickbeard',
-        'label': 'Sickbeard Manager',
-        'description': 'Manage Sickbeard from within Maraschino',
-        'static': True,
-        'poll': 0,
-        'delay': 0,
-        'settings': [
-            {
-                'key': 'sickbeard_api',
-                'value': '',
-                'description': 'Sickbeard API Key',
-            },
-            {
-                'key': 'sickbeard_user',
-                'value': '',
-                'description': 'Sickbeard Username',
-            },
-            {
-                'key': 'sickbeard_pw',
-                'value': '',
-                'description': 'Sickbeard Password',
-            },
-            {
-                'key': 'sickbeard_ip',
-                'value': '',
-                'description': 'Sickbeard IP',
-            },
-            {
-                'key': 'sickbeard_port',
-                'value': '',
-                'description': 'Sickbeard Port',
+                'description': 'Trakt password',
             },
         ]
     },
@@ -183,33 +108,23 @@ SERVER_SETTINGS = [
     {
         'key': 'server_hostname',
         'value': 'localhost',
-        'description': 'XBMC IP',
-		'tipsy': 'Hostnames are NOT supported',
+        'description': 'XBMC hostname/IP',
     },
     {
         'key': 'server_port',
         'value': '8080',
-        'description': 'XBMC Port ',
-		'tipsy': 'As System > Network',
+        'description': 'XBMC port ',
     },
     {
         'key': 'server_username',
         'value': '',
-        'description': 'XBMC Username',
-		'tipsy': 'If applicable',
+        'description': 'XBMC username',
     },
     {
         'key': 'server_password',
         'value': '',
-        'description': 'XBMC Password',
-		'tipsy': 'If applicable',
+        'description': 'XBMC password',
     },
-#     {
-#         'key': 'global_auth',
-#         'value': '0',
-#         'description': 'Use the same username/password throughout the app.',
-#         'type': 'bool',
-#     },
     {
         'key': 'fanart_backgrounds',
         'value': '1',
@@ -221,12 +136,6 @@ SERVER_SETTINGS = [
         'value': '0',
         'description': 'Use a random background when not watching media',
         'type': 'bool',
-    },
-    {
-        'key': 'server_macaddress',
-        'value': '',
-        'description': 'XBMC Mac Address',
-		'tipsy': 'XBMC Mac Address is found in System Info',
     },
 ]
 

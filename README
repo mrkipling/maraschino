@@ -1,18 +1,21 @@
-#Maraschino<img src=https://github.com/Maraschino/maraschino/raw/master/static/images/maraschino_logo.png width="40">
+Maraschino
+A frontend for XBMC HTPCs
 
-##THIS IS THE TESTING REPO FOR MARASCHINO. 
-Cloning should work fine, but beware that this is all the modules being worked on rolled into one Repo, so things could break.
 
-##What is Maraschino?
 
-I wanted a simple web interface to act as a nice overview/front page for my XBMC HTPC. I couldn't find anything that suited my requirements so I created something myself.
+What is Maraschino?
+-------------------
+
+I wanted a simple web interface to act as a nice overview/front page for my XBMC HTPC. I couldn't
+find anything that suited my requirements so I created something myself.
 
 You can find some fancy screenshots and setup instructions on the project homepage:
-[Maraschino Project](http://www.maraschinoproject.com/ "Maraschino Project")
+http://www.maraschinoproject.com
 
-##Screenshots
-<img src="http://www.maraschinoproject.com/static/images/screenshot1.jpg" width="350"><img src="http://www.maraschinoproject.com/static/images/screenshot2.jpg" width="350">   
-##What features does it have?
+
+
+What features does it have?
+---------------------------
 
 * Customisable applications widget providing quick access to your web interfaces (e.g. SABnzb+,
   SickBeard, or whatever else you want to link to)

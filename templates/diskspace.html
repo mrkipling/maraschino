@@ -2,8 +2,8 @@
 
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
-  
-  <h2>Disk Space</h2>
+
+  <h2>Disk space</h2>
 
   {% if disks %}
 
@@ -19,7 +19,7 @@
               {{ disk.free }} GB free
             </div>
           </div>
-          <div class="bar" title="{{ disk.percentage_used }}%">
+          <div class="bar">
             <div class="inner" style="width: {{ disk.percentage_used }}%;"></div>
           </div>
         </li>

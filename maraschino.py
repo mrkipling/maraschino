@@ -14,9 +14,7 @@ from currently_playing import *
 from diskspace import *
 from library import *
 from recently_added import *
-from recommendations import *
 from sabnzbd import *
-from sickbeard import *
 from trakt import *
 
 from modules import *

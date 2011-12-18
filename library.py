@@ -17,7 +17,7 @@ def xhr_library_root(item_type):
     api_address = server_api_address()
 
     if not api_address:
-        return render_library(message="You need to configure XBMC server settings first.")
+        return render_library(message="You need to configure XBMC server setings first.")
 
     try:
         xbmc = jsonrpclib.Server(api_address)
@@ -29,7 +29,7 @@ def xhr_library_root(item_type):
             library = xbmc.VideoLibrary.GetMovies(sort=sort)
 
         if item_type == 'shows':
-            title = "TV Shows"
+            title = "TV shows"
             library = xbmc.VideoLibrary.GetTVShows()
 
     except:
@@ -61,7 +61,7 @@ def xhr_library_season(show, season):
 
     return render_library(library, title)
 
-def render_library(library=None, title="Media Library", message=None):
+def render_library(library=None, title="Media library", message=None):
     return render_template('library.html',
         library = library,
         title = title,

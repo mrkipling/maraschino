@@ -15,7 +15,7 @@
     {% endif %}
   </p>
 
-  <div class="progress" title="{{ percentage_progress }}%">
+  <div class="progress">
     <div class="bar">
       <div class="inner" style="width: {{ percentage_progress }}%;"></div>
     </div>
@@ -36,7 +36,7 @@
           {{ currently_playing.season }}x{{ currently_playing.episode }} -
           "{{ currently_playing.title }}"
         {% else %}
-          {{ currently_playing.title }} {{ currently_playing.year }}
+          {{ currently_playing.title }}
         {% endif %}
       </h2>
       <p>{{ currently_playing.plot|truncate(750) }}</p>

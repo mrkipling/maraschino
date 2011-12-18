@@ -1,21 +1,22 @@
 {% if trakt %}
+
 <div id="trakt" class="module generic" data-module="trakt">
 
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
-  
+
   <h2>trakt.tv</h2>
 
   <div class="inner">
 
     {% if trakt.shouts %}
 
-      <h3>What others are saying</h3>
+      <h3>What people are saying</h3>
 
       <ul class="shouts">
         {% for shout in trakt.shouts[0:5] %}
           <li{% if shout.user.username == trakt_username %} class="me"{% endif %}>
-            <a class="user" href="{{ shout.user.url }}" title="Visit {{ shout.user.username }}">
+            <a class="user" href="{{ shout.user.url }}">
               {% if shout.user.full_name %}{{ shout.user.full_name }}
               {% else %}{{ shout.user.username }}{% endif %}
             </a>
@@ -27,7 +28,7 @@
               <span class="truncated">{{ shout.shout|truncate(160, false) }}</span>
               <span class="expanded" style="display: none;">{{ shout.shout }}</span>
               {% if shout.shout|count > 160 %}
-                <a class="expand" href="#" title="More">[+]</a>
+                <a class="expand" href="#">[+]</a>
               {% endif %}
             </p>
           </li>
@@ -40,7 +41,7 @@
 
       <div id="add_shout" data-type="{{ trakt.type }}" data-itemid="{{ trakt.itemid }}"{% if trakt.type == 'episode' %} data-season="{{ trakt.season }}" data-episode="{{ trakt.episode }}"{% endif %}>
 
-        <h3>What do you think of {{ trakt.title }}?</h3>
+        <h3>What do you think about {{ trakt.title }}?</h3>
 
         <textarea rows="5" cols="20"></textarea>
 
