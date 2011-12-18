@@ -10,9 +10,7 @@
       <img src="{{sickbeard.url}}" />
       <p class="airtime">{{sickbeard.airs}}</p>
       <p class="quality">{{sickbeard.quality}}</p>
-      {% for genre in sickbeard.genre %}
-      <p class="genre">{{ genre }}</p>
-      {% endfor %}
+      <p class="genre">{{ sickbeard.genre[0] }}</p>
     </div>
     <ul class="seasons">
       {% for season in sickbeard.season_list|sort %}
