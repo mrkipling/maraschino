@@ -9,10 +9,15 @@
   </div>
 
   <div class="clearfix">
-    <h4{% if sickbeard.status =='Downloaded' %} class="downloaded"{% endif %}>Episode: {{ sickbeard.name }}</h4>
+    <h4{% if sickbeard.status =='Downloaded' %} class="downloaded"{% endif %}>
+      Episode: <a href="http://www.thetvdb.com/?tab=series&id={{id}}" target="_blank">{{ sickbeard.name }}</a>
+    </h4>
 
     {% if not sickbeard.status =='Downloaded' %}
-    <p class="status">{{ sickbeard.status }}</p>
+    <p class="status">
+      {{ sickbeard.status }}
+      <img class="search" height="15px" src="/static/images/search.png" id="{{ id }}" episode="{{ ep }}" season="{{ season }}" title="Search for episode"/>
+    </p>  
     {% endif %}
   </div>
 

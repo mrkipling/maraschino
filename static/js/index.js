@@ -615,11 +615,27 @@ $(document).ready(function() {
     });
   });
 
+  //Magnifying Glass Episode INFO
+  $('#sickbeard .episode-info .status .search').live('click', function(){
+    $(this).attr('src','/static/images/xhrloading.gif');
+    var ep = $(this).attr('episode');
+    var season = $(this).attr('season');
+    var id = $(this).attr('id');
+    $.get('/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
+    .success(function(data){
+      if(data){
+	    $('#sickbeard .episode-info .status .search').attr('src','/static/images/yes.png');
+      } else {
+        $('#sickbeard .episode-info .status .search').attr('src','/static/images/no.png');
+      }
+    })
+    .error(function(){
+	   alert('Could not reach Sick-Beard.');
+    });
+  });
+
+
   /******  END SICKBEARD Functions  *******/
-
-
-
-
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');

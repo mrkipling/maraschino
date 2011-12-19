@@ -184,6 +184,7 @@ def get_episode_info(tvdbid, season, ep):
         sickbeard = sickbeard,
         id = tvdbid,
         season = season,
+        ep = ep,
     )
 
 @app.route('/sickbeard/set_ep_status/<tvdbid>/<season>/<ep>/<status>')
