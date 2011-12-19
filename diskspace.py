@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template
-import jsonrpclib, os
+import jsonrpclib, os, platform, ctypes
 
 from maraschino import app
 from settings import *
@@ -96,15 +96,20 @@ def delete_disk(disk_id):
     return xhr_diskspace()
 
 def disk_usage(path):
-    st = os.statvfs(path)
-
-    free = float(st.f_bavail * st.f_frsize) / 1073741824
-    total = float(st.f_blocks * st.f_frsize) / 1073741824
-    used = float((st.f_blocks - st.f_bfree) * st.f_frsize) / 1073741824
-
-    return {
-        'total': "%.2f" % total,
-        'used': "%.2f" % used,
-        'free': "%.2f" % free,
-        'percentage_used': int(used/total * 100),
-    }
+    if platform.system() == 'Windows':
+        free_bytes = ctypes.c_ulonglong(0)
+        ctypes.windll.kernel32.GetDiskFreeSpaceExW(ctypes.c_wchar_p(folder), None, None, ctypes.pointer(free_bytes))
+        print free_bytes
+    else:
+        st = os.statvfs(path)
+    
+        free = float(st.f_bavail * st.f_frsize) / 1073741824
+        total = float(st.f_blocks * st.f_frsize) / 1073741824
+        used = float((st.f_blocks - st.f_bfree) * st.f_frsize) / 1073741824
+    
+        return {
+            'total': "%.2f" % total,
+            'used': "%.2f" % used,
+            'free': "%.2f" % free,
+            'percentage_used': int(used/total * 100),
+        }
