@@ -97,7 +97,7 @@ def get_recently_added_movies(xbmc, movie_offset=0):
     num_recent_videos = get_num_recent_movies()
 
     try:
-        recently_added_movies = xbmc.VideoLibrary.GetRecentlyAddedMovies(properties = ['title', 'year', 'rating', 'lastplayed', 'fanart'])
+        recently_added_movies = xbmc.VideoLibrary.GetRecentlyAddedMovies(properties = ['title', 'year', 'rating', 'lastplayed', 'thumbnail'])
 
         recently_added_movies = recently_added_movies['movies'][movie_offset:num_recent_videos + movie_offset]
 
