@@ -46,7 +46,6 @@ def xhr_recommendations():
         mov = {}
         mov['url'] = movie['url']
         mov['title'] = movie['title']
-        mov['image'] = movie['images']['poster']
         mov['overview'] = movie['overview']
         mov['year'] = movie['year']
         mov['liked'] = movie['ratings']['percentage']
@@ -75,7 +74,6 @@ def xhr_recommendations():
         tv = {}
         tv['url'] = tv_result['url']
         tv['title'] = tv_result['title']
-        tv['image'] = tv_result['images']['poster']
         tv['overview'] = tv_result['overview']
         tv['year'] = tv_result['year']
         tv['liked'] = tv_result['ratings']['percentage']
