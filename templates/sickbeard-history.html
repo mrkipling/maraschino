@@ -2,7 +2,7 @@
 
 {% block sickbeard_content %}
 
-<div id="content">
+<div id="sb_content">
   <div class="history">
     {% for item in sickbeard %}
     <ul id="{{item.tvdbid}}{{item.season}}{{item.episode}}{{item.status}}" class="{{item.status}}">
