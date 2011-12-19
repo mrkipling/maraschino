@@ -15,7 +15,12 @@
 
     {% if not sickbeard.status =='Downloaded' %}
     <p class="status">
-      {{ sickbeard.status }}
+      <select id="{{ id }}" episode="{{ ep }}" season="{{ season }}">
+        <option {% if (sickbeard.status == 'Wanted') %}SELECTED{% endif %}>wanted</option>
+        <option {% if (sickbeard.status == 'Skipped') %}SELECTED{% endif %}>skipped</option>
+        <option {% if (sickbeard.status == 'Archived') %}SELECTED{% endif %}>archived</option>
+        <option {% if (sickbeard.status == 'Ignored') %}SELECTED{% endif %}>ignored</option>
+      </select>
       <img class="search" height="15px" src="/static/images/search.png" id="{{ id }}" episode="{{ ep }}" season="{{ season }}" title="Search for episode"/>
     </p>  
     {% endif %}

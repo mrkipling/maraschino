@@ -634,6 +634,22 @@ $(document).ready(function() {
     });
   });
 
+  //EPISODE SET STATUS INFO
+  $(document).on('change', '#sickbeard .episode-info .status select', function(){
+    var ep = $(this).attr('episode');
+    var season = $(this).attr('season');
+    var id = $(this).attr('id');
+    var status = this.value;
+    $.get('/sickbeard/set_ep_status/'+id+'/'+season+'/'+ep+'/'+status)
+    .success(function(data){
+      if(data != 'success'){
+        alert('An error ocurred: '+data);
+      }
+    })
+    .error(function(){
+	   alert('Could not reach Sick-Beard.');
+    });
+  });
 
   /******  END SICKBEARD Functions  *******/
 

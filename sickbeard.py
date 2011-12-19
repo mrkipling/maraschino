@@ -187,17 +187,14 @@ def get_episode_info(tvdbid, season, ep):
         ep = ep,
     )
 
-@app.route('/sickbeard/set_ep_status/<tvdbid>/<season>/<ep>/<status>')
-def set_episode_status(tvdbid, season, ep):
+@app.route('/sickbeard/set_ep_status/<tvdbid>/<season>/<ep>/<st>')
+def set_episode_status(tvdbid, season, ep, st):
     try:
-        url = '%s/?cmd=episode.setstatus&tvdbid=%s&season=%s&episode=%s&status=%s' %(sickbeard_url(), tvdbid, season, ep,status)
+        url = '%s/?cmd=episode.setstatus&tvdbid=%s&season=%s&episode=%s&status=%s' %(sickbeard_url(), tvdbid, season, ep, st)
         result = urllib.urlopen(url).read()
         sickbeard = json.JSONDecoder().decode(result)
 
     except:
         raise Exception
-
-    if sickbeard['result'].rfind('success') >= 0:
-        return 1
-
-    return 0
+        
+    return sickbeard['result']
