@@ -13,21 +13,21 @@ There's also a thread on the [XBMC forums](http://forum.xbmc.org/showthread.php?
 
 ##What features does it have?
 
-* Customisable applications widget providing quick access to your web interfaces (e.g. SABnzb+, SickBeard, or whatever else you want to link to)
+* Customisable applications module providing quick access to your web interfaces (e.g. SABnzb+, SickBeard, or whatever else you want to link to)
 
-* Recently added episodes widget - click an episode to play it in XBMC
+* Recently added episodes module - click an episode to play it in XBMC
 
 * Media library browser - browse your movies and TV shows, and click to play in XBMC
 
-* SABnzbd+ widget which appears when something is downloading and hides again when finished - shows you what is currently downloading, speed, time/MB remaining, and a progress bar
+* SABnzbd+ module which appears when something is downloading and hides again when finished - shows you what is currently downloading, speed, time/MB remaining, and a progress bar
 
 * Currently playing bar with play/pause/stop controls
 
-* trakt.tv widget which shows you what people are saying about the episode or movie that you're watching (requires a free trakt.tv account)
+* trakt.tv module which shows you what people are saying about the episode or movie that you're watching (requires a free trakt.tv account)
 
 * Sickbeard module which allows you to browse upcoming episodes (coming soon: the ability to manage Sickbeard from Maraschino)
 
-* Disk space widget showing you used/remaining space on your various drives
+* Disk space module showing you used/remaining space on your various drives
 
 * Full-screen background image changes to the fanart of what you're currently watching (optional, can be turned off)
 
