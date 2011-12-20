@@ -4,13 +4,12 @@
 
 I wanted a simple web interface to act as a nice overview/front page for my XBMC HTPC. I couldn't find anything that suited my requirements so I created something myself.
 
-You can find more information and setup instructions on the project homepage:
-[Maraschino Project](http://www.maraschinoproject.com/ "Maraschino Project")
+You can find more information and setup instructions on the [project homepage](http://www.maraschinoproject.com/ "Maraschino Project").
 
 There's also a thread on the XBMC forums [XBMC forums](http://forum.xbmc.org/showthread.php?t=113136 "XBMC forums").
 
 ##Screenshots
-<img src="http://www.maraschinoproject.com/static/images/screenshot1.jpg" width="400"> <img src="http://www.maraschinoproject.com/static/images/screenshot2.jpg" width="400">
+<img src="http://www.maraschinoproject.com/static/images/screenshot1.jpg" width="400" style="margin-right: 20px;"><img src="http://www.maraschinoproject.com/static/images/screenshot2.jpg" width="400">
 
 ##What features does it have?
 
