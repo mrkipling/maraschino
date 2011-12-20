@@ -97,9 +97,19 @@ def delete_disk(disk_id):
 
 def disk_usage(path):
     if platform.system() == 'Windows':
-        free_bytes = ctypes.c_ulonglong(0)
-        ctypes.windll.kernel32.GetDiskFreeSpaceExW(ctypes.c_wchar_p(folder), None, None, ctypes.pointer(free_bytes))
-        print free_bytes
+        freeuser = ctypes.c_int64()
+        total = ctypes.c_int64()
+        free = ctypes.c_int64()
+        ctypes.windll.kernel32.GetDiskFreeSpaceExW(ctypes.c_wchar_p(path), ctypes.byref(freeuser), ctypes.byref(total), ctypes.byref(free))
+        used = (total.value - free.value) / (1024*1024*1024)
+        total = total.value / (1024*1024*1024)
+        free = free.value / (1024*1024*1024)
+        return {
+            'total': "%.2f" % total,
+            'used': "%.2f" % used,
+            'free': "%.2f" % free,
+            'percentage_used': int((float(used)/float(total))*100),
+        }
     else:
         st = os.statvfs(path)
     
