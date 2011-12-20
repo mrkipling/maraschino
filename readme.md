@@ -25,6 +25,8 @@ There's also a thread on the [XBMC forums](http://forum.xbmc.org/showthread.php?
 
 * trakt.tv widget which shows you what people are saying about the episode or movie that you're watching (requires a free trakt.tv account)
 
+* Sickbeard module which allows you to browse upcoming episodes (coming soon: the ability to manage Sickbeard from Maraschino)
+
 * Disk space widget showing you used/remaining space on your various drives
 
 * Full-screen background image changes to the fanart of what you're currently watching (optional, can be turned off)
