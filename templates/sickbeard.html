@@ -23,13 +23,13 @@
 </div>
 {%- endmacro %}
 
-<div id="content">
+<div id="sb_content">
   <div id="future">
     {% if missed|length %}
     <div id="missed" title="SB has missed {{missed|length}} episodes"><b>{{missed|length}}</b></div>
     <div class="missed">
       {% for show in missed %}
-        {{item(show)}}
+      {{item(show)}}
       {% endfor %}
     </div>
     {% endif %}
@@ -37,7 +37,7 @@
     <div id="today">
       <h3>Today</h3>
       {% for show in today %}
-        {{item(show)}}
+      {{item(show)}}
       {% endfor %}
     </div>
     {% endif %}
@@ -45,7 +45,7 @@
     <div id="soon">
       <h3>Soon</h3>
       {% for show in soon %}
-        {{item(show)}}
+      {{item(show)}}
       {% endfor %}
     </div>
     {% endif %}
@@ -53,7 +53,7 @@
     <div id="later">
       <h3>Later</h3>
       {% for show in later %}
-        {{item(show)}}
+      {{item(show)}}
       {% endfor %}
     </div>
     {% endif %}

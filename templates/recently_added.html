@@ -12,7 +12,7 @@
         <li data-episodeid="{{ episode.episodeid }}" title="Play {{ episode.showtitle }} - {{ episode.title }}" {% if episode.lastplayed %} class="watched"{% endif %}>
 
           {% if episode.thumbnail %}
-            <img src="{{ vfs_url }}{{ episode.thumbnail }}" width="100" height="56" alt="">
+            <img class="thumbnail" src="{{ vfs_url }}{{ episode.thumbnail }}" width="100" height="56" alt="">
           {% endif %}
 
           <div class="inner">

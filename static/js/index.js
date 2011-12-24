@@ -517,8 +517,7 @@ $(document).ready(function() {
 
   $('body').delegate('#sickbeard .menu .all', 'click', function(){
     $.get('/sickbeard/get_all', function(data){
-      var content = $(data);
-      $('#sickbeard #content').html(content.find('#content').html());
+      $('#sickbeard').replaceWith(data);
     });
   });
 
@@ -526,8 +525,7 @@ $(document).ready(function() {
 
   $('body').delegate('#sickbeard .menu .upcoming', 'click', function(){
     $.get('/xhr/sickbeard', function(data){
-      var content = $(data);
-      $('#sickbeard #content').html(content.find('#content').html());
+      $('#sickbeard').replaceWith(data);
     });
   });
 
@@ -555,7 +553,7 @@ $(document).ready(function() {
   $('body').delegate('#sickbeard #sickbeard-list ul', 'click', function(){
     var id = $(this).attr('id');
     $.get('/sickbeard/get_show_info/'+id, function(data){
-      $('#sickbeard #content').html($(data).find('#content').html());
+      $('#sickbeard').replaceWith(data);
     });
   });
 
@@ -574,18 +572,17 @@ $(document).ready(function() {
 
   // Episode list back button functionality
 
-  $('body').delegate('#sickbeard #content >#show .sb-back', 'click', function(){
+  $('body').delegate('#sb_content > #show .sb-back', 'click', function(){
     $.get('/sickbeard/get_all', function(data){
-      var content = $(data);
-      $('#sickbeard #content').html(content.find('#content').html());
+      $('#sickbeard').replaceWith(data);
     });
   });
 
   // Season info
 
-  $('#sickbeard #content >#show ul.seasons li').live('click', function(){
+  $('#sb_content > #show ul.seasons li').live('click', function(){
     $.get('/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
-      $('#sickbeard').html($(data).html());
+      $('#sickbeard').replaceWith(data);
       $('#sickbeard .episode-list .tablesorter').tablesorter({sortList: [[0,0]]});
     });
   });
@@ -594,7 +591,7 @@ $(document).ready(function() {
 
   $('#sickbeard .episode-list #season tbody tr').live('click', function(){
     $.get('/sickbeard/get_ep_info/'+$(this).attr('link'), function(data){
-      $('#sickbeard').html($(data).html());
+      $('#sickbeard').replaceWith(data);
     });
   });
 
@@ -602,7 +599,7 @@ $(document).ready(function() {
 
   $('body').delegate('#sickbeard .episode-info .back', 'click', function(){
     $.get('/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
-      $('#sickbeard').html($(data).html());
+      $('#sickbeard').replaceWith(data);
       $('#sickbeard .episode-list .tablesorter').tablesorter({sortList: [[0,0]]});
     });
   });
@@ -611,7 +608,7 @@ $(document).ready(function() {
 
   $('#sickbeard .episode-list >.back').live('click', function(){
     $.get('/sickbeard/get_show_info/'+$(this).attr('tvdbid'), function(data){
-      $('#sickbeard').html($(data).html());
+      $('#sickbeard').replaceWith(data);
     });
   });
 
