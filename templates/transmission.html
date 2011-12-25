@@ -1,0 +1,34 @@
+<div id="transmission" class="module" data-module="transmission">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2>TransmissionBT</h2>
+
+  {% if torrents %}
+
+  <div class="inner">
+
+    <ul>
+      {% for torrent in torrents %}
+        <li data-id="{{ torrent.torrentid }}">
+          <div class="clearfix">
+            <div class="name">{{ torrent.name }}</div>
+            <div class="progress">{{ torrent.name }}% Done</div>
+          </div>
+          <div class="bar" title="{{ name }}">
+            <div class="inner" style="width: {{ torrent.progress }}%;"></div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+
+{% else %}
+<div class="placeholder" data-module="transmission">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+  <h2>TransmissionBT</h2>
+</div>
+{% endif %}
