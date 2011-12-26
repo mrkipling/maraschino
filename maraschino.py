@@ -1,26 +1,50 @@
+import sys
+import os
+
+rundir = os.path.dirname(os.path.abspath(__file__))
+
+try:
+    frozen = sys.frozen
+except AttributeError:
+    frozen = False
+
+# Define path based on frozen state
+if frozen:
+    path_base = os.environ['_MEIPASS2']
+    rundir = os.path.dirname(sys.executable)
+    #path_base = os.path.dirname(sys.executable)
+else:
+    path_base = rundir
+
+# Include paths
+sys.path.insert(0, path_base)
+sys.path.insert(0, os.path.join(path_base, 'plugins'))
+sys.path.insert(0, os.path.join(path_base, 'external'))
+
 from flask import Flask, jsonify, render_template, request
-from database import db_session
+from lib.database import db_session
 import hashlib, json, jsonrpclib, random, urllib
 
 app = Flask(__name__)
 
 from settings import *
-from noneditable import *
-from tools import *
+from lib.noneditable import *
+from lib.tools import *
 
-from applications import *
-from controls import *
-from currently_playing import *
-from diskspace import *
-from library import *
-from recently_added import *
-from recommendations import *
-from sabnzbd import *
-from sickbeard import *
-from trakt import *
+from modules.applications import *
+from modules.controls import *
+from modules.currently_playing import *
+from modules.diskspace import *
+from modules.library import *
+from modules.recently_added import *
+from modules.recommendations import *
+from modules.sabnzbd import *
+from modules.sickbeard import *
+from modules.trakt import *
+from modules.transmission import *
 
-from modules import *
-from models import Module, Setting
+from lib.modules import *
+from lib.models import Module, Setting
 
 @app.route('/')
 @requires_auth
