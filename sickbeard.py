@@ -98,9 +98,6 @@ def get_all():
     if sickbeard['result'].rfind('success') >=0:
         sickbeard = sickbeard['data']
 
-        for show in sickbeard:
-            sickbeard[show]['url'] = get_pic(sickbeard[show]['tvdbid'], 'banner')
-
     return render_template('sickbeard-all.html',
         sickbeard = sickbeard,
     )
@@ -117,7 +114,6 @@ def show_info(tvdbid):
 
     if sickbeard['result'].rfind('success') >= 0:
         sickbeard = sickbeard['data']
-        sickbeard['url'] = get_pic(tvdbid, 'banner')
         sickbeard['tvdb'] = tvdbid
 
     return render_template('sickbeard-show.html',
@@ -156,13 +152,11 @@ def history(limit):
     if sickbeard['result'].rfind('success') >= 0:
         sickbeard = sickbeard['data']
 
-        for show in sickbeard:
-            show['image'] = get_pic(show['tvdbid'])
-
     return render_template('sickbeard-history.html',
         sickbeard = sickbeard,
     )
 
+# returns a link with the path to the required image from SB
 def get_pic(tvdb, style='banner'):
     url = '%s:%s' %(get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'))
     return 'http://%s/showPoster/?show=%s&which=%s' %(url, tvdb, style)
@@ -200,7 +194,7 @@ def set_episode_status(tvdbid, season, ep, st):
     return sickbeard['result']
     
 @app.route('/sickbeard/get_banner/<tvdbid>')
-def set_episode_status(tvdbid):
+def get_banner(tvdbid):
     import StringIO
     url = '%s/?cmd=show.getbanner&tvdbid=%s' %(sickbeard_url(), tvdbid)
     img = StringIO.StringIO(urllib.urlopen(url).read())
