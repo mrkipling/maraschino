@@ -466,7 +466,7 @@ $(document).ready(function() {
 
   // Search Episode Functionality on Magnifying Glass png
 
-  $('#sickbeard div.options img.search').live('click', function(){
+  $('#sickbeard .coming_ep div.options img.search').live('click', function(){
     $(this).attr('src','/static/images/xhrloading.gif');
     var ep = $(this).attr('episode');
     var season = $(this).attr('season');
@@ -491,6 +491,16 @@ $(document).ready(function() {
     $('#sickbeard #'+id+' .details').fadeToggle(200);
   });
 
+
+  // Load show info from banner display
+  
+  $(document).on('click', '#sickbeard .coming_ep .options img.banner', function(){
+    var tvdb = $(this).attr('id');
+    $.get('/sickbeard/get_show_info/'+tvdb, function(data){
+      $('#sickbeard').replaceWith(data);
+    });
+  });
+  
   // Plot display function
 
   $('#sickbeard .coming_ep .details .plot-title').live('mouseenter', function(){
