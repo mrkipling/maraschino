@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, send_file
 import json, jsonrpclib, urllib
 
 from maraschino import app
@@ -198,3 +198,10 @@ def set_episode_status(tvdbid, season, ep, st):
         raise Exception
         
     return sickbeard['result']
+    
+@app.route('/sickbeard/get_banner/<tvdbid>')
+def set_episode_status(tvdbid):
+    import StringIO
+    url = '%s/?cmd=show.getbanner&tvdbid=%s' %(sickbeard_url(), tvdbid)
+    img = StringIO.StringIO(urllib.urlopen(url).read())
+    return send_file(img, mimetype='image/jpeg')
