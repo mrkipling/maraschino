@@ -95,5 +95,38 @@ def index():
 def shutdown_session(exception=None):
     db_session.remove()
 
-if __name__ == '__main__':
-    app.run(debug=True, port=PORT, host='0.0.0.0')
+# configure server from commandline
+development_server = True
+
+import getopt
+try:
+    opts, args = getopt.getopt(sys.argv[1:], "qp::", ['quiet', 'port=']) #@UnusedVariable
+except getopt.GetoptError:
+    print "Available options: -q, --quiet, --port=XXXX"
+    sys.exit()
+
+for o, a in opts:
+    # check port
+    if o in ('-p', '--port'):
+        CHERRYPY_PORT=int(a)
+        PORT=int(a)
+
+    # check servertyp
+    if o in ('-q', '--quiet'):
+        development_server = False
+
+
+if development_server:
+    if __name__ == '__main__':
+        app.run(debug=True, port=PORT, host='0.0.0.0')
+else:
+    from cherrypy import wsgiserver
+    d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
+    server = wsgiserver.CherryPyWSGIServer(('0.0.0.0', CHERRYPY_PORT), d)
+    if __name__ == '__main__':
+       try:
+          server.start()
+       except KeyboardInterrupt:
+          server.stop()
+
+
