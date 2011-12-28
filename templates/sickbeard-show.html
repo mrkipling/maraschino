@@ -11,6 +11,11 @@
       <p class="airtime">{{sickbeard.airs}}</p>
       <p class="quality">{{sickbeard.quality}}</p>
       <p class="genre">{{ sickbeard.genre[0] }}</p>
+      <p class="options">Options</p>
+      <p class="manage" tvdbid="{{sickbeard.tvdb}}">
+        <span class="delete">Delete Show</span> | <span class="refresh">Refresh Show</span>
+        <span class="close">X</span>
+      </p>
     </div>
     <ul class="seasons">
       {% for season in sickbeard.season_list|sort %}

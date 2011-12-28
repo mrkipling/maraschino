@@ -200,3 +200,27 @@ def set_episode_status(tvdbid, season, ep):
         return 1
 
     return 0
+    
+@app.route('/sickbeard/delete_show/<tvdbid>')
+def delete_show(tvdbid):
+    try:
+        url = '%s/?cmd=show.delete&tvdbid=%s' %(sickbeard_url(), tvdbid)
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+
+    except:
+        raise Exception
+
+    return sickbeard['message']
+
+@app.route('/sickbeard/refresh_show/<tvdbid>')
+def refresh_show(tvdbid):
+    try:
+        url = '%s/?cmd=show.refresh&tvdbid=%s' %(sickbeard_url(), tvdbid)
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+
+    except:
+        raise Exception
+
+    return sickbeard['message']

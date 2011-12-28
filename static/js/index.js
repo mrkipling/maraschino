@@ -472,16 +472,16 @@ $(document).ready(function() {
     var season = $(this).attr('season');
     var id = $(this).attr('id');
     $.get('/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
-      .success(function(data){
-	if(data){
-	  $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src','/static/images/yes.png');
-	} else {
-	  $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src','/static/images/no.png');
-	}
-      })
-      .error(function(){
-	alert('Could not reach Sick-Beard.');
-      });
+    .success(function(data){
+      if(data){
+	    $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src','/static/images/yes.png');
+      } else {
+	    $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src','/static/images/no.png');
+      }
+    })
+    .error(function(){
+      alert('Could not reach Sick-Beard.');
+    });
   });
 
   // Air time on hover
@@ -612,6 +612,43 @@ $(document).ready(function() {
     });
   });
 
+  // Show Banner manager display
+  
+  $(document).on('click', '#sickbeard #show .banner .options' , function(){
+    $('#sickbeard #show .banner .manage').show();
+  });
+
+  // Hide Banner manager display
+
+  $(document).on('click', '#sickbeard #show .banner .manage .close' , function(){
+    $('#sickbeard #show .banner .manage').hide();
+  });
+  
+  //Delete show function
+  
+  $(document).on('click', '#sickbeard #show .banner .manage .delete' , function(){
+    var id = $('#sickbeard #show .banner .manage').attr('tvdbid')
+    $.get('/sickbeard/delete_show/'+id)
+    .success(function(data){
+      alert(data);
+    })
+    .error(function(){
+      alert('Could not reach Sickbeard.');
+    });
+  });
+  
+  //Delete show function
+  
+  $(document).on('click', '#sickbeard #show .banner .manage .refresh' , function(){
+    var id = $('#sickbeard #show .banner .manage').attr('tvdbid')
+    $.get('/sickbeard/refresh_show/'+id)
+    .success(function(data){
+      alert(data);
+    })
+    .error(function(){
+      alert('Could not reach Sickbeard.');
+    });
+  });
   /******  END SICKBEARD Functions  *******/
 
 
