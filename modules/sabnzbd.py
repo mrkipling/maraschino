@@ -8,7 +8,7 @@ from lib.tools import *
 @app.route('/xhr/sabnzbd')
 @requires_auth
 def xhr_sabnzbd():
-    SABNZBD_URL = get_setting_value('sabnzbd_url')
+    SABNZBD_URL = 'http://%s:%s/api?apikey=%s' % (get_setting_value('sabnzbd_host'), get_setting_value('sabnzbd_port'), get_setting_value('sabnzbd_api'))
 
     try:
         if SABNZBD_URL == None:
