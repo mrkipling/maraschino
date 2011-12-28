@@ -224,3 +224,15 @@ def refresh_show(tvdbid):
         raise Exception
 
     return sickbeard['message']
+
+@app.route('/sickbeard/update_show/<tvdbid>')
+def update_show(tvdbid):
+    try:
+        url = '%s/?cmd=show.update&tvdbid=%s' %(sickbeard_url(), tvdbid)
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+
+    except:
+        raise Exception
+
+    return sickbeard['message']

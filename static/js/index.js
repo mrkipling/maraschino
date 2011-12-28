@@ -637,7 +637,7 @@ $(document).ready(function() {
     });
   });
   
-  //Delete show function
+  //Refresh show function
   
   $(document).on('click', '#sickbeard #show .banner .manage .refresh' , function(){
     var id = $('#sickbeard #show .banner .manage').attr('tvdbid')
@@ -649,11 +649,21 @@ $(document).ready(function() {
       alert('Could not reach Sickbeard.');
     });
   });
+
+  //Update show function
+  
+  $(document).on('click', '#sickbeard #show .banner .manage .update' , function(){
+    var id = $('#sickbeard #show .banner .manage').attr('tvdbid')
+    $.get('/sickbeard/update_show/'+id)
+    .success(function(data){
+      alert(data);
+    })
+    .error(function(){
+      alert('Could not reach Sickbeard.');
+    });
+  });
+
   /******  END SICKBEARD Functions  *******/
-
-
-
-
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
