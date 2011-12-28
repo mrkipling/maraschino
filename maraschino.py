@@ -42,6 +42,7 @@ from modules.sabnzbd import *
 from modules.sickbeard import *
 from modules.trakt import *
 from modules.transmission import *
+from modules.spotweb import *
 
 from lib.modules import *
 from lib.models import Module, Setting

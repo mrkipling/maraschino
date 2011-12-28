@@ -1,0 +1,27 @@
+{% if spotweb %}
+
+<div id="spotweb" class="module" data-module="spotweb">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2 class="title">{% block spotweb_title %}Spotweb{% endblock %}</h2>
+
+<!--  <ul class="menu">
+    <li class="history" title="View History"><span>History</span></li>
+    <li class="all" title="View all"><span>All</span></li>
+    <li class="upcoming" title="View upcoming"><span>Upcoming</span></li>
+  </ul> -->
+
+  {% block spotweb_content %}{% endblock %}
+
+</div>
+
+{% else %}
+
+<div class="placeholder" data-module="spotweb">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+  <h2>Spotweb</h2>
+</div>
+
+{% endif %}

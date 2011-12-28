@@ -1,0 +1,36 @@
+{% extends "spotweb-base.html" %}
+
+{% block spotweb_content %}
+
+{% macro item(i) -%}
+<div class="coming_ep">
+    <h2>
+        <a href="{{ url }}/?page=getspot&messageid={{i.guid}}" target="_blank">{{ i.name }}</a>
+    </h2>
+    Poster: {{ i.fromname }}
+</div>
+{%- endmacro %}
+
+<div id="spot_content">
+    <div id="recent">
+        {% if spotweb|length %}
+            {% for show in spotweb %}
+            {{item(show)}}
+            {% endfor %}
+        {% endif %}
+    </div>
+<!--
+  <div id="future">
+    {% if missed|length %}
+    <div id="missed" title="SB has missed {{missed|length}} episodes"><b>{{missed|length}}</b></div>
+    <div class="missed">
+      {% for show in missed %}
+      {{item(show)}}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+-->
+</div>
+
+{% endblock %}
