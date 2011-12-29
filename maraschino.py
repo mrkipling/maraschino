@@ -115,7 +115,30 @@ for o, a in opts:
     if o in ('-q', '--quiet'):
         development_server = False
 
+## check if database exists or create it
+try:
+    open(DATABASE)
+except IOError as e:
+    try:
+        # check if path exists
+        dbpath = os.path.dirname(DATABASE)
+        if not os.path.exists(dbpath):
+            try:
+                os.makedirs(dbpath)
+            except:
+               print 'Could not create %s, check settings.py'% (DATABASE)
+               quit()
 
+        # create db
+        from lib.database import *
+    except:
+        print 'You need to specify a database in settings.py.'
+        quit()
+
+    init_db()
+    print "Database successfully initialised."
+
+# start server
 if development_server:
     if __name__ == '__main__':
         app.run(debug=True, port=PORT, host='0.0.0.0')
