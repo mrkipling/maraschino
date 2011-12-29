@@ -73,12 +73,13 @@ def shutdown_session(exception=None):
 
 # check for commandline options
 # defaults
+# db is handled in database.py
 dev_server = True
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "qp::", ['quiet', 'port='])
+    opts, args = getopt.getopt(sys.argv[1:], "qp::", ['quiet', 'port=', 'database='])
 except getopt.GetoptError:
-    print "Available options: --quiet, --port"
+    print "Available options: --quiet, --port, --database"
     sys.exit()
 
 for o, a in opts:
