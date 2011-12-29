@@ -13,6 +13,7 @@ from controls import *
 from currently_playing import *
 from diskspace import *
 from library import *
+from newznab import *
 from recently_added import *
 from recommendations import *
 from sabnzbd import *

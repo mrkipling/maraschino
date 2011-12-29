@@ -1,0 +1,19 @@
+{% extends "newznab-base.html" %}
+{% block newznab_content %}
+{% macro item(i) -%}
+      <div class="coming_ep">
+        <h2>
+          <a href="{{ url }}details/{{i.guid}}" target="_blank">{{ i.name }}</a>
+        </h2>
+        Poster: {{ i.fromname }}
+      </div>
+      
+{%- endmacro %}
+  <div id="newz_content">
+    <div id="recent">{% if newznab|length %}
+      {% for show in newznab %}
+      {{item(show)}}
+      {% endfor %}
+    {% endif %}</div>
+  </div>
+{% endblock %}

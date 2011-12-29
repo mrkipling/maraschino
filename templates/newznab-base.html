@@ -1,0 +1,26 @@
+{% if newznab %}
+
+<div id="newznab" class="module" data-module="newznab">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2 class="title">{% block spotweb_title %}Newznab{% endblock %}</h2>
+
+  <ul class="menu">
+    <li class="series" title="View Series"><span>Series</span></li>
+    <li class="movies" title="View Movies"><span>Movies</span></li>
+    <li class="home" title="Go Back"><span>Home</span></li>
+  </ul>
+  {% block newznab_content %}{% endblock %}
+  
+</div>
+
+{% else %}
+
+<div class="placeholder" data-module="newznab">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+  <h2>Newznab</h2>
+</div>
+
+{% endif %}
