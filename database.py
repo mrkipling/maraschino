@@ -8,7 +8,7 @@ from settings import *
 
 # check if database is given @ commandline
 if sys.argv[1:]:
-    opts, args = getopt.getopt(sys.argv[1:],':',['database='])
+    opts, args = getopt.getopt(sys.argv[1:], "qp::", ['quiet', 'port=', 'database='])
 
     for o, a in opts:
         # check for development or cherrypy server
