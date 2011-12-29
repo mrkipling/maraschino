@@ -47,7 +47,7 @@ def xhr_newznab():
     
 @app.route('/newznab/series')
 @requires_auth
-def spot_series():
+def newznab_series():
   try:
     url = '%s&t=tvsearch&cat=5000&o=json&limit=%s' % (newznab_url(), get_setting_value('newznab_items'))
     result = urllib.urlopen(url).read()
@@ -61,7 +61,7 @@ def spot_series():
   
 @app.route('/newznab/movies')
 @requires_auth
-def spot_movies():
+def newznab_movies():
   try:
     url = '%s&t=tvsearch&cat=2000&o=json&limit=%s' % (newznab_url(), get_setting_value('newznab_items'))
     result = urllib.urlopen(url).read()
@@ -72,3 +72,21 @@ def spot_movies():
 #  if newznab[].rfind('ID') >= 0:
   return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
 #  return ''
+
+@app.route('/newznab/search')
+@requires_auth
+def newznab_search():
+  # Loads the search page
+  return render_template('newznab-search.html',)
+  
+@app.route('/newznab/search/?term=<query>')
+def newznab_query(query):
+  try:
+    url = '%s&t=tvsearch&cat=2000&o=json&limit=%s&q=%s' % (newznab_url(), get_setting_value('newznab_items'), query)
+    result = urllib.urlopen(url).read()
+    newznab = json.JSONDecoder().decode(result)
+
+  except:
+    raise Exception
+
+  return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)

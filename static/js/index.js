@@ -623,6 +623,13 @@ $(document).ready(function() {
     });
   });
   
+  // View search
+  $('body').delegate('#newznab .menu .search', 'click', function(){
+    $.get('/newznab/search', function(data){
+      $('#newznab').replaceWith(data);
+    });
+  });
+  
   // View series
   $('body').delegate('#newznab .menu .series', 'click', function(){
     $.get('/newznab/series', function(data){
