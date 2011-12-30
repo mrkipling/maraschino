@@ -617,28 +617,28 @@ $(document).ready(function() {
   /******      NEWZNAB              *******/
 
   // View Home
-  $('body').delegate('#newznab .menu .home', 'click', function(){
+  $(document).on('click', '#newznab .menu .home', 'click', function(){
     $.get('/xhr/newznab', function(data){
       $('#newznab').replaceWith(data);
     });
   });
   
   // View search
-  $('body').delegate('#newznab .menu .search', 'click', function(){
+  $(document).on('click', '#newznab .menu .search', 'click', function(){
     $.get('/newznab/search', function(data){
       $('#newznab').replaceWith(data);
     });
   });
   
   // View series
-  $('body').delegate('#newznab .menu .series', 'click', function(){
+  $(document).on('click', '#newznab .menu .series', 'click', function(){
     $.get('/newznab/series', function(data){
       $('#newznab').replaceWith(data);
     });
   });
   
   // View Movies
-  $('body').delegate('#newznab .menu .movies', 'click', function(){
+  $(document).on('click', '#newznab .menu .movies', 'click', function(){
     $.get('/newznab/movies', function(data){
       $('#newznab').replaceWith(data);
     });

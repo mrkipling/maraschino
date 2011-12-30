@@ -4,12 +4,14 @@
 
   #newz_content {
     max-height: 264px;
+    width: 100%;
     overflow: auto;
   }
   
   .menu {
     .search span {
       background-image: url(/static/images/search.png);
+      background-size: 16px;
     }
     .series span {
       background-image: url(/static/images/tv.png);
@@ -28,12 +30,7 @@
     overflow: hidden;
     
     h2 {
-      position: absolute;
-      top: 0;
-      max-width: 70%;
-      left: 0;
       color: white;
-      font: bold 10px/12px Arial;
       background: rgb(0, 0, 0); /* fallback color */
       background: rgba(0, 0, 0, 0.5);
       padding: 5px 5px 5px 15px;
@@ -42,6 +39,10 @@
       a:hover {
         background: rgba(0, 0, 0, 0.2);
       }/**/
+    }
+    p {
+      text-align: right;
+      padding: 2px 15px 5px;
     }
   }
   
