@@ -200,3 +200,27 @@ def set_episode_status(tvdbid, season, ep):
         return 1
 
     return 0
+
+@app.route('/sickbeard/shutdown')
+def shutdown():
+    try:
+        url = '%s/?cmd=sb.shutdown' %(sickbeard_url())
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+
+    except:
+        raise Exception
+
+    return sickbeard['message']
+
+@app.route('/sickbeard/restart')
+def restart():
+    try:
+        url = '%s/?cmd=sb.restart' %(sickbeard_url())
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+
+    except:
+        raise Exception
+
+    return sickbeard['message']
