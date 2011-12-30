@@ -224,3 +224,39 @@ def restart():
         raise Exception
 
     return sickbeard['message']
+    
+@app.route('/sickbeard/search/')
+def search():
+    from flask import request
+    sickbeard = {}
+    params = ''
+    try:
+        params = '&name=%s' % (request.args['name'])
+    except:
+        pass
+    try:
+        params = '&tvdbid=%s' % (request.args['tvdbid'])
+    except:
+        pass
+    try:
+        params = '&lang=%s' % (request.args['lang'])
+    except:
+        pass
+
+    if params is not '':
+        try:
+            url = '%s/?cmd=sb.searchtvdb%s' %(sickbeard_url(), params)
+            result = urllib.urlopen(url).read()
+            sickbeard = json.JSONDecoder().decode(result)
+            sickbeard = sickbeard['data']['results']
+        except:
+            sickbeard = 'false'
+    else:
+        sickbeard = 'false'
+    
+#     print sickbeard
+    
+    return render_template('sickbeard-search.html',
+        data = sickbeard,
+        sickbeard = 'results',
+    )
