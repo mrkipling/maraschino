@@ -10,10 +10,16 @@
     <li class="movies" title="View Movies"><span>Movies</span></li>
     <li class="home" title="Go Back"><span>Home</span></li>
   </ul>
-  <div id="newz_content">
-    <form action="" method="post">
-      <input type="text" name="term" />
-      <input input type="submit" value="Search!" />
+  <div id="newz_search">
+    <form method="" action="">
+      <div class="formrow">
+        <label for="id_query">Query</label>
+        <input id="id_query" name="query" type="text" value="" />
+      </div>
+      <div class="choices">
+        <div class="save">Search</div>
+        <div class="cancel">Cancel</div>
+      </div>
     </form>
   </div>
 </div>

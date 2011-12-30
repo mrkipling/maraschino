@@ -9,6 +9,9 @@
     </div>  
   {%- endmacro %}
   <div id="newz_content">
+    {% if message %}
+    <h3> {{message}} </h3>
+    {% endif %}
     <div id="recent">
     {% if newznab|length %}
       {% for show in newznab %}

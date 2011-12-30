@@ -644,7 +644,28 @@ $(document).ready(function() {
     });
   });
   
-  /******  END SICKBEARD Functions  *******/
+  // Submit Search query
+
+  $('#newz_search .choices .save').live('click', function() {
+    var form = $('#newz_search form');
+    
+    var query = form.serialize();
+    $.post('/newznab/query', query, function(data) {
+      if ($(data).attr('id') === 'newznab') {
+        $('#newznab').replaceWith(data);
+      }
+    });
+  });
+  
+  // Cancel Search query
+  $('#newz_search .choices .cancel').live('click', function() {
+    $.get('/xhr/newznab', function(data){
+      $('#newznab').replaceWith(data);
+    });
+  });
+  
+  /******   END NEWZNAB Functions   *******/
+  
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');

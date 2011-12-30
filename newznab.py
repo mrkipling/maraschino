@@ -1,7 +1,9 @@
 # Author: J. van Emden
 #
 # ToDo:
-# - implement search function
+# - implement search function:
+#   - Select catergory to search in (currently cat=2000 is used)
+#   - Disable enter in form
 # - ability to handle multiple newznab accounts
 #
 from flask import Flask, jsonify, render_template
@@ -30,63 +32,87 @@ def newznab_url_no_api():
 @app.route('/xhr/newznab')
 @requires_auth
 def xhr_newznab():
-  try:
-    url = '%s&t=tvsearch&cat=5000,2000&o=json&limit=%s' % (newznab_url(), get_setting_value('newznab_items'))
-    result = urllib.urlopen(url).read()
-    newznab = json.JSONDecoder().decode(result)
-  except:
-    raise Exception
+    try:
+        url = '%s&t=tvsearch&cat=5000,2000&o=json&limit=%s' % (newznab_url(), get_setting_value('newznab_items'))
+        result = urllib.urlopen(url).read()
+        newznab = json.JSONDecoder().decode(result)
+    except:
+        raise Exception
     
-  #if newznab.rfind('ID') < 0:
-  #    newznab = ''
+    #if newznab.rfind('ID') < 0:
+    #    newznab = ''
 
-  # spot info @ ?page=getspot&messageid=
-  # nzb.su info @ /details/<guid>
-  #
-  return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
+    # spot info @ ?page=getspot&messageid=
+    # nzb.su info @ /details/<guid>
+    #
+    return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
     
 @app.route('/newznab/series')
 @requires_auth
 def newznab_series():
-  try:
-    url = '%s&t=tvsearch&cat=5000&o=json&limit=%s' % (newznab_url(), get_setting_value('newznab_items'))
-    result = urllib.urlopen(url).read()
-    newznab = json.JSONDecoder().decode(result)
-  except:
-    raise Exception
+    try:
+        url = '%s&t=tvsearch&cat=5000&o=json&limit=%s' % (newznab_url(), get_setting_value('newznab_items'))
+        result = urllib.urlopen(url).read()
+        newznab = json.JSONDecoder().decode(result)
+    except:
+        raise Exception
 
-#  if newznab[].rfind('ID') >= 0:
-  return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
-#  return ''
+    #  if newznab[].rfind('ID') >= 0:
+    return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
+    #  return ''
   
 @app.route('/newznab/movies')
 @requires_auth
 def newznab_movies():
-  try:
-    url = '%s&t=tvsearch&cat=2000&o=json&limit=%s' % (newznab_url(), get_setting_value('newznab_items'))
-    result = urllib.urlopen(url).read()
-    newznab = json.JSONDecoder().decode(result)
-  except:
-    raise Exception
+    try:
+        url = '%s&t=tvsearch&cat=2000&o=json&limit=%s' % (newznab_url(), get_setting_value('newznab_items'))
+        result = urllib.urlopen(url).read()
+        newznab = json.JSONDecoder().decode(result)
+    except:
+        raise Exception
 
-#  if newznab[].rfind('ID') >= 0:
-  return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
-#  return ''
+#    if newznab[].rfind('ID') >= 0:
+    return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
+#    return ''
 
 @app.route('/newznab/search')
 @requires_auth
 def newznab_search():
-  # Loads the search page
-  return render_template('newznab-search.html',)
+    # Loads the search page
+    return render_template('newznab-search.html',)
   
-@app.route('/newznab/search/?term=<query>')
-def newznab_query(query):
-  try:
-    url = '%s&t=tvsearch&cat=2000&o=json&limit=%s&q=%s' % (newznab_url(), get_setting_value('newznab_items'), query)
-    result = urllib.urlopen(url).read()
-    newznab = json.JSONDecoder().decode(result)
+@app.route('/newznab/query', methods=['POST'])
+@requires_auth
+def newznab_query():
+    # Fetch the query from the post results
+    try:
+        newz_query = request.form['query']
+        
+    except:
+        return jsonify({ 'status': 'error' })
+    
+    if newz_query == '':
+        message = 'Empty query submitted!'
+        
+        return render_template('newznab-message.html', message = message, )
+        
+    else:
+        # Query the results
+        try:
+            url = '%s&t=tvsearch&cat=2000&o=json&limit=%s&q=%s' % (newznab_url(), get_setting_value('newznab_items'), newz_query)
+            result = urllib.urlopen(url).read()
+            newznab = json.JSONDecoder().decode(result)
 
-  except:
-    raise Exception
-
-  return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
+        except:
+            raise Exception
+        
+        message = 'Results for \'%s\':' % (newz_query)
+        
+        if result == '[]':
+            # Empty results
+            error = 'No results found'
+            print error
+            return render_template('newznab-message.html', message = message, error = error,)
+        else:
+            # Results found
+            return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab, message = message,)
