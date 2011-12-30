@@ -260,3 +260,16 @@ def search():
         data = sickbeard,
         sickbeard = 'results',
     )
+
+@app.route('/sickbeard/add_show/<tvdbid>')
+def add_show(tvdbid):
+    try:
+        url = '%s/?cmd=show.addnew&tvdbid=%s' %(sickbeard_url(), tvdbid)
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+
+    except:
+        raise Exception
+
+    return sickbeard['message']
+    

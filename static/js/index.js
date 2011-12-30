@@ -648,6 +648,8 @@ $(document).ready(function() {
     });
   });
   
+  //Load search results
+  
   $(document).on('keypress', '#sickbeard #search #value', function(e){
     if(e.which == 13){
       e.preventDefault();
@@ -673,6 +675,19 @@ $(document).ready(function() {
 	    alert('Could not reach maraschino.');
       });
     }
+  });
+
+  // Add show function
+  
+  $(document).on('click', '#sickbeard #search #result tr', function(){
+    alert($(this).attr('tvdbid'));
+    $.get('/sickbeard/add_show/'+$(this).attr('tvdbid'))
+    .success(function(data){
+      alert(data);
+    })
+    .error(function(data){
+      alert('Could not reach maraschino.');
+    });
   });
 
 
