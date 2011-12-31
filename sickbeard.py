@@ -200,3 +200,76 @@ def set_episode_status(tvdbid, season, ep):
         return 1
 
     return 0
+
+@app.route('/sickbeard/shutdown')
+def shutdown():
+    try:
+        url = '%s/?cmd=sb.shutdown' %(sickbeard_url())
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+
+    except:
+        raise Exception
+
+    return sickbeard['message']
+
+@app.route('/sickbeard/restart')
+def restart():
+    try:
+        url = '%s/?cmd=sb.restart' %(sickbeard_url())
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+
+    except:
+        raise Exception
+
+    return sickbeard['message']
+    
+@app.route('/sickbeard/search/')
+def search():
+    from flask import request
+    sickbeard = {}
+    params = ''
+    try:
+        params = '&name=%s' % (request.args['name'])
+    except:
+        pass
+    try:
+        params = '&tvdbid=%s' % (request.args['tvdbid'])
+    except:
+        pass
+    try:
+        params = '&lang=%s' % (request.args['lang'])
+    except:
+        pass
+
+    if params is not '':
+        try:
+            url = '%s/?cmd=sb.searchtvdb%s' %(sickbeard_url(), params)
+            result = urllib.urlopen(url).read()
+            sickbeard = json.JSONDecoder().decode(result)
+            sickbeard = sickbeard['data']['results']
+        except:
+            sickbeard = 'false'
+    else:
+        sickbeard = 'false'
+    
+#     print sickbeard
+    
+    return render_template('sickbeard-search.html',
+        data = sickbeard,
+        sickbeard = 'results',
+    )
+
+@app.route('/sickbeard/add_show/<tvdbid>')
+def add_show(tvdbid):
+    try:
+        url = '%s/?cmd=show.addnew&tvdbid=%s' %(sickbeard_url(), tvdbid)
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+
+    except:
+        raise Exception
+
+    return sickbeard['message']
+    

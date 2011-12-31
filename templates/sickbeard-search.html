@@ -1,0 +1,50 @@
+{% extends "sickbeard-base.html" %}
+
+{% block sickbeard_content %}
+
+<div id="search">
+  <form>
+    <input id="value" type="search" size="40" />
+    <select id="tvdbid">
+      <option value="name">name</option>
+      <option value="tvdbid">tvdbid</option>
+    </select>
+    <select id="lang">
+      <option value="">Language</option>
+      <option value="en">en</option>
+      <option value="zh">zh</option>
+      <option value="hr">hr</option>
+      <option value="cs">cs</option>
+      <option value="da">da</option>
+      <option value="nl">nl</option>
+      <option value="fi">fi</option>
+      <option value="fr">fr</option>
+      <option value="de">de</option>
+      <option value="el">el</option>
+      <option value="he">he</option>
+      <option value="hu">hu</option>
+      <option value="it">it</option>
+      <option value="ja">ja</option>
+      <option value="ko">ko</option>
+      <option value="no">no</option>
+      <option value="pl">pl</option>
+      <option value="pt">pt</option>
+      <option value="ru">ru</option>
+      <option value="sl">sl</option>
+      <option value="es">es</option>
+      <option value="sv">sv</option>
+      <option value="tr">tr</option>
+    </select>
+  </form>
+  <div id="result">
+    {% if data %}
+      <table class="tablesorter">
+      {% for item in data %}
+        <tr tvdbid="{{item.tvdbid}}"><td>{{ item.name }} - {{item.first_aired}}</td></tr>
+      {% endfor %}
+      </table>
+    {% endif %}  
+  </div>
+</div>
+
+{% endblock %}
