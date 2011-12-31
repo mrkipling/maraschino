@@ -48,6 +48,12 @@ $(document).ready(function() {
     return valid;
   }
 
+  function popup_message(message) {
+    var popup = $('<div id="popup_message" class="dialog"><div class="close">x</div><p>' + message + '</p><div class="choices"><div class="cancel">OK</div></div></div>');
+    $('body').append(popup);
+    popup.showPopup({ dispose: true });
+  };
+
   // get/poll module
 
   function get_module(module, customsettings) {
@@ -480,7 +486,7 @@ $(document).ready(function() {
 	}
       })
       .error(function(){
-	alert('Could not reach Sick-Beard.');
+	popup_message('Could not reach Sick-Beard.');
       });
   });
 
@@ -617,10 +623,10 @@ $(document).ready(function() {
   $(document).on('click', '#sickbeard div.powerholder .power', function(){
     $.get('/sickbeard/shutdown')
     .success(function(data){
-      alert(data);
+      popup_message(data);
     })
     .error(function(){
-      alert('Could not reach Sickbeard.');
+      popup_message('Could not reach Sickbeard.');
     });
   });
 
@@ -629,10 +635,10 @@ $(document).ready(function() {
   $(document).on('click', '#sickbeard div.powerholder .restart', function(){
     $.get('/sickbeard/restart')
     .success(function(data){
-      alert(data);
+      popup_message(data);
     })
     .error(function(){
-      alert('Could not reach Sickbeard.');
+      popup_message('Could not reach Sickbeard.');
     });
   });
 
@@ -644,7 +650,7 @@ $(document).ready(function() {
       $('#sickbeard').replaceWith(data);
     })
     .error(function(){
-      alert('Could not reach maraschino.');
+      popup_message('Could not reach Maraschino.');
     });
   });
 
@@ -672,7 +678,7 @@ $(document).ready(function() {
         $('#sickbeard').replaceWith(data);
       })
       .error(function(){
-	    alert('Could not reach maraschino.');
+	popup_message('Could not reach Maraschino.');
       });
     }
   });
@@ -682,10 +688,10 @@ $(document).ready(function() {
   $(document).on('click', '#sickbeard #search #result tr', function(){
     $.get('/sickbeard/add_show/'+$(this).attr('tvdbid'))
     .success(function(data){
-      alert(data);
+      popup_message(data);
     })
     .error(function(data){
-      alert('Could not reach maraschino.');
+      popup_message('Could not reach Maraschino.');
     });
   });
 
