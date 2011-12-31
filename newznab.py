@@ -19,7 +19,7 @@ def newznab_url():
 #    if using_auth():
 #        return 'http://%s%s' % (login_string(), url)
         
-    return 'http://%s' % (url)
+    return url
     
 def newznab_url_no_api():
     url = '%s/' % get_setting_value('newznab_url')
@@ -27,7 +27,7 @@ def newznab_url_no_api():
 #    if using_auth():
 #        return 'http://%s%s' % (login_string(), url)
 
-    return 'http://%s' % (url)
+    return url
 
 @app.route('/xhr/newznab')
 @requires_auth

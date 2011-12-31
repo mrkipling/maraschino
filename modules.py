@@ -181,13 +181,13 @@ AVAILABLE_MODULES = [
         'name': 'newznab',
         'label': 'Newznab',
         'description': 'Recent items from newznab within Maraschino',
-        'static': False,
+        'static': True,
         'poll': 300,
         'delay': 0,
         'settings': [
             {
                 'key': 'newznab_url',
-                'value': '',
+                'value': 'http://',
                 'description': 'URL to newznab',
             },
             {
