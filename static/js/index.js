@@ -612,6 +612,85 @@ $(document).ready(function() {
     });
   });
 
+  //Shutoff function
+
+  $(document).on('click', '#sickbeard div.powerholder .power', function(){
+    $.get('/sickbeard/shutdown')
+    .success(function(data){
+      alert(data);
+    })
+    .error(function(){
+	  alert('Could not reach Sickbeard.');
+    });
+  });
+  
+  // Restart Function
+  
+  $(document).on('click', '#sickbeard div.powerholder .restart', function(){
+    $.get('/sickbeard/restart')
+    .success(function(data){
+      alert(data);
+    })
+    .error(function(){
+	  alert('Could not reach Sickbeard.');
+    });
+  });
+
+  // Load search template
+  
+  $(document).on('click', '#sickbeard div.powerholder .add', function(){
+    $.get('/sickbeard/search/')
+    .success(function(data){
+      $('#sickbeard').replaceWith(data);
+    })
+    .error(function(){
+	  alert('Could not reach maraschino.');
+    });
+  });
+  
+  //Load search results
+  
+  $(document).on('keypress', '#sickbeard #search #value', function(e){
+    if(e.which == 13){
+      e.preventDefault();
+      var name = $('#sickbeard #search #value').attr('value');
+      var type = $('#sickbeard #search #tvdbid').attr('value');
+      var lang = $('#sickbeard #search #lang').attr('value');
+      params = ''
+      if(name != ''){
+        if(type == 'name'){
+          params = 'name='+name;
+        } else {
+          params = 'tvdbid='+name;
+        }
+        if(lang != ''){
+          params = params + '&lang='+lang;
+        }
+      }
+      $.get('/sickbeard/search/?'+params)
+      .success(function(data){
+        $('#sickbeard').replaceWith(data);
+      })
+      .error(function(){
+	    alert('Could not reach maraschino.');
+      });
+    }
+  });
+
+  // Add show function
+  
+  $(document).on('click', '#sickbeard #search #result tr', function(){
+    alert($(this).attr('tvdbid'));
+    $.get('/sickbeard/add_show/'+$(this).attr('tvdbid'))
+    .success(function(data){
+      alert(data);
+    })
+    .error(function(data){
+      alert('Could not reach maraschino.');
+    });
+  });
+
+
   /******  END SICKBEARD Functions  *******/
 
 
