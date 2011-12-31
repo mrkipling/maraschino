@@ -680,7 +680,6 @@ $(document).ready(function() {
   // Add show function
 
   $(document).on('click', '#sickbeard #search #result tr', function(){
-    alert($(this).attr('tvdbid'));
     $.get('/sickbeard/add_show/'+$(this).attr('tvdbid'))
     .success(function(data){
       alert(data);
