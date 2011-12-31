@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template, request
 from database import db_session
-import hashlib, json, jsonrpclib, random, urllib
+import hashlib, json, jsonrpclib, random, urllib, getopt
 
 app = Flask(__name__)
 
@@ -71,5 +71,37 @@ def index():
 def shutdown_session(exception=None):
     db_session.remove()
 
-if __name__ == '__main__':
-    app.run(debug=True, port=PORT, host='0.0.0.0')
+# check for commandline options
+# defaults
+# db is handled in database.py
+dev_server = True
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], "qp::", ['quiet', 'port=', 'database='])
+except getopt.GetoptError:
+    print "Available options: --quiet, --port, --database"
+    sys.exit()
+
+for o, a in opts:
+    # check for development or cherrypy server
+    if o in ('-q', '--quiet'):
+        dev_server = False
+
+    # check if port is given
+    if o in ('-p', '--port'):
+        PORT=int(a)
+        CHERRYPY_PORT=int(a)
+
+if dev_server:
+    if __name__ == '__main__':
+        app.run(debug=True, port=PORT, host='0.0.0.0')
+else:
+    from cherrypy import wsgiserver
+    d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
+    server = wsgiserver.CherryPyWSGIServer(('0.0.0.0', CHERRYPY_PORT), d)
+
+    if __name__ == '__main__':
+       try:
+          server.start()
+       except KeyboardInterrupt:
+          server.stop()
