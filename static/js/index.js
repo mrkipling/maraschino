@@ -620,36 +620,36 @@ $(document).ready(function() {
       alert(data);
     })
     .error(function(){
-	  alert('Could not reach Sickbeard.');
+      alert('Could not reach Sickbeard.');
     });
   });
-  
+
   // Restart Function
-  
+
   $(document).on('click', '#sickbeard div.powerholder .restart', function(){
     $.get('/sickbeard/restart')
     .success(function(data){
       alert(data);
     })
     .error(function(){
-	  alert('Could not reach Sickbeard.');
+      alert('Could not reach Sickbeard.');
     });
   });
 
   // Load search template
-  
+
   $(document).on('click', '#sickbeard div.powerholder .add', function(){
     $.get('/sickbeard/search/')
     .success(function(data){
       $('#sickbeard').replaceWith(data);
     })
     .error(function(){
-	  alert('Could not reach maraschino.');
+      alert('Could not reach maraschino.');
     });
   });
-  
+
   //Load search results
-  
+
   $(document).on('keypress', '#sickbeard #search #value', function(e){
     if(e.which == 13){
       e.preventDefault();
@@ -678,7 +678,7 @@ $(document).ready(function() {
   });
 
   // Add show function
-  
+
   $(document).on('click', '#sickbeard #search #result tr', function(){
     alert($(this).attr('tvdbid'));
     $.get('/sickbeard/add_show/'+$(this).attr('tvdbid'))
