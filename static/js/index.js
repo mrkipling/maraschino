@@ -534,10 +534,11 @@ $(document).ready(function() {
   $('#sickbeard .menu .history').live('click', function(){
     $.get('/sickbeard/history/30', function(data){
       $('#sickbeard').html($(data).html());
+      $('#sickbeard .menu').prepend('<li class="snatched" title="View snatched"><span>Snatched</span></li>');
     });
   });
 
-  $('#sickbeard .history ul.toggle').live('click', function(){
+  $('#sickbeard .menu .snatched').live('click', function(){
     $('#sickbeard .history .Snatched').toggle();
     $(this).toggleClass('active');
   });
