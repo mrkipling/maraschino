@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template, request
 from database import db_session
-import hashlib, json, jsonrpclib, random, urllib
+import hashlib, json, jsonrpclib, random, urllib, os, sys
 
 app = Flask(__name__)
 
@@ -70,6 +70,29 @@ def index():
 @app.teardown_request
 def shutdown_session(exception=None):
     db_session.remove()
+
+## check if database exists or create it
+try:
+    open(DATABASE)
+except IOError as e:
+    try:
+        # check if path exists
+        dbpath = os.path.dirname(DATABASE)
+        if not os.path.exists(dbpath):
+            try:
+                os.makedirs(dbpath)
+            except:
+               print 'Could not create %s, check settings.py.'% (DATABASE)
+               quit()
+
+        # create db
+        from database import *
+    except:
+        print 'You need to specify a database in settings.py.'
+        quit()
+
+    init_db()
+    print "Database successfully initialised."
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT, host='0.0.0.0')
