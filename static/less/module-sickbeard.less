@@ -499,20 +499,29 @@
 
   #search {
     width: 100%;
+
     form {
       text-align: center;
+
+      input[type=search] {
+        border: none;
+        padding: 2px 5px;
+        width: 250px;
+        .border-radius(2px);
+      }
     }
 
     div#result{
-      width: 100%;
-      text-align: justify;
-      padding-left: 20px;
+      margin: 10px 15px 0;
 
       table {
         tr {
           &:hover{
             background: url(/static/images/alpha/fff_20.png);
             cursor: pointer;
+          }
+          th, td {
+            padding: 3px 0;
           }
         }
       }
