@@ -1,6 +1,10 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+try:
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import scoped_session, sessionmaker
+    from sqlalchemy.ext.declarative import declarative_base
+except ImportError:
+    print 'flask-sqlalchemy is not installed (hint: easy_install flask-sqlalchemy)'
+    quit()
 
 from settings import *
 
