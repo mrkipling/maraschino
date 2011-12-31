@@ -36,6 +36,8 @@ def xhr_newznab():
         url = '%s&t=tvsearch&cat=5000,2000&o=json&limit=%s' % (newznab_url(), get_setting_value('newznab_items'))
         result = urllib.urlopen(url).read()
         newznab = json.JSONDecoder().decode(result)
+        print newznab
+    
     except:
         raise Exception
     
@@ -78,8 +80,23 @@ def newznab_movies():
 @app.route('/newznab/search')
 @requires_auth
 def newznab_search():
+    # Category list:
+    categories = [ {'id': '2000', 'name': 'Movies'},
+                   {'id': '2010', 'name': 'Movies - Foreign'},
+                   {'id': '2020', 'name': 'Movies - Other'},
+                   {'id': '2030', 'name': 'Movies - SD'},
+                   {'id': '2040', 'name': 'Movies - HD'},
+                   {'id': '2060', 'name': 'Movies - Sports'},
+                   {'id': '5000', 'name': 'TV'},
+                   {'id': '5010', 'name': 'TV - Foreign'},
+                   {'id': '5030', 'name': 'TV - SD'},
+                   {'id': '5040', 'name': 'TV - HD'},
+                   {'id': '5050', 'name': 'TV - Other'},
+                   {'id': '5060', 'name': 'TV - Sports'},
+                   {'id': '5070', 'name': 'TV - Anime'}]
+
     # Loads the search page
-    return render_template('newznab-search.html', newznab = 'search',)
+    return render_template('newznab-search.html', newznab = 'search', categories = categories,)
   
 @app.route('/newznab/query', methods=['POST'])
 @requires_auth
