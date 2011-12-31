@@ -48,6 +48,12 @@ $(document).ready(function() {
     return valid;
   }
 
+  function popup_message(message) {
+    var popup = $('<div id="popup_message" class="dialog"><div class="close">x</div><p>' + message + '</p><div class="choices"><div class="cancel">OK</div></div></div>');
+    $('body').append(popup);
+    popup.showPopup({ dispose: true });
+  };
+
   // get/poll module
 
   function get_module(module, customsettings) {
@@ -480,7 +486,7 @@ $(document).ready(function() {
 	}
       })
       .error(function(){
-	alert('Could not reach Sick-Beard.');
+	popup_message('Could not reach Sick-Beard.');
       });
   });
 
@@ -611,6 +617,84 @@ $(document).ready(function() {
       $('#sickbeard').replaceWith(data);
     });
   });
+
+  //Shutoff function
+
+  $(document).on('click', '#sickbeard div.powerholder .power', function(){
+    $.get('/sickbeard/shutdown')
+    .success(function(data){
+      popup_message(data);
+    })
+    .error(function(){
+      popup_message('Could not reach Sickbeard.');
+    });
+  });
+
+  // Restart Function
+
+  $(document).on('click', '#sickbeard div.powerholder .restart', function(){
+    $.get('/sickbeard/restart')
+    .success(function(data){
+      popup_message(data);
+    })
+    .error(function(){
+      popup_message('Could not reach Sickbeard.');
+    });
+  });
+
+  // Load search template
+
+  $(document).on('click', '#sickbeard div.powerholder .add', function(){
+    $.get('/sickbeard/search/')
+    .success(function(data){
+      $('#sickbeard').replaceWith(data);
+    })
+    .error(function(){
+      popup_message('Could not reach Maraschino.');
+    });
+  });
+
+  //Load search results
+
+  $(document).on('keypress', '#sickbeard #search #value', function(e){
+    if(e.which == 13){
+      e.preventDefault();
+      var name = $('#sickbeard #search #value').attr('value');
+      var type = $('#sickbeard #search #tvdbid').attr('value');
+      var lang = $('#sickbeard #search #lang').attr('value');
+      params = ''
+      if(name != ''){
+        if(type == 'name'){
+          params = 'name='+name;
+        } else {
+          params = 'tvdbid='+name;
+        }
+        if(lang != ''){
+          params = params + '&lang='+lang;
+        }
+      }
+      $.get('/sickbeard/search/?'+params)
+      .success(function(data){
+        $('#sickbeard').replaceWith(data);
+      })
+      .error(function(){
+	popup_message('Could not reach Maraschino.');
+      });
+    }
+  });
+
+  // Add show function
+
+  $(document).on('click', '#sickbeard #search #result tr', function(){
+    $.get('/sickbeard/add_show/'+$(this).attr('tvdbid'))
+    .success(function(data){
+      popup_message(data);
+    })
+    .error(function(data){
+      popup_message('Could not reach Maraschino.');
+    });
+  });
+
 
   /******  END SICKBEARD Functions  *******/
 
