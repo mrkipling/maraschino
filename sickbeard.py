@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 import json, jsonrpclib, urllib
 
 from maraschino import app
@@ -227,17 +227,19 @@ def restart():
 
 @app.route('/sickbeard/search/')
 def search():
-    from flask import request
     sickbeard = {}
     params = ''
+
     try:
         params = '&name=%s' % (request.args['name'])
     except:
         pass
+
     try:
         params = '&tvdbid=%s' % (request.args['tvdbid'])
     except:
         pass
+
     try:
         params = '&lang=%s' % (request.args['lang'])
     except:
@@ -249,12 +251,12 @@ def search():
             result = urllib.urlopen(url).read()
             sickbeard = json.JSONDecoder().decode(result)
             sickbeard = sickbeard['data']['results']
-        except:
-            sickbeard = 'false'
-    else:
-        sickbeard = 'false'
 
-#     print sickbeard
+        except:
+            sickbeard = None
+
+    else:
+        sickbeard = None
 
     return render_template('sickbeard-search.html',
         data = sickbeard,
