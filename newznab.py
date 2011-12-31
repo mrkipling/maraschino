@@ -80,19 +80,19 @@ def newznab_movies():
 @requires_auth
 def newznab_search():
     # Category list:
-    categories = [ {'id': '2000', 'name': 'Movies'},
-                   {'id': '2010', 'name': 'Movies - Foreign'},
-                   {'id': '2020', 'name': 'Movies - Other'},
-                   {'id': '2030', 'name': 'Movies - SD'},
-                   {'id': '2040', 'name': 'Movies - HD'},
-                   {'id': '2060', 'name': 'Movies - Sports'},
-                   {'id': '5000', 'name': 'TV'},
-                   {'id': '5010', 'name': 'TV - Foreign'},
-                   {'id': '5030', 'name': 'TV - SD'},
-                   {'id': '5040', 'name': 'TV - HD'},
-                   {'id': '5050', 'name': 'TV - Other'},
-                   {'id': '5060', 'name': 'TV - Sports'},
-                   {'id': '5070', 'name': 'TV - Anime'}]
+    categories = [ {'id': 2000, 'name': 'Movies'},
+                   {'id': 2010, 'name': 'Movies - Foreign'},
+                   {'id': 2020, 'name': 'Movies - Other'},
+                   {'id': 2030, 'name': 'Movies - SD'},
+                   {'id': 2040, 'name': 'Movies - HD'},
+                   {'id': 2060, 'name': 'Movies - Sports'},
+                   {'id': 5000, 'name': 'TV'},
+                   {'id': 5010, 'name': 'TV - Foreign'},
+                   {'id': 5030, 'name': 'TV - SD'},
+                   {'id': 5040, 'name': 'TV - HD'},
+                   {'id': 5050, 'name': 'TV - Other'},
+                   {'id': 5060, 'name': 'TV - Sports'},
+                   {'id': 5070, 'name': 'TV - Anime'}]
 
     # Loads the search page
     return render_template('newznab-search.html', newznab = 'search', categories = categories,)
@@ -100,10 +100,24 @@ def newznab_search():
 @app.route('/newznab/query', methods=['POST'])
 @requires_auth
 def newznab_query():
+    categories = [ {'id': 2000, 'name': 'Movies'},
+                   {'id': 2010, 'name': 'Movies - Foreign'},
+                   {'id': 2020, 'name': 'Movies - Other'},
+                   {'id': 2030, 'name': 'Movies - SD'},
+                   {'id': 2040, 'name': 'Movies - HD'},
+                   {'id': 2060, 'name': 'Movies - Sports'},
+                   {'id': 5000, 'name': 'TV'},
+                   {'id': 5010, 'name': 'TV - Foreign'},
+                   {'id': 5030, 'name': 'TV - SD'},
+                   {'id': 5040, 'name': 'TV - HD'},
+                   {'id': 5050, 'name': 'TV - Other'},
+                   {'id': 5060, 'name': 'TV - Sports'},
+                   {'id': 5070, 'name': 'TV - Anime'}]
+
     # Fetch the query from the post results
     try:
         newz_query = request.form['query']
-        newz_cat = request.form['cat']
+        newz_cat = int(request.form['cat'])
         
     except:
         return jsonify({ 'status': 'error' })
@@ -111,11 +125,15 @@ def newznab_query():
     if newz_query == '':
         # Empty query
         return render_template('newznab-search.html', newznab = 'Search error', message = 'Empty query submitted!', )
-    
-    if newz_cat == '':
-        newz_cat = '2000,5000'
         
     else:
+        if newz_cat == '':
+            newz_cat = '2000,5000'
+        
+        for cat in categories:
+            if cat['id'] == newz_cat:
+                newz_name = cat['name']
+        
         # Query the results
         try:
             url = '%s&t=tvsearch&o=json&limit=%s&q=%s&cat=%s' % (newznab_url(), get_setting_value('newznab_items'), newz_query, newz_cat)
@@ -125,7 +143,7 @@ def newznab_query():
         except:
             raise Exception
         
-        message = 'Results for \'%s\':' % (newz_query)
+        message = 'Results for \'%s\' from \'%s\':' % (newz_query, newz_name)
         
         if result == '[]':
             # Empty results
@@ -133,4 +151,4 @@ def newznab_query():
             
         else:
             # Results found
-            return render_template('newznab-search.html', url = newznab_url_no_api(), newznab = 'Search results', message = message, data = newznab,)
+            return render_template('newznab-search.html', url = newznab_url_no_api(), newznab = 'Search results', message = message, data = newznab, categories = categories,)
