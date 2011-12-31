@@ -8,7 +8,7 @@
     {% set show = sickbeard[i]%}
     <ul id="{{show.tvdbid}}" class="sbshow">
       <li>
-        <img src="{{show.url}}" class="show-image" />
+        <img src="/sickbeard/get_banner/{{show.tvdbid}}" class="show-image" />
         <span class="show-name">{{ i }}</span>
         {% if show.quality=='HD' %}
         <img src="/static/images/hd-icon.png" class="hd-image"/>
