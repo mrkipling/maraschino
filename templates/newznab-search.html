@@ -1,25 +1,49 @@
-<div id="newznab" class="module" data-module="newznab">
-  <div class="module_settings"><span>Settings</span></div>
-  <div class="module_remove"><span>Remove</span></div>
-
-  <h2 class="title">{% block spotweb_title %}Newznab{% endblock %}</h2>
-
-  <ul class="menu">
-    <li class="search" title="Search"><span>Search</span></li>
-    <li class="series" title="View Series"><span>Series</span></li>
-    <li class="movies" title="View Movies"><span>Movies</span></li>
-    <li class="home" title="Go Back"><span>Home</span></li>
-  </ul>
+{% extends "newznab-base.html" %}
+{% block newznab_content %}
+  {% macro item(i) -%}
+    <div class="spot">
+      <h2>
+        <a href="{{ url }}details/{{i.guid}}" target="_blank">{{ i.name }}</a>
+      </h2>
+      <p> Poster: {{ i.fromname }} </p>
+    </div>  
+  {%- endmacro %}
   <div id="newz_search">
     <form method="" action="">
       <div class="formrow">
-        <label for="id_query">Query</label>
+        <label for="id_query">Query:</label>
         <input id="id_query" name="query" type="text" value="" />
+      </div>
+      <div class="formrow">
+        <label for="id_cat">Category:</label>
+        <select id="id_cat" name="cat">
+          <option value="2000">Movies</option>
+          <option value="2030">Movies - SD</option>
+          <option value="2040">Movies - HD</option>
+          <option value="2060">Movies - Sports</option>
+          <option value="5000">TV</option>
+          <option value="5030">TV - SD</option>
+          <option value="5040">TV - HD</option>
+          <option value="5060">TV - Sports</option>
+        </select>
       </div>
       <div class="choices">
         <div class="save">Search</div>
         <div class="cancel">Cancel</div>
       </div>
     </form>
+    <div id="results">
+      {% if message %}
+      <h3> {{message}} </h3>
+      {% endif %}
+      {% if error %}
+      <p> {{error}} </p>
+      {% endif %}
+      {% if data %}
+        {% for show in data %}
+          {{item(show)}}
+        {% endfor %}
+      {% endif %}
+    </div>
   </div>
-</div>
+{% endblock %}

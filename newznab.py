@@ -79,7 +79,7 @@ def newznab_movies():
 @requires_auth
 def newznab_search():
     # Loads the search page
-    return render_template('newznab-search.html',)
+    return render_template('newznab-search.html', newznab = 'search',)
   
 @app.route('/newznab/query', methods=['POST'])
 @requires_auth
@@ -87,19 +87,22 @@ def newznab_query():
     # Fetch the query from the post results
     try:
         newz_query = request.form['query']
+        newz_cat = request.form['cat']
         
     except:
         return jsonify({ 'status': 'error' })
     
     if newz_query == '':
-        message = 'Empty query submitted!'
-        
-        return render_template('newznab-message.html', message = message, )
+        # Empty query
+        return render_template('newznab-search.html', newznab = 'Search error', message = 'Empty query submitted!', )
+    
+    if newz_cat == '':
+        newz_cat = '2000,5000'
         
     else:
         # Query the results
         try:
-            url = '%s&t=tvsearch&cat=2000&o=json&limit=%s&q=%s' % (newznab_url(), get_setting_value('newznab_items'), newz_query)
+            url = '%s&t=tvsearch&o=json&limit=%s&q=%s&cat=%s' % (newznab_url(), get_setting_value('newznab_items'), newz_query, newz_cat)
             result = urllib.urlopen(url).read()
             newznab = json.JSONDecoder().decode(result)
 
@@ -110,9 +113,8 @@ def newznab_query():
         
         if result == '[]':
             # Empty results
-            error = 'No results found'
-            print error
-            return render_template('newznab-message.html', message = message, error = error,)
+            return render_template('newznab-search.html', newznab = 'Search error', message = message, error = 'No results found',)
+            
         else:
             # Results found
-            return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab, message = message,)
+            return render_template('newznab-search.html', url = newznab_url_no_api(), newznab = 'Search results', message = message, data = newznab,)
