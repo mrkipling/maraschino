@@ -224,7 +224,7 @@ def restart():
         raise Exception
 
     return sickbeard['message']
-    
+
 @app.route('/sickbeard/search/')
 def search():
     from flask import request
@@ -253,9 +253,9 @@ def search():
             sickbeard = 'false'
     else:
         sickbeard = 'false'
-    
+
 #     print sickbeard
-    
+
     return render_template('sickbeard-search.html',
         data = sickbeard,
         sickbeard = 'results',
@@ -272,4 +272,3 @@ def add_show(tvdbid):
         raise Exception
 
     return sickbeard['message']
-    
