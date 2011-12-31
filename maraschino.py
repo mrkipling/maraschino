@@ -49,7 +49,7 @@ def index():
     if get_setting_value('random_backgrounds') == '1':
         try:
             backgrounds = []
-            backgrounds.extend(get_file_list('static/images/backgrounds', ['.jpg', '.png']))
+            backgrounds.extend(get_file_list('static/images/backgrounds/', ['.jpg', '.png']))
             background = backgrounds[random.randrange(0, len(backgrounds))]
 
         except:
