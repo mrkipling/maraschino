@@ -36,7 +36,6 @@ def xhr_newznab():
         url = '%s&t=tvsearch&cat=5000,2000&o=json&limit=%s' % (newznab_url(), get_setting_value('newznab_items'))
         result = urllib.urlopen(url).read()
         newznab = json.JSONDecoder().decode(result)
-        print newznab
     
     except:
         raise Exception
