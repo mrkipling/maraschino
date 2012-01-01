@@ -103,9 +103,19 @@ AVAILABLE_MODULES = [
         'delay': 0,
         'settings': [
             {
-                'key': 'sabnzbd_url',
-                'value': 'http://<hostname>:<port>/api?apikey=<apikeygoeshere>',
-                'description': 'SABnzbd URL',
+                'key': 'sabnzbd_host',
+                'value': '',
+                'description': 'Hostname',
+            },
+            {
+                'key': 'sabnzbd_port',
+                'value': '',
+                'description': 'Port',
+            },
+            {
+                'key': 'sabnzbd_api',
+                'value': '',
+                'description': 'Api Key',
             },
         ]
     },
