@@ -115,7 +115,7 @@ AVAILABLE_MODULES = [
             {
                 'key': 'sabnzbd_api',
                 'value': '',
-                'description': 'Api Key',
+                'description': 'API Key',
             },
         ]
     },
