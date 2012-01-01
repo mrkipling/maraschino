@@ -72,9 +72,11 @@ def index():
 def shutdown_session(exception=None):
     db_session.remove()
 
-## check if database exists or create it
+# check if database exists or create it
+
 try:
     open(DATABASE)
+
 except IOError as e:
     try:
         # check if path exists
@@ -88,6 +90,7 @@ except IOError as e:
 
         # create db
         from database import *
+
     except:
         print 'You need to specify a database in settings.py.'
         quit()
