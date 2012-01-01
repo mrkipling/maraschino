@@ -8,13 +8,20 @@ from tools import *
 @app.route('/xhr/sabnzbd')
 @requires_auth
 def xhr_sabnzbd():
-    SABNZBD_URL = 'http://%s:%s' % (get_setting_value('sabnzbd_host'), get_setting_value('sabnzbd_port'))
+    SABNZBD_HOST = get_setting_value('sabnzbd_host')
+    SABNZBD_PORT = get_setting_value('sabnzbd_port')
+    SABNZBD_API = get_setting_value('sabnzbd_api')
+
+    SABNZBD_URL = 'http://%s:%s' % (SABNZBD_HOST, SABNZBD_PORT)
+
+    old_config = False
+
+    if not SABNZBD_HOST:
+        if get_setting_value('sabnzbd_url') != None:
+            old_config = True
 
     try:
-        if SABNZBD_URL == None:
-            raise Exception
-
-        url = '%s/api?apikey=%s&mode=qstatus&output=json' % (SABNZBD_URL, get_setting_value('sabnzbd_api'))
+        url = '%s/api?apikey=%s&mode=qstatus&output=json' % (SABNZBD_URL, SABNZBD_API)
         result = urllib.urlopen(url).read()
         sabnzbd = json.JSONDecoder().decode(result)
 
@@ -36,4 +43,5 @@ def xhr_sabnzbd():
         sabnzbd = sabnzbd,
         percentage_total = percentage_total,
         download_speed = download_speed,
+        old_config = old_config,
     )
