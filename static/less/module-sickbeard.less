@@ -68,6 +68,10 @@
   #sb_content {
     max-height: 264px;
     overflow: auto;
+    
+    #future .missed .coming_ep {
+      border:2px outset red;
+    }
   }
 
   h3 {
@@ -102,7 +106,7 @@
       position: absolute;
       top: 0;
       right: 0;
-      width: 45px;
+      width: 70px;
       height: 19px;
       background: rgb(0, 0, 0); /* fallback color */
       background: rgba(0, 0, 0, 0.5);
@@ -421,19 +425,20 @@
       table-layout: fixed;
       width: 100%;
       .ep {
-    	width: 5%;
+    	width: 8%;
+    	text-align: left;
       }
       .name {
     	width: 45%;
       }
       .status {
-    	width: 20%;
+    	width: 10%;
       }
       .airdate {
-    	width: 20%;
+    	width: 22%;
       }
       .quality {
-    	width: 10%;
+    	width: 15%;
       }
       thead th {
     	cursor: pointer;
@@ -441,7 +446,7 @@
       tbody tr {
         color: white;
         cursor: pointer;
-	background: url(/static/images/alpha/fff_10.png);
+	    background: url(/static/images/alpha/fff_10.png);
         padding: 5px;
 
         &:hover {
@@ -485,6 +490,9 @@
     .status {
       float: right;
       margin-left: 15px;
+      .search{
+        cursor: pointer;
+      }
     }
 
     .plot {

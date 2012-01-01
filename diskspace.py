@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template
-import jsonrpclib, os
+import jsonrpclib, os, platform, ctypes
 
 from maraschino import app
 from settings import *
@@ -96,15 +96,32 @@ def delete_disk(disk_id):
     return xhr_diskspace()
 
 def disk_usage(path):
-    st = os.statvfs(path)
+    if platform.system() == 'Windows':
+        freeuser = ctypes.c_int64()
+        total = ctypes.c_int64()
+        free = ctypes.c_int64()
+        ctypes.windll.kernel32.GetDiskFreeSpaceExW(ctypes.c_wchar_p(path), ctypes.byref(freeuser), ctypes.byref(total), ctypes.byref(free))
+        used = (total.value - free.value) / (1024*1024*1024)
+        total = total.value / (1024*1024*1024)
+        free = free.value / (1024*1024*1024)
 
-    free = float(st.f_bavail * st.f_frsize) / 1073741824
-    total = float(st.f_blocks * st.f_frsize) / 1073741824
-    used = float((st.f_blocks - st.f_bfree) * st.f_frsize) / 1073741824
+        return {
+            'total': "%.2f" % total,
+            'used': "%.2f" % used,
+            'free': "%.2f" % free,
+            'percentage_used': int((float(used)/float(total))*100),
+        }
 
-    return {
-        'total': "%.2f" % total,
-        'used': "%.2f" % used,
-        'free': "%.2f" % free,
-        'percentage_used': int(used/total * 100),
-    }
+    else:
+        st = os.statvfs(path)
+
+        free = float(st.f_bavail * st.f_frsize) / 1073741824
+        total = float(st.f_blocks * st.f_frsize) / 1073741824
+        used = float((st.f_blocks - st.f_bfree) * st.f_frsize) / 1073741824
+
+        return {
+            'total': "%.2f" % total,
+            'used': "%.2f" % used,
+            'free': "%.2f" % free,
+            'percentage_used': int(used/total * 100),
+        }

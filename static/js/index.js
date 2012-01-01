@@ -472,7 +472,7 @@ $(document).ready(function() {
 
   // Search Episode Functionality on Magnifying Glass png
 
-  $('#sickbeard div.options img.search').live('click', function(){
+  $('#sickbeard .coming_ep div.options img.search').live('click', function(){
     $(this).attr('src','/static/images/xhrloading.gif');
     var ep = $(this).attr('episode');
     var season = $(this).attr('season');
@@ -497,6 +497,16 @@ $(document).ready(function() {
     $('#sickbeard #'+id+' .details').fadeToggle(200);
   });
 
+
+  // Load show info from banner display
+  
+  $(document).on('click', '#sickbeard .coming_ep .options img.banner', function(){
+    var tvdb = $(this).attr('id');
+    $.get('/sickbeard/get_show_info/'+tvdb, function(data){
+      $('#sickbeard').replaceWith(data);
+    });
+  });
+  
   // Plot display function
 
   $('#sickbeard .coming_ep .details .plot-title').live('mouseenter', function(){
@@ -618,7 +628,7 @@ $(document).ready(function() {
     });
   });
 
-  //Shutoff function
+  // Shutoff function
 
   $(document).on('click', '#sickbeard div.powerholder .power', function(){
     $.get('/sickbeard/shutdown')
@@ -654,7 +664,7 @@ $(document).ready(function() {
     });
   });
 
-  //Load search results
+  // Load search results
 
   $(document).on('keypress', '#sickbeard #search #value', function(e){
     if(e.which == 13){
@@ -695,12 +705,45 @@ $(document).ready(function() {
     });
   });
 
+  // Magnifying Glass Episode INFO
+
+  $('#sickbeard .episode-info .status .search').live('click', function(){
+    $(this).attr('src','/static/images/xhrloading.gif');
+    var ep = $(this).attr('episode');
+    var season = $(this).attr('season');
+    var id = $(this).attr('id');
+    $.get('/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
+    .success(function(data){
+      if(data){
+	$('#sickbeard .episode-info .status .search').attr('src','/static/images/yes.png');
+      } else {
+        $('#sickbeard .episode-info .status .search').attr('src','/static/images/no.png');
+      }
+    })
+    .error(function(){
+      popup_message('There was a problem with Sick-Beard.');
+    });
+  });
+
+  // Episode set status info
+
+  $(document).on('change', '#sickbeard .episode-info .status select', function(){
+    var ep = $(this).attr('episode');
+    var season = $(this).attr('season');
+    var id = $(this).attr('id');
+    var status = this.value;
+    $.get('/sickbeard/set_ep_status/'+id+'/'+season+'/'+ep+'/'+status)
+    .success(function(data){
+      if (data.status !== 'success') {
+        popup_message('An error ocurred: '+data);
+      }
+    })
+    .error(function(){
+      popup_message('There was a problem with Sick-Beard.');
+    });
+  });
 
   /******  END SICKBEARD Functions  *******/
-
-
-
-
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
