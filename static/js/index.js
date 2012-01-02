@@ -573,19 +573,6 @@ $(document).ready(function() {
     });
   });
 
-  // History Extra Details
-
-  $('#sickbeard .history ul').live({
-    mouseenter: function(){
-      var id = $(this).attr('id');
-      $('#sickbeard .history #'+id+' .extra-info').toggle();
-    },
-    mouseleave: function(){
-      var id = $(this).attr('id');
-      $('#sickbeard .history #'+id+' .extra-info').toggle();
-    }
-  });
-
   // Episode list back button functionality
 
   $(document).on('click', '#sb_content > #show .sb-back', function(){
