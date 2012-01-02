@@ -30,7 +30,7 @@ def xhr_library_root(item_type):
 
         if item_type == 'shows':
             title = "TV Shows"
-            library = xbmc.VideoLibrary.GetTVShows(properties=['lastplayed'])
+            library = xbmc.VideoLibrary.GetTVShows()
 
     except:
         return render_library(message="There was a problem connecting to the XBMC server.")
@@ -41,7 +41,7 @@ def xhr_library_root(item_type):
 @requires_auth
 def xhr_library_show(show):
     xbmc = jsonrpclib.Server(server_api_address())
-    library = xbmc.VideoLibrary.GetSeasons(tvshowid=show, properties=['tvshowid', 'season', 'showtitle', 'lastplayed'])
+    library = xbmc.VideoLibrary.GetSeasons(tvshowid=show, properties=['tvshowid', 'season', 'showtitle'])
     library['tvshowid'] = show
 
     title = library['seasons'][0]['showtitle']
