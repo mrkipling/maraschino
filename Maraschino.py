@@ -1,26 +1,36 @@
+import sys
+import os
+
+rundir = os.path.dirname(os.path.abspath(__file__))
+
+try:
+    frozen = sys.frozen
+except AttributeError:
+    frozen = False
+
+# Define path based on frozen state
+if frozen:
+    path_base = os.environ['_MEIPASS2']
+    rundir = os.path.dirname(sys.executable)
+
+else:
+    path_base = rundir
+
+# Include paths
+sys.path.insert(0, path_base)
+sys.path.insert(0, os.path.join(path_base, 'lib'))
+
 from flask import Flask, jsonify, render_template, request
-from database import db_session
+from maraschino.database import db_session
 import hashlib, json, jsonrpclib, random, urllib, os, sys
 
 app = Flask(__name__)
 
 from settings import *
-from noneditable import *
-from tools import *
-
-from applications import *
-from controls import *
-from currently_playing import *
-from diskspace import *
-from library import *
-from recently_added import *
-from recommendations import *
-from sabnzbd import *
-from sickbeard import *
-from trakt import *
-
-from modules import *
-from models import Module, Setting
+from maraschino.noneditable import *
+from maraschino.tools import *
+from maraschino.modules import *
+from maraschino.models import Module, Setting
 
 @app.route('/')
 @requires_auth
@@ -88,7 +98,7 @@ except IOError as e:
                quit()
 
         # create db
-        from database import *
+        from maraschino.database import *
 
     except:
         print 'You need to specify a database in settings.py.'
