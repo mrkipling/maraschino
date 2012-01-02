@@ -1,15 +1,5 @@
 {% extends "newznab-base.html" %}
 {% block newznab_content %}
-  {% macro item(i) -%}
-    <div class="spot_item clearfix">
-      <div class="spot_title">
-        <a href="{{url}}details/{{i.guid}}" target="_blank">{{ i.name }}</a>
-      </div>
-      <div class="spot_size">
-        Size: {{i.size}}
-      </div>
-    </div>
-  {%- endmacro %}
   <div id="newz_content">
     {% if message %}
     <h3> {{message}} </h3>
@@ -17,10 +7,10 @@
     <div class="recent-items">
     {% if newznab|length %}
       <table class="tablesorter">
-      {% for show in newznab %}
+      {% for item in newznab %}
         <tr>
-          <td class="name"><a href="{{url}}details/{{show.guid}}" target="_blank">{{show.name}}</a></td>
-          <td class="status">Size: {{show.size}}</td>
+          <td class="name"><a href="{{url}}details/{{item.guid}}" target="_blank" title="{{item.name}}">{{item.name}}</a></td>
+          <td class="status">Size: {{item.size}}</td>
         </tr>
       {% endfor %}
       </table>
