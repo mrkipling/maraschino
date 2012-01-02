@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, send_file
 import json, jsonrpclib, urllib
 
 from maraschino import app
@@ -37,6 +37,8 @@ def xhr_sickbeard():
         result = urllib.urlopen(url).read()
         sickbeard = json.JSONDecoder().decode(result)
 
+        compact_view = get_setting_value('sickbeard_compact') == '1'
+
     except:
         raise Exception
 
@@ -53,6 +55,7 @@ def xhr_sickbeard():
         today = sickbeard['today'],
         soon = sickbeard['soon'],
         later = sickbeard['later'],
+        compact_view = compact_view,
     )
 
 @app.route('/sickbeard/search_ep/<tvdbid>/<season>/<episode>')
@@ -163,6 +166,7 @@ def history(limit):
         sickbeard = sickbeard,
     )
 
+# returns a link with the path to the required image from SB
 def get_pic(tvdb, style='banner'):
     url = '%s:%s' %(get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'))
     return 'http://%s/showPoster/?show=%s&which=%s' %(url, tvdb, style)
@@ -184,22 +188,25 @@ def get_episode_info(tvdbid, season, ep):
         sickbeard = sickbeard,
         id = tvdbid,
         season = season,
+        ep = ep,
     )
 
-@app.route('/sickbeard/set_ep_status/<tvdbid>/<season>/<ep>/<status>')
-def set_episode_status(tvdbid, season, ep):
+@app.route('/sickbeard/set_ep_status/<tvdbid>/<season>/<ep>/<st>')
+def set_episode_status(tvdbid, season, ep, st):
     try:
-        url = '%s/?cmd=episode.setstatus&tvdbid=%s&season=%s&episode=%s&status=%s' %(sickbeard_url(), tvdbid, season, ep,status)
+        url = '%s/?cmd=episode.setstatus&tvdbid=%s&season=%s&episode=%s&status=%s' %(sickbeard_url(), tvdbid, season, ep, st)
         result = urllib.urlopen(url).read()
         sickbeard = json.JSONDecoder().decode(result)
 
     except:
         raise Exception
 
-    if sickbeard['result'].rfind('success') >= 0:
-        return 1
+    status = 'error'
 
-    return 0
+    if sickbeard['result'] == 'success':
+        status = 'success'
+
+    return jsonify({ 'status': status })
 
 @app.route('/sickbeard/shutdown')
 def shutdown():
@@ -267,6 +274,72 @@ def search():
 def add_show(tvdbid):
     try:
         url = '%s/?cmd=show.addnew&tvdbid=%s' %(sickbeard_url(), tvdbid)
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+
+    except:
+        raise Exception
+
+    return sickbeard['message']
+
+@app.route('/sickbeard/get_banner/<tvdbid>')
+def get_banner(tvdbid):
+    import StringIO
+    url = '%s/?cmd=show.getbanner&tvdbid=%s' %(sickbeard_url(), tvdbid)
+    img = StringIO.StringIO(urllib.urlopen(url).read())
+    return send_file(img, mimetype='image/jpeg')
+
+@app.route('/sickbeard/get_poster/<tvdbid>')
+def get_poster(tvdbid):
+    import StringIO
+    url = '%s/?cmd=show.getposter&tvdbid=%s' %(sickbeard_url(), tvdbid)
+    img = StringIO.StringIO(urllib.urlopen(url).read())
+    return send_file(img, mimetype='image/jpeg')
+    
+@app.route('/sickbeard/log/<level>')
+def log(level):
+    try:
+        url = '%s/?cmd=logs&min_level=%s' %(sickbeard_url(), level)
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+    except:
+        sickbeard = None
+
+    return render_template('sickbeard-log.html',
+        sickbeard = sickbeard,
+        level = level,
+    )
+    
+@app.route('/sickbeard/delete_show/<tvdbid>')
+def delete_show(tvdbid):
+    try:
+        url = '%s/?cmd=show.delete&tvdbid=%s' %(sickbeard_url(), tvdbid)
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+
+    except:
+        raise Exception
+
+    return sickbeard['message']
+
+@app.route('/sickbeard/refresh_show/<tvdbid>')
+def refresh_show(tvdbid):
+    try:
+        url = '%s/?cmd=show.refresh&tvdbid=%s' %(sickbeard_url(), tvdbid)
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+
+    except:
+        raise Exception
+
+    return sickbeard['message']
+
+@app.route('/sickbeard/update_show/<tvdbid>')
+def update_show(tvdbid):
+    try:
+        url = '%s/?cmd=show.update&tvdbid=%s' %(sickbeard_url(), tvdbid)
         result = urllib.urlopen(url).read()
         sickbeard = json.JSONDecoder().decode(result)
 

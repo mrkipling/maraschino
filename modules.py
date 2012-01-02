@@ -103,9 +103,19 @@ AVAILABLE_MODULES = [
         'delay': 0,
         'settings': [
             {
-                'key': 'sabnzbd_url',
-                'value': 'http://<hostname>:<port>/api?apikey=<apikeygoeshere>',
-                'description': 'SABnzbd URL',
+                'key': 'sabnzbd_host',
+                'value': '',
+                'description': 'Hostname',
+            },
+            {
+                'key': 'sabnzbd_port',
+                'value': '',
+                'description': 'Port',
+            },
+            {
+                'key': 'sabnzbd_api',
+                'value': '',
+                'description': 'API Key',
             },
         ]
     },
@@ -174,6 +184,12 @@ AVAILABLE_MODULES = [
                 'key': 'sickbeard_port',
                 'value': '',
                 'description': 'Sickbeard Port',
+            },
+            {
+                'key': 'sickbeard_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
             },
         ]
     },

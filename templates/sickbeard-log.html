@@ -1,0 +1,21 @@
+{% extends "sickbeard-base.html" %}
+
+{% block sickbeard_content %}
+
+<div id="log">
+  <h3> Log level: 
+    <select class="level">
+      <option value="debug" {% if level == 'debug' %} selected {% endif%}>Debug</option>
+      <option value="info" {% if level == 'info' %} selected {% endif%}>Info</option>
+      <option value="warning" {% if level == 'warning' %} selected {% endif%}>Warning</option>
+      <option value="error" {% if level == 'error' %} selected {% endif%}>Error</option>
+    </select>
+  </h3>
+  <div class="log">
+    {% for i in sickbeard %}
+      <p>{{ i }}</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
