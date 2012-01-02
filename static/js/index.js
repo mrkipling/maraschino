@@ -652,6 +652,23 @@ $(document).ready(function() {
     });
   });
 
+  // Log function
+  
+  $(document).on('click', '#sickbeard div.powerholder .log', function(){
+    $.get('/sickbeard/log/error', function(data){
+      $('#sickbeard').replaceWith(data);
+    });
+  }); 
+
+  // Log info level change
+
+  $(document).on('change', '#sickbeard #log .level', function(){
+    var level = $('#sickbeard #log .level').attr('value');
+    $.get('/sickbeard/log/'+level, function(data){
+      $('#sickbeard').replaceWith(data);
+    });
+  }); 
+  
   // Load search template
 
   $(document).on('click', '#sickbeard div.powerholder .add', function(){
