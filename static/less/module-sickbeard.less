@@ -43,14 +43,16 @@
 
     .button {
       background: url(/static/images/alpha/fff_10.png);
-      border: 1px solid #222;
       cursor: pointer;
-      line-height: 1.1em;
-      margin-top: 5px;
-      padding: 2px 8px;
-	  right: 0px;
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+      margin: 5px 0 0 4px;
+      text-align: center;
+      right: 0px;
       color: #ccc;
-      font-size: 1.5em;
+      vertical-align: middle;
+      width: 30px;
 
       .border-radius(4px);
 
@@ -60,15 +62,24 @@
 
       img {
         height: 14px;
+        margin-top: 8px;
         width: 14px;
       }
+    }
+
+    .add {
+      font-size: 1.5em;
+    }
+
+    .log {
+      font-size: 0.8em;
     }
   }
 
   #sb_content {
     max-height: 264px;
     overflow: auto;
-    
+
     #future .missed .coming_ep {
       border:2px outset red;
     }
