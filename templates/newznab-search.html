@@ -1,13 +1,5 @@
 {% extends "newznab-base.html" %}
 {% block newznab_content %}
-  {% macro item(i) -%}
-    <div class="spot">
-      <h2>
-        <a href="{{ url }}details/{{i.guid}}" target="_blank">{{ i.name }}</a>
-      </h2>
-      <p> Poster: {{ i.fromname }} </p>
-    </div>  
-  {%- endmacro %}
   <div id="newz_search">
     <form method="" action="">
       <div class="formrow">
@@ -34,12 +26,17 @@
       <h3> {{message}} </h3>
       {% endif %}
       {% if error %}
-      <p> {{error}} </p>
+      <p class="search_error">{{error}}</p>
       {% endif %}
-      {% if data %}
-        {% for show in data %}
-          {{item(show)}}
-        {% endfor %}
+      {% if data|length %}
+        <table class="tablesorter">
+          {% for show in data %}
+          <tr>
+            <td class="name"><a href="{{url}}details/{{show.guid}}" target="_blank">{{show.name}}</a></td>
+            <td class="status">Size: {{show.size}}</td>
+          </tr>
+         {% endfor %}
+        </table>
       {% endif %}
     </div>
   </div>

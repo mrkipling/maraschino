@@ -729,12 +729,11 @@ $(document).ready(function() {
   });
   
   // Submit Search query
-
   $('#newz_search .choices .save').live('click', function() {
     var form = $('#newz_search form');
     
     var query = form.serialize();
-    $.post('/newznab/query', query, function(data) {
+    $.post('/newznab/search', query, function(data) {
       if ($(data).attr('id') === 'newznab') {
         $('#newznab').replaceWith(data);
       }
