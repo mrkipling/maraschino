@@ -4,23 +4,43 @@
 
 {% macro item(i) -%}
 <div class="coming_ep" id="{{i.tvdbid}}_{{i.season}}_{{i.episode}}" tvdb={{i.tvdbid}}>
+
   <h2><a href="{{ url }}home/displayShow?show={{i.tvdbid}}" target="_blank">{{ i.show_name }} - {{ i.season }}x{{ i.episode }} - {{ i.ep_name }}</a></h2>
-  <img width="100%" src="/sickbeard/get_banner/{{i.tvdbid}}" />
+
+  {% if not compact_view %}
+    <img width="100%" src="/sickbeard/get_banner/{{i.tvdbid}}" />
+  {% endif %}
+
   <div class="options">
     <img class="banner" src="/static/images/banner_panel.png" id="{{i.tvdbid}}" title="{{i.show_name}} on Maraschino" />
     <a href="http://www.thetvdb.com/?tab=series&id={{i.tvdbid}}" target="_blank"><img class="tvdb" src="/static/images/tvdb.png" title="{{i.show_name}} on TVDB"/></a>
     <img class="search" src="/static/images/search.png" id="{{i.tvdbid}}" episode="{{i.episode}}" season="{{i.season}}" title="Search for episode"/>
   </div>
+
   <div class="details">
     <div class="airs">{{i.airs}}</div>
     {% if i.ep_plot|length > 2 %}
-      <div class="plot-title">Plot</div>
-      <div class="plot">
-        <h4>{{ i.show_name }} - {{ i.season }}x{{ i.episode }} - {{ i.ep_name }}</h4>
-        <p>{{ i.ep_plot|truncate(400) }}</p>
-      </div>
+
+      {% if compact_view %}
+        <div class="compact_plot">
+          -
+          <span class="truncated">
+            {{ i.ep_plot|truncate(75) }}
+          </span>
+          <span class="expanded" style="display: none;">{{ i.ep_plot|truncate(400) }}</span>
+          <a class="expand" href="#">[+]</a>
+        </div>
+
+      {% else %}
+        <div class="plot-title">Plot</div>
+        <div class="plot">
+          <h4>{{ i.show_name }} - {{ i.season }}x{{ i.episode }} - {{ i.ep_name }}</h4>
+          <p>{{ i.ep_plot|truncate(400) }}</p>
+        </div>
+      {% endif %}
     {% endif %}
   </div>
+
 </div>
 {%- endmacro %}
 

@@ -185,6 +185,12 @@ AVAILABLE_MODULES = [
                 'value': '',
                 'description': 'Sickbeard Port',
             },
+            {
+                'key': 'sickbeard_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
+            },
         ]
     },
 ]

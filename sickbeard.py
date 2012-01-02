@@ -37,6 +37,8 @@ def xhr_sickbeard():
         result = urllib.urlopen(url).read()
         sickbeard = json.JSONDecoder().decode(result)
 
+        compact_view = get_setting_value('sickbeard_compact') == '1'
+
     except:
         raise Exception
 
@@ -53,6 +55,7 @@ def xhr_sickbeard():
         today = sickbeard['today'],
         soon = sickbeard['soon'],
         later = sickbeard['later'],
+        compact_view = compact_view,
     )
 
 @app.route('/sickbeard/search_ep/<tvdbid>/<season>/<episode>')

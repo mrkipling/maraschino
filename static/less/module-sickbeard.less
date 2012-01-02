@@ -131,6 +131,10 @@
       }
     }
 
+    &:hover .details {
+      display: block;
+    }
+
     .details {
       bottom: 0;
       display: none;
@@ -172,6 +176,66 @@
         p {
           margin-top: 5px;
         }
+      }
+    }
+  }
+
+  &.compact {
+    .coming_ep {
+      position: static;
+      overflow: visible;
+      width: auto;
+
+      background: url(/static/images/alpha/fff_10.png);
+      border: 1px solid #222;
+      font-size: 0.9em;
+      line-height: 1.3em;
+      margin-top: 5px;
+      padding: 3px 0 8px;
+      position: relative;
+
+      .border-radius(4px);
+
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+      }
+
+      h2, .options, .details {
+        background-color: transparent;
+        position: static;
+      }
+
+      h2 {
+        font-size: 1em;
+        font-weight: normal;
+
+        a {
+          color: #fff;
+        }
+      }
+
+      .options {
+        padding: 0;
+        position: absolute;
+        right: 0;
+        top: 2px;
+      }
+
+      .details {
+        display: block;
+        padding-left: 15px;
+        font-size: 0.95em;
+      }
+
+      .airs {
+        display: inline;
+        position: static;
+        background-color: transparent;
+        padding: 0;
+      }
+
+      .compact_plot {
+        display: inline;
       }
     }
   }

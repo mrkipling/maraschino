@@ -494,19 +494,18 @@ $(document).ready(function() {
 
   $(document).on('hover', '#sickbeard .coming_ep', function(){
     var id = ($(this).attr('id'));
-    $('#sickbeard #'+id+' .details').fadeToggle(200);
   });
 
 
   // Load show info from banner display
-  
+
   $(document).on('click', '#sickbeard .coming_ep .options img.banner', function(){
     var tvdb = $(this).attr('id');
     $.get('/sickbeard/get_show_info/'+tvdb, function(data){
       $('#sickbeard').replaceWith(data);
     });
   });
-  
+
   // Plot display function
 
   $(document).on('mouseenter', '#sickbeard .coming_ep .details .plot-title', function(){
@@ -517,10 +516,10 @@ $(document).ready(function() {
 
   // Plot hide function
 
-  $(document).on('mouseleave', '#sickbeard .coming_ep .details .plot', function(){
-    var id = $(this).closest('div.coming_ep').attr('id');
-    $('#sickbeard #'+id+' .details .plot-title').toggle();
-    $('#sickbeard #'+id+' .details .plot').toggle();
+  $(document).on('mouseleave', '#sickbeard .coming_ep', function(){
+    var id = $(this).attr('id');
+    $('#sickbeard #'+id+' .details .plot-title').show();
+    $('#sickbeard #'+id+' .details .plot').hide();
   });
 
   // Toggle missed episodes
@@ -640,12 +639,12 @@ $(document).ready(function() {
   });
 
   // Log function
-  
+
   $(document).on('click', '#sickbeard div.powerholder .log', function(){
     $.get('/sickbeard/log/error', function(data){
       $('#sickbeard').replaceWith(data);
     });
-  }); 
+  });
 
   // Log info level change
 
@@ -654,8 +653,8 @@ $(document).ready(function() {
     $.get('/sickbeard/log/'+level, function(data){
       $('#sickbeard').replaceWith(data);
     });
-  }); 
-  
+  });
+
   // Load search template
 
   $(document).on('click', '#sickbeard div.powerholder .add', function(){
