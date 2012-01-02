@@ -632,10 +632,10 @@ $(document).ready(function() {
     var id = $('#sickbeard #show .banner .manage').attr('tvdbid')
     $.get('/sickbeard/delete_show/'+id)
     .success(function(data){
-      alert(data);
+      popup_message(data);
     })
     .error(function(){
-      alert('Could not reach Sickbeard.');
+      popup_message('Could not reach Sickbeard.');
     });
   });
   
@@ -645,10 +645,10 @@ $(document).ready(function() {
     var id = $('#sickbeard #show .banner .manage').attr('tvdbid')
     $.get('/sickbeard/refresh_show/'+id)
     .success(function(data){
-      alert(data);
+      popup_message(data);
     })
     .error(function(){
-      alert('Could not reach Sickbeard.');
+      popup_message('Could not reach Sickbeard.');
     });
   });
 
@@ -658,10 +658,10 @@ $(document).ready(function() {
     var id = $('#sickbeard #show .banner .manage').attr('tvdbid')
     $.get('/sickbeard/update_show/'+id)
     .success(function(data){
-      alert(data);
+      popup_message(data);
     })
     .error(function(){
-      alert('Could not reach Sickbeard.');
+      popup_message('Could not reach Sickbeard.');
     });
   });
 
