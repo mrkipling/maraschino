@@ -9,7 +9,7 @@
 
       <ul class="movies listfix">
         {% for movie in recently_added_movies %}
-          <li data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})"{% if movie.lastplayed %} class="watched"{% endif %}>
+          <li data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})"{% if movie.playcount %} class="watched"{% endif %}>
 
             {% if movie.thumbnail %}
               <div class="thumbnail">
