@@ -3,15 +3,15 @@
 #library
 {
   position: relative;
-  
+
   h2 {
     padding-right: 55px;
   }
-  
+
   .message {
     margin: -7px 15px 10px;
   }
-  
+
   ul {
     max-height: 226px;
     overflow: auto;
@@ -29,7 +29,7 @@
     padding: 5px 15px;
 
     .border-radius(4px);
-    
+
     &:hover {
       background: url(/static/images/alpha/fff_20.png);
     }
@@ -47,6 +47,12 @@
       position: absolute;
       right: 5px;
       top: 6px;
+    }
+
+    .watched {
+      position: absolute;
+      right: 5px;
+      top: 5px;
     }
   }
 
@@ -105,11 +111,11 @@
     font-size: 1.5em;
 
     .border-radius(4px);
-  
+
     &:hover {
       background: url(/static/images/alpha/fff_20.png);
     }
-  
+
     #poweron {
       position: absolute;
       margin-top: 0;
@@ -123,8 +129,6 @@
     display: none;
   }
 }
-
-
 
 .f_settings_mode #library .back
 {
