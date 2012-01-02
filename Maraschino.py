@@ -27,7 +27,18 @@ import hashlib, json, jsonrpclib, random, urllib, os, sys
 app = Flask(__name__)
 
 from settings import *
-from modules import *
+
+from modules.applications import *
+from modules.controls import *
+from modules.currently_playing import *
+from modules.diskspace import *
+from modules.library import *
+from modules.recently_added import *
+from modules.recommendations import *
+from modules.sabnzbd import *
+from modules.sickbeard import *
+from modules.trakt import *
+
 from maraschino.noneditable import *
 from maraschino.tools import *
 from maraschino.modules import *
