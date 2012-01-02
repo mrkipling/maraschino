@@ -300,8 +300,6 @@ def log(level):
     except:
         sickbeard = None
 
-    print sickbeard
-
     return render_template('sickbeard-log.html',
         sickbeard = sickbeard,
         level = level,
