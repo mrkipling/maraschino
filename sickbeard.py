@@ -285,3 +285,22 @@ def get_poster(tvdbid):
     url = '%s/?cmd=show.getposter&tvdbid=%s' %(sickbeard_url(), tvdbid)
     img = StringIO.StringIO(urllib.urlopen(url).read())
     return send_file(img, mimetype='image/jpeg')
+    
+@app.route('/sickbeard/log/<level>')
+def log(level):
+    try:
+        url = '%s/?cmd=logs&min_level=%s' %(sickbeard_url(), level)
+        result = urllib.urlopen(url).read()
+        sickbeard = json.JSONDecoder().decode(result)
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+    except:
+        sickbeard = None
+
+    print sickbeard
+
+    return render_template('sickbeard-log.html',
+        sickbeard = sickbeard,
+        level = level,
+    )
+    
