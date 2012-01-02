@@ -16,25 +16,25 @@
 
       {% if library.tvshows %}
         {% for item in library.tvshows %}
-          <li class="get" data-command="shows/{{ item.tvshowid }}">{{ item.label }}</li>
+          <li class="get" data-command="shows/{{ item.tvshowid }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/yes.png" width="14" height="14"/>{% endif %}</li>
         {% endfor %}
       {% endif %}
 
       {% if library.seasons %}
         {% for item in library.seasons %}
-          <li class="get" data-command="shows/{{ library.tvshowid }}/{{ item.season }}">{{ item.label }}</li>
+          <li class="get" data-command="shows/{{ library.tvshowid }}/{{ item.season }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/yes.png" width="14" height="14"/>{% endif %}</li>
         {% endfor %}
       {% endif %}
 
       {% if library.episodes %}
         {% for item in library.episodes %}
-          <li class="play_episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}" title="{{ item.plot|truncate(200) }}">{{ item.season }}x{{ item.episode }} - {{ item.label }}</li>
+          <li class="play_episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}" title="{{ item.plot|truncate(200) }}">{{ item.season }}x{{ item.episode }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/yes.png" width="14" height="14"/>{% endif %}</li>
         {% endfor %}
       {% endif %}
 
       {% if library.movies %}
         {% for item in library.movies %}
-          <li class="play_movie" data-movieid="{{ item.movieid }}" data-command="movies/{{ item.movieid }}" title="{{ item.plot|truncate(200) }}">{{ item.label }}</li>
+          <li class="play_movie" data-movieid="{{ item.movieid }}" data-command="movies/{{ item.movieid }}" title="{{ item.plot|truncate(200) }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/yes.png" width="14" height="14"/>{% endif %}</li>
         {% endfor %}
       {% endif %}
 
