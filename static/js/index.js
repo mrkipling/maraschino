@@ -804,6 +804,17 @@ $(document).ready(function() {
   var remote = false;
 
   // Activates remote functions
+  function send_arrow(arrow){
+    $.get('/remote/arrow/'+arrow)
+    .success(function(data){
+      if(data.error){
+        popup_message(data);
+      }
+    })
+    .error(function(){
+      popup_message('Could not reach Maraschino');
+    });
+  }
   
   $(document).on('click', '#remote_icon .inner', function(){
     $(this).toggleClass('green').toggleClass('red');
@@ -824,19 +835,19 @@ $(document).ready(function() {
         }
         if(e.which == 37){
           e.preventDefault();
-          alert('left arrow');
+          send_arrow('left')
         }
         if(e.which == 38){
           e.preventDefault();
-          alert('up arrow');
+          send_arrow('up')
         }
         if(e.which == 39){
           e.preventDefault();
-          alert('right arrow');
+          send_arrow('right')
         }
         if(e.which == 40){
           e.preventDefault();
-          alert('down arrow');
+          send_arrow('down')
         }
       });
     } else {
