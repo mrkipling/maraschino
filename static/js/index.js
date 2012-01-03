@@ -799,6 +799,51 @@ $(document).ready(function() {
 
   /******  END SICKBEARD Functions  *******/
 
+  /*********** REMOTE *************/
+  
+  var remote = false;
+
+  // Activates remote functions
+  
+  $(document).on('click', '#remote_icon .inner', function(){
+    $(this).toggleClass('green').toggleClass('red');
+    if(remote){ 
+      remote = false; 
+    } else { 
+      remote = true; 
+    }
+    if(remote){
+      $(document).on('keydown', 'body' , function(e){
+        if(e.which == 13){
+          e.preventDefault();
+          alert('enter');
+        }
+        if(e.which == 32){
+          e.preventDefault();
+          alert('spacebar');
+        }
+        if(e.which == 37){
+          e.preventDefault();
+          alert('left arrow');
+        }
+        if(e.which == 38){
+          e.preventDefault();
+          alert('up arrow');
+        }
+        if(e.which == 39){
+          e.preventDefault();
+          alert('right arrow');
+        }
+        if(e.which == 40){
+          e.preventDefault();
+          alert('down arrow');
+        }
+      });
+    } else {
+      $(document).off('keydown', 'body');
+    }
+  });  
+  /********* END REMOTE ***********/
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
   }
