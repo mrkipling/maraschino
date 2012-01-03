@@ -53,6 +53,8 @@ def xbmc_player(key, xbmc):
             xbmc.Input.back()
         elif key == 'home':
             xbmc.Player.PlayPause(playerid=1)
+        else:
+            xbmc_input(key, xbmc)
     except:
         error = '%s input failed' % (key)
         return jsonify({ 'error': error})
