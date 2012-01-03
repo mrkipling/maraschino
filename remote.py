@@ -6,8 +6,8 @@ from settings import *
 from noneditable import *
 from tools import *
 
-@app.route('/remote/arrow/<direction>')
-def arrow(direction):
+@app.route('/remote/<key>')
+def arrow(key):
     try:
         api_address = server_api_address()
 
@@ -18,23 +18,44 @@ def arrow(direction):
     except:
         return jsonify({ 'error': 'could not reach XBMC' })
 
+    if xbmc.Player.GetActivePlayers():
+        return xbmc_player(key, xbmc)
+    else:
+        return xbmc_input(key, xbmc)
+
+def xbmc_input(key, xbmc):
     try:
-        if direction == 'left':
+        if key == 'left':
             xbmc.Input.left()
-        elif direction == 'up':
+        elif key == 'up':
             xbmc.Input.up()
-        elif direction == 'right':
+        elif key == 'right':
             xbmc.Input.right()
-        elif direction == 'down':
+        elif key == 'down':
             xbmc.Input.down()
-        elif direction == 'select':
+        elif key == 'select':
             xbmc.Input.select()
-        elif direction == 'back':
+        elif key == 'back':
             xbmc.Input.back()
-        elif direction == 'home':
+        elif key == 'home':
             xbmc.Input.home()
     except:
-        error = '%s input failed' % (direction)
+        error = '%s input failed' % (key)
         return jsonify({ 'error': error})
         
     return jsonify({ 'status': 'success'})
+    
+def xbmc_player(key, xbmc):
+    try:
+        if key == 'select':
+            xbmc.Input.select()
+        elif key == 'back':
+            xbmc.Input.back()
+        elif key == 'home':
+            xbmc.Player.PlayPause(playerid=1)
+    except:
+        error = '%s input failed' % (key)
+        return jsonify({ 'error': error})
+        
+    return jsonify({ 'status': 'success'})
+    

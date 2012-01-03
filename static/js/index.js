@@ -804,11 +804,11 @@ $(document).ready(function() {
   var remote = false;
 
   // Activates remote functions
-  function send_arrow(arrow){
-    $.get('/remote/arrow/'+arrow)
+  function send_key(key){
+    $.get('/remote/'+key)
     .success(function(data){
       if(data.error){
-        popup_message(data);
+        popup_message(data.error);
       }
     })
     .error(function(){
@@ -827,31 +827,31 @@ $(document).ready(function() {
       $(document).on('keydown', 'body' , function(e){
         if(e.which == 8){
           e.preventDefault();
-          send_arrow('back');
+          send_key('back');
         }
         if(e.which == 13){
           e.preventDefault();
-          send_arrow('select');
+          send_key('select');
         }
         if(e.which == 32){
           e.preventDefault();
-          send_arrow('home');
+          send_key('home');
         }
         if(e.which == 37){
           e.preventDefault();
-          send_arrow('left');
+          send_key('left');
         }
         if(e.which == 38){
           e.preventDefault();
-          send_arrow('up')
+          send_key('up')
         }
         if(e.which == 39){
           e.preventDefault();
-          send_arrow('right');
+          send_key('right');
         }
         if(e.which == 40){
           e.preventDefault();
-          send_arrow('down');
+          send_key('down');
         }
       });
     } else {
