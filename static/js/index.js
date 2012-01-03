@@ -825,33 +825,37 @@ $(document).ready(function() {
     }
     if(remote){
       $(document).on('keydown', 'body' , function(e){
-        if(e.which == 8){
+        if(e.which == 8){ // backspace
           e.preventDefault();
           send_key('back');
         }
-        if(e.which == 13){
+        if(e.which == 13){ // enter
           e.preventDefault();
           send_key('select');
         }
-        if(e.which == 32){
+        if(e.which == 32){ // space
           e.preventDefault();
           send_key('home');
         }
-        if(e.which == 37){
+        if(e.which == 37){ // arrow left
           e.preventDefault();
           send_key('left');
         }
-        if(e.which == 38){
+        if(e.which == 38){ // arrow up
           e.preventDefault();
           send_key('up')
         }
-        if(e.which == 39){
+        if(e.which == 39){ // arrow right
           e.preventDefault();
           send_key('right');
         }
-        if(e.which == 40){
+        if(e.which == 40){ // arrow down
           e.preventDefault();
           send_key('down');
+        }
+        if(e.which == 88){  // X
+          e.preventDefault();
+          send_key('stop');
         }
       });
     } else {

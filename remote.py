@@ -47,12 +47,22 @@ def xbmc_input(key, xbmc):
     
 def xbmc_player(key, xbmc):
     try:
-        if key == 'select':
+        if key == 'left':
+            xbmc.Player.Seek(playerid=1, value='smallbackward')
+        elif key == 'up':
+            xbmc.Player.Seek(playerid=1, value='bigforward')
+        elif key == 'right':
+            xbmc.Player.Seek(playerid=1, value='smallforward')
+        elif key == 'down':
+            xbmc.Player.Seek(playerid=1, value='bigbackward')
+        elif key == 'select':
             xbmc.Input.select()
         elif key == 'back':
             xbmc.Input.back()
         elif key == 'home':
             xbmc.Player.PlayPause(playerid=1)
+        elif key == 'stop':
+            xbmc.Player.Stop(playerid=1)
         else:
             xbmc_input(key, xbmc)
     except:
