@@ -825,17 +825,21 @@ $(document).ready(function() {
     }
     if(remote){
       $(document).on('keydown', 'body' , function(e){
+        if(e.which == 8){
+          e.preventDefault();
+          send_arrow('back');
+        }
         if(e.which == 13){
           e.preventDefault();
-          alert('enter');
+          send_arrow('select');
         }
         if(e.which == 32){
           e.preventDefault();
-          alert('spacebar');
+          send_arrow('home');
         }
         if(e.which == 37){
           e.preventDefault();
-          send_arrow('left')
+          send_arrow('left');
         }
         if(e.which == 38){
           e.preventDefault();
@@ -843,11 +847,11 @@ $(document).ready(function() {
         }
         if(e.which == 39){
           e.preventDefault();
-          send_arrow('right')
+          send_arrow('right');
         }
         if(e.which == 40){
           e.preventDefault();
-          send_arrow('down')
+          send_arrow('down');
         }
       });
     } else {

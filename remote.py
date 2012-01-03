@@ -27,6 +27,12 @@ def arrow(direction):
             xbmc.Input.right()
         elif direction == 'down':
             xbmc.Input.down()
+        elif direction == 'select':
+            xbmc.Input.select()
+        elif direction == 'back':
+            xbmc.Input.back()
+        elif direction == 'home':
+            xbmc.Input.home()
     except:
         error = '%s input failed' % (direction)
         return jsonify({ 'error': error})
