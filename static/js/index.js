@@ -278,6 +278,26 @@ $(document).ready(function() {
     });
   }
 
+  // Filter function
+  
+  $(document).on('change keydown keyup', '#library .powerholder .filter', function(){
+    var filter = $(this).val();
+    $('#library ul li').filter(function(index) {
+      return $(this).text().toLowerCase().indexOf(filter) < 0;
+    }).css('display', 'none');
+    $('#library ul li').filter(function(index) {
+      return $(this).text().toLowerCase().indexOf(filter) >= 0;
+    }).css('display', '');
+  });
+
+  $(document).on('click', '#library .powerholder .filter', function(){
+    var filter = $(this).val();
+    if(filter === 'Filter'){
+      $(this).css('color', 'black').attr('value', '');
+    }
+  });
+
+
   // update video library control
 
   $(document).on('click', '#library #video-update', function() {
