@@ -44,6 +44,11 @@ def xhr_sickbeard():
 
     if sickbeard['result'].rfind('success') >= 0:
         sickbeard = sickbeard['data']
+        print sickbeard
+        for time in sickbeard:
+            for episode in sickbeard[time]:
+                episode['image'] = get_pic(episode['tvdbid'], 'banner')
+
 
     else:
         sickbeard = ''
