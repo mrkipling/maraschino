@@ -29,7 +29,7 @@
     }
 
     .inner {
-      padding: 5px 107px 5px 15px;
+      padding: 5px 110px 5px 20px;
       .border-radius(4px);
     }
 
@@ -42,20 +42,44 @@
       color: #ccc;
     }
 
-    .title {
+    .third {
       margin-bottom: 6px;
     }
 
     .thumbnail {
-      height: 56px;
+      height: 50px;
       position: absolute;
       right: 5px;
       top: 5px;
-      width: 100px;
+      width: 80px;
       .box-shadow(#222, 0, 0, 2px);
       overflow: hidden;
-      img {
-        width: 100px;
+    }
+    
+    img.poster {
+      width: 50px !important;
+    }
+  }
+  
+  div.compact {
+    ul{
+      li {        
+        max-height: 25px;
+        
+        .thumbnail {
+          display: none;
+        }
+        
+        p {
+          overflow: hidden;
+          white-space: nowrap;
+          width: 100%;
+          
+          span.extra {
+            position: absolute;
+            right: 5px;
+          }
+        }
       }
     }
   }
