@@ -152,6 +152,36 @@ AVAILABLE_MODULES = [
             },
         ]
     },
+     {
+        'name': 'transmission',
+        'label': 'Transmission',
+        'description': 'Shows you information about your Transmission downloads.',
+        'static': False,
+        'poll': 10,
+        'delay': 0,
+        'settings': [
+                {
+                'key': 'transmission_ip',
+                'value': '',
+                'description': 'Transmission Hostname',
+                },
+                {
+                'key': 'transmission_port',
+                'value': '9091',
+                'description': 'Transmission Port',
+                },
+                {
+                'key': 'transmission_user',
+                'value': '',
+                'description': 'Transmission Username',
+                },
+                {
+                'key': 'transmission_password',
+                'value': '',
+                'description': 'Transmission Password',
+                },
+        ]
+    },
     {
         'name': 'sickbeard',
         'label': 'Sickbeard Manager',

@@ -1,3 +1,25 @@
+import sys
+import os
+
+rundir = os.path.dirname(os.path.abspath(__file__))
+
+try:
+    frozen = sys.frozen
+except AttributeError:
+    frozen = False
+
+# Define path based on frozen state
+if frozen:
+    path_base = os.environ['_MEIPASS2']
+    rundir = os.path.dirname(sys.executable)
+
+else:
+    path_base = rundir
+
+# Include paths
+sys.path.insert(0, path_base)
+sys.path.insert(0, os.path.join(path_base, 'lib'))
+
 from flask import Flask, jsonify, render_template, request
 from database import db_session
 import hashlib, json, jsonrpclib, random, urllib, os, sys
@@ -18,6 +40,7 @@ from recommendations import *
 from sabnzbd import *
 from sickbeard import *
 from trakt import *
+from transmission import *
 
 from modules import *
 from models import Module, Setting
