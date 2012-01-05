@@ -22,7 +22,7 @@
 
         {% for setting in module.settings %}
           <div class="formrow">
-            <label for="id_{{ setting.key }}">{{ setting.description }}</label>
+            <label for="id_{{ setting.key }}">{% if setting.link %}<a href="{{ setting.link }}" target="_blank">{% endif %}{{ setting.description }}{% if setting.link %}</a>{% endif %}</label>
 
             {% if setting.type == 'bool' %}
               <select id="id_{{ setting.key }}" name="{{ setting.key }}">
