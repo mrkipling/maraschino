@@ -25,12 +25,11 @@ def xhr_library_root(item_type):
         title = "Movies"
 
         if item_type == 'movies':
-            sort = { 'method': 'label', 'ignorearticle' : True }
-            library = xbmc.VideoLibrary.GetMovies(sort=sort, properties=['playcount'],)
+            library = xbmc.VideoLibrary.GetMovies(sort={ 'method': 'label', 'ignorearticle' : True }, properties=['playcount'],)
 
         if item_type == 'shows':
             title = "TV Shows"
-            library = xbmc.VideoLibrary.GetTVShows(properties=['playcount'])
+            library = xbmc.VideoLibrary.GetTVShows(sort={ 'method': 'label', 'ignorearticle' : True }, properties=['playcount'])
 
     except:
         return render_library(message="There was a problem connecting to the XBMC server.")
