@@ -19,7 +19,7 @@
 
             <div class="inner">
               {% if compact_view %}
-              <p><b>{{ episode.showtitle }}</b> <span class="extra">Season {{ episode.season }}, Episode {{ episode.episode }}</span></p>
+              <p><b>{{ episode.showtitle }}</b> <span class="extra">Season {{ "%02d"|format(episode.season) }}, Episode {{ "%02d"|format(episode.episode) }}</span></p>
               {% else %}
               <h3 class="first">{{ episode.showtitle }}</h3>
               <p class="second">Season {{ episode.season }}, Episode {{ episode.episode }}</p>
