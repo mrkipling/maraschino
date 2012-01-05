@@ -25,8 +25,8 @@ def xhr_library_root(item_type):
         title = "Movies"
 
         if item_type == 'movies':
-            sort = { 'method': 'label' }
-            library = xbmc.VideoLibrary.GetMovies(sort=sort, properties=['playcount'])
+            sort = { 'method': 'label', 'ignorearticle' : True }
+            library = xbmc.VideoLibrary.GetMovies(sort=sort, properties=['playcount'],)
 
         if item_type == 'shows':
             title = "TV Shows"
