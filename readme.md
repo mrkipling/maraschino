@@ -33,7 +33,7 @@ There's also a thread on the [XBMC forums](http://forum.xbmc.org/showthread.php?
 
 * Customisable from within the application itself - no need to mess around with settings files
 
-Uses Flask and some other awesome technologies (SQL-Alchemy, LESS CSS). Just set up maraschino.py to be served using Apache and mod_wsgi or however your prefer to do it.
+Uses Flask and some other awesome technologies (SQL-Alchemy, LESS CSS). Just set up Maraschino.py to be served using Apache and mod_wsgi or however your prefer to do it.
 
 This is an early-stage work-in-progress - if you run into any problems then let me know, perhaps I or somebody else can help (at the very least, bug reports are always welcome!)
 
