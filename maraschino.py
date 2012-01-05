@@ -15,6 +15,7 @@ from diskspace import *
 from library import *
 from recently_added import *
 from recommendations import *
+from remote import *
 from sabnzbd import *
 from sickbeard import *
 from trakt import *

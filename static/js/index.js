@@ -799,6 +799,70 @@ $(document).ready(function() {
 
   /******  END SICKBEARD Functions  *******/
 
+  /*********** REMOTE *************/
+  
+  var remote = false;
+
+  // Activates remote functions
+  function send_key(key){
+    $.get('/remote/'+key)
+    .success(function(data){
+      if(data.error){
+        popup_message(data.error);
+      }
+    })
+    .error(function(){
+      popup_message('Could not reach Maraschino');
+    });
+  }
+  
+  $(document).on('click', '#remote_icon .inner', function(){
+    $(this).toggleClass('green').toggleClass('red');
+    if(remote){ 
+      remote = false; 
+    } else { 
+      remote = true; 
+    }
+    if(remote){
+      $(document).on('keydown', 'body' , function(e){
+        if(e.which == 8){ // backspace
+          e.preventDefault();
+          send_key('back');
+        }
+        if(e.which == 13){ // enter
+          e.preventDefault();
+          send_key('select');
+        }
+        if(e.which == 32){ // space
+          e.preventDefault();
+          send_key('home');
+        }
+        if(e.which == 37){ // arrow left
+          e.preventDefault();
+          send_key('left');
+        }
+        if(e.which == 38){ // arrow up
+          e.preventDefault();
+          send_key('up')
+        }
+        if(e.which == 39){ // arrow right
+          e.preventDefault();
+          send_key('right');
+        }
+        if(e.which == 40){ // arrow down
+          e.preventDefault();
+          send_key('down');
+        }
+        if(e.which == 88){  // X
+          e.preventDefault();
+          send_key('stop');
+        }
+      });
+    } else {
+      $(document).off('keydown', 'body');
+    }
+  });  
+  /********* END REMOTE ***********/
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
   }
