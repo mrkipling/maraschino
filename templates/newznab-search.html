@@ -34,6 +34,7 @@
           <tr>
             <td class="name"><a href="{{url}}details/{{item.guid}}" target="_blank" title="{{item.name}}">{{item.name}}</a></td>
             <td class="status">Size: {{item.size}}</td>
+            <td class="addToSab"><a onclick="downloadSabnzbd('{{item.addToSab}}')"><img src="/static/images/sab2_16.png" alt="Download with SABnzbd" /></a></td>
           </tr>
          {% endfor %}
         </table>

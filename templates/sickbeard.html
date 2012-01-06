@@ -8,7 +8,7 @@
   <h2><a href="{{ url }}home/displayShow?show={{i.tvdbid}}" target="_blank">{{ i.show_name }} - {{ i.season }}x{{ i.episode }} - {{ i.ep_name }}</a></h2>
 
   {% if not compact_view %}
-    <img width="100%" src="/sickbeard/get_banner/{{i.tvdbid}}" />
+    <img width="100%" src="{{i.image}}" />
   {% endif %}
 
   <div class="options">
