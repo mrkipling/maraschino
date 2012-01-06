@@ -1124,14 +1124,15 @@ $(document).ready(function() {
 });
 
 function downloadSabnzbd(url) {
-  $.get( url );
-
-/*$(".sab_"+id).removeClass("succes").addClass("loading");*/
-
-/* This is a cross-domain request, so success will never be called */
-/*$.get(url, function(data, textStatus, jqXHR) {
-    $(".sab_"+id).removeClass("loading").addClass("succes");
-});
-
-setTimeout( function() { $(".sab_"+id).removeClass("loading").addClass("succes"); }, 2000);*/
+  /* This is a cross-domain request, so success will never be called */
+  $.get(url, function(data, textStatus, jqXHR) {
+    popup_message('Item successfully added to SABnzbd.');
+  });
+  popup_message('Item successfully added to SABnzbd.');
 }
+
+function popup_message(message) {
+  var popup = $('<div id="popup_message" class="dialog"><div class="close">x</div><p>' + message + '</p><div class="choices"><div class="cancel">OK</div></div></div>');
+  $('body').append(popup);
+  popup.showPopup({ dispose: true });
+};

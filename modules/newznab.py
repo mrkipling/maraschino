@@ -4,6 +4,7 @@
 # - implement search function:
 #   - Handle multiple categories in python
 #   - Disable enter in form
+# - Fix sab_cat in xhr_newznab
 # - ability to handle multiple newznab accounts
 #
 from flask import Flask, jsonify, render_template
@@ -59,9 +60,13 @@ def sabnzbd_url():
         pass
     
     if sab_port != None:
-        url = 'http://%s:%i/api?apikey=%s' % ( sab_host, sab_port, sab_api )
+        url = 'http://%s:%s' % ( sab_host, sab_port )
+    
     else:
-        url = 'http://%s/api?apikey=%s' % ( sab_host, sab_api )
+        url = 'http://%s' % ( sab_host )
+    
+    if sab_api != None:
+        url = '%s/api?apikey=%s' % ( url, sab_api )
     
     return url
 
@@ -79,6 +84,8 @@ def xhr_newznab():
     if result == '[]':
         # Empty results
         newznab = ''
+    
+    sab_cat = 'movies'
         
     for item in newznab:
         if (int(item['size']) / 1024 ) > 1024:
@@ -93,6 +100,14 @@ def xhr_newznab():
             
         else:
             item['size'] = '%.2f KBytes' % float( int(item['size']) / 1024. )
+        
+        #print item['category_ids']
+        
+        saburl = sabnzbd_url()
+        if saburl != '':
+            nzb_url = '%s&t=get&id=%s' % ( newznab_url(), item['guid'] )
+            item['addToSab'] = '%s&mode=addurl&%s&cat=%s&output=json' % ( saburl, urllib.urlencode( { 'name': nzb_url } ), sab_cat )
+            #print item['addToSab']
     
     return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
     
@@ -110,6 +125,8 @@ def newznab_series():
         # Empty results
         newznab = ''
     
+    sab_cat = 'tv'
+    
     for item in newznab:
         if (int(item['size']) / 1024 ) > 1024:
             if (int(item['size']) / pow(1024,2) ) > 1024:
@@ -123,6 +140,12 @@ def newznab_series():
             
         else:
             item['size'] = '%.2f KBytes' % float( int(item['size']) / 1024. )
+        
+        saburl = sabnzbd_url()
+        if saburl != '':
+            nzb_url = '%s&t=get&id=%s' % ( newznab_url(), item['guid'] )
+            item['addToSab'] = '%s&mode=addurl&%s&cat=%s&output=json' % ( saburl, urllib.urlencode( { 'name': nzb_url } ), sab_cat )
+            #print item['addToSab']
     
     return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
   
@@ -140,6 +163,8 @@ def newznab_movies():
         # Empty results
         newznab = ''
     
+    sab_cat = 'movies'
+    
     for item in newznab:
         if (int(item['size']) / 1024 ) > 1024:
             if (int(item['size']) / pow(1024,2) ) > 1024:
@@ -153,6 +178,12 @@ def newznab_movies():
             
         else:
             item['size'] = '%.2f KBytes' % float( int(item['size']) / 1024. )
+        
+        saburl = sabnzbd_url()
+        if saburl != '':
+            nzb_url = '%s&t=get&id=%s' % ( newznab_url(), item['guid'] )
+            item['addToSab'] = '%s&mode=addurl&%s&cat=%s&output=json' % ( saburl, urllib.urlencode( { 'name': nzb_url } ), sab_cat )
+            #print item['addToSab']
     
     return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
 
