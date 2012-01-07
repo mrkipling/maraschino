@@ -230,7 +230,7 @@ def newznab_search_res():
                 else:
                     newz_name = cat['name']
     
-    url = '%s&t=tvsearch&o=json&limit=%s&q=%s&cat=%s' % (newznab_url(), get_setting_value('newznab_items'), newz_query, newz_cats2)
+    url = '%s&t=tvsearch&o=json&limit=%s&%s&cat=%s' % (newznab_url(), get_setting_value('newznab_items'), urllib.urlencode( { 'q': newz_query } ), newz_cats2)
     newznab = newznab_query( url )
     message = 'Results for \'%s\' from \'%s\':' % (newz_query, newz_name.lstrip())
     
