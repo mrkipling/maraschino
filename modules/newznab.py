@@ -101,7 +101,16 @@ def xhr_newznab():
         else:
             item['size'] = '%.2f KBytes' % float( int(item['size']) / 1024. )
         
-        #print item['category_ids']
+        item_cats = item['category_ids'].split(',')
+        
+        if '5000' in item_cats:
+            sab_cat = 'tv'
+            
+        elif '2000' in item_cats:
+            sab_cat = 'movies'
+            
+        else:
+            sab_cat = ''
         
         saburl = sabnzbd_url()
         if saburl != '':
