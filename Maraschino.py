@@ -42,6 +42,7 @@ from modules.diskspace import *
 from modules.library import *
 from modules.recently_added import *
 from modules.recommendations import *
+from modules.remote import *
 from modules.sabnzbd import *
 from modules.sickbeard import *
 from modules.trakt import *
