@@ -4,9 +4,9 @@
 # - implement search function:
 #   - Handle multiple categories in python
 #   - Disable enter in form
-# - Fix sab_cat in xhr_newznab
 # - ability to handle multiple newznab accounts
-#
+# - Implement NZBmatrix
+
 from flask import Flask, jsonify, render_template
 import json, jsonrpclib, urllib
 
@@ -14,22 +14,22 @@ from Maraschino import app
 from settings import *
 from maraschino.tools import *
 
-# Category list:
-categories = [ {'id': 2000, 'name': 'Movies'},
-               {'id': 2010, 'name': 'Movies - Foreign'},
-               {'id': 2020, 'name': 'Movies - Other'},
-               {'id': 2030, 'name': 'Movies - SD'},
-               {'id': 2040, 'name': 'Movies - HD'},
-               {'id': 2060, 'name': 'Movies - Sports'},
-               {'id': 5000, 'name': 'TV'},
-               {'id': 5010, 'name': 'TV - Foreign'},
-               {'id': 5030, 'name': 'TV - SD'},
-               {'id': 5040, 'name': 'TV - HD'},
-               {'id': 5050, 'name': 'TV - Other'},
-               {'id': 5060, 'name': 'TV - Sports'},
-               {'id': 5070, 'name': 'TV - Anime'}]
-
-
+# Newznab Category List:
+cat_newznab = [ {'id': 2000, 'name': 'Movies'},
+                {'id': 2010, 'name': 'Movies - Foreign'},
+                {'id': 2020, 'name': 'Movies - Other'},
+                {'id': 2030, 'name': 'Movies - SD'},
+                {'id': 2040, 'name': 'Movies - HD'},
+                {'id': 2060, 'name': 'Movies - Sports'},
+                {'id': 5000, 'name': 'TV'},
+                {'id': 5010, 'name': 'TV - Foreign'},
+                {'id': 5030, 'name': 'TV - SD'},
+                {'id': 5040, 'name': 'TV - HD'},
+                {'id': 5050, 'name': 'TV - Other'},
+                {'id': 5060, 'name': 'TV - Sports'},
+                {'id': 5070, 'name': 'TV - Anime'} ]
+    
+# Prepare Newznab url API
 def newznab_url():
     url = '%s/api?apikey=%s' % (get_setting_value('newznab_url'), get_setting_value('newznab_api'))
     
@@ -41,7 +41,8 @@ def newznab_url():
 #        return 'http://%s%s' % (login_string(), url)
         
     return url
-    
+
+# Prepare Newznab url
 def newznab_url_no_api():
     url = '%s/' % get_setting_value('newznab_url')
     
@@ -53,7 +54,8 @@ def newznab_url_no_api():
 #        return 'http://%s%s' % (login_string(), url)
 
     return url
-    
+
+# Prepare SABnzbd url api
 def sabnzbd_url():
     url = ''
     
@@ -86,7 +88,8 @@ def sabnzbd_url():
     
     return url
 
-def convert_bytes(bytes):
+# Convert bytes to xxx
+def convert_bytes( bytes ):
     bytes = float(bytes)
     if bytes >= 1099511627776:
         terabytes = bytes / 1099511627776
@@ -108,8 +111,9 @@ def convert_bytes(bytes):
         size = '%.2fB' % bytes
     
     return size    
-    
-def newznab_query(url):
+
+# Newznab queries
+def newznab_fetch( url ):
     try:
         result = urllib.urlopen(url).read()
         newznab = json.JSONDecoder().decode(result)
@@ -149,7 +153,7 @@ def newznab_query(url):
 @requires_auth
 def xhr_newznab():
     url = '%s&t=tvsearch&cat=5000,2000&o=json&limit=%s' % (newznab_url(), get_setting_value('newznab_items'))
-    newznab = newznab_query(url)
+    newznab = newznab_fetch( url )
     
     return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
 
@@ -158,7 +162,7 @@ def xhr_newznab():
 @requires_auth
 def newznab_movies():
     url = '%s&t=tvsearch&cat=2000&o=json&limit=%s' % (newznab_url(), get_setting_value('newznab_items'))
-    newznab = newznab_query(url)
+    newznab = newznab_fetch( url )
     
     return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
 
@@ -167,26 +171,22 @@ def newznab_movies():
 @requires_auth
 def newznab_series():
     url = '%s&t=tvsearch&cat=5000&o=json&limit=%s' % (newznab_url(), get_setting_value('newznab_items'))
-    newznab = newznab_query(url)
+    newznab = newznab_fetch( url )
     
     return render_template('newznab.html', url = newznab_url_no_api(), newznab = newznab,)
 
+# Create search page
 @app.route('/newznab/search')
 @requires_auth
 def newznab_search():
     # Loads the search page
-    return render_template('newznab-search.html', newznab = 'search', categories = categories,)
+    return render_template('newznab-search.html', newznab = 'search', categories = cat_newznab,)
 
+# Return the search result
 @app.route('/newznab/search', methods=['POST'])
 @requires_auth
 def newznab_search_res():
-    # Fetch the query from the post results
-    # print request.form
-    # ImmutableMultiDict([('query', u'Chuck'), ('cat', u'2010'), ('cat', u'5050'), ('cat', u'5060')])
-    
-    #test = request.form
-    #print test
-    
+    # Fetch the query from the post results    
     try:
         newz_query = request.form['query']
         
@@ -201,7 +201,7 @@ def newznab_search_res():
     
     if newz_query == '':
         # Empty query
-        return render_template('newznab-search.html', newznab = 'Search error', message = 'Empty query submitted!', categories = categories,)
+        return render_template('newznab-search.html', newznab = 'Search error', message = 'Empty query submitted!', categories = cat_newznab,)
     
     # Initializing some variables
     newz_name = ''
@@ -219,7 +219,7 @@ def newznab_search_res():
         newz_cats2 = '%s%s,' % ( newz_cats2, newz_cat )
         i += 1
         
-        for cat in categories:
+        for cat in cat_newznab:
             if cat['id'] == newz_cat:
                 if i > 1 and i == len(newz_cats):
                     newz_name = '%s and %s' % ( newz_name, cat['name'] )
@@ -231,10 +231,12 @@ def newznab_search_res():
                     newz_name = cat['name']
     
     url = '%s&t=tvsearch&o=json&limit=%s&%s&cat=%s' % (newznab_url(), get_setting_value('newznab_items'), urllib.urlencode( { 'q': newz_query } ), newz_cats2)
-    newznab = newznab_query( url )
+    newznab = newznab_fetch( url )
+    
     message = 'Results for \'%s\' from \'%s\':' % (newz_query, newz_name.lstrip())
     
     if newznab == '':
-        return render_template('newznab-search.html', newznab = 'Search error', message = message, error = 'No results found', categories = categories,)
+        return render_template('newznab-search.html', newznab = 'Search error', message = message, error = 'No results found', categories = cat_newznab,)
     
-    return render_template('newznab-search.html', url = newznab_url_no_api(), newznab = 'Search results', message = message, data = newznab, categories = categories,)
+    return render_template('newznab-search.html', url = newznab_url_no_api(), newznab = 'Search results', message = message, data = newznab, categories = cat_newznab,)
+
