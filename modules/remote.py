@@ -2,16 +2,12 @@ from flask import Flask, jsonify, render_template
 import jsonrpclib
 
 from Maraschino import app
-from settings import *
-from maraschino.noneditable import *
-from maraschino.tools import *
 from socket import *
 from xbmcclient import XBMCClient
+from maraschino.tools import get_setting_value
 import time
 
 global connected
-global xbmc
-xbmc = XBMCClient("Maraschino", "./static/images/maraschino_logo.png", ip=get_setting_value('server_hostname'))
 connected = False
 
 @app.route('/remote/<key>')
@@ -26,7 +22,7 @@ def remote(key):
             
     xbmc.send_keyboard_button(key)
 
-    time.sleep(0.5)
+    time.sleep(0.3)
     
     if xbmc.release_button():
             return jsonify({ 'status': 'successful'})    
@@ -71,9 +67,10 @@ def connect():
     return jsonify({ 'error': 'failed'})
 
 def update_xbmc_object():
-    global xbmc
     host = get_setting_value('server_hostname')
-    if host is not xbmc.get_ip():
+    try:
         xbmc = XBMCClient("Maraschino", "./static/images/maraschino_logo.png", ip=host)
-        
+    except:
+        xbmc = None
+
     return xbmc
