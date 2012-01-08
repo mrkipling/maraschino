@@ -5,7 +5,7 @@ from Maraschino import app
 from socket import *
 from xbmc.xbmcclient import XBMCClient
 from maraschino.tools import get_setting_value
-import time
+import time, os
 
 global connected
 connected = False
@@ -13,7 +13,13 @@ connected = False
 def update_xbmc_object():
     host = get_setting_value('server_hostname')
     try:
-        xbmc = XBMCClient("Maraschino", "static/images/maraschino_logo.png", ip=host)
+        icon = os.path.abspath('static/images/maraschino_logo.png')
+
+        if not os.path.exists(icon):
+            icon = os.path.abspath('maraschino/static/images/maraschino_logo.png')
+
+        xbmc = XBMCClient('Maraschino', icon, ip=host)
+
     except:
         xbmc = None
 
