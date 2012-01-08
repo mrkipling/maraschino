@@ -1,6 +1,24 @@
+######################
+#  Compiled source   #
+######################
 *.pyc
+
+######################
+#    User Related    #
+######################
+*.db
 settings.py
 maraschino.wsgi
-maraschino.db
-
 static/images/backgrounds/custom
+
+######################
+# OS generated files #
+######################
+.Spotlight-V100
+.Trashes
+.DS_Store?
+desktop.ini
+ehthumbs.db
+Thumbs.db
+.directory
+*~
