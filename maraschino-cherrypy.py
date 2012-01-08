@@ -20,7 +20,7 @@ else:
 sys.path.insert(0, path_base)
 sys.path.insert(0, os.path.join(path_base, 'lib'))
 
-from cherrypy import wsgiserver
+import wsgiserver
 from Maraschino import app
 from settings import *
 
