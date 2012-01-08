@@ -5,10 +5,12 @@ rundir = os.path.dirname(os.path.abspath(__file__))
 
 try:
     frozen = sys.frozen
+
 except AttributeError:
     frozen = False
 
 # Define path based on frozen state
+
 if frozen:
     path_base = os.environ['_MEIPASS2']
     rundir = os.path.dirname(sys.executable)
@@ -17,12 +19,9 @@ else:
     path_base = rundir
 
 # Include paths
+
 sys.path.insert(0, path_base)
 sys.path.insert(0, os.path.join(path_base, 'lib'))
-
-from flask import Flask, jsonify, render_template, request
-from maraschino.database import db_session
-import hashlib, json, jsonrpclib, random, urllib, os, sys
 
 from flask import Flask, jsonify, render_template, request
 from maraschino.database import db_session
@@ -34,6 +33,8 @@ from settings import *
 
 from maraschino.noneditable import *
 from maraschino.tools import *
+from maraschino.modules import *
+from maraschino.models import Module, Setting
 
 from modules.applications import *
 from modules.controls import *
@@ -45,9 +46,6 @@ from modules.recommendations import *
 from modules.sabnzbd import *
 from modules.sickbeard import *
 from modules.trakt import *
-
-from maraschino.modules import *
-from maraschino.models import Module, Setting
 
 @app.route('/')
 @requires_auth
