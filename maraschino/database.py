@@ -3,7 +3,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 try:
-    from settings import *
+    from settings import DATABASE
 
 except ImportError:
     print "No settings.py found. Copy settings_example.py to settings.py, edit it and try again."

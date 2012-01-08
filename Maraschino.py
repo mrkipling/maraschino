@@ -24,10 +24,6 @@ from flask import Flask, jsonify, render_template, request
 from maraschino.database import db_session
 import hashlib, json, jsonrpclib, random, urllib, os, sys
 
-from flask import Flask, jsonify, render_template, request
-from maraschino.database import db_session
-import hashlib, json, jsonrpclib, random, urllib, os, sys
-
 app = Flask(__name__)
 
 from settings import *
@@ -124,5 +120,40 @@ except IOError as e:
     init_db()
     print "Database successfully initialised."
 
-if __name__ == '__main__':
-    app.run(debug=True, port=PORT, host='0.0.0.0')
+# import commandline arguments to override defaults/settings.py
+
+DEVELOPMENT = False
+
+from optparse import OptionParser
+p = OptionParser()
+
+p.add_option('--develop', action = "store_true",
+             dest = 'develop', help="Start instance of developmentserver")
+p.add_option('--port',
+             dest = 'port', default = None,
+             help = "Force webinterface to listen on this port")
+
+options, args = p.parse_args()
+
+if options.develop:
+    DEVELOPMENT = True
+
+if options.port:
+    PORT = int(options.port)
+    CHERRYPY_PORT = int(options.port)
+
+if DEVELOPMENT:
+    if __name__ == '__main__':
+        app.run(debug=True, port=PORT, host='0.0.0.0')
+
+else:
+    from cherrypy import wsgiserver
+    d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
+    server = wsgiserver.CherryPyWSGIServer(('0.0.0.0', CHERRYPY_PORT), d)
+
+    if __name__ == '__main__':
+       try:
+          server.start()
+
+       except KeyboardInterrupt:
+          server.stop()
