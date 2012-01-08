@@ -479,6 +479,7 @@ class XBMCClient:
         self.ip = ip
         self.port = 9777
         self.sock = socket(AF_INET,SOCK_DGRAM)
+        self.addr = (self.ip, self.port)
         if broadcast:
             self.sock.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
         self.uid = uid
@@ -503,6 +504,9 @@ class XBMCClient:
         packet = PacketBYE()
         return packet.send(self.sock, self.addr, self.uid)
 
+
+    def get_ip(self):
+        return self.ip
 
     def ping(self):
         """Send a PING packet"""

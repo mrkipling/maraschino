@@ -802,7 +802,8 @@ $(document).ready(function() {
   /*********** REMOTE *************/
   
   var remote = false;
-
+  var remote_connected = false;
+  var remote_connection;
   // Activates remote functions
   function send_key(key){
     $.get('/remote/'+key)
@@ -819,9 +820,15 @@ $(document).ready(function() {
   $(document).on('click', '#remote_icon .inner', function(){
     $(this).toggleClass('green').toggleClass('red');
     if(remote){ 
-      remote = false; 
+      remote = false;
+      remote_connected = false;
+      $.get('/remote/close');
+      clearInterval(remote_connection);
     } else { 
-      remote = true; 
+      remote = true;
+      remote_connected = true;
+      $.get('/remote/connect');
+      remote_connection = setInterval(function(){$.get('/remote/ping');}, 59000);
     }
     if(remote){
       $(document).on('keydown', 'body' , function(e){
