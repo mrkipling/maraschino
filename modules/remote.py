@@ -10,6 +10,15 @@ import time
 global connected
 connected = False
 
+def update_xbmc_object():
+    host = get_setting_value('server_hostname')
+    try:
+        xbmc = XBMCClient("Maraschino", "./static/images/maraschino_logo.png", ip=host)
+    except:
+        xbmc = None
+
+    return xbmc
+
 @app.route('/remote/<key>')
 def remote(key):
     global connected
@@ -65,12 +74,3 @@ def connect():
         return jsonify({ 'status': 'successful'})
 
     return jsonify({ 'error': 'failed'})
-
-def update_xbmc_object():
-    host = get_setting_value('server_hostname')
-    try:
-        xbmc = XBMCClient("Maraschino", "./static/images/maraschino_logo.png", ip=host)
-    except:
-        xbmc = None
-
-    return xbmc
