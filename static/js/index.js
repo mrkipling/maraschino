@@ -817,8 +817,8 @@ $(document).ready(function() {
     });
   }
   
-  $(document).on('click', '#remote_icon .inner', function(){
-    $(this).toggleClass('green').toggleClass('red');
+  $(document).on('click', '#remote_icon', function(){
+    $(this).toggleClass('on');
     if(remote){ 
       remote = false;
       remote_connected = false;
