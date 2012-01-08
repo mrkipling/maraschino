@@ -3,7 +3,7 @@ import jsonrpclib
 
 from Maraschino import app
 from socket import *
-from xbmcclient import XBMCClient
+from xbmc.xbmcclient import XBMCClient
 from maraschino.tools import get_setting_value
 import time
 
