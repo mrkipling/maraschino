@@ -81,6 +81,7 @@ AVAILABLE_MODULES = [
                 'key': 'trakt_api_key',
                 'value': '',
                 'description': 'Trakt API Key',
+                'link': 'http://trakt.tv/settings/api',
             },
             {
                 'key': 'trakt_username',
