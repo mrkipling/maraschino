@@ -911,6 +911,7 @@ $(document).ready(function() {
   $(document).on('click', '#settings_icon', function() {
     $('body').toggleClass('f_settings_mode');
     $('body').toggleClass('f_operation_mode');
+    $('add_module').toggle();
     $('#tutorial').remove();
 
     if ($('body').hasClass('f_settings_mode')) {
