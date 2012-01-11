@@ -38,6 +38,7 @@ from maraschino.models import Module, Setting
 
 from modules.applications import *
 from modules.controls import *
+from modules.couchpotato import *
 from modules.currently_playing import *
 from modules.diskspace import *
 from modules.library import *

@@ -855,6 +855,15 @@ $(document).ready(function() {
   });
   /********* END REMOTE ***********/
 
+  /********* CouchPotato **********/
+  
+  $(document).on('click', '#cp_content .movie .tagline a.more', function(){
+    var id = $(this).closest('div.movie').attr('id');
+    $("#"+id+" .tagline").toggle();
+    $("#"+id+" .plot").toggle();
+  });
+  
+  /********* END CouchPotato ***********/
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');

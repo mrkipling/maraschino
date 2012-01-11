@@ -1,0 +1,145 @@
+@import "mixins.less";
+
+#couchpotato {
+
+  .menu {
+    .history span {
+      background-image: url(/static/images/history.png);
+    }
+    .all {
+      text-indent: 0;
+    }
+    .upcoming span  {
+      background-image: url(/static/images/coming.png);
+    }
+  }
+
+  div.back {
+    background: url(/static/images/alpha/fff_10.png);
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 4px;
+    position: absolute;
+    right: 121px;
+    text-align: center;
+    top: 10px;
+    width: 30px;
+
+    .border-radius(4px);
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+  }
+
+  div.powerholder {
+    text-align:right;
+    margin-top: 10px;
+    margin: 5px;
+    cursor: default;
+
+    .button {
+      background: url(/static/images/alpha/fff_10.png);
+      cursor: pointer;
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+      margin: 5px 0 0 4px;
+      text-align: center;
+      right: 0px;
+      color: #ccc;
+      vertical-align: middle;
+      width: 30px;
+
+      .border-radius(4px);
+
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+      }
+
+      img {
+        height: 14px;
+        margin-top: 8px;
+        width: 14px;
+      }
+    }
+
+    .add {
+      font-size: 1.5em;
+    }
+
+    .log {
+      font-size: 0.8em;
+    }
+  }
+
+  #cp_content {
+    max-height: 264px;
+    overflow: auto;
+    
+    .movie {
+      background: url(/static/images/alpha/fff_10.png);
+      display: inline-block;
+      margin: 5px 0 0 4px;
+      text-align:justify;
+      color: #ccc;
+      vertical-align: middle;
+      height: 60px;
+      width: 96%;
+      padding: 5px;
+      overflow: hidden;
+      position: relative;
+
+      .border-radius(4px);
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+      }
+      
+      div.active {
+        background: url(/static/images/snatched-banner.png) no-repeat;
+        width: 55px;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1;
+      }
+      
+      div.image {
+        float: left;
+        height: 100%;
+        padding-right: 5px;
+        position: relative;
+        
+        img.poster {
+          height: 100%;
+        }
+        
+        span.profile {
+          position: absolute;
+          bottom: 0;
+          margin: auto;
+          width: 90%;
+          text-align: center;
+          background: rgb(0, 0, 0); /* fallback color */
+          background: rgba(0, 0, 0, 0.8);
+        }
+      }
+            
+      span.text {
+        display: inline;
+        padding-bottom: 5px;
+        
+        &.plot {
+          display: none;
+        }
+        
+        a.more {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

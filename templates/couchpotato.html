@@ -1,0 +1,21 @@
+{% extends "couchpotato-base.html" %}
+
+{% block couchpotato_content %}
+
+<div id="cp_content">
+  {% for item in couchpotato %}
+    <div class="movie" id="{{item.library.identifier}}">
+      <div class="{{item.releases.status}}"></div>
+      <div class="image">
+        <img class="poster" src="{{url}}/file.cache{{item.library.files[1].path}}" />
+        <span class="profile" title="CouchPotato quality profile">{{item.profile.label}}</span>
+      </div>
+      <span class="title text"><h3>{{item.library.titles[0].title}} ({{item.library.year}})</h3></span>
+      {% if item.library.rating %}<span class="rating text"><h3>Rating: {{item.library.rating}}</h3></span>{% endif %}
+      <span class="tagline text">{% if item.library.tagline %}{{item.library.tagline}}{% else %}{{item.library.plot|truncate(150)}}{% endif %} <a class="more">(more)</a></span>
+      <span class="plot text">{{item.library.plot}}</span>      
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

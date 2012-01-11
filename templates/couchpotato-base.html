@@ -1,0 +1,33 @@
+{% if couchpotato %}
+
+<div id="couchpotato" class="module{% if compact_view %} compact{% endif %}" data-module="couchpotato">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2 class="title">{% block couchpotato_title %}CouchPotato{% endblock %}</h2>
+
+  <ul class="menu">
+    <li class="history" title="View History"><span>History</span></li>
+    <li class="all" title="View all"><span>All</span></li>
+    <li class="upcoming" title="View upcoming"><span>Upcoming</span></li>
+  </ul>
+
+  {% block couchpotato_content %}THIS IS SPARTA!{% endblock %}
+
+  <div class="powerholder">
+    <a class="button add" title ="Add new show to CouchPotato">+</a>
+    <a class="button log" title ="CouchPotato logs">Log</a>
+    <a class="button restart" title ="Restart CouchPotato"><img src="/static/images/reboot.png" /></a>
+    <a class="button power" title ="Shutdown CouchPotato"><img src="/static/images/shutdown.png" /></a>
+  </div>
+</div>
+
+{% else %}
+
+<div class="placeholder" data-module="couchpotato">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+  <h2>CouchPotato</h2>
+</div>
+
+{% endif %}
