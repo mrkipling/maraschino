@@ -239,6 +239,15 @@ $(document).ready(function() {
     setTimeout(get_currently_playing, 5000);
   }
 
+  // Settings tab
+  $(document).on('click', '#server_settings .tab', function(){
+    if($('#server_settings .inner').css('display') == 'none'){
+      $('#server_settings .inner').slideDown();
+    } else {
+      $('#server_settings .inner').slideUp();
+    }
+  });
+  
   if ($('body').data('show_currently_playing') === 'True') {
     get_currently_playing();
   }
