@@ -39,18 +39,15 @@ def xhr_sickbeard():
 
         compact_view = get_setting_value('sickbeard_compact') == '1'
 
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+            for time in sickbeard:
+                for episode in sickbeard[time]:
+                    episode['image'] = get_pic(episode['tvdbid'], 'banner')
     except:
-        raise Exception
-
-    if sickbeard['result'].rfind('success') >= 0:
-        sickbeard = sickbeard['data']
-        for time in sickbeard:
-            for episode in sickbeard[time]:
-                episode['image'] = get_pic(episode['tvdbid'], 'banner')
-
-
-    else:
-        sickbeard = ''
+        return render_template('sickbeard.html',
+            sickbeard = '',
+        )
 
     return render_template('sickbeard.html',
         url = sickbeard_url_no_api(),
