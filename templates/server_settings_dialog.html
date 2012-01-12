@@ -1,9 +1,6 @@
-<div id="server_settings" class="module generic_module edit_settings" data-module="server_settings">
-
-  <h2>Server Settings</h2>
-
+<div id="server_settings" class="module edit_settings {% if updated %}updated{% else %}hidden{% endif %}" data-module="server_settings">
   <form class="inner" method="post" action="">
-
+  <br>
     {% for setting in server_settings %}
       <div class="formrow">
         <label for="id_{{ setting.key }}">{{ setting.description }}</label>
@@ -27,7 +24,6 @@
         <div class="save">Save</div>
       {% endif %}
     </div>
-
   </form>
-
+  <span class="tab"><span class="text">Server Settings</span></span>
 </div>
