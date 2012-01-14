@@ -6,42 +6,35 @@
   <h2 class="recentvidtitle">Recently Added Movies</h2>
 
   {% if recently_added_movies %}
-    {% if compact_view %}
-    <div class="compact">
-    {% endif %}
+
       <ul class="movies listfix">
         {% for movie in recently_added_movies %}
           <li data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})"{% if movie.playcount %} class="watched"{% endif %}>
 
             {% if movie.thumbnail %}
-              <img class="thumbnail poster" src="{{ vfs_url }}{{ movie.thumbnail }}" alt="">
+              <div class="thumbnail">
+                <img src="{{ vfs_url }}{{ movie.thumbnail }}" alt="">
+              </div>
             {% endif %}
 
             <div class="inner">
-              {% if compact_view %}
-              <p><b>{{ movie.title }}</b> <span class="extra">{{ movie.year }} | {{ movie.rating|float|round(1, 'common') }}</span></p>
-              {% else %}
-              <h3 class="first">{{ movie.title }}</h3>
-              <p class="second">Year: {{ movie.year }}</p>
-              <p class="third">Rating: {{ movie.rating|float|round(1, 'common') }}</p>
-              {% endif %}
+              <h3>{{ movie.title }}</h3>
+              <p>Year: {{ movie.year }}</p>
+              <p class="title">Rating: {{ movie.rating|float|round(1, 'common') }}</p>
             </div>
+
           </li>
         {% endfor %}
       </ul>
 
-    {% if compact_view %}
-    </div>
-    {% endif %}
-
-    <div class="clearfix">
-      {% if movie_offset + recently_added_movies|length < 25 %}
-        <a class="view_older" title="Older">&raquo;</a>
-      {% endif %}
-      {% if movie_offset > 0 %}
-        <a class="view_newer" title="Newer">&laquo;</a>
-      {% endif %}
-    </div>
+      <div class="clearfix">
+        {% if movie_offset + recently_added_movies|length < 25 %}
+          <a class="view_older" title="Older">&raquo;</a>
+        {% endif %}
+        {% if movie_offset > 0 %}
+          <a class="view_newer" title="Newer">&laquo;</a>
+        {% endif %}
+      </div>
 
   {% else %}
     <p class="problem">There was a problem connecting to the XBMC server.</p>

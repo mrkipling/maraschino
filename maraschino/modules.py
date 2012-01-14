@@ -235,12 +235,6 @@ SERVER_SETTINGS = [
         'value': '',
         'description': 'XBMC Mac Address',
     },
-    {
-        'key': 'server_compact',
-        'value': '0',
-        'description': 'Compact view',
-        'type': 'bool',
-    },
 ]
 
 @app.route('/xhr/add_module_dialog')
