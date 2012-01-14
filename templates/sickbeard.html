@@ -46,8 +46,8 @@
 
 <div id="sb_content">
   <div id="future">
-    {% if missed|length %}
-    <div id="missed" title="SB has missed {{missed|length}} episodes"><b>{{missed|length}}</b></div>
+    {% if not missed|length %}
+    <div id="missed" title="SB has missed {{missed|length}} episodes">{{ missed|length }}</div>
     <div class="missed">
       {% for show in missed %}
       {{item(show)}}
