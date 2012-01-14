@@ -1,0 +1,46 @@
+{% extends "newznab-base.html" %}
+{% block newznab_content %}
+  <div id="newz_search">
+    <form method="" action="">
+      <div class="formrow">
+        <label for="id_query">Query:</label>
+        <input id="id_query" name="query" type="text" value="" />
+      </div>
+      <div class="formrow">
+        <label for="id_cat">Category:</label>
+        {% if categories|length %}
+        <select id="id_cat" name="cat">
+          {% for cat in categories %}
+          <option value="{{cat.id}}">{{cat.name}}</option>
+          {% endfor %}
+        </select>
+        {% endif %}
+      </div>
+      <div class="choices">
+        <div class="save">Search</div>
+        <div class="cancel">Cancel</div>
+      </div>
+    </form>
+    <div id="results">
+      {% if message %}
+      <h3> {{message}} </h3>
+      {% endif %}
+      {% if error %}
+      <p class="search_error">{{error}}</p>
+      {% endif %}
+      {% if data|length %}
+        <table class="tablesorter">
+          {% for item in data %}
+          <tr>
+            <td class="name"><a href="{{url}}details/{{item.guid}}" target="_blank" title="{{item.name}}">{{item.name}}</a></td>
+            <td class="status">Size: {{item.size}}</td>
+            {% if item.addToSab %}
+            <td class="addToSab"><a onclick="downloadSabnzbd('{{item.addToSab}}')"><img src="/static/images/sab2_16.png" alt="Download with SABnzbd" /></a></td>
+            {% endif %}
+          </tr>
+         {% endfor %}
+        </table>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

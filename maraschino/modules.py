@@ -195,6 +195,31 @@ AVAILABLE_MODULES = [
             },
         ]
     },
+    {
+        'name': 'newznab',
+        'label': 'Newznab',
+        'description': 'Recent items from newznab within Maraschino',
+        'static': True,
+        'poll': 300,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'newznab_url',
+                'value': 'http://',
+                'description': 'URL to newznab',
+            },
+            {
+                'key': 'newznab_api',
+                'value': '',
+                'description': 'Newznab API key',
+            },
+            {
+                'key': 'newznab_items',
+                'value': '10',
+                'description': 'Items to display',
+            },
+        ]
+    },
 ]
 
 SERVER_SETTINGS = [

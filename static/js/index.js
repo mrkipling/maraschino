@@ -807,6 +807,57 @@ $(document).ready(function() {
   });
 
   /******  END SICKBEARD Functions  *******/
+  
+  /******      NEWZNAB              *******/
+
+  // View Home
+  $(document).on('click', '#newznab .menu .home', 'click', function(){
+    $.get('/xhr/newznab', function(data){
+      $('#newznab').replaceWith(data);
+    });
+  });
+  
+  // View search
+  $(document).on('click', '#newznab .menu .search', 'click', function(){
+    $.get('/newznab/search', function(data){
+      $('#newznab').replaceWith(data);
+    });
+  });
+  
+  // View series
+  $(document).on('click', '#newznab .menu .series', 'click', function(){
+    $.get('/newznab/series', function(data){
+      $('#newznab').replaceWith(data);
+    });
+  });
+  
+  // View Movies
+  $(document).on('click', '#newznab .menu .movies', 'click', function(){
+    $.get('/newznab/movies', function(data){
+      $('#newznab').replaceWith(data);
+    });
+  });
+  
+  // Submit Search query
+  $('#newz_search .choices .save').live('click', function() {
+    var form = $('#newz_search form');
+    
+    var query = form.serialize();
+    $.post('/newznab/search', query, function(data) {
+      if ($(data).attr('id') === 'newznab') {
+        $('#newznab').replaceWith(data);
+      }
+    });
+  });
+  
+  // Cancel Search query
+  $('#newz_search .choices .cancel').live('click', function() {
+    $.get('/xhr/newznab', function(data){
+      $('#newznab').replaceWith(data);
+    });
+  });
+  
+  /******   END NEWZNAB Functions   *******/
 
   /*********** REMOTE *************/
 
@@ -1138,3 +1189,17 @@ $(document).ready(function() {
   });
 
 });
+
+function downloadSabnzbd(url) {
+  /* This is a cross-domain request, so success will never be called */
+  $.get(url, function(data, textStatus, jqXHR) {
+    popup_message('Item successfully added to SABnzbd.');
+  });
+  popup_message('Item successfully added to SABnzbd.');
+}
+
+function popup_message(message) {
+  var popup = $('<div id="popup_message" class="dialog"><div class="close">x</div><p>' + message + '</p><div class="choices"><div class="cancel">OK</div></div></div>');
+  $('body').append(popup);
+  popup.showPopup({ dispose: true });
+};

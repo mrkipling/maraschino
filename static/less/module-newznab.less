@@ -1,0 +1,89 @@
+@import "mixins.less";
+
+#newznab {
+
+  #newz_content,
+  #newz_search {
+    max-height: 264px;
+    width: 100%;
+    overflow: auto;
+    p {
+      padding: 5px 5px 5px 15px;
+    }
+    h3 {
+      margin: 15px 15px 5px;
+    }
+  }
+  
+  .menu {
+    .search span {
+      background-image: url(/static/images/search2.png);
+      background-size: 16px;
+    }
+    .series span {
+      background-image: url(/static/images/tv.png);
+      background-size: 16px;
+    }
+    .movies span {
+      background-image: url(/static/images/movie.png);
+      background-size: 16px;
+    }
+    .home span  {
+      background-image: url(/static/images/home.png);
+      background-size: 16px;
+    }
+  }
+  
+  .formrow {
+    padding: 5px 5px 5px 15px;
+  }
+  
+  .tablesorter {
+      table-layout: fixed;
+      width: 100%;
+      .name {
+    	width: 45%;
+      }
+      .status {
+    	width: 20%;
+      }
+      .airdate {
+    	width: 20%;
+      }
+      .quality {
+    	width: 10%;
+      }
+      .addToSab {
+        width: 20px;
+      }
+      thead th {
+    	cursor: pointer;
+      }
+      tbody tr {
+        color: white;
+        cursor: pointer;
+	background: url(/static/images/alpha/fff_10.png);
+        padding: 5px;
+
+        &:hover {
+          background: url(/static/images/alpha/fff_20.png);
+        }
+
+    	td {
+    	  overflow: hidden;
+    	  white-space: nowrap;
+    	}
+      }
+
+      th {
+        text-align: left;
+      }
+
+      td, th {
+        padding: 5px;
+      }
+      td:first-child, th:first-child {
+        padding-left: 15px;
+      }
+    }
+}

@@ -41,6 +41,7 @@ from modules.controls import *
 from modules.currently_playing import *
 from modules.diskspace import *
 from modules.library import *
+from modules.newznab import *
 from modules.recently_added import *
 from modules.recommendations import *
 from modules.remote import *
