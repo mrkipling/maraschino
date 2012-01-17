@@ -313,7 +313,7 @@ $(document).ready(function() {
 
   // xbmc reboot
 
-  $(document).on('click', '#library #eboot', function() {
+  $(document).on('click', '#library #reboot', function() {
     $.get('/xhr/controls/reboot');
   });
 
