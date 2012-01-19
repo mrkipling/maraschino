@@ -6,24 +6,35 @@
   <h2>Recently Added Episodes</h2>
 
   {% if recently_added_episodes %}
+    {% if compact_view %}
+    <div class="compact">
+    {% endif %}
+      <ul class="episodes listfix">
+        {% for episode in recently_added_episodes %}
+          <li data-episodeid="{{ episode.episodeid }}" title="Play {{ episode.showtitle }} - {{ episode.title }}" {% if episode.playcount %} class="watched"{% endif %}>
 
-    <ul class="episodes listfix">
-      {% for episode in recently_added_episodes %}
-        <li data-episodeid="{{ episode.episodeid }}" title="Play {{ episode.showtitle }} - {{ episode.title }}" {% if episode.playcount %} class="watched"{% endif %}>
+            {% if episode.thumbnail %}
+              <div class="thumbnail">
+                <img src="{{ vfs_url }}{{ episode.thumbnail }}" alt="">
+              </div>
+            {% endif %}
 
-          {% if episode.thumbnail %}
-            <img class="thumbnail" src="{{ vfs_url }}{{ episode.thumbnail }}" width="100" height="56" alt="">
-          {% endif %}
+            <div class="inner">
+              {% if compact_view %}
+              <p><b>{{ episode.showtitle }}</b> <span class="extra">Season {{ "%02d"|format(episode.season) }}, Episode {{ "%02d"|format(episode.episode) }}</span></p>
+              {% else %}
+              <h3 class="first">{{ episode.showtitle }}</h3>
+              <p class="second">Season {{ episode.season }}, Episode {{ episode.episode }}</p>
+              <p class="third">"{{ episode.title }}"</p>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
 
-          <div class="inner">
-            <h3>{{ episode.showtitle }}</h3>
-            <p>Season {{ episode.season }}, Episode {{ episode.episode }}</p>
-            <p class="title">"{{ episode.title }}"</p>
-          </div>
-
-        </li>
-      {% endfor %}
-    </ul>
+    {% if compact_view %}
+    </div>
+    {% endif %}
 
     <div class="clearfix">
       {% if episode_offset + recently_added_episodes|length < 25 %}
@@ -37,5 +48,4 @@
   {% else %}
     <p class="problem">There was a problem connecting to the XBMC server.</p>
   {% endif %}
-
 </div>

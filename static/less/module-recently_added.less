@@ -1,38 +1,118 @@
 @import "mixins.less";
 
-#recently_added .problem,
-#recently_added_movies .problem
+#recently_added,
+#recently_added_movies
 {
-  margin: -7px 15px 15px;
-}
-
-.expand
-{
-  text-decoration: none;
-}
-
-.view_older,
-.view_newer
-{
-  background: url(/static/images/alpha/fff_10.png);
-  border: 1px solid #222;
-  color: #ccc;
-  display: inline;
-  float: right;
-  font-size: 1.2em;
-  margin-top: 5px;
-  padding: 2px 14px;
-  text-align: center;
-  cursor: pointer;
-
-  .border-radius(4px);
-
-  &:hover {
-    background: url(/static/images/alpha/fff_20.png);
+  .problem {
+    margin: -7px 15px 15px;
   }
-}
+  ul {
+    li {
+      background: url(/static/images/alpha/fff_10.png);
+      border: 1px solid #222;
+      font-size: 0.9em;
+      line-height: 1.3em;
+      margin-top: 5px;
+      position: relative;
 
-.view_newer
-{
-  float: left;
+      .border-radius(4px);
+
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+        cursor: pointer;
+      }
+    }
+
+    li.watched .inner {
+      border-left: 3px solid #ccc;
+      padding-left: 12px;
+    }
+
+    .inner {
+      padding: 5px 110px 5px 20px;
+      .border-radius(4px);
+    }
+
+    h3 {
+      font-size: 1.2em;
+      margin-top: 6px;
+    }
+
+    p {
+      color: #ccc;
+    }
+
+    .third {
+      margin-bottom: 6px;
+    }
+
+    .thumbnail {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      width: 100px;
+      height: 56px;
+      overflow: hidden;
+
+      .box-shadow(#222, 0, 0, 2px);
+      
+      img {
+        width: 100px;
+      }
+    }
+  }
+  
+  div.compact {
+    ul{
+      li {        
+        max-height: 25px;
+        
+        .thumbnail {
+          display: none;
+        }
+        
+        p {
+          overflow: hidden;
+          white-space: nowrap;
+          width: 100%;
+          
+          span.extra {
+            position: absolute;
+            right: 5px;
+          }
+        }
+      }
+    }
+  }
+  
+  .expand
+  {
+    text-decoration: none;
+  }
+  
+  .view_older,
+  .view_newer
+  {
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    color: #ccc;
+    display: inline;
+    float: right;
+    font-size: 1.2em;
+    margin-top: 5px;
+    padding: 2px 14px;
+    text-align: center;
+    cursor: pointer;
+
+    .border-radius(4px);
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+  }
+
+  .view_newer
+  {
+    float: left;
+  }
 }
