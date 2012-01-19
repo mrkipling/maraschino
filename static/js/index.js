@@ -864,6 +864,36 @@ $(document).ready(function() {
   });
   /********* END REMOTE ***********/
 
+  /********* SEARCH ***********/
+
+  $(document).on('keydown', 'body', function(e){
+    alt = (e.altKey) ? true : false;
+    if(alt && e.which == 70){
+      e.preventDefault();
+      if($('#search').css('opacity') == 1){
+        $('#search').fadeOut('slow', function(){ $('#search').css('opacity', '0'); });
+      } else {
+        $('#search').fadeIn('slow', function(){ $('#search').css('opacity', '1'); });
+      }
+    }
+  });
+
+
+  $(document).on('keypress', '#search form #value', function(e){
+    if(e.which == 13){
+      e.preventDefault();
+      var query = $('#search form #value').val();
+      $.get('/xhr/search/'+query)
+      .success(function(data){
+        $('#search').replaceWith(data);
+      })
+      .error(function(){
+	    popup_message('Could not reach Maraschino.');
+      });
+    }
+  });
+
+  /********* END SEARCH ***********/
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');

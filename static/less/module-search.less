@@ -1,0 +1,91 @@
+@import "mixins.less";
+
+#search
+{
+  position: absolute;
+  top: 10px;
+  width: 95%;
+  z-index: 1;
+  
+  &.hide {
+    opacity: 0;
+  }
+
+  form {
+    padding: 5px;
+    
+    input {
+      width: 50%;
+    }
+  }
+
+  h2 {
+    padding-right: 55px;
+  }
+
+  .message {
+    margin: -7px 15px 10px;
+  }
+
+  ul {
+    max-height: 226px;
+    overflow: auto;
+  }
+
+  li,
+  .back {
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    cursor: pointer;
+    line-height: 1.3em;
+    margin-top: 5px;
+    padding: 5px 15px;
+
+    .border-radius(4px);
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+  }
+
+  li {
+    padding-right: 28px;
+    position: relative;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    .xhrloading {
+      position: absolute;
+      right: 5px;
+      top: 6px;
+    }
+
+    .watched {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+    }
+  }
+
+  .back {
+    color: #ccc;
+    font-size: 1.2em;
+    position: absolute;
+    margin-top: 0;
+    padding: 3px 15px;
+    right: 5px;
+    top: 12px;
+  }
+
+  .back.xhrloading {
+    background: url(/static/images/xhrloading.gif) no-repeat center center;
+    text-indent: -9999px;
+  }
+}
+
+.f_settings_mode #library .back
+{
+  display: none;
+}

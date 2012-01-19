@@ -1,0 +1,20 @@
+<div id="search" class="module {% if not results %}hide{% endif %}" data-module="search">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <div class="inner">
+    <form>
+      <input id="value" type="search">
+    </form>
+    {% if results %}
+    <div>
+      <ul>
+        {% for x in results %}
+          {% set item = results[x]%}
+          <li>{{ item.NZBNAME }} | {{ item.SIZE }} | {{ item.CATEGORY }} </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</div>

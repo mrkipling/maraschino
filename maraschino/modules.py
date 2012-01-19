@@ -121,6 +121,33 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'search',
+        'label': 'Search',
+        'description': 'Search usenet websites',
+        'static': True,
+        'poll': 10,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'nzb_matrix',
+                'value': '0',
+                'description': 'Use NZBMatrix',
+                'type': 'bool',
+            },
+            {
+                'key': 'nzb_matrix_API',
+                'value': '',
+                'description': 'API Key',
+                'link': 'http://nzbmatrix.com/account.php?action=api',
+            },
+            {
+                'key': 'nzb_matrix_user',
+                'value': '',
+                'description': 'Username',
+            },
+        ]
+    },
+    {
         'name': 'synopsis',
         'label': 'Synopsis',
         'description': 'Shows you a plot synopsis of what you are currently watching.',
