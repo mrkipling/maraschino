@@ -1,9 +1,24 @@
 from flask import Flask, jsonify, render_template
 import json, jsonrpclib, urllib
+from jinja2.filters import FILTERS
 
 from Maraschino import app
 from settings import *
 from maraschino.tools import *
+
+def sab_link():
+    SABNZBD_HOST = get_setting_value('sabnzbd_host')
+    SABNZBD_PORT = get_setting_value('sabnzbd_port')
+    SABNZBD_API = get_setting_value('sabnzbd_api')
+
+    SABNZBD_URL = 'http://%s:%s' % (SABNZBD_HOST, SABNZBD_PORT)
+    
+    return '%s/api?apikey=%s' % (SABNZBD_URL, SABNZBD_API)
+    
+def add_to_sab_link(nzb):
+    return '%s&mode=addurl&name=http://%s&output=json' % (sab_link(), nzb)
+
+FILTERS['add_to_sab'] = add_to_sab_link
 
 @app.route('/xhr/sabnzbd')
 @requires_auth
@@ -45,3 +60,13 @@ def xhr_sabnzbd():
         download_speed = download_speed,
         old_config = old_config,
     )
+
+@app.route('/sabnzbd/add/<url>')
+def add_to_sab(url):
+    try:
+        result = urllib.urlopen(url).read()
+        result = json.JSONDecoder().decode(result)
+        
+        return result
+    except:
+        return jsonify({ 'error': 'failed'})
