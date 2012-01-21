@@ -46,7 +46,7 @@ def xhr_enqueue_video(video_type, video_id):
 
 @app.route('/xhr/enqueue_audio/<audio_type>/<int:audio_id>')
 @requires_auth
-def xhr_enqueue_audio(audio_id):
+def xhr_enqueue_audio(audio_type, audio_id):
     xbmc = jsonrpclib.Server(server_api_address())
 
     item = { audio_type + 'id': audio_id }

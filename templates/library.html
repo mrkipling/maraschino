@@ -28,14 +28,28 @@
 
       {% if library.episodes %}
         {% for item in library.episodes %}
-          <li class="play_episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}" title="{{ item.plot|truncate(200) }}">{{ item.season }}x{{ item.episode }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+          <table class="table">
+            <td>
+		      <li class="enqueue_episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}" title ="Add to Queue"><img src="/static/images/add.png" class="enqueue" width="10" height="10"></li>
+            </td>
+            <td width="100%">
+              <li class="play_episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}" title="{{ item.plot|truncate(200) }}">{{ item.season }}x{{ item.episode }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+            </td>
+          </table>
         {% endfor %}
       {% endif %}
 
       {% if library.movies %}
         {% for item in library.movies %}
-          <li class="play_movie" data-movieid="{{ item.movieid }}" data-command="movies/{{ item.movieid }}" title="{{ item.plot|truncate(200) }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
-        {% endfor %}
+          <table class="table">
+            <td>
+		      <li class="enqueue_movie" data-movieid="{{ item.movieid }}" data-command="movies/{{ item.movieid }}" title ="Add to Queue"><img src="/static/images/add.png" class="enqueue" width="10" height="10"></li>
+            </td>
+            <td width="100%">
+              <li class="play_movie" data-movieid="{{ item.movieid }}" data-command="movies/{{ item.movieid }}" title="{{ item.plot|truncate(200) }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+            </td>
+          </table>
+		  {% endfor %}
       {% endif %}
 
       {% if library.artists %}
@@ -52,7 +66,14 @@
 
 	  {% if library.songs %}
         {% for item in library.songs %}
-          <li class="play_audio" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}" title="{{ item.track }} - {{ item.label }}">{{ item.track }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+          <table class="table">
+            <td>
+		      <li class="enqueue_song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}" title ="Add to Queue"><img src="/static/images/add.png" class="enqueue" width="10" height="10"></li>
+            </td>
+            <td width="100%">
+              <li class="play_song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}" title="{{ item.track }} - {{ item.label }}">{{ item.track }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+            </td>
+          </table>
         {% endfor %}
       {% endif %}
     </ul>

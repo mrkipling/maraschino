@@ -464,11 +464,38 @@ $(document).ready(function() {
     });
   });
 
-  $(document).on('click', '#library li.play_audio', function() {
+  $(document).on('click', '#library li.enqueue_episode', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_video/episode/' + $(this).data('episodeid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_movie', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_video/movie/' + $(this).data('movieid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.play_song', function() {
     var li = this;
     add_loading_gif(li);
 
     $.get('/xhr/play_audio/song/' + $(this).data('songid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_song', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_audio/song/' + $(this).data('songid'), function() {
       remove_loading_gif(li);
     });
   });
