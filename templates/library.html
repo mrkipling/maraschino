@@ -78,7 +78,29 @@
       <a class="power" title ="Suspend" id="suspend" ><img src="/static/images/suspend.png" width="14" height="14"/></a>
       <a class="power" title ="Reboot" id="reboot" ><img src="/static/images/reboot.png" width="14" height="14"/></a>
       <a class="power" title ="Shutdown" id="poweroff" ><img src="/static/images/shutdown.png" width="14" height="14"/></a>
+  {% if library %}
+	{% if library.tvshows %}
       <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% elif library.seasons %}
+      <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% elif library.episodes %}
+      <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% elif library.movies %}
+      <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% elif library.artists %}
+      <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% elif library.albums %}
+      <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% elif library.songs %}
+      <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% endif %}
+  {% endif %}
     </div>
 </div>

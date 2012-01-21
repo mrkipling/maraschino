@@ -299,6 +299,18 @@ $(document).ready(function() {
     $.get('/xhr/controls/clean_video');
   });
 
+  // update music library control
+
+  $(document).on('click', '#library #audio-update', function() {
+    $.get('/xhr/controls/update_audio');
+  });
+
+  // clean music library control
+
+  $(document).on('click', '#library #audio-clean', function() {
+    $.get('/xhr/controls/clean_audio');
+  });
+
   // xbmc poweron
 
   $(document).on('click', '#library #poweron', function() {
