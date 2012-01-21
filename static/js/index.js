@@ -452,6 +452,15 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#library li.play_audio', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/play_audio/song/' + $(this).data('songid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
   $(document).on('click', '#library .back', function() {
     var url = '/xhr/library';
     var command = $('#library li:first-child').eq(0).data('command');
