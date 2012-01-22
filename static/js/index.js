@@ -883,7 +883,8 @@ $(document).ready(function() {
     if(e.which == 13){
       e.preventDefault();
       var query = $('#search form #value').val();
-      $.get('/xhr/search/'+query)
+      var cat = $('#search form #category').val();
+      $.get('/xhr/nzbmatrix/'+query+'/'+cat)
       .success(function(data){
         $('#search').replaceWith(data);
         byteSizeOrdering();

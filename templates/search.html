@@ -5,6 +5,76 @@
   <div class="inner">
     <form>
       <input id="value" type="search">
+      <select id="category">
+        <option value="0">Everything</option>
+        <optgroup label="Movies">Movies
+          <option value="1">Movies: DVD</option>
+          <option value="2">Movies: Divx/Xvid</option>
+          <option value="54">Movies: BRRip</option>
+          <option value="42">Movies: HD (x264)</option>
+          <option value="50">Movies: HD (Image)</option>
+          <option value="48">Movies: WMV-HD</option>
+          <option value="3">Movies: SVCD/VCD</option>
+          <option value="4">Movies: Other</option>
+        </optgroup>
+        <optgroup label="TV">
+          <option value="5">TV: DVD</option>
+          <option value="6">TV: Divx/Xvid</option>
+          <option value="41">TV: HD</option>
+          <option value="7">TV: Sport/Ent</option>
+          <option value="8">TV: Other</option>
+        </optgroup>
+        <optgroup label="Documentaries">
+          <option value="9">Documentaries: STD</option>
+          <option value="53">Documentaries: HD</option>
+        </optgroup>
+        <optgroup label="Games">
+          <option value="10">Games: PC</option>
+          <option value="11">Games: PS2</option>
+          <option value="43">Games: PS3</option>
+          <option value="12">Games: PSP</option>
+          <option value="13">Games: Xbox</option>
+          <option value="14">Games: Xbox360</option>
+          <option value="56">Games: Xbox360 (Other)</option>
+          <option value="15">Games: PS1</option>
+          <option value="16">Games: Dreamcast</option>
+          <option value="44">Games: Wii</option>
+          <option value="51">Games: Wii VC</option>
+          <option value="45">Games: DS</option>
+          <option value="46">Games: GameCube</option>
+          <option value="17">Games: Other</option>
+        </optgroup>
+        <optgroup label="Apps">
+          <option value="18">Apps: PC</option>
+          <option value="19">Apps: Mac</option>
+          <option value="52">Apps: Portable</option>
+          <option value="20">Apps: Linux</option>
+          <option value="55">Apps: Phone</option>
+          <option value="21">Apps: Other</option>
+        </optgroup>
+        <optgroup label="Music">
+        <option value="22">Music: MP3 Albums</option>
+        <option value="47">Music: MP3 Singles</option>
+        <option value="23">Music: Lossless</option>
+        <option value="24">Music: DVD</option>
+        <option value="25">Music: Video</option>
+        <option value="27">Music: Other</option>
+        </optgroup>
+        <optgroup label="Anime">
+          <option value="28">Anime: ALL</option>
+        </optgroup>
+        <optgroup label="Other">
+          <option value="49">Other: Audio Books</option>
+          <option value="33">Other: Emulation</option>
+          <option value="34">Other: PPC/PDA</option>
+          <option value="26">Other: Radio</option>
+          <option value="36">Other: E-Books</option>
+          <option value="37">Other: Images</option>
+          <option value="38">Other: Mobile Phone</option>
+          <option value="39">Other: Extra Pars/Fills</option>
+          <option value="40">Other: Other</option>
+        </optgroup>
+      </select>
     </form>
     {% if results %}
     <div id="results">
