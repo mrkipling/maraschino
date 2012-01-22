@@ -1,5 +1,5 @@
-from flask import Flask, jsonify, render_template
-import json, jsonrpclib, urllib
+from flask import Flask, jsonify, render_template, request
+import json, jsonrpclib, urllib2
 from jinja2.filters import FILTERS
 
 from Maraschino import app
@@ -61,12 +61,15 @@ def xhr_sabnzbd():
         old_config = old_config,
     )
 
-@app.route('/sabnzbd/add/<url>')
-def add_to_sab(url):
+@app.route('/sabnzbd/add/', methods=['POST'])
+def add_to_sab():
     try:
-        result = urllib.urlopen(url).read()
-        result = json.JSONDecoder().decode(result)
-        
-        return result
+        url = request.form['url']
     except:
-        return jsonify({ 'error': 'failed'})
+        return jsonify({ 'error': 'Did not receive URL variable'})
+        
+    try:
+        return urllib2.urlopen(url).read()
+    except:
+        return jsonify({ 'error': 'Failed to open URL: %s' %(url)})
+

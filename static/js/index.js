@@ -903,8 +903,13 @@ $(document).ready(function() {
   
   $(document).on('click', '#search #results table tbody tr td:first-child img', function(){
     var link = $(this).attr('nzb-link');
-    $.get(link, function(data){
-      alert(data);
+    $.post('/sabnzbd/add/',{url: encodeURI(link)}, function(data){
+      data = eval('(' + data + ')');
+      if(data['status']){
+        popup_message('Successfully added to SabNZBd');
+      } else {
+        popup_message(data['error']);
+      }
     });
   });
 
