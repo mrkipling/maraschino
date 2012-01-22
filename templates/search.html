@@ -20,7 +20,7 @@
         <tbody>
           {% for x in results %}
             {% set item = results[x]%}
-            <tr><td><img src="static/images/applications/SabNZBd.png" height="15px" nzb-link="{{ item.LINK|add_to_sab }}" /></td><td>{{ item.NZBNAME }}</td><td>{{ item.SIZE|convert_bytes }}</td><td>{{ item.CATEGORY }}</td></tr>
+            <tr><td class="icon"><img src="static/images/applications/SabNZBd.png" height="15px" nzb-link="{{ item.LINK|add_to_sab }}" /></td><td class="name">{{ item.NZBNAME }}</td><td class="size">{{ item.SIZE|convert_bytes }}</td><td class="category">{{ item.CATEGORY }}</td></tr>
           {% endfor %}
         </tbody>
       </table>
