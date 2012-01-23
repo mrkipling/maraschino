@@ -464,6 +464,17 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#library li.play_song', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/play_audio/song/' + $(this).data('songid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  /************ QUEUE ************/
+
   $(document).on('click', '#library li.enqueue_episode', function() {
     var li = this;
     add_loading_gif(li);
@@ -482,15 +493,6 @@ $(document).ready(function() {
     });
   });
 
-  $(document).on('click', '#library li.play_song', function() {
-    var li = this;
-    add_loading_gif(li);
-
-    $.get('/xhr/play_audio/song/' + $(this).data('songid'), function() {
-      remove_loading_gif(li);
-    });
-  });
-
   $(document).on('click', '#library li.enqueue_song', function() {
     var li = this;
     add_loading_gif(li);
@@ -499,6 +501,38 @@ $(document).ready(function() {
       remove_loading_gif(li);
     });
   });
+
+  $(document).on('click', '#library .toggleepisode', function() {
+	$('li').toggleClass('enqueue_episode');
+	$('li').toggleClass('play_episode');
+
+	  if ($('li').hasClass('play_episode')) {
+        $(this).toggleClass('active');
+	  }
+
+  });
+
+  $(document).on('click', '#library .togglemovie', function() {
+	$('li').toggleClass('enqueue_movie');
+	$('li').toggleClass('play_movie');
+
+	  if ($('li').hasClass('play_movie')) {
+        $(this).toggleClass('active');
+	  }
+
+  });
+
+  $(document).on('click', '#library .togglesong', function() {
+	$('li').toggleClass('enqueue_song');
+	$('li').toggleClass('play_song');
+
+	  if ($('li').hasClass('play_song')) {
+        $(this).toggleClass('active');
+	  }
+
+  });
+
+  /********* END QUEUE ***********/
 
   $(document).on('click', '#library .back', function() {
     var url = '/xhr/library';
@@ -911,7 +945,6 @@ $(document).ready(function() {
     }
   });
   /********* END REMOTE ***********/
-
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');

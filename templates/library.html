@@ -28,27 +28,13 @@
 
       {% if library.episodes %}
         {% for item in library.episodes %}
-          <table class="table">
-            <td>
-		      <li class="enqueue_episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}" title ="Add to Queue"><img src="/static/images/add.png" class="enqueue" width="10" height="10"></li>
-            </td>
-            <td width="100%">
               <li class="play_episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}" title="{{ item.plot|truncate(200) }}">{{ item.season }}x{{ item.episode }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
-            </td>
-          </table>
         {% endfor %}
       {% endif %}
 
       {% if library.movies %}
         {% for item in library.movies %}
-          <table class="table">
-            <td>
-		      <li class="enqueue_movie" data-movieid="{{ item.movieid }}" data-command="movies/{{ item.movieid }}" title ="Add to Queue"><img src="/static/images/add.png" class="enqueue" width="10" height="10"></li>
-            </td>
-            <td width="100%">
               <li class="play_movie" data-movieid="{{ item.movieid }}" data-command="movies/{{ item.movieid }}" title="{{ item.plot|truncate(200) }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
-            </td>
-          </table>
 		  {% endfor %}
       {% endif %}
 
@@ -66,14 +52,7 @@
 
 	  {% if library.songs %}
         {% for item in library.songs %}
-          <table class="table">
-            <td>
-		      <li class="enqueue_song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}" title ="Add to Queue"><img src="/static/images/add.png" class="enqueue" width="10" height="10"></li>
-            </td>
-            <td width="100%">
-              <li class="play_song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}" title="{{ item.track }} - {{ item.label }}">{{ item.track }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
-            </td>
-          </table>
+          <li class="play_song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}" title="{{ item.track }} - {{ item.label }}">{{ item.track }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
         {% endfor %}
       {% endif %}
     </ul>
@@ -96,9 +75,6 @@
       <p class="message"><b style="color:red">{{ message }}</b><p>
 	  <a class="power" id="poweron" title="Try Wake On LAN"><img src="/static/images/poweron.png" width="14" height="14"/></a>
     {% endif %}
-      <a class="power" title ="Suspend" id="suspend" ><img src="/static/images/suspend.png" width="14" height="14"/></a>
-      <a class="power" title ="Reboot" id="reboot" ><img src="/static/images/reboot.png" width="14" height="14"/></a>
-      <a class="power" title ="Shutdown" id="poweroff" ><img src="/static/images/shutdown.png" width="14" height="14"/></a>
   {% if library %}
 	{% if library.tvshows %}
       <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
@@ -107,9 +83,11 @@
       <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
     {% elif library.episodes %}
+      <a class="toggleepisode" title ="Toggle Queue" ><img src="/static/images/add.png" width="14" height="14"/></a>
       <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
     {% elif library.movies %}
+      <a class="togglemovie" title ="Toggle Queue" ><img src="/static/images/add.png" width="14" height="14"/></a>
       <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
     {% elif library.artists %}
@@ -119,9 +97,14 @@
       <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
     {% elif library.songs %}
+      <a class="togglesong" title ="Toggle Queue" ><img src="/static/images/add.png" width="14" height="14"/></a>
       <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
     {% endif %}
   {% endif %}
+      <a class="power" title ="Suspend" id="suspend" ><img src="/static/images/suspend.png" width="14" height="14"/></a>
+      <a class="power" title ="Reboot" id="reboot" ><img src="/static/images/reboot.png" width="14" height="14"/></a>
+      <a class="power" title ="Shutdown" id="poweroff" ><img src="/static/images/shutdown.png" width="14" height="14"/></a>
+
     </div>
 </div>
