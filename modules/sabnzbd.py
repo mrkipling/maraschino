@@ -37,7 +37,7 @@ def xhr_sabnzbd():
 
     try:
         url = '%s/api?apikey=%s&mode=qstatus&output=json' % (SABNZBD_URL, SABNZBD_API)
-        result = urllib.urlopen(url).read()
+        result = urllib2.urlopen(url).read()
         sabnzbd = json.JSONDecoder().decode(result)
 
         percentage_total = 0
