@@ -52,6 +52,7 @@ def xhr_enqueue_audio(audio_type, audio_id):
     item = { audio_type + 'id': audio_id }
     xbmc.Playlist.Add(playlistid=0, item=item)
 
+
     return jsonify({ 'success': True })
 
 @app.route('/xhr/clear_playlist/<playlist_type>')
