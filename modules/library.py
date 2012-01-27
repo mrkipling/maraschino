@@ -25,11 +25,15 @@ def xhr_library_root(item_type):
         title = "Movies"
 
         if item_type == 'movies':
-            library = xbmc.VideoLibrary.GetMovies(sort={ 'method': 'label', 'ignorearticle' : True }, properties=['playcount'],)
+            library = xbmc.VideoLibrary.GetMovies(sort={ 'method': 'label', 'ignorearticle' : True }, properties=['playcount'])
 
         if item_type == 'shows':
             title = "TV Shows"
             library = xbmc.VideoLibrary.GetTVShows(sort={ 'method': 'label', 'ignorearticle' : True }, properties=['playcount'])
+
+        if item_type == 'artists':
+            title = "Music"
+            library = xbmc.AudioLibrary.GetArtists(sort={ 'method': 'label', 'ignorearticle' : True })
 
     except:
         return render_library(message="There was a problem connecting to the XBMC server.")
@@ -57,6 +61,30 @@ def xhr_library_season(show, season):
 
     episode = library['episodes'][0]
     title = '%s - Season %s' % (episode['showtitle'], episode['season'])
+
+    return render_library(library, title)
+
+@app.route('/xhr/library/artists/<int:artist>')
+@requires_auth
+def xhr_library_artist(artist):
+    xbmc = jsonrpclib.Server(server_api_address())
+    library = xbmc.AudioLibrary.GetAlbums(artistid=artist, properties=['artistid', 'title', 'artist'])
+    library['artistid'] = artist
+
+    title = library['albums'][0]['artist']
+
+    return render_library(library, title)
+
+@app.route('/xhr/library/artists/<int:artist>/<int:album>')
+@requires_auth
+def xhr_library_album(artist, album):
+    xbmc = jsonrpclib.Server(server_api_address())
+
+    sort = { 'method': 'track' }
+    library = xbmc.AudioLibrary.GetSongs(artistid=artist, albumid=album, sort=sort, properties=['artistid', 'artist', 'album', 'track', 'playcount'])
+
+    song = library['songs'][0]
+    title = '%s - %s' % (song['artist'], song['album'])
 
     return render_library(library, title)
 

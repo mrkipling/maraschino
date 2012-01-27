@@ -1,7 +1,10 @@
 <div id="currently_playing" data-id="{{ currently_playing.id }}"{% if fanart %} data-fanart="{{ fanart }}"{% endif %}>
 
   <p class="item_info">
-    <strong>Currently playing:</strong><br>
+  {% if currently_playing.artist %}
+  <img align="left" src="{{ albumart }}" width="100" height="100"><br>
+  {% endif %}
+    <strong>&nbsp;&nbsp;Currently playing:</strong><br>
 
     {% if currently_playing.showtitle %}
       <span class="show" data-show="{{ currently_playing.tvshowid }}">{{ currently_playing.showtitle }}</span>
@@ -10,6 +13,11 @@
       <span class="episode">Episode {{ currently_playing.episode }}</span>
       <span class="separator">-</span>
       "{{ currently_playing.title }}"
+    {% elif currently_playing.artist %}
+      <span class="artist" data-artist="{{ currently_playing.artistid }}">&nbsp;&nbsp;{{ currently_playing.artist }}</span>
+      <span class="separator">-</span>
+      <span class="album" data-album="{{ currently_playing.albumid }}">{{ currently_playing.album }}</span>
+      <br>&nbsp;&nbsp;{{ currently_playing.track }}. {{ currently_playing.title }}
     {% else %}
       {{ currently_playing.title }}
     {% endif %}
