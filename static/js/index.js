@@ -252,6 +252,10 @@ $(document).ready(function() {
     get_currently_playing();
   }
 
+  if ($('body').data('artist_currently_playing') === 'True') {
+    get_currently_playing();
+  }
+
   // play/pause control
 
   $(document).on('click', '#currently_playing .controls .play_pause', function() {
@@ -276,6 +280,18 @@ $(document).ready(function() {
     invoke_library('/xhr/library/shows/' + $(this).parent().find('.show').data('show') + '/' + $(this).data('season'));
   });
 
+  // click artist name to view in media library module
+
+  $(document).on('click', '#currently_playing .item_info .artist', function() {
+    invoke_library('/xhr/library/artists/' + $(this).data('artist'));
+  });
+
+  // click show album to view in media library module
+
+  $(document).on('click', '#currently_playing .item_info .album', function() {
+    invoke_library('/xhr/library/artists/' + $(this).parent().find('.artist').data('artist') + '/' + $(this).data('album'));
+  });
+
   function invoke_library(url) {
     $.get(url, function(data) {
       var library = $('#library');
@@ -297,6 +313,18 @@ $(document).ready(function() {
 
   $(document).on('click', '#library #video-clean', function() {
     $.get('/xhr/controls/clean_video');
+  });
+
+  // update music library control
+
+  $(document).on('click', '#library #audio-update', function() {
+    $.get('/xhr/controls/update_audio');
+  });
+
+  // clean music library control
+
+  $(document).on('click', '#library #audio-clean', function() {
+    $.get('/xhr/controls/clean_audio');
   });
 
   // xbmc poweron
@@ -450,6 +478,52 @@ $(document).ready(function() {
     $.get('/xhr/play_video/movie/' + $(this).data('movieid'), function() {
       remove_loading_gif(li);
     });
+  });
+
+  $(document).on('click', '#library li.play_song', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/play_audio/song/' + $(this).data('songid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_episode', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_video/episode/' + $(this).data('episodeid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_movie', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_video/movie/' + $(this).data('movieid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_song', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_audio/song/' + $(this).data('songid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library .toggle', function() {
+    var li = '#library li';
+    var type = $(li).attr('media-type');
+    $('li').toggleClass('enqueue_'+type);
+    $('li').toggleClass('play_'+type);
+      if ($('li').hasClass('play_'+type)) {
+        $(this).toggleClass('active');
+      }
   });
 
   $(document).on('click', '#library .back', function() {
@@ -863,7 +937,6 @@ $(document).ready(function() {
     }
   });
   /********* END REMOTE ***********/
-
 
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');

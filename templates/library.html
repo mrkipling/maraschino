@@ -28,16 +28,33 @@
 
       {% if library.episodes %}
         {% for item in library.episodes %}
-          <li class="play_episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}" title="{{ item.plot|truncate(200) }}">{{ item.season }}x{{ item.episode }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+              <li class="play_episode" media-type="episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}" title="{{ item.plot|truncate(200) }}">{{ item.season }}x{{ item.episode }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
         {% endfor %}
       {% endif %}
 
       {% if library.movies %}
         {% for item in library.movies %}
-          <li class="play_movie" data-movieid="{{ item.movieid }}" data-command="movies/{{ item.movieid }}" title="{{ item.plot|truncate(200) }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+              <li class="play_movie" media-type="movie" data-movieid="{{ item.movieid }}" data-command="movies/{{ item.movieid }}" title="{{ item.plot|truncate(200) }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+		  {% endfor %}
+      {% endif %}
+
+      {% if library.artists %}
+        {% for item in library.artists %}
+          <li class="get" data-command="artists/{{ item.artistid }}">{{ item.label }}</li>
         {% endfor %}
       {% endif %}
 
+      {% if library.albums %}
+        {% for item in library.albums %}
+          <li class="get" data-command="artists/{{ item.artistid }}/{{ item.albumid }}">{{ item.label }}</li>
+        {% endfor %}
+      {% endif %}
+
+	  {% if library.songs %}
+        {% for item in library.songs %}
+          <li class="play_song" media-type="song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}" title="{{ item.track }} - {{ item.label }}">{{ item.track }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+        {% endfor %}
+      {% endif %}
     </ul>
 
   {% else %}
@@ -47,6 +64,8 @@
     <ul>
       <li class="get" data-command="movies">Movies</li>
       <li class="get" data-command="shows">TV Shows</li>
+      <li class="get" data-command="artists">Music</li>
+	  
     </ul>
 
   {% endif %}
@@ -56,10 +75,36 @@
       <p class="message"><b style="color:red">{{ message }}</b><p>
 	  <a class="power" id="poweron" title="Try Wake On LAN"><img src="/static/images/poweron.png" width="14" height="14"/></a>
     {% endif %}
+  {% if library %}
+	{% if library.tvshows %}
+      <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% elif library.seasons %}
+      <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% elif library.episodes %}
+      <a class="toggle" title ="Toggle Queue" ><img src="/static/images/add.png" width="14" height="14"/></a>
+      <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% elif library.movies %}
+      <a class="toggle" title ="Toggle Queue" ><img src="/static/images/add.png" width="14" height="14"/></a>
+      <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% elif library.artists %}
+      <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% elif library.albums %}
+      <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% elif library.songs %}
+      <a class="toggle" title ="Toggle Queue" ><img src="/static/images/add.png" width="14" height="14"/></a>
+      <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% endif %}
+  {% endif %}
       <a class="power" title ="Suspend" id="suspend" ><img src="/static/images/suspend.png" width="14" height="14"/></a>
       <a class="power" title ="Reboot" id="reboot" ><img src="/static/images/reboot.png" width="14" height="14"/></a>
       <a class="power" title ="Shutdown" id="poweroff" ><img src="/static/images/shutdown.png" width="14" height="14"/></a>
-	  <a class="power" title ="Update Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
-      <a class="power" title ="Clean Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+
     </div>
 </div>

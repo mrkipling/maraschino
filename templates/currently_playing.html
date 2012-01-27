@@ -10,6 +10,11 @@
       <span class="episode">Episode {{ currently_playing.episode }}</span>
       <span class="separator">-</span>
       "{{ currently_playing.title }}"
+    {% elif currently_playing.artist %}
+      <span class="artist" data-artist="{{ currently_playing.artistid }}">{{ currently_playing.artist }}</span>
+      <span class="separator">-</span>
+      <span class="album" data-album="{{ currently_playing.albumid }}">{{ currently_playing.album }}</span>
+      <br>{{ currently_playing.track }}. {{ currently_playing.title }}
     {% else %}
       {{ currently_playing.title }}
     {% endif %}
