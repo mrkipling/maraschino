@@ -252,6 +252,10 @@ $(document).ready(function() {
     get_currently_playing();
   }
 
+  if ($('body').data('artist_currently_playing') === 'True') {
+    get_currently_playing();
+  }
+
   // play/pause control
 
   $(document).on('click', '#currently_playing .controls .play_pause', function() {
@@ -274,6 +278,18 @@ $(document).ready(function() {
 
   $(document).on('click', '#currently_playing .item_info .season', function() {
     invoke_library('/xhr/library/shows/' + $(this).parent().find('.show').data('show') + '/' + $(this).data('season'));
+  });
+
+  // click artist name to view in media library module
+
+  $(document).on('click', '#currently_playing .item_info .artist', function() {
+    invoke_library('/xhr/library/artists/' + $(this).data('artist'));
+  });
+
+  // click show album to view in media library module
+
+  $(document).on('click', '#currently_playing .item_info .album', function() {
+    invoke_library('/xhr/library/artists/' + $(this).parent().find('.artist').data('artist') + '/' + $(this).data('album'));
   });
 
   function invoke_library(url) {
