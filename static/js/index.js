@@ -887,6 +887,10 @@ $(document).ready(function() {
 
   $('ul.modules').sortable({
     connectWith: 'ul.modules',
+    revert: true,
+    opacity: 0.8,
+    distance: 80,
+    cancel: '.undraggable',
     disabled: true,
     stop: function() {
       var modules = [];
