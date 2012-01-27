@@ -20,28 +20,31 @@ def xhr_currently_playing():
 
         if active_player[0]['type'] == 'video':
 
-            albumart = None
-            currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid', 'plot'])['item']
+            currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid', 'plot', 'thumbnail'])['item']
             fanart_url = currently_playing['fanart']
+            itemart_url = currently_playing['thumbnail']
 
         # if watching a TV show
+
             if currently_playing['tvshowid'] != -1:
                 fanart_url = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['fanart'])['tvshowdetails']['fanart']
-
+                itemart_url = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['thumbnail'])['tvshowdetails']['thumbnail']
             time = xbmc.Player.GetProperties(playerid=1, properties=['time', 'totaltime', 'position', 'percentage'])
 
+
         #if playing music
+
         if active_player[0]['type'] == 'audio':
-            currently_playing = xbmc.Player.GetItem(playerid = 0, properties = ['title', 'duration', 'fanart', 'artist', 'album', 'track', 'artistid', 'albumid', 'thumbnail'])['item']
+            currently_playing = xbmc.Player.GetItem(playerid = 0, properties = ['title', 'duration', 'fanart', 'artist', 'albumartist', 'album', 'track', 'artistid', 'albumid', 'thumbnail'])['item']
             fanart_url = currently_playing['fanart']
-            albumart_url = currently_playing['thumbnail']
+            itemart_url = currently_playing['thumbnail']
             time = xbmc.Player.GetProperties(playerid=0, properties=['time', 'totaltime', 'position', 'percentage'])
 
-            try:
-                albumart = '%s/vfs/%s' % (safe_server_address(), albumart_url)
+        try:
+            itemart = '%s/vfs/%s' % (safe_server_address(), itemart_url)
 
-            except:
-                albumart = None
+        except:
+            itemart = None
 
     except:
         return jsonify({ 'playing': False })
@@ -58,7 +61,7 @@ def xhr_currently_playing():
     return render_template('currently_playing.html',
         currently_playing = currently_playing,
         fanart = fanart,
-        albumart = albumart,
+        itemart = itemart,
         time = time,
         current_time = format_time(time['time']),
         total_time = format_time(time['totaltime']),
