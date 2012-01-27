@@ -28,7 +28,7 @@ def xhr_currently_playing():
 
             if currently_playing['tvshowid'] != -1:
                 fanart_url = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['fanart'])['tvshowdetails']['fanart']
-                itemart_url = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['thumbnail'])['tvshowdetails']['thumbnail']
+                itemart_url = currently_playing['thumbnail']
             time = xbmc.Player.GetProperties(playerid=1, properties=['time', 'totaltime', 'position', 'percentage'])
 
 

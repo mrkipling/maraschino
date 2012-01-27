@@ -16,8 +16,18 @@
     position: fixed;
     bottom: 10px;
     left: 10px;
-    height: 150px;
-    width: 150px;
+    height: auto;
+    max-width: 150px;
+    .box-shadow(#000, 0, 0, 15px);
+  }
+
+  .episodeart  {
+    float: left;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    max-width: 200px;
+    height: auto;
     .box-shadow(#000, 0, 0, 15px);
   }
 
@@ -25,19 +35,18 @@
     position: fixed;
     bottom: 10px;
     left: 10px;
-    height: 200px;
-    width: 140px;
+    max-width: 120px;
+    height: auto;
     .box-shadow(#000, 0, 0, 15px);
   }
 
-  .item_info {
+  .item_info_artist  {
     float: left;
+    position: relative;
     margin-left: 152px;
     line-height: 1.5em;
     width: 400px;
 
-    .show:hover,
-    .season:hover,
     .artist:hover,
     .album:hover  {
       border-bottom: 1px solid #555;
@@ -47,6 +56,32 @@
     .separator {
       margin: 0 3px;
     }
+  }
+
+  .item_info_show  {
+    float: left;
+    position: relative;
+    margin-left: 202px;
+    line-height: 1.5em;
+    width: 400px;
+
+    .show:hover,
+    .season:hover  {
+      border-bottom: 1px solid #555;
+      cursor: pointer;
+    }
+
+    .separator {
+      margin: 0 3px;
+    }
+  }
+
+  .item_info_movie  {
+    float: left;
+    position: relative;
+    margin-left: 122px;
+    line-height: 1.5em;
+    width: 400px;
   }
 
   .controls {

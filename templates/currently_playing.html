@@ -1,12 +1,15 @@
 <div id="currently_playing" data-id="{{ currently_playing.id }}"{% if fanart %} data-fanart="{{ fanart }}"{% endif %}>
 
   {% if currently_playing.artist %}
-    <img class="albumart" align="left" src="{{ itemart }}"><br>
+    <img class="albumart" src="{{ itemart }}">
+  {% elif currently_playing.showtitle %}
+    <img class="episodeart" src="{{ itemart }}">
   {% else %}
-    <img class="posterart" align="left" src="{{ itemart }}"><br>
+    <img class="posterart" src="{{ itemart }}">
   {% endif %}
 
-  <p class="item_info">
+  <p {% if currently_playing.artist %}class="item_info_artist"{% elif currently_playing.showtitle %}class="item_info_show"{% else %}class="item_info_movie"{% endif %}>
+  <br>
     <strong>Currently playing:</strong><br>
 
     {% if currently_playing.showtitle %}
