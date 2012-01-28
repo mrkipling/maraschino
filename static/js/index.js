@@ -270,25 +270,25 @@ $(document).ready(function() {
 
   // click show name to view in media library module
 
-  $(document).on('click', '#currently_playing .item_info .show', function() {
+  $(document).on('click', '#currently_playing .item_info_show .show', function() {
     invoke_library('/xhr/library/shows/' + $(this).data('show'));
   });
 
   // click show season to view in media library module
 
-  $(document).on('click', '#currently_playing .item_info .season', function() {
+  $(document).on('click', '#currently_playing .item_info_show .season', function() {
     invoke_library('/xhr/library/shows/' + $(this).parent().find('.show').data('show') + '/' + $(this).data('season'));
   });
 
   // click artist name to view in media library module
 
-  $(document).on('click', '#currently_playing .item_info .artist', function() {
+  $(document).on('click', '#currently_playing .item_info_artist .artist', function() {
     invoke_library('/xhr/library/artists/' + $(this).data('artist'));
   });
 
   // click show album to view in media library module
 
-  $(document).on('click', '#currently_playing .item_info .album', function() {
+  $(document).on('click', '#currently_playing .item_info_artist .album', function() {
     invoke_library('/xhr/library/artists/' + $(this).parent().find('.artist').data('artist') + '/' + $(this).data('album'));
   });
 
