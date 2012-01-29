@@ -890,7 +890,6 @@ $(document).ready(function() {
     revert: 200,
     opacity: 0.8,
     distance: 80,
-    cancel: '.undraggable',
     disabled: true,
     stop: function() {
       var modules = [];
