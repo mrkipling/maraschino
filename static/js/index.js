@@ -1018,7 +1018,7 @@ $(document).ready(function() {
   // save settings
 
   $(document).on('click', '.edit_settings .choices .save', function() {
-    var module = $(this).closest('.module, .inactive_module, .placeholder');
+    var module = $(this).closest('.module, .inactive_module, .placeholder, #server_settings');
     var module_name = module.data('module');
     var settings = module.find('form').serializeArray();
 
