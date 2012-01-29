@@ -70,12 +70,19 @@ def xhr_clear_playlist(playlist_type):
 @requires_auth
 def xhr_controls(command):
     xbmc = jsonrpclib.Server(server_api_address())
+    active_player = xbmc.Player.GetActivePlayers()
 
     if command == 'play_pause':
-        xbmc.Player.PlayPause(playerid=1)
+        if active_player[0]['type'] == 'video':
+            xbmc.Player.PlayPause(playerid=1)
+        elif active_player[0]['type'] == 'audio':
+            xbmc.Player.PlayPause(playerid=0)
 
     elif command == 'stop':
-        xbmc.Player.Stop(playerid=1)
+        if active_player[0]['type'] == 'video':
+            xbmc.Player.Stop(playerid=1)
+        elif active_player[0]['type'] == 'audio':
+            xbmc.Player.Stop(playerid=0)
 
     elif command == 'update_video':
     	xbmc.VideoLibrary.Scan()
