@@ -928,14 +928,15 @@ $(document).ready(function() {
 
     if ($('body').hasClass('f_settings_mode')) {
       $('ul.modules').sortable({ disabled: false });
+
       $.get('/xhr/server_settings_dialog', function(data) {
-        var existing_server_settings = $('#server_settings').closest('li');
+        var existing_server_settings = $('#server_settings');
 
         if (existing_server_settings.length === 0) {
-          var existing_server_settings = $('#col1 ul.modules').prepend('<li>').find('> li:first-child');
+          $('body').append(data);
+        } else {
+          existing_server_settings.replaceWith(data);
         }
-
-        existing_server_settings.empty().append(data);
       });
 
     } else {
