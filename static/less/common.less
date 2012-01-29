@@ -1,5 +1,26 @@
 @import "mixins.less";
 
+::-webkit-scrollbar {
+	width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    height: 28px;
+	width: 12px;
+    background: url(/static/images/alpha/fff_10.png);
+    -webkit-border-radius: 3px;
+    -webkit-box-shadow: inset 1px 1px rgba(255,255,255,0.2);
+	
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    -webkit-border-radius: 3px;
+}
+
 #fanart
 {
   bottom: 0;
