@@ -31,7 +31,8 @@ def xhr_recently_added_movies_offset(movie_offset):
 
 
 def render_recently_added_episodes(episode_offset=0):
-    compact_view = get_setting_value('server_compact') == '1'
+    compact_view = get_setting_value('recently_added_compact') == '1'
+
     try:
         xbmc = jsonrpclib.Server(server_api_address())
         recently_added_episodes = get_recently_added_episodes(xbmc, episode_offset)
@@ -50,7 +51,8 @@ def render_recently_added_episodes(episode_offset=0):
 
 
 def render_recently_added_movies(movie_offset=0):
-    compact_view = get_setting_value('server_compact') == '1'
+    compact_view = get_setting_value('recently_added_movies_compact') == '1'
+
     try:
         xbmc = jsonrpclib.Server(server_api_address())
         recently_added_movies = get_recently_added_movies(xbmc, movie_offset)
