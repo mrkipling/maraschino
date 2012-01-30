@@ -20,6 +20,20 @@ def xhr_play_video(video_type, video_id):
     
     return jsonify({ 'success': True })
 
+@app.route('/xhr/play_audio/<audio_type>/<int:audio_id>')
+@requires_auth
+def xhr_play_audio(audio_type, audio_id):
+    xbmc = jsonrpclib.Server(server_api_address())
+    xhr_clear_playlist('audio')
+
+    item = { audio_type + 'id': audio_id }
+    xbmc.Playlist.Add(playlistid=0, item=item)
+
+    item = { 'playlistid': 0 }
+    xbmc.Player.Open(item)
+
+    return jsonify({ 'success': True })
+
 @app.route('/xhr/enqueue_video/<video_type>/<int:video_id>')
 @requires_auth
 def xhr_enqueue_video(video_type, video_id):
@@ -56,12 +70,19 @@ def xhr_clear_playlist(playlist_type):
 @requires_auth
 def xhr_controls(command):
     xbmc = jsonrpclib.Server(server_api_address())
+    active_player = xbmc.Player.GetActivePlayers()
 
     if command == 'play_pause':
-        xbmc.Player.PlayPause(playerid=1)
+        if active_player[0]['type'] == 'video':
+            xbmc.Player.PlayPause(playerid=1)
+        elif active_player[0]['type'] == 'audio':
+            xbmc.Player.PlayPause(playerid=0)
 
     elif command == 'stop':
-        xbmc.Player.Stop(playerid=1)
+        if active_player[0]['type'] == 'video':
+            xbmc.Player.Stop(playerid=1)
+        elif active_player[0]['type'] == 'audio':
+            xbmc.Player.Stop(playerid=0)
 
     elif command == 'update_video':
     	xbmc.VideoLibrary.Scan()
