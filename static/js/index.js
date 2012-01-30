@@ -252,10 +252,6 @@ $(document).ready(function() {
     get_currently_playing();
   }
 
-  if ($('body').data('artist_currently_playing') === 'True') {
-    get_currently_playing();
-  }
-
   // play/pause control
 
   $(document).on('click', '#currently_playing .controls .play_pause', function() {

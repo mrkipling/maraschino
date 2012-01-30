@@ -35,7 +35,7 @@ def xhr_currently_playing():
         #if playing music
 
         if active_player[0]['type'] == 'audio':
-            currently_playing = xbmc.Player.GetItem(playerid = 0, properties = ['title', 'duration', 'fanart', 'artist', 'albumartist', 'album', 'track', 'artistid', 'albumid', 'thumbnail'])['item']
+            currently_playing = xbmc.Player.GetItem(playerid = 0, properties = ['title', 'duration', 'fanart', 'artist', 'albumartist', 'album', 'track', 'artistid', 'albumid', 'thumbnail', 'year'])['item']
             fanart_url = currently_playing['fanart']
             itemart_url = currently_playing['thumbnail']
             time = xbmc.Player.GetProperties(playerid=0, properties=['time', 'totaltime', 'position', 'percentage'])

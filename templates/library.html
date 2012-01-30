@@ -46,7 +46,7 @@
 
       {% if library.albums %}
         {% for item in library.albums %}
-          <li class="get" data-command="artists/{{ item.artistid }}/{{ item.albumid }}">{{ item.label }}</li>
+          <li class="get" data-command="artists/{{ item.artistid }}/{{ item.albumid }}">{{ item.label }} ({{ item.year }})</li>
         {% endfor %}
       {% endif %}
 

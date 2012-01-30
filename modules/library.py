@@ -68,7 +68,9 @@ def xhr_library_season(show, season):
 @requires_auth
 def xhr_library_artist(artist):
     xbmc = jsonrpclib.Server(server_api_address())
-    library = xbmc.AudioLibrary.GetAlbums(artistid=artist, properties=['artistid', 'title', 'artist'])
+
+    sort = { 'method': 'year' }
+    library = xbmc.AudioLibrary.GetAlbums(artistid=artist, sort=sort, properties=['artistid', 'title', 'artist', 'year'])
     library['artistid'] = artist
 
     title = library['albums'][0]['artist']
@@ -81,10 +83,10 @@ def xhr_library_album(artist, album):
     xbmc = jsonrpclib.Server(server_api_address())
 
     sort = { 'method': 'track' }
-    library = xbmc.AudioLibrary.GetSongs(artistid=artist, albumid=album, sort=sort, properties=['artistid', 'artist', 'album', 'track', 'playcount'])
+    library = xbmc.AudioLibrary.GetSongs(artistid=artist, albumid=album, sort=sort, properties=['artistid', 'artist', 'album', 'track', 'playcount', 'year'])
 
     song = library['songs'][0]
-    title = '%s - %s' % (song['artist'], song['album'])
+    title = '%s - %s (%s)' % (song['artist'], song['album'], song['year'])
 
     return render_library(library, title)
 
