@@ -52,6 +52,12 @@ AVAILABLE_MODULES = [
                 'value': 3,
                 'description': 'Number of episodes to display',
             },
+            {
+                'key': 'recently_added_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
+            },
         ]
     },
     {
@@ -66,6 +72,12 @@ AVAILABLE_MODULES = [
                 'key': 'num_recent_movies',
                 'value': 3,
                 'description': 'Number of movies to display',
+            },
+            {
+                'key': 'recently_added_movies_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
             },
         ]
     },
