@@ -125,7 +125,7 @@ AVAILABLE_MODULES = [
         'label': 'Search',
         'description': 'Search usenet websites',
         'static': True,
-        'poll': 10,
+        'poll': 0,
         'delay': 0,
         'settings': [
             {

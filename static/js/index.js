@@ -870,14 +870,11 @@ $(document).ready(function() {
   /********* SEARCH ***********/
 
   $(document).on('keydown', 'body', function(e){
-    //do not activate module on settings mode
-    if(!$('body').hasClass('f_settings_mode')){
-      //check if alt is presset
-      alt = (e.altKey) ? true : false;
-      if(alt && e.which == 70){
-        e.preventDefault();
-        $('#search').toggleClass('hide');
-      }
+    //check if alt is pressed
+    alt = (e.altKey) ? true : false;
+    if(alt && e.which == 70){
+      e.preventDefault();
+      $('#search').toggleClass('hide');
     }
   });
 
@@ -900,7 +897,7 @@ $(document).ready(function() {
                 });
       })
       .error(function(){
-	    popup_message('Could not reach Maraschino.');
+        popup_message('Could not reach Maraschino.');
       });
     }
   });
@@ -1008,7 +1005,6 @@ $(document).ready(function() {
     $('body').toggleClass('f_operation_mode');
     $('add_module').toggle();
     $('#tutorial').remove();
-    $('#search').addClass('hide');
 
     if ($('body').hasClass('f_settings_mode')) {
       $('ul.modules').sortable({ disabled: false });

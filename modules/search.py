@@ -7,9 +7,8 @@ from nzbmatrix.pyMatrix import *
 
 @app.route('/xhr/search/')
 def xhr_search():
-
+    
     return render_template('search.html',
-        results = nzb_matrix(item),
     )
 
 @app.route('/xhr/nzbmatrix/<item>')
