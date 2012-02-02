@@ -52,7 +52,7 @@
 
 	  {% if library.songs %}
         {% for item in library.songs %}
-          <li class="play_song" media-type="song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}" title="{{ item.track }} - {{ item.label }}">{{ item.track }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+          <li class="play_song" media-type="song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}" title="{{ item.track }} - {{ item.label }}">{% if item.track < 10 %}0{% endif %}{{ item.track }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
         {% endfor %}
       {% endif %}
     </ul>
