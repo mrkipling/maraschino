@@ -20,6 +20,7 @@ def xhr_currently_playing():
 
         if active_player[0]['type'] == 'video':
 
+            time = xbmc.Player.GetProperties(playerid=1, properties=['time', 'totaltime', 'position', 'percentage'])
             currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid', 'plot', 'thumbnail'])['item']
             fanart_url = currently_playing['fanart']
             itemart_url = currently_playing['thumbnail']
@@ -29,8 +30,6 @@ def xhr_currently_playing():
             if currently_playing['tvshowid'] != -1:
                 fanart_url = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['fanart'])['tvshowdetails']['fanart']
                 itemart_url = currently_playing['thumbnail']
-            time = xbmc.Player.GetProperties(playerid=1, properties=['time', 'totaltime', 'position', 'percentage'])
-
 
         #if playing music
 

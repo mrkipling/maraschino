@@ -17,7 +17,7 @@
     bottom: 10px;
     left: 10px;
     height: auto;
-    max-width: 150px;
+    max-width: 130px;
     .box-shadow(#000, 0, 0, 15px);
   }
 
@@ -35,15 +35,31 @@
     position: fixed;
     bottom: 10px;
     left: 10px;
-    max-width: 120px;
+    max-width: 100px;
     height: auto;
     .box-shadow(#000, 0, 0, 15px);
+  }
+
+  .item_info {
+    float: left;
+    line-height: 1.5em;
+    width: 400px;
+
+    .show:hover,
+    .season:hover {
+      border-bottom: 1px solid #555;
+      cursor: pointer;
+    }
+
+    .separator {
+      margin: 0 3px;
+    }
   }
 
   .item_info_artist  {
     float: left;
     position: relative;
-    margin-left: 152px;
+    margin-left: 132px;
     line-height: 1.5em;
     width: 400px;
 
@@ -79,7 +95,7 @@
   .item_info_movie  {
     float: left;
     position: relative;
-    margin-left: 122px;
+    margin-left: 102px;
     line-height: 1.5em;
     width: 400px;
   }
