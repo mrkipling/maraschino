@@ -2,11 +2,17 @@
 
 #search
 {
+  background: url(/static/images/alpha/000_80.png);
+  border: 1px solid #333;
   position: absolute;
-  top: 10px;
+  top: 20px;
+  left: 28px;
   width: 95%;
   z-index: 1;
-  margin: auto;
+  padding-bottom: 5px;
+  
+  .border-radius(2px);
+  .box-shadow(#222, 0, 0, 10px);
   
   &.hide {
     opacity: 0;
@@ -93,4 +99,9 @@
       }    
     }
   }
+}
+
+.f_settings_mode #search {
+    opacity: 0;
+    top: -999999px;
 }
