@@ -1,11 +1,11 @@
 <div id="search">
   <div class="inner">
     <form>
-      <input id="value" type="search">
-      <select id="sites">
+      <input id="value" type="search" {% if item %}value="{{item}}"{% endif %}>
+      <select id="site">
         <option value="">Sites</option>
-        <option value="nzbmatrix">nzbMatrix</option>
-        <option value="nzb.su">nzb.su</option>
+        <option value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%} >nzbMatrix</option>
+        <option value="nzb.su" {% if site == 'nzb.su' %}selected{%endif%}>nzb.su</option>
       </select>
       {% if categories|length %}
         <select id="category">
@@ -23,29 +23,8 @@
         </select>
       {% endif %}
     </form>
-    {% if results %}
-    <div id="results">
-      <table class="tablesorter">
-        <thead>
-          <tr>
-            <th class="icon"></th>
-            <th class="name">Name</th>
-            <th class="size">Size</th>
-            <th class="category">Category</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for x in results %}
-            {% set item = results[x]%}
-            <tr>
-              <td class="icon"><img src="static/images/applications/SabNZBd.png" height="15px" nzb-link="{{ item.LINK|add_to_sab }}" /></td>
-              <td class="name">{{ item.NZBNAME }}</td><td class="size">{{ item.SIZE|convert_bytes }}</td>
-              <td class="category">{{ item.CATEGORY }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    {% endif %}
+    
+    {% block results %}{% endblock %}
+
   </div>
 </div>

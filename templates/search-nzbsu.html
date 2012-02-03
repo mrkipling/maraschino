@@ -1,0 +1,31 @@
+{% extends "search.html" %}
+
+
+{% block results %}
+
+    {% if results %}
+    <div id="results">
+      <table class="tablesorter">
+        <thead>
+          <tr>
+            <th class="icon"></th>
+            <th class="name">Name</th>
+            <th class="size">Size</th>
+            <th class="category">Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in results %}
+            <tr>
+              <td class="icon"><img src="static/images/applications/SabNZBd.png" height="15px" nzb-link="{{item.link|add_to_sab}}" /></td>
+              <td class="name">{{item.name}}</td>
+              <td class="size">{{ item.size|convert_bytes }}</td>
+              <td class="category">{{item.category_name}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+    
+{% endblock %}

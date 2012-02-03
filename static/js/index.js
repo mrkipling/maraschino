@@ -898,8 +898,9 @@ $(document).ready(function() {
     if(e.which == 13){
       e.preventDefault();
       var query = $('#search form #value').val();
+      var site = $('#search form #site').val();
       var cat = $('#search form #category').val();
-      $.get('/xhr/nzbmatrix/'+query+'/'+cat)
+      $.get('/search/'+site+'/'+query+'/'+cat)
       .success(function(data){
         $('#search').replaceWith(data);
         byteSizeOrdering();
@@ -917,11 +918,13 @@ $(document).ready(function() {
     }
   });
   
-  $(document).on('change', '#search form #sites', function(){
+  $(document).on('change', '#search form #site', function(){
     var value = $(this).val();
+    var query = $('#search form #value').val();
     $.get('/xhr/search/'+value)
     .success( function(data){
       $('#search').replaceWith(data);
+      $('#search form #value').val(query);
     })
   });
   
