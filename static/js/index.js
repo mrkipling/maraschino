@@ -900,6 +900,7 @@ $(document).ready(function() {
       var query = $('#search form #value').val();
       var site = $('#search form #site').val();
       var cat = $('#search form #category').val();
+      add_loading_gif('#search form');
       $.get('/search/'+site+'/'+query+'/'+cat)
       .success(function(data){
         $('#search').replaceWith(data);
