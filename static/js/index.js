@@ -900,6 +900,14 @@ $(document).ready(function() {
       var query = $('#search form #value').val();
       var site = $('#search form #site').val();
       var cat = $('#search form #category').val();
+      if(site == ''){
+        alert('You must pick a website'); 
+        return false;
+      }
+      if(query == ''){
+        alert('Must search something!'); 
+        return false;
+      }
       add_loading_gif('#search form');
       $.get('/search/'+site+'/'+query+'/'+cat)
       .success(function(data){
