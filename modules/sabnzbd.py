@@ -28,9 +28,6 @@ def xhr_sabnzbd():
         percentage_total = 0
         download_speed = '%s kB/s' % ((sabnzbd['kbpersec'])[:-3])
     
-        if sabnzbd['paused']:
-            download_speed = "PAUSED"
-    
         if sabnzbd['slots']:
             percentage_total = int(100 - (float(sabnzbd['mbleft']) / float(sabnzbd['mb']) * 100))
 
