@@ -24,15 +24,15 @@ def xhr_sabnzbd():
         result = urllib.urlopen(sabnzbd_url('queue')).read()
         sabnzbd = json.JSONDecoder().decode(result)
         sabnzbd = sabnzbd['queue']
-
+        
         percentage_total = 0
-        download_speed = '%s kB/s' % (int(sabnzbd['kbpersec']))
-
+        download_speed = '%s kB/s' % ((sabnzbd['kbpersec'])[:-3])
+    
         if sabnzbd['paused']:
             download_speed = "PAUSED"
-
-        if sabnzbd['jobs']:
-            percentage_total = int(100 - (sabnzbd['mbleft'] / sabnzbd['mb'] * 100))
+    
+        if sabnzbd['slots']:
+            percentage_total = int(100 - (float(sabnzbd['mbleft']) / float(sabnzbd['mb']) * 100))
 
     except:
         sabnzbd = None
