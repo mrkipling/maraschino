@@ -80,5 +80,16 @@ def sabnzb_speed_limit(speed):
         pass
         
     return jsonify ({'status': False})
-    
+
+@app.route('/xhr/sabnzbd/individual/<state>/<id>/')
+@requires_auth
+def sabnzb_individual_toggle(state, id):
+    try:
+        result = urllib.urlopen(sabnzbd_url('queue', '&name=%s&value=%s'%(state, id))).read()
+        sabnzbd = json.JSONDecoder().decode(result)
+        if sabnzbd:
+            return jsonify ({'status': sabnzbd['status']})
+    except:
+        pass
         
+    return jsonify ({'status': False})
