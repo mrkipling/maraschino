@@ -24,10 +24,10 @@ def xhr_sabnzbd():
         result = urllib.urlopen(sabnzbd_url('queue')).read()
         sabnzbd = json.JSONDecoder().decode(result)
         sabnzbd = sabnzbd['queue']
-        
+
         percentage_total = 0
         download_speed = '%s kB/s' % ((sabnzbd['kbpersec'])[:-3])
-    
+
         if sabnzbd['slots']:
             percentage_total = int(100 - (float(sabnzbd['mbleft']) / float(sabnzbd['mb']) * 100))
 
@@ -59,10 +59,10 @@ def sabnzb_queue(action = "pause", time = None):
             sabnzbd = json.JSONDecoder().decode(result)
         except:
             pass
-    
+
     if sabnzbd:
         return jsonify ({'status': sabnzbd['status']})
-    
+
     return jsonify ({'status': False})
 
 @app.route('/xhr/sabnzbd/speedlimit/<int:speed>/')
@@ -75,7 +75,7 @@ def sabnzb_speed_limit(speed):
             return jsonify ({'status': sabnzbd['status']})
     except:
         pass
-        
+
     return jsonify ({'status': False})
 
 @app.route('/xhr/sabnzbd/individual/<state>/<id>/')
@@ -88,5 +88,5 @@ def sabnzb_individual_toggle(state, id):
             return jsonify ({'status': sabnzbd['status']})
     except:
         pass
-        
+
     return jsonify ({'status': False})
