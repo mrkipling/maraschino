@@ -46,10 +46,10 @@ def xhr_sabnzbd():
         old_config = old_config,
     )
 
-@app.route('/xhr/sabnzbd/<action>/')
-@app.route('/xhr/sabnzbd/pause/<time>')
+@app.route('/xhr/sabnzbd/queue/<action>/')
+@app.route('/xhr/sabnzbd/queue/pause/<time>')
 @requires_auth
-def sabnzb_pause(action = "pause", time = None):
+def sabnzb_queue(action = "pause", time = None):
     if not time:
         try:
             result = urllib.urlopen(sabnzbd_url(action)).read()
@@ -67,3 +67,18 @@ def sabnzb_pause(action = "pause", time = None):
         return jsonify ({'status': sabnzbd['status']})
     
     return jsonify ({'status': False})
+
+@app.route('/xhr/sabnzbd/speedlimit/<int:speed>/')
+@requires_auth
+def sabnzb_speed_limit(speed):
+    try:
+        result = urllib.urlopen(sabnzbd_url('config', '&name=speedlimit&value=%i'%(speed))).read()
+        sabnzbd = json.JSONDecoder().decode(result)
+        if sabnzbd:
+            return jsonify ({'status': sabnzbd['status']})
+    except:
+        pass
+        
+    return jsonify ({'status': False})
+    
+        
