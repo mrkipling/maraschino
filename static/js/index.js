@@ -300,8 +300,8 @@ $(document).ready(function() {
   }
 
   // Filter function
-  
-  $(document).on('change keydown keyup', '#library .powerholder .filter', function(e){
+
+  $(document).on('change keydown keyup search', '#library .powerholder .filter', function(e){
     var filter = $(this).val().toLowerCase();
     $('#library ul li').filter(function(index) {
       return $(this).text().toLowerCase().indexOf(filter) < 0;
