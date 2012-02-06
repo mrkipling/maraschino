@@ -47,8 +47,15 @@
 
   <body data-show_currently_playing="{{ show_currently_playing }}" data-fanart_backgrounds="{{ fanart_backgrounds }}"{% if background %} style="background-image: url(/{{ background }});"{% endif %} class='f_operation_mode'>
 
-    <div id="settings_icon" title="Settings"><div class="inner"></div></div>
-    <div id="remote_icon" title="Use your keyboard to control XBMC"><div class="inner"></div></div>
+    <ul id="menu_head">
+      <li class="last">Menu</li>
+    </ul>
+
+    <ul id="menu_body">
+      <li id="settings_icon" title="Maraschino & Module Settings"><img src="/static/images/settings_icon.png" height="16" width="16"/>Settings</li>
+      <li id="remote_icon" title="Use your keyboard to control XBMC"><img src="/static/images/keyb_inactive.png" height="16" width="16"/>XBMC Remote</li>
+    </ul>
+
     <div id="fanart" style="display: none;"></div>
 
     {% block content %}{% endblock %}
