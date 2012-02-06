@@ -132,6 +132,34 @@ $(document).ready(function() {
 
   init_modules();
 
+  // dropmenu
+
+  $(document).on('click', '#menu_head', function(e) {
+    e.stopPropagation();
+    $('#menu_head').toggle();
+    $('#menu_body').slideToggle('medium').toggleClass('active');
+  });
+
+  $(document).on('click', '#menu_body', function(e) {
+    e.stopPropagation();
+  });
+
+  $(document).on('click', 'body', function() {
+    $('#menu_body').slideUp('medium').removeClass('active');
+    $('#menu_head').show();
+  });
+
+  function swap_active(str){
+    return (str.indexOf('inactive.png') != -1) ? str.replace("_inactive.png","_active.gif") : str.replace("_active.gif","_inactive.png");
+  }
+
+   $(document).on('click', '#menu_body li', function() {
+     var image = $(this).children('img');
+     $(image).attr('src', swap_active($(image).attr('src')));
+  });
+
+  $('#menu_body li:last').addClass("last");
+
   // currently playing
 
   var currently_playing_id = null;

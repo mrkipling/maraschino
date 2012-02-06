@@ -1,0 +1,61 @@
+
+#menu_head {
+  position: absolute;
+  opacity: 0;
+  width: 175px;
+  z-index: 1;
+
+  transition: opacity 0.3s;
+  -transition: opacity 0.3s;
+  -webkit-transition: opacity 0.3s;
+  -moz-transition: opacity 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
+}
+
+#menu_head li {
+  background: url(/static/images/alpha/000_80.png);
+  padding: 10px;
+  font-size: 16px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#menu_body {
+  position: absolute;
+  display: none;
+  width: 175px;
+  z-index: 1;
+
+  border-bottom-right-radius: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -o-border-bottom-right-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+}
+
+#menu_body li {
+  background: url(/static/images/alpha/000_80.png);
+  padding:10px;
+  font-size: 16px;
+  z-index: 2;
+
+  &:hover {
+    cursor: pointer;
+    background: url(/static/images/alpha/000_70.png);
+  }
+}
+
+  .last  {
+    border-bottom-right-radius: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -o-border-bottom-right-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+  }
+
+#server_settings { opacity: 0; }
+.f_settings_mode #server_settings { opacity: 1; }
