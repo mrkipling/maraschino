@@ -39,6 +39,8 @@ def xhr_transmission():
             torrent = client.info(i)[i]
             if torrent.status == 'downloading':
                 transmission.append(torrent)
+            elif torrent.status == 'check pending':
+                transmission.append(torrent)
 
                 # take the ETA for the current torrent, add it to the total ETA remaining
                 eta = eta + torrent.eta
