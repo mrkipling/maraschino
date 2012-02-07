@@ -37,7 +37,7 @@ def xhr_transmission():
         # loop through each job, add any active (downloading) torrents to the transmission list()
         for i in torrents:
             torrent = client.info(i)[i]
-            if torrent.status == 'downloading':
+            if torrent.status == 'downloading' or torrent.status == 'check pending':
                 transmission.append(torrent)
 
                 # take the ETA for the current torrent, add it to the total ETA remaining
