@@ -38,7 +38,7 @@ def sickbeard_url_no_api():
     if using_auth():
         return 'http://%s%s' % (login_string(), url_base)
 
-    return 'http://%s' % (url)
+    return 'http://%s' % (url_base)
 
 @app.route('/xhr/sickbeard')
 def xhr_sickbeard():
