@@ -15,7 +15,13 @@ def login_string():
     return login
 
 def sickbeard_url():
-    url = '%s:%s/api/%s' % (get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'), get_setting_value('sickbeard_api'))
+    port = get_setting_value('sickbeard_port')
+    url_base = get_setting_value('sickbeard_ip')
+
+    if port:
+        url_base = '%s:%s' % (url_base, port)
+
+    url = '%s/api/%s' % (url_base, get_setting_value('sickbeard_api'))
 
     if using_auth():
         return 'http://%s%s' % (login_string(), url)
@@ -23,10 +29,14 @@ def sickbeard_url():
     return 'http://%s' % (url)
 
 def sickbeard_url_no_api():
-    url = '%s:%s/' % (get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'))
+    port = get_setting_value('sickbeard_port')
+    url_base = get_setting_value('sickbeard_ip')
+
+    if port:
+        url_base = '%s:%s' % (url_base, port)
 
     if using_auth():
-        return 'http://%s%s' % (login_string(), url)
+        return 'http://%s%s' % (login_string(), url_base)
 
     return 'http://%s' % (url)
 
