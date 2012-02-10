@@ -70,7 +70,10 @@ def xhr_clear_playlist(playlist_type):
 @requires_auth
 def xhr_controls(command):
     xbmc = jsonrpclib.Server(server_api_address())
-    active_player = xbmc.Player.GetActivePlayers()
+    try:
+        active_player = xbmc.Player.GetActivePlayers()
+    except:
+        active_player = None
 
     if command == 'play_pause':
         if active_player[0]['type'] == 'video':
