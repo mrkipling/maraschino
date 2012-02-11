@@ -508,6 +508,24 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#library li.enqueue_tvshow', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_video/tvshow/' + $(this).data('tvshowid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_season', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_video/season/' + $(this).data('season'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
   $(document).on('click', '#library li.enqueue_episode', function() {
     var li = this;
     add_loading_gif(li);
@@ -526,6 +544,24 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#library li.enqueue_artist', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_audio/artist/' + $(this).data('artistid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_album', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_audio/album/' + $(this).data('albumid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
   $(document).on('click', '#library li.enqueue_song', function() {
     var li = this;
     add_loading_gif(li);
@@ -538,10 +574,22 @@ $(document).ready(function() {
   $(document).on('click', '#library .toggle', function() {
     var li = '#library li';
     var type = $(li).attr('media-type');
-    $('li').toggleClass('enqueue_'+type);
-    $('li').toggleClass('play_'+type);
+
       if ($('li').hasClass('play_'+type)) {
-        $(this).toggleClass('active');
+        $('li').toggleClass('enqueue_'+type);
+        $('li').toggleClass('play_'+type);
+      }
+
+      else if ($('li').hasClass('get')) {
+        $('li').toggleClass('enqueue_'+type);
+        $('li').toggleClass('get');
+      }
+
+      if ($('li').hasClass('enqueue_'+type)) {
+        $(this).addClass('active');
+      }
+      else {
+        $(this).removeClass('active');
       }
   });
 
