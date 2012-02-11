@@ -578,18 +578,13 @@ $(document).ready(function() {
       if ($('li').hasClass('play_'+type)) {
         $('li').toggleClass('enqueue_'+type);
         $('li').toggleClass('play_'+type);
+        $(this).toggleClass('active');
       }
 
       else if ($('li').hasClass('get')) {
         $('li').toggleClass('enqueue_'+type);
         $('li').toggleClass('get');
-      }
-
-      if ($('li').hasClass('enqueue_'+type)) {
-        $(this).addClass('active');
-      }
-      else {
-        $(this).removeClass('active');
+        $(this).toggleClass('active');
       }
   });
 
