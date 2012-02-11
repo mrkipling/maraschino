@@ -82,6 +82,27 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'recently_added_albums',
+        'label': 'Recently added albums',
+        'description': 'Shows you Albums recently added to your library.',
+        'static': False,
+        'poll': 350,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'num_recent_albums',
+                'value': 3,
+                'description': 'Number of albums to display',
+            },
+            {
+                'key': 'recently_added_albums_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
+            },
+        ]
+    },
+    {
         'name': 'recommendations',
         'label': 'Recommendations',
         'description': 'Movies that may suit you.',
