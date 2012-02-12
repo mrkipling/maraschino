@@ -50,7 +50,7 @@ def xhr_enqueue_tvshow(video_id):
 
     return jsonify({ 'success': True })
 
-@app.route('/xhr/enqueue_season/<tvshow_id>/<int:video_id>')
+@app.route('/xhr/enqueue_season/<int:tvshow_id>/<int:video_id>')
 @requires_auth
 def xhr_enqueue_season(video_id, tvshow_id):
     xbmc = jsonrpclib.Server(server_api_address())
