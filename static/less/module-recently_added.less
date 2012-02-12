@@ -56,27 +56,27 @@
       overflow: hidden;
 
       .box-shadow(#222, 0, 0, 2px);
-      
+
       img {
         width: 100px;
       }
     }
   }
-  
+
   div.compact {
     ul{
-      li {        
+      li {
         max-height: 25px;
-        
+
         .thumbnail {
           display: none;
         }
-        
+
         p {
           overflow: hidden;
           white-space: nowrap;
           width: 100%;
-          
+
           span.extra {
             position: absolute;
             right: 5px;
@@ -85,12 +85,12 @@
       }
     }
   }
-  
+
   .expand
   {
     text-decoration: none;
   }
-  
+
   .view_older,
   .view_newer
   {
@@ -116,4 +116,10 @@
   {
     float: left;
   }
+}
+
+#recently_added_albums .thumbnail,
+#recently_added_albums .thumbnail img {
+    height: 56px;
+    width: 56px !important;
 }
