@@ -133,23 +133,20 @@
     width: 33%;
   }
 
-  input[type=text],
-  input[type=password],
   select {
-    background-color: #fff;
-    border: 1px solid #555;
-    float: right;
-    padding: 4px 6px;
-    width: 60%;
-
-    .border-radius(3px);
-  }
-
-  select {
-    padding: 3px 6px;
+    -webkit-appearance: none;
+    background-image: url(/static/images/select-arrow.png);
+    background-position: center right;
+    background-repeat: no-repeat;
+    border: 1px solid #222;
+    cursor: pointer;
+    color: #67c0f8;
+    padding: 4px 20px 4px 6px;
     width: auto;
-  }
-}
+    float: right;
+      .border-radius(3px);
+    }
+ }
 
 .formrow.invalid,
 .formrow .invalid
