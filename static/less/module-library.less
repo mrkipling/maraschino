@@ -9,14 +9,17 @@
   }
 
   .message {
-    margin: -7px 15px 10px;
+    color:red;
+    width: 48%;
+    float: right;
+    font-weight: bold;
+    font-size: x-small;
+    margin-top: 7px;
   }
 
   ul {
     max-height: 226px;
     overflow: auto;
-
-
   }
 
   li,
@@ -30,13 +33,12 @@
     line-height: 1.3em;
     margin-top: 5px;
     padding: 5px 15px;
-
     .border-radius(4px);
 
     &:hover {
       background: url(/static/images/alpha/fff_20.png);
     }
-  }
+}
 
   li {
     padding-right: 28px;
@@ -96,22 +98,36 @@
     top: 12px;
   }
 
+  #filter input[type="search"]{
+    -webkit-appearance: none;
+    float: left;
+	background: url(/static/images/alpha/fff_10.png);
+    color: #67C0F8;
+    position: absolute;
+    left: 5px;
+    width: 50%;
+    height: 28px;
+    cursor: pointer;
+    line-height: 1.2em;
+    margin-top: 5px;
+    padding: 2px 12px;
+    font-size: 1.2em;
+    border: 1px solid #222;
+    .border-radius(4px);
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+
+    &:focus {
+      background: url(/static/images/alpha/fff_40.png);
+	}
+}
+
   .powerholder {
-    margin-top: 10px;
+    margin-top: 42px;
     margin-bottom: 7px;
     cursor: default;
-
-    .filter {
-      border: none;
-      color: gray;
-      height: 24px;
-      left: 5px;
-      line-height: 24px;
-      padding-left: 14px;
-      position: absolute;
-      width: 200px;
-      .border-radius(3px);
-    }
 
   }
 

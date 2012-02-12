@@ -68,13 +68,11 @@
     </ul>
 
   {% endif %}
-
-    <div class="powerholder" style="text-align:right" >
-    <input type="search" class="filter" value="Filter">
+    <div id="filter"><input type="search" name="input" class="filter" value="Filter" onclick="this.value='';" onfocus="this.select()" onblur="this.value=!this.value?'Filter':this.value;"></input></div>
 	{% if message %}
-      <p class="message"><b style="color:red">{{ message }}</b><p>
-	  <a class="power" id="poweron" title="Try Wake On LAN"><img src="/static/images/poweron.png" width="14" height="14"/></a>
+      <div class="message">{{ message }}</div>
     {% endif %}
+    <div class="powerholder" style="text-align:right" >
   {% if library %}
 	{% if library.tvshows %}
       <a class="toggle" title ="Toggle Queue" ><img src="/static/images/add.png" width="14" height="14"/></a>
@@ -105,6 +103,9 @@
       <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
     {% endif %}
+  {% endif %}
+  {% if message %}
+      <a class="power" title="Try Wake On LAN" id="poweron"><img src="/static/images/poweron.png" width="14" height="14"/></a>
   {% endif %}
       <a class="power" title ="Suspend" id="suspend" ><img src="/static/images/suspend.png" width="14" height="14"/></a>
       <a class="power" title ="Reboot" id="reboot" ><img src="/static/images/reboot.png" width="14" height="14"/></a>
