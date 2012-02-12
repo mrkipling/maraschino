@@ -22,7 +22,7 @@
 
       {% if library.seasons %}
         {% for item in library.seasons %}
-          <li class="get" media-type="season" data-season="{{ item.season }}" data-command="shows/{{ library.tvshowid }}/{{ item.season }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+          <li class="get" media-type="season" data-tvshowid="{{ item.tvshowid }}" data-season="{{ item.season }}" data-command="shows/{{ library.tvshowid }}/{{ item.season }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
         {% endfor %}
       {% endif %}
 

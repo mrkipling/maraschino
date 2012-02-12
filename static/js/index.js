@@ -512,7 +512,7 @@ $(document).ready(function() {
     var li = this;
     add_loading_gif(li);
 
-    $.get('/xhr/enqueue_video/tvshow/' + $(this).data('tvshowid'), function() {
+    $.get('/xhr/enqueue_tvshow/' + $(this).data('tvshowid'), function() {
       remove_loading_gif(li);
     });
   });
@@ -521,7 +521,7 @@ $(document).ready(function() {
     var li = this;
     add_loading_gif(li);
 
-    $.get('/xhr/enqueue_video/season/' + $(this).data('season'), function() {
+    $.get('/xhr/enqueue_season/' + $(this).data('tvshowid') + '/' + $(this).data('season'), function() {
       remove_loading_gif(li);
     });
   });
