@@ -1,0 +1,52 @@
+<div id="recently_added_albums" class="module" data-module="recently_added_albums" data-album_offset="{{ album_offset }}">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2>Recently Added Albums</h2>
+
+  {% if recently_added_albums %}
+    {% if compact_view %}
+    <div class="compact">
+    {% endif %}
+      <ul class="albums listfix">
+        {% for album in recently_added_albums %}
+          <li data-albumid="{{ album.albumid }}" title="Play {{ album.title }} ({{ album.year }})">
+
+            {% if album.thumbnail %}
+              <div class="thumbnail">
+                <img src="{{ vfs_url }}{{ album.thumbnail }}" alt="">
+              </div>
+            {% endif %}
+
+            <div class="inner">
+              {% if compact_view %}
+              <p><b>{{ album.artist }} - {{ album.title }}</b> <span class="extra">{{ album.year }} | {{ album.rating|float|round(1, 'common') }}</span></p>
+              {% else %}
+              <h3 class="first">{{ album.title }}</h3>
+              <p class="second">{{ album.artist }}</p>
+              <p class="third">Year: {{ album.year }}</p>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+
+    {% if compact_view %}
+    </div>
+    {% endif %}
+
+    <div class="clearfix">
+      {% if album_offset + recently_added_albums|length < 25 %}
+        <a class="view_older" title="Older">&raquo;</a>
+      {% endif %}
+      {% if album_offset > 0 %}
+        <a class="view_newer" title="Newer">&laquo;</a>
+      {% endif %}
+    </div>
+
+  {% else %}
+    <p class="problem">There was a problem connecting to the XBMC server.</p>
+  {% endif %}
+
+</div>

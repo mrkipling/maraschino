@@ -452,6 +452,22 @@ $(document).ready(function() {
     return false;
   });
 
+  // view more recently added albums
+
+  $(document).on('click', '#recently_added_albums .view_older', function() {
+    get_module('recently_added_albums', {
+      params: [$('#recently_added_albums').data('album_offset') + $('#recently_added_albums .albums > li').length]
+    });
+    return false;
+  });
+
+  $(document).on('click', '#recently_added_albums .view_newer', function() {
+    get_module('recently_added_albums', {
+      params: [$('#recently_added_albums').data('album_offset') - $('#recently_added_albums .albums > li').length]
+    });
+    return false;
+  });
+
   // play recently added episodes when clicking on them
 
   $(document).on('click', '#recently_added .episodes li', function() {
@@ -462,6 +478,12 @@ $(document).ready(function() {
 
   $(document).on('click', '#recently_added_movies li', function() {
     $.get('/xhr/play_video/movie/' + $(this).data('movieid'));
+  });
+
+  // play recently added albums when clicking on them
+
+  $(document).on('click', '#recently_added_albums li', function() {
+    $.get('/xhr/play_audio/album/' + $(this).data('albumid'));
   });
 
   // browse library
@@ -1144,6 +1166,7 @@ $(document).ready(function() {
         if (module_name == 'server_settings') {
           get_module('recently_added');
           get_module('recently_added_movies');
+          get_module('recently_added_albums');
         }
       }
     );
