@@ -301,7 +301,7 @@ $(document).ready(function() {
 
   // Filter function
 
-  $(document).on('change keydown keyup search', '#library .powerholder .filter', function(e){
+  $(document).on('change keydown keyup search', '#library .filter', function(e){
     var filter = $(this).val().toLowerCase();
     $('#library ul li').filter(function(index) {
       return $(this).text().toLowerCase().indexOf(filter) < 0;
@@ -314,10 +314,10 @@ $(document).ready(function() {
     }
   });
 
-  $(document).on('click', '#library .powerholder .filter', function(){
+  $(document).on('click', '#library .filter', function(){
     var filter = $(this).val();
     if(filter === 'Filter'){
-      $(this).css('color', 'black').attr('value', '');
+      $(this).css('color', '#67C0F8').attr('value', '');
     }
   });
 
