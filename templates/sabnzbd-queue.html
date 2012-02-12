@@ -2,7 +2,7 @@
 
 {% block sabnzbd_content %}
     <div class="status" id="status" status="{{ sabnzbd.paused }}" title="Toggle paused/downloading">{{ sabnzbd.status }}</div>
-    <div class="speed">{{ download_speed }}</div>
+    <div class="speed"><input type="text" value="{{ download_speed[:-5] }}" title="Adjust Speed" size="6"/>{{ download_speed[-5:] }}</div>
     <p>{{ sabnzbd.slots[0].filename }}</p>
 
     <div class="bar">

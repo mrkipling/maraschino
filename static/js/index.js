@@ -973,7 +973,23 @@ $(document).ready(function() {
         get_module('sabnzbd');
       }
     })
-    .error('Could not reach Maraschino');
+    .error(function(){
+      popup_message('Problem reaching Maraschino on /xhr/sabnzbd/queue/<var>/');
+    });
+  });
+
+  $(document).on('keypress', '#sabnzbd .inner .speed input', function(e){
+    if(e.which == 13){
+      $.get('/xhr/sabnzbd/speedlimit/'+$(this).attr('value'))
+      .success(function(data){
+        if(data.status === 'true'){
+          get_module('sabnzbd');
+        }
+      })
+      .error(function(){
+        popup_message('Problem reaching Maraschino on /xhr/sabnzbd/speedlimit/<var>/');
+      });
+    }
   });
 
   /********* END SABNZBD ***********/
