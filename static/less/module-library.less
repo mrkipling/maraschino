@@ -98,22 +98,21 @@
     top: 12px;
   }
 
-  #filter input[type="search"]{
-    -webkit-appearance: none;
-    float: left;
-	background: url(/static/images/alpha/fff_10.png);
-    color: #67C0F8;
-    position: absolute;
-    left: 5px;
-    width: 50%;
-    height: 28px;
+  #filter input[type="search"] {
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
     cursor: pointer;
-    line-height: 1.2em;
+    color: #67c0f8;
+    float: left;
+    height: 28px;
+    line-height: 28px;
     margin-top: 5px;
     padding: 2px 12px;
-    font-size: 1.2em;
-    border: 1px solid #222;
+    position: absolute;
+    right: 3px;
+    width: 50%;
     .border-radius(4px);
+    -webkit-appearance: none;
 
     &:hover {
       background: url(/static/images/alpha/fff_20.png);
@@ -121,8 +120,8 @@
 
     &:focus {
       background: url(/static/images/alpha/fff_40.png);
-	}
-}
+    }
+  }
 
   .powerholder {
     margin-top: 42px;
@@ -169,6 +168,11 @@
   .module_settings {
     display: none;
   }
+}
+
+#library.root {
+  .powerholder { margin-top: 10px; }
+  #filter      { display: none; }
 }
 
 .f_settings_mode #library .back

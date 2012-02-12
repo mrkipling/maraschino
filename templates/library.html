@@ -1,4 +1,4 @@
-<div id="library" class="module" data-module="library">
+<div id="library" class="module{% if not library %} root{% endif %}" data-module="library">
 
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
@@ -50,7 +50,7 @@
         {% endfor %}
       {% endif %}
 
-	  {% if library.songs %}
+      {% if library.songs %}
         {% for item in library.songs %}
           <li class="play_song" media-type="song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}" title="{{ item.track }} - {{ item.label }}">{% if item.track < 10 %}0{% endif %}{{ item.track }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
         {% endfor %}
