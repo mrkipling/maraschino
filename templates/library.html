@@ -1,4 +1,4 @@
-<div id="library" class="module" data-module="library">
+<div id="library" class="module{% if not library %} root{% endif %}" data-module="library">
 
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
@@ -16,13 +16,13 @@
 
       {% if library.tvshows %}
         {% for item in library.tvshows %}
-          <li class="get" data-command="shows/{{ item.tvshowid }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+          <li class="get" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}" data-command="shows/{{ item.tvshowid }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
         {% endfor %}
       {% endif %}
 
       {% if library.seasons %}
         {% for item in library.seasons %}
-          <li class="get" data-command="shows/{{ library.tvshowid }}/{{ item.season }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+          <li class="get" media-type="season" data-tvshowid="{{ item.tvshowid }}" data-season="{{ item.season }}" data-command="shows/{{ library.tvshowid }}/{{ item.season }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
         {% endfor %}
       {% endif %}
 
@@ -40,17 +40,17 @@
 
       {% if library.artists %}
         {% for item in library.artists %}
-          <li class="get" data-command="artists/{{ item.artistid }}">{{ item.label }}</li>
+          <li class="get" media-type="artist" data-artistid="{{ item.artistid }}" data-command="artists/{{ item.artistid }}">{{ item.label }}</li>
         {% endfor %}
       {% endif %}
 
       {% if library.albums %}
         {% for item in library.albums %}
-          <li class="get" data-command="artists/{{ item.artistid }}/{{ item.albumid }}">{{ item.label }} ({{ item.year }})</li>
+          <li class="get" media-type="album" data-albumid="{{ item.albumid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}">{{ item.label }} ({{ item.year }})</li>
         {% endfor %}
       {% endif %}
 
-	  {% if library.songs %}
+      {% if library.songs %}
         {% for item in library.songs %}
           <li class="play_song" media-type="song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}" title="{{ item.track }} - {{ item.label }}">{% if item.track < 10 %}0{% endif %}{{ item.track }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
         {% endfor %}
@@ -68,18 +68,18 @@
     </ul>
 
   {% endif %}
-
-    <div class="powerholder" style="text-align:right" >
-    <input type="search" class="filter" value="Filter">
+    <div id="filter"><input type="search" name="input" class="filter" value="Filter" onclick="this.value='';" onfocus="this.select()" onblur="this.value=!this.value?'Filter':this.value;"></input></div>
 	{% if message %}
-      <p class="message"><b style="color:red">{{ message }}</b><p>
-	  <a class="power" id="poweron" title="Try Wake On LAN"><img src="/static/images/poweron.png" width="14" height="14"/></a>
+      <div class="message">{{ message }}</div>
     {% endif %}
+    <div class="powerholder" style="text-align:right" >
   {% if library %}
 	{% if library.tvshows %}
+      <a class="toggle" title ="Toggle Queue" ><img src="/static/images/add.png" width="14" height="14"/></a>
       <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
     {% elif library.seasons %}
+      <a class="toggle" title ="Toggle Queue" ><img src="/static/images/add.png" width="14" height="14"/></a>
       <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
     {% elif library.episodes %}
@@ -91,9 +91,11 @@
       <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
     {% elif library.artists %}
+      <a class="toggle" title ="Toggle Queue" ><img src="/static/images/add.png" width="14" height="14"/></a>
       <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
     {% elif library.albums %}
+      <a class="toggle" title ="Toggle Queue" ><img src="/static/images/add.png" width="14" height="14"/></a>
       <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
     {% elif library.songs %}
@@ -101,6 +103,9 @@
       <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
     {% endif %}
+  {% endif %}
+  {% if message %}
+      <a class="power" title="Try Wake On LAN" id="poweron"><img src="/static/images/poweron.png" width="14" height="14"/></a>
   {% endif %}
       <a class="power" title ="Suspend" id="suspend" ><img src="/static/images/suspend.png" width="14" height="14"/></a>
       <a class="power" title ="Reboot" id="reboot" ><img src="/static/images/reboot.png" width="14" height="14"/></a>

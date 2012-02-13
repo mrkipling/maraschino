@@ -301,7 +301,7 @@ $(document).ready(function() {
 
   // Filter function
 
-  $(document).on('change keydown keyup search', '#library .powerholder .filter', function(e){
+  $(document).on('change keydown keyup search', '#library .filter', function(e){
     var filter = $(this).val().toLowerCase();
     $('#library ul li').filter(function(index) {
       return $(this).text().toLowerCase().indexOf(filter) < 0;
@@ -314,10 +314,10 @@ $(document).ready(function() {
     }
   });
 
-  $(document).on('click', '#library .powerholder .filter', function(){
+  $(document).on('click', '#library .filter', function(){
     var filter = $(this).val();
     if(filter === 'Filter'){
-      $(this).css('color', 'black').attr('value', '');
+      $(this).css('color', '#67C0F8').attr('value', '');
     }
   });
 
@@ -452,6 +452,22 @@ $(document).ready(function() {
     return false;
   });
 
+  // view more recently added albums
+
+  $(document).on('click', '#recently_added_albums .view_older', function() {
+    get_module('recently_added_albums', {
+      params: [$('#recently_added_albums').data('album_offset') + $('#recently_added_albums .albums > li').length]
+    });
+    return false;
+  });
+
+  $(document).on('click', '#recently_added_albums .view_newer', function() {
+    get_module('recently_added_albums', {
+      params: [$('#recently_added_albums').data('album_offset') - $('#recently_added_albums .albums > li').length]
+    });
+    return false;
+  });
+
   // play recently added episodes when clicking on them
 
   $(document).on('click', '#recently_added .episodes li', function() {
@@ -462,6 +478,12 @@ $(document).ready(function() {
 
   $(document).on('click', '#recently_added_movies li', function() {
     $.get('/xhr/play_video/movie/' + $(this).data('movieid'));
+  });
+
+  // play recently added albums when clicking on them
+
+  $(document).on('click', '#recently_added_albums li', function() {
+    $.get('/xhr/play_audio/album/' + $(this).data('albumid'));
   });
 
   // browse library
@@ -508,6 +530,24 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#library li.enqueue_tvshow', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_tvshow/' + $(this).data('tvshowid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_season', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_season/' + $(this).data('tvshowid') + '/' + $(this).data('season'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
   $(document).on('click', '#library li.enqueue_episode', function() {
     var li = this;
     add_loading_gif(li);
@@ -526,6 +566,24 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#library li.enqueue_artist', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_audio/artist/' + $(this).data('artistid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_album', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_audio/album/' + $(this).data('albumid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
   $(document).on('click', '#library li.enqueue_song', function() {
     var li = this;
     add_loading_gif(li);
@@ -538,9 +596,16 @@ $(document).ready(function() {
   $(document).on('click', '#library .toggle', function() {
     var li = '#library li';
     var type = $(li).attr('media-type');
-    $('li').toggleClass('enqueue_'+type);
-    $('li').toggleClass('play_'+type);
+
       if ($('li').hasClass('play_'+type)) {
+        $('li').toggleClass('enqueue_'+type);
+        $('li').toggleClass('play_'+type);
+        $(this).toggleClass('active');
+      }
+
+      else if ($('li').hasClass('get')) {
+        $('li').toggleClass('enqueue_'+type);
+        $('li').toggleClass('get');
         $(this).toggleClass('active');
       }
   });
@@ -1160,6 +1225,7 @@ $(document).ready(function() {
         if (module_name == 'server_settings') {
           get_module('recently_added');
           get_module('recently_added_movies');
+          get_module('recently_added_albums');
         }
       }
     );

@@ -9,14 +9,17 @@
   }
 
   .message {
-    margin: -7px 15px 10px;
+    color:red;
+    width: 48%;
+    float: left;
+    font-weight: bold;
+    font-size: x-small;
+    margin-top: 7px;
   }
 
   ul {
     max-height: 226px;
     overflow: auto;
-
-
   }
 
   li,
@@ -30,13 +33,12 @@
     line-height: 1.3em;
     margin-top: 5px;
     padding: 5px 15px;
-
     .border-radius(4px);
 
     &:hover {
       background: url(/static/images/alpha/fff_20.png);
     }
-  }
+}
 
   li {
     padding-right: 28px;
@@ -96,22 +98,35 @@
     top: 12px;
   }
 
+  #filter input[type="search"] {
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    cursor: pointer;
+    color: #67c0f8;
+    float: left;
+    height: 28px;
+    line-height: 28px;
+    margin-top: 5px;
+    padding: 2px 12px;
+    position: absolute;
+    right: 3px;
+    width: 50%;
+    .border-radius(4px);
+    -webkit-appearance: none;
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+
+    &:focus {
+      background: url(/static/images/alpha/fff_40.png);
+    }
+  }
+
   .powerholder {
-    margin-top: 10px;
+    margin-top: 42px;
     margin-bottom: 7px;
     cursor: default;
-
-    .filter {
-      border: none;
-      color: gray;
-      height: 24px;
-      left: 5px;
-      line-height: 24px;
-      padding-left: 14px;
-      position: absolute;
-      width: 200px;
-      .border-radius(3px);
-    }
 
   }
 
@@ -153,6 +168,11 @@
   .module_settings {
     display: none;
   }
+}
+
+#library.root {
+  .powerholder { margin-top: 10px; }
+  #filter      { display: none; }
 }
 
 .f_settings_mode #library .back
