@@ -6,7 +6,13 @@ from settings import *
 from maraschino.tools import *
 
 def sabnzbd_url_no_api():
-    return 'http://%s:%s' % (get_setting_value('sabnzbd_host'), get_setting_value('sabnzbd_port'))
+    url_base = get_setting_value('sabnzbd_host')
+    port = get_setting_value('sabnzbd_port')
+
+    if port:
+        url_base = '%s:%s' % (url_base, port)
+
+    return 'http://%s' % (url_base)
 
 def sabnzbd_url(mode, extra = ""):
     return '%s/api?apikey=%s&mode=%s&output=json%s' % (sabnzbd_url_no_api(), get_setting_value('sabnzbd_api'), mode, extra)
