@@ -17,9 +17,10 @@ def sabnzbd_url_no_api():
 def sabnzbd_url(mode, extra = ""):
     return '%s/api?apikey=%s&mode=%s&output=json%s' % (sabnzbd_url_no_api(), get_setting_value('sabnzbd_api'), mode, extra)
 
-@app.route('/xhr/sabnzbd')
+@app.route('/xhr/sabnzbd/')
+@app.route('/xhr/sabnzbd/<queue_status>')
 @requires_auth
-def xhr_sabnzbd():
+def xhr_sabnzbd(queue_status = 'hide'):
     old_config = False
 
     if not get_setting_value('sabnzbd_host'):
@@ -55,6 +56,7 @@ def xhr_sabnzbd():
         download_speed = download_speed,
         old_config = old_config,
         first_downloading = downloading,
+        queue_status = queue_status,
     )
 
 @app.route('/xhr/sabnzbd/queue/<action>/')

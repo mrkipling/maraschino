@@ -102,7 +102,7 @@ $(document).ready(function() {
     if (settings.poll !== 0) {
       setTimeout(function() {
         get_module(module, {
-          poll: settings.poll
+          poll: settings.poll,
         })
       }, settings.poll * 1000);
     }
@@ -936,7 +936,7 @@ $(document).ready(function() {
     $.get('/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
     .success(function(data){
       if(data){
-	$('#sickbeard .episode-info .status .search').attr('src','/static/images/yes.png');
+        $('#sickbeard .episode-info .status .search').attr('src','/static/images/yes.png');
       } else {
         $('#sickbeard .episode-info .status .search').attr('src','/static/images/no.png');
       }
@@ -1055,6 +1055,15 @@ $(document).ready(function() {
         popup_message('Problem reaching Maraschino on /xhr/sabnzbd/speedlimit/<var>/');
       });
     }
+  });
+  
+  $(document).on('click', '#sabnzbd .inner .queue-title', function(){
+    $('#sabnzbd .inner .queue').toggle();
+    var customsettings = '';
+    if($('#sabnzbd .inner .queue').attr('display') != 'none' ){
+      customsettings = '/show'; 
+    }
+    get_module('sabnzbd'+customsettings);
   });
 
   /********* END SABNZBD ***********/

@@ -20,7 +20,7 @@
       <span><img src="/static/images/dropdown.png">More</span>
     </div>
   {% endif %}
-  <div class="queue">
+  <div class="queue {{ queue_status }}">
     <table>
     {% for x in sabnzbd.slots %}
       <tr id="{{x.nzo_id}}">
