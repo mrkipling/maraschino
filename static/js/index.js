@@ -1,16 +1,5 @@
 $(document).ready(function() {
-  // helper functions
-  $.get('/xhr/get_modules_js/')
-  .success(function(data){
-    var scripts = $.parseJSON(data);
-    for(var x = 0; x < scripts.length; x++){
-      addJavascript(scripts[x], 'head');
-    }
-  })
-  .error(function(data){
-    alert("failed loading javascript files");
-  });
-  
+
   init_modules();
 
   // Settings tab
@@ -347,12 +336,4 @@ function add_loading_gif(element) {
 
 function remove_loading_gif(element) {
   $(element).find('.xhrloading').remove();
-}
-
-function addJavascript(jsname,pos) {
-  var th = document.getElementsByTagName(pos)[0];
-  var s = document.createElement('script');
-  s.setAttribute('type','text/javascript');
-  s.setAttribute('src','/static/js/modules/'+jsname);
-  th.appendChild(s);
 }

@@ -530,10 +530,3 @@ def get_module_info(name):
             return available_module
 
     return None
-
-@app.route('/xhr/get_modules_js/')
-def modules_js():
-    dir_list = get_file_list('./static/js/modules', '.js', prepend_path=False)
-    loaded = json.loads(json.dumps(dir_list))
-    return json.dumps(dir_list)
-    
