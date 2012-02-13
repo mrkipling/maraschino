@@ -26,21 +26,29 @@ def xhr_sabnzbd():
         sabnzbd = sabnzbd['queue']
 
         percentage_total = 0
+        downloading = None
         download_speed = '%s kB/s' % ((sabnzbd['kbpersec'])[:-3])
 
         if sabnzbd['slots']:
             percentage_total = int(100 - (float(sabnzbd['mbleft']) / float(sabnzbd['mb']) * 100))
+            while  downloading == None:
+                for item in sabnzbd['slots']:
+                    if item['status'] == 'Downloading':
+                        downloading = item
+                        break
 
     except:
         sabnzbd = None
         percentage_total = None
         download_speed = None
+        donwnloading = None
 
     return render_template('sabnzbd-queue.html',
         sabnzbd = sabnzbd,
         percentage_total = percentage_total,
         download_speed = download_speed,
         old_config = old_config,
+        first_downloading = downloading,
     )
 
 @app.route('/xhr/sabnzbd/queue/<action>/')

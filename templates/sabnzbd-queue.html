@@ -1,9 +1,11 @@
 {% extends "sabnzbd-base.html" %}
 
 {% block sabnzbd_content %}
-    <div class="status" id="status" status="{{ sabnzbd.paused }}" title="Toggle paused/downloading">{{ sabnzbd.status }}</div>
-    <div class="speed"><input type="text" value="{{ download_speed[:-5] }}" title="Adjust Speed" size="6"/>{{ download_speed[-5:] }}</div>
-    <p>{{ sabnzbd.slots[0].filename }}</p>
+  <div class="status" id="status" status="{{ sabnzbd.paused }}" title="Toggle paused/downloading">{{ sabnzbd.status }}</div>
+  <div class="speed"><input type="text" value="{{ download_speed[:-5]|int }}" title="Adjust Speed" size="5"/>{{ download_speed[-5:] }}</div>
+
+  {% if first_downloading %}
+    <p>{{ first_downloading.filename }}</p>
 
     <div class="bar">
       <div class="inner" style="width: {{ percentage_total }}%;"></div>
@@ -13,4 +15,21 @@
       <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.timeleft }} / {{ sabnzbd.mbleft|int }} MB</p>
       <p class="percentage_complete">{{ percentage_total }}% complete</p>
     </div>
+    <br>
+    <div class="queue-title">
+      <span><img src="/static/images/dropdown.png">More</span>
+    </div>
+  {% endif %}
+  <div class="queue">
+    <table>
+    {% for x in sabnzbd.slots %}
+      <tr id="{{x.nzo_id}}">
+        <td class="pause"><img src="/static/images/{% if x.status == 'Paused' %}pause{% else %}play{% endif %}.png" ></td>
+        <td class="name">{{x.filename}}</td>
+        <td class="size">{{x.size}}</td>
+        <td class="delete"><img src="/static/images/remove_icon.png" ></td>
+      </tr>
+    {% endfor %}
+    </table>
+  </div>
 {% endblock %}
