@@ -32,6 +32,7 @@ def xhr_recently_added_movies_offset(movie_offset):
 
 def render_recently_added_episodes(episode_offset=0):
     compact_view = get_setting_value('recently_added_compact') == '1'
+    show_watched = get_setting_value('recently_added_watched_episodes') == '1'
 
     try:
         xbmc = jsonrpclib.Server(server_api_address())
@@ -47,6 +48,7 @@ def render_recently_added_episodes(episode_offset=0):
         vfs_url = vfs_url,
         episode_offset = episode_offset,
         compact_view = compact_view,
+        show_watched = show_watched,
     )
 
 
@@ -90,7 +92,6 @@ def get_recently_added_episodes(xbmc, episode_offset=0):
 
     try:
         recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail'])
-
         recently_added_episodes = recently_added_episodes['episodes'][episode_offset:num_recent_videos + episode_offset]
 
     except:

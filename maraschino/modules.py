@@ -58,6 +58,12 @@ AVAILABLE_MODULES = [
                 'description': 'Compact view',
                 'type': 'bool',
             },
+            {
+                'key': 'recently_added_watched_episodes',
+                'value': '1',
+                'description': 'Show Watched Episodes',
+                'type': 'bool',
+            },
         ]
     },
     {
@@ -77,6 +83,12 @@ AVAILABLE_MODULES = [
                 'key': 'recently_added_movies_compact',
                 'value': '0',
                 'description': 'Compact view',
+                'type': 'bool',
+            },
+            {
+                'key': 'recently_added_watched_movies',
+                'value': '1',
+                'description': 'Show Watched Movies',
                 'type': 'bool',
             },
         ]
