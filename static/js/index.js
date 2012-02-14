@@ -100,11 +100,16 @@ $(document).ready(function() {
 
     // poll
     if (settings.poll !== 0) {
-      setTimeout(function() {
-        get_module(module, {
-          poll: settings.poll,
-        })
-      }, settings.poll * 1000);
+      var timer = module+'_timer';
+      if(timer){
+        clearTimeout(window[timer]);
+        window[timer] = setTimeout(function() {
+                          get_module(module, {
+                            poll: settings.poll,
+                            params: [settings.params],
+                          })
+                        }, settings.poll * 1000);
+      }
     }
   }
 
@@ -1058,12 +1063,13 @@ $(document).ready(function() {
   });
   
   $(document).on('click', '#sabnzbd .inner .queue-title', function(){
+    var url = '';
     $('#sabnzbd .inner .queue').toggle();
-    var customsettings = '';
-    if($('#sabnzbd .inner .queue').attr('display') != 'none' ){
-      customsettings = '/show'; 
+    if($('#sabnzbd .inner .queue').css('display') != 'none' ){
+      get_module('sabnzbd', { poll:10, params: [ 'show' ] });
+    } else {
+      get_module('sabnzbd', { poll:10 });
     }
-    get_module('sabnzbd'+customsettings);
   });
 
   /********* END SABNZBD ***********/
@@ -1343,5 +1349,4 @@ $(document).ready(function() {
       }
     });
   });
-
 });
