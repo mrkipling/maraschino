@@ -1052,7 +1052,7 @@ $(document).ready(function() {
     if(e.which == 13){
       $.get('/xhr/sabnzbd/speedlimit/'+$(this).attr('value'))
       .success(function(data){
-        if(data.status === 'true'){
+        if(data.status == 'true'){
           get_module('sabnzbd');
         }
       })
@@ -1063,13 +1063,39 @@ $(document).ready(function() {
   });
   
   $(document).on('click', '#sabnzbd .inner .queue-title', function(){
-    var url = '';
     $('#sabnzbd .inner .queue').toggle();
     if($('#sabnzbd .inner .queue').css('display') != 'none' ){
       get_module('sabnzbd', { poll:10, params: [ 'show' ] });
     } else {
       get_module('sabnzbd', { poll:10 });
     }
+  });
+
+  $(document).on('click', '#sabnzbd .inner .queue table tr td.pause', function(){
+    var id = $(this).parent('tr').attr('id');
+    var state = $(this).parent('tr').data('action');
+    $.get('/xhr/sabnzbd/individual/'+state+'/'+id)
+    .success(function(data){
+      if(data.status == 'true'){
+        get_module('sabnzbd', { poll:10, params: [ 'show' ] });
+      }
+    })
+    .error(function(){
+      popup_message('Problem reaching Maraschino on /xhr/sabnzbd/individual/<var>/<var>');
+    });
+  });
+
+  $(document).on('click', '#sabnzbd .inner .queue table tr td.delete', function(){
+    var id = $(this).parent('tr').attr('id');
+    $.get('/xhr/sabnzbd/individual/delete/'+id)
+    .success(function(data){
+      if(data.status == 'true'){
+        get_module('sabnzbd', { poll:10, params: [ 'show' ] });
+      }
+    })
+    .error(function(){
+      popup_message('Problem reaching Maraschino on /xhr/sabnzbd/individual/delete/<var>');
+    });
   });
 
   /********* END SABNZBD ***********/

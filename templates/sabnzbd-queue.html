@@ -17,13 +17,13 @@
     </div>
     <br>
     <div class="queue-title">
-      <span><img src="/static/images/dropdown.png">More</span>
+      <span><img src="/static/images/{% if queue_status == 'hide' %}arrow_down.png">More{% else %}arrow_up.png">Less{% endif %}</span>
     </div>
   {% endif %}
   <div class="queue {{ queue_status }}">
     <table>
     {% for x in sabnzbd.slots %}
-      <tr id="{{x.nzo_id}}">
+      <tr id="{{x.nzo_id}}" data-action={% if x.status == 'Paused' %}resume{% else %}pause{% endif %}>
         <td class="pause"><img src="/static/images/{% if x.status == 'Paused' %}pause{% else %}play{% endif %}.png" ></td>
         <td class="name">{{x.filename}}</td>
         <td class="size">{{x.size}}</td>
