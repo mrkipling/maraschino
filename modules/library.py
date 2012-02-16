@@ -40,6 +40,27 @@ def xhr_library_root(item_type):
 
     return render_library(library, title)
 
+@app.route('/xhr/library/movies/<int:movieid>')
+@requires_auth
+def xhr_library_movies_info(movieid):
+    xbmc = jsonrpclib.Server(server_api_address())
+    library = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties=['title', 'rating', 'year', 'genre', 'plot', 'director', 'thumbnail', 'trailer'])
+    library = library['moviedetails']
+    title = library['title']
+
+    itemart_url = library['thumbnail']
+
+    try:
+        itemart = '%s/vfs/%s' % (safe_server_address(), itemart_url)
+    except:
+        itemart = None
+
+    return render_template('library.html',
+        library = library,
+        title = title,
+        itemart = itemart,
+    )
+
 @app.route('/xhr/library/shows/<int:show>')
 @requires_auth
 def xhr_library_show(show):
@@ -91,8 +112,10 @@ def xhr_library_album(artist, album):
     return render_library(library, title)
 
 def render_library(library=None, title="Media Library", message=None):
+    show_info = get_setting_value('library_show_info') == '1'
     return render_template('library.html',
         library = library,
         title = title,
         message = message,
+        show_info = show_info,
     )

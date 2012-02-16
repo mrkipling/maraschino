@@ -38,6 +38,14 @@ AVAILABLE_MODULES = [
         'static': True,
         'poll': 0,
         'delay': 0,
+        'settings': [
+            {
+                'key': 'library_show_info',
+                'value': '0',
+                'description': 'Show media nformation by default',
+                'type': 'bool',
+            },
+        ]
     },
     {
         'name': 'recently_added',

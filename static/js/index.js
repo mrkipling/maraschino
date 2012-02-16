@@ -593,6 +593,16 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#library li.info_movie', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/library/movies/' + $(this).data('movieid'), function(data) {
+      remove_loading_gif(li);
+      $('#library').replaceWith(data);
+    });
+  });
+
   $(document).on('click', '#library .toggle', function() {
     var li = '#library li';
     var type = $(li).attr('media-type');
