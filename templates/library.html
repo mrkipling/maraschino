@@ -84,6 +84,7 @@
       {% endif %}
 
       {% if library.movieid %}
+        <li style="display:none;" data-command="movies/null/null"></li>
         <img class="posterart" src="{{ itemart }}">
         <p class="movie_info">
           Director: {{ library.director }}<br>

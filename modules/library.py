@@ -40,7 +40,7 @@ def xhr_library_root(item_type):
 
     return render_library(library, title)
 
-@app.route('/xhr/library/movies/<int:movieid>')
+@app.route('/xhr/library/movies/info/<int:movieid>')
 @requires_auth
 def xhr_library_movies_info(movieid):
     xbmc = jsonrpclib.Server(server_api_address())

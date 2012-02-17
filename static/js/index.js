@@ -597,7 +597,7 @@ $(document).ready(function() {
     var li = this;
     add_loading_gif(li);
 
-    $.get('/xhr/library/movies/' + $(this).data('movieid'), function(data) {
+    $.get('/xhr/library/movies/info/' + $(this).data('movieid'), function(data) {
       remove_loading_gif(li);
       $('#library').replaceWith(data);
     });
@@ -629,7 +629,7 @@ $(document).ready(function() {
     var type = $(this).attr('media-type');
 
     if (type == 'movie'){
-    $.get('/xhr/library/movies/' + $(this).data('movieid'), function(data) {
+    $.get('/xhr/library/movies/info/' + $(this).data('movieid'), function(data) {
       $('#library').replaceWith(data);
     });
     }
@@ -640,6 +640,10 @@ $(document).ready(function() {
     });
     }
 
+  });
+
+  $(document).on('click', '#library .li_buttons', function(e) {
+    e.stopPropagation();
   });
 
   $(document).on('click', '#library .back', function() {
