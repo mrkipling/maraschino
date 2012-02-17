@@ -59,6 +59,25 @@
       right: 5px;
       top: 5px;
     }
+
+    .span {
+      position: absolute;
+      right: 30px;
+    }
+
+    .li_buttons {
+      background: url(/static/images/alpha/fff_10.png);
+      border: 1px solid #222;
+      cursor: pointer;
+      padding: 2px 8px;
+      color: #ccc;
+
+      .border-radius(4px);
+
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+      }
+    }
   }
 
   .back {
@@ -130,15 +149,6 @@
 
   }
 
-  .toggle {
-    padding: 2px 8px;
-    font-size: 1.5em;
-
-    &.active {
-    background: url(/static/images/alpha/fff_20.png);
-    }
-    }
-
   .power {
     background: url(/static/images/alpha/fff_10.png);
     border: 1px solid #222;
@@ -165,9 +175,44 @@
     }
   }
 
+  .posterart  {
+    float: right;
+    padding-right: 10px;
+    max-width: 140px;
+    height: auto;
+    .box-shadow(#000, 0, 0, 15px);
+  }
+
+  .movie_info {
+    float: left;
+    line-height: 1.3em;
+    width: 380px;
+  }
+
+  .info_buttons {
+    float: left;
+    margin-right: 4px;
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    cursor: pointer;
+    line-height: 1.1em;
+    padding: 2px 8px;
+    color: #ccc;
+
+    .border-radius(4px);
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+  }
 }
 
 #library.root {
+  .powerholder { margin-top: 10px; }
+  #filter      { display: none; }
+}
+
+#library.info {
   .powerholder { margin-top: 10px; }
   #filter      { display: none; }
 }

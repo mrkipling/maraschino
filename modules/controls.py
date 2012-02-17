@@ -20,6 +20,22 @@ def xhr_play_video(video_type, video_id):
 
     return jsonify({ 'success': True })
 
+@app.route('/xhr/play_trailer/<int:movieid>')
+@requires_auth
+def xhr_play_trailer(movieid):
+    xbmc = jsonrpclib.Server(server_api_address())
+    xhr_clear_playlist('video')
+
+    trailer = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties= ['trailer'])['moviedetails']['trailer']
+    item = { 'file': trailer }
+    print item
+    xbmc.Playlist.Add(playlistid=1, item=item)
+
+    item = { 'playlistid': 1 }
+    xbmc.Player.Open(item)
+
+    return jsonify({ 'success': True })
+
 @app.route('/xhr/play_audio/<audio_type>/<int:audio_id>')
 @requires_auth
 def xhr_play_audio(audio_type, audio_id):

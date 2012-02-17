@@ -42,7 +42,7 @@ AVAILABLE_MODULES = [
             {
                 'key': 'library_show_info',
                 'value': '0',
-                'description': 'Show media nformation by default',
+                'description': 'Show media information by default',
                 'type': 'bool',
             },
         ]

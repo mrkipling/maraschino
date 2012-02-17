@@ -44,10 +44,9 @@ def xhr_library_root(item_type):
 @requires_auth
 def xhr_library_movies_info(movieid):
     xbmc = jsonrpclib.Server(server_api_address())
-    library = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties=['title', 'rating', 'year', 'genre', 'plot', 'director', 'thumbnail', 'trailer'])
+    library = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties=['title', 'rating', 'year', 'genre', 'plot', 'director', 'thumbnail', 'trailer', 'playcount'])
     library = library['moviedetails']
     title = library['title']
-
     itemart_url = library['thumbnail']
 
     try:
