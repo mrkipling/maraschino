@@ -624,6 +624,14 @@ $(document).ready(function() {
     $.get('/xhr/play_trailer/' + $(this).data('movieid'));
     }
 
+    if (type == 'tvshow'){
+    $.get('/xhr/play_tvshow/' + $(this).data('tvshowid'));
+    }
+
+    if (type == 'season'){
+    $.get('/xhr/play_season/' + $(this).data('tvshowid') + '/' + $(this).data('season'));
+    }
+
     if (type == 'episode'){
     $.get('/xhr/play_video/episode/' + $(this).data('episodeid'));
     }

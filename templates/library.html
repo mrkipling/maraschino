@@ -19,6 +19,7 @@
           <li class="get" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}" data-command="shows/{{ item.tvshowid }}">
             {{ item.label }}
             <span class="span">
+              <a class="li_buttons" id="play_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Play</a>
               <a class="li_buttons" id="info_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Info</a>
               <a class="li_buttons" id="queue_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Queue</a>
             </span>
@@ -46,6 +47,7 @@
           <li class="get" media-type="season" data-tvshowid="{{ item.tvshowid }}" data-season="{{ item.season }}" data-command="shows/{{ library.tvshowid }}/{{ item.season }}">
             {{ item.label }}
             <span class="span">
+              <a class="li_buttons" id="play_button" media-type="season" data-tvshowid="{{ item.tvshowid }}" data-season="{{ item.season }}">Play</a>
               <a class="li_buttons" id="queue_button" media-type="season" data-movieid="{{ item.season }}">Queue</a>
             </span>
             {% if item.playcount %}

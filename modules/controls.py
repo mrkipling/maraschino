@@ -20,6 +20,45 @@ def xhr_play_video(video_type, video_id):
 
     return jsonify({ 'success': True })
 
+@app.route('/xhr/play_tvshow/<int:tvshowid>')
+@requires_auth
+def xhr_play_tvshow(tvshowid):
+    xbmc = jsonrpclib.Server(server_api_address())
+    xhr_clear_playlist('video')
+
+    video_type = "episode"
+    tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=tvshowid, sort={ 'method': 'episode' })
+    tvshow_episodes = tvshow_episodes['episodes']
+
+    for episodes in tvshow_episodes:
+        episodeid = episodes['episodeid']
+        item = { video_type + 'id': episodeid }
+        xbmc.Playlist.Add(playlistid=1, item=item)
+
+    item = { 'playlistid': 1 }
+    xbmc.Player.Open(item)
+
+    return jsonify({ 'success': True })
+
+@app.route('/xhr/play_season/<int:tvshow_id>/<int:video_id>')
+@requires_auth
+def xhr_play_season(video_id, tvshow_id):
+    xbmc = jsonrpclib.Server(server_api_address())
+
+    video_type = "episode"
+    tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=tvshow_id, season=video_id, sort={ 'method': 'episode' })
+    tvshow_episodes = tvshow_episodes['episodes']
+
+    for episodes in tvshow_episodes:
+        episodeid = episodes['episodeid']
+        item = { video_type + 'id': episodeid }
+        xbmc.Playlist.Add(playlistid=1, item=item)
+
+    item = { 'playlistid': 1 }
+    xbmc.Player.Open(item)
+
+    return jsonify({ 'success': True })
+
 @app.route('/xhr/play_trailer/<int:movieid>')
 @requires_auth
 def xhr_play_trailer(movieid):
