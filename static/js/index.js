@@ -603,6 +603,16 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#library .info_episode', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/library/episodes/info/' + $(this).data('episodeid'), function(data) {
+      remove_loading_gif(li);
+      $('#library').replaceWith(data);
+    });
+  });
+
   $(document).on('click', '#library #play_button', function() {
     var type = $(this).attr('media-type');
 
@@ -614,6 +624,18 @@ $(document).ready(function() {
     $.get('/xhr/play_trailer/' + $(this).data('movieid'));
     }
 
+    if (type == 'episode'){
+    $.get('/xhr/play_video/episode/' + $(this).data('episodeid'));
+    }
+
+    if (type == 'artist'){
+    $.get('/xhr/play_audio/artist/' + $(this).data('artistid'));
+    }
+
+    if (type == 'album'){
+    $.get('/xhr/play_audio/album/' + $(this).data('albumid'));
+    }
+
   });
 
   $(document).on('click', '#library #queue_button', function() {
@@ -621,6 +643,26 @@ $(document).ready(function() {
 
     if (type == 'movie'){
     $.get('/xhr/enqueue_video/movie/' + $(this).data('movieid'));
+    }
+
+    if (type == 'tvshow'){
+    $.get('/xhr/enqueue_tvshow/' + $(this).data('tvshowid'));
+    }
+
+    if (type == 'season'){
+    $.get('/xhr/enqueue_season/' + $(this).data('tvshowid') + '/' + $(this).data('season'));
+    }
+
+    if (type == 'episode'){
+    $.get('/xhr/enqueue_video/episode/' + $(this).data('episodeid'));
+    }
+
+    if (type == 'artist'){
+    $.get('/xhr/enqueue_audio/artist/' + $(this).data('artistid'));
+    }
+
+    if (type == 'album'){
+    $.get('/xhr/enqueue_audio/album/' + $(this).data('albumid'));
     }
 
   });
@@ -635,7 +677,25 @@ $(document).ready(function() {
     }
 
     if (type == 'tvshow'){
-    $.get('/xhr/library/shows/' + $(this).data('tvshowid'), function(data) {
+    $.get('/xhr/library/shows/info/' + $(this).data('tvshowid'), function(data) {
+      $('#library').replaceWith(data);
+    });
+    }
+
+    if (type == 'episode'){
+    $.get('/xhr/library/episodes/info/' + $(this).data('episodeid'), function(data) {
+      $('#library').replaceWith(data);
+    });
+    }
+
+    if (type == 'artist'){
+    $.get('/xhr/library/artists/info/' + $(this).data('artistid'), function(data) {
+      $('#library').replaceWith(data);
+    });
+    }
+
+    if (type == 'album'){
+    $.get('/xhr/library/albums/info/' + $(this).data('albumid'), function(data) {
       $('#library').replaceWith(data);
     });
     }

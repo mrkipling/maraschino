@@ -45,6 +45,12 @@ AVAILABLE_MODULES = [
                 'description': 'Show media information by default',
                 'type': 'bool',
             },
+            {
+                'key': 'library_use_bannerart',
+                'value': '0',
+                'description': 'Use Bannerart for TV shows',
+                'type': 'bool',
+            },
         ]
     },
     {

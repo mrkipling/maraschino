@@ -1,4 +1,4 @@
-<div id="library" class="module{% if not library %} root{% elif library.movieid or library.tvshowid or library.episodeid or library.artistid or library.albumid %} info{% endif %}" data-module="library">
+<div id="library" class="module{% if not library %} root{% elif library.moviedetails or library.tvshowdetails or library.episodedetails or library.artistdetails or library.albumdetails %} info{% endif %}" data-module="library">
 
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
@@ -20,7 +20,6 @@
             {{ item.label }}
             <span class="span">
               <a class="li_buttons" id="info_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Info</a>
-              <a class="li_buttons" id="play_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Play</a>
               <a class="li_buttons" id="queue_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Queue</a>
             </span>
             {% if item.playcount %}
@@ -30,12 +29,23 @@
         {% endfor %}
       {% endif %}
 
+      {% if library.tvshowdetails %}
+          <li style="display:none;" data-command="shows/info/{{ show.tvshowid }}"></li>
+          <img class="{% if bannerart %}bannerart{% else %}posterart{% endif %}" src="{{ itemart }}">
+          <p class="p_info">
+            <strong>Studio:</strong> {{ show.studio }}<br>
+            <strong>Premiered:</strong> {{ show.premiered }}<br>
+            <strong>Genre:</strong> {{ show.genre }}<br>
+            <strong>Rating:</strong> {{ "%0d"|format(show.rating) }}<br><br>
+            {{ show.plot }}
+          </p>
+      {% endif %}
+
       {% if library.seasons %}
         {% for item in library.seasons %}
           <li class="get" media-type="season" data-tvshowid="{{ item.tvshowid }}" data-season="{{ item.season }}" data-command="shows/{{ library.tvshowid }}/{{ item.season }}">
             {{ item.label }}
             <span class="span">
-              <a class="li_buttons" id="play_button" media-type="season" data-movieid="{{ item.season }}">Play</a>
               <a class="li_buttons" id="queue_button" media-type="season" data-movieid="{{ item.season }}">Queue</a>
             </span>
             {% if item.playcount %}
@@ -47,15 +57,15 @@
 
       {% if library.episodes %}
         {% for item in library.episodes %}
-          <li class="{% if show_info %}info{% else %}play{% endif %}_episode" media-type="episode" data-episodeid="{{ item.episodeid }}" title="{{ item.plot|truncate(200) }}">
+          <li class="{% if show_info %}info{% else %}play{% endif %}_episode" media-type="episode" data-episodeid="{{ item.episodeid }}">
             {{ item.season }}x{{ item.episode }} - {{ item.label }}
             <span class="span">
               {% if show_info %}
                 <a class="li_buttons" id="play_button" media-type="episode" data-episodeid="{{ item.episodeid }}">Play</a>
               {% else %}
-                <a class="li_buttons" id="info_button" media-type="movie" data-episodeid="{{ item.episodeid }}">Info</a>
+                <a class="li_buttons" id="info_button" media-type="episode" data-episodeid="{{ item.episodeid }}">Info</a>
               {% endif %}
-              <a class="li_buttons" id="queue_button" media-type="movie" data-episodeid="{{ item.episodeid }}">Queue</a>
+              <a class="li_buttons" id="queue_button" media-type="episode" data-episodeid="{{ item.episodeid }}">Queue</a>
             </span>
             {% if item.playcount %}
               <img src="/static/images/tick.png" class="watched" width="16" height="16">
@@ -64,9 +74,19 @@
         {% endfor %}
       {% endif %}
 
+      {% if library.episodedetails %}
+          <li style="display:none;" data-command="shows/{{ episode.tvshowid }}/{{ episode.season }}/info/{{ episode.episodeid }}"></li>
+          <img class="episodeart" src="{{ itemart }}">
+          <p class="p_info">
+            <strong>First Aired:</strong> {{ episode.firstaired }}<br>
+            <strong>Rating:</strong> {{ "%0d"|format(episode.rating) }}<br><br>
+            {{ episode.plot }}
+          </p>
+      {% endif %}
+
       {% if library.movies %}
         {% for item in library.movies %}
-          <li class="{% if show_info %}info{% else %}play{% endif %}_movie" media-type="movie" data-movieid="{{ item.movieid }}" title="{{ item.plot|truncate(200) }}">
+          <li class="{% if show_info %}info{% else %}play{% endif %}_movie" media-type="movie" data-movieid="{{ item.movieid }}">
             {{ item.label }}
             <span class="span">
               {% if show_info %}
@@ -83,16 +103,16 @@
 		  {% endfor %}
       {% endif %}
 
-      {% if library.movieid %}
-        <li style="display:none;" data-command="movies/null/null"></li>
-        <img class="posterart" src="{{ itemart }}">
-        <p class="movie_info">
-          Director: {{ library.director }}<br>
-          Year: {{ library.year }}<br>
-          Genre: {{ library.genre }}<br>
-          Rating: {{ "%0d"|format(library.rating) }}<br><br>
-          {{ library.plot }}<br><br>
-        </p>
+      {% if library.moviedetails %}
+          <li style="display:none;" data-command="movies/info/{{ movie.movieid }}"></li>
+          <img class="posterart" src="{{ itemart }}">
+          <p class="p_info">
+            <strong>Director:</strong> {{ movie.director }}<br>
+            <strong>Year:</strong> {{ movie.year }}<br>
+            <strong>Genre:</strong> {{ movie.genre }}<br>
+            <strong>Rating:</strong> {{ "%0d"|format(movie.rating) }}<br><br>
+            {{ movie.plot }}
+          </p>
       {% endif %}
 
       {% if library.artists %}
@@ -108,6 +128,15 @@
         {% endfor %}
       {% endif %}
 
+      {% if library.artistdetails %}
+          <li style="display:none;" data-command="artists/info/{{ artist.artistid }}"></li>
+          <img class="artistart" src="{{ itemart }}">
+          <p class="p_info">
+            <strong>Genre:</strong> {{ artist.genre }}<br><br>
+            {{ artist.description }}
+          </p>
+      {% endif %}
+
       {% if library.albums %}
         {% for item in library.albums %}
           <li class="get" media-type="album" data-albumid="{{ item.albumid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}">
@@ -119,6 +148,17 @@
             </span>
           </li>
         {% endfor %}
+      {% endif %}
+
+      {% if library.albumdetails %}
+          <li style="display:none;" data-command="artists/{{ album.artistid }}/info/{{ album.albumid }}"></li>
+          <img class="albumart" src="{{ itemart }}">
+          <p class="p_info">
+            <strong>Genre:</strong> {{ album.genre }}<br>
+            <strong>Year:</strong> {{ album.year }}<br>
+            <strong>Rating:</strong> {{ album.rating }}<br><br>
+            {{ album.description }}
+          </p>
       {% endif %}
 
       {% if library.songs %}
@@ -157,19 +197,34 @@
     <div class="powerholder" style="text-align:right" >
 
   {% if library %}
-	{% if library.movieid %}
-      <a class="info_buttons" id="play_button" media-type="movie" data-movieid="{{ library.movieid }}" title="Play Movie">Play</a>
-      <a class="info_buttons" id="queue_button" media-type="movie" data-movieid="{{ library.movieid }}" title="Add to Queue">Queue</a>
-
-      {% if library.trailer %}
-        <a class="info_buttons" id="play_button" media-type="trailer" data-movieid="{{ library.movieid }}" title="Watch Trailer">Trailer</a>
+	{% if library.moviedetails %}
+      <a class="info_buttons" id="play_button" media-type="movie" data-movieid="{{ movie.movieid }}" title="Play Movie">Play</a>
+      <a class="info_buttons" id="queue_button" media-type="movie" data-movieid="{{ movie.movieid }}" title="Add to Queue">Queue</a>
+      {% if movie.trailer %}
+        <a class="info_buttons" id="play_button" media-type="trailer" data-movieid="{{ movie.movieid }}" title="Watch Trailer">Trailer</a>
       {% endif %}
+
+	{% elif library.tvshowdetails %}
+      <a class="info_buttons" id="queue_button" media-type="tvshow" data-tvshowid="{{ show.tvshowid }}" title="Add to Queue">Queue</a>
+
+	{% elif library.episodedetails %}
+      <a class="info_buttons" id="play_button" media-type="episode" data-episodeid="{{ episode.episodeid }}" title="Play Episode">Play</a>
+      <a class="info_buttons" id="queue_button" media-type="episode" data-episodeid="{{ episode.episodeid }}" title="Add to Queue">Queue</a>
+
+	{% elif library.artistdetails %}
+      <a class="info_buttons" id="play_button" media-type="artist" data-artistid="{{ artist.artistid }}" title="Play All Albums">Play</a>
+      <a class="info_buttons" id="queue_button" media-type="artist" data-artistid="{{ artist.artistid }}" title="Add to Queue">Queue</a>
+
+	{% elif library.albumdetails %}
+      <a class="info_buttons" id="play_button" media-type="album" data-albumid="{{ album.albumid }}" title="Play Album">Play</a>
+      <a class="info_buttons" id="queue_button" media-type="album" data-albumid="{{ album.albumid }}" title="Add to Queue">Queue</a>
     {% endif %}
-	{% if library.tvshows or library.seasons or library.episodes or library.movies or library.movieid or library.tvshowid or library.episodeid %}
+
+	{% if library.tvshows or library.seasons or library.episodes or library.movies or library.moviedetails or library.tvshowdetails or library.episodedetails %}
       <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
 
-    {% elif library.artists or library.albums or library.songs or library.artistid or library.albumid %}
+    {% elif library.artists or library.albums or library.songs or library.artistdetails or library.albumdetails %}
       <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
       <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
     {% endif %}
