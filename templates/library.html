@@ -36,11 +36,12 @@
             <img class="{% if bannerart %}bannerart{% else %}posterart{% endif %}" src="{{ itemart }}">
           {% endif %}
           <p class="p_info">
-            <strong>Studio:</strong> {{ show.studio }}<br>
-            <strong>Premiered:</strong> {{ show.premiered }}<br>
-            <strong>Genre:</strong> {{ show.genre }}<br>
-            <strong>Rating:</strong> {{ show.rating|float|round(1, 'common') }}<br><br>
-            {{ show.plot }}
+            <table border="0">
+			<tr><td width="70" style="color:#67C0F8;">Studio:</td><td style="font-size: 0.875em;">{{ show.studio }}</td></tr>
+            <tr><td style="color:#67C0F8;">Premiered:</td><td style="font-size: 0.875em;">{{ show.premiered }}</td></tr>
+            <tr><td style="color:#67C0F8;">Genre:</td><td style="font-size: 0.875em;">{{ show.genre }}</td></tr>
+            <tr><td style="color:#67C0F8;">Rating:</td><td style="font-size: 0.875em;">{{ show.rating|float|round(1, 'common') }} / 10</td></tr></table>
+            <br /><span style="color:#67C0F8;">Plot:</span><br /><span style="font-size: 0.875em;">{{ show.plot }}</span>
           </p>
       {% endif %}
 
@@ -83,10 +84,12 @@
           {% if episode.thumbnail %}
             <img class="episodeart" src="{{ itemart }}">
           {% endif %}
+
           <p class="p_info">
-            <strong>First Aired:</strong> {{ episode.firstaired }}<br>
-            <strong>Rating:</strong> {{ episode.rating|float|round(1, 'common') }}<br><br>
-            {{ episode.plot }}
+            <table border="0">
+			<tr><td width="70" style="color:#67C0F8;">First Aired:</td><td style="font-size: 0.875em;">{{ episode.firstaired }}</td></tr>
+            <tr><td style="color:#67C0F8;">Rating:</td><td style="font-size: 0.875em;"> {{ episode.rating|float|round(1, 'common') }}</td></tr></table>
+            <br /><span style="color:#67C0F8;">Plot:</span><br /><span style="font-size: 0.875em;">{{ episode.plot }}</span>
           </p>
       {% endif %}
 
@@ -115,11 +118,12 @@
             <img class="posterart" src="{{ itemart }}">
           {% endif %}
           <p class="p_info">
-            <strong>Director:</strong> {{ movie.director }}<br>
-            <strong>Year:</strong> {{ movie.year }}<br>
-            <strong>Genre:</strong> {{ movie.genre }}<br>
-            <strong>Rating:</strong> {{ movie.rating|float|round(1, 'common') }}<br><br>
-            {{ movie.plot }}
+            <table border="0">
+			<tr><td width="55" style="color:#67C0F8;">Director:</td><td style="font-size: 0.875em;">{{ movie.director }}</td></tr>
+            <tr><td style="color:#67C0F8;">Year:</td><td style="font-size: 0.875em;">{{ movie.year }}</td></tr>
+            <tr><td style="color:#67C0F8;">Genre:</td><td style="font-size: 0.875em;">{{ movie.genre|truncate(30, 'false') }}</td></tr>
+            <tr><td style="color:#67C0F8;">Rating:</td><td style="font-size: 0.875em;">{{ movie.rating|float|round(1, 'common') }} / 10</td></tr></table>
+            <br /><span style="color:#67C0F8;">Plot:</span><br /><span style="font-size: 0.875em;">{{ movie.plot }}</span>
           </p>
       {% endif %}
 
@@ -142,8 +146,9 @@
             <img class="artistart" src="{{ itemart }}">
           {% endif %}
           <p class="p_info">
-            <strong>Genre:</strong> {{ artist.genre }}<br><br>
-            {{ artist.description }}
+            <table border="0">
+			<tr><td width="55" style="color:#67C0F8;">Genre:</td><td style="font-size: 0.875em;">{{ artist.genre }}</td></tr></table>
+            <br /><span style="color:#67C0F8;">Artist Information:</span><br /><span style="font-size: 0.875em;">{{ artist.description }}</span>
           </p>
       {% endif %}
 
@@ -166,10 +171,11 @@
             <img class="albumart" src="{{ itemart }}">
           {% endif %}
           <p class="p_info">
-            <strong>Genre:</strong> {{ album.genre }}<br>
-            <strong>Year:</strong> {{ album.year }}<br>
-            <strong>Rating:</strong> {{ album.rating|float|round(1, 'common') }}<br><br>
-            {{ album.description }}
+            <table border="0">
+			<tr><td width="55" style="color:#67C0F8;">Genre:</td><td style="font-size: 0.875em;">{{ album.genre }}</td></tr>
+            <tr><td style="color:#67C0F8;">Year:</td><td style="font-size: 0.875em;">{{ album.year }}</td></tr>
+            <tr><td style="color:#67C0F8;">Rating:</td><td style="font-size: 0.875em;">{{ album.rating|float|round(1, 'common') }}</td></tr></table>
+            <br /><span style="color:#67C0F8;">Album Description:</span><br /><span style="font-size: 0.875em;">{{ album.description.plot }}</span>
           </p>
       {% endif %}
 
