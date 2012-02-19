@@ -32,12 +32,14 @@
 
       {% if library.tvshowdetails %}
           <li style="display:none;" data-command="shows/info/{{ show.tvshowid }}"></li>
-          <img class="{% if bannerart %}bannerart{% else %}posterart{% endif %}" src="{{ itemart }}">
+          {% if show.thumbnail %}
+            <img class="{% if bannerart %}bannerart{% else %}posterart{% endif %}" src="{{ itemart }}">
+          {% endif %}
           <p class="p_info">
             <strong>Studio:</strong> {{ show.studio }}<br>
             <strong>Premiered:</strong> {{ show.premiered }}<br>
             <strong>Genre:</strong> {{ show.genre }}<br>
-            <strong>Rating:</strong> {{ "%0d"|format(show.rating) }}<br><br>
+            <strong>Rating:</strong> {{ show.rating|float|round(1, 'common') }}<br><br>
             {{ show.plot }}
           </p>
       {% endif %}
@@ -78,10 +80,12 @@
 
       {% if library.episodedetails %}
           <li style="display:none;" data-command="shows/{{ episode.tvshowid }}/{{ episode.season }}/info/{{ episode.episodeid }}"></li>
-          <img class="episodeart" src="{{ itemart }}">
+          {% if episode.thumbnail %}
+            <img class="episodeart" src="{{ itemart }}">
+          {% endif %}
           <p class="p_info">
             <strong>First Aired:</strong> {{ episode.firstaired }}<br>
-            <strong>Rating:</strong> {{ "%0d"|format(episode.rating) }}<br><br>
+            <strong>Rating:</strong> {{ episode.rating|float|round(1, 'common') }}<br><br>
             {{ episode.plot }}
           </p>
       {% endif %}
@@ -107,12 +111,14 @@
 
       {% if library.moviedetails %}
           <li style="display:none;" data-command="movies/info/{{ movie.movieid }}"></li>
-          <img class="posterart" src="{{ itemart }}">
+          {% if movie.thumbnail %}
+            <img class="posterart" src="{{ itemart }}">
+          {% endif %}
           <p class="p_info">
             <strong>Director:</strong> {{ movie.director }}<br>
             <strong>Year:</strong> {{ movie.year }}<br>
             <strong>Genre:</strong> {{ movie.genre }}<br>
-            <strong>Rating:</strong> {{ "%0d"|format(movie.rating) }}<br><br>
+            <strong>Rating:</strong> {{ movie.rating|float|round(1, 'common') }}<br><br>
             {{ movie.plot }}
           </p>
       {% endif %}
@@ -132,7 +138,9 @@
 
       {% if library.artistdetails %}
           <li style="display:none;" data-command="artists/info/{{ artist.artistid }}"></li>
-          <img class="artistart" src="{{ itemart }}">
+          {% if artist.thumbnail %}
+            <img class="artistart" src="{{ itemart }}">
+          {% endif %}
           <p class="p_info">
             <strong>Genre:</strong> {{ artist.genre }}<br><br>
             {{ artist.description }}
@@ -154,11 +162,13 @@
 
       {% if library.albumdetails %}
           <li style="display:none;" data-command="artists/{{ album.artistid }}/info/{{ album.albumid }}"></li>
-          <img class="albumart" src="{{ itemart }}">
+          {% if album.thumbnail %}
+            <img class="albumart" src="{{ itemart }}">
+          {% endif %}
           <p class="p_info">
             <strong>Genre:</strong> {{ album.genre }}<br>
             <strong>Year:</strong> {{ album.year }}<br>
-            <strong>Rating:</strong> {{ album.rating }}<br><br>
+            <strong>Rating:</strong> {{ album.rating|float|round(1, 'common') }}<br><br>
             {{ album.description }}
           </p>
       {% endif %}
