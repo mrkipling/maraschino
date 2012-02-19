@@ -673,6 +673,10 @@ $(document).ready(function() {
     $.get('/xhr/enqueue_audio/album/' + $(this).data('albumid'));
     }
 
+    if (type == 'song'){
+    $.get('/xhr/enqueue_audio/song/' + $(this).data('songid'));
+    }
+
   });
 
   $(document).on('click', '#library #info_button', function() {
@@ -712,6 +716,16 @@ $(document).ready(function() {
 
   $(document).on('click', '#library .li_buttons', function(e) {
     e.stopPropagation();
+  });
+
+  $(document).on('mouseenter', '#library li', function() {
+    $('.watched', this).hide();
+    $('.li_buttons', this).show();
+  });
+
+  $(document).on('mouseleave', '#library li', function() {
+    $('.li_buttons', this).hide();
+    $('.watched', this).show();
   });
 
   $(document).on('click', '#library .back', function() {

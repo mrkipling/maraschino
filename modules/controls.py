@@ -44,6 +44,7 @@ def xhr_play_tvshow(tvshowid):
 @requires_auth
 def xhr_play_season(video_id, tvshow_id):
     xbmc = jsonrpclib.Server(server_api_address())
+    xhr_clear_playlist('video')
 
     video_type = "episode"
     tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=tvshow_id, season=video_id, sort={ 'method': 'episode' })

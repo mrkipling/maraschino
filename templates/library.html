@@ -19,8 +19,8 @@
           <li class="get" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}" data-command="shows/{{ item.tvshowid }}">
             {{ item.label }}
             <span class="span">
-              <a class="li_buttons" id="play_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Play</a>
               <a class="li_buttons" id="info_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Info</a>
+              <a class="li_buttons" id="play_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Play</a>
               <a class="li_buttons" id="queue_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Queue</a>
             </span>
             {% if item.playcount %}
@@ -48,7 +48,7 @@
             {{ item.label }}
             <span class="span">
               <a class="li_buttons" id="play_button" media-type="season" data-tvshowid="{{ item.tvshowid }}" data-season="{{ item.season }}">Play</a>
-              <a class="li_buttons" id="queue_button" media-type="season" data-movieid="{{ item.season }}">Queue</a>
+              <a class="li_buttons" id="queue_button" media-type="season" data-tvshowid="{{ item.tvshowid }}" data-season="{{ item.season }}">Queue</a>
             </span>
             {% if item.playcount %}
               <img src="/static/images/tick.png" class="watched" width="16" height="16">
@@ -59,7 +59,7 @@
 
       {% if library.episodes %}
         {% for item in library.episodes %}
-          <li class="{% if show_info %}info{% else %}play{% endif %}_episode" media-type="episode" data-episodeid="{{ item.episodeid }}">
+          <li class="{% if show_info %}info{% else %}play{% endif %}_episode" media-type="episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}">
             {{ item.season }}x{{ item.episode }} - {{ item.label }}
             <span class="span">
               {% if show_info %}
@@ -165,11 +165,9 @@
 
       {% if library.songs %}
         {% for item in library.songs %}
-          <li class="play_song" media-type="song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}" title="{{ item.track }} - {{ item.label }}">
-            {% if item.track < 10 %}0{% endif %}
-            {{ item.track }} - {{ item.label }}
+          <li class="play_song" media-type="song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}">
+            {% if item.track < 10 %}0{% endif %}{{ item.track }} - {{ item.label }}
             <span class="span">
-              <a class="li_buttons" id="play_button" media-type="song" data-songid="{{ item.songid }}">Play</a>
               <a class="li_buttons" id="queue_button" media-type="song" data-songid="{{ item.songid }}">Queue</a>
             </span>
             {% if item.playcount %}
@@ -203,10 +201,11 @@
       <a class="info_buttons" id="play_button" media-type="movie" data-movieid="{{ movie.movieid }}" title="Play Movie">Play</a>
       <a class="info_buttons" id="queue_button" media-type="movie" data-movieid="{{ movie.movieid }}" title="Add to Queue">Queue</a>
       {% if movie.trailer %}
-        <a class="info_buttons" id="play_button" media-type="trailer" data-movieid="{{ movie.movieid }}" title="Watch Trailer">Trailer</a>
+        <a class="info_buttons" id="play_button" media-type="trailer" data-movieid="{{ movie.movieid }}" title="Play Trailer">Trailer</a>
       {% endif %}
 
 	{% elif library.tvshowdetails %}
+      <a class="info_buttons" id="play_button" media-type="tvshow" data-tvshowid="{{ show.tvshowid }}" title="Play TV show">Play</a>
       <a class="info_buttons" id="queue_button" media-type="tvshow" data-tvshowid="{{ show.tvshowid }}" title="Add to Queue">Queue</a>
 
 	{% elif library.episodedetails %}
