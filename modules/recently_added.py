@@ -133,9 +133,19 @@ def get_recently_added_episodes(xbmc, episode_offset=0):
     num_recent_videos = get_num_recent_episodes()
 
     try:
-        recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail'])
-        recently_added_episodes = recently_added_episodes['episodes'][episode_offset:num_recent_videos + episode_offset]
+        recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail'])['episodes']
 
+        if get_setting_value('recently_added_watched_episodes') == '0':
+            unwatched = []
+            for episodes in recently_added_episodes:
+                episode_playcount = episodes['playcount']
+
+                if episode_playcount == 0:
+                    unwatched.append(episodes)
+
+            recently_added_episodes = unwatched[episode_offset:num_recent_videos + episode_offset]
+        else:
+            recently_added_episodes = recently_added_episodes[episode_offset:num_recent_videos + episode_offset]
     except:
         recently_added_episodes = []
 

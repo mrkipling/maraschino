@@ -11,47 +11,24 @@
     {% endif %}
       <ul class="movies listfix">
         {% for movie in recently_added_movies %}
-            {% if show_watched %}
-              <li data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})"{% if movie.playcount %} class="watched"{% endif %}>
+          <li data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})"{% if movie.playcount %} class="watched"{% endif %}>
 
-                {% if movie.thumbnail %}
-                  <div class="thumbnail">
-                    <img src="{{ vfs_url }}{{ movie.thumbnail }}" alt="">
-                  </div>
-                {% endif %}
-
-                <div class="inner">
-                  {% if compact_view %}
-                  <p><b>{{ movie.title }}</b> <span class="extra">{{ movie.year }} | {{ movie.rating|float|round(1, 'common') }}</span></p>
-                  {% else %}
-                  <h3 class="first">{{ movie.title }}</h3>
-                  <p class="second">Year: {{ movie.year }}</p>
-                  <p class="third">Rating: {{ movie.rating|float|round(1, 'common') }}</p>
-                  {% endif %}
-                </div>
-              </li>
-            {% else %}
-                {% if not movie.playcount %}
-              <li data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})"{% if movie.playcount %} class="watched"{% endif %}>
-
-                {% if movie.thumbnail %}
-                  <div class="thumbnail">
-                    <img src="{{ vfs_url }}{{ movie.thumbnail }}" alt="">
-                  </div>
-                {% endif %}
-
-                <div class="inner">
-                  {% if compact_view %}
-                  <p><b>{{ movie.title }}</b> <span class="extra">{{ movie.year }} | {{ movie.rating|float|round(1, 'common') }}</span></p>
-                  {% else %}
-                  <h3 class="first">{{ movie.title }}</h3>
-                  <p class="second">Year: {{ movie.year }}</p>
-                  <p class="third">Rating: {{ movie.rating|float|round(1, 'common') }}</p>
-                  {% endif %}
-                </div>
-              </li>
-                {% endif %}
+            {% if movie.thumbnail %}
+              <div class="thumbnail">
+                <img src="{{ vfs_url }}{{ movie.thumbnail }}" alt="">
+              </div>
             {% endif %}
+
+            <div class="inner">
+              {% if compact_view %}
+              <p><b>{{ movie.title }}</b> <span class="extra">{{ movie.year }} | {{ movie.rating|float|round(1, 'common') }}</span></p>
+              {% else %}
+              <h3 class="first">{{ movie.title }}</h3>
+              <p class="second">Year: {{ movie.year }}</p>
+              <p class="third">Rating: {{ movie.rating|float|round(1, 'common') }}</p>
+              {% endif %}
+            </div>
+          </li>
         {% endfor %}
       </ul>
 

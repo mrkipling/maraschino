@@ -11,46 +11,24 @@
     {% endif %}
       <ul class="episodes listfix">
         {% for episode in recently_added_episodes %}
-            {% if show_watched %}
-              <li data-episodeid="{{ episode.episodeid }}" title="Play {{ episode.showtitle }} - {{ episode.title }}" {% if episode.playcount %} class="watched"{% endif %}>
+          <li data-episodeid="{{ episode.episodeid }}" title="Play {{ episode.showtitle }} - {{ episode.title }}" {% if episode.playcount %} class="watched"{% endif %}>
 
-                {% if episode.thumbnail %}
-                  <div class="thumbnail">
-                    <img src="{{ vfs_url }}{{ episode.thumbnail }}" alt="">
-                  </div>
-                {% endif %}
-
-                <div class="inner">
-                  {% if compact_view %}
-                  <p><b>{{ episode.showtitle }}</b> <span class="extra">Season {{ "%02d"|format(episode.season) }}, Episode {{ "%02d"|format(episode.episode) }}</span></p>
-                  {% else %}
-                  <h3 class="first">{{ episode.showtitle }}</h3>
-                  <p class="second">Season {{ episode.season }}, Episode {{ episode.episode }}</p>
-                  <p class="third">"{{ episode.title }}"</p>
-                  {% endif %}
-                </div>
-              </li>
-            {% else %}
-                {% if not episode.playcount %}
-                  <li data-episodeid="{{ episode.episodeid }}" title="Play {{ episode.showtitle }} - {{ episode.title }}" {% if episode.playcount %} class="watched"{% endif %}>
-                    {% if episode.thumbnail %}
-                      <div class="thumbnail">
-                        <img src="{{ vfs_url }}{{ episode.thumbnail }}" alt="">
-                      </div>
-                    {% endif %}
-
-                    <div class="inner">
-                      {% if compact_view %}
-                      <p><b>{{ episode.showtitle }}</b> <span class="extra">Season {{ "%02d"|format(episode.season) }}, Episode {{ "%02d"|format(episode.episode) }}</span></p>
-                      {% else %}
-                      <h3 class="first">{{ episode.showtitle }}</h3>
-                      <p class="second">Season {{ episode.season }}, Episode {{ episode.episode }}</p>
-                      <p class="third">"{{ episode.title }}"</p>
-                      {% endif %}
-                    </div>
-                  </li>
-                {% endif %}
+            {% if episode.thumbnail %}
+              <div class="thumbnail">
+                <img src="{{ vfs_url }}{{ episode.thumbnail }}" alt="">
+              </div>
             {% endif %}
+
+            <div class="inner">
+              {% if compact_view %}
+              <p><b>{{ episode.showtitle }}</b> <span class="extra">Season {{ "%02d"|format(episode.season) }}, Episode {{ "%02d"|format(episode.episode) }}</span></p>
+              {% else %}
+              <h3 class="first">{{ episode.showtitle }}</h3>
+              <p class="second">Season {{ episode.season }}, Episode {{ episode.episode }}</p>
+              <p class="third">"{{ episode.title }}"</p>
+              {% endif %}
+            </div>
+          </li>
         {% endfor %}
       </ul>
 
