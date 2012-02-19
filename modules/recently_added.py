@@ -156,9 +156,19 @@ def get_recently_added_movies(xbmc, movie_offset=0):
     num_recent_videos = get_num_recent_movies()
 
     try:
-        recently_added_movies = xbmc.VideoLibrary.GetRecentlyAddedMovies(properties = ['title', 'year', 'rating', 'playcount', 'thumbnail'])
-        recently_added_movies = recently_added_movies['movies'][movie_offset:num_recent_videos + movie_offset]
+        recently_added_movies = xbmc.VideoLibrary.GetRecentlyAddedMovies(properties = ['title', 'year', 'rating', 'playcount', 'thumbnail'])['movies']
 
+        if get_setting_value('recently_added_watched_movies') == '0':
+            unwatched = []
+            for movies in recently_added_movies:
+                movie_playcount = movies['playcount']
+
+                if movie_playcount == 0:
+                    unwatched.append(movies)
+
+            recently_added_movies = unwatched[movie_offset:num_recent_videos + movie_offset]
+        else:
+            recently_added_movies = recently_added_movies[movie_offset:num_recent_videos + movie_offset]
     except:
         recently_added_movies = []
 
