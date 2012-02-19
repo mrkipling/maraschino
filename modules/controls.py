@@ -68,7 +68,6 @@ def xhr_play_trailer(movieid):
 
     trailer = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties= ['trailer'])['moviedetails']['trailer']
     item = { 'file': trailer }
-    print item
     xbmc.Playlist.Add(playlistid=1, item=item)
 
     item = { 'playlistid': 1 }

@@ -159,7 +159,6 @@ def xhr_library_info_episode(episodeid):
 def xhr_library_info_artist(artistid):
     xbmc = jsonrpclib.Server(server_api_address())
     library = xbmc.AudioLibrary.GetArtistDetails(artistid=artistid, properties=['description', 'thumbnail', 'formed', 'genre'])
-    print library
     artist = library['artistdetails']
     title = artist['label']
     itemart_url = artist['thumbnail']
