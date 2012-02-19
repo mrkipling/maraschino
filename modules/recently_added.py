@@ -60,7 +60,6 @@ def render_recently_added_episodes(episode_offset=0):
         vfs_url = vfs_url,
         episode_offset = episode_offset,
         compact_view = compact_view,
-        show_watched = show_watched,
     )
 
 
@@ -82,7 +81,6 @@ def render_recently_added_movies(movie_offset=0):
         vfs_url = vfs_url,
         movie_offset = movie_offset,
         compact_view = compact_view,
-        show_watched = show_watched,
     )
 
 
