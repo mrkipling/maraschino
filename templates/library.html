@@ -174,7 +174,7 @@
             <table border="0">
 			<tr><td width="65" style="font-weight:bold;">Genre:</td><td style="font-size: 0.875em;">{{ album.genre|truncate(30, 'false') }}</td></tr>
             <tr><td style="font-weight:bold;">Year:</td><td style="font-size: 0.875em;">{{ album.year }}</td></tr>
-            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.875em;">{{ album.rating|float|round(1, 'common') }}</td></tr></table>
+            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.875em;">{{ album.rating|float|round(1, 'common') }} / 10</td></tr></table>
             <br /><span style="font-weight:bold;">Album Description:</span><br /><span style="font-size: 0.875em;">{{ album.description }}</span>
           </p>
       {% endif %}
