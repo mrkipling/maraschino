@@ -38,6 +38,20 @@ AVAILABLE_MODULES = [
         'static': True,
         'poll': 0,
         'delay': 0,
+        'settings': [
+            {
+                'key': 'library_watched_movies',
+                'value': '1',
+                'description': 'Show Watched Movies',
+                'type': 'bool',
+            },
+            {
+                'key': 'library_watched_tv',
+                'value': '1',
+                'description': 'Show Watched TV/Episodes',
+                'type': 'bool',
+            },
+        ]
     },
     {
         'name': 'recently_added',
