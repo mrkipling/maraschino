@@ -32,6 +32,14 @@ AVAILABLE_MODULES = [
         'delay': 0,
     },
     {
+        'name': 'latest',
+        'label': 'Latest Releases',
+        'description': 'Lists the 10 latest available downloads.',
+        'static': True,
+        'poll': 0,
+        'delay': 0,
+    },
+    {
         'name': 'library',
         'label': 'Media Library',
         'description': 'Allows you to browse your media library and select items to play in XBMC.',

@@ -1,0 +1,83 @@
+#feedWidget{
+    width:100%;
+    padding:0px;
+    position:relative;
+    font-size: 1.1em;
+    
+    /* Remains hidden if JS is not enabled: */
+    display:none;
+    z-index:20;
+}
+
+
+#activeTab.hover,.dropDownList{
+    background:url(/static/images/arrow_down.png) no-repeat 95% 50% rgba(000,000,000,0.4);
+    cursor:pointer;
+    
+    /* CSS3 round corners: */
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    
+}
+
+#activeTab,.dropDownList div{
+    color:white;
+    cursor:pointer;
+    margin:0 2px 0 0;
+    padding:5px;
+    text-shadow:0 1px 1px black;
+}
+
+.line{
+    height:2px;
+    overflow:hidden;
+/*    background: url(/static/images/alpha/fff_10.png); */
+/*    border-bottom:1px solid rgba(255,255,255,.4); */
+    margin:3px 0;
+}
+
+.dropDownList{
+    background-image:none;
+    position:absolute;
+
+    border-top:none;
+    padding:3px;
+    
+    /* We reset the roundness of the top corners, inherited by a previous rule: */
+    
+    -moz-border-radius-topleft: 0;
+    -moz-border-radius-topright: 0;
+    -webkit-border-top-left-radius: 0;
+    -webkit-border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.dropDownList div:hover{
+    background-color: rgba(000,000,000,0.8);
+   -moz-border-radius:3px;
+   -webkit-border-radius:3px;
+   border-radius:3px;
+}
+
+#tabContent div{
+	/* The feed entry divs */
+	
+	background: url(/static/images/alpha/fff_10.png);
+	color:#fff;
+	font-size: 0.75em;
+	margin-bottom:5px;
+	padding:5px;
+	height:20px;
+	position:relative;
+
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+	    }
+	
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+
+}
