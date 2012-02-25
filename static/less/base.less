@@ -49,11 +49,32 @@ ins           { text-decoration: none; }
 del           { text-decoration: line-through; }
 table         { border-collapse: collapse; border-spacing: 0; }
 
-textarea, input, select
-{
-  font-family: "Droid Sans", Arial, Helvetica, Sans-serif;
-  font-size: 1em;
+  input[type=text], input[type=password],textarea, input, select{
+    -webkit-appearance: none;
+    background-color: rgba(255,255,255,.1);
+    border: 1px solid #222;
+    cursor: pointer;
+    color: #67c0f8;
+    padding: 4px 6px;
+    width: 230px;
+    border-radius: 3px;
+
+  &:hover {
+    background-color: rgba(255,255,255,.2);
+    }
 }
+
+  select {
+    -webkit-appearance: none;
+    background-image: url(/static/images/select-arrow.png);
+    background-position: center right;
+    background-repeat: no-repeat;
+    border: 1px solid #222;
+    cursor: pointer;
+    color: #67c0f8;
+    padding: 4px 20px 4px 6px;
+    width: auto;
+    }
 
 /* clearfix */
 
