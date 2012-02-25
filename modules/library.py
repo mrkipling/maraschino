@@ -98,7 +98,6 @@ def xhr_library_info_movie(movieid):
     movie = library['moviedetails']
     title = movie['title']
     itemart_url = movie['thumbnail']
-
     try:
         itemart = '%s/vfs/%s' % (safe_server_address(), itemart_url)
     except:
