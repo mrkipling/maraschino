@@ -90,9 +90,115 @@ def xhr_library_album(artist, album):
 
     return render_library(library, title)
 
+@app.route('/xhr/library/movies/info/<int:movieid>')
+@requires_auth
+def xhr_library_info_movie(movieid):
+    xbmc = jsonrpclib.Server(server_api_address())
+    library = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties=['title', 'rating', 'year', 'genre', 'plot', 'director', 'thumbnail', 'trailer', 'playcount'])
+    movie = library['moviedetails']
+    title = movie['title']
+    itemart_url = movie['thumbnail']
+    try:
+        itemart = '%s/vfs/%s' % (safe_server_address(), itemart_url)
+    except:
+        itemart = None
+
+    return render_template('library.html',
+        library = library,
+        title = title,
+        movie = movie,
+        itemart = itemart,
+    )
+
+@app.route('/xhr/library/shows/info/<int:tvshowid>')
+@requires_auth
+def xhr_library_info_show(tvshowid):
+    xbmc = jsonrpclib.Server(server_api_address())
+    library = xbmc.VideoLibrary.GetTVShowDetails(tvshowid=tvshowid, properties=['title', 'rating', 'year', 'genre', 'plot', 'premiered', 'thumbnail', 'playcount', 'studio'])
+    show = library['tvshowdetails']
+    title = show['title']
+    itemart_url = show['thumbnail']
+    try:
+        itemart = '%s/vfs/%s' % (safe_server_address(), itemart_url)
+    except:
+        itemart = None
+
+    bannerart = get_setting_value('library_use_bannerart') == '1'
+
+    return render_template('library.html',
+        library = library,
+        title = title,
+        show = show,
+        itemart = itemart,
+        bannerart = bannerart,
+    )
+
+@app.route('/xhr/library/episodes/info/<int:episodeid>')
+@requires_auth
+def xhr_library_info_episode(episodeid):
+    xbmc = jsonrpclib.Server(server_api_address())
+    library = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=episodeid, properties=['season', 'tvshowid', 'title', 'rating', 'plot', 'thumbnail', 'playcount', 'firstaired'])
+    episode = library['episodedetails']
+    title = episode['title']
+    itemart_url = episode['thumbnail']
+    try:
+        itemart = '%s/vfs/%s' % (safe_server_address(), itemart_url)
+    except:
+        itemart = None
+
+    return render_template('library.html',
+        library = library,
+        title = title,
+        episode = episode,
+        itemart = itemart,
+    )
+
+@app.route('/xhr/library/artists/info/<int:artistid>')
+@requires_auth
+def xhr_library_info_artist(artistid):
+    xbmc = jsonrpclib.Server(server_api_address())
+    library = xbmc.AudioLibrary.GetArtistDetails(artistid=artistid, properties=['description', 'thumbnail', 'formed', 'genre'])
+    artist = library['artistdetails']
+    title = artist['label']
+    itemart_url = artist['thumbnail']
+    try:
+        itemart = '%s/vfs/%s' % (safe_server_address(), itemart_url)
+    except:
+        itemart = None
+
+    return render_template('library.html',
+        library = library,
+        title = title,
+        artist = artist,
+        itemart = itemart,
+    )
+
+@app.route('/xhr/library/albums/info/<int:albumid>')
+@requires_auth
+def xhr_library_info_album(albumid):
+    xbmc = jsonrpclib.Server(server_api_address())
+    library = xbmc.AudioLibrary.GetAlbumDetails(albumid=albumid, properties=['artistid', 'title', 'artist', 'year', 'genre', 'description', 'albumlabel', 'rating', 'thumbnail'])
+    album = library['albumdetails']
+    title = '%s - %s' % (album['artist'], album['title'])
+    itemart_url = album['thumbnail']
+    try:
+        itemart = '%s/vfs/%s' % (safe_server_address(), itemart_url)
+    except:
+        itemart = None
+
+    return render_template('library.html',
+        library = library,
+        title = title,
+        album = album,
+        itemart = itemart,
+    )
+
 def render_library(library=None, title="Media Library", message=None):
+    show_info = get_setting_value('library_show_info') == '1'
+
     return render_template('library.html',
         library = library,
         title = title,
         message = message,
+        show_info = show_info,
     )

@@ -25,8 +25,7 @@
   li,
   .back,
   .update,
-  .clean,
-  .toggle  {
+  .clean  {
     background: url(/static/images/alpha/fff_10.png);
     border: 1px solid #222;
     cursor: pointer;
@@ -58,6 +57,26 @@
       position: absolute;
       right: 5px;
       top: 5px;
+    }
+
+    .span {
+      position: absolute;
+      right: 5px;
+    }
+
+    .li_buttons {
+      display: none;
+      background: url(/static/images/alpha/fff_10.png);
+      border: 1px solid #222;
+      cursor: pointer;
+      padding: 2px 8px;
+      color: #ccc;
+
+      .border-radius(4px);
+
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+      }
     }
   }
 
@@ -130,15 +149,6 @@
 
   }
 
-  .toggle {
-    padding: 2px 8px;
-    font-size: 1.5em;
-
-    &.active {
-    background: url(/static/images/alpha/fff_20.png);
-    }
-    }
-
   .power {
     background: url(/static/images/alpha/fff_10.png);
     border: 1px solid #222;
@@ -165,12 +175,75 @@
     }
   }
 
-  .module_settings {
-    display: none;
+  .posterart  {
+    float: right;
+    max-width: 140px;
+    height: auto;
+    box-shadow: 0 0 1px 1px #333;
+    margin: 4px;
+  }
+
+  .bannerart  {
+    float: right;
+    max-height: 70px;
+    width: auto;
+    box-shadow: 0 0 1px 1px #333;
+    margin: 4px;
+  }
+
+  .episodeart  {
+    float: right;
+    max-width: 200px;
+    height: auto;
+    box-shadow: 0 0 1px 1px #333;
+    margin: 4px;
+  }
+
+  .artistart  {
+    float: right;
+    max-width: 200px;
+    height: auto;
+    box-shadow: 0 0 1px 1px #333;
+    margin: 4px;
+  }
+
+  .albumart  {
+    float: right;
+    max-width: 160px;
+    height: auto;
+    box-shadow: 0 0 1px 1px #333;
+    margin: 4px;
+  }
+
+  .p_info {
+    line-height: 1.3em;
+    margin: 4px;
+  }
+
+  .info_buttons {
+    float: left;
+    margin-right: 4px;
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    cursor: pointer;
+    line-height: 1.1em;
+    padding: 2px 8px;
+    color: #ccc;
+
+    .border-radius(4px);
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
   }
 }
 
 #library.root {
+  .powerholder { margin-top: 10px; }
+  #filter      { display: none; }
+}
+
+#library.info {
   .powerholder { margin-top: 10px; }
   #filter      { display: none; }
 }
