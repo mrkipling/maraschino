@@ -50,7 +50,6 @@ def xhr_weather():
 
     return render_template('weather.html',
         title = title,
-        use_metric = use_metric,
         current_conditions = current_conditions,
         current_temp = current_temp,
         wind = wind,
