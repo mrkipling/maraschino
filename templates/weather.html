@@ -1,0 +1,66 @@
+<div id="weather" class="module" data-module="weather">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2>Weather - {{ title }}</h2>
+
+  <div class="inner">
+
+    <div class="current">
+      <p>
+        <strong>Current Conditions:</strong>
+        <br>
+        {{ current_conditions.condition }}
+        <br>
+	    Temp: {{ current_temp }}
+        <br>
+        {{ current_conditions.humidity }}
+        <br>
+        {{ wind }}
+        <br>
+      </p>
+    </div>
+
+    <div class="forecasts">
+      <div class="days">
+        <p>
+          <strong>{{ day1.day_of_week }}:</strong><br>
+          {{ day1.condition }}<br>
+          High: {{ day1.high }}<br>
+          Low: {{ day1.low }}<br>
+        </p>
+      </div>
+
+      <div class="days">
+        <p>
+          <strong>{{ day2.day_of_week }}:</strong><br>
+          {{ day2.condition }}<br>
+          High: {{ day2.high }}<br>
+          Low: {{ day2.low }}<br>
+        </p>
+      </div>
+
+      <div class="days">
+        <p>
+          <strong>{{ day3.day_of_week }}:</strong><br>
+          {{ day3.condition }}<br>
+          High: {{ day3.high }}<br>
+          Low: {{ day3.low }}<br>
+        </p>
+      </div>
+
+      <div class="days">
+        <p>
+          <strong>{{ day4.day_of_week }}:</strong><br>
+          {{ day4.condition }}<br>
+          High: {{ day4.high }}<br>
+          Low: {{ day4.low }}<br>
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

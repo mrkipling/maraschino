@@ -258,6 +258,27 @@ AVAILABLE_MODULES = [
             },
         ]
     },
+    {
+        'name': 'weather',
+        'label': 'Weather',
+        'description': 'Gets weather details.',
+        'static': False,
+        'poll': 350,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'weather_location',
+                'value': '',
+                'description': 'Location - can be a U.S. zip code or city name, state or city name, country',
+            },
+            {
+                'key': 'weather_use_metric',
+                'value': '0',
+                'description': 'Use metric mesurements',
+                'type': 'bool',
+            },
+        ]
+    },
 ]
 
 SERVER_SETTINGS = [
