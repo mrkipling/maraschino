@@ -1324,24 +1324,53 @@ $(document).ready(function() {
 /* Configuration: */
 
 var tabs = {
-	"Select..." : {
-		"feed"		: "",
-		"function"	: rss
+	"Select..."       : {
+		"feed"		      : "",
+		"function"	    : rss
 	},
 
-	"Movies" : {
-		"feed"		: "http://rss.nzbmatrix.com/rss.php?cat=Movies",
-		"function"	: rss
+	"Movies [ALL]"    : {
+		"feed"		      : "http://rss.nzbmatrix.com/rss.php?cat=Movies",
+		"function"	    : rss
 	},
 	
-	"TV Shows": {
-		"feed"		: "http://rss.nzbmatrix.com/rss.php?cat=TV",
-		"function"	: rss
+	"Movies [SD]"     : {
+		"feed"		      : "http://rss.nzbmatrix.com/rss.php?subcat=2",
+		"function"	    : rss
 	},
 	
-	"Music"  : {
-		"feed"		: "http://rss.nzbmatrix.com/rss.php?cat=Music",
-		"function"	: rss
+  "Movies [HD]"     : {
+		"feed"		      : "http://rss.nzbmatrix.com/rss.php?subcat=42",
+		"function"	    : rss
+	},
+	
+	"TV Shows [ALL]"  : {
+		"feed"		      : "http://rss.nzbmatrix.com/rss.php?cat=TV",
+		"function"      : rss
+	},
+	"TV Shows [SD]"   : {
+		"feed"		      : "http://rss.nzbmatrix.com/rss.php?subcat=6",
+		"function"	    : rss
+	},
+	
+	"TV Shows [HD]"   : {
+		"feed"		      : "http://rss.nzbmatrix.com/rss.php?subcat=41",
+		"function"	    : rss
+	},
+
+	"Music [ALL]"     : {
+		"feed"	      	: "http://rss.nzbmatrix.com/rss.php?cat=Music",
+		"function"	    : rss
+	},
+
+	"Music [MP3]"     : {
+		"feed"	      	: "http://rss.nzbmatrix.com/rss.php?subcat=22",
+		"function"	    : rss
+	},
+
+	"Music [Loseless]": {
+		"feed"	    	  : "http://rss.nzbmatrix.com/rss.php?subcat=23",
+		"function"	    : rss
 	}
 }
 
