@@ -5,62 +5,66 @@
 
   <h2>Weather - {{ title }}</h2>
 
-  <div class="inner">
+    <table>
+      <tr>
+        <td class="current" rowspan="2">
+          <img src="{{ currentimage }}" height="36" width="36"/>
+          <p>
+            <strong>Current Conditions:</strong>
+            <br>
+            {{ current_conditions.condition }}
+            <br>
+            Temp: {{ current_temp }}
+            <br>
+            {{ current_conditions.humidity }}
+            <br>
+            {{ wind }}
+            <br>
+          </p>
+        </td>
 
-    <div class="current">
-      <p>
-        <strong>Current Conditions:</strong>
-        <br>
-        {{ current_conditions.condition }}
-        <br>
-	    Temp: {{ current_temp }}
-        <br>
-        {{ current_conditions.humidity }}
-        <br>
-        {{ wind }}
-        <br>
-      </p>
-    </div>
+        <td>
+          <img src="{{ day1image }}"/>
+          <p>
+            <strong>Today:</strong><br>
+            {{ day1.condition }}<br>
+            High: {{ day1.high }}<br>
+            Low: {{ day1.low }}<br>
+          </p>
+        </td>
 
-    <div class="forecasts">
-      <div class="days">
-        <p>
-          <strong>Today:</strong><br>
-          {{ day1.condition }}<br>
-          High: {{ day1.high }}<br>
-          Low: {{ day1.low }}<br>
-        </p>
-      </div>
+        <td>
+          <img src="{{ day2image }}"/>
+          <p>
+            <strong>{{ day2.day_of_week }}:</strong><br>
+            {{ day2.condition }}<br>
+            High: {{ day2.high }}<br>
+            Low: {{ day2.low }}<br>
+          </p>
+        </td>
+      </tr>
 
-      <div class="days">
-        <p>
-          <strong>{{ day2.day_of_week }}:</strong><br>
-          {{ day2.condition }}<br>
-          High: {{ day2.high }}<br>
-          Low: {{ day2.low }}<br>
-        </p>
-      </div>
+      <tr>
+        <td>
+          <img src="{{ day3image }}"/>
+          <p>
+            <strong>{{ day3.day_of_week }}:</strong><br>
+            {{ day3.condition }}<br>
+            High: {{ day3.high }}<br>
+            Low: {{ day3.low }}<br>
+          </p>
+        </td>
 
-      <div class="days">
-        <p>
-          <strong>{{ day3.day_of_week }}:</strong><br>
-          {{ day3.condition }}<br>
-          High: {{ day3.high }}<br>
-          Low: {{ day3.low }}<br>
-        </p>
-      </div>
-
-      <div class="days">
-        <p>
-          <strong>{{ day4.day_of_week }}:</strong><br>
-          {{ day4.condition }}<br>
-          High: {{ day4.high }}<br>
-          Low: {{ day4.low }}<br>
-        </p>
-      </div>
-
-    </div>
-
-  </div>
+        <td>
+          <img src="{{ day4image }}"/>
+          <p>
+            <strong>{{ day4.day_of_week }}:</strong><br>
+            {{ day4.condition }}<br>
+            High: {{ day4.high }}<br>
+            Low: {{ day4.low }}<br>
+          </p>
+        </td>
+      </tr>
+    </table>
 
 </div>
