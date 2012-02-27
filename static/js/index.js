@@ -1330,17 +1330,17 @@ var tabs = {
 	},
 
 	"Movies" : {
-		"feed"		: "http://sceper.eu/category/movies/feed",
+		"feed"		: "http://rss.nzbmatrix.com/rss.php?cat=Movies",
 		"function"	: rss
 	},
 	
 	"TV Shows": {
-		"feed"		: "http://sceper.eu/category/tv-shows/feed/",
+		"feed"		: "http://rss.nzbmatrix.com/rss.php?cat=TV",
 		"function"	: rss
 	},
 	
 	"Music"  : {
-		"feed"		: "http://sceper.eu/category/music/feed/",
+		"feed"		: "http://rss.nzbmatrix.com/rss.php?cat=Music",
 		"function"	: rss
 	}
 }
