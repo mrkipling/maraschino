@@ -1,3 +1,4 @@
+
 from flask import Flask, jsonify, render_template
 from pywapi.pywapi import get_weather_from_google
 import re
@@ -174,9 +175,10 @@ def xhr_weather():
     day4image = imagepath + day4['icon'] + ".png"
 
     title = forcast_info['city']
+    degrees = unichr(176)
 
     if use_metric:
-        current_temp = current_conditions['temp_c'] + " c"
+        current_temp = current_conditions['temp_c'] + degrees + "c"
         windspeed_kph = windspeed_mph * 1.609
         windspeed_kph = int(windspeed_kph)
         windspeed_mph = str(windspeed_mph)
@@ -188,17 +190,17 @@ def xhr_weather():
             temp['low'] = int(temp['low']) - 32
             temp['low'] = int(temp['low']) * 5
             temp['low'] = int(temp['low']) / 9
-            temp['low'] = str(temp['low']) + " c"
+            temp['low'] = str(temp['low']) + degrees + "c"
             temp['high'] = int(temp['high']) - 32
             temp['high'] = int(temp['high']) * 5
             temp['high'] = int(temp['high']) / 9
-            temp['high'] = str(temp['high']) + " c"
+            temp['high'] = str(temp['high']) + degrees + "c"
 
     else:
-        current_temp = current_conditions['temp_f'] + " f"
+        current_temp = current_conditions['temp_f'] + degrees + "f"
         for temp in weather['forecasts']:
-            temp['low'] = temp['low'] + " f"
-            temp['high'] = temp['high'] + " f"
+            temp['low'] = temp['low'] + degrees + "f"
+            temp['high'] = temp['high'] + degrees + "f"
 
     return render_template('weather.html',
         current_conditions = current_conditions,
