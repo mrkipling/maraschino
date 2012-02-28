@@ -176,7 +176,7 @@ def xhr_weather():
     title = forcast_info['city']
 
     if use_metric:
-        current_temp = current_conditions['temp_c']
+        current_temp = current_conditions['temp_c'] + " c"
         windspeed_kph = windspeed_mph * 1.609
         windspeed_kph = int(windspeed_kph)
         windspeed_mph = str(windspeed_mph)
@@ -188,12 +188,17 @@ def xhr_weather():
             temp['low'] = int(temp['low']) - 32
             temp['low'] = int(temp['low']) * 5
             temp['low'] = int(temp['low']) / 9
+            temp['low'] = str(temp['low']) + " c"
             temp['high'] = int(temp['high']) - 32
             temp['high'] = int(temp['high']) * 5
             temp['high'] = int(temp['high']) / 9
+            temp['high'] = str(temp['high']) + " c"
 
     else:
-        current_temp = current_conditions['temp_f']
+        current_temp = current_conditions['temp_f'] + " f"
+        for temp in weather['forecasts']:
+            temp['low'] = temp['low'] + " f"
+            temp['high'] = temp['high'] + " f"
 
     return render_template('weather.html',
         current_conditions = current_conditions,
