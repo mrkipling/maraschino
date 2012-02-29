@@ -1,7 +1,8 @@
 @import "mixins.less";
 
 #weather {
-  text-align: center;
+
+	text-align: center;
 
   h2 {
     text-align: left;
@@ -11,7 +12,7 @@
     table-layout: fixed;
     margin-left: 3px;
     margin-right: 3px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     width: 98%;
   }
   
@@ -34,7 +35,7 @@
 	  -moz-border-radius:3px;
 	  -webkit-border-radius:3px;
 	  border-radius:3px;
-}
+  }
   
   .currentcond {
     font-size: large;
@@ -47,6 +48,12 @@
     height: 32px;
     width: 32px;
   }
+  
+  .compactforecastimg {
+    position: relative;
+    height: 22px;
+    width: 22px;
+  }
 
   .current {
     vertical-align: middle;
@@ -57,7 +64,7 @@
   }
 
   .low {
-  color:grey;
+    color:grey;
 	font-weight:bold;
   }
 
@@ -65,4 +72,11 @@
     height: 64px;
     width: 64px;
   }
+  
+  .line {
+    height:2px;
+    overflow:hidden;
+    background: url(/static/images/alpha/fff_10.png);
+    margin:1px 0;
+   }
 }
