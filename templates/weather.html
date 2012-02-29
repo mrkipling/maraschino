@@ -4,18 +4,26 @@
   <div class="module_remove"><span>Remove</span></div>
 
   <h2>Weather in {{ title }}</h2>
-
+{% if compact_view %}
+<table>
+  <tr><td><b>Current: </b>{{ current_conditions.condition }} {{ current_temp }} {{ wind }}</td></tr>
+  <tr><td><b>Today: </b>{{ day1.condition }} {{ day1.high }} {{ day1.low }}</td></tr>
+  <tr><td><b>{{ day2.day_of_week }}</b>{{ day2.condition }} {{ day2.high }} {{ day2.low }}</td></tr>
+  <tr><td><b>{{ day3.day_of_week }}</b>{{ day3.condition }} {{ day3.high }} {{ day3.low }}</td></tr>
+  <tr><td><b>{{ day4.day_of_week }}</b>{{ day4.condition }} {{ day4.high }} {{ day4.low }}</td></tr>
+</table>
+{% else %}
 <table>
   <tr>
-    <td colspan="5"><div class="container"><center><b>Current</b></center></div></td>
+    <td colspan="5"><div class="container"><b>Current</b></div></td>
   </td>
   <tr>
-    <td colspan="2"><center class="currentcond"><img class="currentimage" src="{{ currentimage }}"/><br>{{ current_conditions.condition }}<br /><br /></center></td>
+    <td colspan="2"><center class="currentcond"><img class="currentimage" src="{{ currentimage }}"/><br />{{ current_conditions.condition }}<br /><br /></center></td>
     <td colspan="1" class="currenttemp">{{ current_temp }}</td>
     <td colspan="2"><center class="currentcond"><img src="{{ wind_image }}" /><br>{{ wind[11:25] }}<br /><br /></center></td>
     </td>
   <tr>
-    <td colspan="5"><div class="container"><center><b>Forecast</b></center></div></u></td>
+    <td colspan="5"><div class="container"><b>Forecast</b></div></u></td>
   </td>
   <tr>
     <td><strong>Today</strong></td>
@@ -46,5 +54,6 @@
     <td class="low">{{ day4.low }}<br /><br /></td>
   </tr>
  </table>
+{% endif %}
 
 </div>

@@ -11,7 +11,9 @@ from maraschino.tools import *
 def xhr_weather():
 
     location = get_setting_value('weather_location')
-    use_metric = get_setting_value('weather_use_metric') == '1'
+    use_celcius = get_setting_value('weather_use_celcius') == '1'
+    use_kilometers = get_setting_value('weather_use_kilometers') == '1'
+    compact_view = get_setting_value('weather_compact') == '1'
     weather = get_weather_from_google(location)
 
     current_conditions = weather['current_conditions']
@@ -189,18 +191,12 @@ def xhr_weather():
     day2image = imagepath + day2['icon'] + ".png"
     day3image = imagepath + day3['icon'] + ".png"
     day4image = imagepath + day4['icon'] + ".png"
-	
+
     title = forcast_info['city']
     degrees = unichr(176)
 
-    if use_metric:
+    if use_celcius:
         current_temp = current_conditions['temp_c'] + degrees + "C"
-        windspeed_kph = windspeed_mph * 1.609
-        windspeed_kph = int(windspeed_kph)
-        windspeed_mph = str(windspeed_mph)
-        windspeed_kph = str(windspeed_kph)
-        wind = wind.replace(windspeed_mph, windspeed_kph)
-        wind = wind.replace("mph", "kph")
 
         for temp in weather['forecasts']:
             temp['low'] = int(temp['low']) - 32
@@ -218,8 +214,17 @@ def xhr_weather():
             temp['low'] = temp['low'] + degrees + "F"
             temp['high'] = temp['high'] + degrees + "F"
 
+    if use_kilometers:
+        windspeed_kph = windspeed_mph * 1.609
+        windspeed_kph = int(windspeed_kph)
+        windspeed_mph = str(windspeed_mph)
+        windspeed_kph = str(windspeed_kph)
+        wind = wind.replace(windspeed_mph, windspeed_kph)
+        wind = wind.replace("mph", "kph")
+
     return render_template('weather.html',
         current_conditions = current_conditions,
+        compact_view = compact_view,
         current_temp = current_temp,
         currentimage = currentimage,
 		wind_image = wind_image,

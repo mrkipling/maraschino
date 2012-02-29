@@ -272,9 +272,21 @@ AVAILABLE_MODULES = [
                 'description': 'Location - can be a U.S. zip code or city name, state or city name, country',
             },
             {
-                'key': 'weather_use_metric',
+                'key': 'weather_use_celcius',
                 'value': '0',
-                'description': 'Use metric mesurements',
+                'description': 'Use celcius for tempreture',
+                'type': 'bool',
+            },
+            {
+                'key': 'weather_use_kilometers',
+                'value': '0',
+                'description': 'Use kilometers for wind speed',
+                'type': 'bool',
+            },
+            {
+                'key': 'weather_compact',
+                'value': '0',
+                'description': 'Compact view',
                 'type': 'bool',
             },
         ]
