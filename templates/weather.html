@@ -6,12 +6,31 @@
   <h2>Weather in {{ title }}</h2>
 {% if compact_view %}
 <table>
-  <tr><td><b>Current: </b>{{ current_conditions.condition }} {{ current_temp }} {{ wind }}</td></tr>
-  <tr><td><b>Today: </b>{{ day1.condition }} {{ day1.high }} {{ day1.low }}</td></tr>
-  <tr><td><b>{{ day2.day_of_week }}</b>{{ day2.condition }} {{ day2.high }} {{ day2.low }}</td></tr>
-  <tr><td><b>{{ day3.day_of_week }}</b>{{ day3.condition }} {{ day3.high }} {{ day3.low }}</td></tr>
-  <tr><td><b>{{ day4.day_of_week }}</b>{{ day4.condition }} {{ day4.high }} {{ day4.low }}</td></tr>
-</table>
+  <tr>
+    <td><strong>Current</strong></td>
+    <td><img class="compactforecastimg" src="{{ currentimage }}"/></td>
+    <td>{{ current_conditions.condition }}</td>
+    <td class="high">{{ current_temp }}</td>  
+    <td><strong>{{ wind[6:25] }}</strong></td>
+  </td>
+  <tr>
+    <td colspan="5"><div class="line"></div></td>
+  </td>
+  <tr>
+    <td><strong>Today</strong></td>
+    <td><img class="compactforecastimg" src="{{ day1image }}"/></td>
+    <td>{{ day1.condition }}</td>
+    <td class="high">{{ day1.high }}</td>  
+    <td class="low">{{ day1.low }}</td>
+  </td>
+  <tr>
+    <td><strong>Tomorrow</strong></td>
+    <td><img class="compactforecastimg" src="{{ day2image }}"/></td>
+    <td>{{ day2.condition }}</td>
+    <td class="high">{{ day2.high }}</td>  
+    <td class="low">{{ day2.low }}</td>
+  </tr>
+ </table>
 {% else %}
 <table>
   <tr>
@@ -47,11 +66,11 @@
     <td class="low">{{ day3.low }}</td>
   </tr>
   <tr>
-    <td><strong>{{ day4.day_of_week }}</strong><br /><br /></td>
-    <td><img class="forecastimg" src="{{ day4image }}"/><br /><br /></td>
-    <td>{{ day4.condition }}<br /><br /></td>
-    <td class="high">{{ day4.high }}<br /><br /></td>  
-    <td class="low">{{ day4.low }}<br /><br /></td>
+    <td><strong>{{ day4.day_of_week }}</strong></td>
+    <td><img class="forecastimg" src="{{ day4image }}"/></td>
+    <td>{{ day4.condition }}</td>
+    <td class="high">{{ day4.high }}</td>  
+    <td class="low">{{ day4.low }}</td>
   </tr>
  </table>
 {% endif %}
