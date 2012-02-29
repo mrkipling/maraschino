@@ -3,68 +3,48 @@
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
 
-  <h2>Weather - {{ title }}</h2>
+  <h2>Weather in {{ title }}</h2>
 
-    <table>
-      <tr>
-        <td class="current" rowspan="2">
-          <img src="{{ currentimage }}" height="36" width="36"/>
-          <p>
-            <strong>Current Conditions:</strong>
-            <br>
-            {{ current_conditions.condition }}
-            <br>
-            Temp: {{ current_temp }}
-            <br>
-            {{ current_conditions.humidity }}
-            <br>
-            {{ wind }}
-            <br>
-          </p>
-        </td>
-
-        <td>
-          <img src="{{ day1image }}"/>
-          <p>
-            <strong>Today:</strong><br>
-            {{ day1.condition }}<br>
-            High: {{ day1.high }}<br>
-            Low: {{ day1.low }}<br>
-          </p>
-        </td>
-
-        <td>
-          <img src="{{ day2image }}"/>
-          <p>
-            <strong>{{ day2.day_of_week }}:</strong><br>
-            {{ day2.condition }}<br>
-            High: {{ day2.high }}<br>
-            Low: {{ day2.low }}<br>
-          </p>
-        </td>
-      </tr>
-
-      <tr>
-        <td>
-          <img src="{{ day3image }}"/>
-          <p>
-            <strong>{{ day3.day_of_week }}:</strong><br>
-            {{ day3.condition }}<br>
-            High: {{ day3.high }}<br>
-            Low: {{ day3.low }}<br>
-          </p>
-        </td>
-
-        <td>
-          <img src="{{ day4image }}"/>
-          <p>
-            <strong>{{ day4.day_of_week }}:</strong><br>
-            {{ day4.condition }}<br>
-            High: {{ day4.high }}<br>
-            Low: {{ day4.low }}<br>
-          </p>
-        </td>
-      </tr>
-    </table>
+<table>
+  <tr>
+    <td colspan="5"><div class="container"><center><b>Current</b></center></div></td>
+  </td>
+  <tr>
+    <td colspan="2"><center class="currentcond"><img class="currentimage" src="{{ currentimage }}"/><br>{{ current_conditions.condition }}<br /><br /></center></td>
+    <td colspan="1" class="currenttemp">{{ current_temp }}</td>
+    <td colspan="2"><center class="currentcond"><img src="{{ wind_image }}" /><br>{{ wind[11:25] }}<br /><br /></center></td>
+    </td>
+  <tr>
+    <td colspan="5"><div class="container"><center><b>Forecast</b></center></div></u></td>
+  </td>
+  <tr>
+    <td><strong>Today</strong></td>
+    <td><img class="forecastimg" src="{{ day1image }}"/></td>
+    <td>{{ day1.condition }}</td>
+    <td class="high">{{ day1.high }}</td>  
+    <td class="low">{{ day1.low }}</td>
+  </td>
+  <tr>
+    <td><strong>{{ day2.day_of_week }}</strong></td>
+    <td><img class="forecastimg" src="{{ day2image }}"/></td>
+    <td>{{ day2.condition }}</td>
+    <td class="high">{{ day2.high }}</td>  
+    <td class="low">{{ day2.low }}</td>
+  </tr>
+  <tr>
+    <td><strong>{{ day3.day_of_week }}</strong></td>
+    <td><img class="forecastimg" src="{{ day3image }}"/></td>
+    <td>{{ day3.condition }}</td>
+    <td class="high">{{ day3.high }}</td>  
+    <td class="low">{{ day3.low }}</td>
+  </tr>
+  <tr>
+    <td><strong>{{ day4.day_of_week }}</strong><br /><br /></td>
+    <td><img class="forecastimg" src="{{ day4image }}"/><br /><br /></td>
+    <td>{{ day4.condition }}<br /><br /></td>
+    <td class="high">{{ day4.high }}<br /><br /></td>  
+    <td class="low">{{ day4.low }}<br /><br /></td>
+  </tr>
+ </table>
 
 </div>
