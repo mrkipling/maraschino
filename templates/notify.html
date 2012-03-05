@@ -3,14 +3,23 @@
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
 
-  <h2>Send message to XBMC</h2>
-
-  <select id="ipaddress">
-    {% for item in name_address %}
-      <option value="{{ item.address }}">{{ item.name }}</option>
-    {% endfor %}
-  </select>
-
-  <input type="text" id="message" /><input type="submit" id="sendmessage" value="Send">
-
+  <h2>Notification Message</h2>
+  
+  <table width="100%">
+     <tr>
+        <td width="100%"><strong>Message</strong> - </td>
+        <td><strong>To</strong> - </td>
+     </tr>
+     <tr>
+	    <td><input type="text" id="message" /></td>
+        <td nowrap="nowrap"><select id="ipaddress">
+              <option style="background: #2b3621; color:#fff">Select Client...</option>
+              {% for item in name_address %}
+              <option  style="background: #2b3621; color:#fff" value="{{ item.address }}">{{ item.name }}</option>
+              {% endfor %}
+            </select><input type="submit" id="sendmessage" value="Send" onClick>
+        </td>
+     </tr>
+  </table>
+	
 </div>
