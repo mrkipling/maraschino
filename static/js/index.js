@@ -1319,4 +1319,8 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#notify #sendmessage', function() {
+    $.get('/xhr/notify/' + $('#notify #ipaddress').val() + '/' + $('#notify #message').val());
+  });
+
 });

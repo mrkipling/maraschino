@@ -1,0 +1,16 @@
+<div id="notify" class="module" data-module="notify">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2>Send message to XBMC</h2>
+
+  <select id="ipaddress">
+    {% for item in name_address %}
+      <option value="{{ item.address }}">{{ item.name }}</option>
+    {% endfor %}
+  </select>
+
+  <input type="text" id="message" /><input type="submit" id="sendmessage" value="Send">
+
+</div>

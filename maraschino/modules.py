@@ -258,6 +258,21 @@ AVAILABLE_MODULES = [
             },
         ]
     },
+    {
+        'name': 'notify',
+        'label': 'XBMC Notify',
+        'description': 'Send notification to XBMC.',
+        'static': False,
+        'poll': 0,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'notify_addresses',
+                'value': '',
+                'description': 'XBMC IP addresses or hostnames. Format: NAME: IPADDRESS (seperate with comma space)',
+            },
+        ]
+    },
 ]
 
 SERVER_SETTINGS = [
