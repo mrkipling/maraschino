@@ -7,11 +7,8 @@
   
   <table width="100%">
      <tr>
-        <td width="100%"><strong>Message</strong> - </td>
-        <td><strong>To</strong> - </td>
-     </tr>
-     <tr>
-	    <td><input type="text" id="message" /></td>
+        <td><input type="text" id="title" value="Title" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/></td>
+	    <td><input type="text" id="message" value="Message" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/></td>
         <td nowrap="nowrap"><select id="ipaddress">
               <option style="background: #2b3621; color:#fff">Select Client...</option>
               {% for item in name_address %}

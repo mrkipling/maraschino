@@ -1,8 +1,12 @@
 @import "mixins.less";
  
 #notify {
- 
-input[type="text"] {
+
+  td {
+    padding-right: 10px;
+  }
+
+  input[type="text"] {
     background: url(/static/images/alpha/fff_10.png);
     border: 1px solid #222;
     color: #fff;
@@ -15,11 +19,12 @@ input[type="text"] {
     .border-radius(4px);
     -webkit-appearance: none;
  
-    &:hover {
-      background: url(/static/images/alpha/fff_20.png);
-    }
-}
-input[type="submit"] {
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+      }
+  }
+
+  input[type="submit"] {
     background: url(/static/images/alpha/fff_10.png);
     border: 1px solid #222;
     color: #ccc;
@@ -32,12 +37,12 @@ input[type="submit"] {
     -webkit-appearance: none;
     font-weight:bold;
  
-    &:hover {
-      background: url(/static/images/alpha/fff_20.png);
-    }
-}
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+      }
+  }
  
-select, option {
+  select, option {
     background: url(/static/images/alpha/fff_10.png);
     border: 1px solid #222;
     color: #fff;
@@ -47,8 +52,8 @@ select, option {
     .border-radius(4px);
     -webkit-appearance: none;
  
-    &:hover {
-      background: url(/static/images/alpha/fff_20.png);
-    }  
-}
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+      }  
+  }
 }

@@ -22,17 +22,18 @@ def xhr_notify():
     name_address = name_address,
     )
 
-@app.route('/xhr/notify/<address>/<message>')
-def xhr_notify_message(address, message):
+@app.route('/xhr/notify/<address>/<title>/<message>')
+def xhr_notify_message(address, title, message):
     message = str(message)
     address = str(address)
+    title = str(title)
     icon = os.path.abspath('static/images/maraschino_logo.png')
     if not os.path.exists(icon):
         icon = os.path.abspath('maraschino/static/images/maraschino_logo.png')
 
     try:
-        xbmc = XBMCClient('Maraschino', icon, ip=address)
-        xbmc.send_notification(title="Maraschino", message=message, icon_file=icon)
+        xbmc = XBMCClient(title, icon, ip=address)
+        xbmc.send_notification(title=title, message=message, icon_file=icon)
         return jsonify({ 'status': 'successful'})
     except:
         return jsonify({ 'error': 'failed'})
