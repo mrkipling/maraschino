@@ -3,9 +3,9 @@ import jsonrpclib
 
 from Maraschino import app
 from socket import *
-from xbmc.xbmcclient import XBMCClient
+from xbmc.xbmcclient import *
 from maraschino.tools import *
-import time, os
+import os
 
 @app.route('/xhr/notify')
 def xhr_notify():
@@ -33,7 +33,8 @@ def xhr_notify():
 @app.route('/xhr/notify/<icon>/<address>/<title>/<message>')
 def xhr_notify_message(icon, address, title, message):
     message = str(message)
-    address = str(address)
+    ip = str(address)
+    port = 9777
     title = str(title)
     icon = os.path.abspath('static/images/notifications/' + icon)
 
@@ -43,11 +44,23 @@ def xhr_notify_message(icon, address, title, message):
     if not os.path.exists(icon):
         icon = os.path.abspath('maraschino/static/images/maraschino_logo.png')
 
+    if icon[-3:] == "png":
+        icon_type = ICON_PNG
+    elif icon[-3:] == "jpg":
+        icon_type = ICON_JPEG
+    elif icon[-4:] == "jpeg":
+        icon_type = ICON_JPEG
+    elif icon[-3:] == "gif":
+        icon_type = ICON_GIF
+    else:
+        icon_type = ICON_NONE
+
+    addr = (ip, port)
+    sock = socket(AF_INET,SOCK_DGRAM)
+
     try:
-        xbmc = XBMCClient(title, icon, ip=address)
-        xbmc.send_notification(title=title, message=message, icon_file=icon)
+        packet = PacketNOTIFICATION(title, message, icon_type, icon)
+        packet.send(sock, addr)
         return jsonify({ 'status': 'successful'})
     except:
         return jsonify({ 'error': 'failed'})
-
-

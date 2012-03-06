@@ -521,7 +521,7 @@ class XBMCClient:
         message -- The message to be displayed
         icon_file -- location of an icon file, if any (png, jpg, gif)
         """
-        #self.connect()
+        self.connect()
         packet = PacketNOTIFICATION(title, message,
                                     self._get_icon_type(icon_file),
                                     icon_file)
