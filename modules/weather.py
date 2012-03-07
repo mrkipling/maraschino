@@ -59,6 +59,8 @@ def xhr_weather():
         current_conditions['icon'] = "Sunny"
     elif current_conditions['condition'] == "Freezing Drizzle":
         current_conditions['icon'] = "Rain"
+    elif current_conditions['condition'] == "Drizzle":
+        current_conditions['icon'] = "Rain"
     elif current_conditions['condition'] == "Light Snow":
         current_conditions['icon'] = "Snow"
     elif current_conditions['condition'] == "Overcast":
@@ -128,6 +130,8 @@ def xhr_weather():
         elif day['condition'] == "Sunny":
             day['icon'] = "Sunny"
         elif day['condition'] == "Freezing Drizzle":
+            day['icon'] = "Rain"
+        elif day['condition'] == "Drizzle":
             day['icon'] = "Rain"
         elif day['condition'] == "Light Snow":
             day['icon'] = "Snow"
