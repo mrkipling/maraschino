@@ -55,6 +55,12 @@ def xhr_notify_message(icon, address, title, message):
     else:
         icon_type = ICON_NONE
 
+    if title == "Title":
+        title = "Maraschino";
+
+    if message == "Message":
+        message = None;
+
     addr = (ip, port)
     sock = socket(AF_INET,SOCK_DGRAM)
 
