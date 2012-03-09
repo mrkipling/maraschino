@@ -12,17 +12,14 @@
     <td>{{ current_conditions.condition }}</td>
     <td class="high">{{ current_temp }}</td>  
     <td><strong>{{ wind[6:25] }}</strong></td>
-  </td>
-  <tr>
-    <td colspan="5"><div class="line"></div></td>
-  </td>
+  </tr>
   <tr>
     <td><strong>Today</strong></td>
     <td><img class="compactforecastimg" src="{{ day1image }}"/></td>
     <td>{{ day1.condition }}</td>
     <td class="high">{{ day1.high }}</td>  
     <td class="low">{{ day1.low }}</td>
-  </td>
+  </tr>
   <tr>
     <td><strong>Tomorrow</strong></td>
     <td><img class="compactforecastimg" src="{{ day2image }}"/></td>
@@ -30,7 +27,7 @@
     <td class="high">{{ day2.high }}</td>  
     <td class="low">{{ day2.low }}</td>
   </tr>
- </table>
+</table>
 {% else %}
 <table>
   <tr>

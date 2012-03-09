@@ -23,172 +23,138 @@ def xhr_weather():
     windspeed_mph = re.findall("\d+", wind)
     windspeed_mph = int(windspeed_mph[0])
 
+    imagepath = "/static/images/weather/"
+
+    if ": N" in wind:
+        wind_image = imagepath + "N.png"
+    elif ": E" in wind:
+        wind_image = imagepath + "E.png"
+    elif ": S" in wind:
+        wind_image = imagepath + "S.png"
+    elif ": W" in wind:
+        wind_image = imagepath + "W.png"
+    elif ": NE" in wind:
+        wind_image = imagepath + "NE.png"
+    elif ": SE" in wind:
+        wind_image = imagepath + "SE.png"
+    elif ": SW" in wind:
+        wind_image = imagepath + "SW.png"
+    elif ": NW" in wind:
+        wind_image = imagepath + "NW.png"
+
+    conditions = (
+        {
+            'image': 'Rain',
+            'conditions':[
+
+                'Chance of Rain',
+                'Light Rain',
+                'Freezing Drizzle',
+                'Drizzle',
+                'Scattered Showers',
+                'Showers',
+                'Rain Showers',
+                'Rain'
+            ]
+        },
+        {
+            'image': 'Thunderstorm',
+            'conditions': [
+
+                'Thunderstorm',
+                'Scattered Thunderstorms',
+                'Chance of TStorm'
+            ]
+        },
+        {
+            'image': 'Sunny',
+            'conditions': [
+
+                'Clear',
+                'Sunny',
+                'Mostly Sunny'
+            ]
+        },
+        {
+            'image': 'Overcast',
+            'conditions': [
+
+                'Overcast',
+                'Mostly Cloudy',
+                'Cloudy'
+            ]
+        },
+        {
+            'image': 'Snow',
+            'conditions': [
+
+                'Light Snow',
+                'Chance of Snow',
+                'Snow',
+                'Icy',
+                'Dust',
+                'Flurries'
+            ]
+        },
+        {
+            'image': 'Partly Sunny',
+            'conditions': [
+
+                'Partly Cloudy',
+                'Partly Sunny'
+            ]
+        },
+        {
+            'image': 'Overcast',
+            'conditions': [
+
+                'Overcast',
+                'Mostly Cloudy',
+                'Cloudy'
+            ]
+        },
+        {
+            'image': 'Rain and Snow',
+            'conditions': [
+
+                'Rain and Snow',
+                'Sleet',
+                'Snow Showers'
+            ]
+        },
+        {
+            'image': 'Storm',
+            'conditions': [
+
+                'Chance of Storm',
+                'Storm',
+                'Hail'
+            ]
+        },
+        {
+            'image': 'Fog',
+            'conditions': [
+
+                'Mist',
+                'Fog',
+                'Smoke',
+                'Haze'
+            ]
+        },
+    )
+
+    for condition in conditions:
+        if current_conditions['condition'] in condition['conditions']:
+            current_conditions['icon'] = condition['image']
+
+        for day in weather['forecasts']:
+            if day['condition'] in condition['conditions']:
+                day['icon'] = condition['image']
+
     day1 = weather['forecasts'][0]
     day2 = weather['forecasts'][1]
     day3 = weather['forecasts'][2]
     day4 = weather['forecasts'][3]
-
-    imagepath = "/static/images/weather/"
-
-    if wind.find(': N') != -1:
-        wind_image = imagepath + "N.png"
-    elif wind.find(': E') != -1:
-        wind_image = imagepath + "E.png"
-    elif wind.find(': S') != -1:
-        wind_image = imagepath + "S.png"
-    elif wind.find(': W') != -1:
-        wind_image = imagepath + "W.png"
-    elif wind.find(': NE') != -1:
-        wind_image = imagepath + "NE.png"
-    elif wind.find(': SE') != -1:
-        wind_image = imagepath + "SE.png"
-    elif wind.find(': SW') != -1:
-        wind_image = imagepath + "SW.png"
-    elif wind.find(': NW') != -1:
-        wind_image = imagepath + "NW.png"
-
-    if current_conditions['condition'] == "Chance of Rain":
-        current_conditions['icon'] = "Rain"
-    elif current_conditions['condition'] == "Light rain":
-        current_conditions['icon'] = "Rain"
-    elif current_conditions['condition'] == "Thunderstorm":
-        current_conditions['icon'] = "Thunderstorm"
-    elif current_conditions['condition'] == "Clear":
-        current_conditions['icon'] = "Sunny"
-    elif current_conditions['condition'] == "Sunny":
-        current_conditions['icon'] = "Sunny"
-    elif current_conditions['condition'] == "Freezing Drizzle":
-        current_conditions['icon'] = "Rain"
-    elif current_conditions['condition'] == "Drizzle":
-        current_conditions['icon'] = "Rain"
-    elif current_conditions['condition'] == "Light Snow":
-        current_conditions['icon'] = "Snow"
-    elif current_conditions['condition'] == "Overcast":
-        current_conditions['icon'] = "Overcast"
-    elif current_conditions['condition'] == "Rain and Snow":
-        current_conditions['icon'] = "Rain and Snow"
-    elif current_conditions['condition'] == "Scattered Showers":
-        current_conditions['icon'] = "Rain"
-    elif current_conditions['condition'] == "Showers":
-        current_conditions['icon'] = "Rain"
-    elif current_conditions['condition'] == "Scattered Thunderstorms":
-        current_conditions['icon'] = "Thunderstorm"
-    elif current_conditions['condition'] == "Mostly Sunny":
-        current_conditions['icon'] = "Sunny"
-    elif current_conditions['condition'] == "Partly Cloudy":
-        current_conditions['icon'] = "Partly Sunny"
-    elif current_conditions['condition'] == "Partly Sunny":
-        current_conditions['icon'] = "Partly Sunny"
-    elif current_conditions['condition'] == "Mostly Cloudy":
-        current_conditions['icon'] = "Overcast"
-    elif current_conditions['condition'] == "Chance of Storm":
-        current_conditions['icon'] = "Storm"
-    elif current_conditions['condition'] == "Rain":
-        current_conditions['icon'] = "Rain"
-    elif current_conditions['condition'] == "Chance of Snow":
-        current_conditions['icon'] = "Snow"
-    elif current_conditions['condition'] == "Cloudy":
-        current_conditions['icon'] = "Overcast"
-    elif current_conditions['condition'] == "Mist":
-        current_conditions['icon'] = "Fog"
-    elif current_conditions['condition'] == "Storm":
-        current_conditions['icon'] = "Storm"
-    elif current_conditions['condition'] == "Chance of TStorm":
-        current_conditions['icon'] = "Thunderstorm"
-    elif current_conditions['condition'] == "Sleet":
-        current_conditions['icon'] = "Rain and Snow"
-    elif current_conditions['condition'] == "Snow":
-        current_conditions['icon'] = "Snow"
-    elif current_conditions['condition'] == "Icy":
-        current_conditions['icon'] = "Snow"
-    elif current_conditions['condition'] == "Dust":
-        current_conditions['icon'] = "Snow"
-    elif current_conditions['condition'] == "Fog":
-        current_conditions['icon'] = "Fog"
-    elif current_conditions['condition'] == "Smoke":
-        current_conditions['icon'] = "Fog"
-    elif current_conditions['condition'] == "Haze":
-        current_conditions['icon'] = "Fog"
-    elif current_conditions['condition'] == "Flurries":
-        current_conditions['icon'] = "Snow"
-    elif current_conditions['condition'] == "Light Rain":
-        current_conditions['icon'] = "Rain"
-    elif current_conditions['condition'] == "Snow Showers":
-        current_conditions['icon'] = "Rain and Snow"
-    elif current_conditions['condition'] == "Hail":
-        current_conditions['icon'] = "Storm"
-
-    for day in weather['forecasts']:
-        if day['condition'] == "Chance of Rain":
-            day['icon'] = "Rain"
-        elif day['condition'] == "Light rain":
-            day['icon'] = "Rain"
-        elif day['condition'] == "Thunderstorm":
-            day['icon'] = "Thunderstorm"
-        elif day['condition'] == "Clear":
-            day['icon'] = "Sunny"
-        elif day['condition'] == "Sunny":
-            day['icon'] = "Sunny"
-        elif day['condition'] == "Freezing Drizzle":
-            day['icon'] = "Rain"
-        elif day['condition'] == "Drizzle":
-            day['icon'] = "Rain"
-        elif day['condition'] == "Light Snow":
-            day['icon'] = "Snow"
-        elif day['condition'] == "Overcast":
-            day['icon'] = "Overcast"
-        elif day['condition'] == "Rain and Snow":
-            day['icon'] = "Rain and Snow"
-        elif day['condition'] == "Scattered Showers":
-            day['icon'] = "Rain"
-        elif day['condition'] == "Showers":
-            day['icon'] = "Rain"
-        elif day['condition'] == "Scattered Thunderstorms":
-            day['icon'] = "Thunderstorm"
-        elif day['condition'] == "Mostly Sunny":
-            day['icon'] = "Sunny"
-        elif day['condition'] == "Partly Cloudy":
-            day['icon'] = "Partly Sunny"
-        elif day['condition'] == "Partly Sunny":
-            day['icon'] = "Partly Sunny"
-        elif day['condition'] == "Mostly Cloudy":
-            day['icon'] = "Overcast"
-        elif day['condition'] == "Chance of Storm":
-            day['icon'] = "Storm"
-        elif day['condition'] == "Rain":
-            day['icon'] = "Rain"
-        elif day['condition'] == "Chance of Snow":
-            day['icon'] = "Snow"
-        elif day['condition'] == "Cloudy":
-            day['icon'] = "Overcast"
-        elif day['condition'] == "Mist":
-            day['icon'] = "Fog"
-        elif day['condition'] == "Storm":
-            day['icon'] = "Storm"
-        elif day['condition'] == "Chance of TStorm":
-            day['icon'] = "Thunderstorm"
-        elif day['condition'] == "Sleet":
-            day['icon'] = "Rain and Snow"
-        elif day['condition'] == "Snow":
-            day['icon'] = "Snow"
-        elif day['condition'] == "Icy":
-            day['icon'] = "Snow"
-        elif day['condition'] == "Dust":
-            day['icon'] = "Snow"
-        elif day['condition'] == "Fog":
-            day['icon'] = "Fog"
-        elif day['condition'] == "Smoke":
-            day['icon'] = "Fog"
-        elif day['condition'] == "Haze":
-            day['icon'] = "Fog"
-        elif day['condition'] == "Flurries":
-            day['icon'] = "Snow"
-        elif day['condition'] == "Light Rain":
-            day['icon'] = "Rain"
-        elif day['condition'] == "Snow Showers":
-            day['icon'] = "Rain and Snow"
-        elif day['condition'] == "Hail":
-            day['icon'] = "Storm"
 
     currentimage = imagepath + current_conditions['icon'] + ".png"
     day1image = imagepath + day1['icon'] + ".png"
