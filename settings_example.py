@@ -21,3 +21,23 @@ CHERRYPY_PORT = 7000
 # then enable this setting
 
 #PORT = 5000
+
+# switch between multiple XBMC hosts
+# if no hostname or port are entered the host will not appear in Maraschino
+
+XBMC_HOSTS = [
+    {
+        'LABEL': 'Local PC',
+        'HOSTNAME': '127.0.0.1',
+        'PORT': '8080',
+        'USERNAME': 'xbmc',
+        'PASSWORD': 'xbmc'
+    },
+#    {
+#        'LABEL': 'AppleTV',
+#        'HOSTNAME': '192.168.1.108',
+#        'PORT': '8080',
+#        'USERNAME': '',
+#        'PASSWORD': ''
+#    },
+]
