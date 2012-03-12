@@ -21,6 +21,35 @@ def xhr_play_video(video_type, video_id):
 
     return jsonify({ 'success': True })
 
+@app.route('/xhr/resume_video/<video_type>/<int:video_id>')
+@requires_auth
+def xhr_resume_video(video_type, video_id):
+    xbmc = jsonrpclib.Server(server_api_address())
+    xhr_clear_playlist('video')
+
+    if video_type == "episode":
+        video = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=video_id, properties=['resume'])['episodedetails']
+    else:
+        video = xbmc.VideoLibrary.GetMovieDetails(movieid=video_id, properties=['resume'])['moviedetails']
+
+    seconds = int(video['resume']['position'])
+
+    hours = seconds / 3600
+    seconds -= 3600*hours
+    minutes = seconds / 60
+    seconds -= 60*minutes
+
+    position = { 'hours': hours, 'minutes': minutes, 'seconds': seconds }
+
+    item = { video_type + 'id': video_id }
+    xbmc.Playlist.Add(playlistid=1, item=item)
+
+    item = { 'playlistid': 1 }
+    xbmc.Player.Open(item)
+    xbmc.Player.Seek(playerid=1, value=position)
+
+    return jsonify({ 'success': True })
+
 @app.route('/xhr/play_tvshow/<int:tvshowid>')
 @requires_auth
 def xhr_play_tvshow(tvshowid):

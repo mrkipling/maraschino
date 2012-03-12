@@ -26,7 +26,7 @@ def xhr_library_root(item_type):
         title = "Movies"
 
         if item_type == 'movies':
-            library = xbmc.VideoLibrary.GetMovies(sort={ 'method': 'label', 'ignorearticle' : True }, properties=['playcount'])
+            library = xbmc.VideoLibrary.GetMovies(sort={ 'method': 'label', 'ignorearticle' : True }, properties=['playcount', 'resume'])
 
         if item_type == 'shows':
             title = "TV Shows"
@@ -63,7 +63,7 @@ def xhr_library_season(show, season):
     xbmc = jsonrpclib.Server(server_api_address())
 
     sort = { 'method': 'episode' }
-    library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode', 'plot', 'playcount'])
+    library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode', 'plot', 'playcount', 'resume'])
 
     episode = library['episodes'][0]
     title = '%s - Season %s' % (episode['showtitle'], episode['season'])
@@ -100,7 +100,7 @@ def xhr_library_album(artist, album):
 @requires_auth
 def xhr_library_info_movie(movieid):
     xbmc = jsonrpclib.Server(server_api_address())
-    library = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties=['title', 'rating', 'year', 'genre', 'plot', 'director', 'thumbnail', 'trailer', 'playcount'])
+    library = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties=['title', 'rating', 'year', 'genre', 'plot', 'director', 'thumbnail', 'trailer', 'playcount', 'resume'])
     movie = library['moviedetails']
     title = movie['title']
     itemart_url = movie['thumbnail']
@@ -143,7 +143,7 @@ def xhr_library_info_show(tvshowid):
 @requires_auth
 def xhr_library_info_episode(episodeid):
     xbmc = jsonrpclib.Server(server_api_address())
-    library = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=episodeid, properties=['season', 'tvshowid', 'title', 'rating', 'plot', 'thumbnail', 'playcount', 'firstaired'])
+    library = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=episodeid, properties=['season', 'tvshowid', 'title', 'rating', 'plot', 'thumbnail', 'playcount', 'firstaired', 'resume'])
     episode = library['episodedetails']
     title = episode['title']
     itemart_url = episode['thumbnail']

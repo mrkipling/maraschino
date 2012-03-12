@@ -748,6 +748,14 @@ $(document).ready(function() {
 
   });
 
+  $(document).on('click', '#library #resume_button', function() {
+    var type = $(this).attr('media-type');
+
+    $.get('/xhr/resume_video/' + type + '/' + $(this).data('id'));
+  });
+
+
+
   $(document).on('click', '#library .li_buttons', function(e) {
     e.stopPropagation();
   });
