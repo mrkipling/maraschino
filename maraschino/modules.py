@@ -129,6 +129,14 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'rssfeeds',
+        'label': 'RSS Feeds',
+        'description': 'List and Parse the NZBMatrix RSS Feeds of your choice.',
+        'static': True,
+        'poll': 0,
+        'delay': 0,
+    },
+    {
         'name': 'sabnzbd',
         'label': 'SABnzbd+',
         'description': 'Shows you information about your SABnzbd+ downloads.',
