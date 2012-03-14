@@ -27,8 +27,6 @@
         </select>
       {% endif %}
 
-  <input type="text" id="rss_term" value="{% if term %}{{ term }}{% else %}Search{% endif %}" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>
-
   {% if feed %}
     <ul>
       {% for entry in feed.entries %}

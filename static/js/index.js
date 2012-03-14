@@ -1326,9 +1326,9 @@ $(document).ready(function() {
     });
   });
 
-  $(document).on('change', '#rss_term', function() {
+  $(document).on('change', '#rss_cat', function() {
 
-    $.get('/xhr/rssfeeds/' + $('#rss_site').val() + '/' + $('#rss_cat').val() + '/' + $('#rss_term').val(), function(data) {
+    $.get('/xhr/rssfeeds/' + $('#rss_site').val() + '/' + $('#rss_cat').val(), function(data) {
     $('#rssfeeds').replaceWith(data);
     });
   });
