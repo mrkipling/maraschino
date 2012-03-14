@@ -1319,4 +1319,18 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('change', '#rss_site', function() {
+
+    $.get('/xhr/rssfeeds/' + $('#rss_site').val(), function(data) {
+    $('#rssfeeds').replaceWith(data);
+    });
+  });
+
+  $(document).on('change', '#rss_cat', function() {
+
+    $.get('/xhr/rssfeeds/' + $('#rss_site').val() + '/' + $('#rss_cat').val(), function(data) {
+    $('#rssfeeds').replaceWith(data);
+    });
+  });
+
 });
