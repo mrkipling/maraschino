@@ -10,12 +10,6 @@ import feedparser.feedparser
 def xhr_rssfeeds():
 
     feed = feedparser.parse('http://rss.nzbmatrix.com/rss.php?subcat=42')
-    for entry in feed['entries']:
-        print "Catagory: %s" % (entry['tags'][0]['term'])
-        print "NZB name: %s" % (entry['title'])
-        print "Link: %s" % (entry['links'][0]['href'])
-        print "-----------------------------------------------------"
-    
-        return render_template('rssfeeds.html',
-            feed = feed,
+    return render_template('rssfeeds.html',
+        feed = feed,
     )

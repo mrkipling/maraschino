@@ -5,10 +5,9 @@
 
   <h2>RSS Feeds</h2>
 
-  <ul>
+<!-- Was wondering if it's feed.item instead of entries, but that didnt work either. -->  
   {% for entry in feed.entries %}
-    <li>{{ entry.title }}</li>
+      {{ entry.title }}
   {% endfor %}
-  <ul>
-  
+
 </div>
