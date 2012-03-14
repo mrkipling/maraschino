@@ -98,18 +98,17 @@ def xhr_rssfeeds_site(site):
         catagories = catagories,
     )
 
-@app.route('/xhr/rssfeeds/<site>/<catagory>/<term>')
+@app.route('/xhr/rssfeeds/<site>/<catagory>')
 @requires_auth
-def xhr_rssfeeds_search(site, catagory, term):
+def xhr_rssfeeds_catagory(site, catagory):
 
     if site == "nzbmatrix":
         catagories = cat_nzbmatrix
-        feed = 'http://rss.nzbmatrix.com/rss.php?&subcat=' + catagory + '&term=' + term
+        feed = 'http://rss.nzbmatrix.com/rss.php?&subcat=' + catagory
         feed = feedparser.parse(feed)
 
     return render_template('rssfeeds.html',
         site = site,
         catagories = catagories,
-        term = term,
         feed = feed,
     )
