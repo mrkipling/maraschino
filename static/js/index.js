@@ -1319,4 +1319,8 @@ $(document).ready(function() {
     });
   });
 
+  $.get('/xhr/rssfeeds', function(data) {
+    $('#rssfeeds').replaceWith(data);
+  });
+
 });
