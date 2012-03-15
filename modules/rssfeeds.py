@@ -3,9 +3,10 @@ from flask import Flask, render_template
 from Maraschino import app
 from maraschino.tools import *
 from feedparser import feedparser
+import re
 
 cat_nzbmatrix = [
-        { 'id': 0 , 'name': 'Everything' },
+        { 'id': 0 , 'name': 'Select Category...' },
         { 'label' : 'Movies' , 'value' : [
             { 'id': 1 , 'name': 'Movies: DVD' },
             { 'id': 2 , 'name': 'Movies: Divx/Xvid' },
