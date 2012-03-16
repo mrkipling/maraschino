@@ -6,9 +6,16 @@
   <h2>RSS Feeds</h2>
 
     <select id="rss_site">
-      <option style="background: #2b3621; color:#fff">Select Site...</option>
-        <option style="background: #2b3621; color:#fff"value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%}>NZBMatrix</option>
-        <option style="background: #2b3621; color:#fff"value="nzbsu" {% if site == 'newznab' %}selected{%endif%}>Newznab</option>
+          <option style="background: #2b3621; color:#fff">Select Site...</option>
+      <optgroup style="background: #2b3621; color:#fff" label="NZB Sites">
+          <option style="background: #2b3621; color:#fff" value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%}>NZBMatrix</option>
+          <option style="background: #2b3621; color:#fff" value="newznab" {% if site == 'newznab' %}selected{%endif%}>Newznab</option>
+      <optgroup style="background: #2b3621; color:#fff" label="Release Sites">
+          <option style="background: #2b3621; color:#fff" value="rlslog" {% if site == 'rlslog' %}selected{%endif%}>RLSLog</option>
+          <option style="background: #2b3621; color:#fff" value="scnsrc" {% if site == 'scnsrc' %}selected{%endif%}>ScnSrc</option>
+          <option style="background: #2b3621; color:#fff" value="oneddl" {% if site == 'oneddl' %}selected{%endif%}>OneDDL</option>
+          <option style="background: #2b3621; color:#fff" value="sceper" {% if site == 'sceper' %}selected{%endif%}>Sceper</option>
+          <option style="background: #2b3621; color:#fff" value="vcdq" {% if site == 'vcdq' %}selected{%endif%}>VCDq</option>
     </select>
       {% if catagories|length %}
         <select id="rss_cat">
