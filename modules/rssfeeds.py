@@ -108,6 +108,48 @@ def xhr_rssfeeds_catagory(site, catagory):
         feed = 'http://rss.nzbmatrix.com/rss.php?&subcat=' + catagory
         feed = feedparser.parse(feed)
 
+        for entry in feed['entries']:
+            r = re.compile('Size:</b> (.*?)<br />')
+            result = r.search(entry['description'])
+            if result:
+                size = result.group(1)
+            else:
+                size = ""
+
+            r = re.compile('Added:</b> (.*?)<br />')
+            result = r.search(entry['description'])
+            if result:
+                added = result.group(1)
+            else:
+                added = ""
+
+            r = re.compile('Group:</b> (.*?)<br />')
+            result = r.search(entry['description'])
+            if result:
+                group = result.group(1)
+            else:
+                group = ""
+
+            r = re.compile('NFO:</b> <a href="(.*?)">View NFO</a>')
+            result = r.search(entry['description'])
+            if result:
+                nfolink = result.group(1)
+            else:
+                nfolink = ""
+
+            r = re.compile('IMDB Link:</b> <a href="(.*?)">Go To IMDB</a>')
+            result = r.search(entry['description'])
+            if result:
+                imdblink = result.group(1)
+            else:
+                imdblink = ""
+
+            description = { 'size': size, 'added': added, 'group': group, 'nfolink': nfolink, 'imdblink': imdblink }
+            entry['description'] = description
+
+    else:
+        feed = None
+
     return render_template('rssfeeds.html',
         site = site,
         catagories = catagories,
