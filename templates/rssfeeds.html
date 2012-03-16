@@ -7,7 +7,7 @@
 
     <select id="rss_site">
       <option style="background: #2b3621; color:#fff">Select Site...</option>
-        <option style="background: #2b3621; color:#fff"value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%}>NZB Matrix</option>
+        <option style="background: #2b3621; color:#fff"value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%}>NZBMatrix</option>
         <option style="background: #2b3621; color:#fff"value="nzbsu" {% if site == 'newznab' %}selected{%endif%}>Newznab</option>
     </select>
       {% if catagories|length %}
@@ -30,12 +30,13 @@
     <ul>
       {% for entry in feed.entries %}
         <li title="{{ entry.title }}">
-          <h1><a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(46, false) }}</a></h1>
-          {% if entry.description.group %}<b>Group:</b> {{ entry.description.group }}<br />{% endif %}
-          {% if entry.description.added %}<b>Added:</b> {{ entry.description.added }}<br />{% endif %}
-          {% if entry.description.size %}<b>Size:</b> {{ entry.description.size }}<br />{% endif %}
-          {% if entry.description.nfolink %}<b>NFO:</b> <a href="{{ entry.description.nfolink }}" target="_blank">View NFO</a><br />{% endif %}
-          {% if entry.description.imdblink %}<b>IMDB:</b> <a href="{{ entry.description.imdblink }}" target="_blank">Go to IMDB</a>{% endif %}
+          <h1><a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a></h1>
+             <div style="font-size: 80%">
+              {% if entry.description.added %}<b>Added:</b> {{ entry.description.added }}{% endif %}
+              {% if entry.description.size %} <br /><b>Size:</b> {{ entry.description.size }}{% endif %}
+              {% if entry.description.nfolink %} | <b>NFO:</b> <a href="{{ entry.description.nfolink }}" target="_blank">View NFO</a>{% endif %}
+              {% if entry.description.imdblink %} | <b>IMDB:</b> <a href="{{ entry.description.imdblink }}" target="_blank">Go to IMDB</a>{% endif %}
+             </div>
         </li>
       {% endfor %}
     </ul>
