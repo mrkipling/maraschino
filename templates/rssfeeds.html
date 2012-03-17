@@ -17,13 +17,13 @@
           <option style="background: #2b3621; color:#fff" value="sceper" {% if site == 'sceper' %}selected{%endif%}>Sceper</option>
           <option style="background: #2b3621; color:#fff" value="vcdq" {% if site == 'vcdq' %}selected{%endif%}>VCDq</option>
     </select>
-      {% if catagories %}
+      {% if categories %}
         <select id="rss_cat">
-          {% for cat in catagories %}
+          {% for cat in categories %}
             {% if cat.label %}
               <optgroup style="background: #2b3621; color:#fff" label="{{cat.label}}">
                 {% for subcat in cat.value %}
-                  <option style="background: #2b3621; color:#fff" value="{{  subcat.id  }}" {% if catagory == subcat.id %}selected{%endif%}>{{subcat.name}}</option>
+                  <option style="background: #2b3621; color:#fff" value="{{  subcat.id  }}" {% if category == subcat.id %}selected{%endif%}>{{subcat.name}}</option>
                 {% endfor %}
               </optgroup>
             {% else %}

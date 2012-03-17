@@ -231,36 +231,36 @@ cat_scnsrc = [
 def xhr_rssfeeds_site(site = None):
 
     if site == 'nzbmatrix':
-        catagories = cat_nzbmatrix
+        categories = cat_nzbmatrix
     elif site == 'newznab':
-        catagories = cat_newznab
+        categories = cat_newznab
     elif site == 'rlslog':
-        catagories = cat_rlslog
+        categories = cat_rlslog
     elif site == 'scnsrc':
-        catagories = cat_scnsrc
+        categories = cat_scnsrc
 
     else:
-       catagories = None
+       categories = None
 
     return render_template('rssfeeds.html',
         site = site,
-        catagories = catagories,
+        categories = categories,
     )
 
-@app.route('/xhr/rssfeeds/<site>/<catagory>')
+@app.route('/xhr/rssfeeds/<site>/<category>')
 @requires_auth
-def xhr_rssfeeds_catagory(site = None, catagory = None):
+def xhr_rssfeeds_category(site = None, category = None):
 
     if site == "nzbmatrix":
-        catagories = cat_nzbmatrix
+        categories = cat_nzbmatrix
 
         username = get_setting_value('nzb_matrix_user')
         apikey = get_setting_value('nzb_matrix_API')
 
         if username and apikey:
-            feed = 'http://rss.nzbmatrix.com/rss.php?page=download&username=' + username + '&apikey=' + apikey + '&subcat=' + catagory
+            feed = 'http://rss.nzbmatrix.com/rss.php?page=download&username=' + username + '&apikey=' + apikey + '&subcat=' + category
         else:
-            feed = 'http://rss.nzbmatrix.com/rss.php?&subcat=' + catagory
+            feed = 'http://rss.nzbmatrix.com/rss.php?&subcat=' + category
 
         feed = feedparser.parse(feed)
 
@@ -316,18 +316,18 @@ def xhr_rssfeeds_catagory(site = None, catagory = None):
             entry['description'] = description
 
     elif site == "newznab":
-        catagories = cat_newznab
-        feed = 'http://nzb.su/rss?t=' + catagory
+        categories = cat_newznab
+        feed = 'http://nzb.su/rss?t=' + category
         feed = feedparser.parse(feed)
 
     elif site == "rlslog":
-        catagories = cat_rlslog
-        feed = 'http://www.rlslos.net/category' + catagory
+        categories = cat_rlslog
+        feed = 'http://www.rlslos.net/category' + category
         feed = feedparser.parse(feed)
 
     elif site == "scnsrc":
-        catagories = cat_scnsrc
-        feed = 'http://www.scnsrc.me/category' + catagory
+        categories = cat_scnsrc
+        feed = 'http://www.scnsrc.me/category' + category
         feed = feedparser.parse(feed)
 
     else:
@@ -335,7 +335,7 @@ def xhr_rssfeeds_catagory(site = None, catagory = None):
 
     return render_template('rssfeeds.html',
         site = site,
-        catagory = int(catagory),
-        catagories = catagories,
+        category = int(category),
+        categories = categories,
         feed = feed,
     )
