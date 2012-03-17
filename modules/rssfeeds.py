@@ -308,6 +308,114 @@ cat_scnsrc = [
         },
     ]
 
+cat_oneddl = [
+            { 'id': 0,                           'name': 'Select Category...' },
+        { 'label' : 'Movies', 'value' : [
+            { 'id': '/movies/feed/',                'name': ': All' },
+            { 'id': '/movies/1080p/feed/',          'name': ': 1080p' },
+            { 'id': '/movies/720p/feed/',           'name': ': 720p' },
+            { 'id': '/movies/bdrip/feed/',          'name': ': BDRip' },
+            { 'id': '/movies/bdscr-movies/feed/',   'name': ': BDScr' },
+            { 'id': '/movies/brrip/feed/',          'name': ': BRRip' },
+            { 'id': '/movies/cam/feed/',            'name': ': Cam' },
+            { 'id': '/movies/complete-bluray/feed/','name': ': Complete Bluray' },
+            { 'id': '/movies/dvdr/feed/',           'name': ': DVDR' },
+            { 'id': '/movies/dvdrip/feed/',         'name': ': DVDRip' },
+            { 'id': '/movies/dvdscr/feed/',         'name': ': DVDScr' },
+            { 'id': '/movies/hdrip/feed/',          'name': ': HDRip' },
+            { 'id': '/movies/r5/feed/',             'name': ': R5' },
+            { 'id': '/movies/rc/feed/',             'name': ': RC' },
+            { 'id': '/movies/scr/feed/',            'name': ': Scr' },
+            { 'id': '/movies/telecine/feed/',       'name': ': Telecine' },
+            { 'id': '/movies/telesync/feed/',       'name': ': TeleSync' },
+          ]
+        },
+        { 'label' : 'TV' , 'value' : [
+            { 'id': '/tv-shows/feed/',              'name': ': All' },        
+            { 'id': '/tv-shows/hd-720p/feed/',      'name': ': HD 720p' },
+            { 'id': '/tv-shows/ppv/feed/',          'name': ': PPV' },
+            { 'id': '/tv-shows/sports/feed/',       'name': ': Sports' },
+            { 'id': '/tv-shows/tv-dvdrip/feed/',    'name': ': TV DVDRip' },
+          ]
+        },
+        { 'label' : 'Music' , 'value' : [
+            { 'id': '/music/feed/',                'name': ': All' },
+            { 'id': '/music/flac/feed/',           'name': ': FLAC' },
+            { 'id': '/music/mp3/feed/',            'name': ': MP3' },
+            { 'id': '/music/mvid/feed/',           'name': ': MViD' },
+          ]
+        },
+        { 'label' : 'Games' , 'value' : [
+            { 'id': '/games/feed/',             'name': ': All' },
+            { 'id': '/games/pc/feed/',          'name': ': PC' },
+            { 'id': '/games/ps3/feed/',         'name': ': PS3' },
+            { 'id': '/games/psp/feed/',         'name': ': PSP' },
+            { 'id': '/games/wii/feed/',         'name': ': Wii' },
+            { 'id': '/games/xbox360/feed/',     'name': ': XBOX360' },
+          ]
+        },
+        { 'label' : 'Applications' , 'value' : [
+            { 'id': '/apps/feed/',              'name': ': All' },
+            { 'id': '/apps/mac-apps/feed/',     'name': ': MAC' },
+            { 'id': '/apps/windows/feed/',      'name': ': Windows' },
+          ]
+        },
+    ]
+
+cat_sceper = [
+            { 'id': 0,                           'name': 'Select Category...' },
+        { 'label' : 'Movies', 'value' : [
+            { 'id': '/movies/feed/',                'name': ': All' },
+            { 'id': '/movies/1080p/feed/',          'name': ': 1080p' },
+            { 'id': '/movies/720p/feed/',           'name': ': 720p' },
+            { 'id': '/movies/bdrip/feed/',          'name': ': BDRip' },
+            { 'id': '/movies/bdscr-movies/feed/',   'name': ': BDScr' },
+            { 'id': '/movies/brrip/feed/',          'name': ': BRRip' },
+            { 'id': '/movies/cam/feed/',            'name': ': Cam' },
+            { 'id': '/movies/complete-bluray/feed/','name': ': Complete Bluray' },
+            { 'id': '/movies/dvdr/feed/',           'name': ': DVDR' },
+            { 'id': '/movies/dvdrip/feed/',         'name': ': DVDRip' },
+            { 'id': '/movies/dvdscr/feed/',         'name': ': DVDScr' },
+            { 'id': '/movies/hdrip/feed/',          'name': ': HDRip' },
+            { 'id': '/movies/r5/feed/',             'name': ': R5' },
+            { 'id': '/movies/rc/feed/',             'name': ': RC' },
+            { 'id': '/movies/scr/feed/',            'name': ': Scr' },
+            { 'id': '/movies/telecine/feed/',       'name': ': Telecine' },
+            { 'id': '/movies/telesync/feed/',       'name': ': TeleSync' },
+          ]
+        },
+        { 'label' : 'TV' , 'value' : [
+            { 'id': '/tv-shows/feed/',              'name': ': All' },        
+            { 'id': '/tv-shows/hd-720p/feed/',      'name': ': HD 720p' },
+            { 'id': '/tv-shows/ppv/feed/',          'name': ': PPV' },
+            { 'id': '/tv-shows/sports/feed/',       'name': ': Sports' },
+            { 'id': '/tv-shows/tv-dvdrip/feed/',    'name': ': TV DVDRip' },
+          ]
+        },
+        { 'label' : 'Music' , 'value' : [
+            { 'id': '/music/feed/',                'name': ': All' },
+            { 'id': '/music/flac/feed/',           'name': ': FLAC' },
+            { 'id': '/music/mp3/feed/',            'name': ': MP3' },
+            { 'id': '/music/mvid/feed/',           'name': ': MViD' },
+          ]
+        },
+        { 'label' : 'Games' , 'value' : [
+            { 'id': '/games/feed/',             'name': ': All' },
+            { 'id': '/games/pc/feed/',          'name': ': PC' },
+            { 'id': '/games/ps3/feed/',         'name': ': PS3' },
+            { 'id': '/games/psp/feed/',         'name': ': PSP' },
+            { 'id': '/games/wii/feed/',         'name': ': Wii' },
+            { 'id': '/games/xbox360/feed/',     'name': ': XBOX360' },
+          ]
+        },
+        { 'label' : 'Applications' , 'value' : [
+            { 'id': '/apps/feed/',              'name': ': All' },
+            { 'id': '/apps/mac-apps/feed/',     'name': ': MAC' },
+            { 'id': '/apps/windows/feed/',      'name': ': Windows' },
+          ]
+        },
+    ]
+
 @app.route('/xhr/rssfeeds')
 @app.route('/xhr/rssfeeds/<site>')
 @requires_auth
