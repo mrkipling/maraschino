@@ -10,9 +10,11 @@
       <optgroup style="background: #2b3621; color:#fff" label="NZB Sites">
           <option style="background: #2b3621; color:#fff" value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%}>NZBMatrix</option>
           <option style="background: #2b3621; color:#fff" value="newznab" {% if site == 'newznab' %}selected{%endif%}>Newznab</option>
-      <optgroup style="background: #2b3621; color:#fff" label="Torrent Sites">
-          <option style="background: #2b3621; color:#fff" value="piratebay" {% if site == 'piratebay' %}selected{%endif%}>The Pirate bay</option>
-      <optgroup style="background: #2b3621; color:#fff" label="Release Sites">
+ 
+ <optgroup style="background: #2b3621; color:#fff" label="Torrent Sites">
+          <option style="background: #2b3621; color:#fff" value="piratebay" {% if site == 'piratebay' %}selected{%endif%}>The Pirate Bay</option>
+
+          <optgroup style="background: #2b3621; color:#fff" label="Release Sites">
           <option style="background: #2b3621; color:#fff" value="rlslog" {% if site == 'rlslog' %}selected{%endif%}>RLSLog</option>
           <option style="background: #2b3621; color:#fff" value="scnsrc" {% if site == 'scnsrc' %}selected{%endif%}>ScnSrc</option>
           <option style="background: #2b3621; color:#fff" value="oneddl" {% if site == 'oneddl' %}selected{%endif%}>OneDDL</option>
@@ -45,7 +47,7 @@
         {% if site == 'nzbmatrix' %}
           <li title="{{ entry.title }}">
             <h1>
-              <img id="add_to_sab" src="static/images/applications/SabNZBd.png" height="16px" nzb-link="{{ entry.description.nzblink|add_to_sab }}" />
+              <img id="add_to_sab" src="static/images/applications/SabNZBd.png" height="16px" nzb-link="{{ entry.description.nzblink|add_to_sab }}" title="Add to SabNZBd+"/>
               <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
             </h1>
 
@@ -61,12 +63,76 @@
         {% if site == 'piratebay' %}
           <li title="{{ entry.title }}">
             <h1>
-              <img id="add_to_transmission" src="static/images/applications/Transmission.png" height="16px" torrent-link="{{ entry.link }}" />
+              <img id="add_to_transmission" src="static/images/applications/Transmission.png" height="16px" torrent-link="{{ entry.link }}" / title="Add to Transmission">
               <a href="{{ entry.id }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
             </h1>
+            
+            <div style="font-size: 80%">
+                 <b>Added:</b> {{ entry.date }}
+           </div>  
           </li>
         {% endif %}
 
+        {% if site == 'rlslog' %}
+          <li title="{{ entry.title }}">
+            <h1>
+              <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+            </h1>
+            
+            <div style="font-size: 80%">
+                 <b>Added:</b> {{ entry.date }}
+           </div>  
+          </li>
+        {% endif %}
+        
+        {% if site == 'scnsrc' %}
+          <li title="{{ entry.title }}">
+            <h1>
+              <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+            </h1>
+            
+            <div style="font-size: 80%">
+                 <b>Added:</b> {{ entry.date }}
+           </div>  
+          </li>
+        {% endif %}        
+
+        {% if site == 'oneddl' %}
+          <li title="{{ entry.title }}">
+            <h1>
+              <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+            </h1>
+            
+            <div style="font-size: 80%">
+                 <b>Added:</b> {{ entry.date }}
+           </div>  
+          </li>
+        {% endif %}
+
+        {% if site == 'sceper' %}
+          <li title="{{ entry.title }}">
+            <h1>
+              <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+            </h1>
+            
+            <div style="font-size: 80%">
+                 <b>Added:</b> {{ entry.date }}
+           </div>  
+          </li>
+        {% endif %}
+        
+        {% if site == 'vcdq' %}
+          <li title="{{ entry.title }}">
+            <h1>
+              <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+            </h1>
+            
+            <div style="font-size: 80%">
+                 <b>Added:</b> {{ entry.date }}
+           </div>  
+          </li>
+        {% endif %}
+        
       {% endfor %}
     </ul>
   {% endif %}

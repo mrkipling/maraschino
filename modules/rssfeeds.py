@@ -6,72 +6,93 @@ from feedparser import feedparser
 import re
 
 cat_newznab = [
-        {'id': '', 'name': 'Select Category'},
-        {'id': 1000, 'name': 'Console'},
-        {'id': 1010, 'name': 'Console: NDS'},
-        {'id': 1080, 'name': 'Console: PS3'},
-        {'id': 1020, 'name': 'Console: PSP'},
-        {'id': 1030, 'name': 'Console: Wii'},
-        {'id': 1060, 'name': 'Console: WiiWare/VC'},
-        {'id': 1070, 'name': 'Console: XBOX 360 DLC'},
-        {'id': 1040, 'name': 'Console: Xbox'},
-        {'id': 1050, 'name': 'Console: Xbox 360'},
-        {'id': 2000, 'name': 'Movies'},
-        {'id': 2010, 'name': 'Movies: Foreign'},
-        {'id': 2040, 'name': 'Movies: HD'},
-        {'id': 2020, 'name': 'Movies: Other'},
-        {'id': 2030, 'name': 'Movies: SD'},
-        {'id': 3000, 'name': 'Audio'},
-        {'id': 3030, 'name': 'Audio: Audiobook'},
-        {'id': 3040, 'name': 'Audio: Lossless'},
-        {'id': 3010, 'name': 'Audio: MP3'},
-        {'id': 3020, 'name': 'Audio: Video'},
-        {'id': 4000, 'name': 'PC'},
-        {'id': 4010, 'name': 'PC: 0day'},
-        {'id': 4050, 'name': 'PC: Games'},
-        {'id': 4020, 'name': 'PC: ISO'},
-        {'id': 4030, 'name': 'PC: Mac'},
-        {'id': 4040, 'name': 'PC: Phone'},
-        {'id': 5000, 'name': 'TV'},
-        {'id': 5020, 'name': 'TV: Foreign'},
-        {'id': 5040, 'name': 'TV: HD'},
-        {'id': 5050, 'name': 'TV: Other'},
-        {'id': 5030, 'name': 'TV: SD'},
-        {'id': 5060, 'name': 'TV: Sport'},
-        {'id': 6000, 'name': 'XXX'},
-        {'id': 6010, 'name': 'XXX: DVD'},
-        {'id': 6020, 'name': 'XXX: WMV'},
-        {'id': 6030, 'name': 'XXX: XviD'},
-        {'id': 6040, 'name': 'XXX: x264'},
-        {'id': 7000, 'name': 'Other'},
-        {'id': 7030, 'name': 'Other: Comics'},
-        {'id': 7020, 'name': 'Other: Ebook'},
-        {'id': 7010, 'name': 'Other: Misc'} 
-      ]
+            {'id': '', 'name': 'Select Category'},
+        { 'label' : 'Movies' , 'value' : [
+            {'id': 2000, 'name': ': All'},
+            {'id': 2010, 'name': ': Foreign'},
+            {'id': 2040, 'name': ': HD'},
+            {'id': 2020, 'name': ': Other'},
+            {'id': 2030, 'name': ': SD'},
+          ]
+        },
+        { 'label' : 'TV' , 'value' : [
+            {'id': 5000, 'name': ': All'},
+            {'id': 5020, 'name': ': Foreign'},
+            {'id': 5040, 'name': ': HD'},
+            {'id': 5050, 'name': ': Other'},
+            {'id': 5030, 'name': ': SD'},
+            {'id': 5060, 'name': ': Sport'},
+          ]
+        },
+        { 'label' : 'Audio' , 'value' : [
+            {'id': 3000, 'name': ': All'},
+            {'id': 3030, 'name': ': Audiobook'},
+            {'id': 3040, 'name': ': Lossless'},
+            {'id': 3010, 'name': ': MP3'},
+            {'id': 3020, 'name': ': Video'},
+          ]
+        },
+        { 'label' : 'Consoles' , 'value' : [
+            {'id': 1000, 'name': ': All'},
+            {'id': 1010, 'name': ': NDS'},
+            {'id': 1080, 'name': ': PS3'},
+            {'id': 1020, 'name': ': PSP'},
+            {'id': 1030, 'name': ': Wii'},
+            {'id': 1060, 'name': ': WiiWare/VC'},
+            {'id': 1070, 'name': ': XBOX 360 DLC'},
+            {'id': 1040, 'name': ': Xbox'},
+            {'id': 1050, 'name': ': Xbox 360'},
+          ]
+        },
+        { 'label' : 'PC' , 'value' : [
+            {'id': 4000, 'name': ': All'},
+            {'id': 4010, 'name': ': 0day'},
+            {'id': 4050, 'name': ': Games'},
+            {'id': 4020, 'name': ': ISO'},
+            {'id': 4030, 'name': ': Mac'},
+            {'id': 4040, 'name': ': Phone'},
+          ]
+        },
+        { 'label' : 'XXX' , 'value' : [
+            {'id': 6000, 'name': ': All'},
+            {'id': 6010, 'name': ': DVD'},
+            {'id': 6020, 'name': ': WMV'},
+            {'id': 6030, 'name': ': XviD'},
+            {'id': 6040, 'name': ': x264'},
+          ]
+        },
+        { 'label' : 'Other' , 'value' : [
+            {'id': 7000, 'name': ': All'},
+            {'id': 7030, 'name': ': Comics'},
+            {'id': 7020, 'name': ': Ebook'},
+            {'id': 7010, 'name': ': Misc'} 
+          ]
+        },
+    ]
 
 cat_nzbmatrix = [
-        { 'id': 0 , 'name': 'Select Category...' },
+            { 'id': 0 , 'name': 'Select Category...' },
         { 'label' : 'Movies' , 'value' : [
-            { 'id': 1, 'name': ': DVD' },
-            { 'id': 2, 'name': ': Divx/Xvid' },
+            { 'id': 1,  'name': ': DVD' },
+            { 'id': 2,  'name': ': Divx/Xvid' },
             { 'id': 54, 'name': ': BRRip' },
             { 'id': 42, 'name': ': HD (x264)' },
             { 'id': 50, 'name': ': HD (Image)' },
             { 'id': 48, 'name': ': WMV-HD' },
-            { 'id': 3, 'name': ': SVCD/VCD' },
-            { 'id': 4, 'name': ': Other' },
+            { 'id': 3,  'name': ': SVCD/VCD' },
+            { 'id': 4,  'name': ': Other' },
           ]
         },
         { 'label' : 'TV' , 'value' : [
-            { 'id': 5, 'name': ': DVD' },
-            { 'id': 6, 'name': ': Divx/Xvid' },
+            { 'id': 5,  'name': ': DVD' },
+            { 'id': 6,  'name': ': Divx/Xvid' },
             { 'id': 41, 'name': ': HD' },
-            { 'id': 7, 'name': ': Sport/Ent' },
-            { 'id': 8, 'name': ': Other' },
+            { 'id': 7,  'name': ': Sport/Ent' },
+            { 'id': 8,  'name': ': Other' },
           ]
         },
         { 'label' : 'Documentaries' , 'value' : [
-            { 'id': 9, 'name': ': STD' },
+            { 'id': 9,  'name': ': STD' },
             { 'id': 53, 'name': ': HD' },
           ]
         },
@@ -129,149 +150,160 @@ cat_nzbmatrix = [
     ]
 
 cat_piratebay = [
-        {'id': '', 'name': 'Select Category'},
-        {'id': 0, 'name': 'Everything'},
-        {'id': 100, 'name': 'Audio'},
-        {'id': 101, 'name': 'Audio: Music'},
-        {'id': 102, 'name': 'Audio: Audio books'},
-        {'id': 103, 'name': 'Audio: Sound clips'},
-        {'id': 104, 'name': 'Audio: FLAC'},
-        {'id': 199, 'name': 'Audio: Other'},
-        {'id': 200, 'name': 'Video'},
-        {'id': 201, 'name': 'Video: Movies'},
-        {'id': 202, 'name': 'Video: Movies DVDR'},
-        {'id': 203, 'name': 'Video: Music videos'},
-        {'id': 204, 'name': 'Video: Movie clips'},
-        {'id': 205, 'name': 'Video: TV Shows'},
-        {'id': 206, 'name': 'Video: Handheld'},
-        {'id': 207, 'name': 'Video: Highres - Movies'},
-        {'id': 208, 'name': 'Video: Highres - TV Shows'},
-        {'id': 209, 'name': 'Video: 3D'},
-        {'id': 299, 'name': 'Video: Other'},
-        {'id': 300, 'name': 'Applications'},
-        {'id': 301, 'name': 'Applications: Windows'},
-        {'id': 302, 'name': 'Applications: Mac'},
-        {'id': 303, 'name': 'Applications: UNIX'},
-        {'id': 304, 'name': 'Applications: Handheld'},
-        {'id': 305, 'name': 'Applications: IOS (iPad/iPhone)'},
-        {'id': 306, 'name': 'Applications: Android'},
-        {'id': 399, 'name': 'Applications: Other OS'},
-        {'id': 400, 'name': 'Games'},
-        {'id': 401, 'name': 'Games: PC'},
-        {'id': 402, 'name': 'Games: MAC'},
-        {'id': 403, 'name': 'Games: PSX'},
-        {'id': 404, 'name': 'Games: XBOX360'},
-        {'id': 405, 'name': 'Games: WII'},
-        {'id': 406, 'name': 'Games: Handheld'},
-        {'id': 407, 'name': 'Games: IOS (iPad/iPhone)'},
-        {'id': 408, 'name': 'Games: Android'},
-        {'id': 499, 'name': 'Games: Other'},
-        {'id': 600, 'name': 'Other'},
-        {'id': 600, 'name': 'Other: E-books'},
-        {'id': 600, 'name': 'Other: Comics'},
-        {'id': 600, 'name': 'Other: Pictures'},
-        {'id': 600, 'name': 'Other: Covers'},
-        {'id': 600, 'name': 'Other: Physibles'},
-        {'id': 600, 'name': 'Other: Other'},
-
-
-
-
-      ]
-    
-cat_rlslog = [
-        { 'id': 0 , 'name': 'Select Category...' },
-        { 'label' : 'Movies' , 'value' : [
-            { 'id': 'movies/bdrip/feed/' , 'name': ': BDRip' },
-            { 'id': 'movies/cam/feed/' , 'name': ': Cam' },
-            { 'id': 'movies/dvdrip/feed/' , 'name': ': DVDRip)' },
-            { 'id': 'movies/dvdrip-old/feed/' , 'name': ': DVDRip Old' },
-            { 'id': 'movies/dvdscr/feed/' , 'name': ': DVDSCR' },
-            { 'id': 'movies/hdrip/feed/' , 'name': ': HDRip' },
-            { 'id': 'movies/r5/feed/' , 'name': ': R5' },
-            { 'id': 'movies/scr/feed/' , 'name': ': SCR' },
-            { 'id': 'movies/staff-picks/feed/' , 'name': ': Staff Picks' },
-            { 'id': 'movies/telecine/feed/' , 'name': ': Telecine' },
-            { 'id': 'movies/telesync/feed/' , 'name': ': Telesync' },
-            { 'id': 'movies/workprint/feed/' , 'name': ': Workprint' },
+            {'id': '' , 'name': 'Select Category...' },
+            {'id': 0, 'name': 'Everything'},
+        { 'label' : 'Audio' , 'value' : [
+            {'id': 100, 'name': ': All'},
+            {'id': 101, 'name': ': Music'},
+            {'id': 102, 'name': ': Audio books'},
+            {'id': 103, 'name': ': Sound clips'},
+            {'id': 104, 'name': ': FLAC'},
+            {'id': 199, 'name': ': Other'},
           ]
         },
-        { 'label' : 'TV' , 'value' : [
-            { 'id': 'tv-shows/feed/' , 'name': ': TV Shows' },
-            { 'id': 'tv-shows/tv-packs/feed/' , 'name': ': TV Packs' },
-          ]
-        },
-        { 'label' : 'Music' , 'value' : [
-            { 'id': 'music/albums/feed/' , 'name': ': Albums' },
-            { 'id': 'music/itunes/feed/' , 'name': ': iTunes' },
-            { 'id': 'music/mvid/feed/' , 'name': ': MViD' },
-            { 'id': 'movies/singles/feed/' , 'name': ': Singles/EPs' },
-            { 'id': 'movies/musicpicks/feed/' , 'name': ': Staff Picks' },
-          ]
-        },
-        { 'label' : 'Games' , 'value' : [
-            { 'id': 'games/pc/feed/' , 'name': ': PC' },
-            { 'id': 'games/ps3-games/feed/' , 'name': ': PS3' },
-            { 'id': 'games/psp/feed/' , 'name': ': PSP' },
-            { 'id': 'games/wii/feed/' , 'name': ': Wii' },
-            { 'id': 'games/xbox360/feed/' , 'name': ': XBOX360' },
+        { 'label' : 'Video' , 'value' : [
+            {'id': 200, 'name': ': All'},
+            {'id': 201, 'name': ': Movies'},
+            {'id': 202, 'name': ': Movies DVDR'},
+            {'id': 203, 'name': ': Music videos'},
+            {'id': 204, 'name': ': Movie clips'},
+            {'id': 205, 'name': ': TV Shows'},
+            {'id': 206, 'name': ': Handheld'},
+            {'id': 207, 'name': ': Highres - Movies'},
+            {'id': 208, 'name': ': Highres - TV Shows'},
+            {'id': 209, 'name': ': 3D'},
+            {'id': 299, 'name': ': Other'},
           ]
         },
         { 'label' : 'Applications' , 'value' : [
-            { 'id': 'games/android/feed/' , 'name': ': Android' },
-            { 'id': 'games/ios/feed/' , 'name': ': iOS' },
-            { 'id': 'games/mac/feed/' , 'name': ': MAC' },
-            { 'id': 'games/windows/feed/' , 'name': ': Windows' },
+            {'id': 300, 'name': ': All'},
+            {'id': 301, 'name': ': Windows'},
+            {'id': 302, 'name': ': Mac'},
+            {'id': 303, 'name': ': UNIX'},
+            {'id': 304, 'name': ': Handheld'},
+            {'id': 305, 'name': ': IOS (iPad/iPhone)'},
+            {'id': 306, 'name': ': Android'},
+            {'id': 399, 'name': ': Other OS'},
+          ]
+        },
+        { 'label' : 'Games' , 'value' : [
+            {'id': 400, 'name': ': All'},
+            {'id': 401, 'name': ': PC'},
+            {'id': 402, 'name': ': MAC'},
+            {'id': 403, 'name': ': PSX'},
+            {'id': 404, 'name': ': XBOX360'},
+            {'id': 405, 'name': ': WII'},
+            {'id': 406, 'name': ': Handheld'},
+            {'id': 407, 'name': ': IOS (iPad/iPhone)'},
+            {'id': 408, 'name': ': Android'},
+            {'id': 499, 'name': ': Other'},
+          ]
+        },
+        { 'label' : 'Other' , 'value' : [
+            {'id': 600, 'name': ': All'},
+            {'id': 600, 'name': ': E-books'},
+            {'id': 600, 'name': ': Comics'},
+            {'id': 600, 'name': ': Pictures'},
+            {'id': 600, 'name': ': Covers'},
+            {'id': 600, 'name': ': Physibles'},
+            {'id': 600, 'name': ': Other'},
+          ]
+        },
+      ]
+    
+cat_rlslog = [
+           { 'id': 0, 'name': 'Select Category...' },
+        { 'label' : 'Movies', 'value' : [
+            { 'id': '/movies/bdrip/feed/',       'name': ': BDRip' },
+            { 'id': '/movies/cam/feed/',         'name': ': Cam' },
+            { 'id': '/movies/dvdrip/feed/',      'name': ': DVDRip)' },
+            { 'id': '/movies/dvdrip-old/feed/',  'name': ': DVDRip Old' },
+            { 'id': '/movies/dvdscr/feed/',      'name': ': DVDSCR' },
+            { 'id': '/movies/hdrip/feed/',       'name': ': HDRip' },
+            { 'id': '/movies/r5/feed/',          'name': ': R5' },
+            { 'id': '/movies/scr/feed/',         'name': ': SCR' },
+            { 'id': '/movies/staff-picks/feed/', 'name': ': Staff Picks' },
+            { 'id': '/movies/telecine/feed/',    'name': ': Telecine' },
+            { 'id': '/movies/telesync/feed/',    'name': ': Telesync' },
+            { 'id': '/movies/workprint/feed/',   'name': ': Workprint' },
+          ]
+        },
+        { 'label' : 'TV', 'value' : [
+            { 'id': '/tv-shows/feed/',           'name': ': TV Shows' },
+            { 'id': '/tv-shows/tv-packs/feed/',  'name': ': TV Packs' },
+          ]
+        },
+        { 'label' : 'Music', 'value' : [
+            { 'id': '/music/albums/feed/',       'name': ': Albums' },
+            { 'id': '/music/itunes/feed/',       'name': ': iTunes' },
+            { 'id': '/music/mvid/feed/',         'name': ': MViD' },
+            { 'id': '/movies/singles/feed/',     'name': ': Singles/EPs' },
+            { 'id': '/movies/musicpicks/feed/',  'name': ': Staff Picks' },
+          ]
+        },
+        { 'label' : 'Games', 'value' : [
+            { 'id': '/games/pc/feed/',           'name': ': PC' },
+            { 'id': '/games/ps3-games/feed/',    'name': ': PS3' },
+            { 'id': '/games/psp/feed/',          'name': ': PSP' },
+            { 'id': '/games/wii/feed/',          'name': ': Wii' },
+            { 'id': '/games/xbox360/feed/',      'name': ': XBOX360' },
+          ]
+        },
+        { 'label' : 'Applications', 'value' : [
+            { 'id': '/applications/android/feed/',      'name': ': Android' },
+            { 'id': '/applications/ios/feed/',          'name': ': iOS' },
+            { 'id': '/applications/mac/feed/',          'name': ': MAC' },
+            { 'id': '/applications/windows/feed/',      'name': ': Windows' },
           ]
         },
     ]
 
 cat_scnsrc = [
-        { 'id': 0 , 'name': 'Select Category...' },
-        { 'label' : 'Movies' , 'value' : [
-            { 'id': 'films/feed/' , 'name': ': All' },
-            { 'id': 'films/bdrip/feed/' , 'name': ': BDRip' },
-            { 'id': 'films/bdscr/feed/' , 'name': ': BDSCR' },
-            { 'id': 'films/bluray/feed/' , 'name': ': BluRay' },
-            { 'id': 'films/cam/feed/' , 'name': ': Cam' },
-            { 'id': 'films/dvdrip/feed/' , 'name': ': DVDRip' },
-            { 'id': 'films/dvdscr/feed/' , 'name': ': DVDSCR' },
-            { 'id': 'films/hd/feed/' , 'name': ': HD' },
-            { 'id': 'films/r5/feed/' , 'name': ': R5' },
-            { 'id': 'films/scr/feed/' , 'name': ': SCR' },
-            { 'id': 'films/telecine/feed/' , 'name': ': Telecine' },
-            { 'id': 'films/telesync/feed/' , 'name': ': Telesync' },
-            { 'id': 'films/workprint/feed/' , 'name': ': Workprint' },
+            { 'id': 0,                          'name': 'Select Category...' },
+        { 'label' : 'Movies', 'value' : [
+            { 'id': '/films/feed/',              'name': ': All' },
+            { 'id': '/films/bdrip/feed/',        'name': ': BDRip' },
+            { 'id': '/films/bdscr/feed/',        'name': ': BDSCR' },
+            { 'id': '/films/bluray/feed/',       'name': ': BluRay' },
+            { 'id': '/films/cam/feed/',          'name': ': Cam' },
+            { 'id': '/films/dvdrip/feed/',       'name': ': DVDRip' },
+            { 'id': '/films/dvdscr/feed/',       'name': ': DVDSCR' },
+            { 'id': '/films/hd/feed/',           'name': ': HD' },
+            { 'id': '/films/r5/feed/',           'name': ': R5' },
+            { 'id': '/films/scr/feed/',          'name': ': SCR' },
+            { 'id': '/films/telecine/feed/',     'name': ': Telecine' },
+            { 'id': '/films/telesync/feed/',     'name': ': Telesync' },
+            { 'id': '/films/workprint/feed/',    'name': ': Workprint' },
           ]
         },
         { 'label' : 'TV' , 'value' : [
-            { 'id': 'tv/feed/' , 'name': ': All' },        
-            { 'id': 'tv/dvd/feed/' , 'name': ': DVD' },
-            { 'id': 'tv/miniseries/feed/' , 'name': ': Mini Series' },
-            { 'id': 'tv/ppv/feed/' , 'name': ': PPV' },
-            { 'id': 'tv/preair/feed/' , 'name': ': PREAiR' },
-            { 'id': 'tv/sports/feed/' , 'name': ': Sports' },
+            { 'id': '/tv/feed/',                 'name': ': All' },        
+            { 'id': '/tv/dvd/feed/',             'name': ': DVD' },
+            { 'id': '/tv/miniseries/feed/',      'name': ': Mini Series' },
+            { 'id': '/tv/ppv/feed/',             'name': ': PPV' },
+            { 'id': '/tv/preair/feed/',          'name': ': PREAiR' },
+            { 'id': '/tv/sports/feed/',          'name': ': Sports' },
           ]
         },
         { 'label' : 'Music' , 'value' : [
-            { 'id': 'new-music/feed/' , 'name': ': All' },
-            { 'id': 'new-music/concert/feed/' , 'name': ': Concert' },
-            { 'id': 'new-music-video-releases/feed/' , 'name': ': MViD' },
-            { 'id': 'new-music/flac/feed/' , 'name': ': FLAC' },
+            { 'id': '/new-music/feed/',                'name': ': All' },
+            { 'id': '/new-music/concert/feed/',        'name': ': Concert' },
+            { 'id': '/new-music-video-releases/feed/', 'name': ': MViD' },
+            { 'id': '/new-music/flac/feed/',           'name': ': FLAC' },
           ]
         },
         { 'label' : 'Games' , 'value' : [
-            { 'id': 'games/feed/' , 'name': ': All' },
-            { 'id': 'games/clone/feed/' , 'name': ': Clone' },
-            { 'id': 'games/iso/feed/' , 'name': ': ISO' },
-            { 'id': 'games/ps3/feed/' , 'name': ': PS3' },
-            { 'id': 'games/xbox360/feed/' , 'name': ': XBOX360' },
+            { 'id': '/games/feed/',             'name': ': All' },
+            { 'id': '/games/clone/feed/',       'name': ': Clone' },
+            { 'id': '/games/iso/feed/',         'name': ': ISO' },
+            { 'id': '/games/ps3/feed/',         'name': ': PS3' },
+            { 'id': '/games/xbox360/feed/',     'name': ': XBOX360' },
           ]
         },
         { 'label' : 'Applications' , 'value' : [
-            { 'id': 'applications/iphone/feed/' , 'name': ': iPhone' },
-            { 'id': 'applications/macosx/feed/' , 'name': ': MAC' },
-            { 'id': 'applications/windows/feed/' , 'name': ': Windows' },
+            { 'id': '/applications/iphone/feed/',  'name': ': iPhone' },
+            { 'id': '/applications/macosx/feed/',  'name': ': MAC' },
+            { 'id': '/applications/windows/feed/', 'name': ': Windows' },
           ]
         },
     ]
@@ -291,6 +323,12 @@ def xhr_rssfeeds_site(site = None):
         categories = cat_rlslog
     elif site == 'scnsrc':
         categories = cat_scnsrc
+    elif site == 'oneddl':
+        categories = cat_oneddl
+    elif site == 'sceper':
+        categories = cat_sceper
+    elif site == 'vcdq':
+        categories = cat_vcdq
 
     else:
        categories = None
@@ -368,19 +406,9 @@ def xhr_rssfeeds_category(site = None, category = None):
             description = { 'size': size, 'added': added, 'group': group, 'nfolink': nfolink, 'imdblink': imdblink, 'nzblink': nzblink }
             entry['description'] = description
 
-    elif site == "newznab":
-        categories = cat_newznab
-        feed = 'http://nzb.su/rss?t=' + category
-        feed = feedparser.parse(feed)
-
     elif site == "piratebay":
         categories = cat_piratebay
         feed = 'http://rss.thepiratebay.se/' + category
-        feed = feedparser.parse(feed)
-
-    elif site == "rlslog":
-        categories = cat_rlslog
-        feed = 'http://www.rlslos.net/category' + category
         feed = feedparser.parse(feed)
 
     elif site == "scnsrc":
@@ -388,6 +416,31 @@ def xhr_rssfeeds_category(site = None, category = None):
         feed = 'http://www.scnsrc.me/category' + category
         feed = feedparser.parse(feed)
 
+    elif site == "newznab":
+        categories = cat_newznab
+        feed = 'http://nzb.su/rss?t=' + category
+        feed = feedparser.parse(feed)
+
+    elif site == "rlslog":
+        categories = cat_rlslog
+        feed = 'http://www.rlslog.net/category' + category
+        feed = feedparser.parse(feed)
+
+    elif site == "oneddl":
+        categories = cat_oneddl
+        feed = 'http://www.oneddl.eu/category' + category
+        feed = feedparser.parse(feed)
+
+    elif site == "sceper":
+        categories = cat_sceper
+        feed = 'http://www.sceper.eu/category' + category
+        feed = feedparser.parse(feed)
+
+    elif site == "vcdq":
+        categories = cat_vcdq
+        feed = 'http://www.vcdq.com' + category
+        feed = feedparser.parse(feed)
+        
     else:
         feed = None
 
