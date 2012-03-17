@@ -228,7 +228,7 @@ cat_scnsrc = [
 @app.route('/xhr/rssfeeds')
 @app.route('/xhr/rssfeeds/<site>')
 @requires_auth
-def xhr_rssfeeds_site(site):
+def xhr_rssfeeds_site(site = None):
 
     if site == 'nzbmatrix':
         catagories = cat_nzbmatrix
@@ -249,11 +249,19 @@ def xhr_rssfeeds_site(site):
 
 @app.route('/xhr/rssfeeds/<site>/<catagory>')
 @requires_auth
-def xhr_rssfeeds_catagory(site, catagory):
+def xhr_rssfeeds_catagory(site = None, catagory = None):
 
     if site == "nzbmatrix":
         catagories = cat_nzbmatrix
-        feed = 'http://rss.nzbmatrix.com/rss.php?&subcat=' + catagory
+
+        username = get_setting_value('nzb_matrix_user')
+        apikey = get_setting_value('nzb_matrix_API')
+
+        if username and apikey:
+            feed = 'http://rss.nzbmatrix.com/rss.php?page=download&username=' + username + '&apikey=' + apikey + '&subcat=' + catagory
+        else:
+            feed = 'http://rss.nzbmatrix.com/rss.php?&subcat=' + catagory
+
         feed = feedparser.parse(feed)
 
         for entry in feed['entries']:
@@ -292,7 +300,19 @@ def xhr_rssfeeds_catagory(site, catagory):
             else:
                 imdblink = ""
 
-            description = { 'size': size, 'added': added, 'group': group, 'nfolink': nfolink, 'imdblink': imdblink }
+            if username and apikey:
+                r = re.compile('View NZB:</b> <a href="(.*?)">View</a>')
+                result = r.search(entry['description'])
+                if result:
+                    nzblink = result.group(1)
+                    entry['link'] = nzblink
+                    nzblink = nzblink[7:]
+                else:
+                    nzblink = ""
+            else:
+                nzblink = entry['link'][7:]
+
+            description = { 'size': size, 'added': added, 'group': group, 'nfolink': nfolink, 'imdblink': imdblink, 'nzblink': nzblink }
             entry['description'] = description
 
     elif site == "newznab":
@@ -315,6 +335,7 @@ def xhr_rssfeeds_catagory(site, catagory):
 
     return render_template('rssfeeds.html',
         site = site,
+        catagory = int(catagory),
         catagories = catagories,
         feed = feed,
     )

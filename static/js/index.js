@@ -1319,6 +1319,8 @@ $(document).ready(function() {
     });
   });
 
+// RSSFEEDS
+
   $(document).on('change', '#rss_site', function() {
 
     $.get('/xhr/rssfeeds/' + $('#rss_site').val(), function(data) {
@@ -1330,6 +1332,19 @@ $(document).ready(function() {
 
     $.get('/xhr/rssfeeds/' + $('#rss_site').val() + '/' + $('#rss_cat').val(), function(data) {
     $('#rssfeeds').replaceWith(data);
+    });
+  });
+
+
+  $(document).on('click', '#rssfeeds #add_to_sab', function(){
+    var link = $(this).attr('nzb-link');
+    $.post('/sabnzbd/add/',{url: encodeURI(link)}, function(data){
+      data = eval('(' + data + ')');
+      if(data['status']){
+        popup_message('Successfully added to SabNZBd');
+      } else {
+        popup_message(data['error']);
+      }
     });
   });
 

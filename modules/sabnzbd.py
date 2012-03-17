@@ -1,9 +1,24 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 import json, jsonrpclib, urllib
+from jinja2.filters import FILTERS
 
 from Maraschino import app
 from settings import *
 from maraschino.tools import *
+
+def sab_link():
+    SABNZBD_HOST = get_setting_value('sabnzbd_host')
+    SABNZBD_PORT = get_setting_value('sabnzbd_port')
+    SABNZBD_API = get_setting_value('sabnzbd_api')
+
+    SABNZBD_URL = 'http://%s:%s' % (SABNZBD_HOST, SABNZBD_PORT)
+
+    return '%s/api?apikey=%s' % (SABNZBD_URL, SABNZBD_API)
+
+def add_to_sab_link(nzb):
+    return '%s&mode=addurl&name=http://%s&output=json' % (sab_link(), nzb)
+
+FILTERS['add_to_sab'] = add_to_sab_link
 
 def sabnzbd_url_no_api():
     url_base = get_setting_value('sabnzbd_host')
@@ -48,6 +63,19 @@ def xhr_sabnzbd():
         download_speed = download_speed,
         old_config = old_config,
     )
+
+
+@app.route('/sabnzbd/add/', methods=['POST'])
+def add_to_sab():
+    try:
+        url = request.form['url']
+    except:
+        return jsonify({ 'error': 'Did not receive URL variable'})
+
+    try:
+        return urllib.urlopen(url).read()
+    except:
+        return jsonify({ 'error': 'Failed to open URL: %s' %(url)})
 
 @app.route('/xhr/sabnzbd/queue/<action>/')
 @app.route('/xhr/sabnzbd/queue/pause/<time>')
