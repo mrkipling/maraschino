@@ -127,6 +127,57 @@ cat_nzbmatrix = [
           ]
         },
     ]
+
+cat_piratebay = [
+        {'id': '', 'name': 'Select Category'},
+        {'id': 0, 'name': 'Everything'},
+        {'id': 100, 'name': 'Audio'},
+        {'id': 101, 'name': 'Audio: Music'},
+        {'id': 102, 'name': 'Audio: Audio books'},
+        {'id': 103, 'name': 'Audio: Sound clips'},
+        {'id': 104, 'name': 'Audio: FLAC'},
+        {'id': 199, 'name': 'Audio: Other'},
+        {'id': 200, 'name': 'Video'},
+        {'id': 201, 'name': 'Video: Movies'},
+        {'id': 202, 'name': 'Video: Movies DVDR'},
+        {'id': 203, 'name': 'Video: Music videos'},
+        {'id': 204, 'name': 'Video: Movie clips'},
+        {'id': 205, 'name': 'Video: TV Shows'},
+        {'id': 206, 'name': 'Video: Handheld'},
+        {'id': 207, 'name': 'Video: Highres - Movies'},
+        {'id': 208, 'name': 'Video: Highres - TV Shows'},
+        {'id': 209, 'name': 'Video: 3D'},
+        {'id': 299, 'name': 'Video: Other'},
+        {'id': 300, 'name': 'Applications'},
+        {'id': 301, 'name': 'Applications: Windows'},
+        {'id': 302, 'name': 'Applications: Mac'},
+        {'id': 303, 'name': 'Applications: UNIX'},
+        {'id': 304, 'name': 'Applications: Handheld'},
+        {'id': 305, 'name': 'Applications: IOS (iPad/iPhone)'},
+        {'id': 306, 'name': 'Applications: Android'},
+        {'id': 399, 'name': 'Applications: Other OS'},
+        {'id': 400, 'name': 'Games'},
+        {'id': 401, 'name': 'Games: PC'},
+        {'id': 402, 'name': 'Games: MAC'},
+        {'id': 403, 'name': 'Games: PSX'},
+        {'id': 404, 'name': 'Games: XBOX360'},
+        {'id': 405, 'name': 'Games: WII'},
+        {'id': 406, 'name': 'Games: Handheld'},
+        {'id': 407, 'name': 'Games: IOS (iPad/iPhone)'},
+        {'id': 408, 'name': 'Games: Android'},
+        {'id': 499, 'name': 'Games: Other'},
+        {'id': 600, 'name': 'Other'},
+        {'id': 600, 'name': 'Other: E-books'},
+        {'id': 600, 'name': 'Other: Comics'},
+        {'id': 600, 'name': 'Other: Pictures'},
+        {'id': 600, 'name': 'Other: Covers'},
+        {'id': 600, 'name': 'Other: Physibles'},
+        {'id': 600, 'name': 'Other: Other'},
+
+
+
+
+      ]
     
 cat_rlslog = [
         { 'id': 0 , 'name': 'Select Category...' },
@@ -234,6 +285,8 @@ def xhr_rssfeeds_site(site = None):
         categories = cat_nzbmatrix
     elif site == 'newznab':
         categories = cat_newznab
+    elif site == 'piratebay':
+        categories = cat_piratebay
     elif site == 'rlslog':
         categories = cat_rlslog
     elif site == 'scnsrc':
@@ -318,6 +371,11 @@ def xhr_rssfeeds_category(site = None, category = None):
     elif site == "newznab":
         categories = cat_newznab
         feed = 'http://nzb.su/rss?t=' + category
+        feed = feedparser.parse(feed)
+
+    elif site == "piratebay":
+        categories = cat_piratebay
+        feed = 'http://rss.thepiratebay.se/' + category
         feed = feedparser.parse(feed)
 
     elif site == "rlslog":

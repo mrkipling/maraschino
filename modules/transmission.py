@@ -1,7 +1,7 @@
 # Author: Geoffrey Huntley <ghuntley@ghuntley.com>
 
 from flask import Flask, jsonify, render_template
-import transmissionrpc
+import transmissionrpc, urllib
 
 from datetime import timedelta
 from Maraschino import app
@@ -54,3 +54,26 @@ def xhr_transmission():
         transmission = transmission,
         eta = eta
     )
+
+@app.route('/transmission/add/', methods=['POST'])
+def xhr_add_to_transmission():
+
+    url = request.form['url']
+
+    params = {
+        'address' : get_setting_value('transmission_ip'),
+        'port' : get_setting_value('transmission_port'),
+        'user' : get_setting_value('transmission_user') or None,
+        'password' : get_setting_value('transmission_password') or None
+    }
+
+    try:
+        client = transmissionrpc.Client(**params)
+        client.add_uri(url)
+        return jsonify({ 'status': 'successful'})
+    except:
+        return jsonify({ 'error': 'failed'})
+
+
+
+
