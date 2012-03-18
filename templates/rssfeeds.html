@@ -7,12 +7,11 @@
 
     <select id="rss_site">
           <option style="background: #2b3621; color:#fff">Select Site...</option>
-     
-     <optgroup style="background: #2b3621; color:#fff" label="NZB Sites">
+      <optgroup style="background: #2b3621; color:#fff" label="NZB Sites">
           <option style="background: #2b3621; color:#fff" value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%}>NZBMatrix</option>
           <option style="background: #2b3621; color:#fff" value="newznab" {% if site == 'newznab' %}selected{%endif%}>Newznab</option>
  
-      <optgroup style="background: #2b3621; color:#fff" label="Torrent Sites">
+ <optgroup style="background: #2b3621; color:#fff" label="Torrent Sites">
           <option style="background: #2b3621; color:#fff" value="piratebay" {% if site == 'piratebay' %}selected{%endif%}>The Pirate Bay</option>
 
           <optgroup style="background: #2b3621; color:#fff" label="Release Sites">
@@ -70,22 +69,26 @@
             
             <div style="font-size: 80%">
                  <b>Added:</b> {{ entry.date }}
-           </div>  
+           </div>
           </li>
         {% endif %}
 
         {% if site == 'rlslog' %}
-          <li title="{{ entry.title }}">
-            <h1>
-              <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
-            </h1>
+          {% if not "Binverse - get 14 days of free Usenet access" in entry.title %}
+            <li title="{{ entry.title }}">
+              <h1>
+                <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+              </h1>
             
-            <div style="font-size: 80%">
-                 <b>Added:</b> {{ entry.date }} <br />
-                 <b>Description:</b> {{ entry.description|truncate(255, false) }} <a href="{{ entry.link }}" title="More">[+]</a>
-                 
-           </div>  
-          </li>
+              <div style="font-size: 80%">
+               <b>Added:</b> {{ entry.date }}
+               {% if entry.description.size %} <br /><b>Size:</b> {{ entry.description.size }}{% endif %}
+               {% if entry.description.imdbrating %} <br /><b>IMDB Rating:</b> {{ entry.description.imdbrating }}{% endif %}
+               {% if entry.description.imdblink %} <br /><b>IMDB:</b> <a href="{{ entry.description.imdblink }}" target="_blank">Go to IMDB</a>{% endif %}
+               {% if entry.description.nfolink %} <br /><b>NFO:</b> <a href="{{ entry.description.nfolink }}" target="_blank">View NFO</a>{% endif %}
+              </div>
+            </li>
+          {% endif %}
         {% endif %}
         
         {% if site == 'scnsrc' %}
@@ -96,7 +99,7 @@
             
             <div style="font-size: 80%">
                  <b>Added:</b> {{ entry.date }}
-           </div>  
+           </div>
           </li>
         {% endif %}        
 
@@ -108,7 +111,7 @@
             
             <div style="font-size: 80%">
                  <b>Added:</b> {{ entry.date }}
-           </div>  
+           </div>
           </li>
         {% endif %}
 
@@ -120,7 +123,7 @@
             
             <div style="font-size: 80%">
                  <b>Added:</b> {{ entry.date }}
-           </div>  
+           </div>
           </li>
         {% endif %}
         
@@ -132,7 +135,7 @@
             
             <div style="font-size: 80%">
                  <b>Added:</b> {{ entry.date }}
-           </div>  
+           </div>
           </li>
         {% endif %}
         
