@@ -214,46 +214,46 @@ cat_piratebay = [
 cat_rlslog = [
            { 'id': 0, 'name': 'Select Category...' },
         { 'label' : 'Movies', 'value' : [
-            { 'id': '/movies/bdrip/feed/',       'name': ': BDRip' },
-            { 'id': '/movies/cam/feed/',         'name': ': Cam' },
-            { 'id': '/movies/dvdrip/feed/',      'name': ': DVDRip)' },
-            { 'id': '/movies/dvdrip-old/feed/',  'name': ': DVDRip Old' },
-            { 'id': '/movies/dvdscr/feed/',      'name': ': DVDSCR' },
-            { 'id': '/movies/hdrip/feed/',       'name': ': HDRip' },
-            { 'id': '/movies/r5/feed/',          'name': ': R5' },
-            { 'id': '/movies/scr/feed/',         'name': ': SCR' },
-            { 'id': '/movies/staff-picks/feed/', 'name': ': Staff Picks' },
-            { 'id': '/movies/telecine/feed/',    'name': ': Telecine' },
-            { 'id': '/movies/telesync/feed/',    'name': ': Telesync' },
-            { 'id': '/movies/workprint/feed/',   'name': ': Workprint' },
+            { 'id': 101, 'path': 'movies/bdrip' ,      'name': ': BDRip' },
+            { 'id': 102, 'path': 'movies/cam',         'name': ': Cam' },
+            { 'id': 103, 'path': 'movies/dvdrip',      'name': ': DVDRip)' },
+            { 'id': 104, 'path': 'movies/dvdrip-old',  'name': ': DVDRip Old' },
+            { 'id': 105, 'path': 'movies/dvdscr',      'name': ': DVDSCR' },
+            { 'id': 106, 'path': 'movies/hdrip',       'name': ': HDRip' },
+            { 'id': 107, 'path': 'movies/r5',          'name': ': R5' },
+            { 'id': 108, 'path': 'movies/scr',         'name': ': SCR' },
+            { 'id': 109, 'path': 'movies/staff-picks', 'name': ': Staff Picks' },
+            { 'id': 110, 'path': 'movies/telecine',    'name': ': Telecine' },
+            { 'id': 111, 'path': 'movies/telesync',    'name': ': Telesync' },
+            { 'id': 112, 'path': 'movies/workprint',   'name': ': Workprint' },
           ]
         },
         { 'label' : 'TV', 'value' : [
-            { 'id': '/tv-shows/feed/',           'name': ': TV Shows' },
-            { 'id': '/tv-shows/tv-packs/feed/',  'name': ': TV Packs' },
+            { 'id': 201, 'path': 'tv-shows',           'name': ': TV Shows' },
+            { 'id': 202, 'path': 'tv-shows/tv-packs',  'name': ': TV Packs' },
           ]
         },
         { 'label' : 'Music', 'value' : [
-            { 'id': '/music/albums/feed/',       'name': ': Albums' },
-            { 'id': '/music/itunes/feed/',       'name': ': iTunes' },
-            { 'id': '/music/mvid/feed/',         'name': ': MViD' },
-            { 'id': '/movies/singles/feed/',     'name': ': Singles/EPs' },
-            { 'id': '/movies/musicpicks/feed/',  'name': ': Staff Picks' },
+            { 'id': 301, 'path': 'music/albums',       'name': ': Albums' },
+            { 'id': 302, 'path': 'music/itunes',       'name': ': iTunes' },
+            { 'id': 304, 'path': 'music/mvid',         'name': ': MViD' },
+            { 'id': 305, 'path': 'movies/singles',     'name': ': Singles/EPs' },
+            { 'id': 306, 'path': 'movies/musicpicks',  'name': ': Staff Picks' },
           ]
         },
         { 'label' : 'Games', 'value' : [
-            { 'id': '/games/pc/feed/',           'name': ': PC' },
-            { 'id': '/games/ps3-games/feed/',    'name': ': PS3' },
-            { 'id': '/games/psp/feed/',          'name': ': PSP' },
-            { 'id': '/games/wii/feed/',          'name': ': Wii' },
-            { 'id': '/games/xbox360/feed/',      'name': ': XBOX360' },
+            { 'id': 401, 'path': 'games/pc',           'name': ': PC' },
+            { 'id': 402, 'path': 'games/ps3-games',    'name': ': PS3' },
+            { 'id': 403, 'path': 'games/psp',          'name': ': PSP' },
+            { 'id': 404, 'path': 'games/wii',          'name': ': Wii' },
+            { 'id': 405, 'path': 'games/xbox360',      'name': ': XBOX360' },
           ]
         },
         { 'label' : 'Applications', 'value' : [
-            { 'id': '/applications/android/feed/',      'name': ': Android' },
-            { 'id': '/applications/ios/feed/',          'name': ': iOS' },
-            { 'id': '/applications/mac/feed/',          'name': ': MAC' },
-            { 'id': '/applications/windows/feed/',      'name': ': Windows' },
+            { 'id': 501, 'path': 'applications/android',      'name': ': Android' },
+            { 'id': 502, 'path': 'applications/ios',          'name': ': iOS' },
+            { 'id': 503, 'path': 'applications/mac',          'name': ': MAC' },
+            { 'id': 504, 'path': 'applications/windows',      'name': ': Windows' },
           ]
         },
     ]
@@ -531,7 +531,13 @@ def xhr_rssfeeds_category(site = None, category = None):
 
     elif site == "rlslog":
         categories = cat_rlslog
-        feed = 'http://www.rlslog.net/category' + category
+
+        for cat in categories[1:]:
+            for subcat in cat['value']:
+                if int(category) == subcat['id']:
+                    path = subcat['path']
+
+        feed = 'http://www.rlslog.net/category/' + path + '/feed/'
         feed = feedparser.parse(feed)
 
     elif site == "oneddl":
