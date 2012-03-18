@@ -216,7 +216,7 @@ cat_rlslog = [
         { 'label' : 'Movies', 'value' : [
             { 'id': 101, 'path': 'movies/bdrip' ,      'name': ': BDRip' },
             { 'id': 102, 'path': 'movies/cam',         'name': ': Cam' },
-            { 'id': 103, 'path': 'movies/dvdrip',      'name': ': DVDRip)' },
+            { 'id': 103, 'path': 'movies/dvdrip',      'name': ': DVDRip' },
             { 'id': 104, 'path': 'movies/dvdrip-old',  'name': ': DVDRip Old' },
             { 'id': 105, 'path': 'movies/dvdscr',      'name': ': DVDSCR' },
             { 'id': 106, 'path': 'movies/hdrip',       'name': ': HDRip' },
@@ -431,6 +431,46 @@ def xhr_rssfeeds_category(site = None, category = None):
 
         feed = 'http://www.rlslog.net/category/' + path + '/feed/'
         feed = feedparser.parse(feed)
+
+
+        for entry in feed['entries']:
+            r = re.compile('<strong>Size:</strong> (.*?)<br />')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                size = result.group(1)
+            else:
+                size = ""
+
+            r = re.compile('<strong>IMDB Rating</strong>: (.*?)<br />')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                imdbrating = result.group(1)
+            else:
+                imdbrating = ""
+
+            r = re.compile('<a href="(.*?)">iMDB</a>')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                imdblink = result.group(1)
+            else:
+                imdblink = ""
+
+            r = re.compile('<strong>NFO:</strong> <a href="(.*?)">')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                nfolink = result.group(1)
+            else:
+                nfolink = ""
+
+            r = re.compile('<strong>NFO:</strong> <a href="(.*?)">')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                nfolink = result.group(1)
+            else:
+                nfolink = ""
+
+            description = { 'size': size, 'imdbrating': imdbrating, 'imdblink': imdblink, 'nfolink': nfolink }
+            entry['description'] = description
 
     elif site == "oneddl":
         categories = cat_oneddl
