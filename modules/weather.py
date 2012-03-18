@@ -49,7 +49,7 @@ def xhr_weather():
 
                 'Chance of Rain',
                 'Chance of Showers',
-                'Light Rain',
+                'Light rain',
                 'Freezing Drizzle',
                 'Drizzle',
                 'Scattered Showers',
