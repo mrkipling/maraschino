@@ -48,6 +48,7 @@ def xhr_weather():
             'conditions':[
 
                 'Chance of Rain',
+                'Chance of Showers',
                 'Light Rain',
                 'Freezing Drizzle',
                 'Drizzle',
