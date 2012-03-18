@@ -52,8 +52,8 @@
             </h1>
 
             <div style="font-size: 80%">
-              {% if entry.description.added %}<b>Added:</b> {{ entry.description.added }}{% endif %}
-              {% if entry.description.size %} <br /><b>Size:</b> {{ entry.description.size }}{% endif %}
+              {% if entry.description.added %}<b>Added:</b> {{ entry.description.added }}<br />{% endif %}
+              {% if entry.description.size %}<b>Size:</b> {{ entry.description.size }}{% endif %}
               {% if entry.description.nfolink %} | <b>NFO:</b> <a href="{{ entry.description.nfolink }}" target="_blank">View NFO</a>{% endif %}
               {% if entry.description.imdblink %} | <b>IMDB:</b> <a href="{{ entry.description.imdblink }}" target="_blank">Go to IMDB</a>{% endif %}
             </div>
@@ -76,16 +76,15 @@
         {% if site == 'rlslog' %}
           {% if not "Binverse - get 14 days of free Usenet access" in entry.title %}
             <li title="{{ entry.title }}">
+             <img style="float:left; padding-right:12px" src="{{ entry.description.img }}" width="55" height="80">
               <h1>
-                <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+               <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
               </h1>
-            
-              <div style="font-size: 80%">
-               <b>Added:</b> {{ entry.date }}
-               {% if entry.description.size %} <br /><b>Size:</b> {{ entry.description.size }}{% endif %}
-               {% if entry.description.imdbrating %} <br /><b>IMDB Rating:</b> {{ entry.description.imdbrating }}{% endif %}
-               {% if entry.description.imdblink %} <br /><b>IMDB:</b> <a href="{{ entry.description.imdblink }}" target="_blank">Go to IMDB</a>{% endif %}
-               {% if entry.description.nfolink %} <br /><b>NFO:</b> <a href="{{ entry.description.nfolink }}" target="_blank">View NFO</a>{% endif %}
+              <div style="font-size: 80%"><b>Added:</b> {{ entry.date[:26] }} <br />
+               {% if entry.description.size %}<b>Size:</b> {{ entry.description.size }} <br />{% endif %}
+               {% if entry.description.nfolink %}<b>NFO:</b> <a href="{{ entry.description.nfolink }}" target="_blank">View NFO</a><br />{% endif %}               
+               {% if entry.description.imdbrating %}<b>IMDB Rating:</b> <a href="{{ entry.description.imdblink }}" target="_blank"> {{ entry.description.imdbrating }}</a> <br />{% endif %}
+
               </div>
             </li>
           {% endif %}

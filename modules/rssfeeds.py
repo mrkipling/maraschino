@@ -455,6 +455,8 @@ def xhr_rssfeeds_site(site = None):
 @requires_auth
 def xhr_rssfeeds_category(site = None, category = None):
 
+# NZBMatrix Start #
+
     if site == "nzbmatrix":
         categories = cat_nzbmatrix
 
@@ -519,6 +521,117 @@ def xhr_rssfeeds_category(site = None, category = None):
             description = { 'size': size, 'added': added, 'group': group, 'nfolink': nfolink, 'imdblink': imdblink, 'nzblink': nzblink }
             entry['description'] = description
 
+# NZBMatrix End
+
+# RlsLog Start
+
+    elif site == "rlslog":
+        categories = cat_rlslog
+
+        for cat in categories[1:]:
+            for subcat in cat['value']:
+                if int(category) == subcat['id']:
+                    path = subcat['path']
+
+        feed = 'http://www.rlslog.net/category/' + path + '/feed/'
+        feed = feedparser.parse(feed)
+
+        for entry in feed['entries']:
+            r = re.compile('src="(.*?)"')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                img = result.group(1)
+            else:
+                img = ""
+
+            r = re.compile('<strong>Size:</strong> (.*?)<br />')
+            s = re.compile('<strong>Size</strong>: (.*?)<br />')
+            t = re.compile('<strong>Size: </strong>(.*?)<br />')
+            v = re.compile('|(.*?)<br />')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                size = result.group(1)
+            if not result:
+                result = s.search(entry['content'][0]['value'])
+            if result:
+                size = result.group(1)
+            if not result:
+                result = t.search(entry['content'][0]['value'])
+            if result:
+                size = result.group(1)
+            if not result:
+                result = v.search(entry['content'][0]['value'])
+            if result:
+                size = result.group(1)
+            else:
+                size = ""
+
+            r = re.compile('<strong>IMDB Rating</strong>: (.*?)<br />')
+            s = re.compile('<strong>IMDB Rating:</strong> (.*?)<br />')
+            t = re.compile('<strong>IMDB rating:</strong> (.*?)<br />')
+            u = re.compile('<strong>IMDB rating</strong>: (.*?)<br />')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                imdbrating = result.group(1)
+            if not result:
+                result = s.search(entry['content'][0]['value'])
+            if result:
+                imdbrating = result.group(1)
+            if not result:
+                result = t.search(entry['content'][0]['value'])
+            if result:
+                imdbrating = result.group(1)
+            if not result:
+                result = u.search(entry['content'][0]['value'])
+            if result:
+                imdbrating = result.group(1)
+            else:
+                imdbrating = ""
+
+            r = re.compile('<a href="(.*?)">iMDB</a>')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                imdblink = result.group(1)
+            else:
+                imdblink = ""
+
+            r = re.compile('<strong>NFO:</strong> <a href="(.*?)">')
+            s = re.compile('<strong>NFO: </strong> <a href="(.*?)">')
+            t = re.compile('<strong>NFO</strong>: <a href="(.*?)">')
+            u = re.compile('<strong>NFO:</strong> <a href="(.*?)">')
+            v = re.compile('<a href="(.*?)">NFO</a>')
+            w = re.compile('<strong>NFO: </strong><a href="(.*?)">')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                nfolink = result.group(1)
+            if not result:
+                result = s.search(entry['content'][0]['value'])
+            if result:
+                nfolink = result.group(1)
+            if not result:
+                result = t.search(entry['content'][0]['value'])
+            if result:
+                nfolink = result.group(1)
+            if not result:
+                result = u.search(entry['content'][0]['value'])
+            if result:
+                nfolink = result.group(1)
+            if not result:
+                result = v.search(entry['content'][0]['value'])
+            if result:
+                nfolink = result.group(1)
+            if not result:
+                result = w.search(entry['content'][0]['value'])
+            if result:
+                nfolink = result.group(1)
+            else:
+                nfolink = ""
+
+            description = { 'size': size, 'imdbrating': imdbrating, 'imdblink': imdblink, 'nfolink': nfolink, 'img': img, }
+            entry['description'] = description
+
+# RlsLog End
+
     elif site == "piratebay":
         categories = cat_piratebay
         feed = 'http://rss.thepiratebay.se/' + category
@@ -539,57 +652,6 @@ def xhr_rssfeeds_category(site = None, category = None):
         categories = cat_newznab
         feed = 'http://nzb.su/rss?t=' + category
         feed = feedparser.parse(feed)
-
-    elif site == "rlslog":
-        categories = cat_rlslog
-
-        for cat in categories[1:]:
-            for subcat in cat['value']:
-                if int(category) == subcat['id']:
-                    path = subcat['path']
-
-        feed = 'http://www.rlslog.net/category/' + path + '/feed/'
-        feed = feedparser.parse(feed)
-
-
-        for entry in feed['entries']:
-            r = re.compile('<strong>Size:</strong> (.*?)<br />')
-            result = r.search(entry['content'][0]['value'])
-            if result:
-                size = result.group(1)
-            else:
-                size = ""
-
-            r = re.compile('<strong>IMDB Rating</strong>: (.*?)<br />')
-            result = r.search(entry['content'][0]['value'])
-            if result:
-                imdbrating = result.group(1)
-            else:
-                imdbrating = ""
-
-            r = re.compile('<a href="(.*?)">iMDB</a>')
-            result = r.search(entry['content'][0]['value'])
-            if result:
-                imdblink = result.group(1)
-            else:
-                imdblink = ""
-
-            r = re.compile('<strong>NFO:</strong> <a href="(.*?)">')
-            result = r.search(entry['content'][0]['value'])
-            if result:
-                nfolink = result.group(1)
-            else:
-                nfolink = ""
-
-            r = re.compile('<strong>NFO:</strong> <a href="(.*?)">')
-            result = r.search(entry['content'][0]['value'])
-            if result:
-                nfolink = result.group(1)
-            else:
-                nfolink = ""
-
-            description = { 'size': size, 'imdbrating': imdbrating, 'imdblink': imdblink, 'nfolink': nfolink }
-            entry['description'] = description
 
     elif site == "oneddl":
         categories = cat_oneddl
@@ -620,6 +682,9 @@ def xhr_rssfeeds_category(site = None, category = None):
         
     else:
         feed = None
+    if feed:
+        for entry in feed['entries']:
+            entry['title'] = entry['title'].replace(".", " ")
 
     return render_template('rssfeeds.html',
         site = site,
