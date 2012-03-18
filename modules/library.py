@@ -35,6 +35,14 @@ def xhr_library_root(item_type):
         if item_type == 'artists':
             title = "Music"
             library = xbmc.AudioLibrary.GetArtists(sort={ 'method': 'label', 'ignorearticle' : True })
+            for artist in library['artists']:
+                artistid = artist['artistid']
+                try:
+                    xbmc.AudioLibrary.GetArtistDetails(artistid=artistid, properties=['description', 'thumbnail', 'genre'])
+                    artist['details'] = "True"
+                except:
+                    None
+
 
         if item_type == 'files':
             title = "Files"
