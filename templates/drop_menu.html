@@ -1,0 +1,10 @@
+<div id="drop_menu">
+  <div id="menu_head" title="Menu"><div class="inner"></div></div>
+
+  <ul id="menu_body">
+    <li id="remote_icon" title="Use your keyboard to control XBMC"><img src="/static/images/keyb_inactive.png" height="24" width="24"/>Keyboard</li>
+    {% for HOST in XBMC_HOSTS %}
+      <li {% if HOST.HOSTNAME == active %}class="active"{% else %}id="xbmc"{% endif %} data-hostname="{{ HOST.HOSTNAME }}" data-port="{{ HOST.PORT }}" data-username="{{ HOST.USERNAME }}" data-password="{{ HOST.PASSWORD }}"><img src="/static/images/applications/XBMC.png" height="24" width="24"/>{{ HOST.LABEL }}</li>
+    {% endfor %}
+  </ul>
+</div>

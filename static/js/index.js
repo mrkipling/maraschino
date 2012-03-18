@@ -132,6 +132,62 @@ $(document).ready(function() {
 
   init_modules();
 
+  // drop_menu
+
+  $.get('/xhr/xbmc_hosts', function(data) {
+    $('#drop_menu').replaceWith(data);
+  });
+
+  $(document).on('click', '#drop_menu #menu_head', function(e) {
+    e.stopPropagation();
+    $('#drop_menu #menu_head').toggle();
+    $('#drop_menu #menu_body').slideToggle('medium').toggleClass('active');
+  });
+
+  $(document).on('click', '#drop_menu #menu_body', function(e) {
+    e.stopPropagation();
+  });
+
+  $(document).on('click', 'body', function() {
+    $('#drop_menu #menu_body').slideUp('medium').removeClass('active');
+    $('#drop_menu #menu_head').show();
+  });
+
+  function swap_active(str){
+    return (str.indexOf('inactive.png') != -1) ? str.replace("_inactive.png","_active.gif") : str.replace("_active.gif","_inactive.png");
+  }
+
+   $(document).on('click', '#drop_menu #menu_body li', function() {
+     var image = $(this).children('img');
+     $(image).attr('src', swap_active($(image).attr('src')));
+  });
+
+  // change xbmc host
+
+  $(document).on('click', '#drop_menu #xbmc', function() {
+
+    $.get('/xhr/xbmc_hosts/' + $(this).data('hostname') + '/' + $(this).data('port') + '/' + $(this).data('username') + '/' + $(this).data('password'))
+    .success(function(data){
+      if(data.error){
+        popup_message('No XBMC host found.');
+      }
+      else {
+        $.get('/xhr/xbmc_hosts', function(data) {
+          $('#drop_menu').replaceWith(data);
+        });
+
+        init_modules();
+        get_module('recently_added');
+        get_module('recently_added_movies');
+        get_module('recently_added_albums');
+
+        $.get('/xhr/currently_playing', function(data) {
+          $('#currently_playing').replaceWith(data);
+        });
+      }
+    })
+  });
+
   // currently playing
 
   var currently_playing_id = null;
