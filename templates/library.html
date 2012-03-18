@@ -39,18 +39,20 @@
       {% endif %}
 
       {% if library.tvshowdetails %}
-          <li style="display:none;" data-command="shows/info/{{ show.tvshowid }}"></li>
+      <li style="display:none;" data-command="shows/info/{{ show.tvshowid }}"></li>
+      <li class="details">
           {% if show.thumbnail %}
             <img class="{% if bannerart %}bannerart{% else %}posterart{% endif %}" src="{{ itemart }}">
           {% endif %}
           <p class="p_info">
             <table border="0">
-			<tr><td width="65" style="font-weight:bold;">Studio:</td><td style="font-size: 0.950em;">{{ show.studio }}</td></tr>
+			<tr><td width="75" style="font-weight:bold;">Studio:</td><td style="font-size: 0.950em;">{{ show.studio }}</td></tr>
             <tr><td style="font-weight:bold;">Premier:</td><td style="font-size: 0.950em;">{{ show.Premier }}</td></tr>
             <tr><td style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ show.genre|truncate(30, 'false') }}</td></tr>
             <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;">{{ show.rating|float|round(1, 'common') }} / 10</td></tr></table>
             <br /><span style="font-weight:bold;">Plot:</span><br /><span style="font-size: 0.950em;">{{ show.plot }}</span>
           </p>
+      </li>
       {% endif %}
 
       {% if library.seasons %}
@@ -91,17 +93,19 @@
       {% endif %}
 
       {% if library.episodedetails %}
-          <li style="display:none;" data-command="shows/{{ episode.tvshowid }}/{{ episode.season }}/info/{{ episode.episodeid }}"></li>
+      <li style="display:none;" data-command="shows/{{ episode.tvshowid }}/{{ episode.season }}/info/{{ episode.episodeid }}"></li>
+      <li class="details">
           {% if episode.thumbnail %}
             <img class="episodeart" src="{{ itemart }}">
           {% endif %}
 
           <p class="p_info">
             <table border="0">
-			<tr><td width="65" style="font-weight:bold;">First Aired:</td><td style="font-size: 0.950em;">{{ episode.firstaired }}</td></tr>
+			<tr><td width="75" style="font-weight:bold;">First Aired:</td><td style="font-size: 0.950em;">{{ episode.firstaired }}</td></tr>
             <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;"> {{ episode.rating|float|round(1, 'common') }} / 10</td></tr></table>
             <br /><span style="font-weight:bold;">Plot:</span><br /><span style="font-size: 0.950em;">{{ episode.plot }}</span>
           </p>
+      </li>
       {% endif %}
 
       {% if library.movies %}
@@ -127,18 +131,20 @@
       {% endif %}
 
       {% if library.moviedetails %}
-          <li style="display:none;" data-command="movies/info/{{ movie.movieid }}"></li>
+      <li style="display:none;" data-command="movies/info/{{ movie.movieid }}"></li>
+      <li class="details">
           {% if movie.thumbnail %}
             <img class="posterart" src="{{ itemart }}">
           {% endif %}
           <p class="p_info">
             <table border="0">
-			<tr><td width="65" style="font-weight:bold;">Director:</td><td style="font-size: 0.950em;">{{ movie.director }}</td></tr>
+			<tr><td width="75" style="font-weight:bold;">Director:</td><td style="font-size: 0.950em;">{{ movie.director }}</td></tr>
             <tr><td style="font-weight:bold;">Year:</td><td style="font-size: 0.950em;">{{ movie.year }}</td></tr>
             <tr><td style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ movie.genre|truncate(30, 'false') }}</td></tr>
             <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;">{{ movie.rating|float|round(1, 'common') }} / 10</td></tr></table>
             <br /><span style="font-weight:bold;">Plot:</span><br /><span style="font-size: 0.950em;">{{ movie.plot }}</span>
           </p>
+      </li>
       {% endif %}
 
       {% if library.artists %}
@@ -155,15 +161,17 @@
       {% endif %}
 
       {% if library.artistdetails %}
-          <li style="display:none;" data-command="artists/info/{{ artist.artistid }}"></li>
+      <li style="display:none;" data-command="artists/info/{{ artist.artistid }}"></li>
+      <li class="details">
           {% if artist.thumbnail %}
             <img class="artistart" src="{{ itemart }}">
           {% endif %}
           <p class="p_info">
             <table border="0">
-			<tr><td width="65" style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ artist.genre|truncate(30, 'false') }}</td></tr></table>
+			<tr><td width="75" style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ artist.genre|truncate(30, 'false') }}</td></tr></table>
             <br /><span style="font-weight:bold;">Artist Information:</span><br /><span style="font-size: 0.950em;">{{ artist.description }}</span>
           </p>
+      </li>
       {% endif %}
 
       {% if library.albums %}
@@ -180,17 +188,19 @@
       {% endif %}
 
       {% if library.albumdetails %}
-          <li style="display:none;" data-command="artists/{{ album.artistid }}/info/{{ album.albumid }}"></li>
+      <li style="display:none;" data-command="artists/{{ album.artistid }}/info/{{ album.albumid }}"></li>
+      <li class="details">
           {% if album.thumbnail %}
             <img class="albumart" src="{{ itemart }}">
           {% endif %}
           <p class="p_info">
             <table border="0">
-			<tr><td width="65" style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ album.genre|truncate(30, 'false') }}</td></tr>
+			<tr><td width="75" style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ album.genre|truncate(30, 'false') }}</td></tr>
             <tr><td style="font-weight:bold;">Year:</td><td style="font-size: 0.950em;">{{ album.year }}</td></tr>
             <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;">{{ album.rating|float|round(1, 'common') }} / 10</td></tr></table>
             <br /><span style="font-weight:bold;">Album Description:</span><br /><span style="font-size: 0.950em;">{{ album.description }}</span>
           </p>
+      </li>
       {% endif %}
 
       {% if library.songs %}

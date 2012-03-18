@@ -183,6 +183,51 @@
     }
   }
 
+  .p_info {
+    line-height: 1.3em;
+    margin: 4px;
+  }
+
+  .info_buttons {
+    float: left;
+    margin-right: 4px;
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    cursor: pointer;
+    padding: 2px 8px;
+    color: #ccc;
+    height: 20px;
+    line-height: 21px;
+
+    .border-radius(4px);
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+  }
+}
+
+#library.root,
+#library.info {
+  .powerholder { margin-top: 10px; }
+  #filter      { display: none; }
+}
+
+.f_settings_mode #library .back
+{
+  display: none;
+}
+
+/* details */
+
+#library {
+  li.details {
+    background-image: none;
+    border: none;
+    line-height: 1.4em;
+    padding-right: 15px;
+  }
+
   .posterart,
   .bannerart,
   .episodeart,
@@ -190,11 +235,11 @@
   .albumart, {
     float: right;
     box-shadow: 0 0 1px 1px #333;
-    margin: 4px;
+    margin: 0 0 10px 15px;
   }
 
   .posterart {
-    max-width: 140px;
+    max-width: 130px;
     height: auto;
   }
 
@@ -217,37 +262,5 @@
     max-width: 160px;
     height: auto;
   }
-
-  .p_info {
-    line-height: 1.3em;
-    margin: 4px;
-  }
-
-  .info_buttons {
-    float: left;
-    margin-right: 4px;
-    background: url(/static/images/alpha/fff_10.png);
-    border: 1px solid #222;
-    cursor: pointer;
-    line-height: 1.1em;
-    padding: 2px 8px;
-    color: #ccc;
-
-    .border-radius(4px);
-
-    &:hover {
-      background: url(/static/images/alpha/fff_20.png);
-    }
-  }
 }
 
-#library.root,
-#library.info {
-  .powerholder { margin-top: 10px; }
-  #filter      { display: none; }
-}
-
-.f_settings_mode #library .back
-{
-  display: none;
-}
