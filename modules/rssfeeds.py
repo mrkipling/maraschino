@@ -214,7 +214,7 @@ cat_piratebay = [
 cat_rlslog = [
            { 'id': 0, 'name': 'Select Category...' },
         { 'label' : 'Movies', 'value' : [
-            { 'id': 101, 'path': 'movies/bdrip' ,      'name': ': BDRip' },
+            { 'id': 101, 'path': 'movies/bdrip',       'name': ': BDRip' },
             { 'id': 102, 'path': 'movies/cam',         'name': ': Cam' },
             { 'id': 103, 'path': 'movies/dvdrip',      'name': ': DVDRip)' },
             { 'id': 104, 'path': 'movies/dvdrip-old',  'name': ': DVDRip Old' },
@@ -261,49 +261,49 @@ cat_rlslog = [
 cat_scnsrc = [
             { 'id': 0,                          'name': 'Select Category...' },
         { 'label' : 'Movies', 'value' : [
-            { 'id': '/films/feed/',              'name': ': All' },
-            { 'id': '/films/bdrip/feed/',        'name': ': BDRip' },
-            { 'id': '/films/bdscr/feed/',        'name': ': BDSCR' },
-            { 'id': '/films/bluray/feed/',       'name': ': BluRay' },
-            { 'id': '/films/cam/feed/',          'name': ': Cam' },
-            { 'id': '/films/dvdrip/feed/',       'name': ': DVDRip' },
-            { 'id': '/films/dvdscr/feed/',       'name': ': DVDSCR' },
-            { 'id': '/films/hd/feed/',           'name': ': HD' },
-            { 'id': '/films/r5/feed/',           'name': ': R5' },
-            { 'id': '/films/scr/feed/',          'name': ': SCR' },
-            { 'id': '/films/telecine/feed/',     'name': ': Telecine' },
-            { 'id': '/films/telesync/feed/',     'name': ': Telesync' },
-            { 'id': '/films/workprint/feed/',    'name': ': Workprint' },
+            { 'id': 101, 'path': 'films',              'name': ': All' },
+            { 'id': 102, 'path': 'films/bdrip',        'name': ': BDRip' },
+            { 'id': 103, 'path': 'films/bdscr',        'name': ': BDSCR' },
+            { 'id': 104, 'path': 'films/bluray',       'name': ': BluRay' },
+            { 'id': 105, 'path': 'films/cam',          'name': ': Cam' },
+            { 'id': 106, 'path': 'films/dvdrip',       'name': ': DVDRip' },
+            { 'id': 107, 'path': 'films/dvdscr',       'name': ': DVDSCR' },
+            { 'id': 108, 'path': 'films/hd',           'name': ': HD' },
+            { 'id': 109, 'path': 'films/r5',           'name': ': R5' },
+            { 'id': 110, 'path': 'films/scr',          'name': ': SCR' },
+            { 'id': 111, 'path': 'films/telecine',     'name': ': Telecine' },
+            { 'id': 112, 'path': 'films/telesync',     'name': ': Telesync' },
+            { 'id': 113, 'path': 'films/workprint',    'name': ': Workprint' },
           ]
         },
         { 'label' : 'TV' , 'value' : [
-            { 'id': '/tv/feed/',                 'name': ': All' },        
-            { 'id': '/tv/dvd/feed/',             'name': ': DVD' },
-            { 'id': '/tv/miniseries/feed/',      'name': ': Mini Series' },
-            { 'id': '/tv/ppv/feed/',             'name': ': PPV' },
-            { 'id': '/tv/preair/feed/',          'name': ': PREAiR' },
-            { 'id': '/tv/sports/feed/',          'name': ': Sports' },
+            { 'id': 201, 'path': 'tv',                 'name': ': All' },        
+            { 'id': 202, 'path': 'tv/dvd',             'name': ': DVD' },
+            { 'id': 203, 'path': 'tv/miniseries',      'name': ': Mini Series' },
+            { 'id': 204, 'path': 'tv/ppv',             'name': ': PPV' },
+            { 'id': 205, 'path': 'tv/preair',          'name': ': PREAiR' },
+            { 'id': 206, 'path': 'tv/sports',          'name': ': Sports' },
           ]
         },
         { 'label' : 'Music' , 'value' : [
-            { 'id': '/new-music/feed/',                'name': ': All' },
-            { 'id': '/new-music/concert/feed/',        'name': ': Concert' },
-            { 'id': '/new-music-video-releases/feed/', 'name': ': MViD' },
-            { 'id': '/new-music/flac/feed/',           'name': ': FLAC' },
+            { 'id': 301, 'path': 'new-music',                'name': ': All' },
+            { 'id': 302, 'path': 'new-music/concert',        'name': ': Concert' },
+            { 'id': 303, 'path': 'new-music-video-releases', 'name': ': MViD' },
+            { 'id': 304, 'path': 'new-music/flac',           'name': ': FLAC' },
           ]
         },
         { 'label' : 'Games' , 'value' : [
-            { 'id': '/games/feed/',             'name': ': All' },
-            { 'id': '/games/clone/feed/',       'name': ': Clone' },
-            { 'id': '/games/iso/feed/',         'name': ': ISO' },
-            { 'id': '/games/ps3/feed/',         'name': ': PS3' },
-            { 'id': '/games/xbox360/feed/',     'name': ': XBOX360' },
+            { 'id': 401, 'path': 'games',             'name': ': All' },
+            { 'id': 402, 'path': 'games/clone',       'name': ': Clone' },
+            { 'id': 403, 'path': 'games/iso',         'name': ': ISO' },
+            { 'id': 404, 'path': 'games/ps3',         'name': ': PS3' },
+            { 'id': 405, 'path': 'games/xbox360',     'name': ': XBOX360' },
           ]
         },
         { 'label' : 'Applications' , 'value' : [
-            { 'id': '/applications/iphone/feed/',  'name': ': iPhone' },
-            { 'id': '/applications/macosx/feed/',  'name': ': MAC' },
-            { 'id': '/applications/windows/feed/', 'name': ': Windows' },
+            { 'id': 501, 'path': 'applications/iphone',  'name': ': iPhone' },
+            { 'id': 502, 'path': 'applications/macosx',  'name': ': MAC' },
+            { 'id': 503, 'path': 'applications/windows', 'name': ': Windows' },
           ]
         },
     ]
@@ -311,53 +311,53 @@ cat_scnsrc = [
 cat_oneddl = [
             { 'id': 0,                           'name': 'Select Category...' },
         { 'label' : 'Movies', 'value' : [
-            { 'id': '/movies/feed/',                'name': ': All' },
-            { 'id': '/movies/1080p/feed/',          'name': ': 1080p' },
-            { 'id': '/movies/720p/feed/',           'name': ': 720p' },
-            { 'id': '/movies/bdrip/feed/',          'name': ': BDRip' },
-            { 'id': '/movies/bdscr-movies/feed/',   'name': ': BDScr' },
-            { 'id': '/movies/brrip/feed/',          'name': ': BRRip' },
-            { 'id': '/movies/cam/feed/',            'name': ': Cam' },
-            { 'id': '/movies/complete-bluray/feed/','name': ': Complete Bluray' },
-            { 'id': '/movies/dvdr/feed/',           'name': ': DVDR' },
-            { 'id': '/movies/dvdrip/feed/',         'name': ': DVDRip' },
-            { 'id': '/movies/dvdscr/feed/',         'name': ': DVDScr' },
-            { 'id': '/movies/hdrip/feed/',          'name': ': HDRip' },
-            { 'id': '/movies/r5/feed/',             'name': ': R5' },
-            { 'id': '/movies/rc/feed/',             'name': ': RC' },
-            { 'id': '/movies/scr/feed/',            'name': ': Scr' },
-            { 'id': '/movies/telecine/feed/',       'name': ': Telecine' },
-            { 'id': '/movies/telesync/feed/',       'name': ': TeleSync' },
+            { 'id': 101, 'path': 'movies',                'name': ': All' },
+            { 'id': 102, 'path': 'movies/1080p',          'name': ': 1080p' },
+            { 'id': 103, 'path': 'movies/720p',           'name': ': 720p' },
+            { 'id': 104, 'path': 'movies/bdrip',          'name': ': BDRip' },
+            { 'id': 105, 'path': 'movies/bdscr-movies',   'name': ': BDScr' },
+            { 'id': 106, 'path': 'movies/brrip',          'name': ': BRRip' },
+            { 'id': 107, 'path': 'movies/cam',            'name': ': Cam' },
+            { 'id': 108, 'path': 'movies/complete-bluray','name': ': Complete Bluray' },
+            { 'id': 109, 'path': 'movies/dvdr',           'name': ': DVDR' },
+            { 'id': 110, 'path': 'movies/dvdrip',         'name': ': DVDRip' },
+            { 'id': 111, 'path': 'movies/dvdscr',         'name': ': DVDScr' },
+            { 'id': 112, 'path': 'movies/hdrip',          'name': ': HDRip' },
+            { 'id': 113, 'path': 'movies/r5',             'name': ': R5' },
+            { 'id': 114, 'path': 'movies/rc',             'name': ': RC' },
+            { 'id': 115, 'path': 'movies/scr',            'name': ': Scr' },
+            { 'id': 116, 'path': 'movies/telecine',       'name': ': Telecine' },
+            { 'id': 117, 'path': 'movies/telesync',       'name': ': TeleSync' },
           ]
         },
         { 'label' : 'TV' , 'value' : [
-            { 'id': '/tv-shows/feed/',              'name': ': All' },        
-            { 'id': '/tv-shows/hd-720p/feed/',      'name': ': HD 720p' },
-            { 'id': '/tv-shows/ppv/feed/',          'name': ': PPV' },
-            { 'id': '/tv-shows/sports/feed/',       'name': ': Sports' },
-            { 'id': '/tv-shows/tv-dvdrip/feed/',    'name': ': TV DVDRip' },
+            { 'id': 201, 'path': 'tv-shows',              'name': ': All' },        
+            { 'id': 202, 'path': 'tv-shows/hd-720p',      'name': ': HD 720p' },
+            { 'id': 203, 'path': 'tv-shows/ppv',          'name': ': PPV' },
+            { 'id': 204, 'path': 'tv-shows/sports',       'name': ': Sports' },
+            { 'id': 205, 'path': 'tv-shows/tv-dvdrip',    'name': ': TV DVDRip' },
           ]
         },
         { 'label' : 'Music' , 'value' : [
-            { 'id': '/music/feed/',                'name': ': All' },
-            { 'id': '/music/flac/feed/',           'name': ': FLAC' },
-            { 'id': '/music/mp3/feed/',            'name': ': MP3' },
-            { 'id': '/music/mvid/feed/',           'name': ': MViD' },
+            { 'id': 301, 'path': 'music',                'name': ': All' },
+            { 'id': 302, 'path': 'music/flac',           'name': ': FLAC' },
+            { 'id': 303, 'path': 'music/mp3',            'name': ': MP3' },
+            { 'id': 304, 'path': 'music/mvid',           'name': ': MViD' },
           ]
         },
         { 'label' : 'Games' , 'value' : [
-            { 'id': '/games/feed/',             'name': ': All' },
-            { 'id': '/games/pc/feed/',          'name': ': PC' },
-            { 'id': '/games/ps3/feed/',         'name': ': PS3' },
-            { 'id': '/games/psp/feed/',         'name': ': PSP' },
-            { 'id': '/games/wii/feed/',         'name': ': Wii' },
-            { 'id': '/games/xbox360/feed/',     'name': ': XBOX360' },
+            { 'id': 401, 'path': 'games',             'name': ': All' },
+            { 'id': 402, 'path': 'games/pc',          'name': ': PC' },
+            { 'id': 403, 'path': 'games/ps3',         'name': ': PS3' },
+            { 'id': 404, 'path': 'games/psp',         'name': ': PSP' },
+            { 'id': 405, 'path': 'games/wii',         'name': ': Wii' },
+            { 'id': 406, 'path': 'games/xbox360',     'name': ': XBOX360' },
           ]
         },
         { 'label' : 'Applications' , 'value' : [
-            { 'id': '/apps/feed/',              'name': ': All' },
-            { 'id': '/apps/mac-apps/feed/',     'name': ': MAC' },
-            { 'id': '/apps/windows/feed/',      'name': ': Windows' },
+            { 'id': 501, 'path': 'apps',              'name': ': All' },
+            { 'id': 502, 'path': 'apps/mac-apps',     'name': ': MAC' },
+            { 'id': 503, 'path': 'apps/windows',      'name': ': Windows' },
           ]
         },
     ]
@@ -365,53 +365,58 @@ cat_oneddl = [
 cat_sceper = [
             { 'id': 0,                           'name': 'Select Category...' },
         { 'label' : 'Movies', 'value' : [
-            { 'id': '/movies/feed/',                'name': ': All' },
-            { 'id': '/movies/1080p/feed/',          'name': ': 1080p' },
-            { 'id': '/movies/720p/feed/',           'name': ': 720p' },
-            { 'id': '/movies/bdrip/feed/',          'name': ': BDRip' },
-            { 'id': '/movies/bdscr-movies/feed/',   'name': ': BDScr' },
-            { 'id': '/movies/brrip/feed/',          'name': ': BRRip' },
-            { 'id': '/movies/cam/feed/',            'name': ': Cam' },
-            { 'id': '/movies/complete-bluray/feed/','name': ': Complete Bluray' },
-            { 'id': '/movies/dvdr/feed/',           'name': ': DVDR' },
-            { 'id': '/movies/dvdrip/feed/',         'name': ': DVDRip' },
-            { 'id': '/movies/dvdscr/feed/',         'name': ': DVDScr' },
-            { 'id': '/movies/hdrip/feed/',          'name': ': HDRip' },
-            { 'id': '/movies/r5/feed/',             'name': ': R5' },
-            { 'id': '/movies/rc/feed/',             'name': ': RC' },
-            { 'id': '/movies/scr/feed/',            'name': ': Scr' },
-            { 'id': '/movies/telecine/feed/',       'name': ': Telecine' },
-            { 'id': '/movies/telesync/feed/',       'name': ': TeleSync' },
+            { 'id': 101, 'path': 'movies',                      'name': ': All' },
+            { 'id': 102, 'path': 'movies/cartoons',             'name': ': Cartoons' },
+            { 'id': 103, 'path': 'movies/movie-packs',          'name': ': Movie-Packs' },
+            { 'id': 104, 'path': 'movies/movies-3d',            'name': ': Movies-3D' },
+            { 'id': 105, 'path': 'movies/movies-bluray-rip',    'name': ': BluRay Rip' },
+            { 'id': 106, 'path': 'movies/movies-cam',           'name': ': Cam' },
+            { 'id': 107, 'path': 'movies/movies-ddc',           'name': ': DDC' },
+            { 'id': 108, 'path': 'movies/movies-dvdrip',        'name': ': DVDRip' },
+            { 'id': 109, 'path': 'movies/movies-dvdr',          'name': ': DVDR' },
+            { 'id': 110, 'path': 'movies/movies-foreign/',      'name': ': Foreign' },
+            { 'id': 111, 'path': 'movies/movies-full-bd',       'name': ': Full BD' },
+            { 'id': 112, 'path': 'movies/movies-hddvd-rip',     'name': ': HDDVD Rip' },
+            { 'id': 113, 'path': 'movies/movies-hdtv',          'name': ': HDTV Movies' },
+            { 'id': 114, 'path': 'movies/movies-hdtv-720p',     'name': ': HDTV 720p Movies' },
+            { 'id': 115, 'path': 'movies/movies-ppv-rip',       'name': ': HDTV PPV Movies' },
+            { 'id': 116, 'path': 'movies/movies-r3',            'name': ': R3' },
+            { 'id': 117, 'path': 'movies/movies-r5',            'name': ': R5' },
+            { 'id': 118, 'path': 'movies/movies-screener',      'name': ': Screener' },
+            { 'id': 119, 'path': 'movies/movies-telecine',      'name': ': Telecine' },
+            { 'id': 120, 'path': 'movies/movies-telesync',      'name': ': Telesync' },
+            { 'id': 121, 'path': 'movies/movies-workprint',     'name': ': Workprint' },
+            { 'id': 122, 'path': 'movies/movies-mini',          'name': ': Movies Mini(<551MB)' },
           ]
         },
         { 'label' : 'TV' , 'value' : [
-            { 'id': '/tv-shows/feed/',              'name': ': All' },        
-            { 'id': '/tv-shows/hd-720p/feed/',      'name': ': HD 720p' },
-            { 'id': '/tv-shows/ppv/feed/',          'name': ': PPV' },
-            { 'id': '/tv-shows/sports/feed/',       'name': ': Sports' },
-            { 'id': '/tv-shows/tv-dvdrip/feed/',    'name': ': TV DVDRip' },
+            { 'id': 201, 'path': 'tv-shows',                    'name': ': All' },        
+            { 'id': 202, 'path': 'tv-shows/animes',             'name': ': Animes/Cartoons' },
+            { 'id': 203, 'path': 'tv-shows/documentaries',      'name': ': Documentaries' },
+            { 'id': 204, 'path': 'tv-shows/mini-series',        'name': ': Mini Series' },
+            { 'id': 205, 'path': 'tv-shows/tv-packs',           'name': ': TV Packs' },
+            { 'id': 205, 'path': 'tv-shows/tv-shows-x264',      'name': ': TV Shows x264' },
           ]
         },
         { 'label' : 'Music' , 'value' : [
-            { 'id': '/music/feed/',                'name': ': All' },
-            { 'id': '/music/flac/feed/',           'name': ': FLAC' },
-            { 'id': '/music/mp3/feed/',            'name': ': MP3' },
-            { 'id': '/music/mvid/feed/',           'name': ': MViD' },
+            { 'id': 301, 'path': 'music',                   'name': ': All' },
+            { 'id': 302, 'path': 'music/itunes-singles',    'name': ': FLAC' },
+            { 'id': 303, 'path': 'music/music-mdvdr',       'name': ': Music DVDR' },
+            { 'id': 304, 'path': 'music/music-video',       'name': ': Music Video' },
           ]
         },
         { 'label' : 'Games' , 'value' : [
-            { 'id': '/games/feed/',             'name': ': All' },
-            { 'id': '/games/pc/feed/',          'name': ': PC' },
-            { 'id': '/games/ps3/feed/',         'name': ': PS3' },
-            { 'id': '/games/psp/feed/',         'name': ': PSP' },
-            { 'id': '/games/wii/feed/',         'name': ': Wii' },
-            { 'id': '/games/xbox360/feed/',     'name': ': XBOX360' },
+            { 'id': 401, 'path': 'games',                   'name': ': All' },
+            { 'id': 402, 'path': 'games/console-games',     'name': ': Console' },
+            { 'id': 403, 'path': 'games/games-pack',        'name': ': Games Packs' },
+            { 'id': 404, 'path': 'games/mini-games',        'name': ': Mini Games' },
+            { 'id': 405, 'path': 'games/mobile-phone-games','name': ': Mobile Phone Games' },
+            { 'id': 406, 'path': 'games/pc-games',          'name': ': PC Games' },
           ]
         },
         { 'label' : 'Applications' , 'value' : [
-            { 'id': '/apps/feed/',              'name': ': All' },
-            { 'id': '/apps/mac-apps/feed/',     'name': ': MAC' },
-            { 'id': '/apps/windows/feed/',      'name': ': Windows' },
+            { 'id': 501, 'path': '/applications',             'name': ': All' },
+            { 'id': 502, 'path': '/applications/pda',         'name': ': PDA' },
           ]
         },
     ]
@@ -521,7 +526,13 @@ def xhr_rssfeeds_category(site = None, category = None):
 
     elif site == "scnsrc":
         categories = cat_scnsrc
-        feed = 'http://www.scnsrc.me/category' + category
+
+        for cat in categories[1:]:
+            for subcat in cat['value']:
+                if int(category) == subcat['id']:
+                    path = subcat['path']
+                    
+        feed = 'http://www.scnsrc.me/category/' + path + '/feed/'
         feed = feedparser.parse(feed)
 
     elif site == "newznab":
@@ -542,12 +553,24 @@ def xhr_rssfeeds_category(site = None, category = None):
 
     elif site == "oneddl":
         categories = cat_oneddl
-        feed = 'http://www.oneddl.eu/category' + category
+        
+        for cat in categories[1:]:
+            for subcat in cat['value']:
+                if int(category) == subcat['id']:
+                    path = subcat['path']
+                    
+        feed = 'http://www.oneddl.eu/category/' + path + '/feed/'
         feed = feedparser.parse(feed)
-
+        
     elif site == "sceper":
         categories = cat_sceper
-        feed = 'http://www.sceper.eu/category' + category
+        
+        for cat in categories[1:]:
+            for subcat in cat['value']:
+                if int(category) == subcat['id']:
+                    path = subcat['path']
+                    
+        feed = 'http://www.sceper.eu/category/' + path + '/feed/'
         feed = feedparser.parse(feed)
 
     elif site == "vcdq":

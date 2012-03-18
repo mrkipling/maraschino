@@ -7,11 +7,12 @@
 
     <select id="rss_site">
           <option style="background: #2b3621; color:#fff">Select Site...</option>
-      <optgroup style="background: #2b3621; color:#fff" label="NZB Sites">
+     
+     <optgroup style="background: #2b3621; color:#fff" label="NZB Sites">
           <option style="background: #2b3621; color:#fff" value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%}>NZBMatrix</option>
           <option style="background: #2b3621; color:#fff" value="newznab" {% if site == 'newznab' %}selected{%endif%}>Newznab</option>
  
- <optgroup style="background: #2b3621; color:#fff" label="Torrent Sites">
+      <optgroup style="background: #2b3621; color:#fff" label="Torrent Sites">
           <option style="background: #2b3621; color:#fff" value="piratebay" {% if site == 'piratebay' %}selected{%endif%}>The Pirate Bay</option>
 
           <optgroup style="background: #2b3621; color:#fff" label="Release Sites">
@@ -80,7 +81,9 @@
             </h1>
             
             <div style="font-size: 80%">
-                 <b>Added:</b> {{ entry.date }}
+                 <b>Added:</b> {{ entry.date }} <br />
+                 <b>Description:</b> {{ entry.description|truncate(255, false) }} <a href="{{ entry.link }}" title="More">[+]</a>
+                 
            </div>  
           </li>
         {% endif %}
