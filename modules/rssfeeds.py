@@ -585,13 +585,17 @@ def xhr_rssfeeds_category(site = None, category = None):
                 result = u.search(entry['content'][0]['value'])
             if result:
                 imdbrating = result.group(1)
+                if "-/10" in imdbrating:
+                    imdbrating = "No Rating"
             else:
                 imdbrating = ""
 
-            r = re.compile('<a href="(.*?)">iMDB</a>')
+            r = re.compile('<a href="(.*?)">iMDB')
             result = r.search(entry['content'][0]['value'])
             if result:
                 imdblink = result.group(1)
+                x = imdblink.find('http://www.imdb.com')
+                imdblink = imdblink[x:]
             else:
                 imdblink = ""
 

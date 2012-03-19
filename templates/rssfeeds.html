@@ -53,9 +53,9 @@
 
             <div style="font-size: 80%">
               {% if entry.description.added %}<b>Added:</b> {{ entry.description.added }}<br />{% endif %}
-              {% if entry.description.size %}<b>Size:</b> {{ entry.description.size }}{% endif %}
-              {% if entry.description.nfolink %} | <b>NFO:</b> <a href="{{ entry.description.nfolink }}" target="_blank">View NFO</a>{% endif %}
-              {% if entry.description.imdblink %} | <b>IMDB:</b> <a href="{{ entry.description.imdblink }}" target="_blank">Go to IMDB</a>{% endif %}
+              {% if entry.description.size %}<b>Size:</b> {{ entry.description.size }}<br />{% endif %}
+              {% if entry.description.nfolink %}<b>NFO:</b> <a href="{{ entry.description.nfolink }}" target="_blank">View NFO</a><br />{% endif %}
+              {% if entry.description.imdblink %}<b>IMDB:</b> <a href="{{ entry.description.imdblink }}" target="_blank">Go to IMDB</a>{% endif %}
             </div>
           </li>
         {% endif %}
@@ -83,8 +83,10 @@
               <div style="font-size: 80%"><b>Added:</b> {{ entry.date[:26] }} <br />
                {% if entry.description.size %}<b>Size:</b> {{ entry.description.size }} <br />{% endif %}
                {% if entry.description.nfolink %}<b>NFO:</b> <a href="{{ entry.description.nfolink }}" target="_blank">View NFO</a><br />{% endif %}               
-               {% if entry.description.imdbrating %}<b>IMDB Rating:</b> <a href="{{ entry.description.imdblink }}" target="_blank"> {{ entry.description.imdbrating }}</a> <br />{% endif %}
-
+               {% if entry.description.imdbrating %}<b>IMDB Rating:</b> 
+               
+               {% if not entry.description.imdblink %} {% else %}<a href="{{ entry.description.imdblink }}" target="_blank">{% endif %}
+               {% if not "\u2013" in entry.description.imdbrating %}{{ entry.description.imdbrating }}{% else %}No Rating.{% endif %}</a>{% endif %}
               </div>
             </li>
           {% endif %}
