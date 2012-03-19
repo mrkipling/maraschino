@@ -544,9 +544,24 @@ def xhr_rssfeeds_category(site = None, category = None):
             else:
                 img = ""
 
+            r = re.compile('<strong>Genre:</strong> (.*?)<br />')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                genre = result.group(1)
+            else:
+                genre = ""
+
+            r = re.compile('<a href="(.*?)">Homepage</a>')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                homepage = result.group(1)
+            else:
+                homepage = ""
+
             r = re.compile('<strong>Size:</strong> (.*?)<br />')
             s = re.compile('<strong>Size</strong>: (.*?)<br />')
             t = re.compile('<strong>Size: </strong>(.*?)<br />')
+            u = re.compile('<strong>Size:</strong>(.*?)</p>')
             v = re.compile('|(.*?)<br />')
             result = r.search(entry['content'][0]['value'])
             if result:
@@ -557,6 +572,10 @@ def xhr_rssfeeds_category(site = None, category = None):
                 size = result.group(1)
             if not result:
                 result = t.search(entry['content'][0]['value'])
+            if result:
+                size = result.group(1)
+            if not result:
+                result = u.search(entry['content'][0]['value'])
             if result:
                 size = result.group(1)
             if not result:
@@ -605,6 +624,7 @@ def xhr_rssfeeds_category(site = None, category = None):
             u = re.compile('<strong>NFO:</strong> <a href="(.*?)">')
             v = re.compile('<a href="(.*?)">NFO</a>')
             w = re.compile('<strong>NFO: </strong><a href="(.*?)">')
+            y = re.compile('<a href="(.*?)">NFO</a>')
             result = r.search(entry['content'][0]['value'])
             if result:
                 nfolink = result.group(1)
@@ -628,10 +648,14 @@ def xhr_rssfeeds_category(site = None, category = None):
                 result = w.search(entry['content'][0]['value'])
             if result:
                 nfolink = result.group(1)
+            if not result:
+                result = y.search(entry['content'][0]['value'])
+            if result:
+                nfolink = result.group(1)
             else:
                 nfolink = ""
 
-            description = { 'size': size, 'imdbrating': imdbrating, 'imdblink': imdblink, 'nfolink': nfolink, 'img': img, }
+            description = { 'size': size, 'imdbrating': imdbrating, 'imdblink': imdblink, 'nfolink': nfolink, 'img': img, 'genre':genre, 'homepage':homepage, }
             entry['description'] = description
 
 # RlsLog End
@@ -689,6 +713,7 @@ def xhr_rssfeeds_category(site = None, category = None):
     if feed:
         for entry in feed['entries']:
             entry['title'] = entry['title'].replace(".", " ")
+            entry.description['genre'] = entry.description['genre'].replace("&amp;", "&")
 
     return render_template('rssfeeds.html',
         site = site,

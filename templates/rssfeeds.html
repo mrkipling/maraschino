@@ -76,15 +76,16 @@
         {% if site == 'rlslog' %}
           {% if not "Binverse - get 14 days of free Usenet access" in entry.title %}
             <li title="{{ entry.title }}">
-             <img style="float:left; padding-right:10px" src="{{ entry.description.img }}" width="auto" height="80">
+             <div style="float:left; padding-right:10px;"><img src="{{ entry.description.img }}" width="70" height="auto"></div>
               <h1>
                <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
               </h1>
               <div style="font-size: 80%"><b>Added:</b> {{ entry.date[:26] }} <br />
                {% if entry.description.size %}<b>Size:</b> {{ entry.description.size }} <br />{% endif %}
-               {% if entry.description.nfolink %}<b>NFO:</b> <a href="{{ entry.description.nfolink }}" target="_blank">View NFO</a><br />{% endif %}               
+               {% if entry.description.nfolink %}<b>NFO:</b> <a href="{{ entry.description.nfolink }}" target="_blank">View NFO</a><br />{% endif %}
+               {% if entry.description.homepage %}<b>Visit:</b> <a href="{{ entry.description.homepage }}" target="_blank">Homepage<br />{% endif %}
+               {% if entry.description.genre %}<b>Genre:</b> {{ entry.description.genre }}<br />{% endif %}
                {% if entry.description.imdbrating %}<b>IMDB Rating:</b> 
-               
                {% if not entry.description.imdblink %} {% else %}<a href="{{ entry.description.imdblink }}" target="_blank">{% endif %}
                {% if not "\u2013" in entry.description.imdbrating %}{{ entry.description.imdbrating }}{% else %}No Rating.{% endif %}</a>{% endif %}
               </div>
