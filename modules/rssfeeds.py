@@ -585,10 +585,10 @@ def xhr_rssfeeds_category(site = None, category = None):
             else:
                 size = ""
 
-            r = re.compile('<strong>IMDB Rating</strong>: (.*?)<br />')
-            s = re.compile('<strong>IMDB Rating:</strong> (.*?)<br />')
-            t = re.compile('<strong>IMDB rating:</strong> (.*?)<br />')
-            u = re.compile('<strong>IMDB rating</strong>: (.*?)<br />')
+            r = re.compile('<strong>IMDB Rating</strong>:(.*?)<br />')
+            s = re.compile('<strong>IMDB Rating:</strong>(.*?)<br />')
+            t = re.compile('<strong>IMDB rating:</strong>(.*?)<br />')
+            u = re.compile('<strong>IMDB rating</strong>:(.*?)<br />')
             result = r.search(entry['content'][0]['value'])
             if result:
                 imdbrating = result.group(1)
@@ -657,14 +657,15 @@ def xhr_rssfeeds_category(site = None, category = None):
 
             description = { 'size': size, 'imdbrating': imdbrating, 'imdblink': imdblink, 'nfolink': nfolink, 'img': img, 'genre':genre, 'homepage':homepage, }
             entry['description'] = description
+            entry.description['genre'] = entry.description['genre'].replace("&amp;", "&")
 
-# RlsLog End
-
+# The Pirate Bay
     elif site == "piratebay":
         categories = cat_piratebay
         feed = 'http://rss.thepiratebay.se/' + category
         feed = feedparser.parse(feed)
 
+# SCNSRC
     elif site == "scnsrc":
         categories = cat_scnsrc
 
@@ -672,9 +673,66 @@ def xhr_rssfeeds_category(site = None, category = None):
             for subcat in cat['value']:
                 if int(category) == subcat['id']:
                     path = subcat['path']
-                    
+
         feed = 'http://www.scnsrc.me/category/' + path + '/feed/'
         feed = feedparser.parse(feed)
+
+        for entry in feed['entries']:
+            r = re.compile('src="(.*?)"')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                img = result.group(1)
+            else:
+                img = ""
+
+            r = re.compile('<strong>Genre:</strong>(.*?)<br />')
+            s = re.compile('<b>Genre:</b>(.*?)<')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                genre = result.group(1)
+            if not result:
+                result = s.search(entry['content'][0]['value'])
+            if result:
+                genre = result.group(1)
+            else:
+                genre = ""
+
+            r = re.compile('&#124;.*?&#124;(.*?)&#124;')
+            result = r.search(entry['description'])
+            if result:
+                size = result.group(1)
+            else:
+                size = ""
+
+            r = re.compile('IMDB:(.*?)&#124;')
+            s = re.compile('IMDB:(.*?)<')
+            result = r.search(entry['description'])
+            if result:
+                imdbrating = result.group(1)
+            if not result:
+                result = s.search(entry['description'])
+            if result:
+                imdbrating = result.group(1)
+            else:
+                imdbrating = ""
+
+            r = re.compile('imdb.com/title/(.*?)/')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                imdblink = result.group(1)
+            else:
+                imdblink = ""
+
+            r = re.compile('http://nfomation.net/info/(.*?)"')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                nfolink = result.group(1)
+            else:
+                nfolink = ""
+
+            description = { 'size': size, 'imdbrating': imdbrating, 'imdblink': imdblink, 'nfolink': nfolink, 'img': img, 'genre':genre, }
+            entry['description'] = description
+            entry.description['genre'] = entry.description['genre'].replace("&amp;", "&")
 
     elif site == "newznab":
         categories = cat_newznab
@@ -713,7 +771,6 @@ def xhr_rssfeeds_category(site = None, category = None):
     if feed:
         for entry in feed['entries']:
             entry['title'] = entry['title'].replace(".", " ")
-            entry.description['genre'] = entry.description['genre'].replace("&amp;", "&")
 
     return render_template('rssfeeds.html',
         site = site,
