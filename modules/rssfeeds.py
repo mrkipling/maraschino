@@ -197,7 +197,7 @@ cat_piratebay = [
             {'id': 407, 'name': 'IOS (iPad/iPhone)'},
             {'id': 408, 'name': 'Android'},
             {'id': 499, 'name': 'Other'},
-          ]
+          ] 
         },
         { 'label' : 'Other' , 'value' : [
             {'id': 600, 'name': 'All'},
@@ -421,6 +421,33 @@ cat_sceper = [
         },
     ]
 
+cat_vcdq = [
+            { 'id': 0,                                              'name': 'Select Category...' },
+        { 'label' : 'VCDq', 'value' : [
+            { 'id': 101, 'path': '0/0/0/0/0/0/0',                   'name': 'Everthing' },
+          ]
+        },
+        { 'label' : 'Movies', 'value' : [
+            { 'id': 201, 'path': '1/0/0/0/0/0/0',                   'name': 'All' },
+            { 'id': 202, 'path': '1/2_1/0/3_2/0/0/0',               'name': 'HD' },
+            { 'id': 203, 'path': '1/2_1/0/4_9_10_11_12_21_22/0/0/0','name': 'SD' },
+          ]
+        },
+        { 'label' : 'TV Shows', 'value' : [
+            { 'id': 301, 'path': '3/0/0/0/0/0/0',                   'name': 'All' },
+            { 'id': 302, 'path': '3/2_1/0/3_2/0/0/0',               'name': 'HD' },
+            { 'id': 303, 'path': '3/2_1/0/4_9_10_11_12_21_22/0/0/0','name': 'SD' },
+          ]
+        },
+        { 'label' : 'Games', 'value' : [
+            { 'id': 401, 'path': '2/0/0/0/0/0/0/0/0/0/1',           'name': 'PC' },
+            { 'id': 402, 'path': '6/0/0/0/0/0/0',                   'name': 'PS3' },
+            { 'id': 403, 'path': '5/0/0/0/0/0/0',                   'name': 'XBox360' },
+            { 'id': 404, 'path': '4/0/0/0/0/0/0',                   'name': 'Wii' },
+          ]
+        },
+    ]
+
 @app.route('/xhr/rssfeeds')
 @app.route('/xhr/rssfeeds/<site>')
 @requires_auth
@@ -499,7 +526,7 @@ def xhr_rssfeeds_category(site = None, category = None):
             else:
                 nfolink = ""
 
-            r = re.compile('IMDB Link:</b> <a href="(.*?)">Go To IMDB</a>')
+            r = re.compile('IMDB Link:</b> <a href="(.*?)/">Go To IMDB</a>')
             result = r.search(entry['description'])
             if result:
                 imdblink = result.group(1)
@@ -520,8 +547,6 @@ def xhr_rssfeeds_category(site = None, category = None):
 
             description = { 'size': size, 'added': added, 'group': group, 'nfolink': nfolink, 'imdblink': imdblink, 'nzblink': nzblink }
             entry['description'] = description
-
-# NZBMatrix End
 
 # RlsLog Start
 
@@ -618,38 +643,8 @@ def xhr_rssfeeds_category(site = None, category = None):
             else:
                 imdblink = ""
 
-            r = re.compile('<strong>NFO:</strong> <a href="(.*?)">')
-            s = re.compile('<strong>NFO: </strong> <a href="(.*?)">')
-            t = re.compile('<strong>NFO</strong>: <a href="(.*?)">')
-            u = re.compile('<strong>NFO:</strong> <a href="(.*?)">')
-            v = re.compile('<a href="(.*?)">NFO</a>')
-            w = re.compile('<strong>NFO: </strong><a href="(.*?)">')
-            y = re.compile('<a href="(.*?)">NFO</a>')
+            r = re.compile('http://nfo.rlslog.net/view/(.*?)">')
             result = r.search(entry['content'][0]['value'])
-            if result:
-                nfolink = result.group(1)
-            if not result:
-                result = s.search(entry['content'][0]['value'])
-            if result:
-                nfolink = result.group(1)
-            if not result:
-                result = t.search(entry['content'][0]['value'])
-            if result:
-                nfolink = result.group(1)
-            if not result:
-                result = u.search(entry['content'][0]['value'])
-            if result:
-                nfolink = result.group(1)
-            if not result:
-                result = v.search(entry['content'][0]['value'])
-            if result:
-                nfolink = result.group(1)
-            if not result:
-                result = w.search(entry['content'][0]['value'])
-            if result:
-                nfolink = result.group(1)
-            if not result:
-                result = y.search(entry['content'][0]['value'])
             if result:
                 nfolink = result.group(1)
             else:
@@ -678,7 +673,7 @@ def xhr_rssfeeds_category(site = None, category = None):
         feed = feedparser.parse(feed)
 
         for entry in feed['entries']:
-            r = re.compile('src="(.*?)"')
+            r = re.compile('src="(.*?.(?:jpg|png))"')
             result = r.search(entry['content'][0]['value'])
             if result:
                 img = result.group(1)
@@ -734,11 +729,7 @@ def xhr_rssfeeds_category(site = None, category = None):
             entry['description'] = description
             entry.description['genre'] = entry.description['genre'].replace("&amp;", "&")
 
-    elif site == "newznab":
-        categories = cat_newznab
-        feed = 'http://nzb.su/rss?t=' + category
-        feed = feedparser.parse(feed)
-
+# OneDDL
     elif site == "oneddl":
         categories = cat_oneddl
         
@@ -749,7 +740,33 @@ def xhr_rssfeeds_category(site = None, category = None):
                     
         feed = 'http://www.oneddl.eu/category/' + path + '/feed/'
         feed = feedparser.parse(feed)
-        
+
+        for entry in feed['entries']:
+            r = re.compile('images.oneddl.eu/images/(.*?)"')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                img = result.group(1)
+            else:
+                img = ""
+
+            r = re.compile('imdb.com/title/(.*?)/')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                imdblink = result.group(1)
+            else:
+                imdblink = ""
+
+            r = re.compile('http://nfomation.net/info/(.*?)"')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                nfolink = result.group(1)
+            else:
+                nfolink = ""
+
+            description = { 'img': img, 'nfolink': nfolink, 'imdblink' : imdblink, }
+            entry['description'] = description
+
+# Sceper
     elif site == "sceper":
         categories = cat_sceper
         
@@ -758,14 +775,71 @@ def xhr_rssfeeds_category(site = None, category = None):
                 if int(category) == subcat['id']:
                     path = subcat['path']
                     
-        feed = 'http://www.sceper.eu/category/' + path + '/feed/'
+        feed = 'http://sceper.eu/category/' + path + '/feed/'
         feed = feedparser.parse(feed)
+
+        for entry in feed['entries']:
+            r = re.compile('http://img.sceper.eu/images/(.*?)"')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                img = result.group(1)
+            else:
+                img = ""
+
+            r = re.compile('Size:</span>(.*?)<br />')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                size = result.group(1)
+            else:
+                size = ""
+
+            r = re.compile('Genre:</span>(.*?)<br />')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                genre = result.group(1)
+            else:
+                genre = ""
+
+            r = re.compile('imdb.com/title/(.*?)/')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                imdblink = result.group(1)
+            else:
+                imdblink = ""
+
+            r = re.compile('http://nfo.sceper.eu/nfo/(.*?)"')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                nfolink = result.group(1)
+            else:
+                nfolink = ""
+
+            r = re.compile('IMDB Rating:</span>(.*?)<br />')
+            result = r.search(entry['content'][0]['value'])
+            if result:
+                imdbrating = result.group(1)
+            else:
+                imdbrating = ""
+
+            description = { 'img': img, 'nfolink': nfolink, 'imdblink': imdblink, 'size':size, 'genre': genre, 'imdbrating': imdbrating, }
+            entry['description'] = description
 
     elif site == "vcdq":
         categories = cat_vcdq
-        feed = 'http://www.vcdq.com' + category
-        feed = feedparser.parse(feed)
         
+        for cat in categories[1:]:
+            for subcat in cat['value']:
+                if int(category) == subcat['id']:
+                    path = subcat['path']
+                    
+        feed = 'http://www.vcdq.com/browse/rss/' + path
+        feed = feedparser.parse(feed)
+
+    elif site == "newznab":
+        categories = cat_newznab
+        feed = 'http://nzb.su/rss?t=' + category
+        feed = feedparser.parse(feed)
+
     else:
         feed = None
     if feed:
