@@ -101,27 +101,20 @@ def disk_usage(path):
         total = ctypes.c_int64()
         free = ctypes.c_int64()
         ctypes.windll.kernel32.GetDiskFreeSpaceExW(ctypes.c_wchar_p(path), ctypes.byref(freeuser), ctypes.byref(total), ctypes.byref(free))
-        used = (total.value - free.value) / (1024*1024*1024)
-        total = total.value / (1024*1024*1024)
-        free = free.value / (1024*1024*1024)
-
-        return {
-            'total': "%.2f" % total,
-            'used': "%.2f" % used,
-            'free': "%.2f" % free,
-            'percentage_used': int((float(used)/float(total))*100),
-        }
+        used = (total.value - free.value)
+        total = total.value
+        free = free.value
 
     else:
         st = os.statvfs(path)
 
-        free = float(st.f_bavail * st.f_frsize) / 1073741824
-        total = float(st.f_blocks * st.f_frsize) / 1073741824
-        used = float((st.f_blocks - st.f_bfree) * st.f_frsize) / 1073741824
+        free = float(st.f_bavail * st.f_frsize)
+        total = float(st.f_blocks * st.f_frsize)
+        used = float((st.f_blocks - st.f_bfree) * st.f_frsize)
 
-        return {
-            'total': "%.2f" % total,
-            'used': "%.2f" % used,
-            'free': "%.2f" % free,
-            'percentage_used': int(used/total * 100),
-        }
+    return {
+        'total': format_number(total),
+        'used': format_number(used),
+        'free': format_number(free),
+        'percentage_used': int((float(used)/float(total))*100),
+    }
