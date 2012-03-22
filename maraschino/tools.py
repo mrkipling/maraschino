@@ -56,6 +56,16 @@ def format_time(time):
 
     return formatted_time
 
+def format_number(num):
+    extension_list = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB']
+
+    for i in range(len(extension_list)):
+        base = 1024**i
+        if num/base < 1024:
+            return '%.2f' % (float(num)/base) + ' ' + extension_list[i]
+
+    return str(num) + ' bytes'
+
 def get_setting(key):
     try:
         return Setting.query.filter(Setting.key == key).first()
