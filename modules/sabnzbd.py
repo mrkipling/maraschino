@@ -32,7 +32,7 @@ def xhr_sabnzbd():
         sabnzbd = sabnzbd['queue']
 
         percentage_total = 0
-        download_speed = '%s kB/s' % ((sabnzbd['kbpersec'])[:-3])
+        download_speed = format_number(int((sabnzbd['kbpersec'])[:-3])*1024) + '/s'
 
         if sabnzbd['slots']:
             percentage_total = int(100 - (float(sabnzbd['mbleft']) / float(sabnzbd['mb']) * 100))
