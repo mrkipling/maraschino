@@ -15,7 +15,7 @@
 
             {% if movie.thumbnail %}
               <div class="thumbnail">
-                <img src="{{ vfs_url }}{{ movie.thumbnail }}" alt="">
+                <img src="{{ vfs_url }}{{ movie.safe_thumbnail }}" alt="">
               </div>
             {% endif %}
 
