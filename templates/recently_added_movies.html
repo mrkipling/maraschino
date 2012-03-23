@@ -14,8 +14,8 @@
           <li data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})"{% if movie.playcount %} class="watched"{% endif %}>
 
             {% if movie.thumbnail and not compact_view %}
-              <div class="poster">
-                <img src="{{ vfs_url }}{{ movie.thumbnail }}" alt="">
+              <div class="thumbnail">
+                <img src="{{ vfs_url }}{{ movie.safe_thumbnail }}" alt="">
               </div>
             {% endif %}
 
