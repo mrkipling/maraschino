@@ -43,7 +43,7 @@ def xhr_recently_added_albums_offset(album_offset):
     return render_recently_added_albums(album_offset)
 
 
-@app.route('/xhr/vfs_proxy/<url>')
+@app.route('/xhr/vfs_proxy/<path:url>')
 def xhr_vfs_proxy(url):
     import StringIO
 
