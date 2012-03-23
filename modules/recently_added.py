@@ -48,7 +48,7 @@ def xhr_vfs_proxy(url):
     import StringIO
 
     try:
-        vfs_url = '%s/vfs/' % (safe_server_address())
+        vfs_url = '%s/vfs/' % (server_address())
     except:
         vfs_url = None
 
