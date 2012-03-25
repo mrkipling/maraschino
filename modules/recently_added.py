@@ -60,6 +60,7 @@ def render_recently_added_episodes(episode_offset=0):
         vfs_url = vfs_url,
         episode_offset = episode_offset,
         compact_view = compact_view,
+        total_episodes = total_episodes,
     )
 
 
@@ -81,6 +82,7 @@ def render_recently_added_movies(movie_offset=0):
         vfs_url = vfs_url,
         movie_offset = movie_offset,
         compact_view = compact_view,
+        total_movies = total_movies,
     )
 
 
@@ -129,6 +131,7 @@ def get_num_recent_albums():
 
 def get_recently_added_episodes(xbmc, episode_offset=0):
     num_recent_videos = get_num_recent_episodes()
+    global total_episodes
 
     try:
         recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail'])['episodes']
@@ -140,9 +143,11 @@ def get_recently_added_episodes(xbmc, episode_offset=0):
 
                 if episode_playcount == 0:
                     unwatched.append(episodes)
+                    total_episodes = len(unwatched)
 
             recently_added_episodes = unwatched[episode_offset:num_recent_videos + episode_offset]
         else:
+            total_episodes = len(recently_added_episodes)
             recently_added_episodes = recently_added_episodes[episode_offset:num_recent_videos + episode_offset]
     except:
         recently_added_episodes = []
@@ -152,6 +157,7 @@ def get_recently_added_episodes(xbmc, episode_offset=0):
 
 def get_recently_added_movies(xbmc, movie_offset=0):
     num_recent_videos = get_num_recent_movies()
+    global total_movies
 
     try:
         recently_added_movies = xbmc.VideoLibrary.GetRecentlyAddedMovies(properties = ['title', 'year', 'rating', 'playcount', 'thumbnail'])['movies']
@@ -163,9 +169,11 @@ def get_recently_added_movies(xbmc, movie_offset=0):
 
                 if movie_playcount == 0:
                     unwatched.append(movies)
+                    total_movies = len(unwatched)
 
             recently_added_movies = unwatched[movie_offset:num_recent_videos + movie_offset]
         else:
+            total_movies = recently_added_movies
             recently_added_movies = recently_added_movies[movie_offset:num_recent_videos + movie_offset]
     except:
         recently_added_movies = []

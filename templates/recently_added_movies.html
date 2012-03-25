@@ -37,7 +37,7 @@
     {% endif %}
 
     <div class="clearfix">
-      {% if movie_offset + recently_added_movies|length < 25 %}
+      {% if movie_offset + recently_added_movies|length < total_movies %}
         <a class="view_older" title="Older">&raquo;</a>
       {% endif %}
       {% if movie_offset > 0 %}
