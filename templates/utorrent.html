@@ -1,0 +1,41 @@
+{% if torrents %}
+
+<div id="utorrent" class="module" data-module="utorrent">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2>uTorrent</h2>
+  {% for torrent in torrents%}
+
+  <div class="inner">
+
+
+    <p>
+      <strong>Currently downloading:</strong>
+      "{{ torrent[2] }}"
+    </p>
+
+    <div class="bar">
+      <div class="inner" style="width: {{ torrent[3]|int }}%;"></div>
+    </div>
+
+    <div class="clearfix">
+      <p class="remaining"><strong>Remaining:</strong> {{ torrent[7] }} </p>
+      <p class="percentage_complete">{{ torrent[3]|int }}% complete </p>
+    </div>
+
+  </div>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+<div class="placeholder" data-module="transmission">
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
+    <h2>uTorrent</h2>
+</div>
+{% endif %}
+

@@ -48,6 +48,7 @@ from modules.sabnzbd import *
 from modules.sickbeard import *
 from modules.trakt import *
 from modules.transmission import *
+from modules.utorrent import *
 
 @app.route('/')
 @requires_auth
