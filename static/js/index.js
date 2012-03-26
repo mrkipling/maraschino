@@ -1492,4 +1492,187 @@ $(document).ready(function() {
     });
   });
 
+/*Lastest Available*/
+
+/* Configuration: */
+
+var tabs = {
+	"Select..."       : {
+		"feed"		      : "",
+		"function"	    : rss
+	},
+
+	"Movies [ALL]"    : {
+		"feed"		      : "http://rss.nzbmatrix.com/rss.php?cat=Movies",
+		"function"	    : rss
+	},
+	
+	"Movies [SD]"     : {
+		"feed"		      : "http://rss.nzbmatrix.com/rss.php?subcat=2",
+		"function"	    : rss
+	},
+	
+  "Movies [HD]"     : {
+		"feed"		      : "http://rss.nzbmatrix.com/rss.php?subcat=42",
+		"function"	    : rss
+	},
+	
+	"TV Shows [ALL]"  : {
+		"feed"		      : "http://rss.nzbmatrix.com/rss.php?cat=TV",
+		"function"      : rss
+	},
+	"TV Shows [SD]"   : {
+		"feed"		      : "http://rss.nzbmatrix.com/rss.php?subcat=6",
+		"function"	    : rss
+	},
+	
+	"TV Shows [HD]"   : {
+		"feed"		      : "http://rss.nzbmatrix.com/rss.php?subcat=41",
+		"function"	    : rss
+	},
+
+	"Music [ALL]"     : {
+		"feed"	      	: "http://rss.nzbmatrix.com/rss.php?cat=Music",
+		"function"	    : rss
+	},
+
+	"Music [MP3]"     : {
+		"feed"	      	: "http://rss.nzbmatrix.com/rss.php?subcat=22",
+		"function"	    : rss
+	},
+
+	"Music [Loseless]": {
+		"feed"	    	  : "http://rss.nzbmatrix.com/rss.php?subcat=23",
+		"function"	    : rss
+	}
+}
+
+var totalTabs;
+$(document).ready(function(){
+	/* This code is executed after the DOM has been completely loaded */
+	
+	/* Counting the tabs */
+	totalTabs=0;
+	$.each(tabs,function(){totalTabs++;})
+	
+
+	$('#feedWidget').show().mouseleave(function(){
+		
+		/* If the cursor left the widet, hide the drop down list: */
+		$('.dropDownList').remove();
+		$('#activeTab').removeClass('hover');
+
+	}).mouseenter(function(){
+		
+		if(totalTabs>1) $('#activeTab').addClass('hover');
+		
+	});
+
+	$('#activeTab').click(showDropDown);
+
+	/* Using the live method to bind an event, because the .dropDownList does not exist yet: */
+	$('.dropDownList div').live('click',function(){
+		
+		/* Calling the showDropDown function, when the drop down is already shown, will hide it: */
+		showDropDown();
+		showTab($(this).text());
+	});
+	
+	
+	/* Showing one of the tabs on load: */
+	showTab('Select...');
+	
+});
+
+
+function showTab(key)
+{
+	var obj = tabs[key];
+	if(!obj) return false;
+	
+	var stage = $('#tabContent');
+	
+	/* Forming the query: */
+	var query = "select * from feed where url='"+obj.feed+"' LIMIT 10";
+	
+	/* Forming the URL to YQL: */
+	var url = "http://query.yahooapis.com/v1/public/yql?q="+encodeURIComponent(query)+"&format=json&callback=?";
+	
+	$.getJSON(url,function(data){
+
+		stage.empty();
+
+		/* item exists in RSS and entry in ATOM feeds: */
+		$.each(data.query.results.item || data.query.results.entry,function(){
+			try{
+				/* Trying to call the user provided function, "this" the rest of the feed data: */
+				stage.append(obj['function'](this));
+				
+			}
+			catch(e){
+				/* Notifying users if there are any problems with their handler functions: */
+				var f_name =obj['function'].toString().match(/function\s+(\w+)\(/i);
+				if(f_name) f_name = f_name[1];
+				
+				stage.append('<div>There is a problem with your '+f_name+ ' function</div>');
+				return false;
+			}
+		})
+	});
+	
+	$('#activeTab').text(key);
+}
+
+function showDropDown()
+{
+	if(totalTabs<2) return false;
+	
+	if($('#feedWidget .dropDownList').length)
+	{
+		/* If the drop down is already shown, hide it: */
+		$('.dropDownList').slideUp('fast',function(){ $(this).remove(); })
+		return false;
+	}
+	
+	var activeTab = $('#activeTab');
+	
+	var offsetTop = (activeTab.offset().top - $('#feedWidget').offset().top )+activeTab.outerHeight() - 5;
+	
+	/* Creating the drop down div on the fly: */
+	var dropDown = $('<div>').addClass('dropDownList').css({
+
+			'top'	: offsetTop,
+			'width'	: activeTab.width()
+	
+	}).hide().appendTo('#feedWidget')
+	
+	$.each(tabs,function(j){
+		/* Populating the div with the tabs that are not currently shown: */
+		if(j==activeTab.text()) return true;
+		
+			$('<div>').text(j).appendTo(dropDown);
+	})
+	
+	dropDown.slideDown('fast');
+}
+
+
+function rss(item)
+{
+	return $('<div>').html(
+			formatString(item.title.content || item.title)+
+			' <a href="'+(item.origLink || item.link[0].href || item.link)+'" target="_blank">[+]</a>'
+	);
+}
+
+function formatString(str)
+{
+	str = str.replace(/<[^>]+>/ig,'');
+	str=' '+str;
+	str = str.replace(/((ftp|https?):\/\/([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?)/gm,'<a href="$1" target="_blank">$1</a>');
+	str = str.replace(/([^\w])\@([\w\-]+)/gm,'$1@<a href="http://twitter.com/$2" target="_blank">$2</a>');
+	str = str.replace(/([^\w])\#([\w\-]+)/gm,'$1<a href="http://twitter.com/search?q=%23$2" target="_blank">#$2</a>');
+	return str;
+}
+
 });
