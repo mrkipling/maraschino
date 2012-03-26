@@ -1,6 +1,11 @@
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
 from flask import Flask, jsonify, render_template, request
 from maraschino.database import db_session
-import copy, json
+import copy
 
 from Maraschino import app
 from settings import *
