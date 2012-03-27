@@ -66,6 +66,12 @@ def format_number(num):
 
     return str(num) + ' bytes'
 
+def strip_special(to_strip):
+    if to_strip.startswith('special://'):
+        return to_strip[len('special://'):]
+
+    return to_strip
+
 def get_setting(key):
     try:
         return Setting.query.filter(Setting.key == key).first()
