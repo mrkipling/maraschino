@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template
-import jsonrpclib, urllib
+import jsonrpclib
 
 from Maraschino import app
 from settings import *
@@ -41,7 +41,7 @@ def xhr_currently_playing():
             time = xbmc.Player.GetProperties(playerid=0, properties=['time', 'totaltime', 'position', 'percentage'])
 
         try:
-            itemart = vfs_url + urllib.quote(itemart_url, '')
+            itemart = vfs_url + strip_special(itemart_url)
 
         except:
             itemart = None
@@ -50,7 +50,7 @@ def xhr_currently_playing():
         return jsonify({ 'playing': False })
 
     try:
-        fanart = vfs_url + urllib.quote(fanart_url, '')
+        fanart = vfs_url + strip_special(fanart_url)
 
     except:
         fanart = None

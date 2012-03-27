@@ -149,7 +149,7 @@ def get_recently_added_episodes(xbmc, episode_offset=0):
         recently_added_episodes = recently_added_episodes['episodes'][episode_offset:num_recent_videos + episode_offset]
 
         for cur_ep in recently_added_episodes:
-            cur_ep['thumbnail'] = cur_ep['thumbnail'][len('special://'):]
+            cur_ep['thumbnail'] = strip_special(cur_ep['thumbnail'])
 
     except:
         recently_added_episodes = []
@@ -166,7 +166,7 @@ def get_recently_added_movies(xbmc, movie_offset=0):
         recently_added_movies = recently_added_movies['movies'][movie_offset:num_recent_videos + movie_offset]
 
         for cur_movie in recently_added_movies:
-            cur_movie['thumbnail'] = cur_movie['thumbnail'][len('special://'):]
+            cur_movie['thumbnail'] = strip_special(cur_movie['thumbnail'])
 
     except:
         recently_added_movies = []
@@ -182,7 +182,7 @@ def get_recently_added_albums(xbmc, album_offset=0):
         recently_added_albums = recently_added_albums['albums'][album_offset:num_recent_albums + album_offset]
 
         for cur_album in recently_added_albums:
-            cur_album['thumbnail'] = cur_album['thumbnail'][len('special://'):]
+            cur_album['thumbnail'] = strip_special(cur_album['thumbnail'])
 
     except:
         recently_added_albums = []
