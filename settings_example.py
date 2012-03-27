@@ -8,6 +8,8 @@ DATABASE = '/path/to/maraschino.db'
 
 CHERRYPY_PORT = 7000
 
+LOG_DIR = 'path/to/maraschino/logs'
+
 # include AUTH if you want to use HTTP basic authentication
 # if serving using Apache and mod_wsgi, make sure to enable auth forwarding:
 # http://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGIPassAuthorization
