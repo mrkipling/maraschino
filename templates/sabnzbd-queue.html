@@ -10,7 +10,7 @@
     </div>
 
     <div class="clearfix">
-      <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.timeleft }} / {{ sabnzbd.mbleft|int }} MB</p>
+      <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.timeleft }} / {{ download_left }}</p>
       <p class="percentage_complete">{{ percentage_total }}% complete</p>
     </div>
 {% endblock %}

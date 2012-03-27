@@ -42,15 +42,19 @@ def xhr_sabnzbd():
         if sabnzbd['slots']:
             percentage_total = int(100 - (float(sabnzbd['mbleft']) / float(sabnzbd['mb']) * 100))
 
+        download_left = format_number(int(float(sabnzbd['mbleft'])*1024*1024))
+
     except:
         sabnzbd = None
         percentage_total = None
         download_speed = None
+        download_left = None
 
     return render_template('sabnzbd-queue.html',
         sabnzbd = sabnzbd,
         percentage_total = percentage_total,
         download_speed = download_speed,
+        download_left = download_left,
         old_config = old_config,
     )
 
