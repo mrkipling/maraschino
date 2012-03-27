@@ -114,7 +114,7 @@ def xhr_library_info_movie(movieid):
     library = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties=['title', 'rating', 'year', 'genre', 'plot', 'director', 'thumbnail', 'trailer', 'playcount', 'resume'])
     movie = library['moviedetails']
     title = movie['title']
-    itemart_url = urllib.quote(movie['thumbnail'], '')
+    itemart_url = strip_special(movie['thumbnail'])
 
     try:
         itemart = vfs_url + itemart_url
@@ -135,7 +135,7 @@ def xhr_library_info_show(tvshowid):
     library = xbmc.VideoLibrary.GetTVShowDetails(tvshowid=tvshowid, properties=['title', 'rating', 'year', 'genre', 'plot', 'premiered', 'thumbnail', 'playcount', 'studio'])
     show = library['tvshowdetails']
     title = show['title']
-    itemart_url = urllib.quote(show['thumbnail'], '')
+    itemart_url = strip_special(show['thumbnail'])
 
     try:
         itemart = vfs_url + itemart_url
@@ -159,7 +159,7 @@ def xhr_library_info_episode(episodeid):
     library = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=episodeid, properties=['season', 'tvshowid', 'title', 'rating', 'plot', 'thumbnail', 'playcount', 'firstaired', 'resume'])
     episode = library['episodedetails']
     title = episode['title']
-    itemart_url = urllib.quote(episode['thumbnail'], '')
+    itemart_url = strip_special(episode['thumbnail'])
 
     try:
         itemart = vfs_url + itemart_url
@@ -180,7 +180,7 @@ def xhr_library_info_artist(artistid):
     library = xbmc.AudioLibrary.GetArtistDetails(artistid=artistid, properties=['description', 'thumbnail', 'formed', 'genre'])
     artist = library['artistdetails']
     title = artist['label']
-    itemart_url = urllib.quote(artist['thumbnail'], '')
+    itemart_url = strip_special(artist['thumbnail'])
 
     try:
         itemart = vfs_url + itemart_url
@@ -201,7 +201,7 @@ def xhr_library_info_album(albumid):
     library = xbmc.AudioLibrary.GetAlbumDetails(albumid=albumid, properties=['artistid', 'title', 'artist', 'year', 'genre', 'description', 'albumlabel', 'rating', 'thumbnail'])
     album = library['albumdetails']
     title = '%s - %s' % (album['artist'], album['title'])
-    itemart_url = urllib.quote(album['thumbnail'], '')
+    itemart_url = strip_special(album['thumbnail'])
 
     try:
         itemart = vfs_url + itemart_url
