@@ -1258,21 +1258,16 @@ $(document).ready(function() {
         return false;
       }
       add_loading_gif('#search form');
-      $.get('/search/'+site+'/'+query+'/'+cat)
-      .success(function(data){
-        $('#search').replaceWith(data);
-        byteSizeOrdering();
-        $('#search #results .tablesorter').tablesorter({
-                    headers: {
-                        2: {
-                            sorter: 'filesize'
-                        }
-                    }
-                });
+      $.get('/search/'+site+'/'+query+'/'+cat, function(data){
+        if(data['error']){
+          popup_message(data['error']);
+        } else {  
+          $('#search').replaceWith(data);
+          byteSizeOrdering();
+          $('#search #results .tablesorter').tablesorter({headers: { 2: { sorter: 'filesize'}}});
+        }
       })
-      .error(function(){
-        popup_message('Could not reach Maraschino.');
-      });
+      remove_loading_gif('#search form');
     }
   });
   

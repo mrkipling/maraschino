@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 
 from Maraschino import app
 from settings import *
@@ -154,8 +154,11 @@ def nzb_matrix(item, cat = None):
     API = get_setting_value('nzb_matrix_API')
     USERNAME = get_setting_value('nzb_matrix_user')
     
+    if not API or not USERNAME:
+        return jsonify ({'error': "Missing NZBMatrix details"})
+
     nzb = Matrix(username=USERNAME, apiKey=API)
-    
+
     if item is not '':
         if cat:
             result = nzb.Search(query = item, catId = cat)
@@ -173,7 +176,10 @@ def nzb_matrix(item, cat = None):
 @app.route('/search/nzb.su/<item>/<cat>')
 def nzb_su(item, cat = None):
     API = get_setting_value('nzb_su_API')
-    
+
+    if not API:
+        return jsonify ({'error': "Missing NZB.su API"})
+
     nzb = nzbsu(apiKey=API)
     
     if item is not '':
