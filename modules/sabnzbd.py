@@ -43,11 +43,10 @@ def xhr_sabnzbd(queue_status = 'hide'):
 
         if sabnzbd['slots']:
             percentage_total = int(100 - (float(sabnzbd['mbleft']) / float(sabnzbd['mb']) * 100))
-            while  downloading == None:
-                for item in sabnzbd['slots']:
-                    if item['status'] == 'Downloading':
-                        downloading = item
-                        break
+            for item in sabnzbd['slots']:
+                if item['status'] == 'Downloading':
+                    downloading = item
+                    break
 
         download_left = format_number(int(float(sabnzbd['mbleft'])*1024*1024))
 
