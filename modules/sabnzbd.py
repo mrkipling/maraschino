@@ -35,10 +35,11 @@ def sab_link():
 def add_to_sab_link(nzb):
     return '%s&mode=addurl&name=http://%s&output=json' % (sab_link(), nzb)
 
+FILTERS['add_to_sab'] = add_to_sab_link
+
 @app.route('/xhr/sabnzbd')
 @requires_auth
 def xhr_sabnzbd():
-	FILTERS['add_to_sab'] = add_to_sab_link
     old_config = False
 
     if not get_setting_value('sabnzbd_host'):
