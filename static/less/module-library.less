@@ -25,8 +25,7 @@
   li,
   .back,
   .update,
-  .clean,
-  .toggle  {
+  .clean {
     background: url(/static/images/alpha/fff_10.png);
     border: 1px solid #222;
     cursor: pointer;
@@ -58,6 +57,34 @@
       position: absolute;
       right: 5px;
       top: 5px;
+    }
+
+    .span {
+      position: absolute;
+      right: 5px;
+    }
+
+    .li_buttons {
+      display: none;
+      background: url(/static/images/alpha/fff_10.png);
+      border: 1px solid #222;
+      cursor: pointer;
+      padding: 2px 8px;
+      color: #ccc;
+
+      .border-radius(4px);
+
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+      }
+    }
+  }
+
+  li.empty {
+    cursor: auto;
+
+    &:hover {
+    background: url(/static/images/alpha/fff_10.png);
     }
   }
 
@@ -130,15 +157,6 @@
 
   }
 
-  .toggle {
-    padding: 2px 8px;
-    font-size: 1.5em;
-
-    &.active {
-    background: url(/static/images/alpha/fff_20.png);
-    }
-    }
-
   .power {
     background: url(/static/images/alpha/fff_10.png);
     border: 1px solid #222;
@@ -165,12 +183,32 @@
     }
   }
 
-  .module_settings {
-    display: none;
+  .p_info {
+    line-height: 1.3em;
+    margin: 4px;
+  }
+
+  .info_buttons {
+    float: left;
+    margin-right: 4px;
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    cursor: pointer;
+    padding: 2px 8px;
+    color: #ccc;
+    height: 20px;
+    line-height: 21px;
+
+    .border-radius(4px);
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
   }
 }
 
-#library.root {
+#library.root,
+#library.info {
   .powerholder { margin-top: 10px; }
   #filter      { display: none; }
 }
@@ -179,3 +217,50 @@
 {
   display: none;
 }
+
+/* details */
+
+#library {
+  li.details {
+    background-image: none;
+    border: none;
+    line-height: 1.4em;
+    padding-right: 15px;
+  }
+
+  .posterart,
+  .bannerart,
+  .episodeart,
+  .artistart,
+  .albumart, {
+    float: right;
+    box-shadow: 0 0 1px 1px #333;
+    margin: 0 0 10px 15px;
+  }
+
+  .posterart {
+    max-width: 130px;
+    height: auto;
+  }
+
+  .bannerart {
+    max-height: 70px;
+    width: auto;
+  }
+
+  .episodeart {
+    max-width: 200px;
+    height: auto;
+  }
+
+  .artistart {
+    max-width: 200px;
+    height: auto;
+  }
+
+  .albumart {
+    max-width: 160px;
+    height: auto;
+  }
+}
+
