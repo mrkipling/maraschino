@@ -213,3 +213,28 @@ $(document).on('click', '#library .back', function() {
     $('#library').replaceWith(data);
   });
 });
+
+$(document).on('click', '#library li.dir', function() {
+  var path = $(this).data('path');
+
+  add_loading_gif(this);
+  $.post('/xhr/library/files/' + $(this).data('file_type') + '/dir/',{path: encodeURI(path)}, function(data){
+    $('#library').replaceWith(data);
+  });
+});
+
+$(document).on('click', '#library li.play_file', function() {
+  var li = this;
+  var file = $(this).data('path');
+
+  add_loading_gif(li);
+  $.post('/xhr/play_file/' + $(this).data('file_type') + '/',{file: encodeURI(file)}, function(data){
+    remove_loading_gif(li);
+  });
+});
+
+$(document).on('click', '#library #resume_button', function() {
+  var type = $(this).attr('media-type');
+
+  $.get('/xhr/resume_video/' + type + '/' + $(this).data('id'));
+});
