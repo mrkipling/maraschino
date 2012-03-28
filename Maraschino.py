@@ -25,7 +25,11 @@ sys.path.insert(0, os.path.join(path_base, 'lib'))
 
 from flask import Flask, jsonify, render_template, request
 from maraschino.database import db_session
-import hashlib, json, jsonrpclib, random, urllib, os, sys
+try:
+    import json
+except ImportError:
+    import simplejson as json
+import hashlib, jsonrpclib, random, urllib, os, sys
 
 app = Flask(__name__)
 
@@ -48,6 +52,7 @@ from modules.sabnzbd import *
 from modules.search import *
 from modules.sickbeard import *
 from modules.trakt import *
+from modules.transmission import *
 
 @app.route('/')
 @requires_auth
@@ -103,7 +108,7 @@ def shutdown_session(exception=None):
 try:
     open(DATABASE)
 
-except IOError as e:
+except IOError, e:
     try:
         # check if path exists
         dbpath = os.path.dirname(DATABASE)

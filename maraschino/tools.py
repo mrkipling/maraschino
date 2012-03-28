@@ -57,6 +57,22 @@ def format_time(time):
 
     return formatted_time
 
+def format_number(num):
+    extension_list = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB']
+
+    for i in range(len(extension_list)):
+        base = 1024**i
+        if num/base < 1024:
+            return '%.2f' % (float(num)/base) + ' ' + extension_list[i]
+
+    return str(num) + ' bytes'
+
+def strip_special(to_strip):
+    if to_strip.startswith('special://'):
+        return to_strip[len('special://'):]
+
+    return to_strip
+
 def get_setting(key):
     try:
         return Setting.query.filter(Setting.key == key).first()
@@ -76,10 +92,10 @@ def get_setting_value(key):
     except:
         return None
 
-def get_file_list(dir, extensions, prepend_path=True):
+def get_file_list(folder, extensions, prepend_path=True):
     filelist = []
 
-    for root, subFolders, files in os.walk(dir):
+    for root, subFolders, files in os.walk(folder):
         for file in files:
             if os.path.splitext(file)[1] in extensions:
                 if prepend_path:

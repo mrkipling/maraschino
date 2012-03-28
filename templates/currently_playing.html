@@ -1,6 +1,38 @@
 <div id="currently_playing" data-id="{{ currently_playing.id }}"{% if fanart %} data-fanart="{{ fanart }}"{% endif %}>
 
-  <p class="item_info">
+  {% if currently_playing.artist %}
+    {% if currently_playing.thumbnail%}
+      <img class="albumart" src="{{ itemart }}">
+      <p class="item_info_artist">
+    {% else %}
+      <p class="item_info">
+    {% endif %}
+
+  {% elif currently_playing.showtitle %}
+    {% if currently_playing.thumbnail%}
+      <img class="episodeart" src="{{ itemart }}">
+      <p class="item_info_show">
+    {% else %}
+      <p class="item_info">
+    {% endif %}
+
+  {% elif currently_playing.title == '' %}
+    {% if currently_playing.thumbnail%}
+      <img class="episodeart" src="{{ itemart }}">
+      <p class="item_info_show">
+    {% else %}
+      <p class="item_info">
+    {% endif %}
+
+  {% else %}
+    {% if currently_playing.thumbnail%}
+      <img class="posterart" src="{{ itemart }}">
+      <p class="item_info_movie">
+    {% else %}
+      <p class="item_info">
+    {% endif %}
+  {% endif %}
+
     <strong>Currently playing:</strong><br>
 
     {% if currently_playing.showtitle %}
@@ -9,9 +41,14 @@
       <span class="season" data-season="{{ currently_playing.season }}">Season {{ currently_playing.season }}</span>,
       <span class="episode">Episode {{ currently_playing.episode }}</span>
       <span class="separator">-</span>
-      "{{ currently_playing.title }}"
+      "{{ currently_playing.label }}"
+    {% elif currently_playing.artist %}
+      <span class="artist" data-artist="{{ currently_playing.artistid }}">{{ currently_playing.artist }}</span>
+      <span class="separator">-</span>
+      <span class="album" data-album="{{ currently_playing.albumid }}">{{ currently_playing.album }} ({{ currently_playing.year }})</span>
+      <br>{% if currently_playing.track < 10 %}0{% endif %}{{ currently_playing.track }}. {{ currently_playing.label }}
     {% else %}
-      {{ currently_playing.title }}
+      {{ currently_playing.label }}
     {% endif %}
   </p>
 

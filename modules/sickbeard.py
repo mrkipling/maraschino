@@ -1,5 +1,9 @@
+try:
+    import json
+except ImportError:
+    import simplejson as json
 from flask import Flask, jsonify, render_template, request, send_file
-import json, jsonrpclib, urllib
+import jsonrpclib, urllib
 
 from Maraschino import app
 from settings import *
@@ -15,7 +19,13 @@ def login_string():
     return login
 
 def sickbeard_url():
-    url = '%s:%s/api/%s' % (get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'), get_setting_value('sickbeard_api'))
+    port = get_setting_value('sickbeard_port')
+    url_base = get_setting_value('sickbeard_ip')
+
+    if port:
+        url_base = '%s:%s' % (url_base, port)
+
+    url = '%s/api/%s' % (url_base, get_setting_value('sickbeard_api'))
 
     if using_auth():
         return 'http://%s%s' % (login_string(), url)
@@ -23,12 +33,16 @@ def sickbeard_url():
     return 'http://%s' % (url)
 
 def sickbeard_url_no_api():
-    url = '%s:%s/' % (get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'))
+    port = get_setting_value('sickbeard_port')
+    url_base = get_setting_value('sickbeard_ip')
+
+    if port:
+        url_base = '%s:%s' % (url_base, port)
 
     if using_auth():
-        return 'http://%s%s' % (login_string(), url)
+        return 'http://%s%s' % (login_string(), url_base)
 
-    return 'http://%s' % (url)
+    return 'http://%s' % (url_base)
 
 @app.route('/xhr/sickbeard')
 def xhr_sickbeard():
@@ -169,8 +183,7 @@ def history(limit):
 
 # returns a link with the path to the required image from SB
 def get_pic(tvdb, style='banner'):
-    url = '%s:%s' %(get_setting_value('sickbeard_ip'), get_setting_value('sickbeard_port'))
-    return 'http://%s/showPoster/?show=%s&which=%s' %(url, tvdb, style)
+    return '%s/?cmd=show.get%s&tvdbid=%s' % (sickbeard_url(), style, tvdb)
 
 @app.route('/sickbeard/get_ep_info/<tvdbid>/<season>/<ep>')
 def get_episode_info(tvdbid, season, ep):

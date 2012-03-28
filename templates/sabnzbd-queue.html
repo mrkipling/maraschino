@@ -1,0 +1,16 @@
+{% extends "sabnzbd-base.html" %}
+
+{% block sabnzbd_content %}
+    <div class="status" id="status" status="{{ sabnzbd.paused }}" title="Toggle paused/downloading">{{ sabnzbd.status }}</div>
+    <div class="speed">{{ download_speed }}</div>
+    <p>{{ sabnzbd.slots[0].filename }}</p>
+
+    <div class="bar">
+      <div class="inner" style="width: {{ percentage_total }}%;"></div>
+    </div>
+
+    <div class="clearfix">
+      <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.timeleft }} / {{ download_left }}</p>
+      <p class="percentage_complete">{{ percentage_total }}% complete</p>
+    </div>
+{% endblock %}
