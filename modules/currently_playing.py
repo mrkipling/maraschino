@@ -17,6 +17,7 @@ def xhr_currently_playing():
 
         xbmc = jsonrpclib.Server(api_address)
         active_player = xbmc.Player.GetActivePlayers()
+        vfs_url = '/xhr/vfs_proxy/'
 
         if active_player[0]['type'] == 'video':
 
@@ -31,7 +32,7 @@ def xhr_currently_playing():
                 fanart_url = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['fanart'])['tvshowdetails']['fanart']
                 itemart_url = currently_playing['thumbnail']
 
-        #if playing music
+        # if playing music
 
         if active_player[0]['type'] == 'audio':
             currently_playing = xbmc.Player.GetItem(playerid = 0, properties = ['title', 'duration', 'fanart', 'artist', 'albumartist', 'album', 'track', 'artistid', 'albumid', 'thumbnail', 'year'])['item']
@@ -40,7 +41,7 @@ def xhr_currently_playing():
             time = xbmc.Player.GetProperties(playerid=0, properties=['time', 'totaltime', 'position', 'percentage'])
 
         try:
-            itemart = '%s/vfs/%s' % (safe_server_address(), itemart_url)
+            itemart = vfs_url + strip_special(itemart_url)
 
         except:
             itemart = None
@@ -49,13 +50,10 @@ def xhr_currently_playing():
         return jsonify({ 'playing': False })
 
     try:
-        fanart = '%s/vfs/%s' % (safe_server_address(), fanart_url)
+        fanart = vfs_url + strip_special(fanart_url)
 
     except:
         fanart = None
-
-
-
 	
     return render_template('currently_playing.html',
         currently_playing = currently_playing,
