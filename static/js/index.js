@@ -239,6 +239,15 @@ $(document).ready(function() {
     setTimeout(get_currently_playing, 5000);
   }
 
+  // Settings tab
+  $(document).on('click', '#server_settings .tab', function(){
+    if($('#server_settings .inner').css('display') == 'none'){
+      $('#server_settings .inner').slideDown();
+    } else {
+      $('#server_settings .inner').slideUp();
+    }
+  });
+
   if ($('body').data('show_currently_playing') === 'True') {
     get_currently_playing();
   }
@@ -257,14 +266,26 @@ $(document).ready(function() {
 
   // click show name to view in media library module
 
-  $(document).on('click', '#currently_playing .item_info .show', function() {
+  $(document).on('click', '#currently_playing .item_info_show .show', function() {
     invoke_library('/xhr/library/shows/' + $(this).data('show'));
   });
 
   // click show season to view in media library module
 
-  $(document).on('click', '#currently_playing .item_info .season', function() {
+  $(document).on('click', '#currently_playing .item_info_show .season', function() {
     invoke_library('/xhr/library/shows/' + $(this).parent().find('.show').data('show') + '/' + $(this).data('season'));
+  });
+
+  // click artist name to view in media library module
+
+  $(document).on('click', '#currently_playing .item_info_artist .artist', function() {
+    invoke_library('/xhr/library/artists/' + $(this).data('artist'));
+  });
+
+  // click show album to view in media library module
+
+  $(document).on('click', '#currently_playing .item_info_artist .album', function() {
+    invoke_library('/xhr/library/artists/' + $(this).parent().find('.artist').data('artist') + '/' + $(this).data('album'));
   });
 
   function invoke_library(url) {
@@ -278,6 +299,29 @@ $(document).ready(function() {
     });
   }
 
+  // Filter function
+
+  $(document).on('change keydown keyup search', '#library .filter', function(e){
+    var filter = $(this).val().toLowerCase();
+    $('#library ul li').filter(function(index) {
+      return $(this).text().toLowerCase().indexOf(filter) < 0;
+    }).css('display', 'none');
+    $('#library ul li').filter(function(index) {
+      return $(this).text().toLowerCase().indexOf(filter) >= 0;
+    }).css('display', '');
+    if(e.which == 13){
+      $('#library ul li:visible:first').click();
+    }
+  });
+
+  $(document).on('click', '#library .filter', function(){
+    var filter = $(this).val();
+    if(filter === 'Filter'){
+      $(this).css('color', '#67C0F8').attr('value', '');
+    }
+  });
+
+
   // update video library control
 
   $(document).on('click', '#library #video-update', function() {
@@ -288,6 +332,18 @@ $(document).ready(function() {
 
   $(document).on('click', '#library #video-clean', function() {
     $.get('/xhr/controls/clean_video');
+  });
+
+  // update music library control
+
+  $(document).on('click', '#library #audio-update', function() {
+    $.get('/xhr/controls/update_audio');
+  });
+
+  // clean music library control
+
+  $(document).on('click', '#library #audio-clean', function() {
+    $.get('/xhr/controls/clean_audio');
   });
 
   // xbmc poweron
@@ -304,7 +360,7 @@ $(document).ready(function() {
 
   // xbmc reboot
 
-  $(document).on('click', '#library #eboot', function() {
+  $(document).on('click', '#library #reboot', function() {
     $.get('/xhr/controls/reboot');
   });
 
@@ -396,6 +452,22 @@ $(document).ready(function() {
     return false;
   });
 
+  // view more recently added albums
+
+  $(document).on('click', '#recently_added_albums .view_older', function() {
+    get_module('recently_added_albums', {
+      params: [$('#recently_added_albums').data('album_offset') + $('#recently_added_albums .albums > li').length]
+    });
+    return false;
+  });
+
+  $(document).on('click', '#recently_added_albums .view_newer', function() {
+    get_module('recently_added_albums', {
+      params: [$('#recently_added_albums').data('album_offset') - $('#recently_added_albums .albums > li').length]
+    });
+    return false;
+  });
+
   // play recently added episodes when clicking on them
 
   $(document).on('click', '#recently_added .episodes li', function() {
@@ -406,6 +478,12 @@ $(document).ready(function() {
 
   $(document).on('click', '#recently_added_movies li', function() {
     $.get('/xhr/play_video/movie/' + $(this).data('movieid'));
+  });
+
+  // play recently added albums when clicking on them
+
+  $(document).on('click', '#recently_added_albums li', function() {
+    $.get('/xhr/play_audio/album/' + $(this).data('albumid'));
   });
 
   // browse library
@@ -422,6 +500,25 @@ $(document).ready(function() {
 
     $.get(url, function(data) {
       $('#library').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#library li.dir', function() {
+    var path = $(this).data('path');
+
+    add_loading_gif(this);
+    $.post('/xhr/library/files/' + $(this).data('file_type') + '/dir/',{path: encodeURI(path)}, function(data){
+      $('#library').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#library li.play_file', function() {
+    var li = this;
+    var file = $(this).data('path');
+
+    add_loading_gif(li);
+    $.post('/xhr/play_file/' + $(this).data('file_type') + '/',{file: encodeURI(file)}, function(data){
+      remove_loading_gif(li);
     });
   });
 
@@ -443,7 +540,237 @@ $(document).ready(function() {
     });
   });
 
-  $(document).on('click', '#library .back', function() {
+  $(document).on('click', '#library li.play_song', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/play_audio/song/' + $(this).data('songid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_file', function() {
+    var li = this;
+    var file = $(this).data('path');
+
+    add_loading_gif(li);
+    $.post('/xhr/enqueue_file/' + $(this).data('file_type') + '/',{file: encodeURI(file)}, function(data){
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_tvshow', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_tvshow/' + $(this).data('tvshowid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_season', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_season/' + $(this).data('tvshowid') + '/' + $(this).data('season'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_episode', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_video/episode/' + $(this).data('episodeid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_movie', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_video/movie/' + $(this).data('movieid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_artist', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_audio/artist/' + $(this).data('artistid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_album', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_audio/album/' + $(this).data('albumid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.enqueue_song', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/enqueue_audio/song/' + $(this).data('songid'), function() {
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library li.info_movie', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/library/movies/info/' + $(this).data('movieid'), function(data) {
+      remove_loading_gif(li);
+      $('#library').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#library li.info_episode', function() {
+    var li = this;
+    add_loading_gif(li);
+
+    $.get('/xhr/library/episodes/info/' + $(this).data('episodeid'), function(data) {
+      remove_loading_gif(li);
+      $('#library').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#library #play_button', function() {
+    var type = $(this).attr('media-type');
+
+    if (type == 'movie'){
+    $.get('/xhr/play_video/movie/' + $(this).data('movieid'));
+    }
+
+    if (type == 'trailer'){
+    $.get('/xhr/play_trailer/' + $(this).data('movieid'));
+    }
+
+    if (type == 'tvshow'){
+    $.get('/xhr/play_tvshow/' + $(this).data('tvshowid'));
+    }
+
+    if (type == 'season'){
+    $.get('/xhr/play_season/' + $(this).data('tvshowid') + '/' + $(this).data('season'));
+    }
+
+    if (type == 'episode'){
+    $.get('/xhr/play_video/episode/' + $(this).data('episodeid'));
+    }
+
+    if (type == 'artist'){
+    $.get('/xhr/play_audio/artist/' + $(this).data('artistid'));
+    }
+
+    if (type == 'album'){
+    $.get('/xhr/play_audio/album/' + $(this).data('albumid'));
+    }
+
+  });
+
+  $(document).on('click', '#library #queue_button', function() {
+    var type = $(this).attr('media-type');
+
+    if (type == 'movie'){
+    $.get('/xhr/enqueue_video/movie/' + $(this).data('movieid'));
+    }
+
+    if (type == 'tvshow'){
+    $.get('/xhr/enqueue_tvshow/' + $(this).data('tvshowid'));
+    }
+
+    if (type == 'season'){
+    $.get('/xhr/enqueue_season/' + $(this).data('tvshowid') + '/' + $(this).data('season'));
+    }
+
+    if (type == 'episode'){
+    $.get('/xhr/enqueue_video/episode/' + $(this).data('episodeid'));
+    }
+
+    if (type == 'artist'){
+    $.get('/xhr/enqueue_audio/artist/' + $(this).data('artistid'));
+    }
+
+    if (type == 'album'){
+    $.get('/xhr/enqueue_audio/album/' + $(this).data('albumid'));
+    }
+
+    if (type == 'song'){
+    $.get('/xhr/enqueue_audio/song/' + $(this).data('songid'));
+    }
+
+    if (type == 'file'){
+    var file = $(this).data('path');
+    $.post('/xhr/enqueue_file/' + $(this).data('file_type') + '/',{file: encodeURI(file)});
+    }
+
+  });
+
+  $(document).on('click', '#library #info_button', function() {
+    var type = $(this).attr('media-type');
+
+    if (type == 'movie'){
+    $.get('/xhr/library/movies/info/' + $(this).data('movieid'), function(data) {
+      $('#library').replaceWith(data);
+    });
+    }
+
+    if (type == 'tvshow'){
+    $.get('/xhr/library/shows/info/' + $(this).data('tvshowid'), function(data) {
+      $('#library').replaceWith(data);
+    });
+    }
+
+    if (type == 'episode'){
+    $.get('/xhr/library/episodes/info/' + $(this).data('episodeid'), function(data) {
+      $('#library').replaceWith(data);
+    });
+    }
+
+    if (type == 'artist'){
+    $.get('/xhr/library/artists/info/' + $(this).data('artistid'), function(data) {
+      $('#library').replaceWith(data);
+    });
+    }
+
+    if (type == 'album'){
+    $.get('/xhr/library/albums/info/' + $(this).data('albumid'), function(data) {
+      $('#library').replaceWith(data);
+    });
+    }
+
+  });
+
+  $(document).on('click', '#library #resume_button', function() {
+    var type = $(this).attr('media-type');
+
+    $.get('/xhr/resume_video/' + type + '/' + $(this).data('id'));
+  });
+
+
+
+  $(document).on('click', '#library .li_buttons', function(e) {
+    e.stopPropagation();
+  });
+
+  $(document).on('mouseenter', '#library li', function() {
+    $('.watched', this).hide();
+    $('.li_buttons', this).show();
+  });
+
+  $(document).on('mouseleave', '#library li', function() {
+    $('.li_buttons', this).hide();
+    $('.watched', this).show();
+  });
+
+  $(document).on('click', '#library #back', function() {
     var url = '/xhr/library';
     var command = $('#library li:first-child').eq(0).data('command');
 
@@ -464,8 +791,21 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#library #back_dir', function() {
+    var path = $(this).data('back');
 
+    $(this).addClass('xhrloading');
+    $.post('/xhr/library/files/' + $(this).data('file_type') + '/dir/',{path: encodeURI(path)}, function(data){
+    $('#library').replaceWith(data);
+    });
+  });
 
+  $(document).on('click', '#library #back_sources', function() {
+    $(this).addClass('xhrloading');
+    $.get('/xhr/library/files/' + $(this).data('file_type'), function(data) {
+    $('#library').replaceWith(data);
+    });
+  });
 
 
   /*** SICKBEARD ***/
@@ -855,6 +1195,27 @@ $(document).ready(function() {
   });
   /********* END REMOTE ***********/
 
+  /********* START SABNZBD ***********/
+
+  $(document).on('click', '#sabnzbd .inner #status', function(){
+    var state = false;
+    if($(this).attr('status').toLowerCase() === 'true'){
+      //queue is paused
+      state = 'resume';
+    } else {
+      state = 'pause';
+    }
+    $.get('/xhr/sabnzbd/queue/'+state+'/')
+    .success(function(data){
+      if(data.status === 'true'){
+        get_module('sabnzbd');
+      }
+    })
+    .error('Could not reach Maraschino');
+  });
+
+  /********* END SABNZBD ***********/
+
   /********* CouchPotato **********/
   
   $(document).on('click', '#cp_content .movie .tagline a.more', function(){
@@ -887,6 +1248,8 @@ $(document).ready(function() {
 
   $('ul.modules').sortable({
     connectWith: 'ul.modules',
+    opacity: 0.8,
+    distance: 80,
     disabled: true,
     stop: function() {
       var modules = [];
@@ -920,18 +1283,20 @@ $(document).ready(function() {
   $(document).on('click', '#settings_icon', function() {
     $('body').toggleClass('f_settings_mode');
     $('body').toggleClass('f_operation_mode');
+    $('add_module').toggle();
     $('#tutorial').remove();
 
     if ($('body').hasClass('f_settings_mode')) {
       $('ul.modules').sortable({ disabled: false });
+
       $.get('/xhr/server_settings_dialog', function(data) {
-        var existing_server_settings = $('#server_settings').closest('li');
+        var existing_server_settings = $('#server_settings');
 
         if (existing_server_settings.length === 0) {
-          var existing_server_settings = $('#col1 ul.modules').prepend('<li>').find('> li:first-child');
+          $('body').append(data);
+        } else {
+          existing_server_settings.replaceWith(data);
         }
-
-        existing_server_settings.empty().append(data);
       });
 
     } else {
@@ -1014,7 +1379,7 @@ $(document).ready(function() {
   // save settings
 
   $(document).on('click', '.edit_settings .choices .save', function() {
-    var module = $(this).closest('.module, .inactive_module, .placeholder');
+    var module = $(this).closest('.module, .inactive_module, .placeholder, #server_settings');
     var module_name = module.data('module');
     var settings = module.find('form').serializeArray();
 
@@ -1027,6 +1392,7 @@ $(document).ready(function() {
         if (module_name == 'server_settings') {
           get_module('recently_added');
           get_module('recently_added_movies');
+          get_module('recently_added_albums');
         }
       }
     );

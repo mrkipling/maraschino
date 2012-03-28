@@ -1,7 +1,8 @@
-<div id="library" class="module" data-module="library">
+<div id="library" class="module{% if not library %} root{% elif library.moviedetails or library.tvshowdetails or library.episodedetails or library.artistdetails or library.albumdetails %} info{% endif %}" data-module="library">
 
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
+
   {% if library %}
 
     <h2>{{ title }}</h2>
@@ -10,34 +11,268 @@
       <p class="message">{{ message }}</p>
     {% endif %}
 
-    <div class="back" title="Back">&laquo;</div>
+    {% if file_type == "video_directory" or file_type == "music_directory" %}
+      {% if previous_dir == "sources" %}
+        <div class="back" id="back_sources" {% if file_type == "video_directory" %}data-file_type="video"{% else %}data-file_type="music"{% endif %} title="Back">&laquo;</div>
+      {% else %}
+        <div class="back" id="back_dir" data-back="{{ previous_dir }}" {% if file_type == "video_directory" %}data-file_type="video"{% else %}data-file_type="music"{% endif %} title="Back">&laquo;</div>
+      {% endif %}
+    {% else %}
+      <div class="back" id="back" title="Back">&laquo;</div>
+    {% endif %}
 
     <ul>
-
       {% if library.tvshows %}
         {% for item in library.tvshows %}
-          <li class="get" data-command="shows/{{ item.tvshowid }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+          <li class="get" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}" data-command="shows/{{ item.tvshowid }}">
+            {{ item.label }}
+            <span class="span">
+              <a class="li_buttons" id="info_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Info</a>
+              <a class="li_buttons" id="play_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Play</a>
+              <a class="li_buttons" id="queue_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Queue</a>
+            </span>
+            {% if item.playcount %}
+              <img src="/static/images/tick.png" class="watched" width="16" height="16">
+            {% endif %}
+          </li>
         {% endfor %}
+      {% endif %}
+
+      {% if library.tvshowdetails %}
+      <li style="display:none;" data-command="shows/info/{{ show.tvshowid }}"></li>
+      <li class="details">
+          {% if show.thumbnail %}
+            <img class="{% if bannerart %}bannerart{% else %}posterart{% endif %}" src="{{ itemart }}">
+          {% endif %}
+          <p class="p_info">
+            <table border="0">
+			<tr><td width="75" style="font-weight:bold;">Studio:</td><td style="font-size: 0.950em;">{{ show.studio }}</td></tr>
+            <tr><td style="font-weight:bold;">Premier:</td><td style="font-size: 0.950em;">{{ show.Premier }}</td></tr>
+            <tr><td style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ show.genre|truncate(30, 'false') }}</td></tr>
+            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;">{{ show.rating|float|round(1, 'common') }} / 10</td></tr></table>
+            <br /><span style="font-weight:bold;">Plot:</span><br /><span style="font-size: 0.950em;">{{ show.plot }}</span>
+          </p>
+      </li>
       {% endif %}
 
       {% if library.seasons %}
         {% for item in library.seasons %}
-          <li class="get" data-command="shows/{{ library.tvshowid }}/{{ item.season }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+          <li class="get" media-type="season" data-tvshowid="{{ item.tvshowid }}" data-season="{{ item.season }}" data-command="shows/{{ library.tvshowid }}/{{ item.season }}">
+            {{ item.label }}
+            <span class="span">
+              <a class="li_buttons" id="play_button" media-type="season" data-tvshowid="{{ item.tvshowid }}" data-season="{{ item.season }}">Play</a>
+              <a class="li_buttons" id="queue_button" media-type="season" data-tvshowid="{{ item.tvshowid }}" data-season="{{ item.season }}">Queue</a>
+            </span>
+            {% if item.playcount %}
+              <img src="/static/images/tick.png" class="watched" width="16" height="16">
+            {% endif %}
+          </li>
         {% endfor %}
       {% endif %}
 
       {% if library.episodes %}
         {% for item in library.episodes %}
-          <li class="play_episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}" title="{{ item.plot|truncate(200) }}">{{ item.season }}x{{ item.episode }} - {{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+          <li class="{% if show_info %}info{% else %}play{% endif %}_episode" media-type="episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}">
+            {{ item.season }}x{{ item.episode }} - {{ item.label }}
+            <span class="span">
+              {% if item.resume.position >= 1 %}
+                <a class="li_buttons" id="resume_button" media-type="episode" data-id="{{ item.episodeid }}">Resume</a>
+              {% endif %}
+              {% if show_info %}
+                <a class="li_buttons" id="play_button" media-type="episode" data-episodeid="{{ item.episodeid }}">Play</a>
+              {% else %}
+                <a class="li_buttons" id="info_button" media-type="episode" data-episodeid="{{ item.episodeid }}">Info</a>
+              {% endif %}
+              <a class="li_buttons" id="queue_button" media-type="episode" data-episodeid="{{ item.episodeid }}">Queue</a>
+            </span>
+            {% if item.playcount %}
+              <img src="/static/images/tick.png" class="watched" width="16" height="16">
+            {% endif %}
+          </li>
         {% endfor %}
+      {% endif %}
+
+      {% if library.episodedetails %}
+      <li style="display:none;" data-command="shows/{{ episode.tvshowid }}/{{ episode.season }}/info/{{ episode.episodeid }}"></li>
+      <li class="details">
+          {% if episode.thumbnail %}
+            <img class="episodeart" src="{{ itemart }}">
+          {% endif %}
+
+          <p class="p_info">
+            <table border="0">
+			<tr><td width="75" style="font-weight:bold;">First Aired:</td><td style="font-size: 0.950em;">{{ episode.firstaired }}</td></tr>
+            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;"> {{ episode.rating|float|round(1, 'common') }} / 10</td></tr></table>
+            <br /><span style="font-weight:bold;">Plot:</span><br /><span style="font-size: 0.950em;">{{ episode.plot }}</span>
+          </p>
+      </li>
       {% endif %}
 
       {% if library.movies %}
         {% for item in library.movies %}
-          <li class="play_movie" data-movieid="{{ item.movieid }}" data-command="movies/{{ item.movieid }}" title="{{ item.plot|truncate(200) }}">{{ item.label }}{% if item.playcount %} <img src="/static/images/tick.png" class="watched" width="16" height="16">{% endif %}</li>
+          <li class="{% if show_info %}info{% else %}play{% endif %}_movie" media-type="movie" data-movieid="{{ item.movieid }}">
+            {{ item.label }}
+            <span class="span">
+              {% if item.resume.position >= 1 %}
+                <a class="li_buttons" id="resume_button" media-type="movie" data-id="{{ item.movieid }}">Resume</a>
+              {% endif %}
+              {% if show_info %}
+                <a class="li_buttons" id="play_button" media-type="movie" data-movieid="{{ item.movieid }}">Play</a>
+              {% else %}
+                <a class="li_buttons" id="info_button" media-type="movie" data-movieid="{{ item.movieid }}">Info</a>
+              {% endif %}
+              <a class="li_buttons" id="queue_button" media-type="movie" data-movieid="{{ item.movieid }}">Queue</a>
+            </span>
+            {% if item.playcount %}
+              <img src="/static/images/tick.png" class="watched" width="16" height="16">
+            {% endif %}
+          </li>
+		  {% endfor %}
+      {% endif %}
+
+      {% if library.moviedetails %}
+      <li style="display:none;" data-command="movies/info/{{ movie.movieid }}"></li>
+      <li class="details">
+          {% if movie.thumbnail %}
+            <img class="posterart" src="{{ itemart }}">
+          {% endif %}
+          <p class="p_info">
+            <table border="0">
+			<tr><td width="75" style="font-weight:bold;">Director:</td><td style="font-size: 0.950em;">{{ movie.director }}</td></tr>
+            <tr><td style="font-weight:bold;">Year:</td><td style="font-size: 0.950em;">{{ movie.year }}</td></tr>
+            <tr><td style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ movie.genre|truncate(30, 'false') }}</td></tr>
+            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;">{{ movie.rating|float|round(1, 'common') }} / 10</td></tr></table>
+            <br /><span style="font-weight:bold;">Plot:</span><br /><span style="font-size: 0.950em;">{{ movie.plot }}</span>
+          </p>
+      </li>
+      {% endif %}
+
+      {% if library.artists %}
+        {% for item in library.artists %}
+          <li class="get" media-type="artist" data-artistid="{{ item.artistid }}" data-command="artists/{{ item.artistid }}">
+            {{ item.label }}
+            <span class="span">
+              {% if item.details %}<a class="li_buttons" id="info_button" media-type="artist" data-artistid="{{ item.artistid }}">Info</a>{% endif %}
+              <a class="li_buttons" id="play_button" media-type="artist" data-artistid="{{ item.artistid }}">Play</a>
+              <a class="li_buttons" id="queue_button" media-type="artist" data-artistid="{{ item.artistid }}">Queue</a>
+            </span>
+          </li>
         {% endfor %}
       {% endif %}
 
+      {% if library.artistdetails %}
+      <li style="display:none;" data-command="artists/info/{{ artist.artistid }}"></li>
+      <li class="details">
+          {% if artist.thumbnail %}
+            <img class="artistart" src="{{ itemart }}">
+          {% endif %}
+          <p class="p_info">
+            <table border="0">
+			<tr><td width="75" style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ artist.genre|truncate(30, 'false') }}</td></tr></table>
+            <br /><span style="font-weight:bold;">Artist Information:</span><br /><span style="font-size: 0.950em;">{{ artist.description }}</span>
+          </p>
+      </li>
+      {% endif %}
+
+      {% if library.albums %}
+        {% for item in library.albums %}
+          <li class="get" media-type="album" data-albumid="{{ item.albumid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}">
+            {{ item.label }} ({{ item.year }})
+            <span class="span">
+              <a class="li_buttons" id="info_button" media-type="album" data-albumid="{{ item.albumid }}">Info</a>
+              <a class="li_buttons" id="play_button" media-type="album" data-albumid="{{ item.albumid }}">Play</a>
+              <a class="li_buttons" id="queue_button" media-type="album" data-albumid="{{ item.albumid }}">Queue</a>
+            </span>
+          </li>
+        {% endfor %}
+      {% endif %}
+
+      {% if library.albumdetails %}
+      <li style="display:none;" data-command="artists/{{ album.artistid }}/info/{{ album.albumid }}"></li>
+      <li class="details">
+          {% if album.thumbnail %}
+            <img class="albumart" src="{{ itemart }}">
+          {% endif %}
+          <p class="p_info">
+            <table border="0">
+			<tr><td width="75" style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ album.genre|truncate(30, 'false') }}</td></tr>
+            <tr><td style="font-weight:bold;">Year:</td><td style="font-size: 0.950em;">{{ album.year }}</td></tr>
+            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;">{{ album.rating|float|round(1, 'common') }} / 10</td></tr></table>
+            <br /><span style="font-weight:bold;">Album Description:</span><br /><span style="font-size: 0.950em;">{{ album.description }}</span>
+          </p>
+      </li>
+      {% endif %}
+
+      {% if library.songs %}
+        {% for item in library.songs %}
+          <li class="play_song" media-type="song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}">
+            {% if item.track < 10 %}0{% endif %}{{ item.track }} - {{ item.label }}
+            <span class="span">
+              <a class="li_buttons" id="queue_button" media-type="song" data-songid="{{ item.songid }}">Queue</a>
+            </span>
+            {% if item.playcount %}
+              <img src="/static/images/tick.png" class="watched" width="16" height="16">
+            {% endif %}
+          </li>
+        {% endfor %}
+      {% endif %}
+
+      {% if library.filemode %}
+        <li class="get" data-command="files/video">Video</li>
+        <li class="get" data-command="files/music">Music</li>
+      {% endif %}
+
+      {% if file_type == "video" %}
+        {% for item in library.sources %}
+          <li class="dir" data-file_type="video" data-command="files/video/{{ item.label }}" data-path="{{ item.file }}">
+            {{ item.label }}
+          </li>
+        {% endfor %}
+      {% endif %}
+
+      {% if file_type == "music" %}
+        {% for item in library.sources %}
+          {% if item.label != "Music Add-ons" %}
+            <li class="dir" data-file_type="music" data-command="files/music/{{ item.label }}" data-path="{{ item.file }}">
+              {{ item.label }}
+            </li>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      {% if file_type == "video_directory" %}
+        {% for item in library.files %}
+          {% if item.filetype == "directory" %}
+            <li {% if item.type != "unknown" %}class="play_file"{% else %}class="dir"{% endif %} media-type="file" data-file_type="video" data-path="{{ item.file }}">{{ item.label }}</li>
+          {% elif item.filetype == "none" %}
+            <li class="empty">No video files found.</li>
+          {% else %}
+            <li class="play_file" media-type="file" data-file_type="video" data-path="{{ item.file }}">
+              {{ item.label }}
+              <span class="span">
+                <a class="li_buttons" id="queue_button" media-type="file" data-file_type="video" data-path="{{ item.file }}">Queue</a>
+              </span>
+            </li>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      {% if file_type == "music_directory" %}
+        {% for item in library.files %}
+          {% if item.filetype == "directory" %}
+            <li class="dir" media-type="file" data-file_type="music" data-path="{{ item.file }}">{{ item.label }}</li>
+          {% elif item.filetype == "none" %}
+            <li class="empty">No music files found.</li>
+          {% else %}
+            <li class="play_file" media-type="file" data-file_type="music" data-path="{{ item.file }}">
+              {{ item.label }}
+              <span class="span">
+                <a class="li_buttons" id="queue_button" media-type="file" data-file_type="music" data-path="{{ item.file }}">Queue</a>
+              </span>
+            </li>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
     </ul>
 
   {% else %}
@@ -47,19 +282,66 @@
     <ul>
       <li class="get" data-command="movies">Movies</li>
       <li class="get" data-command="shows">TV Shows</li>
+      <li class="get" data-command="artists">Music</li>
+      <li class="get" data-command="files">Files</li>
     </ul>
 
   {% endif %}
 
-    <div class="powerholder" style="text-align:right" >
+    <div id="filter"><input type="search" name="input" class="filter" value="Filter" onclick="this.value='';" onfocus="this.select()" onblur="this.value=!this.value?'Filter':this.value;"></input></div>
 	{% if message %}
-      <p class="message"><b style="color:red">{{ message }}</b><p>
-	  <a class="power" id="poweron" title="Try Wake On LAN"><img src="/static/images/poweron.png" width="14" height="14"/></a>
+      <div class="message">{{ message }}</div>
     {% endif %}
+    <div class="powerholder" style="text-align:right" >
+
+  {% if library %}
+	{% if library.moviedetails %}
+      {% if movie.resume.position >= 1 %}
+        <a class="info_buttons" id="resume_button" media-type="movie" data-id="{{ movie.movieid }}" title="Resume Movie">Resume</a>
+      {% endif %}
+      <a class="info_buttons" id="play_button" media-type="movie" data-movieid="{{ movie.movieid }}" title="Play Movie">Play</a>
+      <a class="info_buttons" id="queue_button" media-type="movie" data-movieid="{{ movie.movieid }}" title="Add to Queue">Queue</a>
+      {% if movie.trailer %}
+        <a class="info_buttons" id="play_button" media-type="trailer" data-movieid="{{ movie.movieid }}" title="Play Trailer">Trailer</a>
+      {% endif %}
+
+	{% elif library.tvshowdetails %}
+      <a class="info_buttons" id="play_button" media-type="tvshow" data-tvshowid="{{ show.tvshowid }}" title="Play TV show">Play</a>
+      <a class="info_buttons" id="queue_button" media-type="tvshow" data-tvshowid="{{ show.tvshowid }}" title="Add to Queue">Queue</a>
+
+	{% elif library.episodedetails %}
+      {% if episode.resume.position >= 1 %}
+        <a class="info_buttons" id="resume_button" media-type="episode" data-id="{{ episode.episodeid }}" title="Resume Episode">Resume</a>
+      {% endif %}
+      <a class="info_buttons" id="play_button" media-type="episode" data-episodeid="{{ episode.episodeid }}" title="Play Episode">Play</a>
+      <a class="info_buttons" id="queue_button" media-type="episode" data-episodeid="{{ episode.episodeid }}" title="Add to Queue">Queue</a>
+
+	{% elif library.artistdetails %}
+      <a class="info_buttons" id="play_button" media-type="artist" data-artistid="{{ artist.artistid }}" title="Play All Albums">Play</a>
+      <a class="info_buttons" id="queue_button" media-type="artist" data-artistid="{{ artist.artistid }}" title="Add to Queue">Queue</a>
+
+	{% elif library.albumdetails %}
+      <a class="info_buttons" id="play_button" media-type="album" data-albumid="{{ album.albumid }}" title="Play Album">Play</a>
+      <a class="info_buttons" id="queue_button" media-type="album" data-albumid="{{ album.albumid }}" title="Add to Queue">Queue</a>
+    {% endif %}
+
+	{% if library.tvshows or library.seasons or library.episodes or library.movies or library.moviedetails or library.tvshowdetails or library.episodedetails or file_type == "video_directory" %}
+      <a class="power" title ="Update Video Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Video Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+
+    {% elif library.artists or library.albums or library.songs or library.artistdetails or library.albumdetails or file_type == "music_directory" %}
+      <a class="power" title ="Update Music Library" id="audio-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
+      <a class="power" title ="Clean Music Library" id="audio-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+    {% endif %}
+  {% endif %}
+
+  {% if message %}
+      <a class="power" title="Try Wake On LAN" id="poweron"><img src="/static/images/poweron.png" width="14" height="14"/></a>
+  {% endif %}
+
       <a class="power" title ="Suspend" id="suspend" ><img src="/static/images/suspend.png" width="14" height="14"/></a>
       <a class="power" title ="Reboot" id="reboot" ><img src="/static/images/reboot.png" width="14" height="14"/></a>
       <a class="power" title ="Shutdown" id="poweroff" ><img src="/static/images/shutdown.png" width="14" height="14"/></a>
-	  <a class="power" title ="Update Library" id="video-update"><img src="/static/images/refresh.png" width="14" height="14"/></a>
-      <a class="power" title ="Clean Library" id="video-clean"><img src="/static/images/clean.png" width="14" height="14"/></a>
+
     </div>
 </div>

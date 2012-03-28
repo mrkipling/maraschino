@@ -1,6 +1,11 @@
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
 from flask import Flask, jsonify, render_template, request
 from maraschino.database import db_session
-import copy, json
+import copy
 
 from Maraschino import app
 from settings import *
@@ -79,6 +84,20 @@ AVAILABLE_MODULES = [
         'static': True,
         'poll': 0,
         'delay': 0,
+        'settings': [
+            {
+                'key': 'library_show_info',
+                'value': '0',
+                'description': 'Show media information by default',
+                'type': 'bool',
+            },
+            {
+                'key': 'library_use_bannerart',
+                'value': '0',
+                'description': 'Use Bannerart for TV shows',
+                'type': 'bool',
+            },
+        ]
     },
     {
         'name': 'recently_added',
@@ -92,6 +111,12 @@ AVAILABLE_MODULES = [
                 'key': 'num_recent_episodes',
                 'value': 3,
                 'description': 'Number of episodes to display',
+            },
+            {
+                'key': 'recently_added_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
             },
         ]
     },
@@ -108,6 +133,33 @@ AVAILABLE_MODULES = [
                 'value': 3,
                 'description': 'Number of movies to display',
             },
+            {
+                'key': 'recently_added_movies_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
+            },
+        ]
+    },
+    {
+        'name': 'recently_added_albums',
+        'label': 'Recently added albums',
+        'description': 'Shows you Albums recently added to your library.',
+        'static': False,
+        'poll': 350,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'num_recent_albums',
+                'value': 3,
+                'description': 'Number of albums to display',
+            },
+            {
+                'key': 'recently_added_albums_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
+            },
         ]
     },
     {
@@ -122,6 +174,7 @@ AVAILABLE_MODULES = [
                 'key': 'trakt_api_key',
                 'value': '',
                 'description': 'Trakt API Key',
+                'link': 'http://trakt.tv/settings/api',
             },
             {
                 'key': 'trakt_username',
@@ -180,6 +233,7 @@ AVAILABLE_MODULES = [
                 'key': 'trakt_api_key',
                 'value': '',
                 'description': 'Trakt API Key',
+                'link': 'http://trakt.tv/settings/api',
             },
             {
                 'key': 'trakt_username',
@@ -191,6 +245,36 @@ AVAILABLE_MODULES = [
                 'value': '',
                 'description': 'Trakt Password',
             },
+        ]
+    },
+     {
+        'name': 'transmission',
+        'label': 'Transmission',
+        'description': 'Shows you information about your Transmission downloads.',
+        'static': False,
+        'poll': 10,
+        'delay': 0,
+        'settings': [
+                {
+                'key': 'transmission_ip',
+                'value': '',
+                'description': 'Transmission Hostname',
+                },
+                {
+                'key': 'transmission_port',
+                'value': '9091',
+                'description': 'Transmission Port',
+                },
+                {
+                'key': 'transmission_user',
+                'value': '',
+                'description': 'Transmission Username',
+                },
+                {
+                'key': 'transmission_password',
+                'value': '',
+                'description': 'Transmission Password',
+                },
         ]
     },
     {

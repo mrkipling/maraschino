@@ -12,6 +12,34 @@
 
   .box-shadow(#222, 0, 0, 10px);
 
+  .albumart  {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    height: auto;
+    max-width: 130px;
+    .box-shadow(#000, 0, 0, 15px);
+  }
+
+  .episodeart  {
+    float: left;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    max-width: 200px;
+    height: auto;
+    .box-shadow(#000, 0, 0, 15px);
+  }
+
+  .posterart  {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    max-width: 100px;
+    height: auto;
+    .box-shadow(#000, 0, 0, 15px);
+  }
+
   .item_info {
     float: left;
     line-height: 1.5em;
@@ -28,14 +56,58 @@
     }
   }
 
+  .item_info_artist  {
+    float: left;
+    position: relative;
+    margin-left: 132px;
+    line-height: 1.5em;
+    width: 400px;
+
+    .artist:hover,
+    .album:hover  {
+      border-bottom: 1px solid #555;
+      cursor: pointer;
+    }
+
+    .separator {
+      margin: 0 3px;
+    }
+  }
+
+  .item_info_show  {
+    float: left;
+    position: relative;
+    margin-left: 202px;
+    line-height: 1.5em;
+    width: 400px;
+
+    .show:hover,
+    .season:hover  {
+      border-bottom: 1px solid #555;
+      cursor: pointer;
+    }
+
+    .separator {
+      margin: 0 3px;
+    }
+  }
+
+  .item_info_movie  {
+    float: left;
+    position: relative;
+    margin-left: 102px;
+    line-height: 1.5em;
+    width: 400px;
+  }
+
   .controls {
     margin: 0 auto;
-    width: 80px;
+    width: 84px;
 
     .play_pause,
     .stop {
       background: #111 url(/static/images/player_sprite.png) no-repeat 11px 11px;
-      border: 1px solid #555;
+      border: 2px solid #333;
       cursor: pointer;
       float: left;
       height: 33px;
@@ -43,7 +115,7 @@
       width: 33px;
 
       .border-radius(20px);
-      
+
       &:hover {
         background-color: #333;
       }

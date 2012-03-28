@@ -1,5 +1,4 @@
-{% if sabnzbd.jobs %}
-
+{% if sabnzbd.slots %}
 <div id="sabnzbd" class="module" data-module="sabnzbd">
 
   <div class="module_settings"><span>Settings</span></div>
@@ -8,23 +7,7 @@
   <h2>SABnzbd+</h2>
 
   <div class="inner">
-
-    <div class="speed">{{ download_speed }}</div>
-
-    <p>
-      <strong>Currently downloading:</strong>
-      "{{ sabnzbd.jobs[0].filename }}"
-    </p>
-
-    <div class="bar">
-      <div class="inner" style="width: {{ percentage_total }}%;"></div>
-    </div>
-
-    <div class="clearfix">
-      <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.timeleft }} / {{ sabnzbd.mbleft|int }} MB</p>
-      <p class="percentage_complete">{{ percentage_total }}% complete</p>
-    </div>
-
+    {% block sabnzbd_content %}{% endblock %}
   </div>
 </div>
 

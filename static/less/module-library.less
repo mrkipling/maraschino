@@ -9,7 +9,12 @@
   }
 
   .message {
-    margin: -7px 15px 10px;
+    color:red;
+    width: 48%;
+    float: left;
+    font-weight: bold;
+    font-size: x-small;
+    margin-top: 7px;
   }
 
   ul {
@@ -27,13 +32,12 @@
     line-height: 1.3em;
     margin-top: 5px;
     padding: 5px 15px;
-
     .border-radius(4px);
 
     &:hover {
       background: url(/static/images/alpha/fff_20.png);
     }
-  }
+}
 
   li {
     padding-right: 28px;
@@ -53,6 +57,34 @@
       position: absolute;
       right: 5px;
       top: 5px;
+    }
+
+    .span {
+      position: absolute;
+      right: 5px;
+    }
+
+    .li_buttons {
+      display: none;
+      background: url(/static/images/alpha/fff_10.png);
+      border: 1px solid #222;
+      cursor: pointer;
+      padding: 2px 8px;
+      color: #ccc;
+
+      .border-radius(4px);
+
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+      }
+    }
+  }
+
+  li.empty {
+    cursor: auto;
+
+    &:hover {
+    background: url(/static/images/alpha/fff_10.png);
     }
   }
 
@@ -93,10 +125,36 @@
     top: 12px;
   }
 
+  #filter input[type="search"] {
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    cursor: pointer;
+    color: #67c0f8;
+    float: left;
+    height: 28px;
+    line-height: 28px;
+    margin-top: 5px;
+    padding: 2px 12px;
+    position: absolute;
+    right: 3px;
+    width: 50%;
+    .border-radius(4px);
+    -webkit-appearance: none;
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+
+    &:focus {
+      background: url(/static/images/alpha/fff_40.png);
+    }
+  }
+
   .powerholder {
-    margin-top: 10px;
+    margin-top: 42px;
     margin-bottom: 7px;
     cursor: default;
+
   }
 
   .power {
@@ -125,12 +183,84 @@
     }
   }
 
-  .module_settings {
-    display: none;
+  .p_info {
+    line-height: 1.3em;
+    margin: 4px;
   }
+
+  .info_buttons {
+    float: left;
+    margin-right: 4px;
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    cursor: pointer;
+    padding: 2px 8px;
+    color: #ccc;
+    height: 20px;
+    line-height: 21px;
+
+    .border-radius(4px);
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+  }
+}
+
+#library.root,
+#library.info {
+  .powerholder { margin-top: 10px; }
+  #filter      { display: none; }
 }
 
 .f_settings_mode #library .back
 {
   display: none;
 }
+
+/* details */
+
+#library {
+  li.details {
+    background-image: none;
+    border: none;
+    line-height: 1.4em;
+    padding-right: 15px;
+  }
+
+  .posterart,
+  .bannerart,
+  .episodeart,
+  .artistart,
+  .albumart, {
+    float: right;
+    box-shadow: 0 0 1px 1px #333;
+    margin: 0 0 10px 15px;
+  }
+
+  .posterart {
+    max-width: 130px;
+    height: auto;
+  }
+
+  .bannerart {
+    max-height: 70px;
+    width: auto;
+  }
+
+  .episodeart {
+    max-width: 200px;
+    height: auto;
+  }
+
+  .artistart {
+    max-width: 200px;
+    height: auto;
+  }
+
+  .albumart {
+    max-width: 160px;
+    height: auto;
+  }
+}
+
