@@ -1223,7 +1223,38 @@ $(document).ready(function() {
     $("#"+id+" .tagline").toggle();
     $("#"+id+" .plot").toggle();
   });
+
+  //Load search template
+  $(document).on('click', '#couchpotato div.powerholder .add', function(){
+    $.get('/couchpotato/search/')
+    .success(function(data){
+      $('#couchpotato').replaceWith(data);
+    })
+    .error(function(){
+      popup_message('Could not reach Maraschino.');
+    });
+
+  });
   
+  // Load search results
+  $(document).on('keypress', '#couchpotato #search #value', function(e){
+    if(e.which == 13){
+      e.preventDefault();
+      var name = $('#couchpotato #search #value').attr('value');
+      params = ''
+      if(name != ''){
+          params = 'name='+name;
+      }
+      $.get('/couchpotato/search/?'+params)
+      .success(function(data){
+        $('#couchpotato').replaceWith(data);
+      })
+      .error(function(){
+        popup_message('Could not reach Maraschino.');
+      });
+    }
+  });
+
   /********* END CouchPotato ***********/
 
   function add_loading_gif(element) {

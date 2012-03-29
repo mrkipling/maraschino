@@ -50,3 +50,30 @@ def xhr_couchpotato():
         couchpotato = couchpotato,
         compact_view = compact_view,
     )
+
+@app.route('/couchpotato/search/')
+def cp_search():
+    couchpotato = {}
+    params = ''
+
+    try:
+        params = request.args['name']
+    except:
+        pass
+
+    if params is not '':
+        try:
+            url = '%s/movie.search/?q=%s' %(couchpotato_url(), params)
+            result = urllib.urlopen(url).read()
+            couchpotato = json.JSONDecoder().decode(result)
+
+        except:
+            couchpotato = None
+
+    else:
+        couchpotato = None
+
+    return render_template('couchpotato-search.html',
+        data = couchpotato,
+        couchpotato = 'results',
+    )

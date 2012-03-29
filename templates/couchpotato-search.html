@@ -1,0 +1,26 @@
+{% extends "couchpotato-base.html" %}
+
+{% block couchpotato_content %}
+
+<div id="search">
+  <form>
+    <input id="value" type="search">
+  </form>
+  <div id="result">
+    {% if data %}
+      <ul>
+      {% for item in data.movies %}
+        <li id="{{ item.imdb }}">
+          <img src="{{ (item.images.poster)|replace( '[u\'', '')|replace('\']', '') }}" />
+          <span>{{ item.original_title }} - {{ item.released }}</span>
+          <div class="extra {% if item.in_library%} library {% endif %} {% if item.in_wanted %} wanted {% endif %}">
+            <p>{{item.plot}}</p>
+          </div>
+        </li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
