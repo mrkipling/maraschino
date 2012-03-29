@@ -8,16 +8,20 @@
       <table class="tablesorter">
         <thead>
           <tr>
-            <th class="icon"></th>
-            <th class="name">Name</th>
-            <th class="size">Size</th>
-            <th class="category">Category</th>
+            {% if item.LINK|add_to_sab %}
+              <th width="2%"></th>
+            {%endif%}
+            <th width="70%">Name</th>
+            <th width="8%">Size</th>
+            <th width="15%">Category</th>
           </tr>
         </thead>
         <tbody>
           {% for item in results %}
             <tr>
-              <td class="icon"><img src="static/images/applications/SabNZBd.png" height="15px" nzb-link="{{item.link|add_to_sab}}" /></td>
+              {% if item.LINK|add_to_sab %}
+                <td class="icon"><img src="static/images/applications/SabNZBd.png" nzb-link="{{item.link|add_to_sab}}" /></td>
+              {%endif%}
               <td class="name">{{item.name}}</td>
               <td class="size">{{ item.size|convert_bytes }}</td>
               <td class="category">{{item.category_name}}</td>

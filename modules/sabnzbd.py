@@ -33,7 +33,9 @@ def sab_link():
     return '%s/api?apikey=%s' % (SABNZBD_URL, SABNZBD_API)
     
 def add_to_sab_link(nzb):
-    return '%s&mode=addurl&name=http://%s&output=json' % (sab_link(), nzb)
+    if get_setting_value('sabnzbd_api') != None:
+        return '%s&mode=addurl&name=http://%s&output=json' % (sab_link(), nzb)
+    return False
 
 FILTERS['add_to_sab'] = add_to_sab_link
 
@@ -129,6 +131,6 @@ def add_to_sab():
         return jsonify({ 'error': 'Did not receive URL variable'})
         
     try:
-        return urllib2.urlopen(url).read()
+        return urllib.urlopen(url).read()
     except:
         return jsonify({ 'error': 'Failed to open URL: %s' %(url)})
