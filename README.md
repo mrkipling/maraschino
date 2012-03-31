@@ -1,8 +1,8 @@
 #Maraschino
 
-**Author**: [Bradley Abrahams](https://github.com/mrkipling)
+* **Author**: [Bradley Abrahams](https://github.com/mrkipling)
 
-**Main collaborator**: [Gustavo Hoirisch](https://github.com/gugahoi)
+* **Main collaborator**: [Gustavo Hoirisch](https://github.com/gugahoi)
 
 ##What is Maraschino?
 
