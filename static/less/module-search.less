@@ -1,28 +1,39 @@
 @import "mixins.less";
-
-html, body {
-  height: 100%;
-}
-
 #search
 {
   background: url(/static/images/alpha/000_80.png);
   border: 1px solid #333;
   position: absolute;
-  top: 20px;
-  left: 28px;
-  width: 96%;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  padding: 20px;
   overflow: hidden;
   white-space: nowrap;
   z-index: 1;
   padding-bottom: 5px;
+  -webkit-transition: top .25s linear;
+  -moz-transition: top .25s linear;
+  -o-transition: top .25s linear;
+  transition: top .25s linear;
   
   .border-radius(2px);
   .box-shadow(#222, 0, 0, 10px);
   
+  h2 {
+    display: block;
+    font-size: 1.5em;
+    font-weight: normal;
+    line-height: 1.3em;
+    padding: 10px 15px 12px;
+  }
+
   &.hide {
-    opacity: 0;
-    top: -999999px;
+    top: -9999px;
+    -webkit-transition: top 3s linear;
+    -moz-transition: top 3s linear;
+    -o-transition: top 3s linear;
+    transition: top 3s linear;
   }
 
   form {
@@ -35,7 +46,7 @@ html, body {
 
   #results {
     width: 100%;
-    
+    bottom: 0px;
     table {    
       table-layout:fixed;
       width: 100%;
@@ -85,5 +96,5 @@ html, body {
 
 .f_settings_mode #search {
     opacity: 0;
-    top: -999999px;
+    top: -9999px;
 }
