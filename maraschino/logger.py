@@ -21,6 +21,8 @@ from settings import *
 # logger.log('debug message', 'level')
 #
 
+LOG_DIR ="./logs/"
+
 # create the directory for the logs if it doesn't exist
 if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
