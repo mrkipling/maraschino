@@ -319,7 +319,7 @@ SERVER_SETTINGS = [
     },
     {
         'key': 'search',
-        'value': '0',
+        'value': '1',
         'description': 'Enable search feature',
         'type': 'bool',
     },
