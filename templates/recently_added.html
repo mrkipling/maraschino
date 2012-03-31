@@ -11,7 +11,11 @@
     {% endif %}
       <ul class="episodes listfix">
         {% for episode in recently_added_episodes %}
-          <li data-episodeid="{{ episode.episodeid }}" title="Play {{ episode.showtitle }} - {{ episode.title }}" {% if episode.playcount %} class="watched"{% endif %}>
+          {% if view_info %}
+            <li id="info_episode" data-episodeid="{{ episode.episodeid }}" title="Information for {{ episode.showtitle }} - {{ episode.title }}" {% if episode.playcount %} class="watched"{% endif %}>
+          {% else %}
+            <li id="play_episode" data-episodeid="{{ episode.episodeid }}" title="Play {{ episode.showtitle }} - {{ episode.title }}" {% if episode.playcount %} class="watched"{% endif %}>
+          {% endif %}
 
             {% if episode.thumbnail %}
               <div class="thumbnail">
