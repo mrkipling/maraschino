@@ -77,6 +77,12 @@ AVAILABLE_MODULES = [
                 'description': 'Compact view',
                 'type': 'bool',
             },
+            {
+                'key': 'recently_added_info',
+                'value': '0',
+                'description': 'View information when selecting episode',
+                'type': 'bool',
+            },
         ]
     },
     {
@@ -98,6 +104,12 @@ AVAILABLE_MODULES = [
                 'description': 'Compact view',
                 'type': 'bool',
             },
+            {
+                'key': 'recently_added_movies_info',
+                'value': '0',
+                'description': 'View information when selecting movie',
+                'type': 'bool',
+            },
         ]
     },
     {
@@ -117,6 +129,12 @@ AVAILABLE_MODULES = [
                 'key': 'recently_added_albums_compact',
                 'value': '0',
                 'description': 'Compact view',
+                'type': 'bool',
+            },
+            {
+                'key': 'recently_added_albums_info',
+                'value': '0',
+                'description': 'View information when selecting album',
                 'type': 'bool',
             },
         ]

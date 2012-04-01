@@ -59,6 +59,7 @@ def xhr_vfs_proxy(url):
 
 def render_recently_added_episodes(episode_offset=0):
     compact_view = get_setting_value('recently_added_compact') == '1'
+    view_info = get_setting_value('recently_added_info') == '1'
 
     try:
         xbmc = jsonrpclib.Server(server_api_address())
@@ -74,11 +75,13 @@ def render_recently_added_episodes(episode_offset=0):
         vfs_url = vfs_url,
         episode_offset = episode_offset,
         compact_view = compact_view,
+        view_info = view_info,
     )
 
 
 def render_recently_added_movies(movie_offset=0):
     compact_view = get_setting_value('recently_added_movies_compact') == '1'
+    view_info = get_setting_value('recently_added_movies_info') == '1'
 
     try:
         xbmc = jsonrpclib.Server(server_api_address())
@@ -94,11 +97,13 @@ def render_recently_added_movies(movie_offset=0):
         vfs_url = vfs_url,
         movie_offset = movie_offset,
         compact_view = compact_view,
+        view_info = view_info,
     )
 
 
 def render_recently_added_albums(album_offset=0):
     compact_view = get_setting_value('recently_added_albums_compact') == '1'
+    view_info = get_setting_value('recently_added_albums_info') == '1'
 
     try:
         xbmc = jsonrpclib.Server(server_api_address())
@@ -114,6 +119,7 @@ def render_recently_added_albums(album_offset=0):
         vfs_url = vfs_url,
         album_offset = album_offset,
         compact_view = compact_view,
+        view_info = view_info,
     )
 
 
