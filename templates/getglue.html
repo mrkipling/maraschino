@@ -1,0 +1,19 @@
+{% if getglue %}
+<div id="getglue" class="module generic" data-module="getglue">
+  <div class="module_remove"><span>Remove</span></div>
+  <div class="inner">
+    <script src="http://widgets.getglue.com/checkin.js" type="text/javascript"></script>
+    <div id="loader"></div>
+    <script>
+    $("#getglue #loader").html('<a href="http://getglue.com" class="glue-checkin-widget" data-type="feed" data-width="'+($("#getglue .inner").width())+'" data-height="292" data-headerBgColor="#565656" data-headerTextColor="#EEE" data-bodyBgColor="#565656" data-borderColor="#222" data-bodyTextColor="#222" data-subtextColor="#EEE" data-linkColor="#ADD6EF" data-title="{{ getglue.title }} Check-ins" data-message="Watching %title% - {{ getglue.watching }}" data-objectId="{{ getglue.path }}">Loading...</a>');
+    </script>
+
+  </div>
+</div>
+
+{% else %}
+<div id="getglue_inactive" class="inactive_module" data-module="getglue">
+  <div class="module_remove"><span>Remove</span></div>
+  <h2>Getglue</h2>
+</div>
+{% endif %}

@@ -29,6 +29,8 @@ There's also a thread on the [XBMC forums](http://forum.xbmc.org/showthread.php?
 
 * trakt.tv module which shows you what people are saying about the episode or movie that you're watching (requires a free trakt.tv account)
 
+* Getglue module which shows you what people are saying about the episode or movie that you're watching (requires a free getglue account)
+
 * Sickbeard module which allows you to browse upcoming episodes (coming soon: the ability to manage Sickbeard from Maraschino)
 
 * Disk space module showing you used/remaining space on your various drives

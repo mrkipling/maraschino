@@ -156,6 +156,11 @@ $(document).ready(function() {
           $(this).replaceWith(construct_inactive_module('trakt', 'trakt.tv'));
         });
 
+        // hide trakt module if visible
+        $('#getglue').fadeOut(200, function() {
+          $(this).replaceWith(construct_inactive_module('getglue', 'Getglue'));
+        });
+
         currently_playing_id = null;
 
       } else {
@@ -229,6 +234,14 @@ $(document).ready(function() {
         if ($('#trakt, #trakt_inactive').length > 0 && currently_playing_id !== $(data).data('id')) {
           get_module('trakt', {
             placeholder: $('#trakt_inactive')
+          });
+        }
+
+        // getglue
+
+        if ($('#getglue, #getglue_inactive').length > 0 && currently_playing_id !== $(data).data('id')) {
+          get_module('getglue', {
+            placeholder: $('#getglue_inactive')
           });
         }
 

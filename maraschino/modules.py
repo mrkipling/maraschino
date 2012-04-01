@@ -307,6 +307,14 @@ AVAILABLE_MODULES = [
             },
         ]
     },
+    {
+        'name': 'getglue',
+        'label': 'Getglue',
+        'description': 'Allows you to checkin to currently playing content.',
+        'static': True,
+        'poll': 0,
+        'delay': 0,
+    },
 ]
 
 SERVER_SETTINGS = [
