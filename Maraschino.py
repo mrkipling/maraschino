@@ -25,6 +25,8 @@ sys.path.insert(0, os.path.join(path_base, 'lib'))
 
 from flask import Flask, jsonify, render_template, request
 from maraschino.database import db_session
+import maraschino.logger as logger
+
 try:
     import json
 except ImportError:
@@ -105,27 +107,34 @@ def shutdown_session(exception=None):
 # check if database exists or create it
 
 try:
+    logger.log('Opening database at: %s' %(DATABASE), 'INFO')
     open(DATABASE)
 
 except IOError, e:
+    logger.log('Opening database failed', 'CRITICAL')
     try:
+        logger.log('Checking if PATH exists: %s' %(DATABASE), 'WARNING')
         # check if path exists
         dbpath = os.path.dirname(DATABASE)
         if not os.path.exists(dbpath):
             try:
+                logger.log('It does not exist, creating it...', 'WARNING')
                 os.makedirs(dbpath)
             except:
-               print 'Could not create %s, check settings.py.'% (DATABASE)
-               quit()
+                logger.log('Could not create %s, check settings.py.'% (DATABASE) , 'CRITICAL')
+                print 'Could not create %s, check settings.py.'% (DATABASE)
+                quit()
 
         # create db
         from maraschino.database import *
 
     except:
+        logger.log('You need to specify a database in settings.py' , 'CRITICAL')
         print 'You need to specify a database in settings.py.'
         quit()
 
     init_db()
+    logger.log('Database successfully initialised' , 'INFO')
     print "Database successfully initialised."
 
 if __name__ == '__main__':
