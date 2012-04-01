@@ -916,7 +916,7 @@ $(document).ready(function() {
     });
   });
 
-  $(document).on('click', '#sickbeard .history ul.toggle', function(){
+  $(document).on('click', '#sickbeard .menu li.snatched', function(){
     $('#sickbeard .history .Snatched').toggle();
     $(this).toggleClass('active');
   });
