@@ -22,9 +22,10 @@ def sabnzbd_url_no_api():
 def sabnzbd_url(mode, extra = ""):
     return '%s/api?apikey=%s&mode=%s&output=json%s' % (sabnzbd_url_no_api(), get_setting_value('sabnzbd_api'), mode, extra)
 
-@app.route('/xhr/sabnzbd')
+@app.route('/xhr/sabnzbd/')
+@app.route('/xhr/sabnzbd/<queue_status>')
 @requires_auth
-def xhr_sabnzbd():
+def xhr_sabnzbd(queue_status = 'hide'):
     old_config = False
 
     if not get_setting_value('sabnzbd_host'):
@@ -37,10 +38,17 @@ def xhr_sabnzbd():
         sabnzbd = sabnzbd['queue']
 
         percentage_total = 0
+        downloading = None
         download_speed = format_number(int((sabnzbd['kbpersec'])[:-3])*1024) + '/s'
 
         if sabnzbd['slots']:
             percentage_total = int(100 - (float(sabnzbd['mbleft']) / float(sabnzbd['mb']) * 100))
+            for item in sabnzbd['slots']:
+                if item['status'] == 'Downloading':
+                    downloading = item
+                    break
+
+        download_left = format_number(int(float(sabnzbd['mbleft'])*1024*1024))
 
         download_left = format_number(int(float(sabnzbd['mbleft'])*1024*1024))
 
@@ -48,6 +56,7 @@ def xhr_sabnzbd():
         sabnzbd = None
         percentage_total = None
         download_speed = None
+        downloading = None
         download_left = None
 
     return render_template('sabnzbd-queue.html',
@@ -56,6 +65,8 @@ def xhr_sabnzbd():
         download_speed = download_speed,
         download_left = download_left,
         old_config = old_config,
+        first_downloading = downloading,
+        queue_status = queue_status,
     )
 
 @app.route('/xhr/sabnzbd/queue/<action>/')
