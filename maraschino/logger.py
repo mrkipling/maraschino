@@ -27,7 +27,7 @@ LOG_DIR ="./logs/"
 if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
     
-LOG_FILE = LOG_DIR + '\maraschino.txt'
+LOG_FILE = LOG_DIR + '\maraschino.log'
 
 
 # set up formatting for console and the two log files
