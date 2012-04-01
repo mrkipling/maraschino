@@ -39,8 +39,7 @@
       {% endif %}
 
       {% if library.tvshowdetails %}
-      <li style="display:none;" data-command="shows/info/{{ show.tvshowid }}"></li>
-      <li class="details">
+      <li class="details" data-command="shows/info/{{ show.tvshowid }}">
           {% if show.thumbnail %}
             <img class="{% if bannerart %}bannerart{% else %}posterart{% endif %}" src="{{ itemart }}">
           {% endif %}
@@ -93,8 +92,7 @@
       {% endif %}
 
       {% if library.episodedetails %}
-      <li style="display:none;" data-command="shows/{{ episode.tvshowid }}/{{ episode.season }}/info/{{ episode.episodeid }}"></li>
-      <li class="details">
+      <li class="details" data-command="shows/{{ episode.tvshowid }}/{{ episode.season }}/info/{{ episode.episodeid }}">
           {% if episode.thumbnail %}
             <img class="episodeart" src="{{ itemart }}">
           {% endif %}
@@ -131,8 +129,7 @@
       {% endif %}
 
       {% if library.moviedetails %}
-      <li style="display:none;" data-command="movies/info/{{ movie.movieid }}"></li>
-      <li class="details">
+      <li class="details" data-command="movies/info/{{ movie.movieid }}">
           {% if movie.thumbnail %}
             <img class="posterart" src="{{ itemart }}">
           {% endif %}
@@ -161,8 +158,7 @@
       {% endif %}
 
       {% if library.artistdetails %}
-      <li style="display:none;" data-command="artists/info/{{ artist.artistid }}"></li>
-      <li class="details">
+      <li class="details" data-command="artists/info/{{ artist.artistid }}">
           {% if artist.thumbnail %}
             <img class="artistart" src="{{ itemart }}">
           {% endif %}
@@ -188,8 +184,7 @@
       {% endif %}
 
       {% if library.albumdetails %}
-      <li style="display:none;" data-command="artists/{{ album.artistid }}/info/{{ album.albumid }}"></li>
-      <li class="details">
+      <li class="details" data-command="artists/{{ album.artistid }}/info/{{ album.albumid }}">
           {% if album.thumbnail %}
             <img class="albumart" src="{{ itemart }}">
           {% endif %}
