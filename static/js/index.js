@@ -912,6 +912,7 @@ $(document).ready(function() {
   $(document).on('click', '#sickbeard .menu .history', function(){
     $.get('/sickbeard/history/30', function(data){
       $('#sickbeard').html($(data).html());
+      $('#sickbeard .menu').prepend('<li class="snatched" title="View snatched"><span>Snatched</span></li>');
     });
   });
 
