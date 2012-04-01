@@ -12,6 +12,14 @@
     .upcoming span  {
       background-image: url(/static/images/coming.png);
     }
+    .snatched {
+      &.active {
+        background-image: url(/static/images/alpha/fff_20.png);
+      }
+      span{
+        background-image: url(/static/images/snatched.png);
+      }
+    }
   }
 
   div.back,
@@ -502,25 +510,6 @@
           background: rgb(0, 0, 0);
           padding: 5px;
           font-size: xx-small;
-        }
-      }
-
-      &.toggle {
-        cursor: pointer;
-    	position: absolute;
-    	top: 10px;
-    	right: 120px;
-        line-height: 1.3em;
-        width: auto;
-        .border-radius(4px);
-
-        &.active {
-          background: url(/static/images/alpha/fff_20.png);
-        }
-
-        li {
-          padding-left: 10px;
-          padding-right: 10px;
         }
       }
     }

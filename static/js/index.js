@@ -100,11 +100,16 @@ $(document).ready(function() {
 
     // poll
     if (settings.poll !== 0) {
-      setTimeout(function() {
-        get_module(module, {
-          poll: settings.poll
-        })
-      }, settings.poll * 1000);
+      var timer = module+'_timer';
+      if(timer){
+        clearTimeout(window[timer]);
+        window[timer] = setTimeout(function() {
+                          get_module(module, {
+                            poll: settings.poll,
+                            params: [settings.params],
+                          })
+                        }, settings.poll * 1000);
+      }
     }
   }
 
@@ -907,10 +912,11 @@ $(document).ready(function() {
   $(document).on('click', '#sickbeard .menu .history', function(){
     $.get('/sickbeard/history/30', function(data){
       $('#sickbeard').html($(data).html());
+      $('#sickbeard .menu').prepend('<li class="snatched" title="View snatched"><span>Snatched</span></li>');
     });
   });
 
-  $(document).on('click', '#sickbeard .history ul.toggle', function(){
+  $(document).on('click', '#sickbeard .menu li.snatched', function(){
     $('#sickbeard .history .Snatched').toggle();
     $(this).toggleClass('active');
   });
@@ -1127,7 +1133,7 @@ $(document).ready(function() {
     $.get('/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
     .success(function(data){
       if(data){
-	$('#sickbeard .episode-info .status .search').attr('src','/static/images/yes.png');
+        $('#sickbeard .episode-info .status .search').attr('src','/static/images/yes.png');
       } else {
         $('#sickbeard .episode-info .status .search').attr('src','/static/images/no.png');
       }
@@ -1229,7 +1235,59 @@ $(document).ready(function() {
         get_module('sabnzbd');
       }
     })
-    .error('Could not reach Maraschino');
+    .error(function(){
+      popup_message('Problem reaching Maraschino on /xhr/sabnzbd/queue/<var>/');
+    });
+  });
+
+  $(document).on('keypress', '#sabnzbd .inner .speed input', function(e){
+    if(e.which == 13){
+      $.get('/xhr/sabnzbd/speedlimit/'+$(this).attr('value'))
+      .success(function(data){
+        if(data.status == 'true'){
+          get_module('sabnzbd');
+        }
+      })
+      .error(function(){
+        popup_message('Problem reaching Maraschino on /xhr/sabnzbd/speedlimit/<var>/');
+      });
+    }
+  });
+  
+  $(document).on('click', '#sabnzbd .inner .queue-title', function(){
+    $('#sabnzbd .inner .queue').toggle();
+    if($('#sabnzbd .inner .queue').css('display') != 'none' ){
+      get_module('sabnzbd', { poll:10, params: [ 'show' ] });
+    } else {
+      get_module('sabnzbd', { poll:10 });
+    }
+  });
+
+  $(document).on('click', '#sabnzbd .inner .queue table tr td.pause', function(){
+    var id = $(this).parent('tr').attr('id');
+    var state = $(this).parent('tr').data('action');
+    $.get('/xhr/sabnzbd/individual/'+state+'/'+id)
+    .success(function(data){
+      if(data.status == 'true'){
+        get_module('sabnzbd', { poll:10, params: [ 'show' ] });
+      }
+    })
+    .error(function(){
+      popup_message('Problem reaching Maraschino on /xhr/sabnzbd/individual/<var>/<var>');
+    });
+  });
+
+  $(document).on('click', '#sabnzbd .inner .queue table tr td.delete', function(){
+    var id = $(this).parent('tr').attr('id');
+    $.get('/xhr/sabnzbd/individual/delete/'+id)
+    .success(function(data){
+      if(data.status == 'true'){
+        get_module('sabnzbd', { poll:10, params: [ 'show' ] });
+      }
+    })
+    .error(function(){
+      popup_message('Problem reaching Maraschino on /xhr/sabnzbd/individual/delete/<var>');
+    });
   });
 
   /********* END SABNZBD ***********/
@@ -1509,5 +1567,4 @@ $(document).ready(function() {
       }
     });
   });
-
 });
