@@ -107,7 +107,7 @@ def xhr_library_album(artist, album):
 
     return render_library(library, title)
 
-@app.route('/xhr/library/movies/info/<int:movieid>')
+@app.route('/xhr/library/movie/info/<int:movieid>')
 @requires_auth
 def xhr_library_info_movie(movieid):
     xbmc = jsonrpclib.Server(server_api_address())
@@ -128,7 +128,7 @@ def xhr_library_info_movie(movieid):
         itemart = itemart,
     )
 
-@app.route('/xhr/library/shows/info/<int:tvshowid>')
+@app.route('/xhr/library/tvshow/info/<int:tvshowid>')
 @requires_auth
 def xhr_library_info_show(tvshowid):
     xbmc = jsonrpclib.Server(server_api_address())
@@ -152,7 +152,7 @@ def xhr_library_info_show(tvshowid):
         bannerart = bannerart,
     )
 
-@app.route('/xhr/library/episodes/info/<int:episodeid>')
+@app.route('/xhr/library/episode/info/<int:episodeid>')
 @requires_auth
 def xhr_library_info_episode(episodeid):
     xbmc = jsonrpclib.Server(server_api_address())
@@ -173,7 +173,7 @@ def xhr_library_info_episode(episodeid):
         itemart = itemart,
     )
 
-@app.route('/xhr/library/artists/info/<int:artistid>')
+@app.route('/xhr/library/artist/info/<int:artistid>')
 @requires_auth
 def xhr_library_info_artist(artistid):
     xbmc = jsonrpclib.Server(server_api_address())
@@ -194,7 +194,7 @@ def xhr_library_info_artist(artistid):
         itemart = itemart,
     )
 
-@app.route('/xhr/library/albums/info/<int:albumid>')
+@app.route('/xhr/library/album/info/<int:albumid>')
 @requires_auth
 def xhr_library_info_album(albumid):
     xbmc = jsonrpclib.Server(server_api_address())
