@@ -1,7 +1,9 @@
 <div class="module generic_module edit_settings" data-module="{{ module.name }}">
 
   <h2>{{ module.label }} - Settings</h2>
-
+  
+  <div style="padding:0px 20px 10px 20px;color:#666;font-weight:bold">{{ module.description }}</div>
+  
   <form class="inner" method="post" action="">
 
     {% if not module.static or module.settings %}
