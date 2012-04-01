@@ -31,9 +31,33 @@ def xhr_library_root(item_type):
         if item_type == 'movies':
             library = xbmc.VideoLibrary.GetMovies(sort={ 'method': 'label', 'ignorearticle' : True }, properties=['playcount', 'resume'])
 
+            if get_setting_value('library_watched_movies') == '0':
+                unwatched = []
+
+                for movies in library['movies']:
+                    movie_playcount = movies['playcount']
+
+                    if movie_playcount == 0:
+                        unwatched.append(movies)
+
+                unwatched = {'movies': unwatched}
+                library = unwatched
+
         if item_type == 'shows':
             title = "TV Shows"
             library = xbmc.VideoLibrary.GetTVShows(sort={ 'method': 'label', 'ignorearticle' : True }, properties=['playcount'])
+
+            if get_setting_value('library_watched_tv') == '0':
+                unwatched = []
+
+                for tvshows in library['tvshows']:
+                    tvshow_playcount = tvshows['playcount']
+
+                    if tvshow_playcount == 0:
+                        unwatched.append(tvshows)
+
+                unwatched = {'tvshows': unwatched}
+                library = unwatched
 
         if item_type == 'artists':
             title = "Music"
@@ -62,8 +86,20 @@ def xhr_library_root(item_type):
 def xhr_library_show(show):
     xbmc = jsonrpclib.Server(server_api_address())
     library = xbmc.VideoLibrary.GetSeasons(tvshowid=show, properties=['tvshowid', 'season', 'showtitle', 'playcount'])
-    library['tvshowid'] = show
 
+    if get_setting_value('library_watched_tv') == '0':
+        unwatched = []
+
+        for seasons in library['seasons']:
+            season_playcount = seasons['playcount']
+
+            if season_playcount == 0:
+                unwatched.append(seasons)
+
+        unwatched = {'seasons': unwatched}
+        library = unwatched
+
+    library['tvshowid'] = show
     title = library['seasons'][0]['showtitle']
 
     return render_library(library, title)
@@ -75,6 +111,18 @@ def xhr_library_season(show, season):
 
     sort = { 'method': 'episode' }
     library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode', 'plot', 'playcount', 'resume'])
+
+    if get_setting_value('library_watched_tv') == '0':
+        unwatched = []
+
+        for episodes in library['episodes']:
+            episode_playcount = episodes['playcount']
+
+            if episode_playcount == 0:
+                unwatched.append(episodes)
+
+        unwatched = {'episodes': unwatched}
+        library = unwatched
 
     episode = library['episodes'][0]
     title = '%s - Season %s' % (episode['showtitle'], episode['season'])
