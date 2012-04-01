@@ -31,14 +31,19 @@ def xhr_sabnzbd(queue_status = 'hide'):
     if not get_setting_value('sabnzbd_host'):
         if get_setting_value('sabnzbd_url') != None:
             old_config = True
+        
+    downloading = None
+    sabnzbd = None
+    percentage_total = None
+    download_speed = None
+    downloading = None
+    download_left = None
 
     try:
         result = urllib.urlopen(sabnzbd_url('queue')).read()
         sabnzbd = json.JSONDecoder().decode(result)
         sabnzbd = sabnzbd['queue']
 
-        percentage_total = 0
-        downloading = None
         download_speed = format_number(int((sabnzbd['kbpersec'])[:-3])*1024) + '/s'
 
         if sabnzbd['slots']:
@@ -50,14 +55,8 @@ def xhr_sabnzbd(queue_status = 'hide'):
 
         download_left = format_number(int(float(sabnzbd['mbleft'])*1024*1024))
 
-        download_left = format_number(int(float(sabnzbd['mbleft'])*1024*1024))
-
     except:
-        sabnzbd = None
-        percentage_total = None
-        download_speed = None
-        downloading = None
-        download_left = None
+        pass
 
     return render_template('sabnzbd-queue.html',
         sabnzbd = sabnzbd,
