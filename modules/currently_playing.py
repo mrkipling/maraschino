@@ -20,26 +20,16 @@ def xhr_currently_playing():
         playerid = active_player[0]['playerid']
         player_info = xbmc.Player.GetProperties(playerid=playerid, properties=['time', 'totaltime', 'position', 'percentage', 'repeat', 'shuffled'])
         muted = xbmc.Application.GetProperties(properties=['muted'])['muted']
-        vfs_url = '/xhr/vfs_proxy/'
 
         if active_player[0]['type'] == 'video':
             currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid', 'plot', 'thumbnail'])['item']
-            fanart_url = currently_playing['fanart']
-            itemart_url = currently_playing['thumbnail']
-
-        # if watching a TV show
-
-            if currently_playing['tvshowid'] != -1:
-                fanart_url = xbmc.VideoLibrary.GetTVShowDetails(tvshowid = currently_playing['tvshowid'], properties = ['fanart'])['tvshowdetails']['fanart']
-                itemart_url = currently_playing['thumbnail']
-
-        # if playing music
 
         if active_player[0]['type'] == 'audio':
             currently_playing = xbmc.Player.GetItem(playerid = 0, properties = ['title', 'duration', 'fanart', 'artist', 'albumartist', 'album', 'track', 'artistid', 'albumid', 'thumbnail', 'year'])['item']
-            fanart_url = currently_playing['fanart']
-            itemart_url = currently_playing['thumbnail']
 
+        fanart_url = currently_playing['fanart']
+        itemart_url = currently_playing['thumbnail']
+        vfs_url = '/xhr/vfs_proxy/'
         try:
             itemart = vfs_url + strip_special(itemart_url)
 
