@@ -1,6 +1,11 @@
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
 from flask import Flask, jsonify, render_template, request
 from maraschino.database import db_session
-import copy, json
+import copy
 
 from Maraschino import app
 from settings import *
@@ -38,6 +43,32 @@ AVAILABLE_MODULES = [
         'static': True,
         'poll': 0,
         'delay': 0,
+        'settings': [
+            {
+                'key': 'library_show_info',
+                'value': '0',
+                'description': 'Show media information by default',
+                'type': 'bool',
+            },
+            {
+                'key': 'library_use_bannerart',
+                'value': '0',
+                'description': 'Use Bannerart for TV shows',
+                'type': 'bool',
+            },
+            {
+                'key': 'library_watched_movies',
+                'value': '1',
+                'description': 'Show Watched Movies',
+                'type': 'bool',
+            },
+            {
+                'key': 'library_watched_tv',
+                'value': '1',
+                'description': 'Show Watched TV/Episodes',
+                'type': 'bool',
+            },
+        ]
     },
     {
         'name': 'recently_added',
@@ -62,6 +93,12 @@ AVAILABLE_MODULES = [
                 'key': 'recently_added_watched_episodes',
                 'value': '1',
                 'description': 'Show Watched Episodes',
+                'type': 'bool',
+            },
+            {
+                'key': 'recently_added_info',
+                'value': '0',
+                'description': 'View information when selecting episode',
                 'type': 'bool',
             },
         ]
@@ -91,6 +128,12 @@ AVAILABLE_MODULES = [
                 'description': 'Show Watched Movies',
                 'type': 'bool',
             },
+            {
+                'key': 'recently_added_movies_info',
+                'value': '0',
+                'description': 'View information when selecting movie',
+                'type': 'bool',
+            },
         ]
     },
     {
@@ -110,6 +153,12 @@ AVAILABLE_MODULES = [
                 'key': 'recently_added_albums_compact',
                 'value': '0',
                 'description': 'Compact view',
+                'type': 'bool',
+            },
+            {
+                'key': 'recently_added_albums_info',
+                'value': '0',
+                'description': 'View information when selecting album',
                 'type': 'bool',
             },
         ]
@@ -264,6 +313,39 @@ AVAILABLE_MODULES = [
             },
             {
                 'key': 'sickbeard_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
+            },
+        ]
+    },
+    {
+        'name': 'weather',
+        'label': 'Weather',
+        'description': 'Weather details.',
+        'static': False,
+        'poll': 350,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'weather_location',
+                'value': '',
+                'description': 'Location - can be a U.S. zip code or city name, state or city name, country',
+            },
+            {
+                'key': 'weather_use_celcius',
+                'value': '0',
+                'description': 'Temperature in C',
+                'type': 'bool',
+            },
+            {
+                'key': 'weather_use_kilometers',
+                'value': '0',
+                'description': 'Wind Speed in Km',
+                'type': 'bool',
+            },
+            {
+                'key': 'weather_compact',
                 'value': '0',
                 'description': 'Compact view',
                 'type': 'bool',

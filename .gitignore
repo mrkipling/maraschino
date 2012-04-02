@@ -10,6 +10,7 @@
 settings.py
 maraschino.wsgi
 static/images/backgrounds/custom
+/logs/
 
 ######################
 # OS generated files #

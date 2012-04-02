@@ -1,5 +1,9 @@
 #Maraschino
 
+* **Author**: [Bradley Abrahams](https://github.com/mrkipling)
+
+* **Main collaborator**: [Gustavo Hoirisch](https://github.com/gugahoi)
+
 ##What is Maraschino?
 
 I wanted a simple web interface to act as a nice overview/front page for my XBMC HTPC. I couldn't find anything that suited my requirements so I created something myself.
