@@ -310,7 +310,7 @@ AVAILABLE_MODULES = [
     {
         'name': 'weather',
         'label': 'Weather',
-        'description': 'Gets weather details.',
+        'description': 'Weather details.',
         'static': False,
         'poll': 350,
         'delay': 0,
@@ -323,13 +323,13 @@ AVAILABLE_MODULES = [
             {
                 'key': 'weather_use_celcius',
                 'value': '0',
-                'description': 'Use celcius for tempreture',
+                'description': 'Temperature in C',
                 'type': 'bool',
             },
             {
                 'key': 'weather_use_kilometers',
                 'value': '0',
-                'description': 'Use kilometers for wind speed',
+                'description': 'Wind Speed in Km',
                 'type': 'bool',
             },
             {
