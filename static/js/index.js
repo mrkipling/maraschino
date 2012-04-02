@@ -262,6 +262,9 @@ $(document).ready(function() {
   $(document).on('click', '#currently_playing .controls > div', function() {
     var command = $(this).attr('class');
     $.get('/xhr/controls/' + command);
+    $.get('/xhr/currently_playing', function(data) {
+      $('#currently_playing').replaceWith(data);
+    });
   });
 
   // click show name to view in media library module
