@@ -244,6 +244,15 @@ $(document).ready(function() {
     setTimeout(get_currently_playing, 5000);
   }
 
+  // Seek Function
+  $(document).on('click', '#currently_playing .progress .bar', function(e){
+      var $this = $(this);
+      var x = e.pageX - $this.offset().left;
+      var percent = Math.round((x / $this.width())*100);
+      $.get('/xhr/controls/seek_'+percent);
+      get_currently_playing();
+  });
+
   // Settings tab
   $(document).on('click', '#server_settings .tab', function(){
     if($('#server_settings .inner').css('display') == 'none'){
