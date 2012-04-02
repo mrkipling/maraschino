@@ -245,30 +245,34 @@ $(document).ready(function() {
   }
 
   // Seek Function
-  $(document).on('click', '#currently_playing .progress .bar', function(e){
+  $(document).on('click', '#currently_playing .progress', function(e){
     var x = e.pageX - $(this).offset().left;
     var percent = Math.round((x / $(this).width())*100);
     $.get('/xhr/controls/seek_'+percent);
-    $.get('/xhr/currently_playing');    
+    $.get('/xhr/currently_playing', function(data){
+      $('#currently_playing').replaceWith(data);
+    });    
   });
 
-  $(document).on('mouseenter', '#currently_playing .progress .bar', function(e){
+  $(document).on('mouseenter', '#currently_playing .progress', function(e){
     var x = e.pageX - $(this).offset().left;
     var percent = Math.round((x / $(this).width())*100);
-    
-    //Append the tooltip template and its value
-    $(this).append('<div id="tooltip">Seek to ' + percent + '%</div>');
-    $(this).children('div#tooltip').css('margin-left', percent+'%');
+    var time = parseInt($(this).children('.total').data('seconds'))*(percent/100);
+    time = (new Date).clearTime().addSeconds(time).toString('H:mm:ss');
+    $(this).append('<div id="tooltip">' + percent + '</div>');
+    $(this).children('div#tooltip').css('margin-left', time+'%');
   });
 
-  $(document).on('mousemove', '#currently_playing .progress .bar', function(e){
+  $(document).on('mousemove', '#currently_playing .progress', function(e){
     var x = e.pageX - $(this).offset().left;
     var percent = Math.round((x / $(this).width())*100);
-    $(this).children('div#tooltip').html('Seek to ' + percent + '%');
+    var time = parseInt($(this).children('.total').data('seconds'))*(percent/100);
+    time = (new Date).clearTime().addSeconds(time).toString('H:mm:ss');
+    $(this).children('div#tooltip').html(time);
     $(this).children('#tooltip').css('margin-left', percent+'%');
   });
 
-  $(document).on('mouseleave', '#currently_playing .progress .bar', function(e){
+  $(document).on('mouseleave', '#currently_playing .progress', function(e){
     $(this).children('div#tooltip').remove();
   });
 

@@ -63,6 +63,7 @@ def xhr_currently_playing():
         current_time = format_time(time['time']),
         total_time = format_time(time['totaltime']),
         percentage_progress = int(time['percentage']),
+        total_time_seconds = time['totaltime']['hours']*3600+time['totaltime']['minutes']*60+time['totaltime']['seconds'],
     )
 
 @app.route('/xhr/synopsis')
