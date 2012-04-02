@@ -246,11 +246,30 @@ $(document).ready(function() {
 
   // Seek Function
   $(document).on('click', '#currently_playing .progress .bar', function(e){
-      var $this = $(this);
-      var x = e.pageX - $this.offset().left;
-      var percent = Math.round((x / $this.width())*100);
-      $.get('/xhr/controls/seek_'+percent);
-      get_currently_playing();
+    var x = e.pageX - $(this).offset().left;
+    var percent = Math.round((x / $(this).width())*100);
+    $.get('/xhr/controls/seek_'+percent);
+    $.get('/xhr/currently_playing');    
+  });
+
+  $(document).on('mouseenter', '#currently_playing .progress .bar', function(e){
+    var x = e.pageX - $(this).offset().left;
+    var percent = Math.round((x / $(this).width())*100);
+    
+    //Append the tooltip template and its value
+    $(this).append('<div id="tooltip">Seek to ' + percent + '%</div>');
+    $(this).children('div#tooltip').css('margin-left', percent+'%');
+  });
+
+  $(document).on('mousemove', '#currently_playing .progress .bar', function(e){
+    var x = e.pageX - $(this).offset().left;
+    var percent = Math.round((x / $(this).width())*100);
+    $(this).children('div#tooltip').html('Seek to ' + percent + '%');
+    $(this).children('#tooltip').css('margin-left', percent+'%');
+  });
+
+  $(document).on('mouseleave', '#currently_playing .progress .bar', function(e){
+    $(this).children('div#tooltip').remove();
   });
 
   // Settings tab
@@ -1116,7 +1135,7 @@ $(document).ready(function() {
         $('#sickbeard').replaceWith(data);
       })
       .error(function(){
-	popup_message('Could not reach Maraschino.');
+	    popup_message('Could not reach Maraschino.');
       });
     }
   });
