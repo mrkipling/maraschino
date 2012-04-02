@@ -5,7 +5,7 @@
 {% macro item(i) -%}
 <div class="coming_ep" id="{{i.tvdbid}}_{{i.season}}_{{i.episode}}" tvdb={{i.tvdbid}}>
 
-  <h2><a href="{{ url }}home/displayShow?show={{i.tvdbid}}" target="_blank">{{ i.show_name }} - {{ i.season }}x{{ i.episode }} - {{ i.ep_name }}</a></h2>
+  <h2><a href="{{ url }}/home/displayShow?show={{i.tvdbid}}" target="_blank">{{ i.show_name }} - {{ i.season }}x{{ i.episode }} - {{ i.ep_name }}</a></h2>
 
   {% if not compact_view %}
     <img width="100%" src="{{i.image}}" />
