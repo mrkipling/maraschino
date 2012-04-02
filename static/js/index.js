@@ -471,19 +471,28 @@ $(document).ready(function() {
   // play recently added episodes when clicking on them
 
   $(document).on('click', '#recently_added .episodes li', function() {
-    $.get('/xhr/play_video/episode/' + $(this).data('episodeid'));
+    $.get('/xhr/play/video/episode/' + $(this).data('episodeid'));
+    $.get('/xhr/currently_playing', function(data) {
+      $('#currently_playing').replaceWith(data);
+    });
   });
 
   // play recently added movies when clicking on them
 
   $(document).on('click', '#recently_added_movies li', function() {
-    $.get('/xhr/play_video/movie/' + $(this).data('movieid'));
+    $.get('/xhr/play/video/movie/' + $(this).data('movieid'));
+    $.get('/xhr/currently_playing', function(data) {
+      $('#currently_playing').replaceWith(data);
+    });
   });
 
   // play recently added albums when clicking on them
 
   $(document).on('click', '#recently_added_albums li', function() {
-    $.get('/xhr/play_audio/album/' + $(this).data('albumid'));
+    $.get('/xhr/play/audio/album/' + $(this).data('albumid'));
+    $.get('/xhr/currently_playing', function(data) {
+      $('#currently_playing').replaceWith(data);
+    });
   });
 
   // browse library
@@ -518,6 +527,10 @@ $(document).ready(function() {
 
     $.get('/xhr/play/' + file_type + '/' + media_type + '/' + id, function() {
       remove_loading_gif(li);
+    });
+
+    $.get('/xhr/currently_playing', function(data) {
+      $('#currently_playing').replaceWith(data);
     });
   });
 
@@ -559,6 +572,10 @@ $(document).ready(function() {
 
   $(document).on('click', '#library #trailer', function() {
     $.get('/xhr/play/trailer/' + $(this).data('id'));
+
+    $.get('/xhr/currently_playing', function(data) {
+      $('#currently_playing').replaceWith(data);
+    });
   });
 
   $(document).on('click', '#library #resume', function() {
@@ -575,6 +592,10 @@ $(document).ready(function() {
 
     $.get('/xhr/resume/video/' + media_type + '/' + id, function() {
       remove_loading_gif(li);
+    });
+
+    $.get('/xhr/currently_playing', function(data) {
+      $('#currently_playing').replaceWith(data);
     });
   });
 
@@ -594,6 +615,10 @@ $(document).ready(function() {
     add_loading_gif(li);
     $.post('/xhr/play_file/' + $(this).data('file_type') + '/',{file: encodeURI(file)}, function(data){
       remove_loading_gif(li);
+    });
+
+    $.get('/xhr/currently_playing', function(data) {
+      $('#currently_playing').replaceWith(data);
     });
   });
 
