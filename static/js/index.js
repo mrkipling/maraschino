@@ -257,16 +257,11 @@ $(document).ready(function() {
     get_currently_playing();
   }
 
-  // play/pause control
+  // currently_playing controls
 
-  $(document).on('click', '#currently_playing .controls .play_pause', function() {
-    $.get('/xhr/controls/play_pause');
-  });
-
-  // stop control
-
-  $(document).on('click', '#currently_playing .controls .stop', function() {
-    $.get('/xhr/controls/stop');
+  $(document).on('click', '#currently_playing .controls > div', function() {
+    var command = $(this).attr('class');
+    $.get('/xhr/controls/' + command);
   });
 
   // click show name to view in media library module

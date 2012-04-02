@@ -280,6 +280,12 @@ def xhr_controls(command):
     elif command == 'rewind':
         xbmc.Player.SetSpeed(playerid=playerid, speed='decrement')
 
+    elif 'seek' in command:
+        percentage = command.split('_')
+        percentage = int(percentage[1])
+        print percentage
+        xbmc.Player.Seek(playerid=playerid, value=percentage)
+
     elif command == 'shuffle':
         shuffled = xbmc.Player.GetProperties(playerid=playerid, properties=['shuffled'])['shuffled']
         if shuffled == True:
