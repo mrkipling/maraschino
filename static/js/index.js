@@ -435,8 +435,10 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '#recently_added .view_newer', function() {
+    var offset = $('#recently_added').data('episode_offset') - $('#recently_added .episodes > li').length;
+    if(offset<0){offset=0;}
     get_module('recently_added', {
-      params: [$('#recently_added').data('episode_offset') - $('#recently_added .episodes > li').length]
+      params: [offset]
     });
     return false;
   });
@@ -451,8 +453,10 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '#recently_added_movies .view_newer', function() {
+    var offset = $('#recently_added_movies').data('movie_offset') - $('#recently_added_movies .movies > li').length;
+    if(offset<0){offset=0;}
     get_module('recently_added_movies', {
-      params: [$('#recently_added_movies').data('movie_offset') - $('#recently_added_movies .movies > li'). length]
+      params: [offset]
     });
     return false;
   });
@@ -467,8 +471,10 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '#recently_added_albums .view_newer', function() {
+    var offset = $('#recently_added_albums').data('album_offset') - $('#recently_added_albums .albums > li').length;
+    if(offset<0){offset=0;}
     get_module('recently_added_albums', {
-      params: [$('#recently_added_albums').data('album_offset') - $('#recently_added_albums .albums > li').length]
+      params: [offset]
     });
     return false;
   });
