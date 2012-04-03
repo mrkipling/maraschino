@@ -251,7 +251,7 @@ $(document).ready(function() {
     $.get('/xhr/controls/seek_'+percent);
     $.get('/xhr/currently_playing', function(data){
       $('#currently_playing').replaceWith(data);
-    });    
+    });
   });
 
   $(document).on('mouseenter', '#currently_playing .progress', function(e){
@@ -1290,7 +1290,7 @@ $(document).ready(function() {
       });
     }
   });
-  
+
   $(document).on('click', '#sabnzbd .inner .queue-title', function(){
     $('#sabnzbd .inner .queue').toggle();
     if($('#sabnzbd .inner .queue').css('display') != 'none' ){
