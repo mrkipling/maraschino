@@ -31,8 +31,7 @@ def xhr_utorrent():
 
         # loop through each job, add any active (downloading) torrents to utorrent()
         for i in torrents:
-            #refer to utorrent web api for description of status
-            if int(i[1]) & 1 and int(i[1]) & 32 == False:
+            if int(i.progress) <= 100:
                 utorrent.append(i)
 
         # unset transmission, if there are no torrents currently being downloaded/seeded

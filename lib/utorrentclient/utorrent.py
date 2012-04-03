@@ -31,7 +31,17 @@ class HttpClient(object):
         response.close()
         return link
 
+class Torrent(object):
 
+    def __init__(self,torrent):
+        self.hash = torrent[0]
+        self.status = torrent[1]
+        self.name = torrent[2]
+        self.progress = torrent[3]
+        self.size = torrent[4]
+        self.up_rate = torrent[5]
+        self.down_rate = torrent[6]
+        self.eta = torrent[7]
 
 class uTorrent(object):
     
@@ -66,7 +76,7 @@ class uTorrent(object):
                 tor = re.findall('\"[^\"]*\"|[0-9\-]+', line)
                 hashnum = tor[0][1:-1]
                 status = tor[1]
-                torname = tor[2]
+                torname = tor[2].replace("\"","")
                 complete = tor[4]
                 complete = int(complete)
                 complete = complete / 10.0
@@ -86,6 +96,6 @@ class uTorrent(object):
                     remain_str = str(remain) + "m"
                 tup = (hashnum, status, torname, complete, size_str, up_rate, down_rate,remain_str)
                 print(torname + str(status))
-                torrentList.append(tup)
+                torrentList.append(Torrent(tup))
         return torrentList
 
