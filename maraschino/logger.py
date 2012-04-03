@@ -6,8 +6,14 @@ import logging.handlers
 import sys
 import os 
 from settings import *
-from Maraschino import rundir
-
+try:
+	# Path for APACHE
+    from Maraschino import rundir
+    LOG_DIR = os.path.join(rundir, "logs/")
+except:
+	# Path for dev webserver
+    LOG_DIR = './logs/'
+    
 # Level     When it is used
 
 # DEBUG     Detailed information, typically of interest only when diagnosing problems.
@@ -21,8 +27,6 @@ from Maraschino import rundir
 # import logger
 # logger.log('debug message', 'level')
 #
-
-LOG_DIR = os.path.join(rundir, "logs/")
 
 # create the directory for the logs if it doesn't exist
 if not os.path.exists(LOG_DIR):
