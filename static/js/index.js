@@ -293,7 +293,7 @@ $(document).ready(function() {
   // currently_playing controls
 
   $(document).on('click', '#currently_playing .controls > div', function() {
-    var command = $(this).attr('class');
+    var command = $(this).data('command');
     $.get('/xhr/controls/' + command);
     $.get('/xhr/currently_playing', function(data) {
       $('#currently_playing').replaceWith(data);

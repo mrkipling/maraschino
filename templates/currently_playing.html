@@ -61,17 +61,17 @@
   </div>
 
   <div class="controls">
-    <div class="previous">Previous</div>
-    <div class="rewind">Rewind</div>
-    <div class="stop">Stop</div>
-    <div class="play_pause">Play/Pause</div>
-    <div class="fast_forward">Fast Forward</div>
-    <div class="next">Next</div>
-    <div class="shuffle" {% if shuffled %}id="active"{% endif %}>Shuffle</div>
-    <div class="repeat" {% if repeat != 'off' %}id="repeat_{{ repeat }}"{% endif %}>Repeat</div>
-    <div class="volume_up">Volume Up</div>
-    <div class="volume_down">Volume Down</div>
-    <div class="mute" {% if muted %}id="active"{% endif %}>Mute</div>
+    <div class="previous" data-command="previous" title="Previous">Previous</div>
+    <div class="rewind" data-command="rewind" title="Rewind">Rewind</div>
+    <div class="stop" data-command="stop" title="Stop">Stop</div>
+    <div class="play_pause" data-command="play_pause" title="Play/Pause">Play/Pause</div>
+    <div class="fast_forward" data-command="fast_forward" title="Fast forward">Fast Forward</div>
+    <div class="next" data-command="next" title="Next">Next</div>
+    <div class="shuffle{{ ' active' if shuffled }}" data-command="shuffle" title="Shuffle">Shuffle</div>
+    <div class="repeat{% if repeat != 'off' %} repeat_{{ repeat }}{% endif %}" data-command="repeat" title="Repeat">Repeat</div>
+    <div class="volume_up" data-command="volume_up" title="Volume up">Volume Up</div>
+    <div class="volume_down" data-command="volume_down" title="Volume down">Volume Down</div>
+    <div class="mute{{ ' active' if muted }}" data-command="mute" title="Mute">Mute</div>
   </div>
 
   {% if currently_playing.plot %}
