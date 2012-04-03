@@ -19,7 +19,7 @@ def xhr_currently_playing():
         active_player = xbmc.Player.GetActivePlayers()
         playerid = active_player[0]['playerid']
         player_info = xbmc.Player.GetProperties(playerid=playerid, properties=['time', 'totaltime', 'position', 'percentage', 'repeat', 'shuffled'])
-        volume = xbmc.Application.GetProperties(properties=['volume'])
+        volume = xbmc.Application.GetProperties(properties=['volume'])['volume']
 
         if active_player[0]['type'] == 'video':
             currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid', 'plot', 'thumbnail'])['item']
