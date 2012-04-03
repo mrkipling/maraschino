@@ -147,21 +147,17 @@
       background: #111 url(/static/images/player_buttons/rewind.png) no-repeat center;
     }
     .shuffle {
-      margin-left: 15px;
       background: #111 url(/static/images/player_buttons/shuffle.png) no-repeat center;
     }
     .repeat {
       background: #111 url(/static/images/player_buttons/repeat.png) no-repeat center;
     }
-
     #active {
       background-color: #444;
     }
-
     #repeat_one {
       background: #444 url(/static/images/player_buttons/repeat_one.png) no-repeat center;
     }
-
     #repeat_all {
       background: #444 url(/static/images/player_buttons/repeat_all.png) no-repeat center;
     }
@@ -201,12 +197,29 @@
     }
     
     #tooltip {
-      width:80px;
-      padding:5px;
-      border-radius:4px; 
-      border: 1px dashed white; 
+      font-size: 80%;
+      width:40px;
+      margin-left: -20px;
+      padding:2px;
       text-align: center;
-      margin-top: 5px;
+      margin-top: -25px;
+      border-color: #eee;
+      -moz-border-radius:10px;
+      -webkit-border-radius:10px;
+      -webkit-box-shadow: 0px 0 3px rgba(0,0,0,0.25);
+      -moz-box-shadow: 0px 0 3px rgba(0,0,0,0.25);
+      box-shadow: 0px 0 3px rgba(0,0,0,0.25); 
+    }
+
+    #tooltip:after {
+      display: block;
+      content: "";  
+      border-color: white transparent transparent transparent;
+      border-style: solid;
+      border-width: 5px;
+      height:0;
+      width:0;
+      margin: 0 auto;
     }
   }
   
