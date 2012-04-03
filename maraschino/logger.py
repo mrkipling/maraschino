@@ -6,6 +6,7 @@ import logging.handlers
 import sys
 import os 
 from settings import *
+from Maraschino import rundir
 
 # Level     When it is used
 
@@ -21,7 +22,7 @@ from settings import *
 # logger.log('debug message', 'level')
 #
 
-LOG_DIR ="./logs/"
+LOG_DIR = os.path.join(rundir, "logs/")
 
 # create the directory for the logs if it doesn't exist
 if not os.path.exists(LOG_DIR):
