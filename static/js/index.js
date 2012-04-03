@@ -241,7 +241,7 @@ $(document).ready(function() {
       }
     });
 
-    setTimeout(get_currently_playing, 5000);
+    setTimeout(get_currently_playing, 200000);
   }
 
   // Seek Function
@@ -293,6 +293,14 @@ $(document).ready(function() {
   // currently_playing controls
 
   $(document).on('click', '#currently_playing .controls > div', function() {
+    var command = $(this).attr('class');
+    $.get('/xhr/controls/' + command);
+    $.get('/xhr/currently_playing', function(data) {
+      $('#currently_playing').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#currently_playing .controls .option > div', function() {
     var command = $(this).attr('class');
     $.get('/xhr/controls/' + command);
     $.get('/xhr/currently_playing', function(data) {
