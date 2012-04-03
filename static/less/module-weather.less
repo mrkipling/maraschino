@@ -1,0 +1,75 @@
+@import "mixins.less";
+
+#weather {
+
+	text-align: center;
+
+  h2 {
+    text-align: left;
+  }
+
+  table {
+    table-layout: fixed;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: 5px;
+    width: 98%;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+
+  .currenttemp {
+    font-size: xx-large;
+    font-weight: bold;
+    text-shadow: 5px 5px 5px #000;
+  }
+
+  .container {
+    background: url(/static/images/alpha/fff_10.png);
+    margin-bottom:5px;
+    padding:5px;
+    height:14px;
+    position:relative;
+	  -moz-border-radius:3px;
+	  -webkit-border-radius:3px;
+	  border-radius:3px;
+  }
+
+  .currentcond {
+    font-size: large;
+    font-weight: bold;
+    text-shadow: 5px 5px 5px #000
+  }
+
+  .forecastimg {
+    position: relative;
+    height: 32px;
+    width: 32px;
+  }
+
+  .compactforecastimg {
+    position: relative;
+    height: 22px;
+    width: 22px;
+  }
+
+  .current {
+    vertical-align: middle;
+  }
+
+  .high {
+	font-weight:bold;
+  }
+
+  .low {
+    color:grey;
+	font-weight:bold;
+  }
+
+  .currentimage {
+    height: 64px;
+    width: 64px;
+  }
+}

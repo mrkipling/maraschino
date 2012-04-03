@@ -100,11 +100,16 @@ $(document).ready(function() {
 
     // poll
     if (settings.poll !== 0) {
-      setTimeout(function() {
-        get_module(module, {
-          poll: settings.poll
-        })
-      }, settings.poll * 1000);
+      var timer = module+'_timer';
+      if(timer){
+        clearTimeout(window[timer]);
+        window[timer] = setTimeout(function() {
+                          get_module(module, {
+                            poll: settings.poll,
+                            params: [settings.params],
+                          })
+                        }, settings.poll * 1000);
+      }
     }
   }
 
@@ -430,8 +435,10 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '#recently_added .view_newer', function() {
+    var offset = $('#recently_added').data('episode_offset') - $('#recently_added .episodes > li').length;
+    if(offset<0){offset=0;}
     get_module('recently_added', {
-      params: [$('#recently_added').data('episode_offset') - $('#recently_added .episodes > li').length]
+      params: [offset]
     });
     return false;
   });
@@ -446,8 +453,10 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '#recently_added_movies .view_newer', function() {
+    var offset = $('#recently_added_movies').data('movie_offset') - $('#recently_added_movies .movies > li').length;
+    if(offset<0){offset=0;}
     get_module('recently_added_movies', {
-      params: [$('#recently_added_movies').data('movie_offset') - $('#recently_added_movies .movies > li'). length]
+      params: [offset]
     });
     return false;
   });
@@ -462,28 +471,48 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '#recently_added_albums .view_newer', function() {
+    var offset = $('#recently_added_albums').data('album_offset') - $('#recently_added_albums .albums > li').length;
+    if(offset<0){offset=0;}
     get_module('recently_added_albums', {
-      params: [$('#recently_added_albums').data('album_offset') - $('#recently_added_albums .albums > li').length]
+      params: [offset]
     });
     return false;
   });
 
   // play recently added episodes when clicking on them
 
-  $(document).on('click', '#recently_added .episodes li', function() {
+  $(document).on('click', '#recently_added #play_episode', function() {
     $.get('/xhr/play_video/episode/' + $(this).data('episodeid'));
+  });
+
+  // show info for recently added episode in library
+
+  $(document).on('click', '#recently_added #info_episode', function() {
+    invoke_library('/xhr/library/episodes/info/' + $(this).data('episodeid'));
   });
 
   // play recently added movies when clicking on them
 
-  $(document).on('click', '#recently_added_movies li', function() {
+  $(document).on('click', '#recently_added_movies #play_movie', function() {
     $.get('/xhr/play_video/movie/' + $(this).data('movieid'));
+  });
+
+  // show info for recently added movie in library
+
+  $(document).on('click', '#recently_added_movies #info_movie', function() {
+    invoke_library('/xhr/library/movies/info/' + $(this).data('movieid'));
   });
 
   // play recently added albums when clicking on them
 
-  $(document).on('click', '#recently_added_albums li', function() {
+  $(document).on('click', '#recently_added_albums #play_album', function() {
     $.get('/xhr/play_audio/album/' + $(this).data('albumid'));
+  });
+
+  // show info for recently added album in library
+
+  $(document).on('click', '#recently_added_albums #info_album', function() {
+    invoke_library('/xhr/library/albums/info/' + $(this).data('albumid'));
   });
 
   // browse library
@@ -889,10 +918,11 @@ $(document).ready(function() {
   $(document).on('click', '#sickbeard .menu .history', function(){
     $.get('/sickbeard/history/30', function(data){
       $('#sickbeard').html($(data).html());
+      $('#sickbeard .menu').prepend('<li class="snatched" title="View snatched"><span>Snatched</span></li>');
     });
   });
 
-  $(document).on('click', '#sickbeard .history ul.toggle', function(){
+  $(document).on('click', '#sickbeard .menu li.snatched', function(){
     $('#sickbeard .history .Snatched').toggle();
     $(this).toggleClass('active');
   });
@@ -1109,7 +1139,7 @@ $(document).ready(function() {
     $.get('/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
     .success(function(data){
       if(data){
-	$('#sickbeard .episode-info .status .search').attr('src','/static/images/yes.png');
+        $('#sickbeard .episode-info .status .search').attr('src','/static/images/yes.png');
       } else {
         $('#sickbeard .episode-info .status .search').attr('src','/static/images/no.png');
       }
@@ -1211,7 +1241,59 @@ $(document).ready(function() {
         get_module('sabnzbd');
       }
     })
-    .error('Could not reach Maraschino');
+    .error(function(){
+      popup_message('Problem reaching Maraschino on /xhr/sabnzbd/queue/<var>/');
+    });
+  });
+
+  $(document).on('keypress', '#sabnzbd .inner .speed input', function(e){
+    if(e.which == 13){
+      $.get('/xhr/sabnzbd/speedlimit/'+$(this).attr('value'))
+      .success(function(data){
+        if(data.status == 'true'){
+          get_module('sabnzbd');
+        }
+      })
+      .error(function(){
+        popup_message('Problem reaching Maraschino on /xhr/sabnzbd/speedlimit/<var>/');
+      });
+    }
+  });
+  
+  $(document).on('click', '#sabnzbd .inner .queue-title', function(){
+    $('#sabnzbd .inner .queue').toggle();
+    if($('#sabnzbd .inner .queue').css('display') != 'none' ){
+      get_module('sabnzbd', { poll:10, params: [ 'show' ] });
+    } else {
+      get_module('sabnzbd', { poll:10 });
+    }
+  });
+
+  $(document).on('click', '#sabnzbd .inner .queue table tr td.pause', function(){
+    var id = $(this).parent('tr').attr('id');
+    var state = $(this).parent('tr').data('action');
+    $.get('/xhr/sabnzbd/individual/'+state+'/'+id)
+    .success(function(data){
+      if(data.status == 'true'){
+        get_module('sabnzbd', { poll:10, params: [ 'show' ] });
+      }
+    })
+    .error(function(){
+      popup_message('Problem reaching Maraschino on /xhr/sabnzbd/individual/<var>/<var>');
+    });
+  });
+
+  $(document).on('click', '#sabnzbd .inner .queue table tr td.delete', function(){
+    var id = $(this).parent('tr').attr('id');
+    $.get('/xhr/sabnzbd/individual/delete/'+id)
+    .success(function(data){
+      if(data.status == 'true'){
+        get_module('sabnzbd', { poll:10, params: [ 'show' ] });
+      }
+    })
+    .error(function(){
+      popup_message('Problem reaching Maraschino on /xhr/sabnzbd/individual/delete/<var>');
+    });
   });
 
   /********* END SABNZBD ***********/
@@ -1491,5 +1573,4 @@ $(document).ready(function() {
       }
     });
   });
-
 });

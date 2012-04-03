@@ -11,10 +11,14 @@
     {% endif %}
       <ul class="movies listfix">
         {% for movie in recently_added_movies %}
-          <li data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})"{% if movie.playcount %} class="watched"{% endif %}>
+          {% if view_info %}
+            <li id="info_movie" data-movieid="{{ movie.movieid }}" title="Information for {{ movie.title }} ({{ movie.year }})"{% if movie.playcount %} class="watched"{% endif %}>
+          {% else %}
+            <li id="play_movie" data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})"{% if movie.playcount %} class="watched"{% endif %}>
+          {% endif %}
 
             {% if movie.thumbnail and not compact_view %}
-              <div class="poster">
+              <div class="thumbnail">
                 <img src="{{ vfs_url }}{{ movie.thumbnail }}" alt="">
               </div>
             {% endif %}
@@ -37,7 +41,7 @@
     {% endif %}
 
     <div class="clearfix">
-      {% if movie_offset + recently_added_movies|length < 25 %}
+      {% if movie_offset + recently_added_movies|length < total_movies %}
         <a class="view_older" title="Older">&raquo;</a>
       {% endif %}
       {% if movie_offset > 0 %}
