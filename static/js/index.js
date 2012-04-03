@@ -296,7 +296,9 @@ $(document).ready(function() {
     var command = $(this).data('command');
     $.get('/xhr/controls/' + command);
     $.get('/xhr/currently_playing', function(data) {
-      $('#currently_playing').replaceWith(data);
+      if (data.playing !== false) {
+        $('#currently_playing').replaceWith(data);
+      }
     });
   });
 
