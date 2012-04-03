@@ -362,6 +362,55 @@ cat_oneddl = [
         },
     ]
 
+cat_irfree = [
+            { 'id': 0, 'name': 'Select Category...' },
+        { 'label' : 'Movies' , 'value' : [
+            { 'id': 101, 'path': 'movies/',                 'name': 'All' },
+            { 'id': 102, 'path': 'movies/anime/',           'name': 'Anime' },
+            { 'id': 103, 'path': 'movies/bdripbbrip/',      'name': 'BDRip/BBRip' },
+            { 'id': 104, 'path': 'movies/cam/',             'name': 'CAM' },
+            { 'id': 105, 'path': 'movies/dvd-r/',           'name': 'DVD-R' },
+            { 'id': 106, 'path': 'movies/dvdrip/',          'name': 'DVDRip' },
+            { 'id': 107, 'path': 'movies/dvdscr/',          'name': 'DVDScr' },
+            { 'id': 108, 'path': 'movies/moviesx264/',      'name': 'Movies x264' },
+            { 'id': 109, 'path': 'movies/r5/',              'name': 'R5' },
+            { 'id': 110, 'path': 'movies/telesyncts/',      'name': 'Telesyncts' },
+          ]
+        },
+        { 'label' : 'TV Shows' , 'value' : [
+            { 'id': 201, 'path': 'tv-shows/',                'name': 'All' },        
+            { 'id': 202, 'path': 'tv-shows/tv-showx264/',    'name': 'TV Shows x264' },
+            { 'id': 203, 'path': 'tv-shows/tv-showsboxsets/','name': 'TV Show Boxsets' },
+          ]
+        },
+        { 'label' : 'Music' , 'value' : [
+            { 'id': 301, 'path': 'music/',                  'name': 'Music' },
+            { 'id': 302, 'path': 'music/mvid/',             'name': 'Music Videos' },
+          ]
+        },
+        { 'label' : 'Applications', 'value' : [
+            { 'id': 401, 'path': 'applications/',           'name': 'All' },
+            { 'id': 402, 'path': 'applications/android/',   'name': 'Android' },
+            { 'id': 403, 'path': 'applications/iphone/',    'name': 'IPhone' },
+            { 'id': 404, 'path': 'applications/mac/',       'name': 'MAC' },
+            { 'id': 405, 'path': 'applications/windows/',   'name': 'Windows' },
+          ]
+        },
+        { 'label' : 'Games' , 'value' : [
+            { 'id': 501, 'path': 'games/',                  'name': 'All' },
+            { 'id': 502, 'path': 'games/ps3/',              'name': 'PS3' },
+            { 'id': 503, 'path': 'games/psp/',              'name': 'PSP' },
+            { 'id': 504, 'path': 'games/wii/',              'name': 'Wii' },
+            { 'id': 505, 'path': 'games/xbox360/',          'name': 'Xbox360' },
+          ]
+        },
+        { 'label' : 'EBooks' , 'value' : [
+            { 'id': 601, 'path': 'ebooks/',                 'name': 'All' },
+            { 'id': 602, 'path': 'ebooks/magazines/',       'name': 'Magazines' },
+          ]
+        },
+    ]
+
 cat_sceper = [
             { 'id': 0,                           'name': 'Select Category...' },
         { 'label' : 'Movies', 'value' : [
@@ -469,7 +518,8 @@ def xhr_rssfeeds_site(site = None):
         categories = cat_sceper
     elif site == 'vcdq':
         categories = cat_vcdq
-
+    elif site == 'irfree':
+        categories = cat_irfree
     else:
        categories = None
 
@@ -824,6 +874,7 @@ def xhr_rssfeeds_category(site = None, category = None):
             description = { 'img': img, 'nfolink': nfolink, 'imdblink': imdblink, 'size':size, 'genre': genre, 'imdbrating': imdbrating, }
             entry['description'] = description
 
+#VCDq
     elif site == "vcdq":
         categories = cat_vcdq
         
@@ -835,9 +886,22 @@ def xhr_rssfeeds_category(site = None, category = None):
         feed = 'http://www.vcdq.com/browse/rss/' + path
         feed = feedparser.parse(feed)
 
+# NewzNab
     elif site == "newznab":
         categories = cat_newznab
         feed = 'http://nzb.su/rss?t=' + category
+        feed = feedparser.parse(feed)
+
+# IRFree
+    elif site == "irfree":
+        categories = cat_irfree
+        
+        for cat in categories[1:]:
+            for subcat in cat['value']:
+                if int(category) == subcat['id']:
+                    path = subcat['path']
+                    
+        feed = 'http://www.irfree.com/' + path + 'rss.xml'
         feed = feedparser.parse(feed)
 
     else:

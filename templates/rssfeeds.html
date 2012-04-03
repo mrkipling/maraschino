@@ -13,6 +13,7 @@
         <optgroup style="background: #2b3621; color:#fff" label="Torrent Sites">
             <option style="background: #2b3621; color:#fff" value="piratebay" {% if site == 'piratebay' %}selected{%endif%}>The Pirate Bay</option>
         <optgroup style="background: #2b3621; color:#fff" label="Release Sites">
+            <option style="background: #2b3621; color:#fff" value="irfree" {% if site == 'irfree' %}selected{%endif%}>IRFree</option>
             <option style="background: #2b3621; color:#fff" value="rlslog" {% if site == 'rlslog' %}selected{%endif%}>RLSLog</option>
             <option style="background: #2b3621; color:#fff" value="scnsrc" {% if site == 'scnsrc' %}selected{%endif%}>ScnSrc</option>
             <option style="background: #2b3621; color:#fff" value="oneddl" {% if site == 'oneddl' %}selected{%endif%}>OneDDL</option>
@@ -76,7 +77,7 @@
         {% if site == 'rlslog' %}
           {% if not "Binverse - get 14 days of free Usenet access" in entry.title %}
             <li>
-             <div style="float:left; padding-right:10px;"><img src="{{ entry.description.img }}" width="70" height="auto"></div>
+             {% if not entry.description.img %} {% else %}<div style="float:left; padding-right:10px;"><img src="{{ entry.description.img }}" width="70" height="auto"></div>{% endif %}
               <h1>
                <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
               </h1>
@@ -95,7 +96,7 @@
         
         {% if site == 'scnsrc' %}
             <li>
-             <div style="float:left; padding-right:10px;"><img src="{{ entry.description.img }}" width="70" height="auto"></div>
+             {% if not entry.description.img %} {% else %}<div style="float:left; padding-right:10px;"><img src="{{ entry.description.img }}" width="70" height="auto"></div>{% endif %}
               <h1>
                <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
               </h1>
@@ -112,7 +113,7 @@
 
         {% if site == 'oneddl' %}
           <li>
-             <div style="float:left; padding-right:10px;"><img src="http://images.oneddl.eu/images/{{ entry.description.img }}" width="70" height="auto"></div>
+             {% if not entry.description.img %} {% else %}<div style="float:left; padding-right:10px;"><img src="http://images.oneddl.eu/images/{{ entry.description.img }}" width="70" height="auto"></div>{% endif %}
             <h1>
               <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
             </h1>
@@ -126,7 +127,7 @@
 
         {% if site == 'sceper' %}
           <li>
-             <div style="float:left; padding-right:10px;"><img src="http://img.sceper.eu/images/{{ entry.description.img }}" width="70" height="auto"></div>
+             {% if not entry.description.img %} {% else %}<div style="float:left; padding-right:10px;"><img src="http://img.sceper.eu/images/{{ entry.description.img }}" width="70" height="auto"></div>{% endif %}
             <h1>
               <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
             </h1>
@@ -152,7 +153,18 @@
             </div>
           </li>
         {% endif %}
-        
+
+        {% if site == 'irfree' %}
+            <li>
+             {% if not entry.description.img %} {% else %}<div style="float:left; padding-right:10px;"><img src="{{ entry.description.img }}" width="70" height="auto"></div>{% endif %}
+              <h1>
+               <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+              </h1>
+              <div style="font-size: 80%"><b>Added:</b> {{ entry.date[:26] }} <br />
+              </div>
+            </li>
+        {% endif %}
+
       {% endfor %}
     </ul>
   {% endif %}
