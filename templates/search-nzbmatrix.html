@@ -8,9 +8,7 @@
       <table class="tablesorter">
         <thead>
           <tr>
-            {% if item.LINK|add_to_sab %}
               <th width="2%"></th>
-            {%endif%}
             <th width="70%">Name</th>
             <th width="8%">Size</th>
             <th width="15%">Category</th>
@@ -20,11 +18,7 @@
           {% for x in results %}
             {% set item = results[x]%}
             <tr>
-              {% if item.LINK|add_to_sab %}
-                <td class="icon">
-                  <center><img src="static/images/applications/SabNZBd.png" nzb-link="{{ item.LINK|add_to_sab }}" /></center>
-                </td>
-              {%endif%}
+                <td class="icon"><img src="static/images/applications/SabNZBd.png" nzb-link="{{ item.LINK|add_to_sab }}" /></td>
               <td class="name">{{ item.NZBNAME }}</td>
               <td class="size">{{ item.SIZE|convert_bytes }}</td>
               <td class="category">{{ item.CATEGORY }}</td>
