@@ -12,11 +12,6 @@
   white-space: nowrap;
   z-index: 1;
   padding-bottom: 5px;
-  -webkit-transition: top .25s linear;
-  -moz-transition: top .25s linear;
-  -o-transition: top .25s linear;
-  transition: top .25s linear;
-  
   .border-radius(2px);
   .box-shadow(#222, 0, 0, 10px);
   
@@ -26,14 +21,6 @@
     font-weight: normal;
     line-height: 1.3em;
     padding: 10px 15px 12px;
-  }
-
-  &.hide {
-    top: -9999px;
-    -webkit-transition: top 3s linear;
-    -moz-transition: top 3s linear;
-    -o-transition: top 3s linear;
-    transition: top 3s linear;
   }
 
   form {
@@ -83,7 +70,7 @@
             &.name {
               overflow: hidden;
               text-overflow: ellipsis;
-              font: 130% "Lucida Grande";
+              font-size: 130%;
             }
 
             .border-radius(4px);

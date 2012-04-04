@@ -1301,13 +1301,6 @@ $(document).ready(function() {
   /********* SEARCH ***********/
 
   var search_enabled = false;
-  
-  $(document).on('change', '#server_settings select#id_search', function(){
-    if (!$(this).val()) {
-      $('#search').remove();
-      search_enabled = false;
-    }
-  });
 
   $(document).on('keydown', 'body', function(e){
     alt = (e.altKey) ? true : false;
@@ -1319,9 +1312,10 @@ $(document).ready(function() {
           if(!search_enabled){
             $('body').append(data);
             search_enabled = true;
-            $('#search').removeClass('hide');
+            $('#search').hide();
+            $('#search').slideDown(300);
           } else {
-            $('#search').toggleClass('hide');
+            $('#search').slideToggle(300);
           }
         } else {
           $('#search').remove();
