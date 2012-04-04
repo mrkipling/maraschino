@@ -1302,26 +1302,32 @@ $(document).ready(function() {
 
   var search_enabled = false;
   
+  $(document).on('change', '#server_settings select#id_search', function(){
+    if (!$(this).val()) {
+      $('#search').remove();
+      search_enabled = false;
+    }
+  });
+
   $(document).on('keydown', 'body', function(e){
     alt = (e.altKey) ? true : false;
     if(alt && e.which == 70){
       e.preventDefault();
-      if(!search_enabled){
-        $.get('/xhr/search')
-        .success(function(data){
-          if(data){
+      $.get('/xhr/search')
+      .success(function(data){
+        if(data){
+          if(!search_enabled){
             $('body').append(data);
             search_enabled = true;
             $('#search').removeClass('hide');
           } else {
-            $('#search').remove();
-            search_enabled = false;
+            $('#search').toggleClass('hide');
           }
-        });
-      } else {
-        //check if alt is pressed
-        $('#search').toggleClass('hide');
-      }
+        } else {
+          $('#search').remove();
+          search_enabled = false;
+        }
+      });
     }
   });
 
