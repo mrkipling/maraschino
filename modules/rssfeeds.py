@@ -904,6 +904,83 @@ def xhr_rssfeeds_category(site = None, category = None):
         feed = 'http://www.irfree.com/' + path + 'rss.xml'
         feed = feedparser.parse(feed)
 
+        for entry in feed['entries']:
+            r = re.compile('src="(.*?)"')
+            result = r.search(entry['summary'])
+            if result:
+                img = result.group(1)
+            else:
+                img = ""
+
+            r = re.compile('<strong>Genre:</strong>(.*?)(<br />|</p>)')
+            s = re.compile('\[GENRE\]:(.*?)<br />')
+            t = re.compile('Genre -(.*?)<br />')
+            u = re.compile('Genre(s): <em>(.*?)</em>') 
+            result = r.search(entry['summary'])
+            if result:
+                genre = result.group(1)
+            if not result:
+                result = s.search(entry['summary'])
+            if not result:
+                result = t.search(entry['summary'])
+            if not result:
+                result = u.search(entry['summary'])
+            if result:
+                genre = result.group(1)
+            else:
+                genre = ""
+
+            r = re.compile('Size</strong>:(.*?)<br />')
+            s = re.compile('Size:</strong>(.*?)<br />')
+            t = re.compile('SIZE\]:(.*?)<br />')
+            u = re.compile('Size.*- (.*?)<br />')
+            v = re.compile('Size :</strong>(.*?)<br />')
+            result = r.search(entry['summary'])
+            if result:
+                size = result.group(1)
+            if not result:
+                result = s.search(entry['summary'])
+            if not result:
+                result = t.search(entry['summary'])
+            if not result:
+                result = u.search(entry['summary'])
+            if not result:
+                result = v.search(entry['summary'])
+            if result:
+                size = result.group(1)
+            else:
+                size = ""
+
+            r = re.compile('IMDB:</strong>(.*?)<br />')
+            s = re.compile('Rating:</strong>(.*?)<br />')
+            t = re.compile('Rating</strong>:(.*?)<br />')
+            result = r.search(entry['summary'])
+            if result:
+                imdbrating = result.group(1)
+            if not result:
+                result = s.search(entry['summary'])
+            if not result:
+                result = t.search(entry['summary'])
+            if result:
+                imdbrating = result.group(1)
+            else:
+                imdbrating = ""
+
+            r = re.compile('imdb.com/title/(.*?)"')
+            result = r.search(entry['summary'])
+            if result:
+                imdblink = result.group(1)
+            else:
+                imdblink = ""
+
+            description = { 'img': img, 'genre': genre, 'size': size, 'imdbrating': imdbrating, 'imdblink': imdblink, }
+            entry['description'] = description
+            entry.description['genre'] = entry.description['genre'].replace("&amp;", "&")
+            entry.description['genre'] = entry.description['genre'].replace("&nbsp;", "")
+            entry.description['genre'] = entry.description['genre'].replace(" | ", ", ")
+            entry.description['size'] = entry.description['size'].replace("&nbsp;", "")
+            entry.description['imdbrating'] = entry.description['imdbrating'].replace("&nbsp;", "")
+            
     else:
         feed = None
     if feed:
