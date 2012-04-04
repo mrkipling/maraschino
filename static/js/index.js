@@ -251,7 +251,7 @@ $(document).ready(function() {
     $.get('/xhr/controls/seek_'+percent);
     $.get('/xhr/currently_playing', function(data){
       $('#currently_playing').replaceWith(data);
-    });    
+    });
   });
 
   $(document).on('mouseenter', '#currently_playing .progress', function(e){
@@ -293,10 +293,16 @@ $(document).ready(function() {
   // currently_playing controls
 
   $(document).on('click', '#currently_playing .controls > div', function() {
-    var command = $(this).attr('class');
+    var command = $(this).data('command');
     $.get('/xhr/controls/' + command);
     $.get('/xhr/currently_playing', function(data) {
-      $('#currently_playing').replaceWith(data);
+      if (data.playing === false) {
+        $('#currently_playing').slideUp(200, function() {
+          $(this).remove();
+        });
+      } else {
+        $('#currently_playing').replaceWith(data);
+      }
     });
   });
 
@@ -1298,7 +1304,7 @@ $(document).ready(function() {
       });
     }
   });
-  
+
   $(document).on('click', '#sabnzbd .inner .queue-title', function(){
     $('#sabnzbd .inner .queue').toggle();
     if($('#sabnzbd .inner .queue').css('display') != 'none' ){
