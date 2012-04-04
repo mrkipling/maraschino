@@ -224,7 +224,39 @@
       margin: 0 auto;
     }
   }
-  
+  .volume {
+    float: left;
+    margin-top: -10px;
+    line-height: 50px;
+    width: 5px;
+    height: 50px;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid #777;
+    .border-radius(3px);
+        
+    .bar {
+      position: absolute;
+      left: 0; 
+      background-color: white;
+      width: 100%; 
+      bottom: 0;
+      
+      .inner {
+        background-color: white;
+        margin: 0 auto; 
+        text-align: center;
+      }
+    }
+    #tooltip {
+      font-size: 80%;
+      height: 50px;
+      margin-left: 10px;
+      padding:2px;
+      text-align: center;
+    }
+  }
+
   .synopsis {
     display: none;
   }

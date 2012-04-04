@@ -277,6 +277,35 @@ $(document).ready(function() {
     $(this).children('div#tooltip').remove();
   });
 
+  // Volume Function
+  $(document).on('click', '#currently_playing .volume', function(e){
+    var y = e.pageY - $(this).offset().top;
+    var percent = Math.round((y / $(this).height())*100);
+    $.get('/xhr/controls/volume_'+(100-percent));
+    $.get('/xhr/currently_playing', function(data){
+      $('#currently_playing').replaceWith(data);
+    });
+  });
+
+  $(document).on('mouseenter', '#currently_playing .volume', function(e){
+    var y = e.pageY - $(this).offset().top;
+    var percent = Math.round((y / $(this).height())*100);
+    $(this).append('<div id="tooltip">' + (100-percent) + '</div>');
+    $(this).children('div#tooltip').css('margin-top', (percent)+'%');
+  });
+
+  $(document).on('mousemove', '#currently_playing .volume', function(e){
+    var y = e.pageY - $(this).offset().top;
+    var percent = Math.round((y / $(this).height())*100);
+    if(percent < 0){return;}
+    $(this).children('div#tooltip').html(100-percent);
+    $(this).children('#tooltip').css('margin-top', (percent)+'%');
+  });
+
+  $(document).on('mouseleave', '#currently_playing .volume', function(e){
+    $(this).children('div#tooltip').remove();
+  });
+
   // Settings tab
   $(document).on('click', '#server_settings .tab', function(){
     if($('#server_settings .inner').css('display') == 'none'){
