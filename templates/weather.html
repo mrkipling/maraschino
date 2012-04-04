@@ -1,0 +1,75 @@
+<div id="weather" class="module" data-module="weather">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2>Weather in {{ title }}</h2>
+{% if compact_view %}
+<table>
+  <tr>
+    <td><strong>Current</strong></td>
+    <td><img class="compactforecastimg" src="{{ currentimage }}"/></td>
+    <td>{{ current_conditions.condition }}</td>
+    <td class="high">{{ current_temp }}</td>  
+    <td><strong>{{ wind[6:25] }}</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Today</strong></td>
+    <td><img class="compactforecastimg" src="{{ day1image }}"/></td>
+    <td>{{ day1.condition }}</td>
+    <td class="high">{{ day1.high }}</td>  
+    <td class="low">{{ day1.low }}</td>
+  </tr>
+  <tr>
+    <td><strong>Tomorrow</strong></td>
+    <td><img class="compactforecastimg" src="{{ day2image }}"/></td>
+    <td>{{ day2.condition }}</td>
+    <td class="high">{{ day2.high }}</td>  
+    <td class="low">{{ day2.low }}</td>
+  </tr>
+</table>
+{% else %}
+<table>
+  <tr>
+    <td colspan="5"><div class="container"><b>Current</b></div></td>
+  </td>
+  <tr>
+    <td colspan="2"><center class="currentcond"><img class="currentimage" src="{{ currentimage }}"/><br />{{ current_conditions.condition }}<br /><br /></center></td>
+    <td colspan="1" class="currenttemp">{{ current_temp }}</td>
+    <td colspan="2"><center class="currentcond"><img src="{{ wind_image }}" /><br>{{ wind[11:25] }}<br /><br /></center></td>
+    </td>
+  <tr>
+    <td colspan="5"><div class="container"><b>Forecast</b></div></u></td>
+  </td>
+  <tr>
+    <td><strong>Today</strong></td>
+    <td><img class="forecastimg" src="{{ day1image }}"/></td>
+    <td>{{ day1.condition }}</td>
+    <td class="high">{{ day1.high }}</td>  
+    <td class="low">{{ day1.low }}</td>
+  </td>
+  <tr>
+    <td><strong>{{ day2.day_of_week }}</strong></td>
+    <td><img class="forecastimg" src="{{ day2image }}"/></td>
+    <td>{{ day2.condition }}</td>
+    <td class="high">{{ day2.high }}</td>  
+    <td class="low">{{ day2.low }}</td>
+  </tr>
+  <tr>
+    <td><strong>{{ day3.day_of_week }}</strong></td>
+    <td><img class="forecastimg" src="{{ day3image }}"/></td>
+    <td>{{ day3.condition }}</td>
+    <td class="high">{{ day3.high }}</td>  
+    <td class="low">{{ day3.low }}</td>
+  </tr>
+  <tr>
+    <td><strong>{{ day4.day_of_week }}</strong></td>
+    <td><img class="forecastimg" src="{{ day4image }}"/></td>
+    <td>{{ day4.condition }}</td>
+    <td class="high">{{ day4.high }}</td>  
+    <td class="low">{{ day4.low }}</td>
+  </tr>
+ </table>
+{% endif %}
+
+</div>
