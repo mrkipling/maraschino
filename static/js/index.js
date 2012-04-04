@@ -1375,6 +1375,10 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#search #close', function() {
+    $(search).slideUp(300);
+  });
+
   /********* END SEARCH ***********/
 
   /********* TableSorter byte size sorting ***********/
