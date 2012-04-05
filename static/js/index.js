@@ -281,6 +281,8 @@ $(document).ready(function() {
   $(document).on('click', '#currently_playing .volume', function(e){
     var y = e.pageY - $(this).offset().top;
     var percent = Math.round((y / $(this).height())*100);
+    if(percent < 0){percent = 0;}
+    if(percent > 100){percent = 100;}
     $.get('/xhr/controls/volume_'+(100-percent));
     $.get('/xhr/currently_playing', function(data){
       $('#currently_playing').replaceWith(data);
@@ -290,6 +292,8 @@ $(document).ready(function() {
   $(document).on('mouseenter', '#currently_playing .volume', function(e){
     var y = e.pageY - $(this).offset().top;
     var percent = Math.round((y / $(this).height())*100);
+    if(percent < 0){percent = 0;}
+    if(percent > 100){percent = 100;}
     $(this).append('<div id="tooltip">' + (100-percent) + '</div>');
     $(this).children('div#tooltip').css('margin-top', (percent)+'%');
   });
@@ -297,7 +301,8 @@ $(document).ready(function() {
   $(document).on('mousemove', '#currently_playing .volume', function(e){
     var y = e.pageY - $(this).offset().top;
     var percent = Math.round((y / $(this).height())*100);
-    if(percent < 0){return;}
+    if(percent < 0){percent = 0;}
+    if(percent > 100){percent = 100;}
     $(this).children('div#tooltip').html(100-percent);
     $(this).children('#tooltip').css('margin-top', (percent)+'%');
   });
