@@ -916,6 +916,7 @@ def xhr_rssfeeds_category(site = None, category = None):
             s = re.compile('\[GENRE\]:(.*?)<br />')
             t = re.compile('Genre -(.*?)<br />')
             u = re.compile('Genre(s): <em>(.*?)</em>') 
+            v = re.compile('Genre:(.*?)</em>')
             result = r.search(entry['summary'])
             if result:
                 genre = result.group(1)
@@ -925,6 +926,8 @@ def xhr_rssfeeds_category(site = None, category = None):
                 result = t.search(entry['summary'])
             if not result:
                 result = u.search(entry['summary'])
+            if not result:
+                result = v.search(entry['summary'])
             if result:
                 genre = result.group(1)
             else:
@@ -954,6 +957,7 @@ def xhr_rssfeeds_category(site = None, category = None):
             r = re.compile('IMDB:</strong>(.*?)<br />')
             s = re.compile('Rating:</strong>(.*?)<br />')
             t = re.compile('Rating</strong>:(.*?)<br />')
+            u = re.compile('Rating:(.*?)<')
             result = r.search(entry['summary'])
             if result:
                 imdbrating = result.group(1)
@@ -961,10 +965,12 @@ def xhr_rssfeeds_category(site = None, category = None):
                 result = s.search(entry['summary'])
             if not result:
                 result = t.search(entry['summary'])
+            if not result:
+                result = u.search(entry['summary'])
             if result:
                 imdbrating = result.group(1)
             else:
-                imdbrating = ""
+                imdbrating = "Click Here"
 
             r = re.compile('imdb.com/title/(.*?)"')
             result = r.search(entry['summary'])
