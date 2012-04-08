@@ -1352,7 +1352,7 @@ $(document).ready(function() {
 
   // settings mode
 
-  $(document).on('click', '#settings_icon', function() {
+  function toggle_settings_mode() {
     $('body').toggleClass('f_settings_mode');
     $('body').toggleClass('f_operation_mode');
     $('add_module').toggle();
@@ -1376,6 +1376,14 @@ $(document).ready(function() {
       $('.edit_settings .choices .cancel').click();
       $('#server_settings').closest('li').remove();
     }
+  }
+
+  $(document).on('click', '#settings_icon', function() {
+    toggle_settings_mode();
+  });
+
+  $(document).on('taptwo', function() {
+    toggle_settings_mode();
   });
 
   // add module
