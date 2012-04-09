@@ -266,7 +266,7 @@ $(document).ready(function() {
   $(document).on('mousemove', '#currently_playing .progress', function(e){
     var x = e.pageX - $(this).offset().left;
     var percent = Math.round((x / $(this).width())*100);
-    if(percent < 0){return;}
+    if(percent < 0 || percent > 100){return;}
     var time = parseInt($(this).children('.total').data('seconds'))*(percent/100);
     time = (new Date).clearTime().addSeconds(time).toString('H:mm:ss');
     $(this).children('div#tooltip').html(time);
