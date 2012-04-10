@@ -1242,7 +1242,7 @@ $(document).ready(function() {
             $('body').append(data);
             search_enabled = true;
             $('#search').hide();
-            $('#search').slideDown(300);
+            $('#search').slideDown(300).find('input[type=search]').focus();
           } else {
             $('#search').slideToggle(300);
           }
