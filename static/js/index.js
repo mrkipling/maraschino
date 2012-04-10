@@ -1273,6 +1273,7 @@ $(document).ready(function() {
         $('#search .searching').hide();
         if(data['error']){
           popup_message(data['error']);
+          $('#search input[type=search]').blur();
         } else {
           $('#search').replaceWith(data);
           byteSizeOrdering();
