@@ -7,21 +7,96 @@ from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
 
-@app.route('/xhr/play_video/<video_type>/<int:video_id>')
+@app.route('/xhr/play/<file_type>/<media_type>/<int:media_id>')
 @requires_auth
-def xhr_play_video(video_type, video_id):
+def xhr_play_media(file_type, media_type, media_id):
     xbmc = jsonrpclib.Server(server_api_address())
-    xhr_clear_playlist('video')
 
-    item = { video_type + 'id': video_id }
-    xbmc.Playlist.Add(playlistid=1, item=item)
+    if file_type == 'video':
+        xhr_clear_playlist('video')
 
-    item = { 'playlistid': 1 }
+        if media_type == 'tvshow':
+            tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=media_id, sort={ 'method': 'episode' })['episodes']
+
+            for episode in tvshow_episodes:
+                episodeid = episode['episodeid']
+                item = { 'episodeid': episodeid }
+                xbmc.Playlist.Add(playlistid=1, item=item)
+
+        elif 'season' in media_type:
+            media_type = media_type.split('_')
+            season = int(media_type[1])
+
+            tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=media_id, season=season, sort={ 'method': 'episode' })['episodes']
+
+            for episodes in tvshow_episodes:
+                episodeid = episodes['episodeid']
+                item = { 'episodeid': episodeid }
+                xbmc.Playlist.Add(playlistid=1, item=item)
+
+        else:
+            item = { media_type + 'id': media_id }
+            xbmc.Playlist.Add(playlistid=1, item=item)
+
+        playlistid = 1
+
+    else:
+        xhr_clear_playlist('audio')
+
+        item = { media_type + 'id': media_id }
+        xbmc.Playlist.Add(playlistid=0, item=item)
+
+        playlistid = 0
+
+    item = { 'playlistid': playlistid }
     xbmc.Player.Open(item)
 
     return jsonify({ 'success': True })
 
-@app.route('/xhr/resume_video/<video_type>/<int:video_id>')
+@app.route('/xhr/enqueue/<file_type>/<media_type>/<int:media_id>')
+@requires_auth
+def xhr_enqueue_media(file_type, media_type, media_id):
+    xbmc = jsonrpclib.Server(server_api_address())
+
+    if file_type == 'video':
+
+        if media_type == 'tvshow':
+            tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=media_id, sort={ 'method': 'episode' })['episodes']
+
+            for episode in tvshow_episodes:
+                episodeid = episode['episodeid']
+                item = { 'episodeid': episodeid }
+                xbmc.Playlist.Add(playlistid=1, item=item)
+
+        elif 'season' in media_type:
+            media_type = media_type.split('_')
+            season = int(media_type[1])
+
+            tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=media_id, season=season, sort={ 'method': 'episode' })['episodes']
+
+            for episodes in tvshow_episodes:
+                episodeid = episodes['episodeid']
+                item = { 'episodeid': episodeid }
+                xbmc.Playlist.Add(playlistid=1, item=item)
+
+        else:
+            item = { media_type + 'id': media_id }
+            xbmc.Playlist.Add(playlistid=1, item=item)
+
+        playlistid = 1
+
+    else:
+
+        item = { media_type + 'id': media_id }
+        xbmc.Playlist.Add(playlistid=0, item=item)
+
+        playlistid = 0
+
+    item = { 'playlistid': playlistid }
+
+    return jsonify({ 'success': True })
+
+@app.route('/xhr/resume/video/<video_type>/<int:video_id>')
 @requires_auth
 def xhr_resume_video(video_type, video_id):
     xbmc = jsonrpclib.Server(server_api_address())
@@ -50,47 +125,7 @@ def xhr_resume_video(video_type, video_id):
 
     return jsonify({ 'success': True })
 
-@app.route('/xhr/play_tvshow/<int:tvshowid>')
-@requires_auth
-def xhr_play_tvshow(tvshowid):
-    xbmc = jsonrpclib.Server(server_api_address())
-    xhr_clear_playlist('video')
-
-    video_type = "episode"
-    tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=tvshowid, sort={ 'method': 'episode' })
-    tvshow_episodes = tvshow_episodes['episodes']
-
-    for episodes in tvshow_episodes:
-        episodeid = episodes['episodeid']
-        item = { video_type + 'id': episodeid }
-        xbmc.Playlist.Add(playlistid=1, item=item)
-
-    item = { 'playlistid': 1 }
-    xbmc.Player.Open(item)
-
-    return jsonify({ 'success': True })
-
-@app.route('/xhr/play_season/<int:tvshow_id>/<int:video_id>')
-@requires_auth
-def xhr_play_season(video_id, tvshow_id):
-    xbmc = jsonrpclib.Server(server_api_address())
-    xhr_clear_playlist('video')
-
-    video_type = "episode"
-    tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=tvshow_id, season=video_id, sort={ 'method': 'episode' })
-    tvshow_episodes = tvshow_episodes['episodes']
-
-    for episodes in tvshow_episodes:
-        episodeid = episodes['episodeid']
-        item = { video_type + 'id': episodeid }
-        xbmc.Playlist.Add(playlistid=1, item=item)
-
-    item = { 'playlistid': 1 }
-    xbmc.Player.Open(item)
-
-    return jsonify({ 'success': True })
-
-@app.route('/xhr/play_trailer/<int:movieid>')
+@app.route('/xhr/play/trailer/<int:movieid>')
 @requires_auth
 def xhr_play_trailer(movieid):
     xbmc = jsonrpclib.Server(server_api_address())
@@ -101,20 +136,6 @@ def xhr_play_trailer(movieid):
     xbmc.Playlist.Add(playlistid=1, item=item)
 
     item = { 'playlistid': 1 }
-    xbmc.Player.Open(item)
-
-    return jsonify({ 'success': True })
-
-@app.route('/xhr/play_audio/<audio_type>/<int:audio_id>')
-@requires_auth
-def xhr_play_audio(audio_type, audio_id):
-    xbmc = jsonrpclib.Server(server_api_address())
-    xhr_clear_playlist('audio')
-
-    item = { audio_type + 'id': audio_id }
-    xbmc.Playlist.Add(playlistid=0, item=item)
-
-    item = { 'playlistid': 0 }
     xbmc.Player.Open(item)
 
     return jsonify({ 'success': True })
@@ -141,58 +162,6 @@ def xhr_play_file(file_type):
 
     item = { 'playlistid': player }
     xbmc.Player.Open(item)
-
-    return jsonify({ 'success': True })
-
-@app.route('/xhr/enqueue_tvshow/<int:video_id>')
-@requires_auth
-def xhr_enqueue_tvshow(video_id):
-    xbmc = jsonrpclib.Server(server_api_address())
-
-    video_type = "episode"
-    tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=video_id, sort={ 'method': 'episode' })
-    tvshow_episodes = tvshow_episodes['episodes']
-
-    for episodes in tvshow_episodes:
-        episodeid = episodes['episodeid']
-        item = { video_type + 'id': episodeid }
-        xbmc.Playlist.Add(playlistid=1, item=item)
-
-    return jsonify({ 'success': True })
-
-@app.route('/xhr/enqueue_season/<int:tvshow_id>/<int:video_id>')
-@requires_auth
-def xhr_enqueue_season(video_id, tvshow_id):
-    xbmc = jsonrpclib.Server(server_api_address())
-
-    video_type = "episode"
-    tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=tvshow_id, season=video_id, sort={ 'method': 'episode' })
-    tvshow_episodes = tvshow_episodes['episodes']
-
-    for episodes in tvshow_episodes:
-        episodeid = episodes['episodeid']
-        item = { video_type + 'id': episodeid }
-        xbmc.Playlist.Add(playlistid=1, item=item)
-
-    return jsonify({ 'success': True })
-
-@app.route('/xhr/enqueue_video/<video_type>/<int:video_id>')
-@requires_auth
-def xhr_enqueue_video(video_type, video_id):
-    xbmc = jsonrpclib.Server(server_api_address())
-
-    item = { video_type + 'id': video_id }
-    xbmc.Playlist.Add(playlistid=1, item=item)
-
-    return jsonify({ 'success': True })
-
-@app.route('/xhr/enqueue_audio/<audio_type>/<int:audio_id>')
-@requires_auth
-def xhr_enqueue_audio(audio_type, audio_id):
-    xbmc = jsonrpclib.Server(server_api_address())
-
-    item = { audio_type + 'id': audio_id }
-    xbmc.Playlist.Add(playlistid=0, item=item)
 
     return jsonify({ 'success': True })
 
@@ -232,20 +201,59 @@ def xhr_controls(command):
     xbmc = jsonrpclib.Server(server_api_address())
     try:
         active_player = xbmc.Player.GetActivePlayers()
+        if active_player[0]['type'] == 'video':
+            playerid = 1
+        elif active_player[0]['type'] == 'audio':
+            playerid = 0
     except:
         active_player = None
 
     if command == 'play_pause':
-        if active_player[0]['type'] == 'video':
-            xbmc.Player.PlayPause(playerid=1)
-        elif active_player[0]['type'] == 'audio':
-            xbmc.Player.PlayPause(playerid=0)
+        xbmc.Player.PlayPause(playerid=playerid)
 
     elif command == 'stop':
-        if active_player[0]['type'] == 'video':
-            xbmc.Player.Stop(playerid=1)
-        elif active_player[0]['type'] == 'audio':
-            xbmc.Player.Stop(playerid=0)
+        xbmc.Player.Stop(playerid=playerid)
+
+    elif 'volume' in command:
+        volume = command.split('_')
+        volume = int(volume[1])
+        xbmc.Application.SetVolume(volume=volume)
+
+    elif command == 'next':
+        xbmc.Player.GoNext(playerid=playerid)
+
+    elif command == 'previous':
+        xbmc.Player.GoPrevious(playerid=playerid)
+
+    elif command == 'fast_forward':
+        xbmc.Player.SetSpeed(playerid=playerid, speed='increment')
+
+    elif command == 'rewind':
+        xbmc.Player.SetSpeed(playerid=playerid, speed='decrement')
+
+    elif 'seek' in command:
+        percentage = command.split('_')
+        percentage = int(percentage[1])
+        xbmc.Player.Seek(playerid=playerid, value=percentage)
+
+    elif command == 'shuffle':
+        shuffled = xbmc.Player.GetProperties(playerid=playerid, properties=['shuffled'])['shuffled']
+        if shuffled == True:
+            xbmc.Player.UnShuffle(playerid=playerid)
+        else:
+            xbmc.Player.Shuffle(playerid=playerid)
+
+    elif command == 'repeat':
+        states = ['off', 'one', 'all']
+        repeat = xbmc.Player.GetProperties(playerid=playerid, properties=['repeat'])['repeat']
+        state = states.index(repeat)
+        if state <= 1:
+            state = state + 1
+        else:
+            state = 0
+
+        state = states[state]
+        xbmc.Player.Repeat(playerid=playerid, state=state)
 
     elif command == 'update_video':
     	xbmc.VideoLibrary.Scan()

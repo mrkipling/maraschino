@@ -198,7 +198,7 @@ def get_recently_added_movies(xbmc, movie_offset=0):
 
             recently_added_movies = unwatched[movie_offset:num_recent_videos + movie_offset]
         else:
-            total_movies = recently_added_movies
+            total_movies = len(recently_added_movies)
             recently_added_movies = recently_added_movies[movie_offset:num_recent_videos + movie_offset]
 
         for cur_movie in recently_added_movies:
