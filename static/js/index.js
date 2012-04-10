@@ -1235,7 +1235,7 @@ $(document).ready(function() {
     alt = (e.altKey) ? true : false;
     if(alt && e.which == 70){
       e.preventDefault();
-      $.get('/xhr/search')
+      $.get('/xhr/search/')
       .success(function(data){
         if(data){
           if(!search_enabled){
