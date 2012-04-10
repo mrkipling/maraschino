@@ -245,28 +245,10 @@ def xhr_controls(command):
     elif command == 'stop':
         xbmc.Player.Stop(playerid=playerid)
 
-    elif command == 'volume_up':
-        volume = xbmc.Application.GetProperties(properties=['volume', 'muted'])['volume']
-        volume = volume + 5
-        try:
-            xbmc.Application.SetVolume(volume=volume)
-        except:
-            xbmc.Application.SetVolume(volume=100)
-
-    elif command == 'volume_down':
-        volume = xbmc.Application.GetProperties(properties=['volume', 'muted'])['volume']
-        volume = volume - 5
-        try:
-            xbmc.Application.SetVolume(volume=volume)
-        except:
-            xbmc.Application.SetVolume(volume=0)
-
-    elif command == 'mute':
-        muted = xbmc.Application.GetProperties(properties=['muted'])['muted']
-        if muted == True:
-            xbmc.Application.SetMute(mute=False)
-        else:
-            xbmc.Application.SetMute(mute=True)
+    elif 'volume' in command:
+        volume = command.split('_')
+        volume = int(volume[1])
+        xbmc.Application.SetVolume(volume=volume)
 
     elif command == 'next':
         xbmc.Player.GoNext(playerid=playerid)

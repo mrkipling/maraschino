@@ -245,12 +245,70 @@ $(document).ready(function() {
   }
 
   // Seek Function
-  $(document).on('click', '#currently_playing .progress .bar', function(e){
-      var $this = $(this);
-      var x = e.pageX - $this.offset().left;
-      var percent = Math.round((x / $this.width())*100);
-      $.get('/xhr/controls/seek_'+percent);
-      get_currently_playing();
+  $(document).on('click', '#currently_playing .progress', function(e){
+    var x = e.pageX - $(this).offset().left;
+    var percent = Math.round((x / $(this).width())*100);
+    $.get('/xhr/controls/seek_'+percent);
+    $.get('/xhr/currently_playing', function(data){
+      $('#currently_playing').replaceWith(data);
+    });
+  });
+
+  $(document).on('mouseenter', '#currently_playing .progress', function(e){
+    var x = e.pageX - $(this).offset().left;
+    var percent = Math.round((x / $(this).width())*100);
+    var time = parseInt($(this).children('.total').data('seconds'))*(percent/100);
+    time = (new Date).clearTime().addSeconds(time).toString('H:mm:ss');
+    $(this).append('<div id="tooltip">' + percent + '</div>');
+    $(this).children('div#tooltip').css('margin-left', (percent-5)+'%');
+  });
+
+  $(document).on('mousemove', '#currently_playing .progress', function(e){
+    var x = e.pageX - $(this).offset().left;
+    var percent = Math.round((x / $(this).width())*100);
+    if(percent < 0 || percent > 100){return;}
+    var time = parseInt($(this).children('.total').data('seconds'))*(percent/100);
+    time = (new Date).clearTime().addSeconds(time).toString('H:mm:ss');
+    $(this).children('div#tooltip').html(time);
+    $(this).children('#tooltip').css('margin-left', (percent-5)+'%');
+  });
+
+  $(document).on('mouseleave', '#currently_playing .progress', function(e){
+    $(this).children('div#tooltip').remove();
+  });
+
+  // Volume Function
+  $(document).on('click', '#currently_playing .volume', function(e){
+    var y = e.pageY - $(this).offset().top;
+    var percent = Math.round((y / $(this).height())*100);
+    if(percent < 0){percent = 0;}
+    if(percent > 100){percent = 100;}
+    $.get('/xhr/controls/volume_'+(100-percent));
+    $.get('/xhr/currently_playing', function(data){
+      $('#currently_playing').replaceWith(data);
+    });
+  });
+
+  $(document).on('mouseenter', '#currently_playing .volume', function(e){
+    var y = e.pageY - $(this).offset().top;
+    var percent = Math.round((y / $(this).height())*100);
+    if(percent < 0){percent = 0;}
+    if(percent > 100){percent = 100;}
+    $(this).append('<div id="tooltip">' + (100-percent) + '%</div>');
+    $(this).children('div#tooltip').css('margin-top', (10*(percent-50))+'%');
+  });
+
+  $(document).on('mousemove', '#currently_playing .volume', function(e){
+    var y = e.pageY - $(this).offset().top;
+    var percent = Math.round((y / $(this).height())*100);
+    if(percent < 0){percent = 0;}
+    if(percent > 100){percent = 100;}
+    $(this).children('div#tooltip').html((100-percent)+'%');
+    $(this).children('#tooltip').css('margin-top', (10*(percent-50))+'%');
+  });
+
+  $(document).on('mouseleave', '#currently_playing .volume', function(e){
+    $(this).children('div#tooltip').remove();
   });
 
   // Settings tab
@@ -269,8 +327,25 @@ $(document).ready(function() {
   // currently_playing controls
 
   $(document).on('click', '#currently_playing .controls > div', function() {
+    var command = $(this).data('command');
+    $.get('/xhr/controls/' + command);
+    $.get('/xhr/currently_playing', function(data) {
+      if (data.playing === false) {
+        $('#currently_playing').slideUp(200, function() {
+          $(this).remove();
+        });
+      } else {
+        $('#currently_playing').replaceWith(data);
+      }
+    });
+  });
+
+  $(document).on('click', '#currently_playing .controls .option > div', function() {
     var command = $(this).attr('class');
     $.get('/xhr/controls/' + command);
+    $.get('/xhr/currently_playing', function(data) {
+      $('#currently_playing').replaceWith(data);
+    });
   });
 
   // click show name to view in media library module
@@ -1116,7 +1191,7 @@ $(document).ready(function() {
         $('#sickbeard').replaceWith(data);
       })
       .error(function(){
-	popup_message('Could not reach Maraschino.');
+	    popup_message('Could not reach Maraschino.');
       });
     }
   });
@@ -1263,7 +1338,7 @@ $(document).ready(function() {
       });
     }
   });
-  
+
   $(document).on('click', '#sabnzbd .inner .queue-title', function(){
     $('#sabnzbd .inner .queue').toggle();
     if($('#sabnzbd .inner .queue').css('display') != 'none' ){
