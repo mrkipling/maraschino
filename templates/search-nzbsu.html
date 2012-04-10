@@ -1,6 +1,5 @@
 {% extends "search.html" %}
 
-
 {% block results %}
 
     {% if results %}
@@ -9,7 +8,7 @@
         <thead>
           <tr>
             <th width="2%"></th>
-            <th width="70%">Name</th>
+            <th class="name" width="70%">Name</th>
             <th width="8%">Size</th>
             <th width="15%">Category</th>
           </tr>
@@ -27,5 +26,5 @@
       </table>
     </div>
     {% endif %}
-    
+
 {% endblock %}

@@ -1,16 +1,15 @@
 <div id="search">
   <div class="module_settings"><span>Settings</span></div>
-  <!--<h2>{% block title %}Search{% endblock %}</h2>-->
   <div id="close">X</div>
   <div class="inner">
     <form>
       <input id="value" type="search" {% if item %}value="{{item}}"{% endif %}>
       <select id="site">
-		  <optgroup label="Sites">
+	<optgroup label="Sites">
           <option value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%} >nzbMatrix</option>
           <option value="nzb.su" {% if site == 'nzb.su' %}selected{%endif%}>nzb.su</option>
       	</optgroup >
-	  	</select>
+      </select>
       {% if categories|length %}
         <select id="category">
           {% for cat in categories %}
@@ -27,7 +26,7 @@
         </select>
       {% endif %}
     </form>
-    
+
     {% block results %}{% endblock %}
 
   </div>
