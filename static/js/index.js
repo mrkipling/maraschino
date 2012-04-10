@@ -1227,6 +1227,121 @@ $(document).ready(function() {
 
   /********* END SABNZBD ***********/
 
+  /********* SEARCH ***********/
+
+  var search_enabled = false;
+
+  $(document).on('keydown', 'body', function(e){
+    alt = (e.altKey) ? true : false;
+    if(alt && e.which == 70){
+      e.preventDefault();
+      $.get('/xhr/search')
+      .success(function(data){
+        if(data){
+          if(!search_enabled){
+            $('body').append(data);
+            search_enabled = true;
+            $('#search').hide();
+            $('#search').slideDown(300);
+          } else {
+            $('#search').slideToggle(300);
+          }
+        } else {
+          $('#search').remove();
+          search_enabled = false;
+        }
+      });
+    }
+  });
+
+  $(document).on('keypress', '#search form #value', function(e){
+    if(e.which == 13){
+      e.preventDefault();
+      var query = $('#search form #value').val();
+      var site = $('#search form #site').val();
+      var cat = $('#search form #category').val();
+      if(site == ''){
+        alert('You must pick a website'); 
+        return false;
+      }
+      if(query == ''){
+        alert('Must search something!'); 
+        return false;
+      }
+      add_loading_gif('#search form');
+      $.get('/search/'+site+'/'+query+'/'+cat, function(data){
+        if(data['error']){
+          popup_message(data['error']);
+        } else {  
+          $('#search').replaceWith(data);
+          byteSizeOrdering();
+          $('#search #results .tablesorter').tablesorter({headers: { 2: { sorter: 'filesize'}}});
+        }
+      })
+      remove_loading_gif('#search form');
+    }
+  });
+  
+  $(document).on('change', '#search form #site', function(){
+    var value = $(this).val();
+    var query = $('#search form #value').val();
+    $.get('/xhr/search/'+value)
+    .success( function(data){
+      $('#search').replaceWith(data);
+      $('#search form #value').val(query);
+    })
+  });
+  
+  $(document).on('click', '#search #results table tbody tr td:first-child img', function(){
+    var link = $(this).attr('nzb-link');
+    $.post('/sabnzbd/add/',{url: encodeURI(link)}, function(data){
+      data = eval('(' + data + ')');
+      if(data['status']){
+        popup_message('Successfully added to SabNZBd');
+      } else {
+        popup_message(data['error']);
+      }
+    });
+  });
+
+  $(document).on('click', '#search #close', function() {
+    $(search).slideUp(300);
+  });
+
+  /********* END SEARCH ***********/
+
+  /********* TableSorter byte size sorting ***********/
+  function byteSizeOrdering() {
+    jQuery.tablesorter.addParser(
+    {
+      id: 'filesize',
+      is: function (s)
+      {
+        return s.match(new RegExp(/[0-9]+(\.[0-9]+)?\ (KB|B|GB|MB|TB)/i));
+      },
+      format: function (s)
+      {
+        var suf = s.match(new RegExp(/(KB|B|GB|MB|TB)$/i))[1];
+        var num = parseFloat(s.match(new RegExp(/^[0-9]+(\.[0-9]+)?/))[0]);
+        switch (suf)
+        {
+          case 'B':
+            return num;
+          case 'KB':
+            return num * 1024;
+          case 'MB':
+            return num * 1024 * 1024;
+          case 'GB':
+            return num * 1024 * 1024 * 1024;
+          case 'TB':
+            return num * 1024 * 1024 * 1024 * 1024;
+        }
+      },
+      type: 'numeric'
+    });
+  }
+  /********* END TableSorter byte size sorting ***********/
+
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
   }
