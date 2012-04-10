@@ -170,7 +170,7 @@ def xhr_library_album(artist, album):
 
     return render_library(library, title)
 
-@app.route('/xhr/library/movies/info/<int:movieid>')
+@app.route('/xhr/library/movie/info/<int:movieid>')
 @requires_auth
 def xhr_library_info_movie(movieid):
     logger.log('LIBRARY :: Retrieving movie details', 'INFO')
@@ -193,7 +193,7 @@ def xhr_library_info_movie(movieid):
         itemart = itemart,
     )
 
-@app.route('/xhr/library/shows/info/<int:tvshowid>')
+@app.route('/xhr/library/tvshow/info/<int:tvshowid>')
 @requires_auth
 def xhr_library_info_show(tvshowid):
     logger.log('LIBRARY :: Retrieving TV show details', 'INFO')
@@ -219,7 +219,7 @@ def xhr_library_info_show(tvshowid):
         bannerart = bannerart,
     )
 
-@app.route('/xhr/library/episodes/info/<int:episodeid>')
+@app.route('/xhr/library/episode/info/<int:episodeid>')
 @requires_auth
 def xhr_library_info_episode(episodeid):
     logger.log('LIBRARY :: Retrieving episode details', 'INFO')
@@ -242,7 +242,7 @@ def xhr_library_info_episode(episodeid):
         itemart = itemart,
     )
 
-@app.route('/xhr/library/artists/info/<int:artistid>')
+@app.route('/xhr/library/artist/info/<int:artistid>')
 @requires_auth
 def xhr_library_info_artist(artistid):
     logger.log('LIBRARY :: Retrieving artist details', 'INFO')
@@ -265,7 +265,7 @@ def xhr_library_info_artist(artistid):
         itemart = itemart,
     )
 
-@app.route('/xhr/library/albums/info/<int:albumid>')
+@app.route('/xhr/library/album/info/<int:albumid>')
 @requires_auth
 def xhr_library_info_album(albumid):
     logger.log('LIBRARY :: Retrieving album details', 'INFO')
