@@ -1,6 +1,6 @@
 @import "mixins.less";
-#search
-{
+
+#search {
   background: url(/static/images/alpha/000_80.png);
   border: 1px solid #333;
   position: absolute;
@@ -24,10 +24,14 @@
   }
 
   form {
-    padding: 5px;
+    padding: 5px 5px 20px;
 
     input {
+      background-color: #fff;
+      border: 1px solid #555;
+      padding: 4px 6px;
       width: 50%;
+      .border-radius(3px);
     }
   }
 
@@ -43,8 +47,8 @@
     &:hover {
       background: url(/static/images/alpha/fff_40.png);
     }
-
   }
+
   #results {
     width: 100%;
     bottom: 0px;
