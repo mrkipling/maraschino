@@ -3,6 +3,7 @@
 {% block results %}
 
     {% if results %}
+
     <div id="results">
       <table class="tablesorter">
         <thead>
@@ -26,6 +27,11 @@
         </tbody>
       </table>
     </div>
+
+    {% else %}
+
+    <p class="no_results">No results found.</p>
+
     {% endif %}
 
 {% endblock %}
