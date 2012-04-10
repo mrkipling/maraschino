@@ -165,8 +165,6 @@ def nzb_matrix(item, cat = None):
         else:
             result = nzb.Search(item)
 
-    print result
-
     return render_template('search-nzbmatrix.html',
         site = 'nzbmatrix',
         results = result,
