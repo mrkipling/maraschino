@@ -201,20 +201,59 @@ def xhr_controls(command):
     xbmc = jsonrpclib.Server(server_api_address())
     try:
         active_player = xbmc.Player.GetActivePlayers()
+        if active_player[0]['type'] == 'video':
+            playerid = 1
+        elif active_player[0]['type'] == 'audio':
+            playerid = 0
     except:
         active_player = None
 
     if command == 'play_pause':
-        if active_player[0]['type'] == 'video':
-            xbmc.Player.PlayPause(playerid=1)
-        elif active_player[0]['type'] == 'audio':
-            xbmc.Player.PlayPause(playerid=0)
+        xbmc.Player.PlayPause(playerid=playerid)
 
     elif command == 'stop':
-        if active_player[0]['type'] == 'video':
-            xbmc.Player.Stop(playerid=1)
-        elif active_player[0]['type'] == 'audio':
-            xbmc.Player.Stop(playerid=0)
+        xbmc.Player.Stop(playerid=playerid)
+
+    elif 'volume' in command:
+        volume = command.split('_')
+        volume = int(volume[1])
+        xbmc.Application.SetVolume(volume=volume)
+
+    elif command == 'next':
+        xbmc.Player.GoNext(playerid=playerid)
+
+    elif command == 'previous':
+        xbmc.Player.GoPrevious(playerid=playerid)
+
+    elif command == 'fast_forward':
+        xbmc.Player.SetSpeed(playerid=playerid, speed='increment')
+
+    elif command == 'rewind':
+        xbmc.Player.SetSpeed(playerid=playerid, speed='decrement')
+
+    elif 'seek' in command:
+        percentage = command.split('_')
+        percentage = int(percentage[1])
+        xbmc.Player.Seek(playerid=playerid, value=percentage)
+
+    elif command == 'shuffle':
+        shuffled = xbmc.Player.GetProperties(playerid=playerid, properties=['shuffled'])['shuffled']
+        if shuffled == True:
+            xbmc.Player.UnShuffle(playerid=playerid)
+        else:
+            xbmc.Player.Shuffle(playerid=playerid)
+
+    elif command == 'repeat':
+        states = ['off', 'one', 'all']
+        repeat = xbmc.Player.GetProperties(playerid=playerid, properties=['repeat'])['repeat']
+        state = states.index(repeat)
+        if state <= 1:
+            state = state + 1
+        else:
+            state = 0
+
+        state = states[state]
+        xbmc.Player.Repeat(playerid=playerid, state=state)
 
     elif command == 'update_video':
     	xbmc.VideoLibrary.Scan()

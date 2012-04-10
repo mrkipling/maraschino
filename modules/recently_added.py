@@ -59,6 +59,8 @@ def xhr_vfs_proxy(url):
 
 def render_recently_added_episodes(episode_offset=0):
     compact_view = get_setting_value('recently_added_compact') == '1'
+    show_watched = get_setting_value('recently_added_watched_episodes') == '1'
+    view_info = get_setting_value('recently_added_info') == '1'
 
     try:
         xbmc = jsonrpclib.Server(server_api_address())
@@ -74,11 +76,15 @@ def render_recently_added_episodes(episode_offset=0):
         vfs_url = vfs_url,
         episode_offset = episode_offset,
         compact_view = compact_view,
+        total_episodes = total_episodes,
+        view_info = view_info,
     )
 
 
 def render_recently_added_movies(movie_offset=0):
     compact_view = get_setting_value('recently_added_movies_compact') == '1'
+    show_watched = get_setting_value('recently_added_watched_movies') == '1'
+    view_info = get_setting_value('recently_added_movies_info') == '1'
 
     try:
         xbmc = jsonrpclib.Server(server_api_address())
@@ -94,11 +100,14 @@ def render_recently_added_movies(movie_offset=0):
         vfs_url = vfs_url,
         movie_offset = movie_offset,
         compact_view = compact_view,
+        total_movies = total_movies,
+        view_info = view_info,
     )
 
 
 def render_recently_added_albums(album_offset=0):
     compact_view = get_setting_value('recently_added_albums_compact') == '1'
+    view_info = get_setting_value('recently_added_albums_info') == '1'
 
     try:
         xbmc = jsonrpclib.Server(server_api_address())
@@ -114,6 +123,7 @@ def render_recently_added_albums(album_offset=0):
         vfs_url = vfs_url,
         album_offset = album_offset,
         compact_view = compact_view,
+        view_info = view_info,
     )
 
 
@@ -142,11 +152,24 @@ def get_num_recent_albums():
 
 def get_recently_added_episodes(xbmc, episode_offset=0):
     num_recent_videos = get_num_recent_episodes()
+    global total_episodes
 
     try:
-        recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail'])
+        recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail'])['episodes']
 
-        recently_added_episodes = recently_added_episodes['episodes'][episode_offset:num_recent_videos + episode_offset]
+        if get_setting_value('recently_added_watched_episodes') == '0':
+            unwatched = []
+            for episodes in recently_added_episodes:
+                episode_playcount = episodes['playcount']
+
+                if episode_playcount == 0:
+                    unwatched.append(episodes)
+                    total_episodes = len(unwatched)
+
+            recently_added_episodes = unwatched[episode_offset:num_recent_videos + episode_offset]
+        else:
+            total_episodes = len(recently_added_episodes)
+            recently_added_episodes = recently_added_episodes[episode_offset:num_recent_videos + episode_offset]
 
         for cur_ep in recently_added_episodes:
             cur_ep['thumbnail'] = strip_special(cur_ep['thumbnail'])
@@ -159,11 +182,24 @@ def get_recently_added_episodes(xbmc, episode_offset=0):
 
 def get_recently_added_movies(xbmc, movie_offset=0):
     num_recent_videos = get_num_recent_movies()
+    global total_movies
 
     try:
-        recently_added_movies = xbmc.VideoLibrary.GetRecentlyAddedMovies(properties = ['title', 'year', 'rating', 'playcount', 'thumbnail'])
+        recently_added_movies = xbmc.VideoLibrary.GetRecentlyAddedMovies(properties = ['title', 'year', 'rating', 'playcount', 'thumbnail'])['movies']
 
-        recently_added_movies = recently_added_movies['movies'][movie_offset:num_recent_videos + movie_offset]
+        if get_setting_value('recently_added_watched_movies') == '0':
+            unwatched = []
+            for movies in recently_added_movies:
+                movie_playcount = movies['playcount']
+
+                if movie_playcount == 0:
+                    unwatched.append(movies)
+                    total_movies = len(unwatched)
+
+            recently_added_movies = unwatched[movie_offset:num_recent_videos + movie_offset]
+        else:
+            total_movies = recently_added_movies
+            recently_added_movies = recently_added_movies[movie_offset:num_recent_videos + movie_offset]
 
         for cur_movie in recently_added_movies:
             cur_movie['thumbnail'] = strip_special(cur_movie['thumbnail'])
