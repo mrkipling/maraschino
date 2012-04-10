@@ -190,6 +190,33 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'rssfeeds',
+        'label': 'RSS Feeds',
+        'description': 'List and Parse the NZBMatrix RSS Feeds of your choice.',
+        'static': True,
+        'poll': 0,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'nzb_matrix_API',
+                'value': '',
+                'description': 'NZBMatrix API',
+                'link': 'http://nzbmatrix.com/account.php?action=api',
+            },
+            {
+                'key': 'nzb_matrix_user',
+                'value': '',
+                'description': 'NZBMatrix Username',
+            },
+            {
+                'key': 'nzb_su_API',
+                'value': '',
+                'description': 'nzb.su API',
+                'link': 'http://nzb.su/profile',
+            },
+        ]
+    },
+    {
         'name': 'sabnzbd',
         'label': 'SABnzbd+',
         'description': 'Shows you information about your SABnzbd+ downloads.',

@@ -1,0 +1,181 @@
+<div id="rssfeeds" class="module" data-module="rssfeeds">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2>RSS Feeds</h2>
+
+    <select id="rss_site">
+            <option style="background: #2b3621; color:#fff">Select Site...</option>
+        <optgroup style="background: #2b3621; color:#fff" label="NZB Sites">
+            <option style="background: #2b3621; color:#fff" value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%}>NZBMatrix</option>
+            <option style="background: #2b3621; color:#fff" value="newznab" {% if site == 'newznab' %}selected{%endif%}>Newznab</option>
+        <optgroup style="background: #2b3621; color:#fff" label="Torrent Sites">
+            <option style="background: #2b3621; color:#fff" value="piratebay" {% if site == 'piratebay' %}selected{%endif%}>The Pirate Bay</option>
+        <optgroup style="background: #2b3621; color:#fff" label="Release Sites">
+            <option style="background: #2b3621; color:#fff" value="irfree" {% if site == 'irfree' %}selected{%endif%}>IRFree</option>
+            <option style="background: #2b3621; color:#fff" value="rlslog" {% if site == 'rlslog' %}selected{%endif%}>RLSLog</option>
+            <option style="background: #2b3621; color:#fff" value="scnsrc" {% if site == 'scnsrc' %}selected{%endif%}>ScnSrc</option>
+            <option style="background: #2b3621; color:#fff" value="oneddl" {% if site == 'oneddl' %}selected{%endif%}>OneDDL</option>
+            <option style="background: #2b3621; color:#fff" value="sceper" {% if site == 'sceper' %}selected{%endif%}>Sceper</option>
+            <option style="background: #2b3621; color:#fff" value="vcdq" {% if site == 'vcdq' %}selected{%endif%}>VCDq</option>
+    </select>
+
+    {% if categories %}
+      <select id="rss_cat">
+        {% for cat in categories %}
+          {% if cat.label %}
+            <optgroup style="background: #2b3621; color:#fff" label="{{cat.label}}">
+              {% for subcat in cat.value %}
+                <option style="background: #2b3621; color:#fff" value="{{  subcat.id  }}" {% if category == subcat.id %}selected{%endif%}>{{subcat.name}}</option>
+              {% endfor %}
+            </optgroup>
+          {% else %}
+            <option style="background: #2b3621; color:#fff" value="{{cat.id}}" {% if category == cat.id %}selected{%endif%}>{{cat.name}}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    {% endif %}
+
+    <span class="loading"></span>
+  {% if site == 'oneddl' %}
+    <div style="font-size: 80%; color:red">Note: Images from this feed need to be <a href="http://www.oneddl.eu/feed/" target="_blank">cached</a> first in order to show.</div><br />
+  {% endif %}
+
+  {% if feed %}
+    <ul>
+      {% for entry in feed.entries %}
+
+      {% if site == 'nzbmatrix' %}
+        <li>
+             <h1>
+            <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+          </h1>
+          <div style="font-size: 80%">
+           {% if entry.description.added %}<b>Added:</b> {{ entry.description.added }}<br />{% endif %}
+           {% if entry.description.size %}<b>Size:</b> {{ entry.description.size }}<br />{% endif %}
+           {% if entry.description.nfolink %}<b>NFO:</b> <a href="{{ entry.description.nfolink }}" target="_blank">View NFO</a><br />{% endif %}
+           {% if entry.description.imdblink %}<b>IMDB:</b> <a href="{{ entry.description.imdblink }}" target="_blank">Go to IMDB</a>{% endif %}
+            </div>
+          </li>
+        {% endif %}
+
+        {% if site == 'piratebay' %}
+          <li>
+            <h1>
+              <img id="add_to_transmission" src="static/images/applications/Transmission.png" height="16px" torrent-link="{{ entry.link }}" / title="Add to Transmission">
+              <a href="{{ entry.id }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+            </h1>
+            
+            <div style="font-size: 80%">
+                 <b>Added:</b> {{ entry.date }}
+           </div>
+          </li>
+        {% endif %}
+
+        {% if site == 'rlslog' %}
+          {% if not "Binverse - get 14 days of free Usenet access" in entry.title %}
+            <li>
+             {% if not entry.description.img %} {% else %}<div style="float:left; padding-right:10px;"><img src="{{ entry.description.img }}" width="70" height="auto"></div>{% endif %}
+              <h1>
+               <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+              </h1>
+              <div style="font-size: 80%"><b>Added:</b> {{ entry.date[:26] }} <br />
+               {% if entry.description.genre %}<b>Genre:</b> {{ entry.description.genre }}<br />{% endif %}
+               {% if entry.description.size %}<b>Size:</b> {{ entry.description.size }} <br />{% endif %}
+               {% if entry.description.nfolink %}<b>NFO:</b> <a href="http://nfo.rlslog.net/view/{{ entry.description.nfolink }}" target="_blank">View NFO</a><br />{% endif %}
+               {% if entry.description.homepage %}<b>Visit:</b> <a href="{{ entry.description.homepage }}" target="_blank">Homepage</a><br />{% endif %}
+               {% if entry.description.imdbrating %}<b>IMDB Rating:</b> 
+               {% if not entry.description.imdblink %} {% else %}<a href="{{ entry.description.imdblink }}" target="_blank">{% endif %}
+               {% if not "\u2013" in entry.description.imdbrating %}{{ entry.description.imdbrating }}{% else %}No Rating.{% endif %}</a>{% endif %}
+              </div>
+            </li>
+          {% endif %}
+        {% endif %}
+        
+        {% if site == 'scnsrc' %}
+            <li>
+             {% if not entry.description.img %} {% else %}<div style="float:left; padding-right:10px;"><img src="{{ entry.description.img }}" width="70" height="auto"></div>{% endif %}
+              <h1>
+               <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+              </h1>
+              <div style="font-size: 80%"><b>Added:</b> {{ entry.date[:26] }} <br />
+               {% if entry.description.genre %}<b>Genre:</b> {{ entry.description.genre }}<br />{% endif %}
+               {% if entry.description.size %}<b>Size:</b> {{ entry.description.size }} <br />{% endif %}
+               {% if entry.description.nfolink %}<b>NFO:</b> <a target="_blank" href="http://nfomation.net/info/{{ entry.description.nfolink }}" target="_blank">View NFO</a><br />{% endif %}
+               {% if entry.description.imdbrating %}<b>IMDB Rating:</b> 
+               {% if entry.description.imdblink %}<a href="http://www.imdb.com/title/{{ entry.description.imdblink }}" target="_blank">{% endif %}
+               {% if entry.description.imdbrating %}{{ entry.description.imdbrating }}{% else %}No Rating.{% endif %}</a>{% endif %}
+              </div>
+            </li>
+        {% endif %}
+
+        {% if site == 'oneddl' %}
+          <li>
+             {% if not entry.description.img %} {% else %}<div style="float:left; padding-right:10px;"><img src="http://images.oneddl.eu/images/{{ entry.description.img }}" width="70" height="auto"></div>{% endif %}
+            <h1>
+              <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+            </h1>
+            
+              <div style="font-size: 80%"><b>Added:</b> {{ entry.date[:26] }} <br />
+               {% if entry.description.nfolink %}<b>NFO:</b> <a target="_blank" href="http://nfomation.net/info/{{ entry.description.nfolink }}" target="_blank">View NFO</a><br />{% endif %}
+               {% if entry.description.imdbrating %}<b>IMDB Rating:</b> 
+               {% if entry.description.imdblink %}<a href="http://www.imdb.com/title/{{ entry.description.imdblink }}" target="_blank">{% endif %}
+               {% if entry.description.imdbrating %}{{ entry.description.imdbrating }}{% else %}No Rating.{% endif %}</a>{% endif %}
+           </div>
+          </li>
+        {% endif %}
+
+        {% if site == 'sceper' %}
+          <li>
+             {% if not entry.description.img %} {% else %}<div style="float:left; padding-right:10px;"><img src="http://img.sceper.eu/images/{{ entry.description.img }}" width="70" height="auto"></div>{% endif %}
+            <h1>
+              <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+            </h1>
+
+              <div style="font-size: 80%"><b>Added:</b> {{ entry.date[:26] }} <br />
+               {% if entry.description.genre %}<b>Genre:</b> {{ entry.description.genre }}<br />{% endif %}
+               {% if entry.description.size %}<b>Size:</b> {{ entry.description.size }} <br />{% endif %}
+               {% if entry.description.nfolink %}<b>NFO:</b> <a target="_blank" href="http://nfo.sceper.eu/nfo{{ entry.description.nfolink }}" target="_blank">View NFO</a><br />{% endif %}
+               {% if entry.description.imdbrating %}<b>IMDB Rating:</b> 
+               {% if entry.description.imdblink %}<a href="http://www.imdb.com/title/{{ entry.description.imdblink }}" target="_blank">{% endif %}
+               {% if entry.description.imdbrating %}{{ entry.description.imdbrating }}{% else %}No Rating.{% endif %}</a>{% endif %}
+            </div>
+          </li>
+        {% endif %}
+        
+        {% if site == 'vcdq' %}
+          <li>
+             {% if not entry.description.img %} {% else %}<div style="float:left; padding-right:10px;"><img src="http://img.sceper.eu/images/{{ entry.description.img }}" width="70" height="auto"></div>{% endif %}
+            <h1>
+              <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+            </h1>
+            
+              <div style="font-size: 80%"><b>Added:</b> {{ entry.date[:26] }} <br />
+               <p style="line-height:1.2em">{% if entry.description %}<b>Details:</b><br />{{ entry.description|truncate(230, false) }}<a href="{{ entry.link }}" target="_blank" title="More">[+]</a></p>{% endif %}
+            </div>
+          </li>
+        {% endif %}
+
+        {% if site == 'irfree' %}
+            <li>
+             {% if not entry.description.img %} {% else %}<div style="float:left; padding-right:10px;"><img src="{{ entry.description.img }}" width="70" height="auto"></div>{% endif %}
+              <h1>
+               <a href="{{ entry.link }}" target="_blank">{{ entry.title|truncate(45, false) }}</a>
+              </h1>
+              <div style="font-size: 80%"><b>Added:</b> {{ entry.date[:26] }} <br />
+               {% if entry.description.genre %}<b>Genre:</b> {{ entry.description.genre }}<br />{% endif %}
+               {% if entry.description.size %}<b>Size:</b> {{ entry.description.size }} <br />{% endif %}
+               {% if entry.description.nfolink %}<b>NFO:</b> <a target="_blank" href="http://nfo.sceper.eu/nfo{{ entry.description.nfolink }}" target="_blank">View NFO</a><br />{% endif %}
+               {% if entry.description.imdbrating %}<b>IMDB Rating:</b> 
+               {% if entry.description.imdblink %}<a href="http://www.imdb.com/title/{{ entry.description.imdblink }}" target="_blank">{% endif %}
+               {% if entry.description.imdbrating %}{{ entry.description.imdbrating }}{% else %}No Rating.{% endif %}</a>{% endif %}
+              </div>
+            </li>
+        {% endif %}
+
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+</div>
