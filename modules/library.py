@@ -85,7 +85,7 @@ def xhr_library_root(item_type):
             xbmc.JSONRPC.Ping()
 
     except:
-        logger.log('LIBRARY :: Could not reach XBMC server', 'WARNING')
+        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
         return render_library(message="There was a problem connecting to the XBMC server.")
 
     return render_library(library, title)
@@ -95,7 +95,12 @@ def xhr_library_root(item_type):
 def xhr_library_show(show):
     logger.log('LIBRARY :: Retrieving seasons', 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-    library = xbmc.VideoLibrary.GetSeasons(tvshowid=show, properties=['tvshowid', 'season', 'showtitle', 'playcount'])
+
+    try:
+        library = xbmc.VideoLibrary.GetSeasons(tvshowid=show, properties=['tvshowid', 'season', 'showtitle', 'playcount'])
+    except:
+        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
+        return render_library(message="There was a problem connecting to the XBMC server.")
 
     if get_setting_value('library_watched_tv') == '0':
         logger.log('LIBRARY :: Showing only unwatched seasons', 'INFO')
@@ -120,9 +125,13 @@ def xhr_library_show(show):
 def xhr_library_season(show, season):
     logger.log('LIBRARY :: Retrieving episodes', 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-
     sort = { 'method': 'episode' }
-    library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode', 'plot', 'playcount', 'resume'])
+
+    try:
+        library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode', 'plot', 'playcount', 'resume'])
+    except:
+        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
+        return render_library(message="There was a problem connecting to the XBMC server.")
 
     if get_setting_value('library_watched_tv') == '0':
         logger.log('LIBRARY :: Showing only unwatched episodes', 'INFO')
@@ -147,11 +156,15 @@ def xhr_library_season(show, season):
 def xhr_library_artist(artist):
     logger.log('LIBRARY :: Retrieving albums', 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-
     sort = { 'method': 'year' }
-    library = xbmc.AudioLibrary.GetAlbums(artistid=artist, sort=sort, properties=['artistid', 'title', 'artist', 'year'])
-    library['artistid'] = artist
 
+    try:
+        library = xbmc.AudioLibrary.GetAlbums(artistid=artist, sort=sort, properties=['artistid', 'title', 'artist', 'year'])
+    except:
+        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
+        return render_library(message="There was a problem connecting to the XBMC server.")
+
+    library['artistid'] = artist
     title = library['albums'][0]['artist']
 
     return render_library(library, title)
@@ -161,9 +174,13 @@ def xhr_library_artist(artist):
 def xhr_library_album(artist, album):
     logger.log('LIBRARY :: Retrieving songs', 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-
     sort = { 'method': 'track' }
-    library = xbmc.AudioLibrary.GetSongs(artistid=artist, albumid=album, sort=sort, properties=['artistid', 'artist', 'album', 'track', 'playcount', 'year'])
+
+    try:
+        library = xbmc.AudioLibrary.GetSongs(artistid=artist, albumid=album, sort=sort, properties=['artistid', 'artist', 'album', 'track', 'playcount', 'year'])
+    except:
+        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
+        return render_library(message="There was a problem connecting to the XBMC server.")
 
     song = library['songs'][0]
     title = '%s - %s (%s)' % (song['artist'], song['album'], song['year'])
@@ -175,7 +192,13 @@ def xhr_library_album(artist, album):
 def xhr_library_info_movie(movieid):
     logger.log('LIBRARY :: Retrieving movie details', 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-    library = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties=['title', 'rating', 'year', 'genre', 'plot', 'director', 'thumbnail', 'trailer', 'playcount', 'resume'])
+
+    try:
+        library = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties=['title', 'rating', 'year', 'genre', 'plot', 'director', 'thumbnail', 'trailer', 'playcount', 'resume'])
+    except:
+        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
+        return render_library(message="There was a problem connecting to the XBMC server.")
+
     movie = library['moviedetails']
     title = movie['title']
     itemart_url = strip_special(movie['thumbnail'])
@@ -198,7 +221,13 @@ def xhr_library_info_movie(movieid):
 def xhr_library_info_show(tvshowid):
     logger.log('LIBRARY :: Retrieving TV show details', 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-    library = xbmc.VideoLibrary.GetTVShowDetails(tvshowid=tvshowid, properties=['title', 'rating', 'year', 'genre', 'plot', 'premiered', 'thumbnail', 'playcount', 'studio'])
+
+    try:
+        library = xbmc.VideoLibrary.GetTVShowDetails(tvshowid=tvshowid, properties=['title', 'rating', 'year', 'genre', 'plot', 'premiered', 'thumbnail', 'playcount', 'studio'])
+    except:
+        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
+        return render_library(message="There was a problem connecting to the XBMC server.")
+
     show = library['tvshowdetails']
     title = show['title']
     itemart_url = strip_special(show['thumbnail'])
@@ -224,7 +253,13 @@ def xhr_library_info_show(tvshowid):
 def xhr_library_info_episode(episodeid):
     logger.log('LIBRARY :: Retrieving episode details', 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-    library = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=episodeid, properties=['season', 'tvshowid', 'title', 'rating', 'plot', 'thumbnail', 'playcount', 'firstaired', 'resume'])
+
+    try:
+        library = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=episodeid, properties=['season', 'tvshowid', 'title', 'rating', 'plot', 'thumbnail', 'playcount', 'firstaired', 'resume'])
+    except:
+        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
+        return render_library(message="There was a problem connecting to the XBMC server.")
+
     episode = library['episodedetails']
     title = episode['title']
     itemart_url = strip_special(episode['thumbnail'])
@@ -247,7 +282,13 @@ def xhr_library_info_episode(episodeid):
 def xhr_library_info_artist(artistid):
     logger.log('LIBRARY :: Retrieving artist details', 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-    library = xbmc.AudioLibrary.GetArtistDetails(artistid=artistid, properties=['description', 'thumbnail', 'formed', 'genre'])
+
+    try:
+        library = xbmc.AudioLibrary.GetArtistDetails(artistid=artistid, properties=['description', 'thumbnail', 'formed', 'genre'])
+    except:
+        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
+        return render_library(message="There was a problem connecting to the XBMC server.")
+
     artist = library['artistdetails']
     title = artist['label']
     itemart_url = strip_special(artist['thumbnail'])
@@ -270,7 +311,13 @@ def xhr_library_info_artist(artistid):
 def xhr_library_info_album(albumid):
     logger.log('LIBRARY :: Retrieving album details', 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-    library = xbmc.AudioLibrary.GetAlbumDetails(albumid=albumid, properties=['artistid', 'title', 'artist', 'year', 'genre', 'description', 'albumlabel', 'rating', 'thumbnail'])
+
+    try:
+        library = xbmc.AudioLibrary.GetAlbumDetails(albumid=albumid, properties=['artistid', 'title', 'artist', 'year', 'genre', 'description', 'albumlabel', 'rating', 'thumbnail'])
+    except:
+        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
+        return render_library(message="There was a problem connecting to the XBMC server.")
+
     album = library['albumdetails']
     title = '%s - %s' % (album['artist'], album['title'])
     itemart_url = strip_special(album['thumbnail'])
@@ -293,7 +340,12 @@ def xhr_library_info_album(albumid):
 def xhr_library_files_file_type(file_type):
     logger.log('LIBRARY :: Retrieving %s sources' % file_type, 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-    library = xbmc.Files.GetSources(media=file_type)
+
+    try:
+        library = xbmc.Files.GetSources(media=file_type)
+    except:
+        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
+        return render_library(message="There was a problem connecting to the XBMC server.")
 
     if file_type == "video":
         title = "Files - Video"
@@ -311,8 +363,13 @@ def xhr_library_files_directory(file_type):
 
     xbmc = jsonrpclib.Server(server_api_address())
     sort = { 'method': 'file' }
-    library = xbmc.Files.GetDirectory(media=file_type, sort=sort, directory=path)
-    sources = xbmc.Files.GetSources(media=file_type)
+
+    try:
+        library = xbmc.Files.GetDirectory(media=file_type, sort=sort, directory=path)
+        sources = xbmc.Files.GetSources(media=file_type)
+    except:
+        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
+        return render_library(message="There was a problem connecting to the XBMC server.")
 
     if path[-7:] == "%2ezip/":
         path = urllib.unquote(path.encode('ascii')).decode('utf-8')
