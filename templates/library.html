@@ -24,12 +24,12 @@
     <ul>
       {% if library.tvshows %}
         {% for item in library.tvshows %}
-          <li class="get" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}" data-command="shows/{{ item.tvshowid }}">
+          <li class="get" data-command="shows/{{ item.tvshowid }}" file-type="video" media-type="tvshow" data-id="{{ item.tvshowid }}">
             {{ item.label }}
             <span class="span">
-              <a class="li_buttons" id="info_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Info</a>
-              <a class="li_buttons" id="play_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Play</a>
-              <a class="li_buttons" id="queue_button" media-type="tvshow" data-tvshowid="{{ item.tvshowid }}">Queue</a>
+              <a class="li_buttons" id="info">Info</a>
+              <a class="li_buttons" id="play">Play</a>
+              <a class="li_buttons" id="queue">Queue</a>
             </span>
             {% if item.playcount %}
               <img src="/static/images/tick.png" class="watched" width="16" height="16">
@@ -56,11 +56,11 @@
 
       {% if library.seasons %}
         {% for item in library.seasons %}
-          <li class="get" media-type="season" data-tvshowid="{{ item.tvshowid }}" data-season="{{ item.season }}" data-command="shows/{{ library.tvshowid }}/{{ item.season }}">
+          <li class="get" data-command="shows/{{ library.tvshowid }}/{{ item.season }}" file-type="video" media-type="season_{{ item.season }}" data-id="{{ item.tvshowid }}">
             {{ item.label }}
             <span class="span">
-              <a class="li_buttons" id="play_button" media-type="season" data-tvshowid="{{ item.tvshowid }}" data-season="{{ item.season }}">Play</a>
-              <a class="li_buttons" id="queue_button" media-type="season" data-tvshowid="{{ item.tvshowid }}" data-season="{{ item.season }}">Queue</a>
+              <a class="li_buttons" id="play">Play</a>
+              <a class="li_buttons" id="queue">Queue</a>
             </span>
             {% if item.playcount %}
               <img src="/static/images/tick.png" class="watched" width="16" height="16">
@@ -71,18 +71,18 @@
 
       {% if library.episodes %}
         {% for item in library.episodes %}
-          <li class="{% if show_info %}info{% else %}play{% endif %}_episode" media-type="episode" data-episodeid="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}">
+          <li {% if show_info %}id="info"{% else %}id="play"{% endif %} file-type="video" media-type="episode" data-id="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}">
             {{ item.label }}
             <span class="span">
               {% if item.resume.position >= 1 %}
-                <a class="li_buttons" id="resume_button" media-type="episode" data-id="{{ item.episodeid }}">Resume</a>
+                <a class="li_buttons" id="resume">Resume</a>
               {% endif %}
               {% if show_info %}
-                <a class="li_buttons" id="play_button" media-type="episode" data-episodeid="{{ item.episodeid }}">Play</a>
+                <a class="li_buttons" id="play">Play</a>
               {% else %}
-                <a class="li_buttons" id="info_button" media-type="episode" data-episodeid="{{ item.episodeid }}">Info</a>
+                <a class="li_buttons" id="info">Info</a>
               {% endif %}
-              <a class="li_buttons" id="queue_button" media-type="episode" data-episodeid="{{ item.episodeid }}">Queue</a>
+              <a class="li_buttons" id="queue">Queue</a>
             </span>
             {% if item.playcount %}
               <img src="/static/images/tick.png" class="watched" width="16" height="16">
@@ -108,18 +108,18 @@
 
       {% if library.movies %}
         {% for item in library.movies %}
-          <li class="{% if show_info %}info{% else %}play{% endif %}_movie" media-type="movie" data-movieid="{{ item.movieid }}">
+          <li {% if show_info %}id="info"{% else %}id="play"{% endif %} file-type="video" media-type="movie" data-id="{{ item.movieid }}">
             {{ item.label }}
             <span class="span">
               {% if item.resume.position >= 1 %}
-                <a class="li_buttons" id="resume_button" media-type="movie" data-id="{{ item.movieid }}">Resume</a>
+                <a class="li_buttons" id="resume">Resume</a>
               {% endif %}
               {% if show_info %}
-                <a class="li_buttons" id="play_button" media-type="movie" data-movieid="{{ item.movieid }}">Play</a>
+                <a class="li_buttons" id="play">Play</a>
               {% else %}
-                <a class="li_buttons" id="info_button" media-type="movie" data-movieid="{{ item.movieid }}">Info</a>
+                <a class="li_buttons" id="info">Info</a>
               {% endif %}
-              <a class="li_buttons" id="queue_button" media-type="movie" data-movieid="{{ item.movieid }}">Queue</a>
+              <a class="li_buttons" id="queue">Queue</a>
             </span>
             {% if item.playcount %}
               <img src="/static/images/tick.png" class="watched" width="16" height="16">
@@ -146,12 +146,12 @@
 
       {% if library.artists %}
         {% for item in library.artists %}
-          <li class="get" media-type="artist" data-artistid="{{ item.artistid }}" data-command="artists/{{ item.artistid }}">
+          <li class="get" file-type="audio" media-type="artist" data-id="{{ item.artistid }}" data-command="artists/{{ item.artistid }}">
             {{ item.label }}
             <span class="span">
-              {% if item.details %}<a class="li_buttons" id="info_button" media-type="artist" data-artistid="{{ item.artistid }}">Info</a>{% endif %}
-              <a class="li_buttons" id="play_button" media-type="artist" data-artistid="{{ item.artistid }}">Play</a>
-              <a class="li_buttons" id="queue_button" media-type="artist" data-artistid="{{ item.artistid }}">Queue</a>
+              {% if item.details %}<a class="li_buttons" id="info">Info</a>{% endif %}
+              <a class="li_buttons" id="play">Play</a>
+              <a class="li_buttons" id="queue">Queue</a>
             </span>
           </li>
         {% endfor %}
@@ -172,12 +172,12 @@
 
       {% if library.albums %}
         {% for item in library.albums %}
-          <li class="get" media-type="album" data-albumid="{{ item.albumid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}">
+          <li class="get"  file-type="audio" media-type="album" data-id="{{ item.albumid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}">
             {{ item.label }} ({{ item.year }})
             <span class="span">
-              <a class="li_buttons" id="info_button" media-type="album" data-albumid="{{ item.albumid }}">Info</a>
-              <a class="li_buttons" id="play_button" media-type="album" data-albumid="{{ item.albumid }}">Play</a>
-              <a class="li_buttons" id="queue_button" media-type="album" data-albumid="{{ item.albumid }}">Queue</a>
+              <a class="li_buttons" id="info">Info</a>
+              <a class="li_buttons" id="play">Play</a>
+              <a class="li_buttons" id="queue">Queue</a>
             </span>
           </li>
         {% endfor %}
@@ -200,10 +200,10 @@
 
       {% if library.songs %}
         {% for item in library.songs %}
-          <li class="play_song" media-type="song" data-songid="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}">
+          <li id="play" file-type="audio" media-type="song" data-id="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}">
             {% if item.track < 10 %}0{% endif %}{{ item.track }} - {{ item.label }}
             <span class="span">
-              <a class="li_buttons" id="queue_button" media-type="song" data-songid="{{ item.songid }}">Queue</a>
+              <a class="li_buttons" id="queue">Queue</a>
             </span>
             {% if item.playcount %}
               <img src="/static/images/tick.png" class="watched" width="16" height="16">
@@ -245,7 +245,7 @@
             <li class="play_file" media-type="file" data-file_type="video" data-path="{{ item.file }}">
               {{ item.label }}
               <span class="span">
-                <a class="li_buttons" id="queue_button" media-type="file" data-file_type="video" data-path="{{ item.file }}">Queue</a>
+                <a class="li_buttons" id="queue_file" media-type="file" data-file_type="video" data-path="{{ item.file }}">Queue</a>
               </span>
             </li>
           {% endif %}
@@ -262,7 +262,7 @@
             <li class="play_file" media-type="file" data-file_type="music" data-path="{{ item.file }}">
               {{ item.label }}
               <span class="span">
-                <a class="li_buttons" id="queue_button" media-type="file" data-file_type="music" data-path="{{ item.file }}">Queue</a>
+                <a class="li_buttons" id="queue_file" media-type="file" data-file_type="music" data-path="{{ item.file }}">Queue</a>
               </span>
             </li>
           {% endif %}
@@ -292,32 +292,32 @@
   {% if library %}
 	{% if library.moviedetails %}
       {% if movie.resume.position >= 1 %}
-        <a class="info_buttons" id="resume_button" media-type="movie" data-id="{{ movie.movieid }}" title="Resume Movie">Resume</a>
+        <a class="info_buttons" id="resume" media-type="movie" data-id="{{ movie.movieid }}" title="Resume Movie">Resume</a>
       {% endif %}
-      <a class="info_buttons" id="play_button" media-type="movie" data-movieid="{{ movie.movieid }}" title="Play Movie">Play</a>
-      <a class="info_buttons" id="queue_button" media-type="movie" data-movieid="{{ movie.movieid }}" title="Add to Queue">Queue</a>
+      <a class="info_buttons" id="play" file-type="video" media-type="movie" data-id="{{ movie.movieid }}" title="Play Movie">Play</a>
+      <a class="info_buttons" id="queue" file-type="video" media-type="movie" data-id="{{ movie.movieid }}" title="Add to Queue">Queue</a>
       {% if movie.trailer %}
-        <a class="info_buttons" id="play_button" media-type="trailer" data-movieid="{{ movie.movieid }}" title="Play Trailer">Trailer</a>
+        <a class="info_buttons" id="trailer" data-id="{{ movie.movieid }}" title="Play Trailer">Trailer</a>
       {% endif %}
 
 	{% elif library.tvshowdetails %}
-      <a class="info_buttons" id="play_button" media-type="tvshow" data-tvshowid="{{ show.tvshowid }}" title="Play TV show">Play</a>
-      <a class="info_buttons" id="queue_button" media-type="tvshow" data-tvshowid="{{ show.tvshowid }}" title="Add to Queue">Queue</a>
+      <a class="info_buttons" id="play" file-type="video" media-type="tvshow" data-id="{{ show.tvshowid }}" title="Play TV show">Play</a>
+      <a class="info_buttons" id="queue" file-type="video" media-type="tvshow" data-id="{{ show.tvshowid }}" title="Add to Queue">Queue</a>
 
 	{% elif library.episodedetails %}
       {% if episode.resume.position >= 1 %}
-        <a class="info_buttons" id="resume_button" media-type="episode" data-id="{{ episode.episodeid }}" title="Resume Episode">Resume</a>
+        <a class="info_buttons" id="resume" file-type="video" media-type="episode" data-id="{{ episode.episodeid }}" title="Resume Episode">Resume</a>
       {% endif %}
-      <a class="info_buttons" id="play_button" media-type="episode" data-episodeid="{{ episode.episodeid }}" title="Play Episode">Play</a>
-      <a class="info_buttons" id="queue_button" media-type="episode" data-episodeid="{{ episode.episodeid }}" title="Add to Queue">Queue</a>
+      <a class="info_buttons" id="play" file-type="video" media-type="episode" data-id="{{ episode.episodeid }}" title="Play Episode">Play</a>
+      <a class="info_buttons" id="queue" file-type="video" media-type="episode" data-id="{{ episode.episodeid }}" title="Add to Queue">Queue</a>
 
 	{% elif library.artistdetails %}
-      <a class="info_buttons" id="play_button" media-type="artist" data-artistid="{{ artist.artistid }}" title="Play All Albums">Play</a>
-      <a class="info_buttons" id="queue_button" media-type="artist" data-artistid="{{ artist.artistid }}" title="Add to Queue">Queue</a>
+      <a class="info_buttons" id="play" file-type="audio" media-type="artist" data-id="{{ artist.artistid }}" title="Play All Albums">Play</a>
+      <a class="info_buttons" id="queue" file-type="audio" media-type="artist" data-id="{{ artist.artistid }}" title="Add to Queue">Queue</a>
 
 	{% elif library.albumdetails %}
-      <a class="info_buttons" id="play_button" media-type="album" data-albumid="{{ album.albumid }}" title="Play Album">Play</a>
-      <a class="info_buttons" id="queue_button" media-type="album" data-albumid="{{ album.albumid }}" title="Add to Queue">Queue</a>
+      <a class="info_buttons" id="play" file-type="audio" media-type="album" data-id="{{ album.albumid }}" title="Play Album">Play</a>
+      <a class="info_buttons" id="queue" file-type="audio" media-type="album" data-id="{{ album.albumid }}" title="Add to Queue">Queue</a>
     {% endif %}
 
 	{% if library.tvshows or library.seasons or library.episodes or library.movies or library.moviedetails or library.tvshowdetails or library.episodedetails or file_type == "video_directory" %}
