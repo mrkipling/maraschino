@@ -29,9 +29,9 @@ def sab_link():
     SABNZBD_API = get_setting_value('sabnzbd_api')
 
     SABNZBD_URL = 'http://%s:%s' % (SABNZBD_HOST, SABNZBD_PORT)
-    
+
     return '%s/api?apikey=%s' % (SABNZBD_URL, SABNZBD_API)
-    
+
 def add_to_sab_link(nzb):
     if get_setting_value('sabnzbd_api') != None:
         return '%s&mode=addurl&name=http://%s&output=json' % (sab_link(), nzb)
@@ -48,7 +48,7 @@ def xhr_sabnzbd(queue_status = 'hide'):
     if not get_setting_value('sabnzbd_host'):
         if get_setting_value('sabnzbd_url') != None:
             old_config = True
-        
+
     downloading = None
     sabnzbd = None
     percentage_total = None
@@ -139,7 +139,7 @@ def add_to_sab():
         url = request.form['url']
     except:
         return jsonify({ 'error': 'Did not receive URL variable'})
-        
+
     try:
         return urllib.urlopen(url).read()
     except:
