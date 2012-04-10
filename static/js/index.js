@@ -1261,18 +1261,18 @@ $(document).ready(function() {
       var site = $('#search form #site').val();
       var cat = $('#search form #category').val();
       if(site == ''){
-        alert('You must pick a website'); 
+        alert('You must pick a website');
         return false;
       }
       if(query == ''){
-        alert('Must search something!'); 
+        alert('Must search something!');
         return false;
       }
       add_loading_gif('#search form');
       $.get('/search/'+site+'/'+query+'/'+cat, function(data){
         if(data['error']){
           popup_message(data['error']);
-        } else {  
+        } else {
           $('#search').replaceWith(data);
           byteSizeOrdering();
           $('#search #results .tablesorter').tablesorter({headers: { 2: { sorter: 'filesize'}}});
@@ -1281,7 +1281,7 @@ $(document).ready(function() {
       remove_loading_gif('#search form');
     }
   });
-  
+
   $(document).on('change', '#search form #site', function(){
     var value = $(this).val();
     var query = $('#search form #value').val();
@@ -1291,7 +1291,7 @@ $(document).ready(function() {
       $('#search form #value').val(query);
     })
   });
-  
+
   $(document).on('click', '#search #results table tbody tr td:first-child img', function(){
     var link = $(this).attr('nzb-link');
     $.post('/sabnzbd/add/',{url: encodeURI(link)}, function(data){
