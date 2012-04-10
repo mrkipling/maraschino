@@ -3,8 +3,8 @@ from flask import Flask, render_template, jsonify
 from Maraschino import app
 from settings import *
 from maraschino.tools import *
-from sites.nzbmatrix import * 
-from sites.nzbsu import * 
+from sites.nzbmatrix import *
+from sites.nzbsu import *
 
 # Newznab Category List:
 cat_newznab = [
@@ -53,7 +53,7 @@ cat_newznab = [
 # NZBMatrix Category List:
 cat_nzbmatrix = [
         { 'id': 0 , 'name': 'Everything' },
-        { 'label' : 'Movies' , 'value' : [          
+        { 'label' : 'Movies' , 'value' : [
             { 'id': 1 , 'name': 'Movies: DVD' },
             { 'id': 2 , 'name': 'Movies: Divx/Xvid' },
             { 'id': 54 , 'name': 'Movies: BRRip' },
@@ -62,22 +62,22 @@ cat_nzbmatrix = [
             { 'id': 48 , 'name': 'Movies: WMV-HD' },
             { 'id': 3 , 'name': 'Movies: SVCD/VCD' },
             { 'id': 4 , 'name': 'Movies: Other' },
-          ] 
+          ]
         },
-        { 'label' : 'TV' , 'value' : [          
+        { 'label' : 'TV' , 'value' : [
             { 'id': 5 , 'name': 'TV: DVD' },
             { 'id': 6 , 'name': 'TV: Divx/Xvid' },
             { 'id': 41 , 'name': 'TV: HD' },
             { 'id': 7 , 'name': 'TV: Sport/Ent' },
             { 'id': 8 , 'name': 'TV: Other' },
-          ] 
+          ]
         },
-        { 'label' : 'Documentaries' , 'value' : [          
+        { 'label' : 'Documentaries' , 'value' : [
             { 'id': 9 , 'name': 'Documentaries: STD' },
             { 'id': 53 , 'name': 'Documentaries: HD' },
-          ] 
+          ]
         },
-        { 'label' : 'Games' , 'value' : [          
+        { 'label' : 'Games' , 'value' : [
             { 'id': 10 , 'name': 'Games: PC' },
             { 'id': 11 , 'name': 'Games: PS2' },
             { 'id': 43 , 'name': 'Games: PS3' },
@@ -92,31 +92,31 @@ cat_nzbmatrix = [
             { 'id': 45 , 'name': 'Games: DS' },
             { 'id': 46 , 'name': 'Games: GameCube' },
             { 'id': 17 , 'name': 'Games: Other' },
-          ] 
+          ]
         },
-        { 'label' : 'Apps' , 'value' : [          
+        { 'label' : 'Apps' , 'value' : [
             { 'id': 18 , 'name': 'Apps: PC' },
             { 'id': 19 , 'name': 'Apps: Mac' },
             { 'id': 52 , 'name': 'Apps: Portable' },
             { 'id': 20 , 'name': 'Apps: Linux' },
             { 'id': 55 , 'name': 'Apps: Phone' },
             { 'id': 21 , 'name': 'Apps: Other' },
-          ] 
+          ]
         },
-        { 'label' : 'Music' , 'value' : [        
+        { 'label' : 'Music' , 'value' : [
             { 'id': 22 , 'name': 'Music: MP3 Albums' },
             { 'id': 47 , 'name': 'Music: MP3 Singles' },
             { 'id': 23 , 'name': 'Music: Lossless' },
             { 'id': 24 , 'name': 'Music: DVD' },
             { 'id': 25 , 'name': 'Music: Video' },
             { 'id': 27 , 'name': 'Music: Other' },
-          ] 
+          ]
         },
-        { 'label' : 'Anime' , 'value' : [          
+        { 'label' : 'Anime' , 'value' : [
             { 'id': 28 , 'name': 'Anime: ALL' },
-          ] 
+          ]
         },
-        { 'label' : 'Other' , 'value' : [          
+        { 'label' : 'Other' , 'value' : [
             { 'id': 49 , 'name': 'Other: Audio Books' },
             { 'id': 33 , 'name': 'Other: Emulation' },
             { 'id': 34 , 'name': 'Other: PPC/PDA' },
@@ -126,23 +126,23 @@ cat_nzbmatrix = [
             { 'id': 38 , 'name': 'Other: Mobile Phone' },
             { 'id': 39 , 'name': 'Other: Extra Pars/Fills' },
             { 'id': 40 , 'name': 'Other: Other' },
-          ] 
+          ]
         },
     ]
-    
+
 @app.route('/xhr/search/')
 @app.route('/xhr/search/<site>')
 def xhr_search(site = None):
     if get_setting_value('search') == '0':
         return ''
-    
+
     if site == 'nzbmatrix':
         categories = cat_nzbmatrix
     elif site == 'nzb.su':
         categories = cat_newznab
     else:
         categories = ''
-    
+
     return render_template('search.html',
         site = site,
         categories = categories,
@@ -153,7 +153,7 @@ def xhr_search(site = None):
 def nzb_matrix(item, cat = None):
     API = get_setting_value('nzb_matrix_API')
     USERNAME = get_setting_value('nzb_matrix_user')
-    
+
     if not API or not USERNAME:
         return jsonify ({'error': "Missing NZBMatrix details"})
 
@@ -171,7 +171,7 @@ def nzb_matrix(item, cat = None):
         item = item,
         categories = cat_nzbmatrix,
     )
-    
+
 @app.route('/search/nzb.su/<item>/')
 @app.route('/search/nzb.su/<item>/<cat>')
 def nzb_su(item, cat = None):
@@ -181,16 +181,16 @@ def nzb_su(item, cat = None):
         return jsonify ({'error': "Missing NZB.su API"})
 
     nzb = nzbsu(apiKey=API)
-    
+
     if item is not '':
         if cat:
             result = nzb.Search(query = item, catId = cat)
         else:
             result = nzb.Search(item)
-            
+
         for x in result:
             x['link'] = 'nzb.su/api?t=get&id='+x['guid']
-        
+
     else:
         result = ''
 
@@ -199,4 +199,4 @@ def nzb_su(item, cat = None):
         results = result,
         item = item,
         categories = cat_newznab,
-    )    
+    )
