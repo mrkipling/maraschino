@@ -51,6 +51,7 @@ from modules.recently_added import *
 from modules.recommendations import *
 from modules.remote import *
 from modules.sabnzbd import *
+from modules.search import *
 from modules.sickbeard import *
 from modules.trakt import *
 from modules.transmission import *

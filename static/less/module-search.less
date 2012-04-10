@@ -1,0 +1,101 @@
+@import "mixins.less";
+#search
+{
+  background: url(/static/images/alpha/000_80.png);
+  border: 1px solid #333;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  padding: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 1;
+  padding-bottom: 5px;
+  .border-radius(2px);
+  .box-shadow(#222, 0, 0, 10px);
+  
+  h2 {
+    display: block;
+    font-size: 1.5em;
+    font-weight: normal;
+    line-height: 1.3em;
+    padding: 10px 15px 12px;
+  }
+
+  form {
+    padding: 5px;
+    
+    input {
+      width: 50%;
+    }
+  }
+
+  #close {
+    position: absolute;
+    top: -1px;
+    right: 20px;
+    padding: 8px;
+    cursor: pointer;
+    background: url(/static/images/alpha/fff_20.png);
+    .border-radius(0px 0px 5px 5px);
+
+    &:hover {
+      background: url(/static/images/alpha/fff_40.png);
+    }
+
+  }
+  #results {
+    width: 100%;
+    bottom: 0px;
+    table {    
+      table-layout:fixed;
+      width: 100%;
+
+      thead th {
+        cursor: pointer;
+      }
+
+      tbody {
+        overflow: auto;
+        width: 100%;
+      
+        tr {
+          background: url(/static/images/alpha/000_80.png);
+          
+          &:hover {
+            background: url(/static/images/alpha/fff_40.png);
+          }
+
+          td {
+            border: 1px solid #222;
+            padding: 5px;
+            text-align: center;
+            vertical-align: middle;
+
+            &.icon{
+              padding: 3px;
+              overflow: hidden;
+              img {
+                width:80%;
+              }
+            }
+
+            &.name {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              font-size: 130%;
+            }
+
+            .border-radius(4px);
+          }
+        }
+      }    
+    }
+  }
+}
+
+.f_settings_mode #search {
+    opacity: 0;
+    top: -9999px;
+}
