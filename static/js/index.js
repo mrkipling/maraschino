@@ -1234,7 +1234,7 @@ $(document).ready(function() {
   $(document).on('keydown', 'body', function(e){
     alt = (e.altKey) ? true : false;
 
-    if (alt && e.which === 70){
+    if (alt && e.which === 83){
       e.preventDefault();
       $.get('/xhr/search/')
       .success(function(data){
