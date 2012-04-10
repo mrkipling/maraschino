@@ -1268,8 +1268,9 @@ $(document).ready(function() {
         alert('Must search something!');
         return false;
       }
-      add_loading_gif('#search form');
+      $('#search .searching').show();
       $.get('/search/'+site+'/'+query+'/'+cat, function(data){
+        $('#search .searching').hide();
         if(data['error']){
           popup_message(data['error']);
         } else {
@@ -1278,7 +1279,6 @@ $(document).ready(function() {
           $('#search #results .tablesorter').tablesorter({headers: { 2: { sorter: 'filesize'}}});
         }
       })
-      remove_loading_gif('#search form');
     }
   });
 

@@ -26,12 +26,21 @@
   form {
     padding: 5px 5px 20px;
 
-    input {
+    input[type=search] {
       background-color: #fff;
       border: 1px solid #555;
       padding: 4px 6px;
       width: 50%;
       .border-radius(3px);
+    }
+
+    .searching {
+      background: url(/static/images/xhrloading.gif) no-repeat 5px center;
+      height: 15px;
+      left: 0;
+      position: absolute;
+      top: 32px;
+      width: 18px;
     }
   }
 
