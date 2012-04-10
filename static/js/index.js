@@ -567,7 +567,7 @@ $(document).ready(function() {
   // show info for recently added episode in library
 
   $(document).on('click', '#recently_added #info_episode', function() {
-    invoke_library('/xhr/library/episodes/info/' + $(this).data('episodeid'));
+    invoke_library('/xhr/library/episode/info/' + $(this).data('episodeid'));
   });
 
   // play recently added movies when clicking on them
@@ -579,7 +579,7 @@ $(document).ready(function() {
   // show info for recently added movie in library
 
   $(document).on('click', '#recently_added_movies #info_movie', function() {
-    invoke_library('/xhr/library/movies/info/' + $(this).data('movieid'));
+    invoke_library('/xhr/library/movie/info/' + $(this).data('movieid'));
   });
 
   // play recently added albums when clicking on them
@@ -591,7 +591,7 @@ $(document).ready(function() {
   // show info for recently added album in library
 
   $(document).on('click', '#recently_added_albums #info_album', function() {
-    invoke_library('/xhr/library/albums/info/' + $(this).data('albumid'));
+    invoke_library('/xhr/library/album/info/' + $(this).data('albumid'));
   });
 
   // browse library
@@ -704,7 +704,7 @@ $(document).ready(function() {
     });
   });
 
-  $(document).on('click', '#library li.enqueue_file', function() {
+  $(document).on('click', '#library #queue_file', function() {
     var li = this;
     var file = $(this).data('path');
 

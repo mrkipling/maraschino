@@ -245,7 +245,7 @@
             <li class="play_file" media-type="file" data-file_type="video" data-path="{{ item.file }}">
               {{ item.label }}
               <span class="span">
-                <a class="li_buttons" id="queue_button" media-type="file" data-file_type="video" data-path="{{ item.file }}">Queue</a>
+                <a class="li_buttons" id="queue_file" media-type="file" data-file_type="video" data-path="{{ item.file }}">Queue</a>
               </span>
             </li>
           {% endif %}
@@ -262,7 +262,7 @@
             <li class="play_file" media-type="file" data-file_type="music" data-path="{{ item.file }}">
               {{ item.label }}
               <span class="span">
-                <a class="li_buttons" id="queue_button" media-type="file" data-file_type="music" data-path="{{ item.file }}">Queue</a>
+                <a class="li_buttons" id="queue_file" media-type="file" data-file_type="music" data-path="{{ item.file }}">Queue</a>
               </span>
             </li>
           {% endif %}
@@ -313,7 +313,7 @@
 
 	{% elif library.artistdetails %}
       <a class="info_buttons" id="play" file-type="audio" media-type="artist" data-id="{{ artist.artistid }}" title="Play All Albums">Play</a>
-      <a class="info_buttons" id="queue" file-type="audio" media-type="artist" data-tid="{{ artist.artistid }}" title="Add to Queue">Queue</a>
+      <a class="info_buttons" id="queue" file-type="audio" media-type="artist" data-id="{{ artist.artistid }}" title="Add to Queue">Queue</a>
 
 	{% elif library.albumdetails %}
       <a class="info_buttons" id="play" file-type="audio" media-type="album" data-id="{{ album.albumid }}" title="Play Album">Play</a>
