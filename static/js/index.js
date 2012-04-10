@@ -1233,7 +1233,8 @@ $(document).ready(function() {
 
   $(document).on('keydown', 'body', function(e){
     alt = (e.altKey) ? true : false;
-    if(alt && e.which == 70){
+
+    if (alt && e.which === 70){
       e.preventDefault();
       $.get('/xhr/search/')
       .success(function(data){
@@ -1251,6 +1252,9 @@ $(document).ready(function() {
           search_enabled = false;
         }
       });
+
+    } else if (e.which === 27) {
+      $('#search #close').click();
     }
   });
 
