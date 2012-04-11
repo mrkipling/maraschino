@@ -7,8 +7,11 @@ from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
 import maraschino.logger as logger
+
 global vfs_url
 vfs_url = '/xhr/vfs_proxy/'
+global xbmc_error
+xbmc_error = 'There was a problem connecting to the XBMC server'
 
 @app.route('/xhr/library')
 @requires_auth
@@ -85,8 +88,8 @@ def xhr_library_root(item_type):
             xbmc.JSONRPC.Ping()
 
     except:
-        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
-        return render_library(message="There was a problem connecting to the XBMC server.")
+        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
+        return render_library(message=xbmc_error)
 
     return render_library(library, title)
 
@@ -99,8 +102,8 @@ def xhr_library_show(show):
     try:
         library = xbmc.VideoLibrary.GetSeasons(tvshowid=show, properties=['tvshowid', 'season', 'showtitle', 'playcount'])
     except:
-        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
-        return render_library(message="There was a problem connecting to the XBMC server.")
+        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
+        return render_library(message=xbmc_error)
 
     if get_setting_value('library_watched_tv') == '0':
         logger.log('LIBRARY :: Showing only unwatched seasons', 'INFO')
@@ -130,8 +133,8 @@ def xhr_library_season(show, season):
     try:
         library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode', 'plot', 'playcount', 'resume'])
     except:
-        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
-        return render_library(message="There was a problem connecting to the XBMC server.")
+        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
+        return render_library(message=xbmc_error)
 
     if get_setting_value('library_watched_tv') == '0':
         logger.log('LIBRARY :: Showing only unwatched episodes', 'INFO')
@@ -161,8 +164,8 @@ def xhr_library_artist(artist):
     try:
         library = xbmc.AudioLibrary.GetAlbums(artistid=artist, sort=sort, properties=['artistid', 'title', 'artist', 'year'])
     except:
-        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
-        return render_library(message="There was a problem connecting to the XBMC server.")
+        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
+        return render_library(message=xbmc_error)
 
     library['artistid'] = artist
     title = library['albums'][0]['artist']
@@ -179,8 +182,8 @@ def xhr_library_album(artist, album):
     try:
         library = xbmc.AudioLibrary.GetSongs(artistid=artist, albumid=album, sort=sort, properties=['artistid', 'artist', 'album', 'track', 'playcount', 'year'])
     except:
-        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
-        return render_library(message="There was a problem connecting to the XBMC server.")
+        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
+        return render_library(message=xbmc_error)
 
     song = library['songs'][0]
     title = '%s - %s (%s)' % (song['artist'], song['album'], song['year'])
@@ -196,8 +199,8 @@ def xhr_library_info_movie(movieid):
     try:
         library = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties=['title', 'rating', 'year', 'genre', 'plot', 'director', 'thumbnail', 'trailer', 'playcount', 'resume'])
     except:
-        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
-        return render_library(message="There was a problem connecting to the XBMC server.")
+        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
+        return render_library(message=xbmc_error)
 
     movie = library['moviedetails']
     title = movie['title']
@@ -225,8 +228,8 @@ def xhr_library_info_show(tvshowid):
     try:
         library = xbmc.VideoLibrary.GetTVShowDetails(tvshowid=tvshowid, properties=['title', 'rating', 'year', 'genre', 'plot', 'premiered', 'thumbnail', 'playcount', 'studio'])
     except:
-        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
-        return render_library(message="There was a problem connecting to the XBMC server.")
+        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
+        return render_library(message=xbmc_error)
 
     show = library['tvshowdetails']
     title = show['title']
@@ -257,8 +260,8 @@ def xhr_library_info_episode(episodeid):
     try:
         library = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=episodeid, properties=['season', 'tvshowid', 'title', 'rating', 'plot', 'thumbnail', 'playcount', 'firstaired', 'resume'])
     except:
-        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
-        return render_library(message="There was a problem connecting to the XBMC server.")
+        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
+        return render_library(message=xbmc_error)
 
     episode = library['episodedetails']
     title = episode['title']
@@ -286,8 +289,8 @@ def xhr_library_info_artist(artistid):
     try:
         library = xbmc.AudioLibrary.GetArtistDetails(artistid=artistid, properties=['description', 'thumbnail', 'formed', 'genre'])
     except:
-        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
-        return render_library(message="There was a problem connecting to the XBMC server.")
+        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
+        return render_library(message=xbmc_error)
 
     artist = library['artistdetails']
     title = artist['label']
@@ -315,8 +318,8 @@ def xhr_library_info_album(albumid):
     try:
         library = xbmc.AudioLibrary.GetAlbumDetails(albumid=albumid, properties=['artistid', 'title', 'artist', 'year', 'genre', 'description', 'albumlabel', 'rating', 'thumbnail'])
     except:
-        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
-        return render_library(message="There was a problem connecting to the XBMC server.")
+        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
+        return render_library(message=xbmc_error)
 
     album = library['albumdetails']
     title = '%s - %s' % (album['artist'], album['title'])
@@ -344,8 +347,8 @@ def xhr_library_files_file_type(file_type):
     try:
         library = xbmc.Files.GetSources(media=file_type)
     except:
-        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
-        return render_library(message="There was a problem connecting to the XBMC server.")
+        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
+        return render_library(message=xbmc_error)
 
     if file_type == "video":
         title = "Files - Video"
@@ -368,8 +371,8 @@ def xhr_library_files_directory(file_type):
         library = xbmc.Files.GetDirectory(media=file_type, sort=sort, directory=path)
         sources = xbmc.Files.GetSources(media=file_type)
     except:
-        logger.log('LIBRARY :: There was a problem connecting to the XBMC server', 'ERROR')
-        return render_library(message="There was a problem connecting to the XBMC server.")
+        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
+        return render_library(message=xbmc_error)
 
     if path[-7:] == "%2ezip/":
         path = urllib.unquote(path.encode('ascii')).decode('utf-8')
