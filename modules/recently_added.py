@@ -153,6 +153,7 @@ def get_num_recent_albums():
 def get_recently_added_episodes(xbmc, episode_offset=0):
     num_recent_videos = get_num_recent_episodes()
     global total_episodes
+    total_episodes = None
 
     try:
         recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail'])['episodes']
@@ -183,6 +184,7 @@ def get_recently_added_episodes(xbmc, episode_offset=0):
 def get_recently_added_movies(xbmc, movie_offset=0):
     num_recent_videos = get_num_recent_movies()
     global total_movies
+    total_movies = None
 
     try:
         recently_added_movies = xbmc.VideoLibrary.GetRecentlyAddedMovies(properties = ['title', 'year', 'rating', 'playcount', 'thumbnail'])['movies']
