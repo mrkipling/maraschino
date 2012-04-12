@@ -279,6 +279,36 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'utorrent',
+        'label': 'uTorrent',
+        'description': 'Shows information about uTorrent downloads',
+        'static': False,
+        'poll': 10,
+        'delay': 0,
+        'settings': [
+                {
+                'key': 'utorrent_ip',
+                'value': '',
+                'description': 'uTorrent Hostname',
+                },
+                {
+                'key': 'utorrent_port',
+                'value': '8080',
+                'description': 'uTorrent Port',
+                },
+                {
+                'key': 'utorrent_user',
+                'value': '',
+                'description': 'uTorrent Username',
+                },
+                {
+                'key': 'utorrent_password',
+                'value': '',
+                'description': 'uTorrent Password',
+                },
+        ]
+    },
+    {
         'name': 'sickbeard',
         'label': 'Sickbeard Manager',
         'description': 'Manage Sickbeard from within Maraschino',
