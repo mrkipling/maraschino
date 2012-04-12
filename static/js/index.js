@@ -1646,4 +1646,16 @@ $(document).ready(function() {
       $('#extra_settings').removeClass('active');
     }
   });
+
+  // search settings dialog
+
+  $('#extra_settings').on('click', '#search_settings', function() {
+    var popup = $('#search_settings_dialog');
+    popup.showPopup({
+      confirm_selector: '.choices .save',
+      on_confirm: function() {
+        console.log(1);
+      }
+    });
+  });
 });
