@@ -1639,14 +1639,6 @@ $(document).ready(function() {
     });
   });
 
-  // close extra settings menu when clicking away
-
-  $('body').click(function(e) {
-    if ($(e.target).closest('#extra_settings').length === 0) {
-      $('#extra_settings').removeClass('active');
-    }
-  });
-
   // search settings dialog
 
   $('#extra_settings').on('click', '#search_settings', function() {

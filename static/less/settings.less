@@ -51,16 +51,11 @@
   width: 40px;
   z-index: 1;
 
-  border-bottom-left-radius: 40px;
-  -moz-border-radius-bottomleft: 40px;
-  -o-border-bottom-left-radius: 40px;
-  -webkit-border-bottom-left-radius: 40px;
-
-  -webkit-transition: width 0.3s ease-in-out;
-  -moz-transition: width 0.3s ease-in-out;
-  -o-transition: width 0.3s ease-in-out;
-  -ms-transition: width 0.3s ease-in-out;
-  transition: width 0.3s ease-in-out;
+  -webkit-transition: width 0.2s ease-in-out;
+  -moz-transition: width 0.2s ease-in-out;
+  -o-transition: width 0.2s ease-in-out;
+  -ms-transition: width 0.2s ease-in-out;
+  transition: width 0.2s ease-in-out;
 
   .inner {
     background-size: 24px;
@@ -74,7 +69,7 @@
     margin: 0 5px;
   }
 
-  &.active {
+  &:hover {
     height: auto;
     opacity: 1;
     width: 150px;
@@ -93,6 +88,7 @@
       padding: 5px 0;
 
       li {
+        cursor: pointer;
         padding: 5px 5px 5px 15px;
         .border-radius(2px);
 
@@ -105,11 +101,6 @@
         }
       }
     }
-  }
-
-  &:hover {
-    cursor: pointer;
-    opacity: 1;
   }
 }
 
