@@ -96,6 +96,7 @@ def index():
     return render_template('index.html',
         modules = modules,
         show_currently_playing = True,
+        search_enabled = get_setting_value('search') == '1',
         background = background,
         fanart_backgrounds = fanart_backgrounds,
         applications = applications,

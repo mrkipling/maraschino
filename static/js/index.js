@@ -1237,30 +1237,30 @@ $(document).ready(function() {
 
   /********* SEARCH ***********/
 
-  var search_enabled = false;
-
   $(document).on('keydown', 'body', function(e){
+    var search_enabled = $('body').data('search_enabled') === 'True';
+
+    if (!search_enabled) {
+      return;
+    }
+
     alt = (e.altKey) ? true : false;
 
-    if (alt && e.which === 83){
+    if (alt && e.which === 83) {
       e.preventDefault();
-      $.get('/xhr/search/')
-      .success(function(data){
-        if(data){
-          if(!search_enabled){
-            $('body').append(data);
-            search_enabled = true;
-            $('#search').hide();
-            $('#search').slideDown(300).find('input[type=search]').focus();
-          } else {
-            $('#search').slideToggle(300);
+      if ($('#search').length === 0) {
+        $.get('/xhr/search/')
+          .success(function(data) {
+            if (data) {
+              $('body').append(data);
+              $('#search').hide();
+              $('#search').slideDown(300).find('input[type=search]').focus();
+            }
           }
-        } else {
-          $('#search').remove();
-          search_enabled = false;
-        }
-      });
-
+        );
+      } else {
+        $('#search').slideToggle(300);
+      }
     } else if (e.which === 27) {
       $('#search #close').click();
     }
@@ -1655,6 +1655,8 @@ $(document).ready(function() {
           $.post('/xhr/module_settings_save/' + module_name,
             { settings: JSON.stringify(settings) },
             function(data) {
+              var search_enabled_val = popup.find('#id_search').val() === '1' ? 'True' : 'False';
+              $('body').data('search_enabled', search_enabled_val);
               popup.closePopup();
             }
           );
