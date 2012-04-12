@@ -1657,7 +1657,6 @@ $(document).ready(function() {
             function(data) {
               var search_enabled_val = popup.find('#id_search').val() === '1' ? 'True' : 'False';
               $('body').data('search_enabled', search_enabled_val);
-              popup.closePopup();
             }
           );
         }
