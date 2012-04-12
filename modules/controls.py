@@ -16,51 +16,69 @@ xbmc_error = 'There was a problem connecting to the XBMC server'
 def xhr_play_media(file_type, media_type, media_id):
     logger.log('CONTROLS :: Playing %s' % media_type, 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-
     try:
-        if file_type == 'video':
-            xhr_clear_playlist('video')
+        xhr_clear_playlist(file_type)
+    except:
+        logger.log('CONTROLS :: Failed to clear %s playlist' % file_type, 'DEBUG')
+        return jsonify({ 'failed': True })
 
-            if media_type == 'tvshow':
+    if file_type == 'video':
+
+        if media_type == 'tvshow':
+            try:
                 tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=media_id, sort={ 'method': 'episode' })['episodes']
-
                 for episode in tvshow_episodes:
                     episodeid = episode['episodeid']
                     item = { 'episodeid': episodeid }
                     xbmc.Playlist.Add(playlistid=1, item=item)
 
-            elif 'season' in media_type:
-                media_type = media_type.split('_')
-                season = int(media_type[1])
+            except:
+                logger.log('CONTROLS :: Failed to retrieve episodes', 'DEBUG')
+                return jsonify({ 'failed': True })
 
+        elif 'season' in media_type:
+            media_type = media_type.split('_')
+            season = int(media_type[1])
+
+            try:
                 tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=media_id, season=season, sort={ 'method': 'episode' })['episodes']
-
-                for episodes in tvshow_episodes:
-                    episodeid = episodes['episodeid']
+                for episode in tvshow_episodes:
+                    episodeid = episode['episodeid']
                     item = { 'episodeid': episodeid }
                     xbmc.Playlist.Add(playlistid=1, item=item)
 
-            else:
-                item = { media_type + 'id': media_id }
-                xbmc.Playlist.Add(playlistid=1, item=item)
-
-            playlistid = 1
+            except:
+                logger.log('CONTROLS :: Failed to retrieve episodes', 'DEBUG')
+                return jsonify({ 'failed': True })
 
         else:
-            xhr_clear_playlist('audio')
+            try:
+                item = { media_type + 'id': media_id }
+                xbmc.Playlist.Add(playlistid=1, item=item)
+            except:
+                logger.log('CONTROLS :: Failed to add %s to playlist' % media_type, 'DEBUG')
+                return jsonify({ 'failed': True })
 
+        playlistid = 1
+
+    else:
+        try:
             item = { media_type + 'id': media_id }
             xbmc.Playlist.Add(playlistid=0, item=item)
+        except:
+            logger.log('CONTROLS :: Failed to add %s to playlist' % media_type, 'DEBUG')
+            return jsonify({ 'failed': True })
 
-            playlistid = 0
+        playlistid = 0
 
+    try:
         item = { 'playlistid': playlistid }
         xbmc.Player.Open(item)
-        return jsonify({ 'success': True })
-
     except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+        logger.log('CONTROLS :: Failed to open %s playlist' % file_type, 'DEBUG')
         return jsonify({ 'failed': True })
+
+    return jsonify({ 'success': True })
 
 @app.route('/xhr/enqueue/<file_type>/<media_type>/<int:media_id>')
 @requires_auth
@@ -68,47 +86,52 @@ def xhr_enqueue_media(file_type, media_type, media_id):
     logger.log('CONTROLS :: Queueing %s' % media_type, 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
 
-    try:
-        if file_type == 'video':
+    if file_type == 'video':
 
-            if media_type == 'tvshow':
+        if media_type == 'tvshow':
+            try:
                 tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=media_id, sort={ 'method': 'episode' })['episodes']
-
                 for episode in tvshow_episodes:
                     episodeid = episode['episodeid']
                     item = { 'episodeid': episodeid }
                     xbmc.Playlist.Add(playlistid=1, item=item)
 
-            elif 'season' in media_type:
-                media_type = media_type.split('_')
-                season = int(media_type[1])
+            except:
+                logger.log('CONTROLS :: Failed to retrieve episodes', 'DEBUG')
+                return jsonify({ 'failed': True })
 
+        elif 'season' in media_type:
+            media_type = media_type.split('_')
+            season = int(media_type[1])
+
+            try:
                 tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=media_id, season=season, sort={ 'method': 'episode' })['episodes']
-
-                for episodes in tvshow_episodes:
-                    episodeid = episodes['episodeid']
+                for episode in tvshow_episodes:
+                    episodeid = episode['episodeid']
                     item = { 'episodeid': episodeid }
                     xbmc.Playlist.Add(playlistid=1, item=item)
 
-            else:
-                item = { media_type + 'id': media_id }
-                xbmc.Playlist.Add(playlistid=1, item=item)
-
-            playlistid = 1
+            except:
+                logger.log('CONTROLS :: Failed to retrieve episodes', 'DEBUG')
+                return jsonify({ 'failed': True })
 
         else:
+            try:
+                item = { media_type + 'id': media_id }
+                xbmc.Playlist.Add(playlistid=1, item=item)
+            except:
+                logger.log('CONTROLS :: Failed to add %s to playlist' % media_type, 'DEBUG')
+                return jsonify({ 'failed': True })
 
+    else:
+        try:
             item = { media_type + 'id': media_id }
             xbmc.Playlist.Add(playlistid=0, item=item)
+        except:
+            logger.log('CONTROLS :: Failed to add %s to playlist' % media_type, 'DEBUG')
+            return jsonify({ 'failed': True })
 
-            playlistid = 0
-
-        item = { 'playlistid': playlistid }
-        return jsonify({ 'success': True })
-
-    except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-        return jsonify({ 'failed': True })
+    return jsonify({ 'success': True })
 
 @app.route('/xhr/resume/video/<video_type>/<int:video_id>')
 @requires_auth
@@ -118,33 +141,45 @@ def xhr_resume_video(video_type, video_id):
 
     try:
         xhr_clear_playlist('video')
+    except:
+        logger.log('CONTROLS :: Failed to clear video playlist', 'DEBUG')
+        return jsonify({ 'failed': True })
 
-        if video_type == "episode":
+    try:
+        if video_type == 'episode':
             video = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=video_id, properties=['resume'])['episodedetails']
         else:
             video = xbmc.VideoLibrary.GetMovieDetails(movieid=video_id, properties=['resume'])['moviedetails']
+    except:
+        logger.log('CONTROLS :: Failed to retrieve reume position', 'DEBUG')
+        return jsonify({ 'failed': True })
 
-        seconds = int(video['resume']['position'])
+    seconds = int(video['resume']['position'])
 
-        hours = seconds / 3600
-        seconds -= 3600*hours
-        minutes = seconds / 60
-        seconds -= 60*minutes
+    hours = seconds / 3600
+    seconds -= 3600*hours
+    minutes = seconds / 60
+    seconds -= 60*minutes
 
-        position = { 'hours': hours, 'minutes': minutes, 'seconds': seconds }
+    position = { 'hours': hours, 'minutes': minutes, 'seconds': seconds }
 
+    try:
         item = { video_type + 'id': video_id }
         xbmc.Playlist.Add(playlistid=1, item=item)
+    except:
+        logger.log('CONTROLS :: Failed to add %s to playlist' % video_type, 'DEBUG')
+        return jsonify({ 'failed': True })
 
-        item = { 'playlistid': 1 }
+    item = { 'playlistid': 1 }
+
+    try:
         xbmc.Player.Open(item)
         xbmc.Player.Seek(playerid=1, value=position)
-
-        return jsonify({ 'success': True })
-
     except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+        logger.log('CONTROLS :: Failed to open %s at %s' % (video_type, position), 'DEBUG')
         return jsonify({ 'failed': True })
+
+    return jsonify({ 'success': True })
 
 @app.route('/xhr/play/trailer/<int:movieid>')
 @requires_auth
@@ -154,49 +189,65 @@ def xhr_play_trailer(movieid):
 
     try:
         xhr_clear_playlist('video')
+    except:
+        logger.log('CONTROLS :: Failed to clear video playlist', 'DEBUG')
+        return jsonify({ 'failed': True })
 
+    try:
         trailer = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties= ['trailer'])['moviedetails']['trailer']
-        item = { 'file': trailer }
-        xbmc.Playlist.Add(playlistid=1, item=item)
+    except:
+        logger.log('CONTROLS :: Failed to retrieve trailer url', 'DEBUG')
+        return jsonify({ 'failed': True })
 
+    item = { 'file': trailer }
+
+    try:
+        xbmc.Playlist.Add(playlistid=1, item=item)
         item = { 'playlistid': 1 }
         xbmc.Player.Open(item)
-
-        return jsonify({ 'success': True })
-
     except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+        logger.log('CONTROLS :: Failed to open trailer', 'DEBUG')
         return jsonify({ 'failed': True })
+
+    return jsonify({ 'success': True })
 
 @app.route('/xhr/play_file/<file_type>/', methods=['POST'])
 @requires_auth
 def xhr_play_file(file_type):
     logger.log('CONTROLS :: Playing %s file' % file_type, 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
+    if file_type == "music":
+        file_type = "audio"
+
     try:
-        if file_type == "music":
-            file_type = "audio"
         xhr_clear_playlist(file_type)
+    except:
+        logger.log('CONTROLS :: Failed to clear %s playlist' % file_type, 'DEBUG')
+        return jsonify({ 'failed': True })
 
-        file = request.form['file']
-        file = urllib.unquote(file.encode('ascii')).decode('utf-8')
+    file = request.form['file']
+    file = urllib.unquote(file.encode('ascii')).decode('utf-8')
 
-        if file_type == "video":
-            player = 1
-        else:
-            player = 0
+    if file_type == "video":
+        player = 1
+    else:
+        player = 0
 
+    try:
         item = { 'file': file }
         xbmc.Playlist.Add(playlistid=player, item=item)
+    except:
+        logger.log('CONTROLS :: Failed to add %s to playlist' % file_type, 'DEBUG')
+        return jsonify({ 'failed': True })
 
+    try:
         item = { 'playlistid': player }
         xbmc.Player.Open(item)
-
-        return jsonify({ 'success': True })
-
     except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+        logger.log('CONTROLS :: Failed to open %s' % file_type, 'DEBUG')
         return jsonify({ 'failed': True })
+
+    return jsonify({ 'success': True })
 
 @app.route('/xhr/enqueue_file/<file_type>/', methods=['POST'])
 @requires_auth
@@ -204,23 +255,22 @@ def xhr_enqueue_file(file_type):
     logger.log('CONTROLS :: Queueing %s file' % file_type, 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
 
+    file = request.form['file']
+    file = urllib.unquote(file.encode('ascii')).decode('utf-8')
+
+    if file_type == "video":
+        player = 1
+    else:
+        player = 0
+
     try:
-        file = request.form['file']
-        file = urllib.unquote(file.encode('ascii')).decode('utf-8')
-
-        if file_type == "video":
-            player = 1
-        else:
-            player = 0
-
         item = { 'file': file }
         xbmc.Playlist.Add(playlistid=player, item=item)
-
-        return jsonify({ 'success': True })
-
     except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+        logger.log('CONTROLS :: Failed to add %s to playlist' % file_type, 'DEBUG')
         return jsonify({ 'failed': True })
+
+    return jsonify({ 'success': True })
 
 @app.route('/xhr/clear_playlist/<playlist_type>')
 @requires_auth
