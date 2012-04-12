@@ -392,6 +392,9 @@ SERVER_SETTINGS = [
         'value': '',
         'description': 'XBMC Mac Address',
     },
+]
+
+SEARCH_SETTINGS = [
     {
         'key': 'search',
         'value': '1',
@@ -628,6 +631,19 @@ def server_settings_dialog(updated=False):
         server_settings = settings,
         updated = updated,
     )
+
+@app.route('/xhr/search_settings_dialog')
+@requires_auth
+def extra_settings_dialog():
+    settings = copy.copy(SEARCH_SETTINGS)
+
+    for s in settings:
+         setting = get_setting(s['key'])
+
+         if setting:
+             s['value'] = setting.value
+
+    return render_template('search_settings_dialog.html', search_settings = settings)
 
 # helper method which returns a module record from the database
 

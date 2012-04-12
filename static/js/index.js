@@ -1650,12 +1650,25 @@ $(document).ready(function() {
   // search settings dialog
 
   $('#extra_settings').on('click', '#search_settings', function() {
-    var popup = $('#search_settings_dialog');
-    popup.showPopup({
-      confirm_selector: '.choices .save',
-      on_confirm: function() {
-        console.log(1);
-      }
+    $.get('/xhr/search_settings_dialog', function(data) {
+      $('body').append(data);
+      var popup = $('#search_settings_dialog');
+      popup.showPopup({
+        dispose: true,
+        confirm_selector: '.choices .save',
+        on_confirm: function() {
+          var module_name = 'search_settings';
+          var settings = popup.find('form').serializeArray();
+
+          $.post('/xhr/module_settings_save/' + module_name,
+            { settings: JSON.stringify(settings) },
+            function(data) {
+              popup.closePopup();
+            }
+          );
+        }
+      });
     });
   });
+
 });
