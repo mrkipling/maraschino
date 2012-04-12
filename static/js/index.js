@@ -1098,6 +1098,14 @@ $(document).ready(function() {
 
   /******  END SICKBEARD Functions  *******/
 
+  /*********** EXTRA SETTINGS *************/
+
+  $(document).on('click', '#extra_settings', function() {
+    if (!$(this).hasClass('active')) {
+      $(this).addClass('active');
+    }
+  });
+
   /*********** REMOTE *************/
 
   var remote = false;
@@ -1116,7 +1124,7 @@ $(document).ready(function() {
     });
   }
 
-  $(document).on('click', '#remote_icon', function(){
+  $(document).on('click', '#remote_icon', function() {
     $(this).toggleClass('on');
     if(remote){
       remote = false;
@@ -1629,5 +1637,13 @@ $(document).ready(function() {
         $('#add_edit_disk_dialog .close').click();
       }
     });
+  });
+
+  // close extra settings menu when clicking away
+
+  $('body').click(function(e) {
+    if ($(e.target).closest('#extra_settings').length === 0) {
+      $('#extra_settings').removeClass('active');
+    }
   });
 });
