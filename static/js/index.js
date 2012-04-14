@@ -1666,6 +1666,24 @@ $(document).ready(function() {
         dispose: true,
         confirm_selector: '.choices .save',
         on_confirm: function() {
+          var settings = popup.find('form').serialize();
+
+          $.post('/xhr/server_settings_dialog/', settings, function(data) {
+            if (data.status === 'error') {
+              popup_message('There was an error saving the XBMC server to the database.');
+              return;
+            }
+
+            var servers_menu = $(data);
+
+            if (servers_menu.attr('id') === 'server_settings') {
+              $('#extra_settings #server_settings').replaceWith(servers_menu);
+            }
+
+            get_module('recently_added');
+            get_module('recently_added_movies');
+            get_module('recently_added_albums');
+          });
         }
       });
     });

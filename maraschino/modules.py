@@ -658,8 +658,8 @@ def extra_settings_dialog(dialog_type, updated=False):
         updated = updated,
     )
 
-@app.route('/xhr/server_settings_dialog/')
-@app.route('/xhr/server_settings_dialog/<server_id>')
+@app.route('/xhr/server_settings_dialog/', methods=['GET', 'POST'])
+@app.route('/xhr/server_settings_dialog/<server_id>', methods=['GET', 'POST'])
 @requires_auth
 def server_settings_dialog(server_id=None):
     """
@@ -676,9 +676,40 @@ def server_settings_dialog(server_id=None):
         except:
             logger.log('Error retrieving server details for server ID %s' % server_id , 'WARNING')
 
-    return render_template('server_settings_dialog.html',
-        server = server,
-    )
+    # GET
+
+    if request.method == 'GET':
+        return render_template('server_settings_dialog.html',
+            server = server,
+        )
+
+    # POST
+
+    else:
+        if not server:
+            server = XbmcServer('', 1, '')
+
+        try:
+            server.label = request.form['label']
+            server.position = request.form['position']
+            server.hostname = request.form['hostname']
+            server.port = request.form['port']
+            server.username = request.form['username']
+            server.password = request.form['password']
+            server.mac_address = request.form['password']
+
+            db_session.add(server)
+            db_session.commit()
+
+            return render_template('includes/servers.html',
+                servers = XbmcServer.query.order_by(XbmcServer.position),
+            )
+
+        except:
+            logger.log('Error saving XBMC server to database', 'WARNING')
+            return jsonify({ 'status': 'error' })
+
+    return jsonify({ 'status': 'error' })
 
 # helper method which returns a module record from the database
 

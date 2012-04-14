@@ -53,15 +53,7 @@
         <li id="remote_icon">Remote control</li>
         <li id="misc_settings" class="settings">Misc settings</li>
         <li id="search_settings" class="settings">Search settings</li>
-        <li id="server_settings">
-          XBMC servers
-          <ul>
-            {% for server in servers %}
-                <li class="switch_server" data-server_id="{{ server.id }}">{{ server.label }}</li>
-            {% endfor %}
-            <li class="add_server">Add server...</li>
-          </ul>
-        </li>
+        {% include 'includes/servers.html' %}
       </ul>
     </div>
 
