@@ -1649,9 +1649,15 @@ $(document).ready(function() {
     $('li#server_settings').click();
   });
 
-  // server settings dialog
 
-  $('#extra_settings').on('click', 'li.switch_server .edit, li.add_server', function() {
+
+
+
+  /*--- server settings dialog ---*/
+
+  // edit server
+
+  $('#server_settings').on('click', 'li.switch_server .edit, li.add_server', function() {
     var server_id = null;
 
     if ($(this).hasClass('edit')) {
@@ -1687,8 +1693,9 @@ $(document).ready(function() {
         }
       });
     });
-
   });
+
+  // delete server
 
   $('#server_settings_dialog .delete').live('click', function() {
     $.post('/xhr/delete_server/' + $(this).data('server_id'), {}, function(data) {
@@ -1705,6 +1712,18 @@ $(document).ready(function() {
         popup_message('XBMC server has been deleted.');
       }
     });
+  });
+
+  // switch server
+
+  $('#server_settings').on('click', 'li.switch_server', function(e) {
+    if ($(e.target).hasClass('switch_server')) {
+      $.get('/xhr/switch_server/' + $(this).data('server_id'), function(data) {
+        if (data.status === 'error') {
+          popup_message('There was an error switching XBMC servers.');
+        }
+      });
+    }
   });
 
 });

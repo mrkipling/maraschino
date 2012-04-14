@@ -731,6 +731,28 @@ def delete_server(server_id=None):
         logger.log('Error deleting server ID %s' % server_id , 'WARNING')
         return jsonify({ 'status': 'error' })
 
+@app.route('/xhr/switch_server/<server_id>')
+@requires_auth
+def switch_server(server_id=None):
+    """
+    Switches XBMC servers.
+    """
+
+    xbmc_server = XbmcServer.query.get(server_id)
+
+    try:
+        active_server = get_setting('active_server')
+        active_server.value = server_id
+        db_session.add(active_server)
+        db_session.commit()
+        logger.log('Switched active server to ID %s' % server_id , 'INFO')
+
+    except:
+        logger.log('Error setting active server to ID %s' % server_id , 'WARNING')
+        return jsonify({ 'status': 'error' })
+
+    return jsonify({ 'status': 'success' })
+
 # helper method which returns a module record from the database
 
 def get_module(name):
