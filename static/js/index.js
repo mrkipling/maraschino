@@ -1651,7 +1651,7 @@ $(document).ready(function() {
 
   // server settings dialog
 
-  $('#extra_settings').on('click', 'li.switch_server, li.add_server', function() {
+  $('#extra_settings').on('click', 'li.add_server', function() {
     var server_id = null;
 
     if ($(this).hasClass('switch_server')) {
