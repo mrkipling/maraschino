@@ -427,7 +427,7 @@ SERVER_SETTINGS = [
 SEARCH_SETTINGS = [
     {
         'key': 'search',
-        'value': '1',
+        'value': '0',
         'description': 'Enable search feature',
         'type': 'bool',
     },
