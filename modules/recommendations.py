@@ -11,6 +11,17 @@ from Maraschino import app
 from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
+from jinja2.filters import FILTERS
+
+def small_poster(poster):
+
+    if 'poster-small' in poster:
+      return poster
+    else:
+        x = poster.rfind('.')
+        return poster[:x] + '-138' + poster[x:]
+
+FILTERS['small_poster'] = small_poster
 
 @app.route('/xhr/recommendations')
 def xhr_recommendations():
@@ -56,6 +67,7 @@ def xhr_recommendations():
         mov['liked'] = movie['ratings']['percentage']
         mov['id'] = movie_id
         mov['watchlist'] = movie['in_watchlist']
+        mov['poster'] = movie['images']['poster']
 
     # making TV Show Recommendation request
     url = 'http://api.trakt.tv/recommendations/shows/%s' % (TRAKT_API_KEY)
@@ -84,6 +96,7 @@ def xhr_recommendations():
         tv['liked'] = tv_result['ratings']['percentage']
         tv['id'] = tv_id
         tv['watchlist'] = tv_result['in_watchlist']
+        tv['poster'] = tv_result['images']['poster']
 
     return render_template('recommendations.html',
         movie = mov,
