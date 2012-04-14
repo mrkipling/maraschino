@@ -1,6 +1,10 @@
-<div id="{{ dialog_type }}_dialog" class="dialog">
+<div id="{{ dialog_type }}_dialog" class="extra_settings dialog">
   <div class="close">x</div>
   <h2>{{ dialog_title }}</h2>
+
+  {% if dialog_text %}
+      <p class="text">{{ dialog_text }}</p>
+  {% endif %}
 
   <form class="inner" method="post" action="">
     {% for setting in settings %}

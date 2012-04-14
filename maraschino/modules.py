@@ -649,6 +649,8 @@ def module_settings_save(name):
 @app.route('/xhr/extra_settings_dialog/<dialog_type>')
 @requires_auth
 def extra_settings_dialog(dialog_type, updated=False):
+    dialog_text = None
+
     if dialog_type == 'server_settings':
         settings = copy.copy(SERVER_SETTINGS)
         dialog_title = 'Server settings'
@@ -656,6 +658,7 @@ def extra_settings_dialog(dialog_type, updated=False):
     elif dialog_type == 'search_settings':
         settings = copy.copy(SEARCH_SETTINGS)
         dialog_title = 'Search settings'
+        dialog_text = 'N.B. With search enabled, you can press \'ALT-s\' to display the search module.'
 
     for s in settings:
          setting = get_setting(s['key'])
@@ -665,6 +668,7 @@ def extra_settings_dialog(dialog_type, updated=False):
 
     return render_template('extra_settings_dialog.html',
         dialog_title = dialog_title,
+        dialog_text = dialog_text,
         dialog_type = dialog_type,
         settings = settings,
         updated = updated,
