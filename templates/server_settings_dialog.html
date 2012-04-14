@@ -4,8 +4,6 @@
 
   <form class="inner" method="post" action="">
 
-    <input id="id_id" type="hidden" value="{{ server.id }}">
-
     <div class="formrow">
       <label for="id_server_label">Label</label>
       <input id="id_server_label" name="label" type="text" value="{{ server.label }}">
@@ -45,6 +43,7 @@
 
   <div class="choices">
     <div class="save">Save</div>
+    {% if server %}<div class="delete" data-server_id="{{ server.id }}">Delete</div>{% endif %}
     <div class="cancel">Cancel</div>
   </div>
 </div>

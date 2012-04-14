@@ -1670,7 +1670,7 @@ $(document).ready(function() {
 
           $.post('/xhr/server_settings_dialog/' + server_id, settings, function(data) {
             if (data.status === 'error') {
-              popup_message('There was an error saving the XBMC server to the database.');
+              popup_message('There was an error saving the XBMC server.');
               return;
             }
 
@@ -1688,6 +1688,23 @@ $(document).ready(function() {
       });
     });
 
+  });
+
+  $('#server_settings_dialog .delete').live('click', function() {
+    $.post('/xhr/delete_server/' + $(this).data('server_id'), {}, function(data) {
+      if (data.status === 'error') {
+        popup_message('There was an error deleting the XBMC server.');
+      } else {
+        $('#server_settings_dialog').closePopup();
+        var servers_menu = $(data);
+
+        if (servers_menu.attr('id') === 'server_settings') {
+          $('#extra_settings #server_settings').replaceWith(servers_menu);
+        }
+
+        popup_message('XBMC server has been deleted.');
+      }
+    });
   });
 
 });

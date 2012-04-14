@@ -711,6 +711,26 @@ def server_settings_dialog(server_id=None):
 
     return jsonify({ 'status': 'error' })
 
+@app.route('/xhr/delete_server/<server_id>', methods=['POST'])
+@requires_auth
+def delete_server(server_id=None):
+    """
+    Deletes a server.
+    """
+
+    try:
+        xbmc_server = XbmcServer.query.get(server_id)
+        db_session.delete(xbmc_server)
+        db_session.commit()
+
+        return render_template('includes/servers.html',
+            servers = XbmcServer.query.order_by(XbmcServer.position),
+        )
+
+    except:
+        logger.log('Error deleting server ID %s' % server_id , 'WARNING')
+        return jsonify({ 'status': 'error' })
+
 # helper method which returns a module record from the database
 
 def get_module(name):
