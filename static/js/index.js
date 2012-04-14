@@ -311,15 +311,6 @@ $(document).ready(function() {
     $(this).children('div#tooltip').remove();
   });
 
-  // Settings tab
-  $(document).on('click', '#server_settings .tab', function(){
-    if($('#server_settings .inner').css('display') == 'none'){
-      $('#server_settings .inner').slideDown();
-    } else {
-      $('#server_settings .inner').slideUp();
-    }
-  });
-
   if ($('body').data('show_currently_playing') === 'True') {
     get_currently_playing();
   }
@@ -1417,21 +1408,9 @@ $(document).ready(function() {
 
     if ($('body').hasClass('f_settings_mode')) {
       $('ul.modules').sortable({ disabled: false });
-
-      $.get('/xhr/server_settings_dialog', function(data) {
-        var existing_server_settings = $('#server_settings');
-
-        if (existing_server_settings.length === 0) {
-          $('body').append(data);
-        } else {
-          existing_server_settings.replaceWith(data);
-        }
-      });
-
     } else {
       $('ul.modules').sortable({ disabled: true });
       $('.edit_settings .choices .cancel').click();
-      $('#server_settings').closest('li').remove();
     }
   }
 
@@ -1516,7 +1495,7 @@ $(document).ready(function() {
   // save settings
 
   $(document).on('click', '.edit_settings .choices .save', function() {
-    var module = $(this).closest('.module, .inactive_module, .placeholder, #server_settings');
+    var module = $(this).closest('.module, .inactive_module, .placeholder');
     var module_name = module.data('module');
     var settings = module.find('form').serializeArray();
 
@@ -1639,24 +1618,26 @@ $(document).ready(function() {
     });
   });
 
-  // search settings dialog
+  // extra settings dialogs
 
-  $('#extra_settings').on('click', '#search_settings', function() {
-    $.get('/xhr/search_settings_dialog', function(data) {
+  $('#extra_settings').on('click', 'li.settings', function() {
+    var dialog_type = $(this).attr('id');
+    $.get('/xhr/extra_settings_dialog/' + dialog_type, function(data) {
       $('body').append(data);
-      var popup = $('#search_settings_dialog');
+      var popup = $('#' + dialog_type + '_dialog');
       popup.showPopup({
         dispose: true,
         confirm_selector: '.choices .save',
         on_confirm: function() {
-          var module_name = 'search_settings';
           var settings = popup.find('form').serializeArray();
 
-          $.post('/xhr/module_settings_save/' + module_name,
+          $.post('/xhr/module_settings_save/' + dialog_type,
             { settings: JSON.stringify(settings) },
             function(data) {
-              var search_enabled_val = popup.find('#id_search').val() === '1' ? 'True' : 'False';
-              $('body').data('search_enabled', search_enabled_val);
+              if (dialog_type === 'search_settings') {
+                var search_enabled_val = popup.find('#id_search').val() === '1' ? 'True' : 'False';
+                $('body').data('search_enabled', search_enabled_val);
+              }
             }
           );
         }
