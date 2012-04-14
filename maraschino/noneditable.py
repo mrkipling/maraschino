@@ -7,28 +7,12 @@ def server_settings():
     servers = XbmcServer.query.order_by(XbmcServer.position)
 
     if servers.count() == 0:
-        # check if old server settings value is set
-        old_server_hostname = get_setting_value('server_hostname')
-
-        # create an XbmcServer entry using the legacy settings
-        if old_server_hostname:
-            xbmc_server = XbmcServer(
-                'XBMC server 1',
-                1,
-                old_server_hostname,
-                get_setting_value('server_port'),
-                get_setting_value('server_username'),
-                get_setting_value('server_password'),
-                get_setting_value('server_macaddress'),
-            )
-
-            try:
-                db_session.add(xbmc_server)
-                db_session.commit()
-                servers = XbmcServer.query.order_by(XbmcServer.position)
-
-            except:
-                logger.log('Could not create new XbmcServer based on legacy settings' , 'WARNING')
+        return {
+            'hostname': None,
+            'port': None,
+            'username': None,
+            'password': None,
+        }
 
     active_server = get_setting_value('active_server')
 

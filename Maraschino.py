@@ -94,8 +94,37 @@ def index():
     # show fanart backgrounds when watching media
     fanart_backgrounds = get_setting_value('fanart_backgrounds') == '1'
 
+    # get list of servers
+
+    servers = XbmcServer.query.order_by(XbmcServer.position)
+
+    if servers.count() == 0:
+        # check if old server settings value is set
+        old_server_hostname = get_setting_value('server_hostname')
+
+        # create an XbmcServer entry using the legacy settings
+        if old_server_hostname:
+            xbmc_server = XbmcServer(
+                'XBMC server 1',
+                1,
+                old_server_hostname,
+                get_setting_value('server_port'),
+                get_setting_value('server_username'),
+                get_setting_value('server_password'),
+                get_setting_value('server_macaddress'),
+            )
+
+            try:
+                db_session.add(xbmc_server)
+                db_session.commit()
+                servers = XbmcServer.query.order_by(XbmcServer.position)
+
+            except:
+                logger.log('Could not create new XbmcServer based on legacy settings' , 'WARNING')
+
     return render_template('index.html',
         modules = modules,
+        servers = servers,
         show_currently_playing = True,
         search_enabled = get_setting_value('search') == '1',
         background = background,
