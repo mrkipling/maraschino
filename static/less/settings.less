@@ -39,7 +39,7 @@
   opacity: 1;
 }
 
-#remote_icon
+#extra_settings
 {
   background: url(/static/images/alpha/000_70.png);
   height: 40px;
@@ -47,39 +47,60 @@
   opacity: 0;
   position: absolute;
   top: 0;
+  white-space: nowrap;
   width: 40px;
   z-index: 1;
 
-  border-bottom-left-radius: 40px;
-  -moz-border-radius-bottomleft: 40px;
-  -o-border-bottom-left-radius: 40px;
-  -webkit-border-bottom-left-radius: 40px;
-
-  transition: opacity 0.3s;
-  -transition: opacity 0.3s;
-  -webkit-transition: opacity 0.3s;
-  -moz-transition: opacity 0.3s;
+  -webkit-transition: width 0.2s ease-in-out;
+  -moz-transition: width 0.2s ease-in-out;
+  -o-transition: width 0.2s ease-in-out;
+  -ms-transition: width 0.2s ease-in-out;
+  transition: width 0.2s ease-in-out;
 
   .inner {
-    background: url(/static/images/keyb_inactive.png) no-repeat 12px 3px;
     background-size: 24px;
     height: 40px;
     width: 40px;
     margin: 0px 0px;
   }
 
-  &.on {
-    opacity: 1;
-
-    .inner {
-      background: url(/static/images/keyb_active.gif) no-repeat 12px 3px;
-      background-size: 24px;
-    }
+  ul {
+    display: none;
+    margin: 0 5px;
   }
 
   &:hover {
-    cursor: pointer;
+    height: auto;
     opacity: 1;
+    width: 150px;
+
+    border-bottom-left-radius: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    -o-border-bottom-left-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+
+    .inner {
+      display: none;
+    }
+
+    ul {
+      display: block;
+      padding: 5px 0;
+
+      li {
+        cursor: pointer;
+        padding: 5px 5px 5px 15px;
+        .border-radius(2px);
+
+        &:hover {
+          background: url(/static/images/alpha/fff_10.png);
+        }
+
+        &#remote_icon.on {
+          background: url(/static/images/alpha/fff_20.png);
+        }
+      }
+    }
   }
 }
 
@@ -88,6 +109,3 @@
   cursor: pointer;
   opacity: 1;
 }
-
-#server_settings { opacity: 0; }
-.f_settings_mode #server_settings { opacity: 1; }

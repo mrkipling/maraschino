@@ -311,15 +311,6 @@ $(document).ready(function() {
     $(this).children('div#tooltip').remove();
   });
 
-  // Settings tab
-  $(document).on('click', '#server_settings .tab', function(){
-    if($('#server_settings .inner').css('display') == 'none'){
-      $('#server_settings .inner').slideDown();
-    } else {
-      $('#server_settings .inner').slideUp();
-    }
-  });
-
   if ($('body').data('show_currently_playing') === 'True') {
     get_currently_playing();
   }
@@ -1098,6 +1089,14 @@ $(document).ready(function() {
 
   /******  END SICKBEARD Functions  *******/
 
+  /*********** EXTRA SETTINGS *************/
+
+  $(document).on('click', '#extra_settings', function() {
+    if (!$(this).hasClass('active')) {
+      $(this).addClass('active');
+    }
+  });
+
   /*********** REMOTE *************/
 
   var remote = false;
@@ -1116,7 +1115,7 @@ $(document).ready(function() {
     });
   }
 
-  $(document).on('click', '#remote_icon', function(){
+  $(document).on('click', '#remote_icon', function() {
     $(this).toggleClass('on');
     if(remote){
       remote = false;
@@ -1227,6 +1226,126 @@ $(document).ready(function() {
 
   /********* END SABNZBD ***********/
 
+  /********* SEARCH ***********/
+
+  $(document).on('keydown', 'body', function(e){
+    var search_enabled = $('body').data('search_enabled') === 'True';
+
+    if (!search_enabled) {
+      return;
+    }
+
+    alt = (e.altKey) ? true : false;
+
+    if (alt && e.which === 83) {
+      e.preventDefault();
+      if ($('#search').length === 0) {
+        $.get('/xhr/search/')
+          .success(function(data) {
+            if (data) {
+              $('body').append(data);
+              $('#search').hide();
+              $('#search').slideDown(300).find('input[type=search]').focus();
+            }
+          }
+        );
+      } else {
+        $('#search').slideToggle(300);
+      }
+    } else if (e.which === 27) {
+      $('#search #close').click();
+    }
+  });
+
+  $(document).on('keypress', '#search form #value', function(e){
+    if(e.which == 13){
+      e.preventDefault();
+      var query = $('#search form #value').val();
+      var site = $('#search form #site').val();
+      var cat = $('#search form #category').val();
+      if(site == ''){
+        alert('You must pick a website');
+        return false;
+      }
+      if(query == ''){
+        alert('Must search something!');
+        return false;
+      }
+      $('#search .searching').show();
+      $.get('/search/'+site+'/'+query+'/'+cat, function(data){
+        $('#search .searching').hide();
+        if(data['error']){
+          popup_message(data['error']);
+          $('#search input[type=search]').blur();
+        } else {
+          $('#search').replaceWith(data);
+          byteSizeOrdering();
+          $('#search #results .tablesorter').tablesorter({headers: { 2: { sorter: 'filesize'}}});
+        }
+      })
+    }
+  });
+
+  $(document).on('change', '#search form #site', function(){
+    var value = $(this).val();
+    var query = $('#search form #value').val();
+    $.get('/xhr/search/'+value)
+    .success( function(data){
+      $('#search').replaceWith(data);
+      $('#search form #value').val(query);
+    })
+  });
+
+  $(document).on('click', '#search #results table tbody tr td:first-child img', function(){
+    var link = $(this).attr('nzb-link');
+    $.post('/sabnzbd/add/',{url: encodeURI(link)}, function(data){
+      data = eval('(' + data + ')');
+      if(data['status']){
+        popup_message('Successfully added to SabNZBd');
+      } else {
+        popup_message(data['error']);
+      }
+    });
+  });
+
+  $(document).on('click', '#search #close', function() {
+    $(search).slideUp(300);
+  });
+
+  /********* END SEARCH ***********/
+
+  /********* TableSorter byte size sorting ***********/
+  function byteSizeOrdering() {
+    jQuery.tablesorter.addParser(
+    {
+      id: 'filesize',
+      is: function (s)
+      {
+        return s.match(new RegExp(/[0-9]+(\.[0-9]+)?\ (KB|B|GB|MB|TB)/i));
+      },
+      format: function (s)
+      {
+        var suf = s.match(new RegExp(/(KB|B|GB|MB|TB)$/i))[1];
+        var num = parseFloat(s.match(new RegExp(/^[0-9]+(\.[0-9]+)?/))[0]);
+        switch (suf)
+        {
+          case 'B':
+            return num;
+          case 'KB':
+            return num * 1024;
+          case 'MB':
+            return num * 1024 * 1024;
+          case 'GB':
+            return num * 1024 * 1024 * 1024;
+          case 'TB':
+            return num * 1024 * 1024 * 1024 * 1024;
+        }
+      },
+      type: 'numeric'
+    });
+  }
+  /********* END TableSorter byte size sorting ***********/
+
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
   }
@@ -1289,21 +1408,9 @@ $(document).ready(function() {
 
     if ($('body').hasClass('f_settings_mode')) {
       $('ul.modules').sortable({ disabled: false });
-
-      $.get('/xhr/server_settings_dialog', function(data) {
-        var existing_server_settings = $('#server_settings');
-
-        if (existing_server_settings.length === 0) {
-          $('body').append(data);
-        } else {
-          existing_server_settings.replaceWith(data);
-        }
-      });
-
     } else {
       $('ul.modules').sortable({ disabled: true });
       $('.edit_settings .choices .cancel').click();
-      $('#server_settings').closest('li').remove();
     }
   }
 
@@ -1388,7 +1495,7 @@ $(document).ready(function() {
   // save settings
 
   $(document).on('click', '.edit_settings .choices .save', function() {
-    var module = $(this).closest('.module, .inactive_module, .placeholder, #server_settings');
+    var module = $(this).closest('.module, .inactive_module, .placeholder');
     var module_name = module.data('module');
     var settings = module.find('form').serializeArray();
 
@@ -1510,4 +1617,36 @@ $(document).ready(function() {
       }
     });
   });
+
+  // extra settings dialogs
+
+  $('#extra_settings').on('click', 'li.settings', function() {
+    var dialog_type = $(this).attr('id');
+    $.get('/xhr/extra_settings_dialog/' + dialog_type, function(data) {
+      $('body').append(data);
+      var popup = $('#' + dialog_type + '_dialog');
+      popup.showPopup({
+        dispose: true,
+        confirm_selector: '.choices .save',
+        on_confirm: function() {
+          var settings = popup.find('form').serializeArray();
+
+          $.post('/xhr/module_settings_save/' + dialog_type,
+            { settings: JSON.stringify(settings) },
+            function(data) {
+              if (dialog_type === 'search_settings') {
+                var search_enabled_val = popup.find('#id_search').val() === '1' ? 'True' : 'False';
+                $('body').data('search_enabled', search_enabled_val);
+              }
+            }
+          );
+        }
+      });
+    });
+  });
+
+  $(document).on('click', '.enter_server_settings', function() {
+    $('li#server_settings').click();
+  });
+
 });

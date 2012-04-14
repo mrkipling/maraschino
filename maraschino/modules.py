@@ -424,6 +424,31 @@ SERVER_SETTINGS = [
     },
 ]
 
+SEARCH_SETTINGS = [
+    {
+        'key': 'search',
+        'value': '1',
+        'description': 'Enable search feature',
+        'type': 'bool',
+    },
+    {
+        'key': 'nzb_matrix_API',
+        'value': '',
+        'description': 'NZBMatrix API',
+        'link': 'http://nzbmatrix.com/account.php?action=api',
+    },
+    {
+        'key': 'nzb_matrix_user',
+        'value': '',
+        'description': 'NZBMatrix Username',
+    },
+    {
+        'key': 'nzb_su_API',
+        'value': '',
+        'description': 'nzb.su API',
+    },
+]
+
 @app.route('/xhr/add_module_dialog')
 @requires_auth
 def add_module_dialog():
@@ -615,16 +640,22 @@ def module_settings_save(name):
     # with 'Settings saved' text on the button
 
     if name == 'server_settings':
-        return server_settings_dialog(updated=True)
+        return extra_settings_dialog(dialog_type='server_settings', updated=True)
 
     # for everything else, return the rendered module
 
     return module_settings_cancel(name)
 
-@app.route('/xhr/server_settings_dialog')
+@app.route('/xhr/extra_settings_dialog/<dialog_type>')
 @requires_auth
-def server_settings_dialog(updated=False):
-    settings = copy.copy(SERVER_SETTINGS)
+def extra_settings_dialog(dialog_type, updated=False):
+    if dialog_type == 'server_settings':
+        settings = copy.copy(SERVER_SETTINGS)
+        dialog_title = 'Server settings'
+
+    elif dialog_type == 'search_settings':
+        settings = copy.copy(SEARCH_SETTINGS)
+        dialog_title = 'Search settings'
 
     for s in settings:
          setting = get_setting(s['key'])
@@ -632,8 +663,10 @@ def server_settings_dialog(updated=False):
          if setting:
              s['value'] = setting.value
 
-    return render_template('server_settings_dialog.html',
-        server_settings = settings,
+    return render_template('extra_settings_dialog.html',
+        dialog_title = dialog_title,
+        dialog_type = dialog_type,
+        settings = settings,
         updated = updated,
     )
 

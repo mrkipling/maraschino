@@ -20,16 +20,6 @@
 
     <!-- LESS client-side script -->
     <script src="/static/js/lib/less.js" type="text/javascript"></script>
-    <script src="/static/js/lib/jquery.js"></script>
-    <script src="/static/js/lib/jgestures.min.js"></script>
-    <script src="/static/js/lib/jquery-ui.custom.min.js"></script>
-    <script src="/static/js/lib/date.js"></script>
-    <script src="/static/js/popups.js"></script>
-    <script src="/static/js/index.js"></script>
-
-
-    <script src="/static/js/lib/jquery.tablesorter.min.js"></script>
-    <script src="/static/js/lib/jquery.tablesorter.pager.js"></script>
 
     <script>
       function destroyLessCache(pathToCss) {
@@ -49,12 +39,39 @@
     </script>
   </head>
 
-  <body data-show_currently_playing="{{ show_currently_playing }}" data-fanart_backgrounds="{{ fanart_backgrounds }}"{% if background %} style="background-image: url(/{{ background }});"{% endif %} class='f_operation_mode'>
+  <body data-show_currently_playing="{{ show_currently_playing }}" data-fanart_backgrounds="{{ fanart_backgrounds }}"{% if background %} style="background-image: url(/{{ background }});"{% endif %} data-search_enabled="{{ search_enabled }}" class='f_operation_mode'>
+
+    <!-- settings mode icon -->
 
     <div id="settings_icon" title="Settings"><div class="inner"></div></div>
-    <div id="remote_icon" title="Use your keyboard to control XBMC"><div class="inner"></div></div>
+
+    <!-- extra settings menu -->
+
+    <div id="extra_settings">
+      <div class="inner"></div>
+      <ul>
+        <li id="server_settings" class="settings">Server settings</li>
+        <li id="search_settings" class="settings">Search settings</li>
+        <li id="remote_icon">Remote control</li>
+      </ul>
+    </div>
+
+    <!-- fanart container -->
+
     <div id="fanart" style="display: none;"></div>
 
     {% block content %}{% endblock %}
+
+    <!--- JavaScript -->
+
+    <script src="/static/js/lib/jquery.js"></script>
+    <script src="/static/js/lib/jgestures.min.js"></script>
+    <script src="/static/js/lib/jquery-ui.custom.min.js"></script>
+    <script src="/static/js/lib/date.js"></script>
+    <script src="/static/js/popups.js"></script>
+    <script src="/static/js/index.js"></script>
+    <script src="/static/js/lib/jquery.tablesorter.min.js"></script>
+    <script src="/static/js/lib/jquery.tablesorter.pager.js"></script>
+
   </body>
 </html>

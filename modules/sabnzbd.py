@@ -3,8 +3,9 @@ try:
 except ImportError:
     import simplejson as json
 
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 import jsonrpclib, urllib
+from jinja2.filters import FILTERS
 
 from Maraschino import app
 from settings import *
@@ -22,6 +23,22 @@ def sabnzbd_url_no_api():
 def sabnzbd_url(mode, extra = ""):
     return '%s/api?apikey=%s&mode=%s&output=json%s' % (sabnzbd_url_no_api(), get_setting_value('sabnzbd_api'), mode, extra)
 
+def sab_link():
+    SABNZBD_HOST = get_setting_value('sabnzbd_host')
+    SABNZBD_PORT = get_setting_value('sabnzbd_port')
+    SABNZBD_API = get_setting_value('sabnzbd_api')
+
+    SABNZBD_URL = 'http://%s:%s' % (SABNZBD_HOST, SABNZBD_PORT)
+
+    return '%s/api?apikey=%s' % (SABNZBD_URL, SABNZBD_API)
+
+def add_to_sab_link(nzb):
+    if get_setting_value('sabnzbd_api') != None:
+        return '%s&mode=addurl&name=http://%s&output=json' % (sab_link(), nzb)
+    return False
+
+FILTERS['add_to_sab'] = add_to_sab_link
+
 @app.route('/xhr/sabnzbd/')
 @app.route('/xhr/sabnzbd/<queue_status>')
 @requires_auth
@@ -31,7 +48,7 @@ def xhr_sabnzbd(queue_status = 'hide'):
     if not get_setting_value('sabnzbd_host'):
         if get_setting_value('sabnzbd_url') != None:
             old_config = True
-        
+
     downloading = None
     sabnzbd = None
     percentage_total = None
@@ -115,3 +132,15 @@ def sabnzb_individual_toggle(state, id):
         pass
 
     return jsonify ({'status': False})
+
+@app.route('/sabnzbd/add/', methods=['POST'])
+def add_to_sab():
+    try:
+        url = request.form['url']
+    except:
+        return jsonify({ 'error': 'Did not receive URL variable'})
+
+    try:
+        return urllib.urlopen(url).read()
+    except:
+        return jsonify({ 'error': 'Failed to open URL: %s' %(url)})

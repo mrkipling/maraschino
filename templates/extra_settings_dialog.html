@@ -1,0 +1,27 @@
+<div id="{{ dialog_type }}_dialog" class="dialog">
+  <div class="close">x</div>
+  <h2>{{ dialog_title }}</h2>
+
+  <form class="inner" method="post" action="">
+    {% for setting in settings %}
+      <div class="formrow">
+        <label for="id_{{ setting.key }}">{{ setting.description }}</label>
+
+        {% if setting.type == 'bool' %}
+          <select id="id_{{ setting.key }}" name="{{ setting.key }}">
+            <option value="0"{% if setting.value == "0" %} selected="selected"{% endif %}>No</option>
+            <option value="1"{% if setting.value == "1" %} selected="selected"{% endif %}>Yes</option>
+          </select>
+        {% else %}
+          <input id="id_{{ setting.key }}" name="{{ setting.key }}" type="{% if "password" in setting.key %}password{% else %}text{% endif %}" value="{{ setting.value }}">
+        {% endif %}
+
+      </div>
+    {% endfor %}
+  </form>
+
+  <div class="choices">
+    <div class="save">Save</div>
+    <div class="cancel">Cancel</div>
+  </div>
+</div>

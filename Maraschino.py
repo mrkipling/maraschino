@@ -51,6 +51,7 @@ from modules.recently_added import *
 from modules.recommendations import *
 from modules.remote import *
 from modules.sabnzbd import *
+from modules.search import *
 from modules.sickbeard import *
 from modules.trakt import *
 from modules.transmission import *
@@ -96,6 +97,7 @@ def index():
     return render_template('index.html',
         modules = modules,
         show_currently_playing = True,
+        search_enabled = get_setting_value('search') == '1',
         background = background,
         fanart_backgrounds = fanart_backgrounds,
         applications = applications,
