@@ -78,14 +78,29 @@ def index():
     except:
         pass
 
-    # select random background when not watching media
+    # display random background when not watching media (if setting enabled)
+    # only changes on page refresh
 
     background = None
 
     if get_setting_value('random_backgrounds') == '1':
         try:
             backgrounds = []
-            backgrounds.extend(get_file_list('static/images/backgrounds/', ['.jpg', '.png']))
+            custom_dir = os.path.dirname('static/images/backgrounds/custom/')
+
+            if os.path.exists(custom_dir):
+                # use user-defined custom background
+                backgrounds.extend(get_file_list(custom_dir, ['.jpg', '.png']))
+
+                # if no images in directory, use default background that is set in stylesheet
+                if len(backgrounds) == 0:
+                    background = None
+
+            else:
+                # use backgrounds bundled with Maraschino
+                backgrounds.extend(get_file_list('static/images/backgrounds/', ['.jpg', '.png']))
+
+            # select random background
             background = backgrounds[random.randrange(0, len(backgrounds))]
 
         except:
