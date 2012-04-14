@@ -10,6 +10,7 @@
     <li>
       <div class="inner">
         <h3>TV show: <a href="{{ tv.url }}" target="_blank" title="See {{ tv.title }} on The TVDB">{{ tv.title }}</a></h3>
+        <img src="{{ tv.poster|small_poster }}"/>
         <p class="info">Year: {{ tv.year }}, Rating: {{ tv.liked }}%</p>
         <p class="overview">
           <span class="truncated">{{ tv.overview|truncate(400, false) }}</span>
@@ -26,6 +27,7 @@
     <li>
       <div class="inner">
         <h3>Movie: <a href="{{ movie.url }}" target="_blank" title="See {{ movie.title }} on The TVDB">{{ movie.title }}</a></h3>
+        <img src="{{ movie.poster|small_poster }}"/>
         <p class="info">Year: {{ movie.year }}, Rating: {{ movie.liked }}%</p>
         <p class="overview">
           <span class="truncated">{{ movie.overview|truncate(400, false) }}</span>
