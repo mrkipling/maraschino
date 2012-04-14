@@ -137,9 +137,10 @@ except IOError, e:
         print 'You need to specify a database in settings.py.'
         quit()
 
-    init_db()
     logger.log('Database successfully initialised' , 'INFO')
     print "Database successfully initialised."
+
+init_db()
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT, host='0.0.0.0')
