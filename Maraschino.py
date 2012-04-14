@@ -94,7 +94,7 @@ def index():
 
                 # if no images in directory, use default background that is set in stylesheet
                 if len(backgrounds) == 0:
-                    background = None
+                    backgrounds = None
 
             else:
                 # use backgrounds bundled with Maraschino
