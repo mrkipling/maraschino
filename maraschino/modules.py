@@ -406,6 +406,14 @@ SERVER_SETTINGS = [
         'description': 'XBMC Password',
     },
     {
+        'key': 'server_macaddress',
+        'value': '',
+        'description': 'XBMC Mac Address',
+    },
+]
+
+MISC_SETTINGS = [
+    {
         'key': 'fanart_backgrounds',
         'value': '1',
         'description': 'Show fanart backgrounds when watching media',
@@ -416,11 +424,6 @@ SERVER_SETTINGS = [
         'value': '0',
         'description': 'Use a random background when not watching media',
         'type': 'bool',
-    },
-    {
-        'key': 'server_macaddress',
-        'value': '',
-        'description': 'XBMC Mac Address',
     },
 ]
 
@@ -659,6 +662,10 @@ def extra_settings_dialog(dialog_type, updated=False):
         settings = copy.copy(SEARCH_SETTINGS)
         dialog_title = 'Search settings'
         dialog_text = 'N.B. With search enabled, you can press \'ALT-s\' to display the search module.'
+
+    elif dialog_type == 'misc_settings':
+        settings = copy.copy(MISC_SETTINGS)
+        dialog_title = 'Misc. settings'
 
     for s in settings:
          setting = get_setting(s['key'])

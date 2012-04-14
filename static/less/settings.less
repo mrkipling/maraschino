@@ -99,6 +99,28 @@
         &#remote_icon.on {
           background: url(/static/images/alpha/fff_20.png);
         }
+
+        ul {
+          display: none;
+        }
+
+        &:hover ul {
+          background: url(/static/images/alpha/000_70.png);
+          display: block;
+          min-width: 150px;
+          position: absolute;
+          right: 140px;
+
+          -webkit-transition: width 0.2s ease-in-out;
+          -moz-transition: width 0.2s ease-in-out;
+          -o-transition: width 0.2s ease-in-out;
+          -ms-transition: width 0.2s ease-in-out;
+          transition: width 0.2s ease-in-out;
+        }
+
+        &#server_settings:hover ul {
+          top: 69px;
+        }
       }
     }
   }
