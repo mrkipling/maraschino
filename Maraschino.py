@@ -86,9 +86,9 @@ def index():
     if get_setting_value('random_backgrounds') == '1':
         try:
             backgrounds = []
-            custom_dir = os.path.dirname('static/images/backgrounds/custom/')
+            custom_dir = 'static/images/backgrounds/custom/'
 
-            if os.path.exists(custom_dir):
+            if os.path.exists(os.path.dirname(custom_dir)):
                 # use user-defined custom background
                 backgrounds.extend(get_file_list(custom_dir, ['.jpg', '.png']))
 
