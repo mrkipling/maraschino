@@ -1618,7 +1618,7 @@ $(document).ready(function() {
     });
   });
 
-  // extra settings dialogs
+  // extra settings dialog
 
   $('#extra_settings').on('click', 'li.settings', function() {
     var dialog_type = $(this).attr('id');
@@ -1647,6 +1647,29 @@ $(document).ready(function() {
 
   $(document).on('click', '.enter_server_settings', function() {
     $('li#server_settings').click();
+  });
+
+  // server settings dialog
+
+  $('#extra_settings').on('click', 'li.switch_server, li.add_server', function() {
+    var server_id = null;
+
+    if ($(this).hasClass('switch_server')) {
+      server_id = $(this).data('server_id');
+    }
+
+    $.get('/xhr/server_settings_dialog/' + server_id, function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+
+      popup.showPopup({
+        dispose: true,
+        confirm_selector: '.choices .save',
+        on_confirm: function() {
+        }
+      });
+    });
+
   });
 
 });

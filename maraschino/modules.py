@@ -5,14 +5,16 @@ except ImportError:
 
 from flask import Flask, jsonify, render_template, request
 from maraschino.database import db_session
+
 import copy
+import maraschino.logger as logger
 
 from Maraschino import app
 from settings import *
 from maraschino.tools import *
 
 from maraschino.database import *
-from maraschino.models import Module
+from maraschino.models import Module, XbmcServer
 
 # name, label, description, and static are not user-editable and are taken from here
 # poll and delay are user-editable and saved in the database - the values here are the defaults
@@ -384,34 +386,6 @@ AVAILABLE_MODULES = [
     },
 ]
 
-SERVER_SETTINGS = [
-    {
-        'key': 'server_hostname',
-        'value': 'localhost',
-        'description': 'XBMC Hostname',
-    },
-    {
-        'key': 'server_port',
-        'value': '8080',
-        'description': 'XBMC Port ',
-    },
-    {
-        'key': 'server_username',
-        'value': '',
-        'description': 'XBMC Username',
-    },
-    {
-        'key': 'server_password',
-        'value': '',
-        'description': 'XBMC Password',
-    },
-    {
-        'key': 'server_macaddress',
-        'value': '',
-        'description': 'XBMC Mac Address',
-    },
-]
-
 MISC_SETTINGS = [
     {
         'key': 'fanart_backgrounds',
@@ -652,13 +626,13 @@ def module_settings_save(name):
 @app.route('/xhr/extra_settings_dialog/<dialog_type>')
 @requires_auth
 def extra_settings_dialog(dialog_type, updated=False):
+    """
+    Extra settings dialog (search settings, misc settings, etc).
+    """
+
     dialog_text = None
 
-    if dialog_type == 'server_settings':
-        settings = copy.copy(SERVER_SETTINGS)
-        dialog_title = 'Server settings'
-
-    elif dialog_type == 'search_settings':
+    if dialog_type == 'search_settings':
         settings = copy.copy(SEARCH_SETTINGS)
         dialog_title = 'Search settings'
         dialog_text = 'N.B. With search enabled, you can press \'ALT-s\' to display the search module.'
@@ -666,6 +640,9 @@ def extra_settings_dialog(dialog_type, updated=False):
     elif dialog_type == 'misc_settings':
         settings = copy.copy(MISC_SETTINGS)
         dialog_title = 'Misc. settings'
+
+    else:
+        return jsonify({ 'status': 'error' })
 
     for s in settings:
          setting = get_setting(s['key'])
@@ -679,6 +656,28 @@ def extra_settings_dialog(dialog_type, updated=False):
         dialog_type = dialog_type,
         settings = settings,
         updated = updated,
+    )
+
+@app.route('/xhr/server_settings_dialog/')
+@app.route('/xhr/server_settings_dialog/<server_id>')
+@requires_auth
+def server_settings_dialog(server_id=None):
+    """
+    Server settings dialog.
+    If server_id exists then we're editing a server, otherwise we're adding one.
+    """
+
+    server = None
+
+    if server_id:
+        try:
+            server = XbmcServer.query.get(server_id)
+
+        except:
+            logger.log('Error retrieving server details for server ID %s' % server_id , 'WARNING')
+
+    return render_template('server_settings_dialog.html',
+        server = server,
     )
 
 # helper method which returns a module record from the database
