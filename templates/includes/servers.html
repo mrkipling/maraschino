@@ -2,8 +2,14 @@
   XBMC servers
   <ul>
     {% for server in servers %}
-      <li class="switch_server" data-server_id="{{ server.id }}">{{ server.label }}</li>
+      <li class="switch_server" data-server_id="{{ server.id }}">
+        {{ server.label }}
+        <div class="edit">Edit</div>
+      </li>
     {% endfor %}
-    <li class="add_server">Add server...</li>
+    <li class="add_server">
+      Add server...
+      <div class="add">Add</div>
+    </li>
   </ul>
 </li>

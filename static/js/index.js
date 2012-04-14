@@ -1651,11 +1651,11 @@ $(document).ready(function() {
 
   // server settings dialog
 
-  $('#extra_settings').on('click', 'li.add_server', function() {
+  $('#extra_settings').on('click', 'li.switch_server .edit, li.add_server', function() {
     var server_id = null;
 
-    if ($(this).hasClass('switch_server')) {
-      server_id = $(this).data('server_id');
+    if ($(this).hasClass('edit')) {
+      server_id = $(this).closest('.switch_server').data('server_id');
     }
 
     $.get('/xhr/server_settings_dialog/' + server_id, function(data) {
@@ -1668,7 +1668,7 @@ $(document).ready(function() {
         on_confirm: function() {
           var settings = popup.find('form').serialize();
 
-          $.post('/xhr/server_settings_dialog/', settings, function(data) {
+          $.post('/xhr/server_settings_dialog/' + server_id, settings, function(data) {
             if (data.status === 'error') {
               popup_message('There was an error saving the XBMC server to the database.');
               return;
