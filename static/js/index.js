@@ -1230,30 +1230,37 @@ $(document).ready(function() {
 
   /********* SEARCH ***********/
 
-  $(document).on('keydown', 'body', function(e){
+  $('#activate_search').live('click', function (e) {
+    if ($(e.target).hasClass('edit')) {
+      return;
+    }
+
     var search_enabled = $('body').data('search_enabled') === 'True';
 
     if (!search_enabled) {
       return;
     }
 
+    if ($('#search').length === 0) {
+      $.get('/xhr/search/')
+        .success(function(data) {
+          if (data) {
+            $('body').append(data);
+            $('#search').hide();
+            $('#search').slideDown(300).find('input[type=search]').focus();
+          }
+        });
+    } else {
+      $('#search').slideToggle(300);
+    }
+  });
+
+  $(document).on('keydown', 'body', function(e) {
     alt = (e.altKey) ? true : false;
 
     if (alt && e.which === 83) {
       e.preventDefault();
-      if ($('#search').length === 0) {
-        $.get('/xhr/search/')
-          .success(function(data) {
-            if (data) {
-              $('body').append(data);
-              $('#search').hide();
-              $('#search').slideDown(300).find('input[type=search]').focus();
-            }
-          }
-        );
-      } else {
-        $('#search').slideToggle(300);
-      }
+      $('#activate_search').click();
     } else if (e.which === 27) {
       $('#search #close').click();
     }
@@ -1622,7 +1629,7 @@ $(document).ready(function() {
 
   // extra settings dialog
 
-  $('#extra_settings').on('click', 'li.settings', function() {
+  $('#extra_settings').on('click', '.settings', function() {
     var dialog_type = $(this).attr('id');
     $.get('/xhr/extra_settings_dialog/' + dialog_type, function(data) {
       $('body').append(data);
