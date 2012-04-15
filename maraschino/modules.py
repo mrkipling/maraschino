@@ -705,6 +705,13 @@ def server_settings_dialog(server_id=None):
             db_session.add(server)
             db_session.commit()
 
+            active_server = get_setting('active_server')
+
+            if not active_server:
+                active_server = Setting('active_server', server.id)
+                db_session.add(active_server)
+                db_session.commit()
+
             return render_template('includes/servers.html',
                 servers = XbmcServer.query.order_by(XbmcServer.position),
             )
