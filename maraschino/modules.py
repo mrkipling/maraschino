@@ -689,8 +689,12 @@ def server_settings_dialog(server_id=None):
         if not server:
             server = XbmcServer('', 1, '')
 
+        label = request.form['label']
+        if not label:
+            label = 'XBMC server'
+
         try:
-            server.label = request.form['label']
+            server.label = label
             server.position = request.form['position']
             server.hostname = request.form['hostname']
             server.port = request.form['port']
