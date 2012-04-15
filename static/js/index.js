@@ -1657,7 +1657,7 @@ $(document).ready(function() {
 
   // edit server
 
-  $('#server_settings').on('click', 'li.switch_server .edit, li.add_server', function() {
+  $('#server_settings li.switch_server .edit, #server_settings li.add_server').live('click', function() {
     var server_id = null;
 
     if ($(this).hasClass('edit')) {
@@ -1716,12 +1716,17 @@ $(document).ready(function() {
 
   // switch server
 
-  $('#server_settings').on('click', 'li.switch_server', function(e) {
+  $('#server_settings li.switch_server').live('click', function(e) {
     if ($(e.target).hasClass('switch_server')) {
       $.get('/xhr/switch_server/' + $(this).data('server_id'), function(data) {
         if (data.status === 'error') {
           popup_message('There was an error switching XBMC servers.');
+          return;
         }
+
+        get_module('recently_added');
+        get_module('recently_added_movies');
+        get_module('recently_added_albums');
       });
     }
   });
