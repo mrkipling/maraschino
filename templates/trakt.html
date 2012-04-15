@@ -28,7 +28,9 @@
               {% if shout.spoiler %}<span class="spoiler_alert">Spoiler Alert!</span> <a class="expand" href="#" title="Show Post">[+]</a>{% endif %}
               <span class="expanded" style="display: none;">{{ shout.shout }}</span>
               {% if shout.shout|count > 160 %}
-                <a class="expand" href="#" title="More">[+]</a>
+                {% if not shout.spoiler %}
+                  <a class="expand" href="#" title="More">[+]</a>
+                {% endif %}
               {% endif %}
             </p>
           </li>
