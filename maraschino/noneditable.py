@@ -35,6 +35,7 @@ def server_settings():
         'port': server.port,
         'username': server.username,
         'password': server.password,
+        'mac_address': server.mac_address,
     }
 
 def server_username_password():
