@@ -1646,7 +1646,7 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '.enter_server_settings', function() {
-    $('li#server_settings').click();
+    $('li#server_settings .add_server').click();
   });
 
 
