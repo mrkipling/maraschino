@@ -122,9 +122,15 @@ def index():
             except:
                 logger.log('Could not create new XbmcServer based on legacy settings' , 'WARNING')
 
+    active_server = get_setting_value('active_server')
+
+    if active_server:
+        active_server = int(active_server)
+
     return render_template('index.html',
         modules = modules,
         servers = servers,
+        active_server = active_server,
         show_currently_playing = True,
         search_enabled = get_setting_value('search') == '1',
         background = background,

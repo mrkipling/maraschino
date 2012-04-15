@@ -1718,11 +1718,16 @@ $(document).ready(function() {
 
   $('#server_settings li.switch_server').live('click', function(e) {
     if ($(e.target).hasClass('switch_server')) {
+      var li = $(this);
+
       $.get('/xhr/switch_server/' + $(this).data('server_id'), function(data) {
         if (data.status === 'error') {
           popup_message('There was an error switching XBMC servers.');
           return;
         }
+
+        li.closest('ul').find('.active').removeClass('active');
+        li.addClass('active');
 
         get_module('recently_added');
         get_module('recently_added_movies');
