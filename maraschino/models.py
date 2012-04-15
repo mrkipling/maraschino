@@ -75,6 +75,35 @@ class Disk(Base):
     def __repr__(self):
         return '<Disk %r>' % (self.path)
 
+class XbmcServer(Base):
+    __tablename__ = 'xbmc_servers'
+    id = Column(Integer, primary_key=True)
+    label = Column(String(500))
+    position = Column(Integer)
+    hostname = Column(String(500))
+    port = Column(String(10))
+    username = Column(String(100))
+    password = Column(String(100))
+    mac_address = Column(String(100))
+
+    def __init__(self, label, position, hostname, port='8080', username=None, password=None, mac_address=None):
+        self.label = label
+
+        if position == None:
+            self.position = highest_position(Disk)
+
+        else:
+            self.position = position
+
+        self.hostname = hostname
+        self.port = port
+        self.username = username
+        self.password = password
+        self.mac_address = mac_address
+
+    def __repr__(self):
+        return '<XbmcServer %r>' % (self.label)
+
 def highest_position(model):
     highest_position = 0
 

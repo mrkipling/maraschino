@@ -5,13 +5,17 @@ from Maraschino import app
 from socket import *
 from xbmc.xbmcclient import XBMCClient
 from maraschino.tools import get_setting_value
+from maraschino.noneditable import *
+
 import time, os
 
 global connected
 connected = False
 
 def update_xbmc_object():
-    host = get_setting_value('server_hostname')
+    serversettings = server_settings()
+    host = serversettings['hostname']
+
     try:
         icon = os.path.abspath('static/images/maraschino_logo.png')
 

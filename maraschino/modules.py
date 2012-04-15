@@ -5,14 +5,16 @@ except ImportError:
 
 from flask import Flask, jsonify, render_template, request
 from maraschino.database import db_session
+
 import copy
+import maraschino.logger as logger
 
 from Maraschino import app
 from settings import *
 from maraschino.tools import *
 
 from maraschino.database import *
-from maraschino.models import Module
+from maraschino.models import Module, XbmcServer
 
 # name, label, description, and static are not user-editable and are taken from here
 # poll and delay are user-editable and saved in the database - the values here are the defaults
@@ -384,30 +386,10 @@ AVAILABLE_MODULES = [
     },
 ]
 
-SERVER_SETTINGS = [
-    {
-        'key': 'server_hostname',
-        'value': 'localhost',
-        'description': 'XBMC Hostname',
-    },
-    {
-        'key': 'server_port',
-        'value': '8080',
-        'description': 'XBMC Port ',
-    },
-    {
-        'key': 'server_username',
-        'value': '',
-        'description': 'XBMC Username',
-    },
-    {
-        'key': 'server_password',
-        'value': '',
-        'description': 'XBMC Password',
-    },
+MISC_SETTINGS = [
     {
         'key': 'fanart_backgrounds',
-        'value': '1',
+        'value': '0',
         'description': 'Show fanart backgrounds when watching media',
         'type': 'bool',
     },
@@ -416,11 +398,6 @@ SERVER_SETTINGS = [
         'value': '0',
         'description': 'Use a random background when not watching media',
         'type': 'bool',
-    },
-    {
-        'key': 'server_macaddress',
-        'value': '',
-        'description': 'XBMC Mac Address',
     },
 ]
 
@@ -649,16 +626,23 @@ def module_settings_save(name):
 @app.route('/xhr/extra_settings_dialog/<dialog_type>')
 @requires_auth
 def extra_settings_dialog(dialog_type, updated=False):
+    """
+    Extra settings dialog (search settings, misc settings, etc).
+    """
+
     dialog_text = None
 
-    if dialog_type == 'server_settings':
-        settings = copy.copy(SERVER_SETTINGS)
-        dialog_title = 'Server settings'
-
-    elif dialog_type == 'search_settings':
+    if dialog_type == 'search_settings':
         settings = copy.copy(SEARCH_SETTINGS)
         dialog_title = 'Search settings'
         dialog_text = 'N.B. With search enabled, you can press \'ALT-s\' to display the search module.'
+
+    elif dialog_type == 'misc_settings':
+        settings = copy.copy(MISC_SETTINGS)
+        dialog_title = 'Misc. settings'
+
+    else:
+        return jsonify({ 'status': 'error' })
 
     for s in settings:
          setting = get_setting(s['key'])
@@ -673,6 +657,112 @@ def extra_settings_dialog(dialog_type, updated=False):
         settings = settings,
         updated = updated,
     )
+
+@app.route('/xhr/server_settings_dialog/', methods=['GET', 'POST'])
+@app.route('/xhr/server_settings_dialog/<server_id>', methods=['GET', 'POST'])
+@requires_auth
+def server_settings_dialog(server_id=None):
+    """
+    Server settings dialog.
+    If server_id exists then we're editing a server, otherwise we're adding one.
+    """
+
+    server = None
+
+    if server_id:
+        try:
+            server = XbmcServer.query.get(server_id)
+
+        except:
+            logger.log('Error retrieving server details for server ID %s' % server_id , 'WARNING')
+
+    # GET
+
+    if request.method == 'GET':
+        return render_template('server_settings_dialog.html',
+            server = server,
+        )
+
+    # POST
+
+    else:
+        if not server:
+            server = XbmcServer('', 1, '')
+
+        label = request.form['label']
+        if not label:
+            label = 'XBMC server'
+
+        try:
+            server.label = label
+            server.position = request.form['position']
+            server.hostname = request.form['hostname']
+            server.port = request.form['port']
+            server.username = request.form['username']
+            server.password = request.form['password']
+            server.mac_address = request.form['mac_address']
+
+            db_session.add(server)
+            db_session.commit()
+
+            active_server = get_setting('active_server')
+
+            if not active_server:
+                active_server = Setting('active_server', server.id)
+                db_session.add(active_server)
+                db_session.commit()
+
+            return render_template('includes/servers.html',
+                servers = XbmcServer.query.order_by(XbmcServer.position),
+            )
+
+        except:
+            logger.log('Error saving XBMC server to database', 'WARNING')
+            return jsonify({ 'status': 'error' })
+
+    return jsonify({ 'status': 'error' })
+
+@app.route('/xhr/delete_server/<server_id>', methods=['POST'])
+@requires_auth
+def delete_server(server_id=None):
+    """
+    Deletes a server.
+    """
+
+    try:
+        xbmc_server = XbmcServer.query.get(server_id)
+        db_session.delete(xbmc_server)
+        db_session.commit()
+
+        return render_template('includes/servers.html',
+            servers = XbmcServer.query.order_by(XbmcServer.position),
+        )
+
+    except:
+        logger.log('Error deleting server ID %s' % server_id , 'WARNING')
+        return jsonify({ 'status': 'error' })
+
+@app.route('/xhr/switch_server/<server_id>')
+@requires_auth
+def switch_server(server_id=None):
+    """
+    Switches XBMC servers.
+    """
+
+    xbmc_server = XbmcServer.query.get(server_id)
+
+    try:
+        active_server = get_setting('active_server')
+        active_server.value = server_id
+        db_session.add(active_server)
+        db_session.commit()
+        logger.log('Switched active server to ID %s' % server_id , 'INFO')
+
+    except:
+        logger.log('Error setting active server to ID %s' % server_id , 'WARNING')
+        return jsonify({ 'status': 'error' })
+
+    return jsonify({ 'status': 'success' })
 
 # helper method which returns a module record from the database
 

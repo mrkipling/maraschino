@@ -1618,7 +1618,7 @@ $(document).ready(function() {
     });
   });
 
-  // extra settings dialogs
+  // extra settings dialog
 
   $('#extra_settings').on('click', 'li.settings', function() {
     var dialog_type = $(this).attr('id');
@@ -1646,7 +1646,94 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '.enter_server_settings', function() {
-    $('li#server_settings').click();
+    $('li#server_settings .add_server').click();
+  });
+
+
+
+
+
+  /*--- server settings dialog ---*/
+
+  // edit server
+
+  $('#server_settings li.switch_server .edit, #server_settings li.add_server').live('click', function() {
+    var server_id = null;
+
+    if ($(this).hasClass('edit')) {
+      server_id = $(this).closest('.switch_server').data('server_id');
+    }
+
+    $.get('/xhr/server_settings_dialog/' + server_id, function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+
+      popup.showPopup({
+        dispose: true,
+        confirm_selector: '.choices .save',
+        on_confirm: function() {
+          var settings = popup.find('form').serialize();
+
+          $.post('/xhr/server_settings_dialog/' + server_id, settings, function(data) {
+            if (data.status === 'error') {
+              popup_message('There was an error saving the XBMC server.');
+              return;
+            }
+
+            var servers_menu = $(data);
+
+            if (servers_menu.attr('id') === 'server_settings') {
+              $('#extra_settings #server_settings').replaceWith(servers_menu);
+            }
+
+            get_module('recently_added');
+            get_module('recently_added_movies');
+            get_module('recently_added_albums');
+          });
+        }
+      });
+    });
+  });
+
+  // delete server
+
+  $('#server_settings_dialog .delete').live('click', function() {
+    $.post('/xhr/delete_server/' + $(this).data('server_id'), {}, function(data) {
+      if (data.status === 'error') {
+        popup_message('There was an error deleting the XBMC server.');
+      } else {
+        $('#server_settings_dialog').closePopup();
+        var servers_menu = $(data);
+
+        if (servers_menu.attr('id') === 'server_settings') {
+          $('#extra_settings #server_settings').replaceWith(servers_menu);
+        }
+
+        popup_message('XBMC server has been deleted.');
+      }
+    });
+  });
+
+  // switch server
+
+  $('#server_settings li.switch_server').live('click', function(e) {
+    if ($(e.target).hasClass('switch_server')) {
+      var li = $(this);
+
+      $.get('/xhr/switch_server/' + $(this).data('server_id'), function(data) {
+        if (data.status === 'error') {
+          popup_message('There was an error switching XBMC servers.');
+          return;
+        }
+
+        li.closest('ul').find('.active').removeClass('active');
+        li.addClass('active');
+
+        get_module('recently_added');
+        get_module('recently_added_movies');
+        get_module('recently_added_albums');
+      });
+    }
   });
 
 });

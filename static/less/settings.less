@@ -49,7 +49,7 @@
   top: 0;
   white-space: nowrap;
   width: 40px;
-  z-index: 1;
+  z-index: 10;
 
   -webkit-transition: width 0.2s ease-in-out;
   -moz-transition: width 0.2s ease-in-out;
@@ -74,10 +74,10 @@
     opacity: 1;
     width: 150px;
 
-    border-bottom-left-radius: 10px;
-    -moz-border-radius-bottomleft: 10px;
-    -o-border-bottom-left-radius: 10px;
-    -webkit-border-bottom-left-radius: 10px;
+    border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    -o-border-bottom-left-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
 
     .inner {
       display: none;
@@ -89,15 +89,55 @@
 
       li {
         cursor: pointer;
-        padding: 5px 5px 5px 15px;
+        padding: 5px 27px 5px 15px;
+        position: relative;
         .border-radius(2px);
 
         &:hover {
           background: url(/static/images/alpha/fff_10.png);
         }
 
-        &#remote_icon.on {
+        &#remote_icon.on,
+        &.active {
           background: url(/static/images/alpha/fff_20.png);
+        }
+
+        ul {
+          display: none;
+          .border-radius(5px);
+        }
+
+        .edit,
+        .add {
+          background: url(/static/images/server_edit.png);
+          height: 16px;
+          position: absolute;
+          right: 5px;
+          text-indent: -9999px;
+          top: 3px;
+          width: 16px;
+        }
+
+        .add {
+          background: url(/static/images/server_add.png);
+        }
+
+        &:hover ul {
+          background: url(/static/images/alpha/000_70.png);
+          display: block;
+          min-width: 150px;
+          position: absolute;
+          right: 135px;
+
+          -webkit-transition: width 0.2s ease-in-out;
+          -moz-transition: width 0.2s ease-in-out;
+          -o-transition: width 0.2s ease-in-out;
+          -ms-transition: width 0.2s ease-in-out;
+          transition: width 0.2s ease-in-out;
+        }
+
+        &#server_settings:hover ul {
+          top: -5px;
         }
       }
     }

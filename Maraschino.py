@@ -109,8 +109,43 @@ def index():
     # show fanart backgrounds when watching media
     fanart_backgrounds = get_setting_value('fanart_backgrounds') == '1'
 
+    # get list of servers
+
+    servers = XbmcServer.query.order_by(XbmcServer.position)
+
+    if servers.count() == 0:
+        # check if old server settings value is set
+        old_server_hostname = get_setting_value('server_hostname')
+
+        # create an XbmcServer entry using the legacy settings
+        if old_server_hostname:
+            xbmc_server = XbmcServer(
+                'XBMC server 1',
+                1,
+                old_server_hostname,
+                get_setting_value('server_port'),
+                get_setting_value('server_username'),
+                get_setting_value('server_password'),
+                get_setting_value('server_macaddress'),
+            )
+
+            try:
+                db_session.add(xbmc_server)
+                db_session.commit()
+                servers = XbmcServer.query.order_by(XbmcServer.position)
+
+            except:
+                logger.log('Could not create new XbmcServer based on legacy settings' , 'WARNING')
+
+    active_server = get_setting_value('active_server')
+
+    if active_server:
+        active_server = int(active_server)
+
     return render_template('index.html',
         modules = modules,
+        servers = servers,
+        active_server = active_server,
         show_currently_playing = True,
         search_enabled = get_setting_value('search') == '1',
         background = background,
@@ -152,9 +187,10 @@ except IOError, e:
         print 'You need to specify a database in settings.py.'
         quit()
 
-    init_db()
     logger.log('Database successfully initialised' , 'INFO')
     print "Database successfully initialised."
+
+init_db()
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT, host='0.0.0.0')

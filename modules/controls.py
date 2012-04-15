@@ -293,7 +293,9 @@ def xhr_clear_playlist(playlist_type):
 @app.route('/xhr/controls/<command>')
 @requires_auth
 def xhr_controls(command):
+    serversettings = server_settings()
     xbmc = jsonrpclib.Server(server_api_address())
+
     try:
         active_player = xbmc.Player.GetActivePlayers()
         if active_player[0]['type'] == 'video':
@@ -475,7 +477,7 @@ def xhr_controls(command):
 
     elif command == 'poweron':
         logger.log('CONTROLS :: Powering on XBMC machine', 'INFO')
-        server_macaddress = get_setting_value('server_macaddress')
+        server_macaddress = serversettings['mac_address']
 
         if not server_macaddress:
             logger.log('CONTROLS :: No XBMC machine MAC address defined', 'ERROR')
