@@ -73,30 +73,32 @@ $(document).ready(function() {
       url += '/' + settings.params[i];
     }
 
-    $.get(url, function(data) {
-      var module_ele = $('#' + module);
+    var module_ele = $('#' + module);
 
-      // if module is already on page
-      if (module_ele.length > 0) {
+    if (!module_ele.hasClass('edit_settings')) {
+      $.get(url, function(data) {
+        // if module is already on page
+        if (module_ele.length > 0) {
 
-        // if module has been returned by the XHR view
-        if ($(data).attr('id') === module) {
-          module_ele.replaceWith(data);
+          // if module has been returned by the XHR view
+          if ($(data).attr('id') === module) {
+            module_ele.replaceWith(data);
 
-        // else placeholder has been returned by the XHR view
+            // else placeholder has been returned by the XHR view
+          } else {
+            module_ele.fadeOut(200, function() {
+              $(this).replaceWith(data);
+            });
+          }
+
+          // placeholder is on page
         } else {
-          module_ele.fadeOut(200, function() {
-            $(this).replaceWith(data);
-          });
+          var new_module = $(data).hide();
+          settings.placeholder.replaceWith(new_module);
+          $('.module[data-module=' + module + ']').fadeIn(200);
         }
-
-      // placeholder is on page
-      } else {
-        var new_module = $(data).hide();
-        settings.placeholder.replaceWith(new_module);
-        $('.module[data-module=' + module + ']').fadeIn(200);
-      }
-    });
+      });
+    }
 
     // poll
     if (settings.poll !== 0) {
@@ -104,11 +106,11 @@ $(document).ready(function() {
       if(timer){
         clearTimeout(window[timer]);
         window[timer] = setTimeout(function() {
-                          get_module(module, {
-                            poll: settings.poll,
-                            params: [settings.params],
-                          })
-                        }, settings.poll * 1000);
+          get_module(module, {
+            poll: settings.poll,
+            params: [settings.params],
+          })
+        }, settings.poll * 1000);
       }
     }
   }
