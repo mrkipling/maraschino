@@ -700,7 +700,7 @@ def server_settings_dialog(server_id=None):
             server.port = request.form['port']
             server.username = request.form['username']
             server.password = request.form['password']
-            server.mac_address = request.form['password']
+            server.mac_address = request.form['mac_address']
 
             db_session.add(server)
             db_session.commit()
