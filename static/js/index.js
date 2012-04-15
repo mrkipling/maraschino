@@ -1012,12 +1012,12 @@ $(document).ready(function() {
 
   // Load search results
 
-  $(document).on('keypress', '#sickbeard #search #value', function(e){
+  $(document).on('keypress', '#sickbeard #sb_search #value', function(e){
     if(e.which == 13){
       e.preventDefault();
-      var name = $('#sickbeard #search #value').attr('value');
-      var type = $('#sickbeard #search #tvdbid').attr('value');
-      var lang = $('#sickbeard #search #lang').attr('value');
+      var name = $('#sickbeard #sb_search #value').attr('value');
+      var type = $('#sickbeard #sb_search #tvdbid').attr('value');
+      var lang = $('#sickbeard #sb_search #lang').attr('value');
       params = ''
       if(name != ''){
         if(type == 'name'){
@@ -1041,7 +1041,7 @@ $(document).ready(function() {
 
   // Add show function
 
-  $(document).on('click', '#sickbeard #search #result tr', function(){
+  $(document).on('click', '#sickbeard #sb_search #result tr', function(){
     $.get('/sickbeard/add_show/'+$(this).attr('tvdbid'))
     .success(function(data){
       popup_message(data);
