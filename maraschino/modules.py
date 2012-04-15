@@ -389,7 +389,7 @@ AVAILABLE_MODULES = [
 MISC_SETTINGS = [
     {
         'key': 'fanart_backgrounds',
-        'value': '1',
+        'value': '0',
         'description': 'Show fanart backgrounds when watching media',
         'type': 'bool',
     },
