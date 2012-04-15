@@ -89,7 +89,8 @@
 
       li {
         cursor: pointer;
-        padding: 5px 5px 5px 15px;
+        padding: 5px 27px 5px 15px;
+        position: relative;
         .border-radius(2px);
 
         &:hover {
@@ -109,9 +110,11 @@
         .edit,
         .add {
           background: url(/static/images/server_edit.png);
-          float: right;
           height: 16px;
+          position: absolute;
+          right: 5px;
           text-indent: -9999px;
+          top: 3px;
           width: 16px;
         }
 
@@ -124,7 +127,7 @@
           display: block;
           min-width: 150px;
           position: absolute;
-          right: 140px;
+          right: 135px;
 
           -webkit-transition: width 0.2s ease-in-out;
           -moz-transition: width 0.2s ease-in-out;
@@ -134,7 +137,7 @@
         }
 
         &#server_settings:hover ul {
-          top: 69px;
+          top: -5px;
         }
       }
     }
