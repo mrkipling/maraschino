@@ -104,8 +104,6 @@ def xhr_trakt_add_shout():
 
         if spoiler == 'true':
             params['spoiler'] = True
-        else:
-            params['spoiler'] = False
 
         if itemtype == 'episode':
             params['season'] = request.form['season']
