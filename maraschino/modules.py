@@ -166,32 +166,6 @@ AVAILABLE_MODULES = [
         ]
     },
     {
-        'name': 'recommendations',
-        'label': 'Recommendations',
-        'description': 'Movies that may suit you.',
-        'static': False,
-        'poll': 0,
-        'delay': 10,
-        'settings': [
-            {
-                'key': 'trakt_api_key',
-                'value': '',
-                'description': 'Trakt API Key',
-                'link': 'http://trakt.tv/settings/api',
-            },
-            {
-                'key': 'trakt_username',
-                'value': '',
-                'description': 'Trakt Username',
-            },
-            {
-                'key': 'trakt_password',
-                'value': '',
-                'description': 'Trakt Password',
-            },
-        ]
-    },
-    {
         'name': 'sabnzbd',
         'label': 'SABnzbd+',
         'description': 'Shows you information about your SABnzbd+ downloads.',
@@ -226,7 +200,7 @@ AVAILABLE_MODULES = [
     },
     {
         'name': 'trakt',
-        'label': 'trakt.tv',
+        'label': 'trakt.tv Shouts',
         'description': 'Shows you what people are saying about what you are watching and allows you to add your own comments.',
         'static': True,
         'poll': 0,
@@ -250,7 +224,33 @@ AVAILABLE_MODULES = [
             },
         ]
     },
-     {
+    {
+        'name': 'traktplus',
+        'label': 'trakt.tv',
+        'description': 'trakt.tv module',
+        'static': False,
+        'poll': 0,
+        'delay': 10,
+        'settings': [
+            {
+                'key': 'trakt_api_key',
+                'value': '',
+                'description': 'Trakt API Key',
+                'link': 'http://trakt.tv/settings/api',
+            },
+            {
+                'key': 'trakt_username',
+                'value': '',
+                'description': 'Trakt Username',
+            },
+            {
+                'key': 'trakt_password',
+                'value': '',
+                'description': 'Trakt Password',
+            },
+        ]
+    },
+    {
         'name': 'transmission',
         'label': 'Transmission',
         'description': 'Shows you information about your Transmission downloads.',
