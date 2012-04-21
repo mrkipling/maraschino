@@ -40,13 +40,14 @@ def cache_image(image, type):
                 os.makedirs(dir)
             except:
                 logger.log('TRAKT :: Problem creating dir %s' % dir, 'ERROR')
+                return image
 
         try:
             logger.log('TRAKT :: Creating file %s' % file_path, 'INFO')
             downloaded_image = file(file_path, 'wb')
         except:
             logger.log('TRAKT :: Failed to create file %s' % file_path, 'ERROR')
-            return file_path
+            return image
 
         try:
             logger.log('TRAKT :: Downloading %s' % image, 'INFO')
