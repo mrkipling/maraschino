@@ -20,14 +20,15 @@ def redirect_application(application_id):
     message = None
 
     try:
-        application = Application.query.filter(Application.id == application_id).first()
-
+        all_applications = Application.query.order_by(Application.position)
+        current_application = Application.query.filter(Application.id == application_id).first()
     except:
         message = 'Could not display application page'
 
     return render_template('application_redirect.html',
         message = message,
-        application = application,
+        current_application = current_application,
+        all_applications = all_applications,
     )
 
 

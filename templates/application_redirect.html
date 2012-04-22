@@ -1,20 +1,70 @@
 {% if message %}
     {{ message }}
 {% endif %}
-{% if application %}
+{% if current_application %}
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
-   "http://www.w3.org/TR/html4/frameset.dtd">
-<HTML>
-<HEAD>
-<TITLE>{{ application.name }} - {{ application.description }}</TITLE>
-</HEAD>
-<FRAMESET rows="20, *" FRAMEBORDER=NO FRAMESPACING=0 BORDER=0>
-  <FRAME src="/xhr/application_redirect_header" noresize>
-  <FRAME src="{{ application.url }}" noresize>
-  <NOFRAMES>
-    <meta http-equiv="refresh" content="2;url={{ application.url }}"> 
-  </NOFRAMES>
-</FRAMESET>
-</HTML>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ current_application.name }} - {{ current_application.description }}</title>
+  <style type="text/css">
+    body{
+      background: url(/static/images/alpha/000_70.png);
+      height: 100%; 
+      margin: 0; 
+      padding: 0;
+    }
+    body > div {
+      padding: 5px;
+    }
+    ul {
+      padding: 0px;
+      margin: 0px;
+      list-style-type: none;
+    }
+    ul li{
+      float: left;
+      background: url(/static/images/alpha/fff_10.png);
+      border: 1px solid #222;
+      padding: 5px;
+      margin: 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    ul li:hover{
+      background: url(/static/images/alpha/fff_20.png);
+    }
+    ul li a{
+      text-decoration:none;
+      color: white;
+    }
+    li.selected {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+    </style>
+</head>
+<body>
+  <div>
+    <ul>
+      <li>
+        <a title="Maraschino" href="/"><img src="/static/images/maraschino_logo.png" height="20" width="20" title="Back To Maraschino"></a>
+      </li>
+      {% for application in all_applications %}
+      <li class="{% if application.id == current_application.id %}selected{% endif %}">
+        <a title="{{ application.name }}" href="/application/{{ application.id }}">
+          <span class="name">
+            {% if application.image %}<img src="/static/images/applications/{{ application.image }}" height="20" width="20">{% endif %}
+            <span>{{ application.name }}</span>
+          </span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <iframe src="{{ current_application.url }}" width="100%" height="98%">
+  <noframe>
+    <meta http-equiv="refresh" content="2;url={{ current_application.url }}"> 
+  </noframe>
+</body>
+</html>
 {% endif %}
