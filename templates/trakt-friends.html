@@ -1,0 +1,25 @@
+{% extends "trakt-base.html" %}
+{% block trakt_title %}{{ title }}{% endblock %}
+{% block trakt_content %}
+{% if friends %}
+
+<div class="friends">
+  <ul>
+    {% for friend in friends %}
+      <li class="trakt_user addloading" href="#" data-username="{{ friend.username }}">
+        <img src="{{ friend.avatar }}"/>
+        <span class="friend_name"><b>{{ friend.username }}</b></span>
+        {% if friend.watching %}
+          {% if friend.watching.type == 'episode' %}
+            <b>Currently watching:</b> <a class="list_link" href="{{ friend.watching.episode.url }}" target="_blank">{{ friend.watching.show.title }} {{ friend.watching.episode.season }}x{{ friend.watching.episode.number }} - {{ friend.watching.episode.title }}</a>
+          {% else %}
+            <b>Currently watching:</b> <a class="list_link" href="{{ friend.watching.movie.url }}" target="_blank">{{ friend.watching.movie.title }} ({{ friend.watching.movie.year }})</a>
+          {% endif %}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endif %}
+{% endblock %}
