@@ -1355,6 +1355,30 @@ $(document).ready(function() {
   }
   /********* END TableSorter byte size sorting ***********/
 
+  /********* Trakt Plus *********/
+
+  $(document).on('click', '#traktplus .addloading', function() {
+    var loading = $('#traktplus .loading');
+    add_loading_gif(loading);
+  });
+
+  $(document).on('click', '#traktplus .button', function() {
+    $.get('/xhr/trakt/' + $(this).data('xhr_url'), function(data){
+      $('#traktplus').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#traktplus .list_link', function(e) {
+    e.stopPropagation();
+  });
+
+  $(document).on('click', '#traktplus .trakt_user', function() {
+    $.get('/xhr/trakt/profile/' + $(this).data('username'), function(data){
+      $('#traktplus').replaceWith(data);
+    });
+  });
+
+  /********* END Trakt Plus *********/
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
   }
