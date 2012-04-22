@@ -1,0 +1,20 @@
+{% if message %}
+    {{ message }}
+{% endif %}
+{% if application %}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+   "http://www.w3.org/TR/html4/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>{{ application.name }} - {{ application.description }}</TITLE>
+</HEAD>
+<FRAMESET rows="20, *" FRAMEBORDER=NO FRAMESPACING=0 BORDER=0>
+  <FRAME src="/xhr/application_redirect_header" noresize>
+  <FRAME src="{{ application.url }}" noresize>
+  <NOFRAMES>
+    <meta http-equiv="refresh" content="2;url={{ application.url }}"> 
+  </NOFRAMES>
+</FRAMESET>
+</HTML>
+{% endif %}
