@@ -1,0 +1,39 @@
+@import "mixins.less";
+
+#log_dialog
+{
+  width: 600px;
+
+  h2 {
+  font-size: x-large;
+  margin-bottom: 10px;
+  }
+
+  .log {
+    height: 600px;
+    overflow: auto;
+    padding: 15px 15px 15px 15px;
+    .border-radius(4px);
+
+    li {
+      padding: 5px 20px 5px 20px;
+    }
+  }
+
+  .button {
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    color: #ccc;
+    cursor: pointer;
+    padding: 2px 8px;
+    height: 20px;
+    line-height: 25px;
+
+    .border-radius(4px);
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+  }
+}
+

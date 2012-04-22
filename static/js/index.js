@@ -1745,4 +1745,22 @@ $(document).ready(function() {
     }
   });
 
+  $(document).on('click', '#view_log', function(){
+    $.get('/xhr/log', function(data){
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
+  $(document).on('click', '#log_dialog .pastebin', function(){
+    $.get('/xhr/log/pastebin', function(data){
+      var popup = $(data);
+      $('#log_dialog .close').click();
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
+
 });

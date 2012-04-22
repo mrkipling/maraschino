@@ -1,0 +1,21 @@
+<div id="log_dialog" class="dialog">
+
+  <div class="close">x</div>
+
+  <h2>Maraschino Log</h2>
+
+  <ul class="log">
+    {% for line in log %}
+      <li>{{ line }}</li>
+    {% endfor %}
+  </ul>
+
+  <div class="choices">
+    <a class="pastebin button" {% if url %}style="display:none;"{% endif %}>Send to pastebin</a>
+	{% if url %}
+      <a href="{{ url }}" target="_blank">{{ url }}</a>
+    {% endif %}
+  </div>
+
+
+</div>
