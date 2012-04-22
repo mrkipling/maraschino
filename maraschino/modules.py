@@ -384,6 +384,21 @@ AVAILABLE_MODULES = [
             },
         ]
     },
+    {
+        'name': 'xbmc_notify',
+        'label': 'XBMC Notifications',
+        'description': 'Send notification to XBMC.',
+        'static': False,
+        'poll': 0,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'xbmc_event_port',
+                'value': '9777',
+                'description': 'XBMC event server port',
+            },
+        ]
+    },
 ]
 
 MISC_SETTINGS = [

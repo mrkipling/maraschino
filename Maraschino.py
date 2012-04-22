@@ -57,6 +57,7 @@ from modules.trakt import *
 from modules.transmission import *
 from modules.utorrent import *
 from modules.weather import *
+from modules.xbmc_notify import *
 
 @app.route('/')
 @requires_auth
