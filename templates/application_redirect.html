@@ -1,0 +1,27 @@
+{% if current_application %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ current_application.name }} - {{ current_application.description }}</title>
+</head>
+
+<frameset rows="35, *" frameborder="no" framespacing="0" border="0">
+  <frame src="/xhr/application_redirect_header/{{ current_application.id }}" noresize>
+  <frame src="{{ current_application.url }}" noresize>
+  <noframes>
+    <meta http-equiv="refresh" content="2;url={{ current_application.url }}"> 
+  </noframes>
+</frameset>
+
+</html>
+
+{% else %}
+
+  {% if message %}
+      {{ message }}
+  {% else %}
+      Unknown Error
+  {% endif %}
+
+{% endif %}

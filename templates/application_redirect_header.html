@@ -1,0 +1,86 @@
+{% if current_application %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ current_application.name }} - {{ current_application.description }}</title>
+  <style type="text/css">
+    body{
+      background: url(/static/images/alpha/000_70.png);
+
+      margin: 0px; 
+      padding: 0px;
+    }
+    div#applications {
+      padding: 0px;
+    }
+    div#applications ul {
+      padding: 0px;
+      margin: 0px;
+      list-style-type: none;
+    }
+    div#applications ul li {
+      float: left;
+      background: url(/static/images/alpha/fff_10.png);
+      padding: 4px 0px 2px 0px;
+      margin: 2px 2px 2px 2px;
+      border: 1px solid #222;
+      border-radius: 4px;
+    }
+    div#applications ul li:hover {
+      background: url(/static/images/alpha/fff_40.png);
+    }
+    div#applications ul li.selected {
+      background: url(/static/images/alpha/fff_40.png);
+    }
+    div#applications ul li a {
+      text-decoration: none;
+      color: white;
+      cursor: pointer;
+      padding: 2px 5px 2px 5px;
+      margin: 0px 0px 0px 0px;
+    }
+    div#applications ul li a img {
+      vertical-align: text-bottom;
+    }
+    div#iframe {
+      width: 100%;
+      height: 1000px;
+    }    
+    div#iframe iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="applications">
+    <ul>
+      <li>
+        <a title="Maraschino" href="/" target="_parent"><img src="/static/images/maraschino_logo.png" height="20" width="20" title="Back To Maraschino"></a>
+      </li>
+      {% for application in all_applications %}
+      <li class="{% if application.id == current_application.id %}selected{% endif %}">
+        <a title="{{ application.name }}" href="/application/{{ application.id }}" target="_parent">
+            {% if application.image %}<img src="/static/images/applications/{{ application.image }}" height="20" width="20">{% else %}<img src="/static/images/applications/None.png" height="20" width="0">{% endif %}
+            {{ application.name }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+</body>
+</html>
+
+{% else %}
+
+  {% if message %}
+      {{ message }}
+  {% else %}
+      Unknown Error
+  {% endif %}
+
+{% endif %}
