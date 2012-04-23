@@ -421,6 +421,7 @@ def xhr_library_files_directory(file_type):
 
 def render_library(library=None, title="Media Library", file_type=None, previous_dir=None, message=None):
     show_info = get_setting_value('library_show_info') == '1'
+    show_power_buttons = get_setting_value('library_show_power_buttons') == '1'
 
     return render_template('library.html',
         library = library,
@@ -429,4 +430,5 @@ def render_library(library=None, title="Media Library", file_type=None, previous
         file_type = file_type,
         previous_dir = previous_dir,
         show_info = show_info,
+		show_power_buttons = show_power_buttons
     )
