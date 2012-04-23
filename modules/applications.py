@@ -8,26 +8,36 @@ from maraschino.tools import *
 
 from maraschino.models import Application
 
-@app.route('/xhr/application_redirect_header')
+@app.route('/xhr/application_redirect_header/<application_id>')
 @requires_auth
-def redirect_application_header():
-    return render_template('application_redirect_header.html')
+def redirect_application_header(application_id):
+    message = None
+
+    try:
+        all_applications = Application.query.order_by(Application.position)
+        current_application = Application.query.filter(Application.id == application_id).first()
+    except:
+        message = 'Could not display application page'
+        
+    return render_template('application_redirect_header.html',
+        message = message,
+        current_application = current_application,
+        all_applications = all_applications,
+    )
 
 @app.route('/application/<application_id>')
 @requires_auth
 def redirect_application(application_id):
-    application = None
     message = None
 
     try:
-        application = Application.query.filter(Application.id == application_id).first()
-
+        current_application = Application.query.filter(Application.id == application_id).first()
     except:
         message = 'Could not display application page'
 
     return render_template('application_redirect.html',
         message = message,
-        application = application,
+        current_application = current_application,
     )
 
 

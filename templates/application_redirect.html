@@ -1,20 +1,27 @@
-{% if message %}
-    {{ message }}
-{% endif %}
-{% if application %}
+{% if current_application %}
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
-   "http://www.w3.org/TR/html4/frameset.dtd">
-<HTML>
-<HEAD>
-<TITLE>{{ application.name }} - {{ application.description }}</TITLE>
-</HEAD>
-<FRAMESET rows="20, *" FRAMEBORDER=NO FRAMESPACING=0 BORDER=0>
-  <FRAME src="/xhr/application_redirect_header" noresize>
-  <FRAME src="{{ application.url }}" noresize>
-  <NOFRAMES>
-    <meta http-equiv="refresh" content="2;url={{ application.url }}"> 
-  </NOFRAMES>
-</FRAMESET>
-</HTML>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ current_application.name }} - {{ current_application.description }}</title>
+</head>
+
+<frameset rows="35, *" frameborder="no" framespacing="0" border="0">
+  <frame src="/xhr/application_redirect_header/{{ current_application.id }}" noresize>
+  <frame src="{{ current_application.url }}" noresize>
+  <noframes>
+    <meta http-equiv="refresh" content="2;url={{ current_application.url }}"> 
+  </noframes>
+</frameset>
+
+</html>
+
+{% else %}
+
+  {% if message %}
+      {{ message }}
+  {% else %}
+      Unknown Error
+  {% endif %}
+
 {% endif %}
