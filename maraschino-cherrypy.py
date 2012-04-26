@@ -24,12 +24,14 @@ import wsgiserver
 from Maraschino import app
 from settings import *
 import maraschino.logger as logger
+from maraschino.tools import requires_auth
 
 def run():
     d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
     server = wsgiserver.CherryPyWSGIServer(('0.0.0.0', CHERRYPY_PORT), d)
 
     @app.route('/shutdown')
+    @requires_auth
     def stop():
         logger.log('Shutting down Maraschino', 'INFO')
         server.stop()
