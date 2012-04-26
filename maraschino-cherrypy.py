@@ -23,13 +23,23 @@ sys.path.insert(0, os.path.join(path_base, 'lib'))
 import wsgiserver
 from Maraschino import app
 from settings import *
+import maraschino.logger as logger
 
-d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
-server = wsgiserver.CherryPyWSGIServer(('0.0.0.0', CHERRYPY_PORT), d)
+def run():
+    d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
+    server = wsgiserver.CherryPyWSGIServer(('0.0.0.0', CHERRYPY_PORT), d)
+
+    @app.route('/shutdown')
+    def stop():
+        logger.log('Shutting down Maraschino', 'INFO')
+        server.stop()
+        return 'Shutting down Maraschino...'
+
+    try:
+        server.start()
+
+    except KeyboardInterrupt:
+        server.stop()
 
 if __name__ == '__main__':
-   try:
-      server.start()
-
-   except KeyboardInterrupt:
-      server.stop()
+    run()
