@@ -1670,6 +1670,8 @@ $(document).ready(function() {
               if (dialog_type === 'search_settings') {
                 var search_enabled_val = popup.find('#id_search').val() === '1' ? 'True' : 'False';
                 $('body').data('search_enabled', search_enabled_val);
+              } else if (dialog_type === 'misc_settings') {
+                window.location.reload();
               }
             }
           );

@@ -63,13 +63,31 @@ from modules.weather import *
 @requires_auth
 def index():
     unorganised_modules = Module.query.order_by(Module.position)
-    modules = [[],[],[]]
+
+    num_columns = get_setting_value('num_columns')
+
+    try:
+        num_columns = int(num_columns)
+
+    except:
+        logger.log('Could not retrieve number of columns settings. Defaulting to 3.' , 'WARNING')
+        num_columns = 3
+
+    modules = []
+
+    for i in range(num_columns):
+        modules.append([])
 
     for module in unorganised_modules:
         module_info = get_module_info(module.name)
         module.template = '%s.html' % (module.name)
         module.static = module_info['static']
-        modules[module.column - 1].append(module)
+
+        if module.column <= num_columns:
+            modules[module.column - 1].append(module)
+
+        else:
+            modules[num_columns - 1].append(module) # if in a column out of range, place in last column
 
     applications = []
 
@@ -145,6 +163,7 @@ def index():
 
     return render_template('index.html',
         modules = modules,
+        num_columns = num_columns,
         servers = servers,
         active_server = active_server,
         show_currently_playing = True,
