@@ -15,8 +15,8 @@
       <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.timeleft }} / {{ download_left }}</p>
       <p class="percentage_complete">{{ percentage_total }}% complete</p>
     </div>
-    <br>
   {% endif %}
+
   <div class="queue-title {% if not first_downloading %}hide{% endif %}">
     <span><img src="/static/images/{% if queue_status == 'hide' %}arrow_down.png">More{% else %}arrow_up.png">Less{% endif %}</span>
   </div>
