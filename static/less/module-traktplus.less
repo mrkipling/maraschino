@@ -1,0 +1,251 @@
+@import "mixins.less";
+
+#traktplus
+{
+  padding: 0 15px 15px 15px;
+
+  .head {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+
+    .loading {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+    }
+  }
+
+  .message {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: x-small;
+    color: red;
+  }
+
+  .button {
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    cursor: pointer;
+    padding: 4px;
+    height: 20px;
+    line-height: 25px;
+    white-space: nowrap;
+    .border-radius(4px);
+
+    &:hover {
+      background: url(/static/images/alpha/fff_20.png);
+    }
+  }
+
+  a {
+    color: #eee;
+  }
+
+  .profile a.link, .friends a {
+    &:hover  {
+      border-bottom: 1px dashed #bbb;
+    }
+  }
+
+  .trakt_choices {
+    margin-left: 15px;
+    margin-bottom: 15px;
+
+    .button {
+      margin-left: 5px
+    }
+  }
+
+  .friends,
+  .library,
+  .calendar,
+  .watchlist,
+  .loved,
+  .hated {
+    ul {
+      max-height: 225px;
+      overflow-y: auto;
+      width: 97%;
+
+      li {
+        background: url(/static/images/alpha/fff_10.png);
+        margin: 2px;
+        border: 1px solid #222;
+        cursor: pointer;
+        line-height: 2em;
+        padding: 2px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        .border-radius(4px);
+
+        &:hover {
+          background: url(/static/images/alpha/fff_20.png);
+        }
+      }
+    }
+  }
+
+  .trending {
+    overflow-x: auto;
+    background: url(/static/images/alpha/fff_10.png);
+    padding: 7px;
+    .border-radius(5px);
+
+    .ui-carousel {
+      height: 100px;
+      margin: 0;
+      overflow: auto;
+      padding: 0;
+      position: relative; /*for ie7 to work e.g in html carousels*/
+      width: 300px
+    }
+
+    .ui-carousel > .wrapper {
+      margin: 0;
+      padding: 0;
+      width: 9999px;
+    }
+
+    .ui-carousel > .wrapper > * {
+      border: 0;
+      display: block;
+      float: left;
+      height: 100px;
+      overflow: hidden;
+      width: 100px;
+    }
+
+    #carousel {
+      margin: 0 auto;
+
+      img {
+        width: 95px;
+        height: 141px;
+      }
+    }
+  }
+
+  .friends {
+    li {
+      height: 60px;
+      line-height: 1.5em;
+
+      img {
+        float: left;
+        height: 55px;
+        border: #333 2px solid;
+        margin-right: 15px;
+      }
+
+      .friend_name {
+        display: block;
+        padding: 5px;
+        font-size: 120%;
+      }
+    }
+  }
+
+  .calendar {
+    .date {
+      display: block;
+      margin: 10px 0 10px 10px;
+    }
+
+    .time {
+      float: right;
+    }
+  }
+
+  .profile {
+    .user_info {
+      padding-bottom: 20px;
+
+      img {
+        float: left;
+        height: 100px;
+        width: auto;
+        margin-right: 15px;
+        border: #333 2px solid;
+      }
+
+      table td {
+        padding-right: 25px;
+      }
+    }
+
+    .menu,
+    .watching {
+      padding-bottom: 15px;
+    }
+
+    .watched {
+      padding-bottom: 10px;
+
+      span {
+        float: right;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+
+      .bar {
+        border: 1px solid #777;
+        height: 5px;
+        margin-top: 8px;
+        width: 100%;
+        max-width: 100%;
+        .border-radius(3px);
+
+        .inner {
+          background-color: #eee;
+          max-width: inherit;
+          height: 5px;
+        }
+      }
+    }
+
+    .recently_watched td {
+      padding: 3px 15px 3px 0;
+
+      a:hover  {
+        border-bottom: 1px dashed #bbb;
+      }
+    }
+  }
+
+  .recommendations ul.recommendations li {
+    background: url(/static/images/alpha/fff_10.png);
+    margin-top: 5px;
+    padding: 10px 5px 10px 15px;
+    .border-radius(5px);
+
+    h3 {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+
+    .info {
+      margin: 7px 0;
+    }
+
+    img {
+      float: left;
+      margin-right: 15px;
+      height: auto;
+      width: 80px;
+      border: #333 2px solid;
+    }
+
+    .overview {
+      color: #ccc;
+      font-size: 0.85em;
+      line-height: 1.4em;
+    }
+  }
+}
+
+.f_settings_mode #traktplus .loading
+{
+  display: none;
+}

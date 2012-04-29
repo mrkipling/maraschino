@@ -1,23 +1,65 @@
 @import "mixins.less";
 
-.col
-{
-  margin-left: 2%;
-  width: 32%;
+.num_columns_3 {
+  .col {
+    margin-left: 2%;
+    width: 32%;
+  }
+
+  #col1 {
+    float: left;
+    margin-left: 0;
+  }
+
+  #col2 { float: left; }
+  #col3 { float: right; }
 }
 
-#col1
-{
-  float: left;
-  margin-left: 0;
+.num_columns_4 {
+  #wrapper {
+    padding-top: 1.25%;
+    padding-right: 1.25%;
+    padding-left: 1.25%;
+  }
+
+  .col {
+    margin-left: 1.5%;
+    width: 23.875%;
+  }
+
+  #col1 { margin-left: 0; }
+
+  #col1,
+  #col2,
+  #col3 { float: left; }
+  #col4 { float: right; }
+
+  .module,
+  &.f_settings_mode .inactive_module,
+  &.f_settings_mode .placeholder { margin-bottom: 27px; }
 }
 
-#col2
-{
-  float: left;
-}
+.num_columns_5 {
+  #wrapper {
+    padding-top: 1%;
+    padding-right: 1%;
+    padding-left: 1%;
+  }
 
-#col3
-{
-  float: right;
+  .col {
+    margin-left: 1%;
+    width: 19.2%;
+  }
+
+  #col1 { margin-left: 0; }
+
+  #col1,
+  #col2,
+  #col3,
+  #col4 { float: left; }
+  #col5 { float: right; }
+
+  .module,
+  &.f_settings_mode .inactive_module,
+  &.f_settings_mode .placeholder { margin-bottom: 21px; }
 }

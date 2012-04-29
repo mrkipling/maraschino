@@ -47,13 +47,14 @@ from modules.controls import *
 from modules.currently_playing import *
 from modules.diskspace import *
 from modules.library import *
+from modules.log import *
 from modules.recently_added import *
-from modules.recommendations import *
 from modules.remote import *
 from modules.sabnzbd import *
 from modules.search import *
 from modules.sickbeard import *
 from modules.trakt import *
+from modules.traktplus import *
 from modules.transmission import *
 from modules.utorrent import *
 from modules.weather import *
@@ -62,13 +63,31 @@ from modules.weather import *
 @requires_auth
 def index():
     unorganised_modules = Module.query.order_by(Module.position)
-    modules = [[],[],[]]
+
+    num_columns = get_setting_value('num_columns')
+
+    try:
+        num_columns = int(num_columns)
+
+    except:
+        logger.log('Could not retrieve number of columns settings. Defaulting to 3.' , 'WARNING')
+        num_columns = 3
+
+    modules = []
+
+    for i in range(num_columns):
+        modules.append([])
 
     for module in unorganised_modules:
         module_info = get_module_info(module.name)
         module.template = '%s.html' % (module.name)
         module.static = module_info['static']
-        modules[module.column - 1].append(module)
+
+        if module.column <= num_columns:
+            modules[module.column - 1].append(module)
+
+        else:
+            modules[num_columns - 1].append(module) # if in a column out of range, place in last column
 
     applications = []
 
@@ -109,8 +128,44 @@ def index():
     # show fanart backgrounds when watching media
     fanart_backgrounds = get_setting_value('fanart_backgrounds') == '1'
 
+    # get list of servers
+
+    servers = XbmcServer.query.order_by(XbmcServer.position)
+
+    if servers.count() == 0:
+        # check if old server settings value is set
+        old_server_hostname = get_setting_value('server_hostname')
+
+        # create an XbmcServer entry using the legacy settings
+        if old_server_hostname:
+            xbmc_server = XbmcServer(
+                'XBMC server 1',
+                1,
+                old_server_hostname,
+                get_setting_value('server_port'),
+                get_setting_value('server_username'),
+                get_setting_value('server_password'),
+                get_setting_value('server_macaddress'),
+            )
+
+            try:
+                db_session.add(xbmc_server)
+                db_session.commit()
+                servers = XbmcServer.query.order_by(XbmcServer.position)
+
+            except:
+                logger.log('Could not create new XbmcServer based on legacy settings' , 'WARNING')
+
+    active_server = get_setting_value('active_server')
+
+    if active_server:
+        active_server = int(active_server)
+
     return render_template('index.html',
         modules = modules,
+        num_columns = num_columns,
+        servers = servers,
+        active_server = active_server,
         show_currently_playing = True,
         search_enabled = get_setting_value('search') == '1',
         background = background,
@@ -152,9 +207,10 @@ except IOError, e:
         print 'You need to specify a database in settings.py.'
         quit()
 
-    init_db()
     logger.log('Database successfully initialised' , 'INFO')
     print "Database successfully initialised."
+
+init_db()
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT, host='0.0.0.0')

@@ -41,15 +41,13 @@
 
 #extra_settings
 {
-  background: url(/static/images/alpha/000_70.png);
   height: 40px;
-  right: 0;
   opacity: 0;
   position: absolute;
+  right: 0;
   top: 0;
-  white-space: nowrap;
   width: 40px;
-  z-index: 1;
+  z-index: 10;
 
   -webkit-transition: width 0.2s ease-in-out;
   -moz-transition: width 0.2s ease-in-out;
@@ -57,27 +55,21 @@
   -ms-transition: width 0.2s ease-in-out;
   transition: width 0.2s ease-in-out;
 
-  .inner {
-    background-size: 24px;
-    height: 40px;
-    width: 40px;
-    margin: 0px 0px;
-  }
-
   ul {
+    background: url(/static/images/alpha/000_70.png);
     display: none;
-    margin: 0 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    white-space: nowrap;
+    width: 150px;
   }
 
   &:hover {
-    height: auto;
+    display: block;
+    height: 150px;
     opacity: 1;
-    width: 150px;
-
-    border-bottom-left-radius: 10px;
-    -moz-border-radius-bottomleft: 10px;
-    -o-border-bottom-left-radius: 10px;
-    -webkit-border-bottom-left-radius: 10px;
+    width: 190px;
 
     .inner {
       display: none;
@@ -86,18 +78,76 @@
     ul {
       display: block;
       padding: 5px 0;
+      width: auto;
+
+      border-bottom-left-radius: 5px;
+      -moz-border-radius-bottomleft: 5px;
+      -o-border-bottom-left-radius: 5px;
+      -webkit-border-bottom-left-radius: 5px;
 
       li {
         cursor: pointer;
-        padding: 5px 5px 5px 15px;
+        padding: 5px 27px 5px 15px;
+        position: relative;
         .border-radius(2px);
 
         &:hover {
           background: url(/static/images/alpha/fff_10.png);
         }
 
-        &#remote_icon.on {
+        &#remote_icon.on,
+        &.active {
           background: url(/static/images/alpha/fff_20.png);
+        }
+
+        .submenu {
+          display: none;
+          padding: 0 130px 20px 40px;
+        }
+
+        ul {
+          .border-radius(5px);
+        }
+
+        .edit,
+        .add {
+          background: url(/static/images/server_edit.png);
+          height: 16px;
+          position: absolute;
+          right: 5px;
+          text-indent: -9999px;
+          top: 3px;
+          width: 16px;
+        }
+
+        #search_settings {
+          background: url(/static/images/cog.png);
+        }
+
+        .add {
+          background: url(/static/images/server_add.png);
+        }
+
+        &:hover .submenu {
+          display: block;
+          min-width: 150px;
+          position: absolute;
+          right: 0;
+
+          ul {
+            background: url(/static/images/alpha/000_70.png);
+            position: static;
+
+            -webkit-transition: width 0.2s ease-in-out;
+            -moz-transition: width 0.2s ease-in-out;
+            -o-transition: width 0.2s ease-in-out;
+            -ms-transition: width 0.2s ease-in-out;
+            transition: width 0.2s ease-in-out;
+          }
+        }
+
+        &#server_settings:hover .submenu {
+          top: -5px;
         }
       }
     }

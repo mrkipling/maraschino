@@ -64,7 +64,6 @@ def xhr_sabnzbd(queue_status = 'hide'):
         download_speed = format_number(int((sabnzbd['kbpersec'])[:-3])*1024) + '/s'
 
         if sabnzbd['slots']:
-            percentage_total = int(100 - (float(sabnzbd['mbleft']) / float(sabnzbd['mb']) * 100))
             for item in sabnzbd['slots']:
                 if item['status'] == 'Downloading':
                     downloading = item
@@ -77,11 +76,9 @@ def xhr_sabnzbd(queue_status = 'hide'):
 
     return render_template('sabnzbd-queue.html',
         sabnzbd = sabnzbd,
-        percentage_total = percentage_total,
+        item = downloading,
         download_speed = download_speed,
-        download_left = download_left,
         old_config = old_config,
-        first_downloading = downloading,
         queue_status = queue_status,
     )
 

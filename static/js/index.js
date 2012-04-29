@@ -73,30 +73,32 @@ $(document).ready(function() {
       url += '/' + settings.params[i];
     }
 
-    $.get(url, function(data) {
-      var module_ele = $('#' + module);
+    var module_ele = $('#' + module);
 
-      // if module is already on page
-      if (module_ele.length > 0) {
+    if (!module_ele.hasClass('edit_settings')) {
+      $.get(url, function(data) {
+        // if module is already on page
+        if (module_ele.length > 0) {
 
-        // if module has been returned by the XHR view
-        if ($(data).attr('id') === module) {
-          module_ele.replaceWith(data);
+          // if module has been returned by the XHR view
+          if ($(data).attr('id') === module) {
+            module_ele.replaceWith(data);
 
-        // else placeholder has been returned by the XHR view
+            // else placeholder has been returned by the XHR view
+          } else {
+            module_ele.fadeOut(200, function() {
+              $(this).replaceWith(data);
+            });
+          }
+
+          // placeholder is on page
         } else {
-          module_ele.fadeOut(200, function() {
-            $(this).replaceWith(data);
-          });
+          var new_module = $(data).hide();
+          settings.placeholder.replaceWith(new_module);
+          $('.module[data-module=' + module + ']').fadeIn(200);
         }
-
-      // placeholder is on page
-      } else {
-        var new_module = $(data).hide();
-        settings.placeholder.replaceWith(new_module);
-        $('.module[data-module=' + module + ']').fadeIn(200);
-      }
-    });
+      });
+    }
 
     // poll
     if (settings.poll !== 0) {
@@ -104,11 +106,11 @@ $(document).ready(function() {
       if(timer){
         clearTimeout(window[timer]);
         window[timer] = setTimeout(function() {
-                          get_module(module, {
-                            poll: settings.poll,
-                            params: [settings.params],
-                          })
-                        }, settings.poll * 1000);
+          get_module(module, {
+            poll: settings.poll,
+            params: [settings.params],
+          })
+        }, settings.poll * 1000);
       }
     }
   }
@@ -1018,12 +1020,12 @@ $(document).ready(function() {
 
   // Load search results
 
-  $(document).on('keypress', '#sickbeard #search #value', function(e){
+  $(document).on('keypress', '#sickbeard #sb_search #value', function(e){
     if(e.which == 13){
       e.preventDefault();
-      var name = $('#sickbeard #search #value').attr('value');
-      var type = $('#sickbeard #search #tvdbid').attr('value');
-      var lang = $('#sickbeard #search #lang').attr('value');
+      var name = $('#sickbeard #sb_search #value').attr('value');
+      var type = $('#sickbeard #sb_search #tvdbid').attr('value');
+      var lang = $('#sickbeard #sb_search #lang').attr('value');
       params = ''
       if(name != ''){
         if(type == 'name'){
@@ -1047,7 +1049,7 @@ $(document).ready(function() {
 
   // Add show function
 
-  $(document).on('click', '#sickbeard #search #result tr', function(){
+  $(document).on('click', '#sickbeard #sb_search #result tr', function(){
     $.get('/sickbeard/add_show/'+$(this).attr('tvdbid'))
     .success(function(data){
       popup_message(data);
@@ -1236,30 +1238,37 @@ $(document).ready(function() {
 
   /********* SEARCH ***********/
 
-  $(document).on('keydown', 'body', function(e){
+  $('#activate_search').live('click', function (e) {
+    if ($(e.target).hasClass('edit')) {
+      return;
+    }
+
     var search_enabled = $('body').data('search_enabled') === 'True';
 
     if (!search_enabled) {
       return;
     }
 
+    if ($('#search').length === 0) {
+      $.get('/xhr/search/')
+        .success(function(data) {
+          if (data) {
+            $('body').append(data);
+            $('#search').hide();
+            $('#search').slideDown(300).find('input[type=search]').focus();
+          }
+        });
+    } else {
+      $('#search').slideToggle(300);
+    }
+  });
+
+  $(document).on('keydown', 'body', function(e) {
     alt = (e.altKey) ? true : false;
 
     if (alt && e.which === 83) {
       e.preventDefault();
-      if ($('#search').length === 0) {
-        $.get('/xhr/search/')
-          .success(function(data) {
-            if (data) {
-              $('body').append(data);
-              $('#search').hide();
-              $('#search').slideDown(300).find('input[type=search]').focus();
-            }
-          }
-        );
-      } else {
-        $('#search').slideToggle(300);
-      }
+      $('#activate_search').click();
     } else if (e.which === 27) {
       $('#search #close').click();
     }
@@ -1354,6 +1363,30 @@ $(document).ready(function() {
   }
   /********* END TableSorter byte size sorting ***********/
 
+  /********* Trakt Plus *********/
+
+  $(document).on('click', '#traktplus .addloading', function() {
+    var loading = $('#traktplus .loading');
+    add_loading_gif(loading);
+  });
+
+  $(document).on('click', '#traktplus .button', function() {
+    $.get('/xhr/trakt/' + $(this).data('xhr_url'), function(data){
+      $('#traktplus').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#traktplus .list_link', function(e) {
+    e.stopPropagation();
+  });
+
+  $(document).on('click', '#traktplus .trakt_user', function() {
+    $.get('/xhr/trakt/profile/' + $(this).data('username'), function(data){
+      $('#traktplus').replaceWith(data);
+    });
+  });
+
+  /********* END Trakt Plus *********/
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
   }
@@ -1627,9 +1660,9 @@ $(document).ready(function() {
     });
   });
 
-  // extra settings dialogs
+  // extra settings dialog
 
-  $('#extra_settings').on('click', 'li.settings', function() {
+  $('#extra_settings').on('click', '.settings', function() {
     var dialog_type = $(this).attr('id');
     $.get('/xhr/extra_settings_dialog/' + dialog_type, function(data) {
       $('body').append(data);
@@ -1646,6 +1679,8 @@ $(document).ready(function() {
               if (dialog_type === 'search_settings') {
                 var search_enabled_val = popup.find('#id_search').val() === '1' ? 'True' : 'False';
                 $('body').data('search_enabled', search_enabled_val);
+              } else if (dialog_type === 'misc_settings') {
+                window.location.reload();
               }
             }
           );
@@ -1655,7 +1690,112 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '.enter_server_settings', function() {
-    $('li#server_settings').click();
+    $('li#server_settings .add_server').click();
   });
+
+
+
+
+
+  /*--- server settings dialog ---*/
+
+  // edit server
+
+  $('#server_settings li.switch_server .edit, #server_settings li.add_server').live('click', function() {
+    var server_id = null;
+
+    if ($(this).hasClass('edit')) {
+      server_id = $(this).closest('.switch_server').data('server_id');
+    }
+
+    $.get('/xhr/server_settings_dialog/' + server_id, function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+
+      popup.showPopup({
+        dispose: true,
+        confirm_selector: '.choices .save',
+        on_confirm: function() {
+          var settings = popup.find('form').serialize();
+
+          $.post('/xhr/server_settings_dialog/' + server_id, settings, function(data) {
+            if (data.status === 'error') {
+              popup_message('There was an error saving the XBMC server.');
+              return;
+            }
+
+            var servers_menu = $(data);
+
+            if (servers_menu.attr('id') === 'server_settings') {
+              $('#extra_settings #server_settings').replaceWith(servers_menu);
+            }
+
+            get_module('recently_added');
+            get_module('recently_added_movies');
+            get_module('recently_added_albums');
+          });
+        }
+      });
+    });
+  });
+
+  // delete server
+
+  $('#server_settings_dialog .delete').live('click', function() {
+    $.post('/xhr/delete_server/' + $(this).data('server_id'), {}, function(data) {
+      if (data.status === 'error') {
+        popup_message('There was an error deleting the XBMC server.');
+      } else {
+        $('#server_settings_dialog').closePopup();
+        var servers_menu = $(data);
+
+        if (servers_menu.attr('id') === 'server_settings') {
+          $('#extra_settings #server_settings').replaceWith(servers_menu);
+        }
+
+        popup_message('XBMC server has been deleted.');
+      }
+    });
+  });
+
+  // switch server
+
+  $('#server_settings li.switch_server').live('click', function(e) {
+    if ($(e.target).hasClass('switch_server')) {
+      var li = $(this);
+
+      $.get('/xhr/switch_server/' + $(this).data('server_id'), function(data) {
+        if (data.status === 'error') {
+          popup_message('There was an error switching XBMC servers.');
+          return;
+        }
+
+        li.closest('ul').find('.active').removeClass('active');
+        li.addClass('active');
+
+        get_module('recently_added');
+        get_module('recently_added_movies');
+        get_module('recently_added_albums');
+      });
+    }
+  });
+
+  $(document).on('click', '#view_log', function(){
+    $.get('/xhr/log', function(data){
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
+  $(document).on('click', '#log_dialog .pastebin', function(){
+    $.get('/xhr/log/pastebin', function(data){
+      var popup = $(data);
+      $('#log_dialog .close').click();
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
 
 });

@@ -20,23 +20,13 @@
 
   {% with show_add = True %}
 
-  <div id="col1" class="col">
-    {% with mods = modules[0] %}
-      {% include "placeholders.html" %}
-    {% endwith %}
-  </div>
-
-  <div id="col2" class="col">
-    {% with mods = modules[1] %}
-      {% include "placeholders.html" %}
-    {% endwith %}
-  </div>
-
-  <div id="col3" class="col">
-    {% with mods = modules[2] %}
-      {% include "placeholders.html" %}
-    {% endwith %}
-  </div>
+    {% for column in modules %}
+      <div id="col{{ loop.index }}" class="col">
+        {% with mods = modules[loop.index0] %}
+          {% include "placeholders.html" %}
+        {% endwith %}
+      </div>
+    {% endfor %}
 
   {% endwith %}
 

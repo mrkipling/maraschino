@@ -1,0 +1,49 @@
+<div id="server_settings_dialog" class="dialog">
+  <div class="close">x</div>
+  <h2>{{ 'Edit' if server else 'Add' }} server</h2>
+
+  <form class="inner" method="post" action="">
+
+    <div class="formrow">
+      <label for="id_server_label">Label</label>
+      <input id="id_server_label" name="label" type="text" value="{{ server.label }}">
+    </div>
+
+    <div class="formrow">
+      <label for="id_server_hostname">Hostname / IP address</label>
+      <input id="id_server_hostname" name="hostname" type="text" value="{{ server.hostname }}">
+    </div>
+
+    <div class="formrow">
+      <label for="id_server_port">Port</label>
+      <input id="id_server_port" name="port" type="text" value="{{ server.port }}">
+    </div>
+
+    <div class="formrow">
+      <label for="id_server_username">Username (optional)</label>
+      <input id="id_server_username" name="username" type="text" value="{{ server.username }}">
+    </div>
+
+    <div class="formrow">
+      <label for="id_server_password">Password (optional)</label>
+      <input id="id_server_password" name="password" type="password" value="{{ server.password }}">
+    </div>
+
+    <div class="formrow">
+      <label for="id_server_mac_address">MAC Address (optional)</label>
+      <input id="id_server_mac_address" name="mac_address" type="text" value="{{ server.mac_address }}">
+    </div>
+
+    <div class="formrow">
+      <label for="id_server_position">Position (optional)</label>
+      <input id="id_server_position" name="position" type="text" value="{{ server.position if server }}">
+    </div>
+
+  </form>
+
+  <div class="choices">
+    <div class="save">Save</div>
+    {% if server %}<div class="delete" data-server_id="{{ server.id }}">Delete</div>{% endif %}
+    <div class="cancel">Cancel</div>
+  </div>
+</div>

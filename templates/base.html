@@ -39,7 +39,7 @@
     </script>
   </head>
 
-  <body data-show_currently_playing="{{ show_currently_playing }}" data-fanart_backgrounds="{{ fanart_backgrounds }}"{% if background %} style="background-image: url({{ background }});"{% endif %} data-search_enabled="{{ search_enabled }}" class='f_operation_mode'>
+  <body data-show_currently_playing="{{ show_currently_playing }}" data-fanart_backgrounds="{{ fanart_backgrounds }}"{% if background %} style="background-image: url({{ background }});"{% endif %} data-search_enabled="{{ search_enabled }}" class="f_operation_mode num_columns_{{ num_columns }}">
 
     <!-- settings mode icon -->
 
@@ -50,9 +50,14 @@
     <div id="extra_settings">
       <div class="inner"></div>
       <ul>
-        <li id="server_settings" class="settings">Server settings</li>
-        <li id="search_settings" class="settings">Search settings</li>
         <li id="remote_icon">Remote control</li>
+        <li id="misc_settings" class="settings">Misc settings</li>
+        <li id="activate_search">
+          Search
+          <div id="search_settings" class="settings edit">Edit</div>
+        </li>
+        <li id="view_log">View log</li>
+        {% include 'includes/servers.html' %}
       </ul>
     </div>
 
@@ -72,6 +77,9 @@
     <script src="/static/js/index.js"></script>
     <script src="/static/js/lib/jquery.tablesorter.min.js"></script>
     <script src="/static/js/lib/jquery.tablesorter.pager.js"></script>
+    <script src="/static/js/lib/jquery.ui.rcarousel.min.js"></script>
+    <script src="/static/js/lib/jquery.ui.widget.min.js"></script>
+    <script src="/static/js/lib/jquery.ui.core.min.js"></script>
 
   </body>
 </html>
