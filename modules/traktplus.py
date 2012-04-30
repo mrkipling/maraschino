@@ -42,6 +42,7 @@ def download_image(image, file_path):
     except:
         logger.log('TRAKT :: Failed to create file %s' % file_path, 'ERROR')
         logger.log('TRAKT :: Using remote image', 'INFO')
+        threads.pop()
         return image
 
     try:
