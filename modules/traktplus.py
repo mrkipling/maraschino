@@ -8,6 +8,7 @@ import hashlib, jsonrpclib, urllib, random, time
 from threading import Thread
 
 from Maraschino import app
+from Maraschino import rundir
 from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
@@ -25,8 +26,8 @@ def create_dir(dir):
         except:
             logger.log('TRAKT :: Problem creating dir %s' % dir, 'ERROR')
 
-create_dir('./static/images/trakt/shows')
-create_dir('./static/images/trakt/movies')
+create_dir('%s/static/images/trakt/shows' % rundir)
+create_dir('%s/static/images/trakt/movies' % rundir)
 
 def small_poster(image):
     if not 'poster-small' in image:
@@ -63,9 +64,9 @@ def download_image(image, file_path):
 def cache_image(image, type):
 
     if type == 'shows':
-        dir = './static/images/trakt/shows'
+        dir = '%s/static/images/trakt/shows' % rundir
     else:
-        dir = './static/images/trakt/movies'
+        dir = '%s/static/images/trakt/movies' % rundir
 
     image = small_poster(image)
 
@@ -76,6 +77,13 @@ def cache_image(image, type):
     if not os.path.exists(file_path):
         Thread(target=download_image, args=(image, file_path)).start()
         threads.append(len(threads) + 1)
+
+    if type == 'shows':
+        dir = '/static/images/trakt/shows'
+    else:
+        dir = '/static/images/trakt/movies'
+
+    file_path = "%s%s" % (dir, filename)
 
     return file_path
 
