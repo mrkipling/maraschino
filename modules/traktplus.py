@@ -5,8 +5,10 @@ except ImportError:
 
 from flask import Flask, jsonify, render_template, request
 import hashlib, jsonrpclib, urllib, random, time
+from threading import Thread
 
 from Maraschino import app
+from Maraschino import rundir
 from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
@@ -14,55 +16,77 @@ import maraschino.logger as logger
 
 global url_error
 url_error = 'There was a problem connecting to trakt.tv. Please check your settings.'
+threads = []
+
+def create_dir(dir):
+    if not os.path.exists(dir):
+        try:
+            logger.log('TRAKT :: Creating dir %s' % dir, 'INFO')
+            os.makedirs(dir)
+        except:
+            logger.log('TRAKT :: Problem creating dir %s' % dir, 'ERROR')
+
+create_dir('%s/static/images/trakt/shows' % rundir)
+create_dir('%s/static/images/trakt/movies' % rundir)
+
+def small_poster(image):
+    if not 'poster-small' in image:
+        x = image.rfind('.')
+        image = image[:x] + '-138' + image[x:]
+    return image
+
+def download_image(image, file_path):
+    try:
+        logger.log('TRAKT :: Creating file %s' % file_path, 'INFO')
+        downloaded_image = file(file_path, 'wb')
+    except:
+        logger.log('TRAKT :: Failed to create file %s' % file_path, 'ERROR')
+        logger.log('TRAKT :: Using remote image', 'INFO')
+        threads.pop()
+        return image
+
+    try:
+        logger.log('TRAKT :: Downloading %s' % image, 'INFO')
+        image_on_web = urllib.urlopen(image)
+        while True:
+            buf = image_on_web.read(65536)
+            if len(buf) == 0:
+                break
+            downloaded_image.write(buf)
+        downloaded_image.close()
+        image_on_web.close()
+    except:
+        logger.log('TRAKT :: Failed to download %s' % image, 'ERROR')
+
+    threads.pop()
+
+    return
 
 def cache_image(image, type):
 
     if type == 'shows':
-        dir = './static/images/trakt/shows'
+        dir = '%s/static/images/trakt/shows' % rundir
     else:
-        dir = './static/images/trakt/movies'
+        dir = '%s/static/images/trakt/movies' % rundir
 
-    if not 'poster-small' in image:
-        x = image.rfind('.')
-        image = image[:x] + '-138' + image[x:]
+    image = small_poster(image)
 
     x = image.rfind('/')
     filename = image[x:]
     file_path = "%s%s" % (dir, filename)
 
-    if os.path.exists(file_path):
-        return file_path
+    if not os.path.exists(file_path):
+        Thread(target=download_image, args=(image, file_path)).start()
+        threads.append(len(threads) + 1)
 
+    if type == 'shows':
+        dir = '/static/images/trakt/shows'
     else:
-        if not os.path.exists(dir):
-            try:
-                logger.log('TRAKT :: Creating dir %s' % dir, 'INFO')
-                os.makedirs(dir)
-            except:
-                logger.log('TRAKT :: Problem creating dir %s' % dir, 'ERROR')
-                return image
+        dir = '/static/images/trakt/movies'
 
-        try:
-            logger.log('TRAKT :: Creating file %s' % file_path, 'INFO')
-            downloaded_image = file(file_path, 'wb')
-        except:
-            logger.log('TRAKT :: Failed to create file %s' % file_path, 'ERROR')
-            return image
+    file_path = "%s%s" % (dir, filename)
 
-        try:
-            logger.log('TRAKT :: Downloading %s' % image, 'INFO')
-            image_on_web = urllib.urlopen(image)
-            while True:
-                buf = image_on_web.read(65536)
-                if len(buf) == 0:
-                    break
-                downloaded_image.write(buf)
-            downloaded_image.close()
-            image_on_web.close()
-        except:
-            logger.log('TRAKT :: Failed to download %s' % image, 'ERROR')
-
-        return file_path
+    return file_path
 
 @app.route('/xhr/traktplus')
 def xhr_traktplus():
@@ -157,6 +181,9 @@ def xhr_recommendations():
         tv['watchlist'] = tv_result['in_watchlist']
         tv['poster'] = cache_image(tv_result['images']['poster'], 'shows')
 
+    while threads:
+        time.sleep(1)
+
     return render_template('trakt-recommendations.html',
         recommendations = True,
         movie = mov,
@@ -185,6 +212,9 @@ def xhr_trakt_trending(type):
 
     for item in trakt:
         item['images']['poster'] = cache_image(item['images']['poster'], type)
+
+    while threads:
+        time.sleep(1)
 
     return render_template('trakt-trending.html',
         trending = trakt,
