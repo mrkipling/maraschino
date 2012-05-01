@@ -70,6 +70,12 @@ AVAILABLE_MODULES = [
                 'description': 'Show Watched TV/Episodes',
                 'type': 'bool',
             },
+			{
+				'key': 'library_show_power_buttons',
+				'value': '1',
+				'description': 'Show Power Controls',
+				'type': 'bool',
+			},
         ]
     },
     {
