@@ -15,6 +15,14 @@
           {% else %}
             <b>Currently watching:</b> <a class="list_link" href="{{ friend.watching.movie.url }}" target="_blank">{{ friend.watching.movie.title }} ({{ friend.watching.movie.year }})</a>
           {% endif %}
+        {% else %}
+          {% if friend.watched %}
+            {% if friend.watched.0.type == 'episode' %}
+              <b>Recently watched:</b> <a class="list_link" href="{{ friend.watched.0.episode.url }}" target="_blank">{{ friend.watched.0.show.title }} {{ friend.watched.0.episode.season }}x{{ friend.watched.0.episode.number }} - {{ friend.watched.0.episode.title }}</a>
+            {% else %}
+              <b>Recently watched:</b> <a class="list_link" href="{{ friend.watched.0.movie.url }}" target="_blank">{{ friend.watched.0.movie.title }} ({{ friend.watched.0.movie.year }})</a>
+            {% endif %}
+          {% endif %}
         {% endif %}
       </li>
     {% endfor %}
