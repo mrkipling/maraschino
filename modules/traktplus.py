@@ -237,10 +237,16 @@ def xhr_trakt_profile(user=None):
         item['watched'] = time.ctime(int(item['watched']))
 
     movies = trakt['stats']['movies']
-    movies_progress = 100 * float(movies['watched_unique']) / float(movies['collection'])
+    try:
+        movies_progress = 100 * float(movies['watched_unique']) / float(movies['collection'])
+    except:
+        movies_progress = 0
 
     episodes = trakt['stats']['episodes']
-    episodes_progress = 100 * float(episodes['watched_unique']) / float(episodes['collection'])
+    try:
+        episodes_progress = 100 * float(episodes['watched_unique']) / float(episodes['collection'])
+    except:
+        episodes_progress = 0
 
     return render_template('trakt-user_profile.html',
         profile = trakt,
