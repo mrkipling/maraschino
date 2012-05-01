@@ -161,6 +161,9 @@ def index():
     if active_server:
         active_server = int(active_server)
 
+    # show power buttons in library?
+    library_show_power_buttons = get_setting_value('library_show_power_buttons', '1') == '1'
+
     return render_template('index.html',
         modules = modules,
         num_columns = num_columns,
@@ -171,6 +174,7 @@ def index():
         background = background,
         fanart_backgrounds = fanart_backgrounds,
         applications = applications,
+        library_show_power_buttons = library_show_power_buttons,
         show_tutorial = unorganised_modules.count() == 0,
     )
 

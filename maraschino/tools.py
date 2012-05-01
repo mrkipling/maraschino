@@ -80,7 +80,7 @@ def get_setting(key):
     except:
         return None
 
-def get_setting_value(key):
+def get_setting_value(key, default=None):
     try:
         value = Setting.query.filter(Setting.key == key).first().value
 
@@ -90,7 +90,7 @@ def get_setting_value(key):
         return value
 
     except:
-        return None
+        return default
 
 def get_file_list(folder, extensions, prepend_path=True):
     filelist = []
