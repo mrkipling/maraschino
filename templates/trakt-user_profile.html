@@ -1,87 +1,99 @@
 {% extends "trakt-base.html" %}
+
 {% block trakt_title %}{{ title }}{% endblock %}
+
 {% block trakt_content %}
-{% if profile %}
 
-<div class="profile">
-  <div class="user_info">
-    <img src="{{ profile.avatar }}"/>
-    <h2>{{ profile.username }}</h2>
+<div class="inner">
 
-    <table>
-      <tr>
-        <td><b>Full Name:</b></td>
-        <td>{{ profile.full_name }}</td>
-      </tr>
-      <tr>
-        <td><b>Location:</b></td>
-        <td>{{ profile.location }}</td>
-      </tr>
-      <tr>
-        <td><b>Age:</b></td>
-        <td>{{ profile.age }}</td>
-      </tr>
-      <tr>
-        <td><b>Gender:</b></td>
-        <td>{{ profile.gender }}</td>
-      </tr>
-    </table>
-  </div>
+    {% if profile.status == 'error' %}
 
-  <div class="menu">
-    <a class="button addloading" data-xhr_url="watchlist/{{ profile.username }}/shows">Watchlist</a>
-    <a class="button addloading" data-xhr_url="library/{{ profile.username }}/shows">Library</a>
-    <a class="button addloading" data-xhr_url="loved/{{ profile.username }}/shows">Loved</a>
-    <a class="button addloading" data-xhr_url="hated/{{ profile.username }}/shows">Hated</a><br>
-  </div>
+      <p>{{ profile.message }}</p>
 
-  {% if profile.watching %}
-    <div class="watching">
-      <b>Currently watching:</b>
-      {% if profile.watching.type == 'movie' %}
-        <a class="link" href="{{ profile.watching.movie.url }}" target="_blank">{{ profile.watching.movie.title }} ({{ profile.watching.movie.year }})</a><br>
-      {% else %}
-        <a class="link" href="{{ profile.watching.episode.url }}" target="_blank">{{ profile.watching.show.title }} {{ profile.watching.episode.season }}x{{ profile.watching.episode.number }} - {{ profile.watching.episode.title }}</a><br>
-      {% endif %}
-    </div>
-  {% endif %}
+    {% else %}
 
-  <div class="watched">
-    <b>Movies:</b>
-    <span>Collection: {{ profile.stats.movies.collection }}</span>
-    <span>Watched: {{ profile.stats.movies.watched }}</span><br>
+        <div class="profile">
+          <div class="user_info">
+            <img src="{{ profile.avatar }}"/>
+            <h2>{{ profile.username }}</h2>
 
-    <div class="bar" title="{{ movies_progress }}%">
-      <div class="inner" style="width: {{ movies_progress }}%;"></div>
-    </div>
-    <br>
-    <b>Episodes:</b>
-    <span>Collection: {{ profile.stats.episodes.collection }}</span>
-    <span>Watched: {{ profile.stats.episodes.watched }}</span><br>
+            <table>
+              <tr>
+                <td><b>Full Name:</b></td>
+                <td>{{ profile.full_name }}</td>
+              </tr>
+              <tr>
+                <td><b>Location:</b></td>
+                <td>{{ profile.location }}</td>
+              </tr>
+              <tr>
+                <td><b>Age:</b></td>
+                <td>{{ profile.age }}</td>
+              </tr>
+              <tr>
+                <td><b>Gender:</b></td>
+                <td>{{ profile.gender }}</td>
+              </tr>
+            </table>
+          </div>
 
-    <div class="bar" title="{{ episodes_progress }}%">
-      <div class="inner" style="width: {{ episodes_progress }}%;"></div>
-    </div>
-  </div>
+          <div class="menu">
+            <a class="button addloading" data-xhr_url="watchlist/{{ profile.username }}/shows">Watchlist</a>
+            <a class="button addloading" data-xhr_url="library/{{ profile.username }}/shows">Library</a>
+            <a class="button addloading" data-xhr_url="loved/{{ profile.username }}/shows">Loved</a>
+            <a class="button addloading" data-xhr_url="hated/{{ profile.username }}/shows">Hated</a><br>
+          </div>
 
-  <div class="recently_watched">
-    <b>Recently watched:</b><br>
-    <table width="100%">
-      {% for item in profile.watched %}
-        <tr>
-          <td width="65%">
-            {% if item.type == 'episode' %}
-              <a class="link" href="{{ item.episode.url }}" target="_blank">{{ item.show.title }} {{ item.episode.season }}x{{ item.episode.number }} - {{ item.episode.title }}</a>
-            {% else %}
-              <a href="{{ item.movie.url }}" target="_blank">{{ item.movie.title }} ({{ item.movie.year}})</a>
-            {% endif %}
-          </td>
-          <td width="35%" align="right">{{ item.watched }}</td>
-        </tr>
-      {% endfor %}
-  </ul>
-  </div>
+          {% if profile.watching %}
+            <div class="watching">
+              <b>Currently watching:</b>
+              {% if profile.watching.type == 'movie' %}
+                <a class="link" href="{{ profile.watching.movie.url }}" target="_blank">{{ profile.watching.movie.title }} ({{ profile.watching.movie.year }})</a><br>
+              {% else %}
+                <a class="link" href="{{ profile.watching.episode.url }}" target="_blank">{{ profile.watching.show.title }} {{ profile.watching.episode.season }}x{{ profile.watching.episode.number }} - {{ profile.watching.episode.title }}</a><br>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          <div class="watched">
+            <b>Movies:</b>
+            <span>Collection: {{ profile.stats.movies.collection }}</span>
+            <span>Watched: {{ profile.stats.movies.watched }}</span><br>
+
+            <div class="bar" title="{{ movies_progress }}%">
+              <div class="inner" style="width: {{ movies_progress }}%;"></div>
+            </div>
+            <br>
+            <b>Episodes:</b>
+            <span>Collection: {{ profile.stats.episodes.collection }}</span>
+            <span>Watched: {{ profile.stats.episodes.watched }}</span><br>
+
+            <div class="bar" title="{{ episodes_progress }}%">
+              <div class="inner" style="width: {{ episodes_progress }}%;"></div>
+            </div>
+          </div>
+
+          <div class="recently_watched">
+            <b>Recently watched:</b><br>
+            <table width="100%">
+              {% for item in profile.watched %}
+                <tr>
+                  <td width="65%">
+                    {% if item.type == 'episode' %}
+                      <a class="link" href="{{ item.episode.url }}" target="_blank">{{ item.show.title }} {{ item.episode.season }}x{{ item.episode.number }} - {{ item.episode.title }}</a>
+                    {% else %}
+                      <a href="{{ item.movie.url }}" target="_blank">{{ item.movie.title }} ({{ item.movie.year}})</a>
+                    {% endif %}
+                  </td>
+                  <td width="35%" align="right">{{ item.watched }}</td>
+                </tr>
+              {% endfor %}
+          </ul>
+          </div>
+        </div>
+
+    {% endif %}
+
 </div>
 
-{% endif %}
 {% endblock %}

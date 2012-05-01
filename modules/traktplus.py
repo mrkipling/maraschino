@@ -250,6 +250,7 @@ def xhr_trakt_friends():
 def xhr_trakt_profile(user=None):
     if not user:
         user = get_setting_value('trakt_username')
+
     logger.log('TRAKT :: Fetching %s\'s profile information' % user, 'INFO')
     apikey = get_setting_value('trakt_api_key')
 
@@ -257,26 +258,37 @@ def xhr_trakt_profile(user=None):
 
     try:
         result = urllib.urlopen(url).read()
+
     except:
         logger.log('TRAKT :: Problem fething URL', 'ERROR')
         return render_template('trakt-base.html', message=url_error)
 
     trakt = json.JSONDecoder().decode(result)
 
-    for item in trakt['watched']:
-        item['watched'] = time.ctime(int(item['watched']))
-
-    movies = trakt['stats']['movies']
-    try:
-        movies_progress = 100 * float(movies['watched_unique']) / float(movies['collection'])
-    except:
+    if 'status' in trakt and trakt['status'] == 'error':
+        logger.log('TRAKT :: Error accessing user profile', 'INFO')
         movies_progress = 0
-
-    episodes = trakt['stats']['episodes']
-    try:
-        episodes_progress = 100 * float(episodes['watched_unique']) / float(episodes['collection'])
-    except:
         episodes_progress = 0
+
+    else:
+        for item in trakt['watched']:
+            item['watched'] = time.ctime(int(item['watched']))
+
+        movies = trakt['stats']['movies']
+
+        try:
+            movies_progress = 100 * float(movies['watched_unique']) / float(movies['collection'])
+
+        except:
+            movies_progress = 0
+
+        episodes = trakt['stats']['episodes']
+
+        try:
+            episodes_progress = 100 * float(episodes['watched_unique']) / float(episodes['collection'])
+
+        except:
+            episodes_progress = 0
 
     return render_template('trakt-user_profile.html',
         profile = trakt,
