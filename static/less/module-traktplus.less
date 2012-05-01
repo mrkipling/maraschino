@@ -77,7 +77,7 @@
         border: 1px solid #222;
         cursor: pointer;
         line-height: 2em;
-        padding: 2px;
+        padding: 2px 8px;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
@@ -209,7 +209,10 @@
     }
 
     .recently_watched td {
-      padding: 3px 15px 3px 0;
+      padding: 3px 0;
+      &:first-child {
+          padding-right: 25px;
+      }
 
       a:hover  {
         border-bottom: 1px dashed #bbb;
