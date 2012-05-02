@@ -6,6 +6,7 @@ from Maraschino import app
 from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
+from maraschino.xbmc import xbmc
 import maraschino.logger as logger
 
 global xbmc_error
@@ -15,7 +16,7 @@ xbmc_error = 'There was a problem connecting to the XBMC server'
 @requires_auth
 def xhr_play_media(file_type, media_type, media_id):
     logger.log('CONTROLS :: Playing %s' % media_type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+
     try:
         xhr_clear_playlist(file_type)
     except:
@@ -84,7 +85,6 @@ def xhr_play_media(file_type, media_type, media_id):
 @requires_auth
 def xhr_enqueue_media(file_type, media_type, media_id):
     logger.log('CONTROLS :: Queueing %s' % media_type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
 
     if file_type == 'video':
 
@@ -137,7 +137,6 @@ def xhr_enqueue_media(file_type, media_type, media_id):
 @requires_auth
 def xhr_resume_video(video_type, video_id):
     logger.log('CONTROLS :: Resuming %s' % video_type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
 
     try:
         xhr_clear_playlist('video')
@@ -185,7 +184,6 @@ def xhr_resume_video(video_type, video_id):
 @requires_auth
 def xhr_play_trailer(movieid):
     logger.log('CONTROLS :: Playing trailer', 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
 
     try:
         xhr_clear_playlist('video')
@@ -215,7 +213,7 @@ def xhr_play_trailer(movieid):
 @requires_auth
 def xhr_play_file(file_type):
     logger.log('CONTROLS :: Playing %s file' % file_type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+
     if file_type == "music":
         file_type = "audio"
 
@@ -253,7 +251,6 @@ def xhr_play_file(file_type):
 @requires_auth
 def xhr_enqueue_file(file_type):
     logger.log('CONTROLS :: Queueing %s file' % file_type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
 
     file = request.form['file']
     file = urllib.unquote(file.encode('ascii')).decode('utf-8')
@@ -276,7 +273,6 @@ def xhr_enqueue_file(file_type):
 @requires_auth
 def xhr_clear_playlist(playlist_type):
     logger.log('CONTROLS :: Clearing %s playlist' % playlist_type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
 
     try:
         if playlist_type == 'audio':
@@ -294,7 +290,6 @@ def xhr_clear_playlist(playlist_type):
 @requires_auth
 def xhr_controls(command):
     serversettings = server_settings()
-    xbmc = jsonrpclib.Server(server_api_address())
 
     try:
         active_player = xbmc.Player.GetActivePlayers()
