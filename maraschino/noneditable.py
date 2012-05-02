@@ -83,3 +83,20 @@ try:
 
 except:
     PORT = 5000
+
+def xbmc_api_address():
+    server = server_settings()
+    hostname = server['hostname']
+    port = server['port']
+    api_address = 'http://%s:%s/jsonrpc' % (hostname, port)
+    return api_address
+
+def xbmc_username():
+    server = server_settings()
+    username = server['username']
+    return username
+
+def xbmc_password():
+    server = server_settings()
+    password = server['password']
+    return password
