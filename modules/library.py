@@ -429,5 +429,5 @@ def render_library(library=None, title="Media Library", file_type=None, previous
         file_type = file_type,
         previous_dir = previous_dir,
         show_info = show_info,
-        library_show_power_buttons = get_setting_value('library_show_power_buttons', 1) == '1',
+        library_show_power_buttons = get_setting_value('library_show_power_buttons', '1') == '1',
     )
