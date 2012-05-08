@@ -45,7 +45,7 @@ In addition, there's also a thread on the [XBMC forums](http://forum.xbmc.org/sh
 
 * **Weather module** for your local city, because why not!
 
-* Full-screen background image changes to the fanart of what you're currently watching (optional, can be turned off - but it looks kinda pretty)
+* Full-screen background image which changes to the fanart of what you're currently watching (optional, can be turned off - but looks kinda pretty)
 
 * Customisable from within the application itself - choose how many columns you want, add new modules, rearrange them using drag-and-drop, and modify their settings without touching any settings files!
 
@@ -54,3 +54,5 @@ Uses Flask and some other awesome technologies (SQL-Alchemy, LESS CSS) but you d
 ##Why is it called Maraschino?
 
 If your HTPC is an ice cream sundae then Maraschino is the cherry on top.
+
+<img src="http://www.maraschinoproject.com/static/images/maraschino_logo.png" width="71" height="79" style="margin: 20px auto;">
