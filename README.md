@@ -55,4 +55,4 @@ Uses Flask and some other awesome technologies (SQL-Alchemy, LESS CSS) but you d
 
 If your HTPC is an ice cream sundae then Maraschino is the cherry on top.
 
--><img src="http://www.maraschinoproject.com/static/images/maraschino_logo.png" width="71" height="79"><-
+<img src="http://www.maraschinoproject.com/static/images/maraschino_logo.png" width="71" height="79">
