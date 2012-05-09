@@ -1799,9 +1799,28 @@ $(document).ready(function() {
     $('#weather .min').text(( minutes < 10 ? '0' : '' ) + minutes);
   }, 1000);
 
+  //24 hour time
   setInterval( function() {
     var hours = new Date().getHours();
     $('#weather .hours').text(( hours < 10 ? '0' : '' ) + hours);
+  }, 1000);
+
+  //12 hour time
+  setInterval( function() {
+    var hours = new Date().getHours();
+    var meridian = 'AM';
+
+    if (hours >= 12) {
+      hours = hours -12;
+      meridian = 'PM';
+    }
+
+    if (hours == 0) {
+      hours = 12;
+    }
+
+    $('#weather .12hours').text(( hours < 10 ? '0' : '' ) + hours);
+    $('#weather .meridian').text(meridian);
   }, 1000);
   /*****END WEATHER CLOCK*****/
 });
