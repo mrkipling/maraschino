@@ -29,15 +29,24 @@
   </tr>
 </table>
 {% else %}
+<div class="clock">
+  <span class="date">{{ date }}</span>
+  <span class="{% if meridian %}12{% endif %}hours"></span>
+  <span>:</span>
+  <span class="min"></span>
+  <span>:</span>
+  <span class="sec"></span>
+  <span class="meridian"></span>
+</div>
 <table>
   <tr>
-    <td colspan="5"><div class="container"><b>Current</b></div></td>
-  </td>
+    <td colspan="5"><div class="container"><b>Current as of {{ time }} <span class="meridian"></span></b></div></td>
+  </tr>
   <tr>
     <td colspan="2"><center class="currentcond"><img class="currentimage" src="{{ currentimage }}"/><br />{{ current_conditions.condition }}<br /><br /></center></td>
     <td colspan="1" class="currenttemp">{{ current_temp }}</td>
     <td colspan="2"><center class="currentcond"><img src="{{ wind_image }}" /><br>{{ wind[11:25] }}<br /><br /></center></td>
-    </td>
+  </tr>
   <tr>
     <td colspan="5"><div class="container"><b>Forecast</b></div></u></td>
   </td>
@@ -47,7 +56,7 @@
     <td>{{ day1.condition }}</td>
     <td class="high">{{ day1.high }}</td>  
     <td class="low">{{ day1.low }}</td>
-  </td>
+  </tr>
   <tr>
     <td><strong>{{ day2.day_of_week }}</strong></td>
     <td><img class="forecastimg" src="{{ day2image }}"/></td>
