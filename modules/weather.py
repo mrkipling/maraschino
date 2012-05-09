@@ -1,10 +1,19 @@
 from flask import Flask, jsonify, render_template
 from pywapi.pywapi import get_weather_from_google
 import re
+import datetime
 
 from Maraschino import app
 from settings import *
 from maraschino.tools import *
+
+def get_time():
+    now = datetime.datetime.now()
+    return now.strftime('%H:%M')
+
+def get_date():
+    now = datetime.datetime.now()
+    return now.strftime('%A %d %B')
 
 @app.route('/xhr/weather')
 @requires_auth
@@ -209,4 +218,6 @@ def xhr_weather():
         day2 = day2,
         day3 = day3,
         day4 = day4,
+        time = get_time(),
+        date = get_date()
     )

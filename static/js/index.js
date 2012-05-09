@@ -1788,5 +1788,20 @@ $(document).ready(function() {
     });
   });
 
+  /*****WEATHER CLOCK*****/
+  setInterval( function() {
+    var seconds = new Date().getSeconds();
+    $('#weather .sec').text(( seconds < 10 ? '0' : '' ) + seconds);
+  }, 1000);
 
+  setInterval( function() {
+    var minutes = new Date().getMinutes();
+    $('#weather .min').text(( minutes < 10 ? '0' : '' ) + minutes);
+  }, 1000);
+
+  setInterval( function() {
+    var hours = new Date().getHours();
+    $('#weather .hours').text(( hours < 10 ? '0' : '' ) + hours);
+  }, 1000);
+  /*****END WEATHER CLOCK*****/
 });
