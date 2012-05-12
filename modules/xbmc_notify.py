@@ -1,46 +1,47 @@
-from flask import Flask, jsonify, render_template
-import jsonrpclib, os
+from flask import Flask, jsonify, render_template, request
+import os
 
 from Maraschino import app
+from Maraschino import rundir
 from socket import *
 from xbmc.xbmcclient import *
 from maraschino.tools import *
 from maraschino.models import XbmcServer
+import maraschino.logger as logger
 
-@app.route('/xhr/xbmc_notify')
+@app.route('/xhr/xbmc_notify', methods=['post'])
 def xhr_notify():
-    name_address = []
-    servers_db = XbmcServer.query.order_by(XbmcServer.position)
+    label = request.form['label']
+    hostname = request.form['hostname']
 
-    for server in servers_db:
-        server = {'name': server.label, 'address': server.hostname}
-        name_address.append(server)
-
-    dir = './static/images/notifications'
+    dir = rundir + '/static/images/notifications'
     icons = get_file_list(
         folder = dir,
         extensions = ['.png', '.jpg'],
         prepend_path = False,
     )
 
-    return render_template('xbmc_notify.html',
-    name_address = name_address,
+    return render_template('xbmc_notify_dialog.html',
+    label = label,
+    hostname = hostname,
     icons = icons,
     )
 
-@app.route('/xhr/xbmc_notify/<icon>/<address>/<title>/<message>')
-def xhr_notify_message(icon, address, title, message):
-    message = str(message)
-    ip = str(address)
-    port = int(get_setting_value('xbmc_event_port'))
-    title = str(title)
-    icon = os.path.abspath('static/images/notifications/' + icon)
+@app.route('/xhr/xbmc_notify/send', methods=['post'])
+def xhr_notify_message():
+    label = str(request.form['label'])
+    hostname = str(request.form['hostname'])
+    message = str(request.form['message'])
+    title = str(request.form['title'])
+    port = 9777
+    icon = '%s/static/images/notifications/%s' % (rundir, request.form['image'])
+
+    if title == "Title":
+        title = "Maraschino"
 
     if not os.path.exists(icon):
-        icon = os.path.abspath('static/images/maraschino_logo.png')
+        icon = rundir + '/static/images/maraschino_logo.png'
 
-    if not os.path.exists(icon):
-        icon = os.path.abspath('maraschino/static/images/maraschino_logo.png')
 
     if icon[-3:] == "png":
         icon_type = ICON_PNG
@@ -53,18 +54,14 @@ def xhr_notify_message(icon, address, title, message):
     else:
         icon_type = ICON_NONE
 
-    if title == "Title":
-        title = "Maraschino";
-
-    if message == "Message":
-        message = None;
-
-    addr = (ip, port)
+    addr = (hostname, port)
     sock = socket(AF_INET,SOCK_DGRAM)
 
     try:
+        logger.log('NOTIFY XBMC :: Sending message to %s' % label, 'INFO')
         packet = PacketNOTIFICATION(title, message, icon_type, icon)
         packet.send(sock, addr)
         return jsonify({ 'status': 'successful'})
     except:
-        return jsonify({ 'error': 'failed'})
+        logger.log('NOTIFY XBMC :: Message failed to send', 'ERROR')
+        return jsonify({ 'error': 'Message failed to send'})

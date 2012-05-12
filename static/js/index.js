@@ -1788,8 +1788,56 @@ $(document).ready(function() {
     });
   });
 
-  $(document).on('click', '#notify #sendmessage', function() {
-    $.get('/xhr/xbmc_notify/'+ $('#notify #image').val() + '/' + $('#notify #ipaddress').val() + '/' + $('#notify #title').val() + '/' + $('#notify #message').val());
+  // Send XBMC notification
+
+  $(document).on('click', '.switch_server .message', function(){
+    var label = $(this).data('label');
+    var hostname = $(this).data('hostname');
+
+    var dict = {
+      label: label,
+      hostname: hostname
+    };
+
+    $.post('/xhr/xbmc_notify', dict, function(data){
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
+  $(document).on('click', '#notify_dialog #sendmessage', function() {
+    var image = $('#notify_dialog #image').val();
+    var label = $('#notify_dialog #sendmessage').data('label');
+    var hostname = $('#notify_dialog #sendmessage').data('hostname');
+    var title = $('#notify_dialog #title').val();
+    var message = $('#notify_dialog #message').val();
+    var result = $('#notify_dialog .result');
+
+    result.text('');
+
+    if(message == 'Message'){
+      result.append('You need to input a message.');
+      return false;
+    }
+
+    var dict = {
+      image: image,
+      label: label,
+      hostname: hostname,
+      title: title,
+      message: message
+    };
+
+    $.post('/xhr/xbmc_notify/send', dict, function(data) {
+      if(data['error']){
+        result.append(data['error']);
+      }
+      else {
+        $('#notify_dialog .close').click();
+        popup_message('Message Sent.');
+      }
+    });
   });
 
 });
