@@ -1,0 +1,36 @@
+<div id="notify" class="module" data-module="notify">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2>Notification Message</h2>
+
+  <table width="100%">
+    <tr>
+      <td><input type="text" id="title" value="Title" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/></td>
+	  <td><input type="text" id="message" value="Message" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/></td>
+      <td align="right"><input type="submit" id="sendmessage" value="Send" onClick></td>
+    </tr>
+    <tr>
+      {% if icons %}
+        <td colspan=2">
+          <select id="image">
+            <option style="background: #2b3621; color:#fff" value="none">Select Image...</option>
+            {% for icon in icons %}
+              <option style="background: #2b3621; color:#fff" value="{{ icon }}">{{ icon }}</option>
+            {% endfor %}
+          </select>
+
+      {% endif %}
+
+        <select id="ipaddress">
+          <option style="background: #2b3621; color:#fff">Select Client...</option>
+          {% for item in name_address %}
+            <option  style="background: #2b3621; color:#fff" value="{{ item.address }}">{{ item.name }}</option>
+          {% endfor %}
+        </select>
+      </td>
+    </tr>
+  </table>
+
+</div>

@@ -1788,5 +1788,8 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#notify #sendmessage', function() {
+    $.get('/xhr/xbmc_notify/'+ $('#notify #image').val() + '/' + $('#notify #ipaddress').val() + '/' + $('#notify #title').val() + '/' + $('#notify #message').val());
+  });
 
 });
