@@ -1788,5 +1788,43 @@ $(document).ready(function() {
     });
   });
 
+  // Updater
+
+  $(document).on('click', '#update_check', function(){
+    var popup = $('<div id="updater" class="dialog"><div class="close" style="display:none;"></div><p>Checking for updates  <img src="/static/images/xhrloading.gif"/></p></div>');
+    $('body').append(popup);
+    popup.showPopup({ dispose: true });
+
+    $.get('/xhr/updater/check', function(data){
+      $('#updater .close').click();
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
+  $(document).on('click', '#updater .update', function(){
+    $('#updater .close').click();
+
+    var popup = $('<div id="updater" class="dialog"><div class="close" style="display:none;"></div><p>Updating  <img src="/static/images/xhrloading.gif"/></p></div>');
+    $('body').append(popup);
+    popup.showPopup({ dispose: true });
+
+    $.get('/xhr/updater/update', function(data){
+      $.get('/restart');
+      setTimeout(
+        function() {
+          $('#updater .close').click();
+          var popup = $('<div id="updater" class="dialog"><p>Update complete. Please refresh the page.</p><div class="choices"><div class="refresh">Refresh</div></div>');
+          $('body').append(popup);
+          popup.showPopup({ dispose: true });
+        }, 10000);
+    });
+  });
+
+
+  $(document).on('click', '#updater .refresh', function(){
+    window.location.reload();
+  });
 
 });

@@ -1,0 +1,22 @@
+<div id="updater" class="dialog">
+  {% if not updating %}
+    <div class="close">x</div>
+  {% endif %}
+
+  {% if unknown_version %}
+    <p>Unkown version. Please update.</p>
+  {% endif %}
+  {% if latest_version %}
+    <p>Up to date.</p>
+  {% endif %}
+  {% if update_available %}
+    <p>There is a <a href="{{ compare_url }}" target="_blank">newer version</a> available, you are {{ commits }} {% if commits > 1 %}commits{% else %}commit{% endif %} behind.</p>
+  {% endif %}
+
+  <div class="choices">
+    {% if update_available or unknown_version %}
+      <div class="update">Update</div>
+    {% endif %}
+    <div class="cancel">OK</div>
+  </div>
+</div>
