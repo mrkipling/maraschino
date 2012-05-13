@@ -110,7 +110,8 @@
         }
 
         .edit,
-        .add {
+        .add,
+        .message {
           background: url(/static/images/server_edit.png);
           height: 16px;
           position: absolute;
@@ -128,6 +129,11 @@
           background: url(/static/images/server_add.png);
         }
 
+        .message {
+          background: url(/static/images/server_message.png);
+          right: 24px;
+        }
+
         &:hover .submenu {
           display: block;
           min-width: 150px;
@@ -143,6 +149,10 @@
             -o-transition: width 0.2s ease-in-out;
             -ms-transition: width 0.2s ease-in-out;
             transition: width 0.2s ease-in-out;
+
+            li {
+              padding-right: 44px;
+            }
           }
         }
 

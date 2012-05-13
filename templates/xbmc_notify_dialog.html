@@ -1,0 +1,29 @@
+<div id="notify_dialog" class="dialog">
+  <div class="close">x</div>
+
+  <h2>Message {{ label }}</h2>
+
+  <table width="100%">
+    <tr>
+      <td><input type="text" id="title" value="Title" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/></td>
+	  <td><input type="text" id="message" value="Message" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/></td>
+      <td align="right"><input type="submit" id="sendmessage" value="Send" onClick data-label="{{ label }}" data-hostname="{{ hostname }}"></td>
+    </tr>
+    <tr>
+      {% if icons %}
+        <td>
+          <select id="image">
+            <option style="background: #2b3621; color:#fff" value="none">Select Image...</option>
+            {% for icon in icons %}
+              <option style="background: #2b3621; color:#fff" value="{{ icon }}">{{ icon }}</option>
+            {% endfor %}
+          </select>
+        </td>
+      {% endif %}
+        <td>
+          <span class="result"></span>
+        </td>
+    </tr>
+  </table>
+
+</div>

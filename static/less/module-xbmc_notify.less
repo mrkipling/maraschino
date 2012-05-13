@@ -1,0 +1,59 @@
+@import "mixins.less";
+ 
+#notify_dialog {
+
+  h2 {
+    margin-bottom: 15px;
+  }
+  input[type="text"] {
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    color: #fff;
+    height: 20px;
+    line-height: 20px;
+    width: 90%;
+    margin: 3px 3px 3px 3px;
+    padding: 2px 5px;
+    position: relative;
+    .border-radius(4px);
+    -webkit-appearance: none;
+ 
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+      }
+  }
+
+  input[type="submit"] {
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    color: #ccc;
+    height: 27px;
+    margin: 3px 3px 3px 3px;
+    padding: 2px 5px;
+    width:60px;
+    .border-radius(4px);
+    -webkit-appearance: none;
+    font-weight:bold;
+ 
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+        cursor: pointer;
+      }
+  }
+ 
+  select, option {
+    background: url(/static/images/alpha/fff_10.png);
+    border: 1px solid #222;
+    color: #fff;
+    height: 27px;
+    margin: 3px 3px 3px 3px;
+    padding: 2px 5px;
+    .border-radius(4px);
+    -webkit-appearance: none;
+ 
+      &:hover {
+        background: url(/static/images/alpha/fff_20.png);
+        cursor: pointer;
+      }
+  }
+}
