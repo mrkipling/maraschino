@@ -1,7 +1,6 @@
 from Maraschino import app, rundir
 import sys, os, subprocess, wsgiserver
 import logger as logger
-from settings import *
 from noneditable import requires_auth
 
 d = wsgiserver.WSGIPathInfoDispatcher({'/': app})

@@ -245,6 +245,8 @@ if DEVELOPMENT:
 else:
     import maraschino
 
+    maraschino.CHERRYPY_PORT = CHERRYPY_PORT
+
     if __name__ == '__main__':
         maraschino.start()
 
