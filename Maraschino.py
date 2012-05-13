@@ -245,6 +245,7 @@ if DEVELOPMENT:
 else:
     import maraschino
 
+    maraschino.ARGS = sys.argv[1:]
     maraschino.CHERRYPY_PORT = CHERRYPY_PORT
 
     if __name__ == '__main__':

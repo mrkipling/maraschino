@@ -3,6 +3,8 @@ import sys, os, subprocess, wsgiserver
 import logger as logger
 from noneditable import requires_auth
 
+ARGS = None
+
 d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
 server = wsgiserver.CherryPyWSGIServer(('0.0.0.0', CHERRYPY_PORT), d)
 
@@ -26,6 +28,7 @@ def stop():
 def restart():
     server.stop()
     popen_list = [sys.executable, rundir + '/Maraschino.py']
+    popen_list += ARGS
     subprocess.Popen(popen_list)
     logger.log('Restarting Maraschino...', 'INFO')
     os._exit(0)
