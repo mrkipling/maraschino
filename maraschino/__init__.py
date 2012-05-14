@@ -29,4 +29,4 @@ def restart():
     popen_list = [sys.executable, rundir + '/Maraschino.py']
     popen_list += ARGS
     subprocess.Popen(popen_list)
-    logger.log('Restarting Maraschino...', 'INFO')
+    logger.log('Restarting Maraschino with: %s' % popen_list, 'INFO')

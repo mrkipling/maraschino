@@ -12,6 +12,9 @@
   {% if update_available %}
     <p>There is a <a href="{{ compare_url }}" target="_blank">newer version</a> available, you are {{ commits }} {% if commits > 1 %}commits{% else %}commit{% endif %} behind.</p>
   {% endif %}
+  {% if github_fail %}
+    <p>Failed to fetch branch info from gitgub.</p>
+  {% endif %}
 
   <div class="choices">
     {% if update_available or unknown_version %}

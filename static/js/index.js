@@ -1811,14 +1811,20 @@ $(document).ready(function() {
     popup.showPopup({ dispose: true });
 
     $.get('/xhr/updater/update', function(data){
-      $.get('/restart');
-      setTimeout(
-        function() {
-          $('#updater .close').click();
-          var popup = $('<div id="updater" class="dialog"><p>Update complete. Please refresh the page.</p><div class="choices"><div class="refresh">Refresh</div></div>');
-          $('body').append(popup);
-          popup.showPopup({ dispose: true });
-        }, 10000);
+      if(data.error){
+        $('#updater .close').click();
+        popup_message(data.error);
+      }
+      else {
+        $.get('/restart');
+        setTimeout(
+          function() {
+            $('#updater .close').click();
+            var popup = $('<div id="updater" class="dialog"><p>Update complete. Please refresh the page.</p><div class="choices"><div class="refresh">Refresh</div></div>');
+            $('body').append(popup);
+            popup.showPopup({ dispose: true });
+          }, 10000);
+      }
     });
   });
 
