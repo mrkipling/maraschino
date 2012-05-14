@@ -1,7 +1,6 @@
-import sys
-import os
+import sys, os
 
-rundir = os.path.dirname(os.path.abspath(__file__))
+rundir = os.getcwd()
 
 try:
     frozen = sys.frozen
@@ -41,6 +40,7 @@ from maraschino.noneditable import *
 from maraschino.tools import *
 from maraschino.modules import *
 from maraschino.models import Module, Setting
+from maraschino.updater import *
 
 from modules.applications import *
 from modules.controls import *
@@ -216,5 +216,38 @@ except IOError, e:
 
 init_db()
 
-if __name__ == '__main__':
-    app.run(debug=True, port=PORT, host='0.0.0.0')
+# import commandline arguments to override defaults/settings.py
+
+DEVELOPMENT = False
+
+from optparse import OptionParser
+p = OptionParser()
+
+p.add_option('--develop', action = "store_true",
+             dest = 'develop', help="Start instance of developmentserver")
+p.add_option('--port',
+             dest = 'port', default = None,
+             help = "Force webinterface to listen on this port")
+
+options, args = p.parse_args()
+
+if options.develop:
+    DEVELOPMENT = True
+
+if options.port:
+    PORT = int(options.port)
+    CHERRYPY_PORT = int(options.port)
+
+if DEVELOPMENT:
+    if __name__ == '__main__':
+        app.run(debug=True, port=PORT, host='0.0.0.0')
+
+else:
+    import maraschino
+
+    maraschino.ARGS = sys.argv[1:]
+    maraschino.CHERRYPY_PORT = CHERRYPY_PORT
+
+    if __name__ == '__main__':
+        maraschino.start()
+

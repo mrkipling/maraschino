@@ -12,6 +12,7 @@ maraschino.wsgi
 static/images/backgrounds/custom
 static/images/trakt
 /logs/
+version.txt
 
 ######################
 # OS generated files #
