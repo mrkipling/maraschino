@@ -21,7 +21,6 @@ def start():
 def stop():
     server.stop()
     logger.log('Shutting down Maraschino...', 'INFO')
-    os._exit(0)
 
 @app.route('/restart')
 @requires_auth
@@ -31,4 +30,3 @@ def restart():
     popen_list += ARGS
     subprocess.Popen(popen_list)
     logger.log('Restarting Maraschino...', 'INFO')
-    os._exit(0)
