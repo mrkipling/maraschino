@@ -50,6 +50,7 @@ from modules.library import *
 from modules.log import *
 from modules.recently_added import *
 from modules.remote import *
+from modules.rssfeeds import *
 from modules.sabnzbd import *
 from modules.search import *
 from modules.sickbeard import *
