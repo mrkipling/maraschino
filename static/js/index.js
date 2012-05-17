@@ -451,6 +451,7 @@ $(document).ready(function() {
 
   $(document).on('click', '#add_shout .submit', function() {
     var add_shout = $('#add_shout');
+    var spoiler = $('.spoiler_check');
     var textarea = add_shout.find('textarea');
     var submit_wrapper = add_shout.find('.submit_wrapper');
 
@@ -473,6 +474,13 @@ $(document).ready(function() {
       itemid: add_shout.data('itemid'),
       shout: textarea.val()
     };
+
+    if (spoiler.is(':checked')) {
+      dict['spoiler'] = 'true';
+    }
+    else {
+      dict['spoiler'] = 'false';
+    }
 
     if (type === 'episode') {
       dict['season'] = add_shout.data('season');
@@ -1392,6 +1400,7 @@ $(document).ready(function() {
   $(document).on('click', '.expand', function() {
     var parent = $(this).parent();
     parent.find('.truncated').hide();
+    parent.find('.spoiler_alert').hide();
     parent.find('.expanded').show();
     $(this).hide();
     return false;
