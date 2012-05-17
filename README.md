@@ -25,7 +25,7 @@ In addition, there's also a thread on the [XBMC forums](http://forum.xbmc.org/sh
 
 * **Media library browser** - browse your entire movie and TV library, and click to play in XBMC. Queue items to play after.
 
-* **Control multiple XBMC servers** - do you have an XBMC server in both the living room and bedroom? Switch between the two instantaly and control them using Maraschino!
+* **Control multiple XBMC servers** - do you have an XBMC server in both the living room and bedroom? Switch between the two instantly and control them using Maraschino. Send notification messages to them remotely!
 
 * **SABnzbd+ module** which appears when something is downloading and hides again when finished - shows you what is currently downloading, speed, time/MB remaining, and a progress bar. Control (pause, resume, speed limit) your downloads.
 
