@@ -68,14 +68,28 @@
       display: block;
       font-size: 0.9em;
       height: 55px;
+      margin-bottom: 7px;
       width: 100%;
       max-width: 100%;
 
       .border-radius(2px);
     }
 
-    .submit_wrapper.xhrloading {
-      background: url(/static/images/xhrloading.gif) no-repeat 210px 11px;
+    .spoiler {
+        float: left;
+        margin-top: 5px;
+
+        input {
+            vertical-align: middle;
+        }
+    }
+
+    .submit_wrapper {
+        float: right;
+
+        &.xhrloading {
+            background: url(/static/images/xhrloading.gif) no-repeat 210px 11px;
+        }
     }
 
     .submit {
@@ -83,11 +97,10 @@
       border: 1px solid #222;
       float: right;
       font-size: 0.9em;
-      margin-top: 5px;
       padding: 4px 12px;
 
       .border-radius(2px);
-      
+
       &:hover {
         background: url(/static/images/alpha/fff_40.png);
         cursor: pointer;
