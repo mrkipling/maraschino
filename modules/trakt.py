@@ -100,6 +100,11 @@ def xhr_trakt_add_shout():
             'shout': request.form['shout'],
         }
 
+        spoiler = request.form['spoiler']
+
+        if spoiler == 'true':
+            params['spoiler'] = True
+
         if itemtype == 'episode':
             params['season'] = request.form['season']
             params['tvdb_id'] = request.form['itemid']
