@@ -7,7 +7,7 @@
 <ul id="recent_episodes" data-role="listview">
   {% for episode in recently_added_episodes %}
       <li data-icon="{{ 'check' if episode.playcount else 'false' }}">
-        <a class="inner" href="#">
+        <a class="inner play" href="#" data-episodeid="{{ episode.episodeid }}">
           <div class="thumb"><img src="/xhr/vfs_proxy/{{ episode.thumbnail }}" alt=""></div>
           <h2>{{ episode.showtitle }}</h2>
           <p>{{ episode.season }}x{{ "%02d"|format(episode.episode) }} - {{ episode.title }}</p>
