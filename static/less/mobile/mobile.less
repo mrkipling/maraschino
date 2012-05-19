@@ -1,1 +1,55 @@
 @import "../mixins.less";
+
+
+
+
+
+/*--- header ---*/
+
+#site_header {
+    min-height: 65px;
+
+    h1 {
+        margin-top: 1.4em;
+    }
+
+    .logo {
+        display: block;
+        position: absolute;
+        left: auto;
+        right: 10px;
+        top: 10px;
+        width: 40px;
+        height: 40px;
+
+        img {
+            margin: -1px 0 0 -4px;
+        }
+    }
+}
+
+
+
+
+
+/*--- recently added episodes ---*/
+
+#recent_episodes {
+    .inner {
+        padding-left: 90px;
+
+        .thumb {
+            height: 75px;
+            left: 1px;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            width: 75px;
+
+            img {
+                height: 75px;
+                margin-left: -50%;
+            }
+        }
+    }
+}

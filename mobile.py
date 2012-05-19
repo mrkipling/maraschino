@@ -20,6 +20,9 @@ def recently_added_episodes():
         xbmc = jsonrpclib.Server(server_api_address())
         recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail', 'firstaired'])['episodes']
 
+        for episode in recently_added_episodes:
+            episode['thumbnail'] = strip_special(episode['thumbnail'])
+
     except:
         logger.log('Could not retrieve recently added episodes' , 'WARNING')
 
