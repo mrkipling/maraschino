@@ -36,11 +36,11 @@ import hashlib, jsonrpclib, random, urllib, os, sys
 app = Flask(__name__)
 
 from settings import *
+from mobile import *
 
 from maraschino.noneditable import *
 from maraschino.tools import *
 from maraschino.modules import *
-from maraschino.mobile import *
 from maraschino.models import Module, Setting
 
 from modules.applications import *
