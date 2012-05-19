@@ -6,7 +6,11 @@
 
 <ul data-role="listview">
   {% for episode in recently_added_episodes %}
-      <li><a href="#">{{ episode.showtitle }} - {{ episode.title }}</a></li>
+      <li data-icon="{{ 'check' if episode.playcount else 'false' }}">
+        <a href="#">
+          {{ episode.showtitle }} - {{ episode.title }}
+        </a>
+      </li>
   {% endfor %}
 </ul>
 
