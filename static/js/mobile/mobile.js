@@ -12,7 +12,7 @@ $(document).ready(function () {
 
     // playback controls
 
-    $(document).on('click', '#footer_controls .control', function(e) {
+    $(document).on('click', '#header_controls .control', function(e) {
         e.preventDefault();
         $.mobile.showPageLoadingMsg();
         $.get('/xhr/controls/' + $(this).data('command'), function () {

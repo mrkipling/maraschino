@@ -41,22 +41,23 @@
 
     <div data-role="page" data-add-back-btn="true">
 
-      <div id="site_header" data-role="header">
+      <div id="site_header" data-role="header" data-position="fixed">
+
         <a class="logo" href="/" data-ajax="false"><img src="/static/images/mobile/maraschino_logo.png" alt="Maraschino logo"></a>
+
         {% block header %}<h1>Maraschino</h1>{% endblock %}
+
+        <div data-role="navbar">
+	  <ul id="header_controls">
+	    <li><a class="control stop" data-command="stop" href="#"><span class="icon">Stop</span></a></li>
+	    <li><a class="control play_pause" data-command="play_pause" href="#"><span class="icon">Play / Pause</span></a></li>
+	  </ul>
+        </div>
+
       </div>
 
       <div data-role="content">
         {% block content %}{% endblock %}
-      </div>
-
-      <div id="site_footer" data-role="footer" data-position="fixed">
-        <div data-role="navbar">
-	  <ul id="footer_controls">
-	    <li><a class="control stop" data-command="stop" href="#"><span class="icon">Stop</span></a></li>
-	    <li><a class="control play_pause" data-command="play_pause" href="#"><span class="icon">Play / Pause</span></a></li>
-	  </ul>
-	</ul>
       </div>
 
     </div>

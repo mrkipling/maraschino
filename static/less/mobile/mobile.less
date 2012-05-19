@@ -18,12 +18,30 @@
         position: absolute;
         left: auto;
         right: 10px;
-        top: 10px;
+        top: 5px;
         width: 40px;
         height: 40px;
 
         img {
             margin: -1px 0 0 -4px;
+        }
+    }
+
+    #header_controls {
+        .icon {
+            display: block;
+            height: 24px;
+            margin: 0 auto;
+            text-indent: -9999px;
+            width: 24px;
+        }
+
+        .play_pause .icon {
+            background: url(/static/images/player_buttons/play_pause.png) no-repeat center;
+        }
+
+        .stop .icon {
+            background: url(/static/images/player_buttons/stop.png) no-repeat center;
         }
     }
 }
@@ -50,32 +68,6 @@
                 height: 75px;
                 margin-left: -50%;
             }
-        }
-    }
-}
-
-
-
-
-
-/*--- footer ---*/
-
-#site_footer {
-    #footer_controls {
-        .icon {
-            display: block;
-            height: 24px;
-            margin: 0 auto;
-            text-indent: -9999px;
-            width: 24px;
-        }
-
-        .play_pause .icon {
-            background: url(/static/images/player_buttons/play_pause.png) no-repeat center;
-        }
-
-        .stop .icon {
-            background: url(/static/images/player_buttons/stop.png) no-repeat center;
         }
     }
 }
