@@ -5,8 +5,17 @@ $(document).ready(function () {
     $(document).on('click', '#recent_episodes .play', function(e) {
         e.preventDefault();
         $.mobile.showPageLoadingMsg();
-
         $.get('/xhr/play/video/episode/' + $(this).data('episodeid'), function () {
+            $.mobile.hidePageLoadingMsg();
+        });
+    });
+
+    // playback controls
+
+    $(document).on('click', '#footer_controls .control', function(e) {
+        e.preventDefault();
+        $.mobile.showPageLoadingMsg();
+        $.get('/xhr/controls/' + $(this).data('command'), function () {
             $.mobile.hidePageLoadingMsg();
         });
     });

@@ -50,6 +50,15 @@
         {% block content %}{% endblock %}
       </div>
 
+      <div id="site_footer" data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+	  <ul id="footer_controls">
+	    <li><a class="control stop" data-command="stop" href="#"><span class="icon">Stop</span></a></li>
+	    <li><a class="control play_pause" data-command="play_pause" href="#"><span class="icon">Play / Pause</span></a></li>
+	  </ul>
+	</ul>
+      </div>
+
     </div>
 
     <script src="/static/js/mobile/mobile.js"></script>
