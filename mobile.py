@@ -16,4 +16,13 @@ def mobile_index():
 @app.route('/mobile')
 @requires_auth
 def recently_added_episodes():
-    return render_template('mobile/recent_episodes.html')
+    try:
+        xbmc = jsonrpclib.Server(server_api_address())
+        recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail'])['episodes']
+
+    except:
+        logger.log('Could not retrieve recently added episodes' , 'WARNING')
+
+    return render_template('mobile/recent_episodes.html',
+        recently_added_episodes = recently_added_episodes,
+    )

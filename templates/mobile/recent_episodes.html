@@ -5,7 +5,9 @@
 {% block content %}
 
 <ul data-role="listview">
-  <li><a href="#">Test</a></li>
+  {% for episode in recently_added_episodes %}
+      <li><a href="#">{{ episode.showtitle }} - {{ episode.title }}</a></li>
+  {% endfor %}
 </ul>
 
 {% endblock %}
