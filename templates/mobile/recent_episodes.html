@@ -8,7 +8,8 @@
   {% for episode in recently_added_episodes %}
       <li data-icon="{{ 'check' if episode.playcount else 'false' }}">
         <a href="#">
-          {{ episode.showtitle }} - {{ episode.title }}
+          <h2>{{ episode.showtitle }}</h2>
+          <p>{{ episode.season }}x{{ "%02d"|format(episode.episode) }} - {{ episode.title }}</p>
         </a>
       </li>
   {% endfor %}
