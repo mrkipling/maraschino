@@ -40,6 +40,7 @@ from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
 from maraschino.modules import *
+from maraschino.mobile import *
 from maraschino.models import Module, Setting
 
 from modules.applications import *

@@ -1,1 +1,56 @@
-<h1>This is a pretty crappy tablet version. It's just an h1 tag...</h1>
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Maraschino Mobile Library Browser</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="/static/images/favicon.ico" sizes="64x64" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/images/favicon.ico" type="image/x-icon">
+
+    <!-- CSS -->
+    <link rel="stylesheet/less" href="/static/less/mobile/mobile.less">
+    <link rel="stylesheet" href="/static/less/mobile/lib/jquery.mobile.min.css">
+
+    <!-- JS frameworks -->
+    <script src="/static/js/lib/less.js" type="text/javascript"></script>
+    <script src="/static/js/lib/jquery.js"></script>
+    <script src="/static/js/lib/jquery.mobile.min.js"></script>
+
+    <script>
+      function destroyLessCache(pathToCss) {
+        if (!window.localStorage || !less) {
+          return;
+        }
+        var host = window.location.host;
+        var protocol = window.location.protocol;
+        var keyPrefix = protocol + '//' + host + pathToCss;
+        for (var key in window.localStorage) {
+          if (key.indexOf(keyPrefix) === 0) {
+            delete window.localStorage[key];
+          }
+        }
+      }
+      destroyLessCache('/static/less/');
+    </script>
+  </head>
+
+  <body>
+
+    <div data-role="page" data-add-back-btn="true">
+
+      <div data-role="header">
+        {% block header %}<h1>Maraschino</h1>{% endblock %}
+      </div>
+
+      <div data-role="content">
+        {% block content %}{% endblock %}
+      </div>
+
+    </div>
+
+  </body>
+
+</html>
