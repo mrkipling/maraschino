@@ -12,9 +12,11 @@ from maraschino.models import Application
 @requires_auth
 def xhr_applications():
     applications = Application.query.order_by(Application.position)
+    new_tab = get_setting_value('app_new_tab') == '1'
 
     return render_template('applications.html',
         applications = applications,
+        new_tab = new_tab,
     )
 
 @app.route('/xhr/add_application_dialog')
