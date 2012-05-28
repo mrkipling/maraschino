@@ -29,6 +29,14 @@ AVAILABLE_MODULES = [
         'static': True,
         'poll': 0,
         'delay': 0,
+        'settings': [
+            {
+                'key': 'app_new_tab',
+                'value': '0',
+                'description': 'Open application in new tab.',
+                'type': 'bool',
+            },
+        ]
     },
     {
         'name': 'diskspace',
