@@ -71,6 +71,10 @@ def strip_special(to_strip):
     if to_strip.startswith('special://'):
         return to_strip[len('special://'):]
 
+    elif to_strip.startswith('image://'):
+        import urllib
+        return urllib.quote(to_strip.encode('utf-8'), '')
+
     return to_strip
 
 def get_setting(key):
