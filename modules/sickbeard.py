@@ -183,7 +183,7 @@ def history(limit):
 
 # returns a link with the path to the required image from SB
 def get_pic(tvdb, style='banner'):
-    return '%s/?cmd=show.get%s&tvdbid=%s' % (sickbeard_url(), style, tvdb)
+    return '/sickbeard/get_%s/%s' % (style, tvdb)
 
 @app.route('/sickbeard/get_ep_info/<tvdbid>/<season>/<ep>')
 def get_episode_info(tvdbid, season, ep):
