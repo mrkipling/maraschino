@@ -9,6 +9,7 @@ from settings import *
 from maraschino.tools import *
 
 @app.route('/xhr/transmission')
+@app.route('/xhr/transmission/')
 @requires_auth
 def xhr_transmission():
     # initialize empty list, which will be later populated with listing
