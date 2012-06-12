@@ -2,7 +2,6 @@ from flask import Flask, jsonify, render_template
 import jsonrpclib
 
 from Maraschino import app
-from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
 

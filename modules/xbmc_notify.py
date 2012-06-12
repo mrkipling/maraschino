@@ -1,20 +1,18 @@
 from flask import Flask, jsonify, render_template, request
 import os
 
-from Maraschino import app
-from Maraschino import rundir
+from maraschino import app, RUNDIR, logger
 from socket import *
 from xbmc.xbmcclient import *
-from maraschino.tools import *
+from maraschino.tools import get_file_list
 from maraschino.models import XbmcServer
-import maraschino.logger as logger
 
 @app.route('/xhr/xbmc_notify', methods=['post'])
 def xhr_notify():
     label = request.form['label']
     hostname = request.form['hostname']
 
-    dir = rundir + '/static/images/notifications'
+    dir = os.path.join(RUNDIR, 'static', 'images', 'notifications')
     icons = get_file_list(
         folder = dir,
         extensions = ['.png', '.jpg'],
@@ -34,13 +32,13 @@ def xhr_notify_message():
     message = str(request.form['message'])
     title = str(request.form['title'])
     port = 9777
-    icon = '%s/static/images/notifications/%s' % (rundir, request.form['image'])
+    icon = os.path.join(RUNDIR, 'static', 'images', 'notifications', request.form['image'])
 
     if title == "Title":
         title = "Maraschino"
 
     if not os.path.exists(icon):
-        icon = rundir + '/static/images/maraschino_logo.png'
+        icon = os.path.join(RUNDIR, 'static', 'images', 'maraschino_logo.png')
 
 
     if icon[-3:] == "png":

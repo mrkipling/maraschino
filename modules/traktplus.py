@@ -9,10 +9,9 @@ from threading import Thread
 
 from Maraschino import app
 from Maraschino import rundir
-from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
-import maraschino.logger as logger
+from maraschino import logger
 
 global url_error
 url_error = 'There was a problem connecting to trakt.tv. Please check your settings.'

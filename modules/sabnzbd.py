@@ -8,7 +8,6 @@ import jsonrpclib, urllib
 from jinja2.filters import FILTERS
 
 from Maraschino import app
-from settings import *
 from maraschino.tools import *
 
 def sabnzbd_url_no_api():

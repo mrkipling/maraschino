@@ -3,10 +3,9 @@ import jsonrpclib
 import urllib
 
 from Maraschino import app
-from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
-import maraschino.logger as logger
+from maraschino import logger
 
 global vfs_url
 vfs_url = '/xhr/vfs_proxy/'

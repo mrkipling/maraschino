@@ -3,10 +3,9 @@ import jsonrpclib, socket, struct
 import urllib
 
 from Maraschino import app
-from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
-import maraschino.logger as logger
+from maraschino import logger
 
 global xbmc_error
 xbmc_error = 'There was a problem connecting to the XBMC server'

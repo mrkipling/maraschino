@@ -6,7 +6,6 @@ from flask import Flask, jsonify, render_template, request
 import hashlib, jsonrpclib, urllib
 
 from Maraschino import app
-from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
 

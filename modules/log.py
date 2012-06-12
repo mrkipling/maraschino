@@ -1,12 +1,13 @@
 from flask import Flask, render_template
-from Maraschino import app
+from maraschino import app, LOG_FILE
 from maraschino.noneditable import *
 from pastebin.pastebin import submit
+from maraschino.tools import requires_auth
 
 @app.route('/xhr/log')
 @requires_auth
 def xhr_log():
-    file = open('./logs/maraschino.log')
+    file = open(LOG_FILE)
     log = []
 
     for line in reversed(file.readlines()):
@@ -21,7 +22,7 @@ def xhr_log():
 @app.route('/xhr/log/pastebin')
 @requires_auth
 def xhr_log_pastebin():
-    file = open('./logs/maraschino.log')
+    file = open(LOG_FILE)
     log = []
     log_str = ''
 

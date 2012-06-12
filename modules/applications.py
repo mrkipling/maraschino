@@ -1,12 +1,10 @@
 import sys
-
 from flask import Flask, jsonify, render_template
 
-from Maraschino import app
-from settings import *
+from maraschino import app
 from maraschino.tools import *
-
 from maraschino.models import Application
+from maraschino.database import db_session
 
 @app.route('/xhr/applications')
 @requires_auth
