@@ -7,7 +7,6 @@ import utorrentclient
 
 from datetime import timedelta
 from Maraschino import app
-from settings import *
 from maraschino.tools import *
 
 @app.route('/xhr/utorrent')

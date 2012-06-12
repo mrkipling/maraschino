@@ -3,7 +3,6 @@ import jsonrpclib
 import urllib
 
 from Maraschino import app
-from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
 

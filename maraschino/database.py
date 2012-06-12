@@ -1,13 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-
-try:
-    from settings import *
-
-except ImportError:
-    print "No settings.py found. Copy settings_example.py to settings.py, edit it and try again."
-    quit()
+from maraschino import DATABASE
 
 engine = create_engine('sqlite:///%s' % (DATABASE), convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,

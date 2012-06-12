@@ -6,7 +6,6 @@ from flask import Flask, jsonify, render_template, request, send_file
 import jsonrpclib, urllib
 
 from Maraschino import app
-from settings import *
 from maraschino.tools import *
 
 def login_string():

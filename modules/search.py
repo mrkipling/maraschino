@@ -1,7 +1,6 @@
 from flask import Flask, render_template, jsonify
 
 from Maraschino import app
-from settings import *
 from maraschino.tools import *
 from sites.nzbmatrix import *
 from sites.nzbsu import *

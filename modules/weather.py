@@ -3,7 +3,6 @@ from pywapi.pywapi import get_weather_from_google
 import re
 
 from Maraschino import app
-from settings import *
 from maraschino.tools import *
 
 @app.route('/xhr/weather')

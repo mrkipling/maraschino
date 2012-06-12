@@ -7,10 +7,9 @@ from flask import Flask, jsonify, render_template, request
 from maraschino.database import db_session
 
 import copy
-import maraschino.logger as logger
+from maraschino import logger
 
 from Maraschino import app
-from settings import *
 from maraschino.tools import *
 
 from maraschino.database import *
@@ -401,6 +400,16 @@ AVAILABLE_MODULES = [
 ]
 
 MISC_SETTINGS = [
+    {
+        'key': 'maraschino_username',
+        'value': '',
+        'description': 'Maraschino username',
+    },
+    {
+        'key': 'maraschino_password',
+        'value': '',
+        'description': 'Maraschino password',
+    },
     {
         'key': 'fanart_backgrounds',
         'value': '0',
