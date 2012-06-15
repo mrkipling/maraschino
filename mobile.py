@@ -1,8 +1,7 @@
 import jsonrpclib
-import maraschino.logger as logger
 
 from flask import Flask, render_template
-from Maraschino import app
+from maraschino import app, logger
 
 from maraschino.tools import *
 from maraschino.noneditable import *

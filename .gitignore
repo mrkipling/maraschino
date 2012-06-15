@@ -7,11 +7,11 @@
 #    User Related    #
 ######################
 *.db
-settings.py
 maraschino.wsgi
 static/images/backgrounds/custom
 static/images/trakt
 /logs/
+Version.txt
 
 ######################
 # OS generated files #

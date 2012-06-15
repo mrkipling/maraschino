@@ -1,0 +1,35 @@
+@import "mixins.less";
+
+#update_bar {
+  height: 40px;
+  text-align: center;
+  display: none;
+  background: url(/static/images/alpha/000_80.png);
+  border-bottom: 1px solid #333;
+
+  p {
+    line-height: 40px;
+
+    span {
+      margin-left:20px;
+
+      .btn {
+        color: #eee;
+        background: url(/static/images/alpha/fff_10.png);
+        border: 1px solid #222;
+        cursor: pointer;
+        padding: 4px;
+        height: 20px;
+        line-height: 25px;
+        white-space: nowrap;
+        .border-radius(4px);
+        margin-right: 15px;
+
+        &:hover {
+          background: url(/static/images/alpha/fff_20.png);
+        }
+      }
+    }
+  }
+
+}

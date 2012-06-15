@@ -1849,4 +1849,69 @@ $(document).ready(function() {
     });
   });
 
+  // Updater
+
+  function check_for_update() {
+    $.get('/xhr/update_bar', function(data){
+      if(data['up_to_date']) {
+        return false
+      }
+      else {
+        $('#update_bar').replaceWith(data);
+        $('#update_bar').slideDown(200);
+      }
+    });
+  }
+
+  $(document).on('click', '#update_check', function(){
+    var popup = $('<div id="updater" class="dialog" align="center"><div class="close" style="display:none;"></div><p>Checking for updates  <img src="/static/images/xhrloading.gif"/></p></div>');
+    $('body').append(popup);
+    popup.showPopup({ dispose: true });
+
+    $.get('/xhr/updater/check', function(data){
+      $('#updater .close').click();
+
+      if(data['update'] != 0) {
+        check_for_update();
+      }
+      else {
+        popup_message('Maraschino is up to date.')
+      }
+    });
+  });
+
+  $(document).on('click', '#update_bar .dismiss', function(){
+    $('#update_bar').slideUp(200);
+  });
+
+  $(document).on('click', '#update_bar .update', function(){
+    var popup = $('<div id="updating" class="dialog" align="center"><div class="close" style="display:none;"></div><p>Maraschino is updating  <img src="/static/images/xhrloading.gif"/></p></div>');
+    $('body').append(popup);
+    popup.showPopup({ dispose: true });
+
+    $.get('/xhr/updater/update', function(data){
+      if(data['updated'] != false){
+        $('#updating p').replaceWith('<p>Update Complete.</p>');
+
+        $.get('/xhr/restart', function(data){
+          $('#updating p').replaceWith('<p>Restarting  <img src="/static/images/xhrloading.gif"/></p>');
+          if(data['restart_complete']){
+            setTimeout(
+              function() {
+                window.location.reload(true);
+              }, 2000
+            );
+          }
+        });
+      }
+
+      else {
+        $('#updating .close').click();
+        popup_message('Update failed.');
+      }
+    });
+  });
+
+  check_for_update();
+
 });

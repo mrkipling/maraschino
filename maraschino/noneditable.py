@@ -1,6 +1,4 @@
-from settings import *
-from maraschino.tools import *
-
+from maraschino.tools import using_auth, get_setting_value
 from maraschino.models import Module, Setting, XbmcServer
 
 def server_settings():
@@ -76,10 +74,3 @@ def safe_server_address():
         return None
 
     return 'http://%s:%s' % (server['hostname'], server['port'])
-
-try:
-    if PORT:
-        pass
-
-except:
-    PORT = 5000

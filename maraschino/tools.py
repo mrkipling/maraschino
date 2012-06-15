@@ -1,17 +1,16 @@
 from flask import request, Response
 from functools import wraps
-from settings import *
 from jinja2.filters import FILTERS
 import os
-
-from maraschino.database import *
+import maraschino
 from maraschino.models import Setting
 
 def check_auth(username, password):
     """This function is called to check if a username /
     password combination is valid.
     """
-    return username == AUTH['username'] and password == AUTH['password']
+    return username == maraschino.AUTH['username'] and password == maraschino.AUTH['password']
+
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
@@ -23,10 +22,9 @@ def authenticate():
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        try:
-            creds = AUTH
-
-        except:
+        if maraschino.AUTH != None:
+            creds = maraschino.AUTH
+        else:
             return f(*args, **kwargs)
 
         auth = request.authorization
@@ -37,10 +35,9 @@ def requires_auth(f):
     return decorated
 
 def using_auth():
-    try:
-        if AUTH:
-            return True
-    except:
+    if maraschino.AUTH != None:
+        return True
+    else:
         return False
 
 def format_time(time):
