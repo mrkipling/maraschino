@@ -39,6 +39,7 @@ def import_modules():
     import modules.trakt
     import modules.traktplus
     import modules.transmission
+    import modules.updater
     import modules.utorrent
     import modules.weather
     import modules.xbmc_notify

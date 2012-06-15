@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template, request
-import hashlib, jsonrpclib, random, urllib
+import hashlib, random, urllib
 from maraschino.noneditable import *
 from maraschino.modules import *
 from maraschino.tools import requires_auth, get_setting_value

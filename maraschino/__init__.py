@@ -1,7 +1,7 @@
-import sys, os, subprocess, threading
+import sys, os, subprocess, threading, wsgiserver
 from Maraschino import app
 from Logger import maraschinoLogger
-import wsgiserver
+from apscheduler.scheduler import Scheduler
 
 FULL_PATH = None
 RUNDIR = None
@@ -16,13 +16,19 @@ INIT_LOCK = threading.Lock()
 __INITIALIZED__ = False
 DEVELOPMENT = False
 AUTH = None
+SCHEDULE = Scheduler()
 
+CURRENT_COMMIT = None
+LATEST_COMMIT = None
+COMMITS_BEHIND = 0
+COMMITS_COMPARE_URL = ''
 
 def initialize():
 
     with INIT_LOCK:
 
-        global __INITIALIZED__, app, FULL_PATH, RUNDIR, ARGS, DAEMON, PIDFILE, VERBOSE, LOG_FILE, LOG_DIR, logger, PORT, SERVER, DATABASE, AUTH
+        global __INITIALIZED__, app, FULL_PATH, RUNDIR, ARGS, DAEMON, PIDFILE, VERBOSE, LOG_FILE, LOG_DIR, logger, PORT, SERVER, DATABASE, AUTH, \
+                CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT
 
         if __INITIALIZED__:
             return False
@@ -72,6 +78,7 @@ def initialize():
 
         init_db()
 
+        # Set up web server
         d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
         SERVER = wsgiserver.CherryPyWSGIServer(('0.0.0.0', PORT), d)
 
@@ -86,13 +93,38 @@ def initialize():
                 'password': password
             }
 
+        # Set up the updater
+        from maraschino.updater import checkGithub, gitCurrentVersion
+
+        if os.name == 'nt':
+            USE_GIT = False
+        else:
+            USE_GIT = os.path.isdir(os.path.join(RUNDIR, '.git'))
+            if USE_GIT:
+                gitCurrentVersion()
+
+        version_file = os.path.join(RUNDIR, 'Version.txt')
+        if os.path.isfile(version_file):
+            f = open(version_file, 'r')
+            CURRENT_COMMIT = f.read()
+            f.close()
+
+        threading.Thread(target=checkGithub).start()
+
+
         __INITIALIZED__ = True
         return True
 
-
+def start_schedules():
+    from maraschino.updater import checkGithub
+    SCHEDULE.add_interval_job(checkGithub, hours=6)
+    SCHEDULE.start()
 
 def start():
     if __INITIALIZED__:
+
+        start_schedules()
+
         if not DEVELOPMENT:
             try:
                 logger.log('Starting Maraschino on port: %i' % PORT, 'INFO')
@@ -104,7 +136,6 @@ def start():
         else:
             logger.log('Starting Maraschino development server on port: %i' % PORT, 'INFO')
             app.run(debug=True, port=PORT, host='0.0.0.0')
-
 
 def stop():
     logger.log('Shutting down Maraschino...', 'INFO')
@@ -118,6 +149,8 @@ def stop():
             raise RuntimeError('Not running with the Werkzeug Server')
         func()
 
+    SCHEDULE.shutdown(wait=False)
+
     if PIDFILE:
         logger.log('Removing pidfile: %s' % str(PIDFILE), 'INFO')
         os.remove(PIDFILE)
@@ -126,8 +159,10 @@ def restart():
     SERVER.stop()
     popen_list = [sys.executable, FULL_PATH]
     popen_list += ARGS
-    logger.log('Restarting Maraschino with: %s' % str(popen_list), 'INFO')
+    logger.log('Restarting Maraschino with: %s' % popen_list, 'INFO')
+    SCHEDULE.shutdown(wait=False)
     subprocess.Popen(popen_list, cwd=RUNDIR)
+
 
 def daemonize():
     if threading.activeCount() != 1:
