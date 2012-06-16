@@ -16,10 +16,6 @@ ENABLE_DAEMON=1
 # [required] user or uid of account to run the program as:
 RUN_AS=root
 
-# [optional] change to 1 to enable updating from git as $RUN_AS=root
-# this changes ownership of /opt/maraschino to user set @ RUN_AS=root
-WEB_UPDATE=1
-
 # [optional] full path for the pidfile
 # otherwise, the default location /var/run/maraschino/maraschino.pid is used:
 PID_FILE=
