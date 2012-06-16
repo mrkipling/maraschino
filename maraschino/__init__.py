@@ -15,8 +15,12 @@ DATABASE = None
 INIT_LOCK = threading.Lock()
 __INITIALIZED__ = False
 DEVELOPMENT = False
-AUTH = None
 SCHEDULE = Scheduler()
+
+AUTH = {
+    'username': None,
+    'password': None,
+}
 
 CURRENT_COMMIT = None
 LATEST_COMMIT = None

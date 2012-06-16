@@ -22,8 +22,9 @@ def authenticate():
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        if maraschino.AUTH != None:
+        if maraschino.AUTH['username'] != None and maraschino.AUTH['password'] != None:
             creds = maraschino.AUTH
+
         else:
             return f(*args, **kwargs)
 
@@ -35,8 +36,9 @@ def requires_auth(f):
     return decorated
 
 def using_auth():
-    if maraschino.AUTH != None:
+    if maraschino.AUTH['username'] != None and maraschino.AUTH['password'] != None:
         return True
+
     else:
         return False
 

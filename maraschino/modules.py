@@ -6,7 +6,9 @@ except ImportError:
 from flask import Flask, jsonify, render_template, request
 from maraschino.database import db_session
 
+import maraschino
 import copy
+
 from maraschino import logger
 
 from Maraschino import app
@@ -644,6 +646,12 @@ def module_settings_save(name):
 
             setting.value = s['value']
             db_session.add(setting)
+
+            if s['name'] == 'maraschino_username':
+                maraschino.AUTH['username'] = s['value'] if s['value'] != '' else None
+
+            if s['name'] == 'maraschino_password':
+                maraschino.AUTH['password'] = s['value'] if s['value'] != '' else None
 
     db_session.commit()
 
