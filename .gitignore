@@ -14,6 +14,12 @@ static/images/trakt
 Version.txt
 
 ######################
+#       Legacy       #
+######################
+
+settings.py
+
+######################
 # OS generated files #
 ######################
 .Spotlight-V100
