@@ -364,6 +364,12 @@ AVAILABLE_MODULES = [
                 'description': 'Sickbeard Port',
             },
             {
+                'key': 'sickbeard_https',
+                'value': '0',
+                'description': 'Use HTTPS',
+                'type': 'bool',
+            },
+            {
                 'key': 'sickbeard_compact',
                 'value': '0',
                 'description': 'Compact view',
