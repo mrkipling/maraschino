@@ -202,6 +202,12 @@ AVAILABLE_MODULES = [
                 'value': '',
                 'description': 'API Key',
             },
+            {
+                'key': 'sabnzbd_https',
+                'value': '0',
+                'description': 'Use HTTPS',
+                'type': 'bool',
+            },
         ]
     },
     {

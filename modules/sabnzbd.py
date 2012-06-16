@@ -11,6 +11,12 @@ from Maraschino import app
 from settings import *
 from maraschino.tools import *
 
+def sab_http():
+    if get_setting_value('sabnzbd_https') == '1':
+        return 'https://'
+    else:
+        return 'http://'
+
 def sabnzbd_url_no_api():
     url_base = get_setting_value('sabnzbd_host')
     port = get_setting_value('sabnzbd_port')
@@ -18,7 +24,7 @@ def sabnzbd_url_no_api():
     if port:
         url_base = '%s:%s' % (url_base, port)
 
-    return 'http://%s' % (url_base)
+    return sab_http() + url_base
 
 def sabnzbd_url(mode, extra = ""):
     return '%s/api?apikey=%s&mode=%s&output=json%s' % (sabnzbd_url_no_api(), get_setting_value('sabnzbd_api'), mode, extra)
@@ -28,7 +34,7 @@ def sab_link():
     SABNZBD_PORT = get_setting_value('sabnzbd_port')
     SABNZBD_API = get_setting_value('sabnzbd_api')
 
-    SABNZBD_URL = 'http://%s:%s' % (SABNZBD_HOST, SABNZBD_PORT)
+    SABNZBD_URL = '%s%s:%s' % (sab_http(), SABNZBD_HOST, SABNZBD_PORT)
 
     return '%s/api?apikey=%s' % (SABNZBD_URL, SABNZBD_API)
 
