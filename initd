@@ -60,6 +60,10 @@ load_settings() {
             log_warning_msg "$DESC: path to $DESC not set, aborting. See $SETTINGS";
             return 1; }
 
+        [ -n "$PORT" ] || {
+            log_warning_msg "$DESC: port not set, aborting. See $SETTINGS";
+            return 1; }
+
         [ $ENABLE_DAEMON != 1 ] && {
             log_warning_msg "$DESC: daemon not enabled, aborting. See $SETTINGS";
             return 1; }
@@ -67,9 +71,10 @@ load_settings() {
         [ -z "$RUN_AS" ] && {
             log_warning_msg "$DESC: daemon username not set, aborting. See $SETTINGS";
             return 1; }
+
         [ -z "${RUN_AS%:*}" ] && exit 1
 
-        DAEMON_OPTS="Maraschino.py"
+        DAEMON_OPTS="Maraschino.py --port=$PORT"
 
         [ -n "$PID_FILE" ] && PID_FILE=$PID_FILE
         [ -n "$PID_FILE" ] || PID_FILE=/var/run/maraschino/maraschino.pid

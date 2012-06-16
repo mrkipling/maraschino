@@ -19,3 +19,6 @@ RUN_AS=root
 # [optional] full path for the pidfile
 # otherwise, the default location /var/run/maraschino/maraschino.pid is used:
 PID_FILE=
+
+# [required] port to listen on (defaults to 7000)
+PORT=7000
