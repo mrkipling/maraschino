@@ -1,6 +1,6 @@
 import sys, os
 
-rundir = os.getcwd()
+rundir = os.path.dirname(os.path.abspath(__file__))
 
 try:
     frozen = sys.frozen
