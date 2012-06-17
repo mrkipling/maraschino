@@ -112,6 +112,8 @@ def initialize():
             f = open(version_file, 'r')
             CURRENT_COMMIT = f.read()
             f.close()
+        else:
+            COMMITS_BEHIND = -1
 
         threading.Thread(target=checkGithub).start()
 
