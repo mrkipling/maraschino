@@ -203,6 +203,12 @@ AVAILABLE_MODULES = [
                 'value': '',
                 'description': 'API Key',
             },
+            {
+                'key': 'sabnzbd_https',
+                'value': '0',
+                'description': 'Use HTTPS',
+                'type': 'bool',
+            },
         ]
     },
     {
@@ -357,6 +363,12 @@ AVAILABLE_MODULES = [
                 'key': 'sickbeard_port',
                 'value': '',
                 'description': 'Sickbeard Port',
+            },
+            {
+                'key': 'sickbeard_https',
+                'value': '0',
+                'description': 'Use HTTPS',
+                'type': 'bool',
             },
             {
                 'key': 'sickbeard_compact',
