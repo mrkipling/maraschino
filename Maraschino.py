@@ -79,6 +79,9 @@ def main():
     p.add_option('--database',
                  dest = 'database',
                  help='Custom database file location')
+    p.add_option('--webroot',
+                 dest = 'webroot',
+                 help='web root for Maraschino')
 
     options, args = p.parse_args()
 
@@ -108,6 +111,9 @@ def main():
         DATABASE = options.database
     else:
         DATABASE = os.path.join(rundir, 'maraschino.db')
+
+    if options.webroot:
+        maraschino.WEBROOT = options.webroot
 
     maraschino.RUNDIR = rundir
     maraschino.FULL_PATH = os.path.join(rundir, 'Maraschino.py')

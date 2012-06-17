@@ -2,8 +2,9 @@ from flask import Flask, jsonify, render_template
 from pywapi.pywapi import get_weather_from_google
 import re
 
-from Maraschino import app
+from maraschino import app
 from maraschino.tools import *
+import maraschino
 
 @app.route('/xhr/weather')
 @requires_auth
@@ -22,7 +23,7 @@ def xhr_weather():
     windspeed_mph = re.findall("\d+", wind)
     windspeed_mph = int(windspeed_mph[0])
 
-    imagepath = "/static/images/weather/"
+    imagepath = maraschino.WEBROOT + "/static/images/weather/"
 
     if ": N" in wind:
         wind_image = imagepath + "N.png"

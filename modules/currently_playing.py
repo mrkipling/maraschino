@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, render_template
-import jsonrpclib
-
-from Maraschino import app
+import jsonrpclib, maraschino
+from maraschino import app
 from maraschino.noneditable import *
 from maraschino.tools import *
 
@@ -28,7 +27,7 @@ def xhr_currently_playing():
 
         fanart_url = currently_playing['fanart']
         itemart_url = currently_playing['thumbnail']
-        vfs_url = '/xhr/vfs_proxy/'
+        vfs_url = maraschino.WEBROOT + '/xhr/vfs_proxy/'
         try:
             itemart = vfs_url + strip_special(itemart_url)
 

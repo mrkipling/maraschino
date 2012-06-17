@@ -1,7 +1,7 @@
 import sys
 from flask import Flask, jsonify, render_template
 
-from maraschino import app
+from maraschino import app, RUNDIR
 from maraschino.tools import *
 from maraschino.models import Application
 from maraschino.database import db_session
@@ -30,7 +30,7 @@ def edit_application_dialog(application_id):
 def add_edit_application_dialog(application_id=None):
     application = None
 
-    dir = './static/images/applications'
+    dir = RUNDIR + '/static/images/applications'
 
     icons = get_file_list(
         folder = dir,

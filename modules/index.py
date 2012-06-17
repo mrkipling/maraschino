@@ -71,6 +71,8 @@ def index():
 
             # select random background
             background = backgrounds[random.randrange(0, len(backgrounds))]
+            if maraschino.WEBROOT:
+                background = maraschino.WEBROOT + '/' + background
 
         except:
             background = None

@@ -10,6 +10,8 @@
 maraschino.wsgi
 static/images/backgrounds/custom
 static/images/trakt
+static/js/webroot.js
+static/less/webroot.less
 /logs/
 Version.txt
 

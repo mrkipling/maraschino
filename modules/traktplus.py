@@ -1,17 +1,10 @@
-try:
-    import json
-except ImportError:
-    import simplejson as json
-
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, json
 import hashlib, jsonrpclib, urllib, random, time
 from threading import Thread
-
-from Maraschino import app
-from Maraschino import rundir
 from maraschino.noneditable import *
 from maraschino.tools import *
-from maraschino import logger
+from maraschino import logger, app, RUNDIR
+import maraschino
 
 global url_error
 url_error = 'There was a problem connecting to trakt.tv. Please check your settings.'
@@ -25,8 +18,8 @@ def create_dir(dir):
         except:
             logger.log('TRAKT :: Problem creating dir %s' % dir, 'ERROR')
 
-create_dir('%s/static/images/trakt/shows' % rundir)
-create_dir('%s/static/images/trakt/movies' % rundir)
+create_dir('%s/static/images/trakt/shows' % RUNDIR)
+create_dir('%s/static/images/trakt/movies' % RUNDIR)
 
 def small_poster(image):
     if not 'poster-small' in image:
@@ -64,9 +57,9 @@ def download_image(image, file_path):
 def cache_image(image, type):
 
     if type == 'shows':
-        dir = '%s/static/images/trakt/shows' % rundir
+        dir = '%s/static/images/trakt/shows' % RUNDIR
     else:
-        dir = '%s/static/images/trakt/movies' % rundir
+        dir = '%s/static/images/trakt/movies' % RUNDIR
 
     image = small_poster(image)
 
@@ -79,9 +72,9 @@ def cache_image(image, type):
         threads.append(len(threads) + 1)
 
     if type == 'shows':
-        dir = '/static/images/trakt/shows'
+        dir = maraschino.WEBROOT + '/static/images/trakt/shows'
     else:
-        dir = '/static/images/trakt/movies'
+        dir = maraschino.WEBROOT + '/static/images/trakt/movies'
 
     file_path = "%s%s" % (dir, filename)
 

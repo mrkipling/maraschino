@@ -1,4 +1,5 @@
 @import "mixins.less";
+@import "webroot.less";
 
 #recently_added,
 #recently_added_movies,
@@ -9,7 +10,7 @@
   }
   ul {
     li {
-      background: url(/static/images/alpha/fff_10.png);
+      background: url('@{webroot}/static/images/alpha/fff_10.png');
       border: 1px solid #222;
       font-size: 0.9em;
       line-height: 1.3em;
@@ -19,7 +20,7 @@
       .border-radius(4px);
 
       &:hover {
-        background: url(/static/images/alpha/fff_20.png);
+        background: url('@{webroot}/static/images/alpha/fff_20.png');
         cursor: pointer;
       }
     }
@@ -109,7 +110,7 @@
   .view_older,
   .view_newer
   {
-    background: url(/static/images/alpha/fff_10.png);
+    background: url('@{webroot}/static/images/alpha/fff_10.png');
     border: 1px solid #222;
     color: #ccc;
     display: inline;
@@ -123,7 +124,7 @@
     .border-radius(4px);
 
     &:hover {
-      background: url(/static/images/alpha/fff_20.png);
+      background: url('@{webroot}/static/images/alpha/fff_20.png');
     }
   }
 

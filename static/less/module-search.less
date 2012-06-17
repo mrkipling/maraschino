@@ -1,7 +1,8 @@
 @import "mixins.less";
+@import "webroot.less";
 
 #search {
-  background: url(/static/images/alpha/000_80.png);
+  background: url('@{webroot}/static/images/alpha/000_80.png');
   border: 1px solid #333;
   position: absolute;
   top: 0px;
@@ -35,7 +36,7 @@
     }
 
     .searching {
-      background: url(/static/images/xhrloading.gif) no-repeat 5px center;
+      background: url('@{webroot}/static/images/xhrloading.gif') no-repeat 5px center;
       height: 15px;
       left: 0;
       position: absolute;
@@ -75,10 +76,10 @@
         width: 100%;
 
         tr {
-          background: url(/static/images/alpha/000_80.png);
+          background: url('@{webroot}/static/images/alpha/000_80.png');
 
           &:hover {
-            background: url(/static/images/alpha/fff_40.png);
+            background: url('@{webroot}/static/images/alpha/fff_40.png');
           }
 
           td {

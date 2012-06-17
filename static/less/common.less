@@ -1,5 +1,5 @@
 @import "mixins.less";
-
+@import "webroot.less";
 ::-webkit-scrollbar {
 	width: 8px;
 
@@ -15,7 +15,7 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: url(/static/images/alpha/fff_20.png);
+    background: url('@{webroot}/static/images/alpha/fff_20.png');
     -webkit-border-radius: 5ex;
     -webkit-border: 1px rgb(0, 0, 0);
 }
@@ -55,7 +55,7 @@
 
 .dialog
 {
-  background: url(/static/images/alpha/000_80.png);
+  background: url('@{webroot}/static/images/alpha/000_80.png');
   border: 2px solid #ccc;
   padding: 15px;
   width: 500px;
@@ -102,7 +102,7 @@
   .confirm,
   .cancel,
   .delete, {
-    background: url(/static/images/alpha/fff_20.png);
+    background: url('@{webroot}/static/images/alpha/fff_20.png');
     display: inline-block;
     padding: 8px;
     width: 60px;
@@ -110,7 +110,7 @@
     .border-radius(4px);
   
     &:hover {
-      background: url(/static/images/alpha/fff_40.png);
+      background: url('@{webroot}/static/images/alpha/fff_40.png');
       cursor: pointer;
     }
   }
