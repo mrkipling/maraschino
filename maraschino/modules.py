@@ -376,6 +376,12 @@ AVAILABLE_MODULES = [
                 'description': 'Compact view',
                 'type': 'bool',
             },
+            {
+                'key': 'sickbeard_airdate',
+                'value': '0',
+                'description': 'Show air date',
+                'type': 'bool',
+            },         
         ]
     },
     {
