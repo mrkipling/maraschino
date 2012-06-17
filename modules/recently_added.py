@@ -46,12 +46,17 @@ def xhr_recently_added_albums_offset(album_offset):
 def xhr_vfs_proxy(url):
     import StringIO
 
-    try:
-        vfs_url = '%s/vfs/' % (server_address())
-    except:
-        vfs_url = None
+    if url.startswith('image://'):
+        url = urllib.quote(url.encode('utf-8'), '')
+        vfs_url = server_address() + '/image/' + url
 
-    vfs_url += 'special://' + url
+    else:
+        try:
+            vfs_url = '%s/vfs/' % (server_address())
+        except:
+            vfs_url = None
+
+        vfs_url += 'special://' + url
 
     img = StringIO.StringIO(urllib.urlopen(vfs_url).read())
     return send_file(img, mimetype='image/jpeg')
