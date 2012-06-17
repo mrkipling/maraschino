@@ -49,7 +49,7 @@ $(document).ready(function() {
   }
 
   function popup_message(message) {
-    var popup = $('<div id="popup_message" class="dialog"><div class="close">x</div><p>' + message + '</p><div class="choices"><div class="cancel">OK</div></div></div>');
+      var popup = $('<div id="popup_message" class="dialog"><div class="close">x</div><p>' + message + '</p><div class="choices"><div class="cancel">OK</div></div></div>');
     $('body').append(popup);
     popup.showPopup({ dispose: true });
   };
@@ -1875,7 +1875,7 @@ $(document).ready(function() {
         check_for_update();
       }
       else {
-        popup_message('Maraschino is up to date.')
+          popup_message('Maraschino is up to date.')
       }
     });
   });
