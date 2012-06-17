@@ -8,6 +8,12 @@ import jsonrpclib, urllib
 from Maraschino import app
 from maraschino.tools import *
 
+def sickbeard_http():
+    if get_setting_value('sickbeard_https') == '1':
+        return 'https://'
+    else:
+        return 'http://'
+
 def login_string():
     try:
         login = '%s:%s@' % (get_setting('sickbeard_user').value, get_setting('sickbeard_password').value)
@@ -27,9 +33,9 @@ def sickbeard_url():
     url = '%s/api/%s' % (url_base, get_setting_value('sickbeard_api'))
 
     if using_auth():
-        return 'http://%s%s' % (login_string(), url)
+        return sickbeard_http() + login_string() + url
 
-    return 'http://%s' % (url)
+    return sickbeard_http() + url
 
 def sickbeard_url_no_api():
     port = get_setting_value('sickbeard_port')
@@ -39,9 +45,9 @@ def sickbeard_url_no_api():
         url_base = '%s:%s' % (url_base, port)
 
     if using_auth():
-        return 'http://%s%s' % (login_string(), url_base)
+        return sickbeard_http() + login_string() + url_base
 
-    return 'http://%s' % (url_base)
+    return sickbeard_http() + url_base
 
 @app.route('/xhr/sickbeard')
 def xhr_sickbeard():
