@@ -83,12 +83,7 @@ def initialize():
 
         init_db()
 
-        # Set up webroot for js and .less
-        js_webroot = os.path.join(RUNDIR, 'static/js/webroot.js')
-        f = open(js_webroot, 'w')
-        f.write('var WEBROOT = "%s";' % WEBROOT)
-        f.close()
-
+        # Set up webroot for .less
         less_webroot = os.path.join(RUNDIR, 'static/less/webroot.less')
         f = open(less_webroot, 'w')
         f.write('@webroot: "http://127.0.0.1:%i%s";' % (PORT, WEBROOT))

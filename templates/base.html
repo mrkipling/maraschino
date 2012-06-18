@@ -68,7 +68,7 @@
     {% block content %}{% endblock %}
 
     <!--- JavaScript -->
-    <script src="{{ url_for('static', filename='js/webroot.js') }}"></script>
+    <script>var WEBROOT = "{{ webroot }}";</script>
     <script src="{{ url_for('static', filename='js/lib/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/lib/jgestures.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/lib/jquery-ui.custom.min.js') }}"></script>
