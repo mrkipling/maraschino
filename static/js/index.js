@@ -1780,14 +1780,6 @@ $(document).ready(function() {
     }
   });
 
-  $(document).on('click', '#view_log', function(){
-    $.get('/xhr/log', function(data){
-      var popup = $(data);
-      $('body').append(popup);
-      popup.showPopup({ dispose: true });
-    });
-  });
-
   $(document).on('click', '#log_dialog .pastebin', function(){
     $.get('/xhr/log/pastebin', function(data){
       var popup = $(data);
@@ -1849,12 +1841,52 @@ $(document).ready(function() {
     });
   });
 
-  // Updater
+  // VIEW LOG
+  $(document).on('click', '#manage_settings #view_log', function(){
+    $.get('/xhr/log', function(data){
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
 
+  // RESTART
+  $(document).on('click', '#manage_settings #restart', function(){
+    var popup = $('<div id="updater" class="dialog" align="center"><div class="close" style="display:none;"></div><p>Restarting  <img src="/static/images/xhrloading.gif"/></p></div>');
+    $('body').append(popup);
+    popup.showPopup({ dispose: true });
+
+    $.get('/xhr/restart', function(data){
+      if(data['restart_complete']){
+        setTimeout(
+          function() {
+            window.location.reload(true);
+          }, 2000
+        );
+      }
+    });
+  });
+
+  // SHUTDOWN
+  $(document).on('click', '#manage_settings #shutdown', function(){
+    var popup = $('<div id="updater" class="dialog" align="center"><div class="close" style="display:none;"></div><p>Maraschino is shutting down...</p></div>');
+    $('body').append(popup);
+    popup.showPopup({ dispose: true });
+    $.get('/xhr/shutdown', function(data){
+      if(data['shutdown_complete']){
+        window.open('', '_self', '');
+        window.close();
+      } else {
+        $("updater").text("Something prevented Maraschino from shutting down. Please check the logs for more details...");
+      }
+    });
+  });
+
+  // UPDATER
   function check_for_update() {
     $.get('/xhr/update_bar', function(data){
       if(data['up_to_date']) {
-        return false
+        return false;
       }
       else {
         $('#update_bar').replaceWith(data);
@@ -1863,7 +1895,7 @@ $(document).ready(function() {
     });
   }
 
-  $(document).on('click', '#update_check', function(){
+  $(document).on('click', '#manage_settings #update_check', function(){
     var popup = $('<div id="updater" class="dialog" align="center"><div class="close" style="display:none;"></div><p>Checking for updates  <img src="/static/images/xhrloading.gif"/></p></div>');
     $('body').append(popup);
     popup.showPopup({ dispose: true });
@@ -1871,11 +1903,11 @@ $(document).ready(function() {
     $.get('/xhr/updater/check', function(data){
       $('#updater .close').click();
 
-      if(data['update'] != 0) {
+      if(data['update'] !== 0){
         check_for_update();
       }
       else {
-          popup_message('Maraschino is up to date.')
+        popup_message('Maraschino is up to date.');
       }
     });
   });
@@ -1890,7 +1922,7 @@ $(document).ready(function() {
     popup.showPopup({ dispose: true });
 
     $.get('/xhr/updater/update', function(data){
-      if(data['updated'] != false){
+      if(data['updated'] !== false){
         $('#updating p').replaceWith('<p>Update Complete.</p>');
 
         $.get('/xhr/restart', function(data){
@@ -1903,9 +1935,7 @@ $(document).ready(function() {
             );
           }
         });
-      }
-
-      else {
+      } else {
         $('#updating .close').click();
         popup_message('Update failed.');
       }
@@ -1913,5 +1943,4 @@ $(document).ready(function() {
   });
 
   check_for_update();
-
 });
