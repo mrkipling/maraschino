@@ -54,6 +54,7 @@ def xhr_sickbeard():
         sickbeard = json.JSONDecoder().decode(result)
 
         compact_view = get_setting_value('sickbeard_compact') == '1'
+        show_airdate = get_setting_value('sickbeard_airdate') == '1'
 
         if sickbeard['result'].rfind('success') >= 0:
             sickbeard = sickbeard['data']
@@ -73,6 +74,7 @@ def xhr_sickbeard():
         soon = sickbeard['soon'],
         later = sickbeard['later'],
         compact_view = compact_view,
+        show_airdate = show_airdate,
     )
 
 @app.route('/sickbeard/search_ep/<tvdbid>/<season>/<episode>')

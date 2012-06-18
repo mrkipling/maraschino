@@ -81,6 +81,7 @@ def cache_image(image, type):
     return file_path
 
 @app.route('/xhr/traktplus')
+@app.route('/xhr/traktplus/')
 def xhr_traktplus():
     render_template('trakt-base.html')
     return xhr_trakt_trending(type = 'shows')
