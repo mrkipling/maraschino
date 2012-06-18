@@ -1281,11 +1281,11 @@ $(document).ready(function() {
       var site = $('#search form #site').val();
       var cat = $('#search form #category').val();
       if(site == ''){
-        alert('You must pick a website');
+        popup_message('You must pick a website');
         return false;
       }
       if(query == ''){
-        alert('Must search something!');
+        popup_message('Must search something!');
         return false;
       }
       $('#search .searching').show();
