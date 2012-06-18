@@ -112,7 +112,9 @@
 
         .edit,
         .add,
-        .message {
+        .message,
+        .restart,
+        .shutdown {
           background: url('@{webroot}/static/images/server_edit.png');
           height: 16px;
           position: absolute;
@@ -133,6 +135,14 @@
         .message {
           background: url('@{webroot}/static/images/server_message.png');
           right: 24px;
+        }
+
+        .shutdown {
+          background: url(/static/images/shutdown.png);
+        }
+
+        .restart{
+          background: url(/static/images/refresh.png);
         }
 
         &:hover .submenu {
@@ -157,7 +167,7 @@
           }
         }
 
-        &#server_settings:hover .submenu {
+        &#server_settings:hover .submenu, &#manage_settings:hover .submenu {
           top: -5px;
         }
       }
