@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import render_template, jsonify
 
 from Maraschino import app
 from maraschino.tools import *
@@ -47,91 +47,93 @@ cat_newznab = [
         {'id': 7000, 'name': 'Other'},
         {'id': 7030, 'name': 'Other: Comics'},
         {'id': 7020, 'name': 'Other: Ebook'},
-        {'id': 7010, 'name': 'Other: Misc'} ]
+        {'id': 7010, 'name': 'Other: Misc'}
+    ]
 
 # NZBMatrix Category List:
 cat_nzbmatrix = [
-        { 'id': 0 , 'name': 'Everything' },
-        { 'label' : 'Movies' , 'value' : [
-            { 'id': 1 , 'name': 'Movies: DVD' },
-            { 'id': 2 , 'name': 'Movies: Divx/Xvid' },
-            { 'id': 54 , 'name': 'Movies: BRRip' },
-            { 'id': 42 , 'name': 'Movies: HD (x264)' },
-            { 'id': 50 , 'name': 'Movies: HD (Image)' },
-            { 'id': 48 , 'name': 'Movies: WMV-HD' },
-            { 'id': 3 , 'name': 'Movies: SVCD/VCD' },
-            { 'id': 4 , 'name': 'Movies: Other' },
+        {'id': 0, 'name': 'Everything'},
+        {'label': 'Movies', 'value':[
+            {'id': 1, 'name': 'Movies: DVD'},
+            {'id': 2, 'name': 'Movies: Divx/Xvid'},
+            {'id': 54, 'name': 'Movies: BRRip'},
+            {'id': 42, 'name': 'Movies: HD (x264)'},
+            {'id': 50, 'name': 'Movies: HD (Image)'},
+            {'id': 48, 'name': 'Movies: WMV-HD'},
+            {'id': 3, 'name': 'Movies: SVCD/VCD'},
+            {'id': 4, 'name': 'Movies: Other'},
           ]
         },
-        { 'label' : 'TV' , 'value' : [
-            { 'id': 5 , 'name': 'TV: DVD' },
-            { 'id': 6 , 'name': 'TV: Divx/Xvid' },
-            { 'id': 41 , 'name': 'TV: HD' },
-            { 'id': 7 , 'name': 'TV: Sport/Ent' },
-            { 'id': 8 , 'name': 'TV: Other' },
+        {'label': 'TV', 'value': [
+            {'id': 5, 'name': 'TV: DVD'},
+            {'id': 6, 'name': 'TV: Divx/Xvid'},
+            {'id': 41, 'name': 'TV: HD'},
+            {'id': 7, 'name': 'TV: Sport/Ent'},
+            {'id': 8, 'name': 'TV: Other'},
           ]
         },
-        { 'label' : 'Documentaries' , 'value' : [
-            { 'id': 9 , 'name': 'Documentaries: STD' },
-            { 'id': 53 , 'name': 'Documentaries: HD' },
+        {'label': 'Documentaries', 'value': [
+            {'id': 9, 'name': 'Documentaries: STD'},
+            {'id': 53, 'name': 'Documentaries: HD'},
           ]
         },
-        { 'label' : 'Games' , 'value' : [
-            { 'id': 10 , 'name': 'Games: PC' },
-            { 'id': 11 , 'name': 'Games: PS2' },
-            { 'id': 43 , 'name': 'Games: PS3' },
-            { 'id': 12 , 'name': 'Games: PSP' },
-            { 'id': 13 , 'name': 'Games: Xbox' },
-            { 'id': 14 , 'name': 'Games: Xbox360' },
-            { 'id': 56 , 'name': 'Games: Xbox360 (Other)' },
-            { 'id': 15 , 'name': 'Games: PS1' },
-            { 'id': 16 , 'name': 'Games: Dreamcast' },
-            { 'id': 44 , 'name': 'Games: Wii' },
-            { 'id': 51 , 'name': 'Games: Wii VC' },
-            { 'id': 45 , 'name': 'Games: DS' },
-            { 'id': 46 , 'name': 'Games: GameCube' },
-            { 'id': 17 , 'name': 'Games: Other' },
+        {'label': 'Games', 'value': [
+            {'id': 10, 'name': 'Games: PC'},
+            {'id': 11, 'name': 'Games: PS2'},
+            {'id': 43, 'name': 'Games: PS3'},
+            {'id': 12, 'name': 'Games: PSP'},
+            {'id': 13, 'name': 'Games: Xbox'},
+            {'id': 14, 'name': 'Games: Xbox360'},
+            {'id': 56, 'name': 'Games: Xbox360 (Other)'},
+            {'id': 15, 'name': 'Games: PS1'},
+            {'id': 16, 'name': 'Games: Dreamcast'},
+            {'id': 44, 'name': 'Games: Wii'},
+            {'id': 51, 'name': 'Games: Wii VC'},
+            {'id': 45, 'name': 'Games: DS'},
+            {'id': 46, 'name': 'Games: GameCube'},
+            {'id': 17, 'name': 'Games: Other'},
           ]
         },
-        { 'label' : 'Apps' , 'value' : [
-            { 'id': 18 , 'name': 'Apps: PC' },
-            { 'id': 19 , 'name': 'Apps: Mac' },
-            { 'id': 52 , 'name': 'Apps: Portable' },
-            { 'id': 20 , 'name': 'Apps: Linux' },
-            { 'id': 55 , 'name': 'Apps: Phone' },
-            { 'id': 21 , 'name': 'Apps: Other' },
+        {'label': 'Apps', 'value': [
+            {'id': 18, 'name': 'Apps: PC'},
+            {'id': 19, 'name': 'Apps: Mac'},
+            {'id': 52, 'name': 'Apps: Portable'},
+            {'id': 20, 'name': 'Apps: Linux'},
+            {'id': 55, 'name': 'Apps: Phone'},
+            {'id': 21, 'name': 'Apps: Other'},
           ]
         },
-        { 'label' : 'Music' , 'value' : [
-            { 'id': 22 , 'name': 'Music: MP3 Albums' },
-            { 'id': 47 , 'name': 'Music: MP3 Singles' },
-            { 'id': 23 , 'name': 'Music: Lossless' },
-            { 'id': 24 , 'name': 'Music: DVD' },
-            { 'id': 25 , 'name': 'Music: Video' },
-            { 'id': 27 , 'name': 'Music: Other' },
+        {'label': 'Music', 'value': [
+            {'id': 22, 'name': 'Music: MP3 Albums'},
+            {'id': 47, 'name': 'Music: MP3 Singles'},
+            {'id': 23, 'name': 'Music: Lossless'},
+            {'id': 24, 'name': 'Music: DVD'},
+            {'id': 25, 'name': 'Music: Video'},
+            {'id': 27, 'name': 'Music: Other'},
           ]
         },
-        { 'label' : 'Anime' , 'value' : [
-            { 'id': 28 , 'name': 'Anime: ALL' },
+        {'label': 'Anime', 'value': [
+            {'id': 28, 'name': 'Anime: ALL'},
           ]
         },
-        { 'label' : 'Other' , 'value' : [
-            { 'id': 49 , 'name': 'Other: Audio Books' },
-            { 'id': 33 , 'name': 'Other: Emulation' },
-            { 'id': 34 , 'name': 'Other: PPC/PDA' },
-            { 'id': 26 , 'name': 'Other: Radio' },
-            { 'id': 36 , 'name': 'Other: E-Books' },
-            { 'id': 37 , 'name': 'Other: Images' },
-            { 'id': 38 , 'name': 'Other: Mobile Phone' },
-            { 'id': 39 , 'name': 'Other: Extra Pars/Fills' },
-            { 'id': 40 , 'name': 'Other: Other' },
+        {'label': 'Other', 'value': [
+            {'id': 49, 'name': 'Other: Audio Books'},
+            {'id': 33, 'name': 'Other: Emulation'},
+            {'id': 34, 'name': 'Other: PPC/PDA'},
+            {'id': 26, 'name': 'Other: Radio'},
+            {'id': 36, 'name': 'Other: E-Books'},
+            {'id': 37, 'name': 'Other: Images'},
+            {'id': 38, 'name': 'Other: Mobile Phone'},
+            {'id': 39, 'name': 'Other: Extra Pars/Fills'},
+            {'id': 40, 'name': 'Other: Other'},
           ]
         },
     ]
 
+
 @app.route('/xhr/search/')
 @app.route('/xhr/search/<site>')
-def xhr_search(site = None):
+def xhr_search(site=None):
     if get_setting_value('search') == '0':
         return ''
 
@@ -140,27 +142,30 @@ def xhr_search(site = None):
     elif site == 'nzb.su':
         categories = cat_newznab
     else:
-        categories = ''
+        # defaulting to nzbmatrix for now
+        site = 'nzbmatrix'
+        categories = cat_nzbmatrix
 
     return render_template('search.html',
-        site = site,
-        categories = categories,
+        site=site,
+        categories=categories,
     )
+
 
 @app.route('/search/nzbmatrix/<item>/')
 @app.route('/search/nzbmatrix/<item>/<cat>')
-def nzb_matrix(item, cat = None):
+def nzb_matrix(item, cat=None):
     API = get_setting_value('nzb_matrix_API')
     USERNAME = get_setting_value('nzb_matrix_user')
 
     if not API or not USERNAME:
-        return jsonify ({'error': "Missing NZBMatrix details"})
+        return jsonify({'error': "Missing NZBMatrix details"})
 
     nzb = Matrix(username=USERNAME, apiKey=API)
 
     if item is not '':
         if cat:
-            result = nzb.Search(query = item, catId = cat)
+            result = nzb.Search(query=item, catId=cat)
         else:
             result = nzb.Search(item)
 
@@ -168,37 +173,38 @@ def nzb_matrix(item, cat = None):
         result = None
 
     return render_template('search-nzbmatrix.html',
-        site = 'nzbmatrix',
-        results = result,
-        item = item,
-        categories = cat_nzbmatrix,
+        site='nzbmatrix',
+        results=result,
+        item=item,
+        categories=cat_nzbmatrix,
     )
+
 
 @app.route('/search/nzb.su/<item>/')
 @app.route('/search/nzb.su/<item>/<cat>')
-def nzb_su(item, cat = None):
+def nzb_su(item, cat=None):
     API = get_setting_value('nzb_su_API')
 
     if not API:
-        return jsonify ({'error': "Missing NZB.su API"})
+        return jsonify({'error': "Missing NZB.su API"})
 
     nzb = nzbsu(apiKey=API)
 
     if item is not '':
         if cat:
-            result = nzb.Search(query = item, catId = cat)
+            result = nzb.Search(query=item, catId=cat)
         else:
             result = nzb.Search(item)
 
         for x in result:
-            x['link'] = 'nzb.su/api?t=get&id='+x['guid']
+            x['link'] = 'nzb.su/api?t=get&id=' + x['guid']
 
     else:
         result = ''
 
     return render_template('search-nzbsu.html',
-        site = 'nzb.su',
-        results = result,
-        item = item,
-        categories = cat_newznab,
+        site='nzb.su',
+        results=result,
+        item=item,
+        categories=cat_newznab,
     )
