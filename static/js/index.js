@@ -1415,13 +1415,22 @@ $(document).ready(function() {
       meridian = 'PM';
     }
 
-    if (hours == 0) {
+    if (hours === 0) {
       hours = 12;
     }
 
     $('#weather .12hours').text(( hours < 10 ? '0' : '' ) + hours);
     $('#weather .meridian').text(meridian);
   }, 1000);
+
+  $(document).on('click', '#weather #time_banner', function(){
+    $('#weather #time_banner .clock').toggle();
+    $('#weather #time_banner .current').toggle();
+  });
+
+  $(document).on('click', '#weather tr.forecast_title', function(){
+    $('#weather tr.forecast').toggle();
+  });
   /*****END WEATHER CLOCK*****/
 
   function add_loading_gif(element) {
