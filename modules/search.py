@@ -2,6 +2,7 @@ from flask import render_template, jsonify
 
 from Maraschino import app
 from maraschino.tools import *
+from maraschino import logger
 from sites.nzbmatrix import *
 from sites.nzbsu import *
 
@@ -135,6 +136,7 @@ cat_nzbmatrix = [
 @app.route('/xhr/search/<site>')
 def xhr_search(site=None):
     if get_setting_value('search') == '0':
+        logger.log('SEARCH :: Search fature not enabled, please enable it on the top right corner menu', 'INFO')
         return ''
 
     if site == 'nzbmatrix':
@@ -159,14 +161,17 @@ def nzb_matrix(item, cat=None):
     USERNAME = get_setting_value('nzb_matrix_user')
 
     if not API or not USERNAME:
+        logger.log('SEARCH :: NZBMatrix API or USERNAME missing', 'DEBUG')
         return jsonify({'error': "Missing NZBMatrix details"})
 
     nzb = Matrix(username=USERNAME, apiKey=API)
 
     if item is not '':
         if cat:
+            logger.log('SEARCH :: NZBMatrix :: Searching for "%s" in category: %s' % (item, cat), 'INFO')
             result = nzb.Search(query=item, catId=cat)
         else:
+            logger.log('SEARCH :: NZBMatrix :: Searching for "%s" in all categories' % (item), 'INFO')
             result = nzb.Search(item)
 
     if result.get('error'):
@@ -186,25 +191,30 @@ def nzb_su(item, cat=None):
     API = get_setting_value('nzb_su_API')
 
     if not API:
+        logger.log('SEARCH :: NZB.su API missing', 'DEBUG')
         return jsonify({'error': "Missing NZB.su API"})
 
     nzb = nzbsu(apiKey=API)
 
     if item is not '':
         if cat:
+            logger.log('SEARCH :: NZB.su :: Searching for "%s" in category: %s' % (item, cat), 'INFO')
             result = nzb.Search(query=item, catId=cat)
         else:
+            logger.log('SEARCH :: NZB.su :: Searching for "%s" in all categories' % (item), 'INFO')
             result = nzb.Search(item)
 
-        for x in result:
+        for x in result['channel']['item']:
             x['link'] = 'nzb.su/api?t=get&id=' + x['guid']
+
+        logger.log('SEARCH :: NZB.su :: Found %i results for %s' % (len(result['channel']['item']), item), 'INFO')
 
     else:
         result = ''
 
     return render_template('search-nzbsu.html',
         site='nzb.su',
-        results=result,
+        results=result['channel']['item'],
         item=item,
         categories=cat_newznab,
     )

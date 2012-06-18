@@ -17,9 +17,9 @@
           {% for item in results %}
             <tr>
               <td class="icon"><img src="static/images/applications/SabNZBd.png" nzb-link="{{item.link|add_to_sab}}" /></td>
-              <td class="name">{{item.name}}</td>
-              <td class="size">{{ item.size|convert_bytes }}</td>
-              <td class="category">{{item.category_name}}</td>
+              <td class="name">{{item.title}}</td>
+              <td class="size">{{item.enclosure['@attributes']['length']|convert_bytes}}</td>
+              <td class="category">{{item.category}}</td>
             </tr>
           {% endfor %}
         </tbody>
