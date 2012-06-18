@@ -1780,14 +1780,6 @@ $(document).ready(function() {
     }
   });
 
-  $(document).on('click', '#view_log', function(){
-    $.get('/xhr/log', function(data){
-      var popup = $(data);
-      $('body').append(popup);
-      popup.showPopup({ dispose: true });
-    });
-  });
-
   $(document).on('click', '#log_dialog .pastebin', function(){
     $.get('/xhr/log/pastebin', function(data){
       var popup = $(data);
@@ -1849,6 +1841,15 @@ $(document).ready(function() {
     });
   });
 
+  // VIEW LOG
+  $(document).on('click', '#manage_settings #view_log', function(){
+    $.get('/xhr/log', function(data){
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
   // RESTART
   $(document).on('click', '#manage_settings #restart', function(){
     var popup = $('<div id="updater" class="dialog" align="center"><div class="close" style="display:none;"></div><p>Restarting  <img src="/static/images/xhrloading.gif"/></p></div>');
@@ -1871,14 +1872,13 @@ $(document).ready(function() {
     var popup = $('<div id="updater" class="dialog" align="center"><div class="close" style="display:none;"></div><p>Maraschino is shutting down...</p></div>');
     $('body').append(popup);
     popup.showPopup({ dispose: true });
-    setTimeout(
-      function(){
-        window.close();
-      }, 1000
-    );
-
     $.get('/xhr/shutdown', function(data){
-      $("#updater").text("See ya...");
+      if(data['shutdown_complete']){
+        window.open('', '_self', '');
+        window.close();
+      } else {
+        $("updater").text("Something prevented Maraschino from shutting down. Please check the logs for more details...");
+      }
     });
   });
 
