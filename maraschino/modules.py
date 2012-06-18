@@ -410,6 +410,12 @@ AVAILABLE_MODULES = [
                 'type': 'bool',
             },
             {
+                'key': 'weather_time',
+                'value': '0',
+                'description': '24 hour time',
+                'type': 'bool',
+            },
+            {
                 'key': 'weather_compact',
                 'value': '0',
                 'description': 'Compact view',

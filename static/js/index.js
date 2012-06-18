@@ -49,7 +49,7 @@ $(document).ready(function() {
   }
 
   function popup_message(message) {
-      var popup = $('<div id="popup_message" class="dialog"><div class="close">x</div><p>' + message + '</p><div class="choices"><div class="cancel">OK</div></div></div>');
+    var popup = $('<div id="popup_message" class="dialog"><div class="close">x</div><p>' + message + '</p><div class="choices"><div class="cancel">OK</div></div></div>');
     $('body').append(popup);
     popup.showPopup({ dispose: true });
   };
@@ -1387,6 +1387,52 @@ $(document).ready(function() {
   });
 
   /********* END Trakt Plus *********/
+
+    /*****WEATHER CLOCK*****/
+  setInterval( function() {
+    var seconds = new Date().getSeconds();
+    $('#weather .sec').text(( seconds < 10 ? '0' : '' ) + seconds);
+  }, 1000);
+
+  setInterval( function() {
+    var minutes = new Date().getMinutes();
+    $('#weather .min').text(( minutes < 10 ? '0' : '' ) + minutes);
+  }, 1000);
+
+  //24 hour time
+  setInterval( function() {
+    var hours = new Date().getHours();
+    $('#weather .hours').text(( hours < 10 ? '0' : '' ) + hours);
+  }, 1000);
+
+  //12 hour time
+  setInterval( function() {
+    var hours = new Date().getHours();
+    var meridian = 'AM';
+
+    if (hours >= 12) {
+      hours = hours -12;
+      meridian = 'PM';
+    }
+
+    if (hours === 0) {
+      hours = 12;
+    }
+
+    $('#weather .12hours').text(( hours < 10 ? '0' : '' ) + hours);
+    $('#weather .meridian').text(meridian);
+  }, 1000);
+
+  $(document).on('click', '#weather #time_banner', function(){
+    $('#weather #time_banner .clock').toggle();
+    $('#weather #time_banner .current').toggle();
+  });
+
+  $(document).on('click', '#weather tr.forecast_title', function(){
+    $('#weather tr.forecast').toggle();
+  });
+  /*****END WEATHER CLOCK*****/
+
   function add_loading_gif(element) {
     $(element).append('<img src="/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
   }
