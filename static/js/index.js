@@ -1855,7 +1855,7 @@ $(document).ready(function() {
     $('body').append(popup);
     popup.showPopup({ dispose: true });
 
-    $.get('/xhr/restart', function(data){
+    $.get(WEBROOT + '/xhr/restart', function(data){
       if(data['restart_complete']){
         setTimeout(
           function() {
@@ -1871,7 +1871,7 @@ $(document).ready(function() {
     var popup = $('<div id="updater" class="dialog" align="center"><div class="close" style="display:none;"></div><p>Maraschino is shutting down...</p></div>');
     $('body').append(popup);
     popup.showPopup({ dispose: true });
-    $.get('/xhr/shutdown', function(data){
+    $.get(WEBROOT + '/xhr/shutdown', function(data){
       if(data['shutdown_complete']){
         window.open('', '_self', '');
         window.close();
