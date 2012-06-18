@@ -5,6 +5,7 @@ from maraschino.tools import *
 from maraschino import logger
 from sites.nzbmatrix import *
 from sites.nzbsu import *
+import urllib
 
 # Newznab Category List:
 cat_newznab = [
@@ -205,7 +206,7 @@ def nzb_su(item, cat=None):
             result = nzb.Search(item)
 
         for x in result['channel']['item']:
-            x['link'] = 'nzb.su/api?t=get&id=' + x['guid']
+            x['link'] = urllib.quote(x['link'])
 
         logger.log('SEARCH :: NZB.su :: Found %i results for %s' % (len(result['channel']['item']), item), 'INFO')
 
