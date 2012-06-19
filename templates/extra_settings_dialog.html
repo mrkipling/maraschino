@@ -38,6 +38,10 @@
     <p style="margin-top: 20px; text-align: center;"><strong>Please note:</strong> The browser window will reload after you click save.</p>
   {% endif %}
 
+  {% if dialog_type == 'server_settings' %}
+    <p style="margin-top: 20px; text-align: center;"><strong>Please note:</strong> Port and webroot require restart.</p>
+  {% endif %}
+
   <div class="choices">
     <div class="save">Save</div>
     <div class="cancel">Cancel</div>

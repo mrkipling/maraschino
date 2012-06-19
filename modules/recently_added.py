@@ -2,9 +2,10 @@ from flask import Flask, render_template, send_file
 import jsonrpclib
 import urllib
 
-from Maraschino import app
+from maraschino import app
 from maraschino.noneditable import *
 from maraschino.tools import *
+import maraschino
 
 @app.route('/xhr/recently_added')
 @requires_auth
@@ -69,7 +70,7 @@ def render_recently_added_episodes(episode_offset=0):
     try:
         xbmc = jsonrpclib.Server(server_api_address())
         recently_added_episodes = get_recently_added_episodes(xbmc, episode_offset)
-        vfs_url = '/xhr/vfs_proxy/'
+        vfs_url = maraschino.WEBROOT + '/xhr/vfs_proxy/'
 
     except:
         recently_added_episodes = []
@@ -93,7 +94,7 @@ def render_recently_added_movies(movie_offset=0):
     try:
         xbmc = jsonrpclib.Server(server_api_address())
         recently_added_movies = get_recently_added_movies(xbmc, movie_offset)
-        vfs_url = '/xhr/vfs_proxy/'
+        vfs_url = maraschino.WEBROOT + '/xhr/vfs_proxy/'
 
     except:
         recently_added_movies = []
@@ -116,7 +117,7 @@ def render_recently_added_albums(album_offset=0):
     try:
         xbmc = jsonrpclib.Server(server_api_address())
         recently_added_albums = get_recently_added_albums(xbmc, album_offset)
-        vfs_url = '/xhr/vfs_proxy/'
+        vfs_url = maraschino.WEBROOT + '/xhr/vfs_proxy/'
 
     except:
         recently_added_albums = []

@@ -1,8 +1,6 @@
-@import "mixins.less";
-
 #settings_icon
 {
-  background: url(/static/images/alpha/000_70.png);
+  background: url('@{webroot}/static/images/alpha/000_70.png');
   height: 40px;
   left: 0;
   opacity: 0;
@@ -22,7 +20,7 @@
   -moz-transition: opacity 0.3s;
 
   .inner {
-    background: url(/static/images/settings_icon.png) no-repeat 5px 5px;
+    background: url('@{webroot}/static/images/settings_icon.png') no-repeat 5px 5px;
     height: 40px;
     width: 40px;
   }
@@ -56,7 +54,7 @@
   transition: width 0.2s ease-in-out;
 
   ul {
-    background: url(/static/images/alpha/000_70.png);
+    background: url('@{webroot}/static/images/alpha/000_70.png');
     display: none;
     position: absolute;
     right: 0;
@@ -92,12 +90,12 @@
         .border-radius(2px);
 
         &:hover {
-          background: url(/static/images/alpha/fff_10.png);
+          background: url('@{webroot}/static/images/alpha/fff_10.png');
         }
 
         &#remote_icon.on,
         &.active {
-          background: url(/static/images/alpha/fff_20.png);
+          background: url('@{webroot}/static/images/alpha/fff_20.png');
         }
 
         .submenu {
@@ -114,7 +112,7 @@
         .message,
         .restart,
         .shutdown {
-          background: url(/static/images/server_edit.png);
+          background: url('@{webroot}/static/images/server_edit.png');
           height: 16px;
           position: absolute;
           right: 5px;
@@ -124,24 +122,24 @@
         }
 
         #search_settings {
-          background: url(/static/images/cog.png);
+          background: url('@{webroot}/static/images/cog.png');
         }
 
         .add {
-          background: url(/static/images/server_add.png);
+          background: url('@{webroot}/static/images/server_add.png');
         }
 
         .message {
-          background: url(/static/images/server_message.png);
+          background: url('@{webroot}/static/images/server_message.png');
           right: 24px;
         }
 
         .shutdown {
-          background: url(/static/images/shutdown.png);
+          background: url('@{webroot}/static/images/shutdown.png');
         }
 
         .restart{
-          background: url(/static/images/refresh.png);
+          background: url('@{webroot}/static/images/refresh.png');
         }
 
         &:hover .submenu {
@@ -151,7 +149,7 @@
           right: 0;
 
           ul {
-            background: url(/static/images/alpha/000_70.png);
+            background: url('@{webroot}/static/images/alpha/000_70.png');
             position: static;
 
             -webkit-transition: width 0.2s ease-in-out;

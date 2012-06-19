@@ -3,8 +3,9 @@ from pywapi.pywapi import get_weather_from_google
 import re
 import datetime
 
-from Maraschino import app
+from maraschino import app
 from maraschino.tools import *
+import maraschino
 
 def meridian():
     meridian = get_setting_value('weather_time') == '0'
@@ -38,7 +39,7 @@ def xhr_weather():
     windspeed_mph = re.findall("\d+", wind)
     windspeed_mph = int(windspeed_mph[0])
 
-    imagepath = "/static/images/weather/"
+    imagepath = maraschino.WEBROOT + "/static/images/weather/"
 
     if ": N" in wind:
         wind_image = imagepath + "N.png"

@@ -1,15 +1,12 @@
 from flask import Flask, render_template
-import jsonrpclib
-import urllib
+import jsonrpclib, urllib, maraschino
 
 from Maraschino import app
 from maraschino.noneditable import *
 from maraschino.tools import *
 from maraschino import logger
 
-global vfs_url
-vfs_url = '/xhr/vfs_proxy/'
-global xbmc_error
+vfs_url = maraschino.WEBROOT + '/xhr/vfs_proxy/'
 xbmc_error = 'There was a problem connecting to the XBMC server'
 
 @app.route('/xhr/library')
