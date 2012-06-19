@@ -28,4 +28,5 @@ def recently_added_episodes():
 
     return render_template('mobile/recent_episodes.html',
         recently_added_episodes = recently_added_episodes,
+        webroot = maraschino.WEBROOT,
     )

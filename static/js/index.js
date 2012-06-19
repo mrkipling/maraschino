@@ -1851,7 +1851,7 @@ $(document).ready(function() {
 
   // RESTART
   $(document).on('click', '#manage_settings #restart', function(){
-    var popup = $('<div id="updater" class="dialog" align="center"><div class="close" style="display:none;"></div><p>Restarting  <img src="/static/images/xhrloading.gif"/></p></div>');
+    var popup = $('<div id="updater" class="dialog" align="center"><div class="close" style="display:none;"></div><p>Restarting  <img src="' + WEBROOT + '/static/images/xhrloading.gif"/></p></div>');
     $('body').append(popup);
     popup.showPopup({ dispose: true });
 

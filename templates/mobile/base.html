@@ -61,7 +61,7 @@
       </div>
 
     </div>
-    <script src="{{ url_for('static', filename='js/webroot.js') }}"></script>
+    <script>var WEBROOT = "{{ webroot }}";</script>
     <script src="{{ url_for('static', filename='js/mobile/mobile.js') }}"></script>
 
   </body>
