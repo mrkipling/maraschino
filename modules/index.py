@@ -71,6 +71,8 @@ def index():
 
             # select random background
             background = backgrounds[random.randrange(0, len(backgrounds))]
+            if maraschino.WEBROOT:
+                background = maraschino.WEBROOT + '/' + background
 
         except:
             background = None
@@ -126,6 +128,7 @@ def index():
         applications = applications,
         library_show_power_buttons = library_show_power_buttons,
         show_tutorial = unorganised_modules.count() == 0,
+        webroot = maraschino.WEBROOT,
     )
 
 @app.route('/xhr/shutdown')

@@ -1,12 +1,9 @@
-try:
-    import json
-except ImportError:
-    import simplejson as json
-from flask import Flask, jsonify, render_template, request, send_file
-import jsonrpclib, urllib
+from flask import Flask, jsonify, render_template, request, send_file, json
+import urllib
 
-from Maraschino import app
+from maraschino import app
 from maraschino.tools import *
+import maraschino
 
 def sickbeard_http():
     if get_setting_value('sickbeard_https') == '1':
@@ -190,7 +187,7 @@ def history(limit):
 
 # returns a link with the path to the required image from SB
 def get_pic(tvdb, style='banner'):
-    return '/sickbeard/get_%s/%s' % (style, tvdb)
+    return '%s/sickbeard/get_%s/%s' % (maraschino.WEBROOT, style, tvdb)
 
 @app.route('/sickbeard/get_ep_info/<tvdbid>/<season>/<ep>')
 def get_episode_info(tvdbid, season, ep):

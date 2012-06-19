@@ -7,17 +7,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" href="/static/images/favicon.ico" sizes="64x64" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="64x64" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
 
     <!-- CSS -->
-    <link rel="stylesheet/less" href="/static/less/mobile/mobile.less">
-    <link rel="stylesheet" href="/static/less/mobile/lib/jquery.mobile.min.css">
+    <link rel="stylesheet/less" href="{{ url_for('static', filename='less/mobile/mobile.less') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='less/mobile/lib/jquery.mobile.min.css') }}">
 
     <!-- JS frameworks -->
-    <script src="/static/js/lib/less.js" type="text/javascript"></script>
-    <script src="/static/js/lib/jquery.js"></script>
-    <script src="/static/js/lib/jquery.mobile.min.js"></script>
+    <script src="{{ url_for('static', filename='js/lib/less.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/lib/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/jquery.mobile.min.js') }}"></script>
 
     <script>
       function destroyLessCache(pathToCss) {
@@ -33,7 +33,7 @@
           }
         }
       }
-      destroyLessCache('/static/less/');
+      destroyLessCache("{{ url_for('static', filename='less/') }}");
     </script>
   </head>
 
@@ -43,7 +43,7 @@
 
       <div id="site_header" data-role="header" data-position="fixed">
 
-        <a class="logo" href="/" data-ajax="false"><img src="/static/images/mobile/maraschino_logo.png" alt="Maraschino logo"></a>
+        <a class="logo" href="{{ url_for('index') }}" data-ajax="false"><img src="{{ url_for('static', filename='images/mobile/maraschino_logo.png') }}" alt="Maraschino logo"></a>
 
         {% block header %}<h1>Maraschino</h1>{% endblock %}
 
@@ -61,8 +61,8 @@
       </div>
 
     </div>
-
-    <script src="/static/js/mobile/mobile.js"></script>
+    <script src="{{ url_for('static', filename='js/webroot.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mobile/mobile.js') }}"></script>
 
   </body>
 

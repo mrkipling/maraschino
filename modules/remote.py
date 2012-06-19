@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, render_template
-import jsonrpclib
 
-from Maraschino import app
+from maraschino import app, RUNDIR
 from socket import *
 from xbmc.xbmcclient import XBMCClient
 from maraschino.tools import get_setting_value
@@ -17,10 +16,7 @@ def update_xbmc_object():
     host = serversettings['hostname']
 
     try:
-        icon = os.path.abspath('static/images/maraschino_logo.png')
-
-        if not os.path.exists(icon):
-            icon = os.path.abspath('maraschino/static/images/maraschino_logo.png')
+        icon = RUNDIR + '/static/images/maraschino_logo.png'
 
         xbmc = XBMCClient('Maraschino', icon, ip=host)
 

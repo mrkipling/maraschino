@@ -1,30 +1,28 @@
-@import "mixins.less";
-
 #sickbeard {
 
   .menu {
     .history span {
-      background-image: url(/static/images/history.png);
+      background-image: url('@{webroot}/static/images/history.png');
     }
     .all {
       text-indent: 0;
     }
     .upcoming span  {
-      background-image: url(/static/images/coming.png);
+      background-image: url('@{webroot}/static/images/coming.png');
     }
     .snatched {
       &.active {
-        background-image: url(/static/images/alpha/fff_20.png);
+        background-image: url('@{webroot}/static/images/alpha/fff_20.png');
       }
       span{
-        background-image: url(/static/images/snatched.png);
+        background-image: url('@{webroot}/static/images/snatched.png');
       }
     }
   }
 
   div.back,
   .sb-back {
-    background: url(/static/images/alpha/fff_10.png);
+    background: url('@{webroot}/static/images/alpha/fff_10.png');
     cursor: pointer;
     display: inline-block;
     height: 30px;
@@ -39,7 +37,7 @@
     .border-radius(4px);
 
     &:hover {
-      background: url(/static/images/alpha/fff_20.png);
+      background: url('@{webroot}/static/images/alpha/fff_20.png');
     }
   }
 
@@ -50,7 +48,7 @@
     cursor: default;
 
     .button {
-      background: url(/static/images/alpha/fff_10.png);
+      background: url('@{webroot}/static/images/alpha/fff_10.png');
       cursor: pointer;
       display: inline-block;
       height: 30px;
@@ -65,7 +63,7 @@
       .border-radius(4px);
 
       &:hover {
-        background: url(/static/images/alpha/fff_20.png);
+        background: url('@{webroot}/static/images/alpha/fff_20.png');
       }
 
       img {
@@ -194,7 +192,7 @@
       overflow: visible;
       width: auto;
 
-      background: url(/static/images/alpha/fff_10.png);
+      background: url('@{webroot}/static/images/alpha/fff_10.png');
       border: 1px solid #222;
       font-size: 0.9em;
       line-height: 1.3em;
@@ -205,7 +203,7 @@
       .border-radius(4px);
 
       &:hover {
-        background: url(/static/images/alpha/fff_20.png);
+        background: url('@{webroot}/static/images/alpha/fff_20.png');
       }
 
       h2, .options, .details {
@@ -256,7 +254,7 @@
       overflow: hidden;
     }
     li {
-      background: url(/static/images/alpha/fff_10.png);
+      background: url('@{webroot}/static/images/alpha/fff_10.png');
       border: 1px solid #222;
       cursor: pointer;
       line-height: 1.5em;
@@ -266,7 +264,7 @@
       .border-radius(4px);
 
       &:hover {
-        background: url(/static/images/alpha/fff_20.png);
+        background: url('@{webroot}/static/images/alpha/fff_20.png');
       }
     }
 
@@ -311,7 +309,7 @@
       overflow: hidden;
     }
     li {
-      background: url(/static/images/alpha/fff_10.png);
+      background: url('@{webroot}/static/images/alpha/fff_10.png');
       border: 1px solid #222;
       cursor: pointer;
       line-height: 1.5em;
@@ -321,7 +319,7 @@
       .border-radius(4px);
 
       &:hover {
-        background: url(/static/images/alpha/fff_20.png);
+        background: url('@{webroot}/static/images/alpha/fff_20.png');
       }
     }
 
@@ -397,7 +395,7 @@
         background: rgb(0, 0, 0);
         span {
           cursor: pointer;
-          background: url(/static/images/alpha/fff_20.png);
+          background: url('@{webroot}/static/images/alpha/fff_20.png');
           display: inline-block;
           height: 15px;
           line-height: 15px;
@@ -408,7 +406,7 @@
           .border-radius(4px);
 
           &:hover {
-            background: url(/static/images/alpha/fff_40.png);
+            background: url('@{webroot}/static/images/alpha/fff_40.png');
           }
         }
         span.close {
@@ -424,7 +422,7 @@
     position:absolute;
     top: -10px;
     left: -10px;
-    background: url(/static/images/alpha/fff_40.png);
+    background: url('@{webroot}/static/images/alpha/fff_40.png');
     width: 28px;
     height: 28px;
     color: white;
@@ -459,7 +457,7 @@
     		display: none;
     	}
       li {
-        background: url(/static/images/alpha/fff_10.png);
+        background: url('@{webroot}/static/images/alpha/fff_10.png');
         border: 1px solid #222;
         line-height: 1.5em;
         margin-top: 5px;
@@ -473,7 +471,7 @@
         }
 
         &:hover {
-          background: url(/static/images/alpha/fff_20.png);
+          background: url('@{webroot}/static/images/alpha/fff_20.png');
         }
 
         .xhrloading {
@@ -541,11 +539,11 @@
       tbody tr {
         color: white;
         cursor: pointer;
-	    background: url(/static/images/alpha/fff_10.png);
+	    background: url('@{webroot}/static/images/alpha/fff_10.png');
         padding: 5px;
 
         &:hover {
-          background: url(/static/images/alpha/fff_20.png);
+          background: url('@{webroot}/static/images/alpha/fff_20.png');
         }
 
     	td {
@@ -577,7 +575,7 @@
     }
 
     h4.downloaded {
-      background: url(/static/images/yes.png) no-repeat right;
+      background: url('@{webroot}/static/images/yes.png') no-repeat right;
       float: none;
       padding-right: 20px;
     }
@@ -622,7 +620,7 @@
       table {
         tr {
           &:hover{
-            background: url(/static/images/alpha/fff_20.png);
+            background: url('@{webroot}/static/images/alpha/fff_20.png');
             cursor: pointer;
           }
           th, td {
