@@ -33,7 +33,7 @@ def initialize():
     with INIT_LOCK:
 
         global __INITIALIZED__, app, FULL_PATH, RUNDIR, ARGS, DAEMON, PIDFILE, VERBOSE, LOG_FILE, LOG_DIR, logger, PORT, SERVER, DATABASE, AUTH, \
-                CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT
+                CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT
 
         if __INITIALIZED__:
             return False
@@ -83,21 +83,22 @@ def initialize():
 
         init_db()
 
-        # Set up webroot for .less
-        less_webroot = os.path.join(RUNDIR, 'static/less/webroot.less')
-        f = open(less_webroot, 'w')
-        f.write('@webroot: "http://127.0.0.1:%i%s";' % (PORT, WEBROOT))
-        f.close()
+        # Web server settings
+        from tools import get_setting_value
 
-        # Set up web server
-        if WEBROOT:
-            d = wsgiserver.WSGIPathInfoDispatcher({WEBROOT: app})
-        else:
-            d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
-        SERVER = wsgiserver.CherryPyWSGIServer(('0.0.0.0', PORT), d)
+        if get_setting_value('maraschino_webroot') != None or '':
+            if '--webroot' not in str(ARGS):
+                WEBROOT = get_setting_value('maraschino_webroot')
+
+        if get_setting_value('maraschino_port') != None or '':
+            port_arg = False
+            for arg in ARGS:
+                if arg == '--port' or '-p':
+                    port_arg = True
+            if not port_arg:
+                PORT = int(get_setting_value('maraschino_port'))
 
         # Set up AUTH
-        from tools import get_setting_value
         username = get_setting_value('maraschino_username')
         password = get_setting_value('maraschino_password')
 
@@ -106,6 +107,21 @@ def initialize():
                 'username': username,
                 'password': password
             }
+
+        # Set up web server
+        if WEBROOT:
+            if WEBROOT[0] != '/':
+                WEBROOT = '/' + WEBROOT
+            d = wsgiserver.WSGIPathInfoDispatcher({WEBROOT: app})
+        else:
+            d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
+        SERVER = wsgiserver.CherryPyWSGIServer(('0.0.0.0', PORT), d)
+
+        # Set up webroot for .less
+        less_webroot = os.path.join(RUNDIR, 'static/less/webroot.less')
+        f = open(less_webroot, 'w')
+        f.write('@webroot: "http://127.0.0.1:%i%s";' % (PORT, WEBROOT))
+        f.close()
 
         # Set up the updater
         from maraschino.updater import checkGithub, gitCurrentVersion

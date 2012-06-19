@@ -421,16 +421,6 @@ AVAILABLE_MODULES = [
 
 MISC_SETTINGS = [
     {
-        'key': 'maraschino_username',
-        'value': '',
-        'description': 'Maraschino username',
-    },
-    {
-        'key': 'maraschino_password',
-        'value': '',
-        'description': 'Maraschino password',
-    },
-    {
         'key': 'fanart_backgrounds',
         'value': '0',
         'description': 'Show fanart backgrounds when watching media',
@@ -452,6 +442,29 @@ MISC_SETTINGS = [
             {'value': '4', 'label': '4'},
             {'value': '5', 'label': '5'},
         ]
+    },
+]
+
+SERVER_SETTINGS = [
+    {
+        'key': 'maraschino_username',
+        'value': '',
+        'description': 'Maraschino username',
+    },
+    {
+        'key': 'maraschino_password',
+        'value': '',
+        'description': 'Maraschino password',
+    },
+    {
+        'key': 'maraschino_port',
+        'value': '7000',
+        'description': 'Maraschino port',
+    },
+    {
+        'key': 'maraschino_webroot',
+        'value': '',
+        'description': 'Maraschino webroot',
     },
 ]
 
@@ -700,6 +713,10 @@ def extra_settings_dialog(dialog_type, updated=False):
     elif dialog_type == 'misc_settings':
         settings = copy.copy(MISC_SETTINGS)
         dialog_title = 'Misc. settings'
+
+    elif dialog_type == 'server_settings':
+        settings = copy.copy(SERVER_SETTINGS)
+        dialog_title = 'Server settings'
 
     else:
         return jsonify({ 'status': 'error' })
