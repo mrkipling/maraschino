@@ -1827,6 +1827,8 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '#log_dialog .pastebin', function(){
+    $(this).text('');
+    add_loading_gif(this);
     $.get('/xhr/log/pastebin', function(data){
       var popup = $(data);
       $('#log_dialog .close').click();

@@ -1,8 +1,10 @@
-from flask import Flask, render_template
+from flask import render_template
 from maraschino import app, LOG_FILE
 from maraschino.noneditable import *
-from pastebin.pastebin import submit
+from maraschino import logger
+from pastebin.pastebin import PastebinAPI
 from maraschino.tools import requires_auth
+
 
 @app.route('/xhr/log')
 @requires_auth
@@ -16,8 +18,9 @@ def xhr_log():
     file.close()
 
     return render_template('log_dialog.html',
-        log = log,
+        log=log,
     )
+
 
 @app.route('/xhr/log/pastebin')
 @requires_auth
@@ -32,10 +35,14 @@ def xhr_log_pastebin():
         log_str += '\n'
 
     file.close()
-
-    url = submit(log_str)
+    x = PastebinAPI()
+    try:
+        url = x.paste('feed610f82c2c948f430b43cc0048258', log_str)
+        logger.log('LOG :: Log successfully uploaded to %s' % url, 'INFO')
+    except Exception as e:
+        logger.log('LOG :: Log failed to upload - %s' % e, 'INFO')
 
     return render_template('log_dialog.html',
-        log = log,
-        url = url,
+        log=log,
+        url=url,
     )
