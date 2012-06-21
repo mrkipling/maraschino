@@ -1,4 +1,5 @@
-import sys, os
+import sys
+import os
 
 rundir = os.path.dirname(os.path.abspath(__file__))
 
@@ -23,6 +24,7 @@ sys.path.insert(0, os.path.join(path_base, 'lib'))
 from flask import Flask
 app = Flask(__name__)
 
+
 def import_modules():
     import modules.applications
     import modules.controls
@@ -45,6 +47,7 @@ def import_modules():
     import modules.xbmc_notify
     import mobile
 
+
 @app.teardown_request
 def shutdown_session(exception=None):
     from maraschino.database import db_session
@@ -52,35 +55,38 @@ def shutdown_session(exception=None):
 
 import maraschino
 
+
 def main():
     from optparse import OptionParser
     p = OptionParser()
 
     p.add_option('-p', '--port',
-                 dest = 'port', default = None,
-                 help = "Force webinterface to listen on this port")
+                 dest='port',
+                 default=None,
+                 help="Force webinterface to listen on this port")
     p.add_option('-d', '--daemon',
-                 dest = 'daemon',
+                 dest='daemon',
                  action='store_true',
                  help='Run as a daemon')
     p.add_option('--pidfile',
-                 dest = 'pidfile',
+                 dest='pidfile',
                  help='Create a pid file (only relevant when running as a daemon)')
     p.add_option('--log',
-                 dest = 'log',
+                 dest='log',
                  help='Create a log file at a desired location')
     p.add_option('-v', '--verbose',
-                 dest = 'verbose',
+                 dest='verbose',
                  action='store_true',
                  help='Silence the logger')
-    p.add_option('--develop', action = "store_true",
-                 dest = 'develop',
+    p.add_option('--develop',
+                 action="store_true",
+                 dest='develop',
                  help="Start instance of development server")
     p.add_option('--database',
-                 dest = 'database',
+                 dest='database',
                  help='Custom database file location')
     p.add_option('--webroot',
-                 dest = 'webroot',
+                 dest='webroot',
                  help='web root for Maraschino')
 
     options, args = p.parse_args()
