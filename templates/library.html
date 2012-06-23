@@ -41,7 +41,7 @@
       {% if library.tvshowdetails %}
       <li class="details" data-command="shows/info/{{ show.tvshowid }}">
           {% if show.thumbnail %}
-            <img class="{% if bannerart %}bannerart{% else %}posterart{% endif %}" src="{{ itemart }}">
+            <img class="{% if bannerart %}bannerart{% else %}posterart{% endif %}" src="{{ itemart|xbmc_image }}">
           {% endif %}
           <p class="p_info">
             <table border="0">
@@ -94,7 +94,7 @@
       {% if library.episodedetails %}
       <li class="details" data-command="shows/{{ episode.tvshowid }}/{{ episode.season }}/info/{{ episode.episodeid }}">
           {% if episode.thumbnail %}
-            <img class="episodeart" src="{{ itemart }}">
+            <img class="episodeart" src="{{ itemart|xbmc_image }}">
           {% endif %}
 
           <p class="p_info">
@@ -131,7 +131,7 @@
       {% if library.moviedetails %}
       <li class="details" data-command="movies/info/{{ movie.movieid }}">
           {% if movie.thumbnail %}
-            <img class="posterart" src="{{ itemart }}">
+            <img class="posterart" src="{{ itemart|xbmc_image }}">
           {% endif %}
           <p class="p_info">
             <table border="0">
@@ -160,7 +160,7 @@
       {% if library.artistdetails %}
       <li class="details" data-command="artists/info/{{ artist.artistid }}">
           {% if artist.thumbnail %}
-            <img class="artistart" src="{{ itemart }}">
+            <img class="artistart" src="{{ itemart|xbmc_image }}">
           {% endif %}
           <p class="p_info">
             <table border="0">
@@ -186,7 +186,7 @@
       {% if library.albumdetails %}
       <li class="details" data-command="artists/{{ album.artistid }}/info/{{ album.albumid }}">
           {% if album.thumbnail %}
-            <img class="albumart" src="{{ itemart }}">
+            <img class="albumart" src="{{ itemart|xbmc_image }}">
           {% endif %}
           <p class="p_info">
             <table border="0">

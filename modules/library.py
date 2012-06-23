@@ -6,7 +6,6 @@ from maraschino.noneditable import *
 from maraschino.tools import *
 from maraschino import logger
 
-vfs_url = maraschino.WEBROOT + '/xhr/vfs_proxy/'
 xbmc_error = 'There was a problem connecting to the XBMC server'
 
 @app.route('/xhr/library')
@@ -200,13 +199,7 @@ def xhr_library_info_movie(movieid):
 
     movie = library['moviedetails']
     title = movie['title']
-    itemart_url = strip_special(movie['thumbnail'])
-
-    try:
-        itemart = vfs_url + itemart_url
-    except:
-        logger.log('LIBRARY :: No thumbnail found for %s' % movie['title'], 'INFO')
-        itemart = None
+    itemart = movie['thumbnail']
 
     return render_template('library.html',
         library = library,
@@ -229,13 +222,7 @@ def xhr_library_info_show(tvshowid):
 
     show = library['tvshowdetails']
     title = show['title']
-    itemart_url = strip_special(show['thumbnail'])
-
-    try:
-        itemart = vfs_url + itemart_url
-    except:
-        logger.log('LIBRARY :: No thumbnail found for %s' % show['title'], 'INFO')
-        itemart = None
+    itemart = show['thumbnail']
 
     bannerart = get_setting_value('library_use_bannerart') == '1'
 
@@ -261,13 +248,7 @@ def xhr_library_info_episode(episodeid):
 
     episode = library['episodedetails']
     title = episode['title']
-    itemart_url = strip_special(episode['thumbnail'])
-
-    try:
-        itemart = vfs_url + itemart_url
-    except:
-        logger.log('LIBRARY :: No thumbnail found for %s' % episode['title'], 'INFO')
-        itemart = None
+    itemart = episode['thumbnail']
 
     return render_template('library.html',
         library = library,
@@ -290,13 +271,7 @@ def xhr_library_info_artist(artistid):
 
     artist = library['artistdetails']
     title = artist['label']
-    itemart_url = strip_special(artist['thumbnail'])
-
-    try:
-        itemart = vfs_url + itemart_url
-    except:
-        logger.log('LIBRARY :: No thumbnail found for %s' % artist['title'], 'INFO')
-        itemart = None
+    itemart = artist['thumbnail']
 
     return render_template('library.html',
         library = library,
@@ -319,13 +294,7 @@ def xhr_library_info_album(albumid):
 
     album = library['albumdetails']
     title = '%s - %s' % (album['artist'], album['title'])
-    itemart_url = strip_special(album['thumbnail'])
-
-    try:
-        itemart = vfs_url + itemart_url
-    except:
-        logger.log('LIBRARY :: No thumbnail found for %s' % album['title'], 'INFO')
-        itemart = None
+    itemart = album['thumbnail']
 
     return render_template('library.html',
         library = library,

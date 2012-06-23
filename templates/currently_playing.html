@@ -2,7 +2,7 @@
 
   {% if currently_playing.artist %}
     {% if currently_playing.thumbnail%}
-      <img class="albumart" src="{{ itemart }}">
+      <img class="albumart" src="{{ itemart|xbmc_image }}">
       <p class="item_info_artist">
     {% else %}
       <p class="item_info">
@@ -10,7 +10,7 @@
 
   {% elif currently_playing.showtitle %}
     {% if currently_playing.thumbnail%}
-      <img class="episodeart" src="{{ itemart }}">
+      <img class="episodeart" src="{{ itemart|xbmc_image }}">
       <p class="item_info_show">
     {% else %}
       <p class="item_info">
@@ -18,7 +18,7 @@
 
   {% elif currently_playing.title == '' %}
     {% if currently_playing.thumbnail%}
-      <img class="episodeart" src="{{ itemart }}">
+      <img class="episodeart" src="{{ itemart|xbmc_image }}">
       <p class="item_info_show">
     {% else %}
       <p class="item_info">
@@ -26,7 +26,7 @@
 
   {% else %}
     {% if currently_playing.thumbnail%}
-      <img class="posterart" src="{{ itemart }}">
+      <img class="posterart" src="{{ itemart|xbmc_image }}">
       <p class="item_info_movie">
     {% else %}
       <p class="item_info">
