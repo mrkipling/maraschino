@@ -3,7 +3,11 @@ from functools import wraps
 from jinja2.filters import FILTERS
 import os
 import maraschino
+from maraschino import app
 from maraschino.models import Setting
+from flask import send_file
+import StringIO
+import urllib
 
 def check_auth(username, password):
     """This function is called to check if a username /
@@ -66,16 +70,6 @@ def format_number(num):
 
     return str(num) + ' bytes'
 
-def strip_special(to_strip):
-    if to_strip.startswith('special://'):
-        return to_strip[len('special://'):]
-
-    elif to_strip.startswith('image://'):
-        import urllib
-        return urllib.quote(to_strip.encode('utf-8'), '')
-
-    return to_strip
-
 def get_setting(key):
     try:
         return Setting.query.filter(Setting.key == key).first()
@@ -127,3 +121,26 @@ def convert_bytes(bytes):
     return size
 
 FILTERS['convert_bytes'] = convert_bytes
+
+def xbmc_image(url):
+    if url.startswith('special://'): #eden
+        return '%s/xhr/xbmc_image/eden/%s' % (maraschino.WEBROOT, url[len('special://'):])
+    elif url.startswith('image://'): #frodo
+        url = urllib.quote(url[len('image://'):].encode('utf-8'), '')
+        return '%s/xhr/xbmc_image/frodo/%s' % (maraschino.WEBROOT, url)
+    else:
+        return url
+
+FILTERS['xbmc_image'] = xbmc_image
+
+@app.route('/xhr/xbmc_image/<version>/<path:url>')
+def xbmc_proxy(version, url):
+    from maraschino.noneditable import server_address
+
+    if version == 'eden':
+        url = '%s/vfs/special://%s' % (server_address(), url)
+    elif version == 'frodo':
+        url = '%s/image/image://%s' % (server_address(), urllib.quote(url.encode('utf-8'), ''))
+
+    img = StringIO.StringIO(urllib.urlopen(url).read())
+    return send_file(img, mimetype='image/jpeg')
