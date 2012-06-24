@@ -1,4 +1,4 @@
-<div id="currently_playing" data-id="{{ currently_playing.id }}"{% if fanart %} data-fanart="{{ fanart }}"{% endif %}>
+<div id="currently_playing" data-id="{{ currently_playing.id }}"{% if fanart %} data-fanart="{{ fanart|xbmc_image }}"{% endif %}>
 
   {% if currently_playing.artist %}
     {% if currently_playing.thumbnail%}
