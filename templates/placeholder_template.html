@@ -2,5 +2,5 @@
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
 
-  <h2>{{ module.label }}</h2>
+  <h2>{{ module.label if module.label else "Initialising..." }}</h2>
 </div>

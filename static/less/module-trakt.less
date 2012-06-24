@@ -1,5 +1,3 @@
-@import "mixins.less";
-
 #trakt
 {
   > .inner {
@@ -34,7 +32,7 @@
     }
 
     .shout {
-      background: url(/static/images/alpha/fff_10.png);
+      background: url('@{webroot}/static/images/alpha/fff_10.png');
       border: 1px solid #222;
       line-height: 1.3em;
       margin-left: 25px;
@@ -44,12 +42,16 @@
     }
 
     li.me .shout {
-      background: url(/static/images/alpha/lightblue_30.png);
+      background: url('@{webroot}/static/images/alpha/lightblue_30.png');
     }
 
     + #add_shout {
       margin-top: 20px;
     }
+  }
+
+  .spoiler_alert {
+    font-weight: bold;
   }
 
   #add_shout {
@@ -58,33 +60,47 @@
     }
 
     textarea {
-      background: url(/static/images/alpha/fff_20.png);
+      background: url('@{webroot}/static/images/alpha/fff_20.png');
       border: none;
       color: #ccc;
       display: block;
       font-size: 0.9em;
       height: 55px;
+      margin-bottom: 7px;
       width: 100%;
+      max-width: 100%;
 
       .border-radius(2px);
     }
 
-    .submit_wrapper.xhrloading {
-      background: url(/static/images/xhrloading.gif) no-repeat 210px 11px;
+    .spoiler {
+        float: left;
+        margin-top: 5px;
+
+        input {
+            vertical-align: middle;
+        }
+    }
+
+    .submit_wrapper {
+        float: right;
+
+        &.xhrloading {
+            background: url('@{webroot}/static/images/xhrloading.gif') no-repeat 210px 11px;
+        }
     }
 
     .submit {
-      background: url(/static/images/alpha/fff_20.png);
+      background: url('@{webroot}/static/images/alpha/fff_20.png');
       border: 1px solid #222;
       float: right;
       font-size: 0.9em;
-      margin-top: 5px;
       padding: 4px 12px;
 
       .border-radius(2px);
-      
+
       &:hover {
-        background: url(/static/images/alpha/fff_40.png);
+        background: url('@{webroot}/static/images/alpha/fff_40.png');
         cursor: pointer;
       }
     }

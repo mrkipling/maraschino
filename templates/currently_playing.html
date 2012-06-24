@@ -1,8 +1,8 @@
-<div id="currently_playing" data-id="{{ currently_playing.id }}"{% if fanart %} data-fanart="{{ fanart }}"{% endif %}>
+<div id="currently_playing" data-id="{{ currently_playing.id }}"{% if fanart %} data-fanart="{{ fanart|xbmc_image }}"{% endif %}>
 
   {% if currently_playing.artist %}
     {% if currently_playing.thumbnail%}
-      <img class="albumart" src="{{ itemart }}">
+      <img class="albumart" src="{{ itemart|xbmc_image }}">
       <p class="item_info_artist">
     {% else %}
       <p class="item_info">
@@ -10,7 +10,7 @@
 
   {% elif currently_playing.showtitle %}
     {% if currently_playing.thumbnail%}
-      <img class="episodeart" src="{{ itemart }}">
+      <img class="episodeart" src="{{ itemart|xbmc_image }}">
       <p class="item_info_show">
     {% else %}
       <p class="item_info">
@@ -18,7 +18,7 @@
 
   {% elif currently_playing.title == '' %}
     {% if currently_playing.thumbnail%}
-      <img class="episodeart" src="{{ itemart }}">
+      <img class="episodeart" src="{{ itemart|xbmc_image }}">
       <p class="item_info_show">
     {% else %}
       <p class="item_info">
@@ -26,7 +26,7 @@
 
   {% else %}
     {% if currently_playing.thumbnail%}
-      <img class="posterart" src="{{ itemart }}">
+      <img class="posterart" src="{{ itemart|xbmc_image }}">
       <p class="item_info_movie">
     {% else %}
       <p class="item_info">
@@ -52,18 +52,36 @@
     {% endif %}
   </p>
 
-  <div class="progress" title="{{ percentage_progress }}%">
+  <div class="progress" data-progress="{{ percentage_progress }}%">
     <div class="bar">
       <div class="inner" style="width: {{ percentage_progress }}%;"></div>
     </div>
     <div class="current">{{ current_time }}</div>
-    <div class="total">{{ total_time }}</div>
+    <div class="total" data-seconds="{{total_time_seconds}}">{{ total_time }}</div>
   </div>
 
   <div class="controls">
-    <div class="stop">Stop</div>
-    <div class="play_pause">Play/Pause</div>
+    <div class="previous" data-command="previous" title="Previous">Previous</div>
+    <div class="rewind" data-command="rewind" title="Rewind">Rewind</div>
+    <div class="stop" data-command="stop" title="Stop">Stop</div>
+    <div class="play_pause" data-command="play_pause" title="Play/Pause">Play/Pause</div>
+    <div class="fast_forward" data-command="fast_forward" title="Fast forward">Fast Forward</div>
+    <div class="next" data-command="next" title="Next">Next</div>
+<!--     
+    <div class="option">
+    <div class="shuffle{{ ' active' if shuffled }}" data-command="shuffle" title="Shuffle">Shuffle</div>
+    <div class="repeat{% if repeat != 'off' %} repeat_{{ repeat }}{% endif %}" data-command="repeat" title="Repeat">Repeat</div>
+    <div class="mute{{ ' active' if muted }}" data-command="mute" title="Mute">Mute</div>
+    </div>
+ -->  
   </div>
+  <div class="volume" data-volume="{{ volume }}%">
+    <div class="volume-icon"></div>
+    <div class="bar">
+      <div class="inner" style="height: {{ volume/2 }}px;"></div>
+    </div>
+  </div>
+
 
   {% if currently_playing.plot %}
     <div class="synopsis">

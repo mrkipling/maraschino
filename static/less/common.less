@@ -1,7 +1,9 @@
-@import "mixins.less";
-
 ::-webkit-scrollbar {
 	width: 8px;
+
+    &:horizontal {
+      height: 8px
+    }
 }
 
 ::-webkit-scrollbar-thumb {
@@ -11,7 +13,7 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: url(/static/images/alpha/fff_20.png);
+    background: url('@{webroot}/static/images/alpha/fff_20.png');
     -webkit-border-radius: 5ex;
     -webkit-border: 1px rgb(0, 0, 0);
 }
@@ -51,13 +53,17 @@
 
 .dialog
 {
-  background: url(/static/images/alpha/000_80.png);
+  background: url('@{webroot}/static/images/alpha/000_80.png');
   border: 2px solid #ccc;
   padding: 15px;
   width: 500px;
 
   .border-radius(4px);
   .box-shadow(#222, 0, 0, 5px);
+
+  &#popup_message {
+    text-align: center;
+  }
 
   .close {
     background-color: #000;
@@ -97,23 +103,23 @@
   .save,
   .confirm,
   .cancel,
-  .delete {
-    background: url(/static/images/alpha/fff_20.png);
+  .delete, {
+    background: url('@{webroot}/static/images/alpha/fff_20.png');
     display: inline-block;
     padding: 8px;
     width: 60px;
 
     .border-radius(4px);
-  
+
     &:hover {
-      background: url(/static/images/alpha/fff_40.png);
+      background: url('@{webroot}/static/images/alpha/fff_40.png');
       cursor: pointer;
     }
   }
 
   .save,
   .confirm,
-  .delete {
+  .delete, {
     margin-right: 10px;
   }
 
@@ -134,6 +140,7 @@
   }
 
   input[type=text],
+  input[type=search],
   input[type=password],
   select {
     background-color: #fff;
@@ -141,7 +148,6 @@
     float: right;
     padding: 4px 6px;
     width: 60%;
-
     .border-radius(3px);
   }
 

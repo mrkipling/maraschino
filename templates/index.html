@@ -2,13 +2,19 @@
 
 {% block content %}
 
+{% include 'includes/update_bar.html' %}
+
 {% if show_tutorial %}
   <div id="tutorial">
     <div class="inner">
       <h1>Welcome to Maraschino</h1>
-      <p>To get started, hover over the top-left corner and click the cog icon to enter configuration mode.</p>
+      <p>Just a few simple steps to get started:</p>
+      <ol>
+        <li><a href="#" class="enter_server_settings">Click here to enter your XBMC server settings</a> so that Maraschino knows what was recently added, can browse your library, etc.</li>
+        <li>Hover over the top-left corner of the page and click the cog icon to enter configuration mode. From here you can customise Marschino by adding modules.</li>
+      </ol>
       <p>Need help? Visit <a href="http://www.maraschinoproject.com/" target="_blank">maraschinoproject.com</a> or click the Maraschino logo in the top left.</p>
-	</div>
+    </div>
   </div>
 {% endif %}
 
@@ -16,23 +22,13 @@
 
   {% with show_add = True %}
 
-  <div id="col1" class="col">
-    {% with mods = modules[0] %}
-      {% include "placeholders.html" %}
-    {% endwith %}
-  </div>
-
-  <div id="col2" class="col">
-    {% with mods = modules[1] %}
-      {% include "placeholders.html" %}
-    {% endwith %}
-  </div>
-
-  <div id="col3" class="col">
-    {% with mods = modules[2] %}
-      {% include "placeholders.html" %}
-    {% endwith %}
-  </div>
+    {% for column in modules %}
+      <div id="col{{ loop.index }}" class="col">
+        {% with mods = modules[loop.index0] %}
+          {% include "placeholders.html" %}
+        {% endwith %}
+      </div>
+    {% endfor %}
 
   {% endwith %}
 

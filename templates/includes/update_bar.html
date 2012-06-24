@@ -1,0 +1,21 @@
+<div id="update_bar">
+  {% if commits %}
+    {% if commits >= 1 %}
+      <p>
+        There is a <a href="{{ compare_url }}" target="_blank">newer version</a> available, you are {{ commits }} {% if commits > 1 %}commits{% else %}commit{% endif %} behind.
+        <span>
+          <a class="update btn">Update Now</a>
+          <a class="dismiss btn">Dismiss</a>
+        </span>
+      </p>
+    {% elif commits == -1: %}
+      <p style="line-height: 40px;">
+        Unknown version. Please update.
+        <span style="margin-left:20px;">
+          <a class="update btn">Update Now</a>
+          <a class="dismiss btn">Dismiss</a>
+        </span>
+      </p>
+    {% endif %}
+  {% endif %}
+</div>

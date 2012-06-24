@@ -1,0 +1,30 @@
+{% extends "search.html" %}
+
+{% block results %}
+
+    {% if results %}
+    <div id="results">
+      <table class="tablesorter">
+        <thead>
+          <tr>
+            <th width="2%"></th>
+            <th class="name" width="70%">Name</th>
+            <th width="8%">Size</th>
+            <th width="15%">Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in results %}
+            <tr>
+              <td class="icon"><img src="{{url_for('static', filename='images/applications/SabNZBd.png')}}" nzb-link="{{item.link[9:]|add_to_sab}}" /></td>
+              <td class="name">{{item.title}}</td>
+              <td class="size">{{item.enclosure['@attributes']['length']|convert_bytes}}</td>
+              <td class="category">{{item.category}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+{% endblock %}

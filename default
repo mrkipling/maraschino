@@ -1,0 +1,24 @@
+# This file is sourced by /etc/init.d/maraschino
+#
+# When maraschino is started using the init script
+# is started under the account of $USER, as set below.
+#
+# Each setting is marked either "required" or "optional";
+# leaving any required setting unconfigured will cause
+# the service to not start.
+
+# [required] set path where maraschino is installed:
+APP_PATH=/opt/maraschino
+
+# [optional] change to 1 to enable daemon
+ENABLE_DAEMON=1
+
+# [required] user or uid of account to run the program as:
+RUN_AS=root
+
+# [optional] full path for the pidfile
+# otherwise, the default location /var/run/maraschino/maraschino.pid is used:
+PID_FILE=
+
+# [required] port to listen on (defaults to 7000)
+PORT=7000

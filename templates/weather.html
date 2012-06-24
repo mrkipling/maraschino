@@ -31,38 +31,53 @@
 {% else %}
 <table>
   <tr>
-    <td colspan="5"><div class="container"><b>Current</b></div></td>
-  </td>
+    <td colspan="5">
+      <div class="container" id="time_banner">
+        <b>
+          <div class="clock">
+            <span class="date">{{ date }}</span>
+            <span class="{% if meridian %}12{% endif %}hours"></span>
+            <span>:</span>
+            <span class="min"></span>
+            <span>:</span>
+            <span class="sec"></span>
+            <span class="meridian"></span>
+          </div>
+          <div class="current">Current as of {{ time }} <span class="meridian"></span></div>
+        </b>
+      </div>
+    </td>
+  </tr>
   <tr>
     <td colspan="2"><center class="currentcond"><img class="currentimage" src="{{ currentimage }}"/><br />{{ current_conditions.condition }}<br /><br /></center></td>
     <td colspan="1" class="currenttemp">{{ current_temp }}</td>
     <td colspan="2"><center class="currentcond"><img src="{{ wind_image }}" /><br>{{ wind[11:25] }}<br /><br /></center></td>
-    </td>
-  <tr>
+  </tr>
+  <tr class="forecast_title">
     <td colspan="5"><div class="container"><b>Forecast</b></div></u></td>
   </td>
-  <tr>
+  <tr class="forecast">
     <td><strong>Today</strong></td>
     <td><img class="forecastimg" src="{{ day1image }}"/></td>
     <td>{{ day1.condition }}</td>
     <td class="high">{{ day1.high }}</td>  
     <td class="low">{{ day1.low }}</td>
-  </td>
-  <tr>
+  </tr>
+  <tr class="forecast">
     <td><strong>{{ day2.day_of_week }}</strong></td>
     <td><img class="forecastimg" src="{{ day2image }}"/></td>
     <td>{{ day2.condition }}</td>
     <td class="high">{{ day2.high }}</td>  
     <td class="low">{{ day2.low }}</td>
   </tr>
-  <tr>
+  <tr class="forecast">
     <td><strong>{{ day3.day_of_week }}</strong></td>
     <td><img class="forecastimg" src="{{ day3image }}"/></td>
     <td>{{ day3.condition }}</td>
     <td class="high">{{ day3.high }}</td>  
     <td class="low">{{ day3.low }}</td>
   </tr>
-  <tr>
+  <tr class="forecast">
     <td><strong>{{ day4.day_of_week }}</strong></td>
     <td><img class="forecastimg" src="{{ day4image }}"/></td>
     <td>{{ day4.condition }}</td>

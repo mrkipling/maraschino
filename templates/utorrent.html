@@ -1,0 +1,30 @@
+{% if torrents %}
+
+<div id="utorrent" class="module" data-module="utorrent">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2>uTorrent</h2>
+  {% for torrent in torrents%}
+
+  <div class="inner">
+      {{ torrent.name }}
+    <div class="bar">
+      <div class="inner" style="width: {{ torrent.progress|int }}%;"></div>
+    </div>
+    <div class="clearfix">
+      <p class="remaining"><strong>Remaining:</strong> {{ torrent.eta }} </p>
+      <p class="percentage_complete">{{ torrent.progress|int }}% complete </p>
+    </div>
+  </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="placeholder" data-module="utorrent">
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
+    <h2>uTorrent</h2>
+</div>
+{% endif %}
+

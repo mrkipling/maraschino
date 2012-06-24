@@ -1,0 +1,33 @@
+<div id="search">
+  <div class="module_settings"><span>Settings</span></div>
+  <div id="close"></div>
+  <div class="inner">
+    <form>
+      <div class="searching" style="display: none;"></div>
+      <input id="value" type="search" {% if item %}value="{{item}}"{% endif %}>
+      <select id="site">
+        <optgroup label="Sites">
+          <option value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%} >nzbMatrix</option>
+          <option value="nzb.su" {% if site == 'nzb.su' %}selected{%endif%}>nzb.su</option>
+      	</optgroup >
+      </select>
+      {% if categories|length %}
+        <select id="category">
+          {% for cat in categories %}
+            {% if cat.label|length %}
+              <optgroup label="{{cat.label}}">
+                {% for subcat in cat.value %}
+                  <option value="{{subcat.id}}">{{subcat.name}}</option>
+                {% endfor %}
+              </optgroup>
+            {% else %}
+              <option value="{{cat.id}}">{{cat.name}}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      {% endif %}
+    </form>
+
+    {% block results %}{% endblock %}
+  </div>
+</div>

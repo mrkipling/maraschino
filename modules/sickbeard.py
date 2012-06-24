@@ -1,13 +1,15 @@
-try:
-    import json
-except ImportError:
-    import simplejson as json
-from flask import Flask, jsonify, render_template, request, send_file
-import jsonrpclib, urllib
+from flask import Flask, jsonify, render_template, request, send_file, json
+import urllib
 
-from Maraschino import app
-from settings import *
+from maraschino import app
 from maraschino.tools import *
+import maraschino
+
+def sickbeard_http():
+    if get_setting_value('sickbeard_https') == '1':
+        return 'https://'
+    else:
+        return 'http://'
 
 def login_string():
     try:
@@ -28,9 +30,9 @@ def sickbeard_url():
     url = '%s/api/%s' % (url_base, get_setting_value('sickbeard_api'))
 
     if using_auth():
-        return 'http://%s%s' % (login_string(), url)
+        return sickbeard_http() + login_string() + url
 
-    return 'http://%s' % (url)
+    return sickbeard_http() + url
 
 def sickbeard_url_no_api():
     port = get_setting_value('sickbeard_port')
@@ -40,9 +42,9 @@ def sickbeard_url_no_api():
         url_base = '%s:%s' % (url_base, port)
 
     if using_auth():
-        return 'http://%s%s' % (login_string(), url_base)
+        return sickbeard_http() + login_string() + url_base
 
-    return 'http://%s' % (url_base)
+    return sickbeard_http() + url_base
 
 @app.route('/xhr/sickbeard')
 def xhr_sickbeard():
@@ -52,6 +54,7 @@ def xhr_sickbeard():
         sickbeard = json.JSONDecoder().decode(result)
 
         compact_view = get_setting_value('sickbeard_compact') == '1'
+        show_airdate = get_setting_value('sickbeard_airdate') == '1'
 
         if sickbeard['result'].rfind('success') >= 0:
             sickbeard = sickbeard['data']
@@ -71,6 +74,7 @@ def xhr_sickbeard():
         soon = sickbeard['soon'],
         later = sickbeard['later'],
         compact_view = compact_view,
+        show_airdate = show_airdate,
     )
 
 @app.route('/sickbeard/search_ep/<tvdbid>/<season>/<episode>')
@@ -183,7 +187,7 @@ def history(limit):
 
 # returns a link with the path to the required image from SB
 def get_pic(tvdb, style='banner'):
-    return '%s/?cmd=show.get%s&tvdbid=%s' % (sickbeard_url(), style, tvdb)
+    return '%s/sickbeard/get_%s/%s' % (maraschino.WEBROOT, style, tvdb)
 
 @app.route('/sickbeard/get_ep_info/<tvdbid>/<season>/<ep>')
 def get_episode_info(tvdbid, season, ep):

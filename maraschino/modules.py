@@ -5,14 +5,17 @@ except ImportError:
 
 from flask import Flask, jsonify, render_template, request
 from maraschino.database import db_session
+
+import maraschino
 import copy
 
+from maraschino import logger
+
 from Maraschino import app
-from settings import *
 from maraschino.tools import *
 
 from maraschino.database import *
-from maraschino.models import Module
+from maraschino.models import Module, XbmcServer
 
 # name, label, description, and static are not user-editable and are taken from here
 # poll and delay are user-editable and saved in the database - the values here are the defaults
@@ -27,6 +30,14 @@ AVAILABLE_MODULES = [
         'static': True,
         'poll': 0,
         'delay': 0,
+        'settings': [
+            {
+                'key': 'app_new_tab',
+                'value': '0',
+                'description': 'Open application in new tab.',
+                'type': 'bool',
+            },
+        ]
     },
     {
         'name': 'diskspace',
@@ -66,6 +77,12 @@ AVAILABLE_MODULES = [
                 'key': 'library_watched_tv',
                 'value': '1',
                 'description': 'Show Watched TV/Episodes',
+                'type': 'bool',
+            },
+            {
+                'key': 'library_show_power_buttons',
+                'value': '1',
+                'description': 'Show Power Controls',
                 'type': 'bool',
             },
         ]
@@ -164,32 +181,6 @@ AVAILABLE_MODULES = [
         ]
     },
     {
-        'name': 'recommendations',
-        'label': 'Recommendations',
-        'description': 'Movies that may suit you.',
-        'static': False,
-        'poll': 0,
-        'delay': 10,
-        'settings': [
-            {
-                'key': 'trakt_api_key',
-                'value': '',
-                'description': 'Trakt API Key',
-                'link': 'http://trakt.tv/settings/api',
-            },
-            {
-                'key': 'trakt_username',
-                'value': '',
-                'description': 'Trakt Username',
-            },
-            {
-                'key': 'trakt_password',
-                'value': '',
-                'description': 'Trakt Password',
-            },
-        ]
-    },
-    {
         'name': 'sabnzbd',
         'label': 'SABnzbd+',
         'description': 'Shows you information about your SABnzbd+ downloads.',
@@ -212,6 +203,12 @@ AVAILABLE_MODULES = [
                 'value': '',
                 'description': 'API Key',
             },
+            {
+                'key': 'sabnzbd_https',
+                'value': '0',
+                'description': 'Use HTTPS',
+                'type': 'bool',
+            },
         ]
     },
     {
@@ -224,7 +221,7 @@ AVAILABLE_MODULES = [
     },
     {
         'name': 'trakt',
-        'label': 'trakt.tv',
+        'label': 'trakt.tv Shouts',
         'description': 'Shows you what people are saying about what you are watching and allows you to add your own comments.',
         'static': True,
         'poll': 0,
@@ -248,7 +245,33 @@ AVAILABLE_MODULES = [
             },
         ]
     },
-     {
+    {
+        'name': 'traktplus',
+        'label': 'trakt.tv',
+        'description': 'trakt.tv module',
+        'static': False,
+        'poll': 0,
+        'delay': 10,
+        'settings': [
+            {
+                'key': 'trakt_api_key',
+                'value': '',
+                'description': 'Trakt API Key',
+                'link': 'http://trakt.tv/settings/api',
+            },
+            {
+                'key': 'trakt_username',
+                'value': '',
+                'description': 'Trakt Username',
+            },
+            {
+                'key': 'trakt_password',
+                'value': '',
+                'description': 'Trakt Password',
+            },
+        ]
+    },
+    {
         'name': 'transmission',
         'label': 'Transmission',
         'description': 'Shows you information about your Transmission downloads.',
@@ -275,6 +298,36 @@ AVAILABLE_MODULES = [
                 'key': 'transmission_password',
                 'value': '',
                 'description': 'Transmission Password',
+                },
+        ]
+    },
+    {
+        'name': 'utorrent',
+        'label': 'uTorrent',
+        'description': 'Shows information about uTorrent downloads',
+        'static': False,
+        'poll': 10,
+        'delay': 0,
+        'settings': [
+                {
+                'key': 'utorrent_ip',
+                'value': '',
+                'description': 'uTorrent Hostname',
+                },
+                {
+                'key': 'utorrent_port',
+                'value': '8080',
+                'description': 'uTorrent Port',
+                },
+                {
+                'key': 'utorrent_user',
+                'value': '',
+                'description': 'uTorrent Username',
+                },
+                {
+                'key': 'utorrent_password',
+                'value': '',
+                'description': 'uTorrent Password',
                 },
         ]
     },
@@ -312,11 +365,23 @@ AVAILABLE_MODULES = [
                 'description': 'Sickbeard Port',
             },
             {
+                'key': 'sickbeard_https',
+                'value': '0',
+                'description': 'Use HTTPS',
+                'type': 'bool',
+            },
+            {
                 'key': 'sickbeard_compact',
                 'value': '0',
                 'description': 'Compact view',
                 'type': 'bool',
             },
+            {
+                'key': 'sickbeard_airdate',
+                'value': '0',
+                'description': 'Show air date',
+                'type': 'bool',
+            },         
         ]
     },
     {
@@ -345,6 +410,12 @@ AVAILABLE_MODULES = [
                 'type': 'bool',
             },
             {
+                'key': 'weather_time',
+                'value': '0',
+                'description': '24 hour time',
+                'type': 'bool',
+            },
+            {
                 'key': 'weather_compact',
                 'value': '0',
                 'description': 'Compact view',
@@ -354,30 +425,10 @@ AVAILABLE_MODULES = [
     },
 ]
 
-SERVER_SETTINGS = [
-    {
-        'key': 'server_hostname',
-        'value': 'localhost',
-        'description': 'XBMC Hostname',
-    },
-    {
-        'key': 'server_port',
-        'value': '8080',
-        'description': 'XBMC Port ',
-    },
-    {
-        'key': 'server_username',
-        'value': '',
-        'description': 'XBMC Username',
-    },
-    {
-        'key': 'server_password',
-        'value': '',
-        'description': 'XBMC Password',
-    },
+MISC_SETTINGS = [
     {
         'key': 'fanart_backgrounds',
-        'value': '1',
+        'value': '0',
         'description': 'Show fanart backgrounds when watching media',
         'type': 'bool',
     },
@@ -388,9 +439,63 @@ SERVER_SETTINGS = [
         'type': 'bool',
     },
     {
-        'key': 'server_macaddress',
+        'key': 'num_columns',
+        'value': '3',
+        'description': 'Number of columns',
+        'type': 'select',
+        'options': [
+            {'value': '3', 'label': '3'},
+            {'value': '4', 'label': '4'},
+            {'value': '5', 'label': '5'},
+        ]
+    },
+]
+
+SERVER_SETTINGS = [
+    {
+        'key': 'maraschino_username',
         'value': '',
-        'description': 'XBMC Mac Address',
+        'description': 'Maraschino username',
+    },
+    {
+        'key': 'maraschino_password',
+        'value': '',
+        'description': 'Maraschino password',
+    },
+    {
+        'key': 'maraschino_port',
+        'value': '7000',
+        'description': 'Maraschino port',
+    },
+    {
+        'key': 'maraschino_webroot',
+        'value': '',
+        'description': 'Maraschino webroot',
+    },
+]
+
+SEARCH_SETTINGS = [
+    {
+        'key': 'search',
+        'value': '0',
+        'description': 'Enable search feature',
+        'type': 'bool',
+    },
+    {
+        'key': 'nzb_matrix_API',
+        'value': '',
+        'description': 'NZBMatrix API',
+        'link': 'http://nzbmatrix.com/account.php?action=api',
+    },
+    {
+        'key': 'nzb_matrix_user',
+        'value': '',
+        'description': 'NZBMatrix Username',
+    },
+    {
+        'key': 'nzb_su_API',
+        'value': '',
+        'description': 'nzb.su API',
     },
 ]
 
@@ -579,22 +684,48 @@ def module_settings_save(name):
             setting.value = s['value']
             db_session.add(setting)
 
+            if s['name'] == 'maraschino_username':
+                maraschino.AUTH['username'] = s['value'] if s['value'] != '' else None
+
+            if s['name'] == 'maraschino_password':
+                maraschino.AUTH['password'] = s['value'] if s['value'] != '' else None
+
     db_session.commit()
 
     # you can't cancel server settings - instead, return an updated template
     # with 'Settings saved' text on the button
 
     if name == 'server_settings':
-        return server_settings_dialog(updated=True)
+        return extra_settings_dialog(dialog_type='server_settings', updated=True)
 
     # for everything else, return the rendered module
 
     return module_settings_cancel(name)
 
-@app.route('/xhr/server_settings_dialog')
+@app.route('/xhr/extra_settings_dialog/<dialog_type>')
 @requires_auth
-def server_settings_dialog(updated=False):
-    settings = copy.copy(SERVER_SETTINGS)
+def extra_settings_dialog(dialog_type, updated=False):
+    """
+    Extra settings dialog (search settings, misc settings, etc).
+    """
+
+    dialog_text = None
+
+    if dialog_type == 'search_settings':
+        settings = copy.copy(SEARCH_SETTINGS)
+        dialog_title = 'Search settings'
+        dialog_text = 'N.B. With search enabled, you can press \'ALT-s\' to display the search module.'
+
+    elif dialog_type == 'misc_settings':
+        settings = copy.copy(MISC_SETTINGS)
+        dialog_title = 'Misc. settings'
+
+    elif dialog_type == 'server_settings':
+        settings = copy.copy(SERVER_SETTINGS)
+        dialog_title = 'Server settings'
+
+    else:
+        return jsonify({ 'status': 'error' })
 
     for s in settings:
          setting = get_setting(s['key'])
@@ -602,10 +733,119 @@ def server_settings_dialog(updated=False):
          if setting:
              s['value'] = setting.value
 
-    return render_template('server_settings_dialog.html',
-        server_settings = settings,
+    return render_template('extra_settings_dialog.html',
+        dialog_title = dialog_title,
+        dialog_text = dialog_text,
+        dialog_type = dialog_type,
+        settings = settings,
         updated = updated,
     )
+
+@app.route('/xhr/server_settings_dialog/', methods=['GET', 'POST'])
+@app.route('/xhr/server_settings_dialog/<server_id>', methods=['GET', 'POST'])
+@requires_auth
+def server_settings_dialog(server_id=None):
+    """
+    Server settings dialog.
+    If server_id exists then we're editing a server, otherwise we're adding one.
+    """
+
+    server = None
+
+    if server_id:
+        try:
+            server = XbmcServer.query.get(server_id)
+
+        except:
+            logger.log('Error retrieving server details for server ID %s' % server_id , 'WARNING')
+
+    # GET
+
+    if request.method == 'GET':
+        return render_template('server_settings_dialog.html',
+            server = server,
+        )
+
+    # POST
+
+    else:
+        if not server:
+            server = XbmcServer('', 1, '')
+
+        label = request.form['label']
+        if not label:
+            label = 'XBMC server'
+
+        try:
+            server.label = label
+            server.position = request.form['position']
+            server.hostname = request.form['hostname']
+            server.port = request.form['port']
+            server.username = request.form['username']
+            server.password = request.form['password']
+            server.mac_address = request.form['mac_address']
+
+            db_session.add(server)
+            db_session.commit()
+
+            active_server = get_setting('active_server')
+
+            if not active_server:
+                active_server = Setting('active_server', server.id)
+                db_session.add(active_server)
+                db_session.commit()
+
+            return render_template('includes/servers.html',
+                servers = XbmcServer.query.order_by(XbmcServer.position),
+            )
+
+        except:
+            logger.log('Error saving XBMC server to database', 'WARNING')
+            return jsonify({ 'status': 'error' })
+
+    return jsonify({ 'status': 'error' })
+
+@app.route('/xhr/delete_server/<server_id>', methods=['POST'])
+@requires_auth
+def delete_server(server_id=None):
+    """
+    Deletes a server.
+    """
+
+    try:
+        xbmc_server = XbmcServer.query.get(server_id)
+        db_session.delete(xbmc_server)
+        db_session.commit()
+
+        return render_template('includes/servers.html',
+            servers = XbmcServer.query.order_by(XbmcServer.position),
+        )
+
+    except:
+        logger.log('Error deleting server ID %s' % server_id , 'WARNING')
+        return jsonify({ 'status': 'error' })
+
+@app.route('/xhr/switch_server/<server_id>')
+@requires_auth
+def switch_server(server_id=None):
+    """
+    Switches XBMC servers.
+    """
+
+    xbmc_server = XbmcServer.query.get(server_id)
+
+    try:
+        active_server = get_setting('active_server')
+        active_server.value = server_id
+        db_session.add(active_server)
+        db_session.commit()
+        logger.log('Switched active server to ID %s' % server_id , 'INFO')
+
+    except:
+        logger.log('Error setting active server to ID %s' % server_id , 'WARNING')
+        return jsonify({ 'status': 'error' })
+
+    return jsonify({ 'status': 'success' })
 
 # helper method which returns a module record from the database
 

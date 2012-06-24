@@ -19,7 +19,7 @@
 
             {% if album.thumbnail %}
               <div class="thumbnail">
-                <img src="{{ vfs_url }}{{ album.thumbnail }}" alt="">
+                <img src="{{ album.thumbnail|xbmc_image }}" alt="">
               </div>
             {% endif %}
 

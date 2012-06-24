@@ -1,14 +1,39 @@
-from settings import *
-from maraschino.tools import *
-
-from maraschino.models import Module, Setting
+from maraschino.tools import using_auth, get_setting_value
+from maraschino.models import Module, Setting, XbmcServer
 
 def server_settings():
+    servers = XbmcServer.query.order_by(XbmcServer.position)
+
+    if servers.count() == 0:
+        return {
+            'hostname': None,
+            'port': None,
+            'username': None,
+            'password': None,
+        }
+
+    active_server = get_setting_value('active_server')
+
+    # if active server is not defined, set it
+
+    if not active_server:
+        active_server = Setting('active_server', servers.first().id)
+        db_session.add(active_server)
+        db_session.commit()
+
+    try:
+        server = servers.get(active_server)
+
+    except:
+        logger.log('Could not retrieve active server, falling back on first entry' , 'WARNING')
+        server = servers.first()
+
     return {
-        'hostname': get_setting_value('server_hostname'),
-        'port': get_setting_value('server_port'),
-        'username': get_setting_value('server_username'),
-        'password': get_setting_value('server_password'),
+        'hostname': server.hostname,
+        'port': server.port,
+        'username': server.username,
+        'password': server.password,
+        'mac_address': server.mac_address,
     }
 
 def server_username_password():
@@ -49,10 +74,3 @@ def safe_server_address():
         return None
 
     return 'http://%s:%s' % (server['hostname'], server['port'])
-
-try:
-    if PORT:
-        pass
-
-except:
-    PORT = 5000
