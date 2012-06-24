@@ -132,6 +132,7 @@ def initialize():
             f.write('@webroot: "%s/static";' % (WEBROOT[1:]))
         else:
             f.write('@webroot: "static";')
+        f.close
 
         # Set up the updater
         from maraschino.updater import checkGithub, gitCurrentVersion
