@@ -19,7 +19,7 @@
 
             {% if movie.thumbnail and not compact_view %}
               <div class="thumbnail">
-                <img src="{{ vfs_url }}{{ movie.thumbnail }}" alt="">
+                <img src="{{ movie.thumbnail|xbmc_image }}" alt="">
               </div>
             {% endif %}
 
