@@ -132,7 +132,7 @@ def initialize():
             f.write('@webroot: "%s/static";' % (WEBROOT[1:]))
         else:
             f.write('@webroot: "static";')
-        f.close
+        f.close()
 
         # Set up the updater
         from maraschino.updater import checkGithub, gitCurrentVersion
@@ -171,7 +171,7 @@ def start():
 
         if not DEVELOPMENT:
             try:
-                logger.log('Starting Maraschino on port/webroot: %i/%s' % (PORT, WEBROOT), 'INFO')
+                logger.log('Starting Maraschino on port/webroot: %i%s' % (PORT, WEBROOT), 'INFO')
                 SERVER.start()
                 while not True:
                     pass
