@@ -25,23 +25,11 @@ def xhr_currently_playing():
         if active_player[0]['type'] == 'audio':
             currently_playing = xbmc.Player.GetItem(playerid = 0, properties = ['title', 'duration', 'fanart', 'artist', 'albumartist', 'album', 'track', 'artistid', 'albumid', 'thumbnail', 'year'])['item']
 
-        fanart_url = currently_playing['fanart']
-        itemart_url = currently_playing['thumbnail']
-        vfs_url = maraschino.WEBROOT + '/xhr/vfs_proxy/'
-        try:
-            itemart = vfs_url + strip_special(itemart_url)
-
-        except:
-            itemart = None
+        fanart = currently_playing['fanart']
+        itemart = currently_playing['thumbnail']
 
     except:
         return jsonify({ 'playing': False })
-
-    try:
-        fanart = vfs_url + strip_special(fanart_url)
-
-    except:
-        fanart = None
 	
     return render_template('currently_playing.html',
         currently_playing = currently_playing,
