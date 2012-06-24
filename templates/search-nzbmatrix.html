@@ -1,0 +1,34 @@
+{% extends "search.html" %}
+
+{% block results %}
+
+    {% if results %}
+
+    <div id="results">
+      <table class="tablesorter">
+        <thead>
+          <tr>
+            <th width="2%"></th>
+            <th class="name" width="70%">Name</th>
+            <th width="8%">Size</th>
+            <th width="15%">Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for x in results %}
+            {% set item = results[x]%}
+            <tr>
+              <td class="icon"><img src="{{url_for('static', filename='images/applications/SabNZBd.png')}}" nzb-link="{{ item.LINK|add_to_sab }}" /></td>
+              <td class="name"><a href="http://{{ item.LINK }}">{{ item.NZBNAME }}</a></td>
+              <td class="size">{{ item.SIZE|convert_bytes }}</td>
+              <td class="category">{{ item.CATEGORY }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% else %}
+      <p class="no_results">No results found.</p>
+    {% endif %}
+{% endblock %}

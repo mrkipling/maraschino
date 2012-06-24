@@ -6,7 +6,6 @@ from flask import Flask, jsonify, render_template, request
 import hashlib, jsonrpclib, urllib
 
 from Maraschino import app
-from settings import *
 from maraschino.noneditable import *
 from maraschino.tools import *
 
@@ -99,6 +98,11 @@ def xhr_trakt_add_shout():
             'password': hashlib.sha1(TRAKT_PASSWORD).hexdigest(),
             'shout': request.form['shout'],
         }
+
+        spoiler = request.form['spoiler']
+
+        if spoiler == 'true':
+            params['spoiler'] = True
 
         if itemtype == 'episode':
             params['season'] = request.form['season']

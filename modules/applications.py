@@ -1,20 +1,20 @@
 import sys
-
 from flask import Flask, jsonify, render_template
 
-from Maraschino import app
-from settings import *
+from maraschino import app, RUNDIR
 from maraschino.tools import *
-
 from maraschino.models import Application
+from maraschino.database import db_session
 
 @app.route('/xhr/applications')
 @requires_auth
 def xhr_applications():
     applications = Application.query.order_by(Application.position)
+    new_tab = get_setting_value('app_new_tab') == '1'
 
     return render_template('applications.html',
         applications = applications,
+        new_tab = new_tab,
     )
 
 @app.route('/xhr/add_application_dialog')
@@ -30,7 +30,7 @@ def edit_application_dialog(application_id):
 def add_edit_application_dialog(application_id=None):
     application = None
 
-    dir = './static/images/applications'
+    dir = RUNDIR + '/static/images/applications'
 
     icons = get_file_list(
         folder = dir,

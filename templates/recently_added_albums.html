@@ -11,11 +11,15 @@
     {% endif %}
       <ul class="albums listfix">
         {% for album in recently_added_albums %}
-          <li data-albumid="{{ album.albumid }}" title="Play {{ album.title }} ({{ album.year }})">
+          {% if view_info %}
+            <li id="info_album" data-albumid="{{ album.albumid }}" title="Information for {{ album.title }} ({{ album.year }})">
+          {% else %}
+            <li id="play_album" data-albumid="{{ album.albumid }}" title="Play {{ album.title }} ({{ album.year }})">
+          {% endif %}
 
             {% if album.thumbnail %}
               <div class="thumbnail">
-                <img src="{{ vfs_url }}{{ album.thumbnail }}" alt="">
+                <img src="{{ album.thumbnail|xbmc_image }}" alt="">
               </div>
             {% endif %}
 

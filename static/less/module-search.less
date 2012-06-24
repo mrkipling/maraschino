@@ -1,0 +1,123 @@
+#search {
+  background: url('@{webroot}/static/images/alpha/000_80.png');
+  border: 1px solid #333;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  padding: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 1;
+  padding-bottom: 5px;
+  .border-radius(2px);
+  .box-shadow(#222, 0, 0, 10px);
+
+  h2 {
+    display: block;
+    font-size: 1.5em;
+    font-weight: normal;
+    line-height: 1.3em;
+    padding: 10px 15px 12px;
+  }
+
+  form {
+    padding: 5px 5px 20px;
+
+    input[type=search] {
+      background-color: #fff;
+      border: 1px solid #555;
+      padding: 4px 6px;
+      width: 50%;
+      .border-radius(3px);
+    }
+
+    .searching {
+      background: url('@{webroot}/static/images/xhrloading.gif') no-repeat 5px center;
+      height: 15px;
+      left: 0;
+      position: absolute;
+      top: 32px;
+      width: 18px;
+    }
+  }
+
+  #close {
+    display: none;
+  }
+
+  #results {
+    bottom: 0px;
+    margin-bottom: 20px;
+    max-height: 399px;
+    overflow: auto;
+    width: 100%;
+
+    table {
+      table-layout:fixed;
+      width: 99%;
+
+      thead th {
+        cursor: pointer;
+        font-size: 1.1em;
+        padding-bottom: 10px;
+
+        &.name {
+          padding-left: 5px;
+          text-align:left;
+        }
+      }
+
+      tbody {
+        overflow: auto;
+        width: 100%;
+
+        tr {
+          background: url('@{webroot}/static/images/alpha/000_80.png');
+
+          &:hover {
+            background: url('@{webroot}/static/images/alpha/fff_40.png');
+          }
+
+          td {
+            border: 1px solid #222;
+            padding: 5px;
+            text-align: center;
+            vertical-align: middle;
+
+            &.icon {
+              cursor: pointer;
+              padding: 3px;
+              overflow: hidden;
+
+              img {
+                width:80%;
+              }
+            }
+
+            &.name {
+              overflow: hidden;
+              text-align: left;
+              text-overflow: ellipsis;
+            }
+
+            a {
+              color: #fff;
+            }
+
+            .border-radius(4px);
+          }
+        }
+      }
+    }
+  }
+
+  .no_results {
+    margin: 0 0 20px 10px;
+  }
+}
+
+.f_settings_mode #search {
+    opacity: 0;
+    top: -9999px;
+}

@@ -1,0 +1,162 @@
+#utorrent
+{
+  position: relative;
+
+  > .inner {
+    line-height: 1.3em;
+    padding: 0 15px 15px;
+  }
+
+	.title:hover{
+		background: url('@{webroot}/static/images/dropdown.png') no-repeat;
+		background-position: left;
+		cursor: pointer;
+	}
+
+
+	.menu{
+		background: white;
+		color: black;
+		position: absolute;
+		width: 30%;
+		display: none;
+		cursor: pointer;
+	}
+
+  .eta {
+    background: url('@{webroot}/static/images/alpha/fff_10.png');
+    border: 1px solid #222;
+    padding: 4px 8px 2px;
+    position: absolute;
+    right: 20px;
+    top: 14px;
+
+    .border-radius(4px);
+  }
+
+  .sab_speed {
+	background-color:transparent;
+	color:#67c0f8;
+	font-weight:bolder;
+	border:none;
+	text-align:right;
+    
+   	&:hover,
+    &:focus {
+    	background-color:transparent;
+    	color: white;
+			font-weight:bolder;
+			font-style:italic;
+    	border:none;
+			cursor:pointer;
+    }
+  }
+  
+  .inner #status {
+    padding: 4px 8px 2px;
+    position: absolute;
+    top: 14px;
+    left: 40%;
+  }
+
+  .status {
+	cursor: pointer;
+  }
+  
+  .line {
+      background: url('@{webroot}/static/images/alpha/fff_10.png');
+      height: 2px;
+      }
+
+  img.remove {
+    background: url('@{webroot}/static/images/alpha/fff_10.png');
+    cursor: pointer;
+    
+    &:hover {
+      background: url('@{webroot}/static/images/alpha/fff_20.png');
+    }
+  }
+
+  #extra-queue {
+    background: url('@{webroot}/static/images/alpha/fff_10.png');
+    cursor: pointer;
+    display: block;
+    margin-bottom: 5px;
+    
+    &:hover {
+      background: url('@{webroot}/static/images/alpha/fff_20.png');
+    }
+
+    span {
+      background: url('@{webroot}/static/images/arrow_down.png') no-repeat center center;
+      display: block;
+      height: 10px;
+      width: 100%;
+      padding-bottom: 4px;
+    }
+  }
+
+  .rotate {
+	-webkit-transform: rotate(-180deg);
+	-moz-transform: rotate(-180deg);
+  }
+
+  td.extra_name {
+	overflow: hidden; 
+	white-space:nowrap;
+	font-size: smaller;
+  }
+
+  .bar {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .remaining {
+    float: left;
+    font-size: 0.9em;
+    font-size: smaller;
+  }
+
+  .percentage_complete {
+    float: right;
+    font-size: 0.9em;
+    margin: 0;
+    font-size: smaller;
+  }
+  #history {
+	width: 100%;
+	max-width: 100%;
+	table-layout: fixed;
+	overflow: hidden;
+	white-space: nowrap;
+	
+		th{
+			cursor: pointer;
+		}
+		td{
+			overflow: hidden;
+		}
+		.name{
+			width: 50%;
+		}
+		.size{
+			width: 10%;
+		}
+		.status{
+			width: 10%;
+			cursor: default;
+		}
+		.cat{
+			width: 15%;
+		}
+		.time{
+			width: 15%;
+		}
+	}
+}
+
+.f_settings_mode #utorrent .eta
+{
+  display: none;
+}

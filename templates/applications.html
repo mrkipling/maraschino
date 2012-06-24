@@ -8,9 +8,9 @@
     <ul>
       {% for application in applications %}
         <li>
-          <a class="clearfix" data-id="{{ application.id }}" title="Launch {{ application.name }}" href="{{ application.url }}">
+          <a class="clearfix" data-id="{{ application.id }}" title="Launch {{ application.name }}" href="{{ application.url }}"{% if new_tab %} target="_blank"{% endif %}>
             <span class="name">
-              {% if application.image %}<img src="/static/images/applications/{{ application.image }}" height="20" width="20">{% endif %}
+              {% if application.image %}<img src="{{ url_for('static', filename='images/applications/') }}{{ application.image }}" height="20" width="20">{% endif %}
               <span>{{ application.name }}</span>
             </span>
             <span class="description">{{ application.description }}</span>

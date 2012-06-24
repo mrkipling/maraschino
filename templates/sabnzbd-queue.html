@@ -1,16 +1,43 @@
 {% extends "sabnzbd-base.html" %}
 
 {% block sabnzbd_content %}
-    <div class="status" id="status" status="{{ sabnzbd.paused }}" title="Toggle paused/downloading">{{ sabnzbd.status }}</div>
-    <div class="speed">{{ download_speed }}</div>
-    <p>{{ sabnzbd.slots[0].filename }}</p>
+  <div class="status" id="status" status="{{ sabnzbd.paused }}" title="Toggle paused/downloading">{{ sabnzbd.status }}</div>
+  <div class="speed"><input type="text" value="{{ download_speed[:-4] }}" title="Adjust Speed" size="5"/>{{ download_speed[-4:] }}</div>
+
+  {% if item %}
+    <p>{{ item.filename }}</p>
 
     <div class="bar">
-      <div class="inner" style="width: {{ percentage_total }}%;"></div>
+      <div class="inner" style="width: {{ item.percentage }}%;"></div>
     </div>
 
     <div class="clearfix">
-      <p class="remaining"><strong>Remaining:</strong> {{ sabnzbd.timeleft }} / {{ download_left }}</p>
-      <p class="percentage_complete">{{ percentage_total }}% complete</p>
+      <p class="remaining"><strong>Remaining:</strong> {{ item.timeleft }} / {{ item.mbleft }} MB</p>
+      <p class="percentage_complete">{{ item.percentage }}% complete</p>
     </div>
+  {% endif %}
+
+  <div class="queue-title {% if not item %}hide{% endif %}">
+    <span>
+      {% if queue_status == 'hide' %}
+        <img src="{{ url_for('static', filename='images/arrow_down.png') }}">More
+      {% else %}
+        <img src="{{ url_for('static', filename='images/arrow_up.png') }}">Less
+      {% endif %}
+    </span>
+  </div>
+
+  <div class="queue {% if item %}{{ queue_status }}{% else %}show{% endif %}">
+    <table>
+    {% for x in sabnzbd.slots %}
+      <tr id="{{x.nzo_id}}" data-action={% if x.status == 'Paused' %}resume{% else %}pause{% endif %}>
+        <td class="pause"><img src="{% if x.status == 'Paused' %}{{ url_for('static', filename='images/pause.png') }}{% else %}{{ url_for('static', filename='images/play.png') }}{% endif %}" ></td>
+        <td class="name">{{x.filename}}</td>
+        <td class="size">{{x.size}}</td>
+        <td class="delete"><img src="{{ url_for('static', filename='images/remove_icon.png') }}" ></td>
+      </tr>
+    {% endfor %}
+    </table>
+    <div><b>Total Remaining:</b> {{sabnzbd.timeleft}}/{{sabnzbd.sizeleft}} </div>
+  </div>
 {% endblock %}

@@ -7,26 +7,19 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="64x64" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
 
     <!-- Web Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:regular,bold">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Sans:regular,bold">
 
     <!-- CSS -->
-    <link rel="stylesheet/less" href="/static/less/base.less">
-    <link rel="stylesheet/less" href="/static/less/site.less">
+    <link rel="stylesheet/less" href="{{ url_for('static', filename='less/base.less') }}">
+    <link rel="stylesheet/less" href="{{ url_for('static', filename='less/site.less') }}">
 
     <!-- LESS client-side script -->
-    <script src="/static/js/lib/less.js" type="text/javascript"></script>
-    <script src="/static/js/lib/jquery.js"></script>
-    <script src="/static/js/lib/jquery-ui.custom.min.js"></script>
-    <script src="/static/js/popups.js"></script>
-    <script src="/static/js/index.js"></script>
-
-    <script src="/static/js/lib/jquery.tablesorter.min.js"></script>
-    <script src="/static/js/lib/jquery.tablesorter.pager.js"></script>
+    <script src="{{ url_for('static', filename='js/lib/less.js') }}" type="text/javascript"></script>
 
     <script>
       function destroyLessCache(pathToCss) {
@@ -42,16 +35,50 @@
           }
         }
       }
-      destroyLessCache('/static/less/');
+      destroyLessCache("{{ url_for('static', filename='less/') }}");
     </script>
   </head>
 
-  <body data-show_currently_playing="{{ show_currently_playing }}" data-fanart_backgrounds="{{ fanart_backgrounds }}"{% if background %} style="background-image: url(/{{ background }});"{% endif %} class='f_operation_mode'>
+  <body data-show_currently_playing="{{ show_currently_playing }}" data-fanart_backgrounds="{{ fanart_backgrounds }}"{% if background %} style="background-image: url({{ background }});"{% endif %} data-search_enabled="{{ search_enabled }}" class="f_operation_mode num_columns_{{ num_columns }}">
+
+    <!-- settings mode icon -->
 
     <div id="settings_icon" title="Settings"><div class="inner"></div></div>
-    <div id="remote_icon" title="Use your keyboard to control XBMC"><div class="inner"></div></div>
+
+    <!-- extra settings menu -->
+
+    <div id="extra_settings">
+      <div class="inner"></div>
+      <ul>
+        <li id="remote_icon">Remote control</li>
+        <li id="activate_search">
+          Search
+          <div id="search_settings" class="settings edit">Edit</div>
+        </li>
+        {% include 'includes/manage.html' %}
+        {% include 'includes/servers.html' %}
+      </ul>
+    </div>
+
+    <!-- fanart container -->
+
     <div id="fanart" style="display: none;"></div>
 
     {% block content %}{% endblock %}
+
+    <!--- JavaScript -->
+    <script>var WEBROOT = "{{ webroot }}";</script>
+    <script src="{{ url_for('static', filename='js/lib/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/jgestures.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/jquery-ui.custom.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/date.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popups.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/jquery.tablesorter.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/jquery.tablesorter.pager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/jquery.ui.rcarousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/jquery.ui.widget.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/jquery.ui.core.min.js') }}"></script>
+
   </body>
 </html>

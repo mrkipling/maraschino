@@ -1,0 +1,49 @@
+<div id="{{ dialog_type }}_dialog" class="extra_settings dialog">
+  <div class="close">x</div>
+  <h2>{{ dialog_title }}</h2>
+
+  {% if dialog_text %}
+      <p class="text">{{ dialog_text }}</p>
+  {% endif %}
+
+  <form class="inner" method="post" action="">
+    {% for setting in settings %}
+      <div class="formrow">
+        <label for="id_{{ setting.key }}">
+          {% if setting.link %}<a href="{{ setting.link }}" target="_blank">{% endif %}
+          {{ setting.description }}
+          {% if setting.link %}</a>{% endif %}
+        </label>
+
+        {% if setting.type == 'bool' %}
+          <select id="id_{{ setting.key }}" name="{{ setting.key }}">
+            <option value="0"{% if setting.value == "0" %} selected="selected"{% endif %}>No</option>
+            <option value="1"{% if setting.value == "1" %} selected="selected"{% endif %}>Yes</option>
+          </select>
+        {% elif setting.type == 'select' %}
+          <select id="id_{{ setting.key }}" name="{{ setting.key }}">
+            {% for option in setting.options %}
+              <option value="{{ option.value }}"{% if setting.value == option.value %} selected="selected"{% endif %}>{{ option.label }}</option>
+            {% endfor %}
+          </select>
+        {% else %}
+          <input id="id_{{ setting.key }}" name="{{ setting.key }}" type="{% if "password" in setting.key %}password{% else %}text{% endif %}" value="{{ setting.value }}">
+        {% endif %}
+
+      </div>
+    {% endfor %}
+  </form>
+
+  {% if dialog_type == 'misc_settings' %}
+    <p style="margin-top: 20px; text-align: center;"><strong>Please note:</strong> The browser window will reload after you click save.</p>
+  {% endif %}
+
+  {% if dialog_type == 'server_settings' %}
+    <p style="margin-top: 20px; text-align: center;"><strong>Please note:</strong> Port and webroot require restart.</p>
+  {% endif %}
+
+  <div class="choices">
+    <div class="save">Save</div>
+    <div class="cancel">Cancel</div>
+  </div>
+</div>

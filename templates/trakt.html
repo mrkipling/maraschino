@@ -4,7 +4,7 @@
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
   
-  <h2>trakt.tv</h2>
+  <h2>trakt.tv Shouts</h2>
 
   <div class="inner">
 
@@ -24,10 +24,13 @@
               <img class="avatar" src="{{ shout.user.avatar }}" width="20" height="20" alt="">
             </a>
             <p class="shout clearfix">
-              <span class="truncated">{{ shout.shout|truncate(160, false) }}</span>
+              <span class="truncated" {% if shout.spoiler %}style="display: none;"{% endif %}>{{ shout.shout|truncate(160, false) }}</span>
+              {% if shout.spoiler %}<span class="spoiler_alert">Spoiler Alert!</span> <a class="expand" href="#" title="Show Post">[+]</a>{% endif %}
               <span class="expanded" style="display: none;">{{ shout.shout }}</span>
               {% if shout.shout|count > 160 %}
-                <a class="expand" href="#" title="More">[+]</a>
+                {% if not shout.spoiler %}
+                  <a class="expand" href="#" title="More">[+]</a>
+                {% endif %}
               {% endif %}
             </p>
           </li>
@@ -44,10 +47,18 @@
 
         <textarea rows="5" cols="20"></textarea>
 
-        <div class="submit_wrapper clearfix">
-          <div class="submit">Shout about it</div>
-        </div>
+        <div class="clearfix">
 
+          <label class="spoiler">
+            <input type="checkbox">
+            Shout contains spoiler
+          </label>
+
+          <div class="submit_wrapper clearfix">
+            <div class="submit">Shout about it</div>
+          </div>
+
+        </div>
       </div>
 
     {% endif %}
@@ -59,6 +70,6 @@
 <div id="trakt_inactive" class="inactive_module" data-module="trakt">
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
-  <h2>trakt.tv</h2>
+  <h2>trakt.tv Shouts</h2>
 </div>
 {% endif %}

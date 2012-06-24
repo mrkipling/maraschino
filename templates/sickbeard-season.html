@@ -19,7 +19,15 @@
       <tr link="{{ id }}/{{ season }}/{{ episode }}">
         <td>{{episode}}</td>
         <td>{{sickbeard[episode].name}}</td>
-        <td><img src="static/images/{% if sickbeard[episode].status == "Downloaded" %}yes{% else %}no{% endif %}.png" /></td>
+        <td>
+          <img src="
+                {% if sickbeard[episode].status == "Downloaded" %}
+                  {{url_for('static', filename='images/yes.png')}}
+                {% else %}
+                  {{url_for('static', filename='images/no.png')}}
+                {% endif %}
+            " />
+        </td>
         <td>{{sickbeard[episode].quality}}</td>
         <td>{{sickbeard[episode].airdate}}</td>
       </tr>

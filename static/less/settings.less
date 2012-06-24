@@ -1,8 +1,6 @@
-@import "mixins.less";
-
 #settings_icon
 {
-  background: url(/static/images/alpha/000_70.png);
+  background: url('@{webroot}/static/images/alpha/000_70.png');
   height: 40px;
   left: 0;
   opacity: 0;
@@ -22,7 +20,7 @@
   -moz-transition: opacity 0.3s;
 
   .inner {
-    background: url(/static/images/settings_icon.png) no-repeat 5px 5px;
+    background: url('@{webroot}/static/images/settings_icon.png') no-repeat 5px 5px;
     height: 40px;
     width: 40px;
   }
@@ -39,47 +37,138 @@
   opacity: 1;
 }
 
-#remote_icon
+#extra_settings
 {
-  background: url(/static/images/alpha/000_70.png);
   height: 40px;
-  right: 0;
   opacity: 0;
   position: absolute;
+  right: 0;
   top: 0;
   width: 40px;
-  z-index: 1;
+  z-index: 10;
 
-  border-bottom-left-radius: 40px;
-  -moz-border-radius-bottomleft: 40px;
-  -o-border-bottom-left-radius: 40px;
-  -webkit-border-bottom-left-radius: 40px;
+  -webkit-transition: width 0.2s ease-in-out;
+  -moz-transition: width 0.2s ease-in-out;
+  -o-transition: width 0.2s ease-in-out;
+  -ms-transition: width 0.2s ease-in-out;
+  transition: width 0.2s ease-in-out;
 
-  transition: opacity 0.3s;
-  -transition: opacity 0.3s;
-  -webkit-transition: opacity 0.3s;
-  -moz-transition: opacity 0.3s;
-
-  .inner {
-    background: url(/static/images/keyb_inactive.png) no-repeat 12px 3px;
-    background-size: 24px;
-    height: 40px;
-    width: 40px;
-    margin: 0px 0px;
-  }
-
-  &.on {
-    opacity: 1;
-
-    .inner {
-      background: url(/static/images/keyb_active.gif) no-repeat 12px 3px;
-      background-size: 24px;
-    }
+  ul {
+    background: url('@{webroot}/static/images/alpha/000_70.png');
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    white-space: nowrap;
+    width: 150px;
   }
 
   &:hover {
-    cursor: pointer;
+    display: block;
+    height: 150px;
     opacity: 1;
+    width: 190px;
+
+    .inner {
+      display: none;
+    }
+
+    ul {
+      display: block;
+      padding: 5px 0;
+      width: auto;
+
+      border-bottom-left-radius: 5px;
+      -moz-border-radius-bottomleft: 5px;
+      -o-border-bottom-left-radius: 5px;
+      -webkit-border-bottom-left-radius: 5px;
+
+      li {
+        cursor: pointer;
+        padding: 5px 27px 5px 15px;
+        position: relative;
+        .border-radius(2px);
+
+        &:hover {
+          background: url('@{webroot}/static/images/alpha/fff_10.png');
+        }
+
+        &#remote_icon.on,
+        &.active {
+          background: url('@{webroot}/static/images/alpha/fff_20.png');
+        }
+
+        .submenu {
+          display: none;
+          padding: 0 130px 20px 40px;
+        }
+
+        ul {
+          .border-radius(5px);
+        }
+
+        .edit,
+        .add,
+        .message,
+        .restart,
+        .shutdown {
+          background: url('@{webroot}/static/images/server_edit.png');
+          height: 16px;
+          position: absolute;
+          right: 5px;
+          text-indent: -9999px;
+          top: 3px;
+          width: 16px;
+        }
+
+        #search_settings {
+          background: url('@{webroot}/static/images/cog.png');
+        }
+
+        .add {
+          background: url('@{webroot}/static/images/server_add.png');
+        }
+
+        .message {
+          background: url('@{webroot}/static/images/server_message.png');
+          right: 24px;
+        }
+
+        .shutdown {
+          background: url('@{webroot}/static/images/shutdown.png');
+        }
+
+        .restart{
+          background: url('@{webroot}/static/images/refresh.png');
+        }
+
+        &:hover .submenu {
+          display: block;
+          min-width: 150px;
+          position: absolute;
+          right: 0;
+
+          ul {
+            background: url('@{webroot}/static/images/alpha/000_70.png');
+            position: static;
+
+            -webkit-transition: width 0.2s ease-in-out;
+            -moz-transition: width 0.2s ease-in-out;
+            -o-transition: width 0.2s ease-in-out;
+            -ms-transition: width 0.2s ease-in-out;
+            transition: width 0.2s ease-in-out;
+
+            li {
+              padding-right: 44px;
+            }
+          }
+        }
+
+        &#server_settings:hover .submenu, &#manage_settings:hover .submenu {
+          top: -5px;
+        }
+      }
+    }
   }
 }
 

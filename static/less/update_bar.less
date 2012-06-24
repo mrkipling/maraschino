@@ -1,0 +1,48 @@
+// update bar
+
+#update_bar {
+  height: 40px;
+  text-align: center;
+  display: none;
+  background: url('@{webroot}/static/images/alpha/000_80.png');
+  border-bottom: 1px solid #333;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+
+  p {
+    line-height: 40px;
+
+    span {
+      margin-left:20px;
+
+      .btn {
+        color: #eee;
+        background: url('@{webroot}/static/images/alpha/fff_10.png');
+        border: 1px solid #222;
+        cursor: pointer;
+        padding: 4px;
+        height: 20px;
+        line-height: 25px;
+        white-space: nowrap;
+        .border-radius(4px);
+        margin-right: 15px;
+
+        &:hover {
+          background: url('@{webroot}/static/images/alpha/fff_20.png');
+        }
+      }
+    }
+  }
+
+}
+
+// dialog
+
+#updater.dialog img,
+#updating.dialog img {
+  margin-left: 5px;
+  vertical-align: middle;
+}

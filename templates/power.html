@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Maraschino</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="64x64" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:regular,bold">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Sans:regular,bold">
+
+  </head>
+
+  <body style="background: black;">
+
+    <div>
+        <img src="{{ url_for('static', filename='images/maraschino_logo.png') }}" />
+    </div>
+    <script src="{{ url_for('static', filename='js/webroot.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/jquery.js') }}"></script>
+
+    {% if shutdown %}
+      <h2 style="color: #eee;">
+        Maraschino is shutting down  <img src="{{ url_for('static', filename='images/xhrloading.gif') }}" />
+      </h2>
+
+      <script>
+        $.get(WEBROOT + '/xhr/shutdown', function(data){
+          if(data['shutdown_complete']){
+            $('body h2').replaceWith('<h2 style="color: #eee;">Shutdown Complete.</h2>');
+          }
+        });
+      </script>
+    {% endif %}
+
+    {% if restart %}
+      <h2 style="color: #eee;">
+        Maraschino is restarting  <img src="{{ url_for('static', filename='images/xhrloading.gif') }}" />
+      </h2>
+
+      <script>
+        $.get(WEBROOT + '/xhr/restart', function(data){
+          if(data['restart_complete']){
+            setTimeout(
+              function() {
+                location.replace(WEBROOT + '/');
+              }, 2000
+            );
+          }
+        });
+      </script>
+    {% endif %}
+
+  </body>
+</html>
