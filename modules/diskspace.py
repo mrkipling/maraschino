@@ -129,7 +129,6 @@ def disk_usage(path):
 
 def disk_legacy_check():
     disks_db_old = Disk.query.order_by(Disk.position)
-    disks_db = Disk.query.order_by(Disk2.position)
     for disk_old in disks_db_old:
 
         disk = Disk2(
