@@ -1,39 +1,34 @@
-from flask import Flask, jsonify, render_template, request, send_file
-import json, jsonrpclib, urllib
+from flask import render_template, request
+import json
+import urllib
 
 from Maraschino import app
-from settings import *
 from maraschino.tools import *
+
 
 def login_string():
     try:
-        login = '%s:%s@' % (get_setting('couchpotato_user').value, get_setting('couchpotato_password').value)
+        login = '%s:%s@' % (get_setting_value('couchpotato_user'), get_setting_value('couchpotato_password'))
 
     except:
         login = ''
 
     return login
 
+
 def couchpotato_url():
-    url = '%s:%s/%s' % (get_setting_value('couchpotato_ip'), get_setting_value('couchpotato_port'), get_setting_value('couchpotato_api'))
+    return 'http://%s%s:%s/api/%s' % (login_string(), get_setting_value('couchpotato_ip'), get_setting_value('couchpotato_port'), get_setting_value('couchpotato_api'))
 
-    if using_auth():
-        return 'http://%s%s' % (login_string(), url)
-
-    return 'http://%s' % (url)
 
 def couchpotato_url_no_api():
-    url = '%s:%s/' % (get_setting_value('couchpotato_ip'), get_setting_value('couchpotato_port'))
+    return 'http://%s%s:%s/' % (login_string(), get_setting_value('couchpotato_ip'), get_setting_value('couchpotato_port'))
 
-    if using_auth():
-        return 'http://%s%s' % (login_string(), url)
-
-    return 'http://%s' % (url)
 
 @app.route('/xhr/couchpotato')
 def xhr_couchpotato():
     try:
-        url = '%s/movie.list/?status=active' % (couchpotato_url())
+        print couchpotato_url()
+        url = '%s/movie.list/' % (couchpotato_url())
         result = urllib.urlopen(url).read()
         couchpotato = json.JSONDecoder().decode(result)
 
@@ -46,10 +41,11 @@ def xhr_couchpotato():
     compact_view = get_setting_value('couchpotato_compact') == '1'
 
     return render_template('couchpotato.html',
-        url = couchpotato_url(),
-        couchpotato = couchpotato,
-        compact_view = compact_view,
+        url=couchpotato_url(),
+        couchpotato=couchpotato,
+        compact_view=compact_view,
     )
+
 
 @app.route('/couchpotato/search/')
 def cp_search():
@@ -63,7 +59,7 @@ def cp_search():
 
     if params is not '':
         try:
-            url = '%s/movie.search/?q=%s' %(couchpotato_url(), params)
+            url = '%s/movie.search/?q=%s' % (couchpotato_url(), params)
             result = urllib.urlopen(url).read()
             couchpotato = json.JSONDecoder().decode(result)
 
@@ -74,6 +70,6 @@ def cp_search():
         couchpotato = None
 
     return render_template('couchpotato-search.html',
-        data = couchpotato,
-        couchpotato = 'results',
+        data=couchpotato,
+        couchpotato='results',
     )
