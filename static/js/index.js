@@ -612,11 +612,12 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '#library #play', function() {
+    var li;
     if ($(this).hasClass('li_buttons')) {
-      var li = $(this).parent().parent();
+      li = $(this).parent().parent();
     }
     else {
-      var li = this;
+      li = this;
     }
 
     var file_type = $(li).attr('file-type');
@@ -630,11 +631,12 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '#library #queue', function() {
+    var li;
     if ($(this).hasClass('li_buttons')) {
-      var li = $(this).parent().parent();
+      li = $(this).parent().parent();
     }
     else {
-      var li = this;
+      li = this;
     }
 
     var file_type = $(li).attr('file-type');
@@ -648,11 +650,12 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '#library #info', function() {
+    var li;
     if ($(this).hasClass('li_buttons')) {
-      var li = $(this).parent().parent();
+      li = $(this).parent().parent();
     }
     else {
-      var li = this;
+      li = this;
     }
 
     var id = $(li).data('id');
@@ -669,11 +672,12 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '#library #resume', function() {
+    var li;
     if ($(this).hasClass('li_buttons')) {
-      var li = $(this).parent().parent();
+      li = $(this).parent().parent();
     }
     else {
-      var li = this;
+      li = this;
     }
 
     var media_type = $(li).attr('media-type');
@@ -777,14 +781,14 @@ $(document).ready(function() {
     var id = $(this).attr('id');
     $.get(WEBROOT + '/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
     .success(function(data){
-	  if(data){
-	    $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src', WEBROOT + '/static/images/yes.png');
-	  } else {
-	    $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src', WEBROOT + '/static/images/no.png');
-	  }
+      if(data){
+        $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src', WEBROOT + '/static/images/yes.png');
+      } else {
+        $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src', WEBROOT + '/static/images/no.png');
+      }
     })
     .error(function(){
-	  popup_message('Could not reach Sick-Beard.');
+      popup_message('Could not reach Sick-Beard.');
     });
   });
 

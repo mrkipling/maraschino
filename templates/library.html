@@ -45,11 +45,25 @@
           {% endif %}
           <p class="p_info">
             <table border="0">
-			<tr><td width="75" style="font-weight:bold;">Studio:</td><td style="font-size: 0.950em;">{{ show.studio }}</td></tr>
-            <tr><td style="font-weight:bold;">Premier:</td><td style="font-size: 0.950em;">{{ show.Premier }}</td></tr>
-            <tr><td style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ show.genre|truncate(30, 'false') }}</td></tr>
-            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;">{{ show.rating|float|round(1, 'common') }} / 10</td></tr></table>
-            <br /><span style="font-weight:bold;">Plot:</span><br /><span style="font-size: 0.950em;">{{ show.plot }}</span>
+              <tr>
+                <td width="75" style="font-weight:bold;">Studio:</td>
+                <td style="font-size: 0.950em;">{{ show.studio }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Premier:</td>
+                <td style="font-size: 0.950em;">{{ show.Premier }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Genre:</td>
+                <td style="font-size: 0.950em;">{{ show.genre|truncate(30, 'false') }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Rating:</td>
+                <td style="font-size: 0.950em;">{{ show.rating|float|round(1, 'common') }} / 10</td>
+              </tr>
+            </table>
+            <br /><span style="font-weight:bold;">Plot:</span>
+            <br /><span style="font-size: 0.950em;">{{ show.plot }}</span>
           </p>
       </li>
       {% endif %}
@@ -99,9 +113,17 @@
 
           <p class="p_info">
             <table border="0">
-			<tr><td width="75" style="font-weight:bold;">First Aired:</td><td style="font-size: 0.950em;">{{ episode.firstaired }}</td></tr>
-            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;"> {{ episode.rating|float|round(1, 'common') }} / 10</td></tr></table>
-            <br /><span style="font-weight:bold;">Plot:</span><br /><span style="font-size: 0.950em;">{{ episode.plot }}</span>
+              <tr>
+                <td width="75" style="font-weight:bold;">First Aired:</td>
+                <td style="font-size: 0.950em;">{{ episode.firstaired }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Rating:</td>
+                <td style="font-size: 0.950em;"> {{ episode.rating|float|round(1, 'common') }} / 10</td>
+              </tr>
+            </table>
+            <br /><span style="font-weight:bold;">Plot:</span>
+            <br /><span style="font-size: 0.950em;">{{ episode.plot }}</span>
           </p>
       </li>
       {% endif %}
@@ -135,11 +157,21 @@
           {% endif %}
           <p class="p_info">
             <table border="0">
-			<tr><td width="75" style="font-weight:bold;">Director:</td><td style="font-size: 0.950em;">{{ movie.director }}</td></tr>
-            <tr><td style="font-weight:bold;">Year:</td><td style="font-size: 0.950em;">{{ movie.year }}</td></tr>
-            <tr><td style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ movie.genre|truncate(30, 'false') }}</td></tr>
-            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;">{{ movie.rating|float|round(1, 'common') }} / 10</td></tr></table>
-            <br /><span style="font-weight:bold;">Plot:</span><br /><span style="font-size: 0.950em;">{{ movie.plot }}</span>
+              <tr>
+                <td width="75" style="font-weight:bold;">Director:</td><td style="font-size: 0.950em;">{{ movie.director }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Year:</td><td style="font-size: 0.950em;">{{ movie.year }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ movie.genre|truncate(30, 'false') }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;">{{ movie.rating|float|round(1, 'common') }} / 10</td>
+              </tr>
+            </table>
+            <br /><span style="font-weight:bold;">Plot:</span>
+            <br /><span style="font-size: 0.950em;">{{ movie.plot }}</span>
           </p>
       </li>
       {% endif %}
@@ -164,8 +196,13 @@
           {% endif %}
           <p class="p_info">
             <table border="0">
-			<tr><td width="75" style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ artist.genre|truncate(30, 'false') }}</td></tr></table>
-            <br /><span style="font-weight:bold;">Artist Information:</span><br /><span style="font-size: 0.950em;">{{ artist.description }}</span>
+              <tr>
+                <td width="75" style="font-weight:bold;">Genre:</td>
+                <td style="font-size: 0.950em;">{{ artist.genre|truncate(30, 'false') }}</td>
+              </tr>
+            </table>
+            <br /><span style="font-weight:bold;">Artist Information:</span>
+            <br /><span style="font-size: 0.950em;">{{ artist.description }}</span>
           </p>
       </li>
       {% endif %}
@@ -190,10 +227,22 @@
           {% endif %}
           <p class="p_info">
             <table border="0">
-			<tr><td width="75" style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ album.genre|truncate(30, 'false') }}</td></tr>
-            <tr><td style="font-weight:bold;">Year:</td><td style="font-size: 0.950em;">{{ album.year }}</td></tr>
-            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;">{{ album.rating|float|round(1, 'common') }} / 10</td></tr></table>
-            <br /><span style="font-weight:bold;">Album Description:</span><br /><span style="font-size: 0.950em;">{{ album.description }}</span>
+              <tr>
+                <td width="75" style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ album.genre|truncate(30, 'false') }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Year:</td>
+                <td style="font-size: 0.950em;">{{ album.year }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Rating:</td>
+                <td style="font-size: 0.950em;">{{ album.rating|float|round(1, 'common') }} / 10</td>
+              </tr>
+            </table>
+            <br />
+            <span style="font-weight:bold;">Album Description:</span>
+            <br />
+            <span style="font-size: 0.950em;">{{ album.description }}</span>
           </p>
       </li>
       {% endif %}
@@ -239,6 +288,10 @@
         {% for item in library.files %}
           {% if item.filetype == "directory" %}
             <li {% if item.type != "unknown" %}class="play_file"{% else %}class="dir"{% endif %} media-type="file" data-file_type="video" data-path="{{ item.file }}">{{ item.label }}</li>
+              <span class="span">
+                <a class="li_buttons" id="play_dir" media-type="dir" data-file_type="video" data-path="{{ item.file }}">Play</a>
+                <a class="li_buttons" id="queue_dir" media-type="dir" data-file_type="video" data-path="{{ item.file }}">Queue</a>
+              </span>
           {% elif item.filetype == "none" %}
             <li class="empty">No video files found.</li>
           {% else %}
