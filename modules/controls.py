@@ -272,6 +272,44 @@ def xhr_play_file(file_type):
     return jsonify({'success': True})
 
 
+@app.route('/xhr/play_dir/<file_type>/', methods=['POST'])
+@requires_auth
+def xhr_play_dir(file_type):
+    logger.log('CONTROLS :: Playing %s dir' % file_type, 'INFO')
+    xbmc = jsonrpclib.Server(server_api_address())
+    if file_type == "music":
+        file_type = "audio"
+
+    try:
+        xhr_clear_playlist(file_type)
+    except:
+        logger.log('CONTROLS :: Failed to clear %s playlist' % file_type, 'DEBUG')
+        return jsonify({ 'failed': True })
+
+    directory = request.form['dir']
+    directory = urllib.unquote(directory.encode('ascii')).decode('utf-8')
+
+    if file_type == "video":
+        player = 1
+    else:
+        player = 0
+
+    try:
+        item = { 'directory': directory }
+        xbmc.Playlist.Add(playlistid=player, item=item)
+    except:
+        logger.log('CONTROLS :: Failed to add %s to playlist' % file_type, 'DEBUG')
+        return jsonify({ 'failed': True })
+
+    try:
+        item = { 'playlistid': player }
+        xbmc.Player.Open(item)
+    except:
+        logger.log('CONTROLS :: Failed to open %s' % file_type, 'DEBUG')
+        return jsonify({ 'failed': True })
+
+    return jsonify({ 'success': True })
+
 @app.route('/xhr/enqueue_file/<file_type>/', methods=['POST'])
 @requires_auth
 def xhr_enqueue_file(file_type):
@@ -295,6 +333,29 @@ def xhr_enqueue_file(file_type):
 
     return jsonify({'success': True})
 
+
+@app.route('/xhr/enqueue_dir/<file_type>/', methods=['POST'])
+@requires_auth
+def xhr_enqueue_dir(file_type):
+    logger.log('CONTROLS :: Queueing %s directory' % file_type, 'INFO')
+    xbmc = jsonrpclib.Server(server_api_address())
+
+    directory = request.form['dir']
+    directory = urllib.unquote(directory.encode('ascii')).decode('utf-8')
+
+    if file_type == "video":
+        player = 1
+    else:
+        player = 0
+
+    try:
+        item = { 'directory': directory }
+        xbmc.Playlist.Add(playlistid=player, item=item)
+    except:
+        logger.log('CONTROLS :: Failed to add %s to playlist' % file_type, 'DEBUG')
+        return jsonify({ 'failed': True })
+
+    return jsonify({ 'success': True })
 
 @app.route('/xhr/clear_playlist/<playlist_type>')
 @requires_auth

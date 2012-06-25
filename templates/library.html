@@ -304,7 +304,13 @@
       {% if file_type == "music_directory" %}
         {% for item in library.files %}
           {% if item.filetype == "directory" %}
-            <li class="dir" media-type="file" data-file_type="music" data-path="{{ item.file }}">{{ item.label }}</li>
+            <li class="dir" media-type="file" data-file_type="music" data-path="{{ item.file }}">
+              {{ item.label }}
+              <span class="span">
+                <a class="li_buttons" id="play_dir" media-type="dir" data-file_type="music" data-path="{{ item.file }}">Play</a>
+                <a class="li_buttons" id="queue_dir" media-type="dir" data-file_type="music" data-path="{{ item.file }}">Queue</a>
+              </span>
+            </li>
           {% elif item.filetype == "none" %}
             <li class="empty">No music files found.</li>
           {% else %}

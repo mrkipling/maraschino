@@ -698,12 +698,22 @@ $(document).ready(function() {
     });
   });
 
-  $(document).on('click', '#library li.play_file', function() {
+  $(document).on('click', '#library #play_file', function() {
     var li = this;
     var file = $(this).data('path');
 
     add_loading_gif(li);
     $.post(WEBROOT + '/xhr/play_file/' + $(this).data('file_type') + '/',{file: encodeURI(file)}, function(data){
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library #play_dir', function() {
+    var li = this;
+    var dir = $(this).data('path');
+
+    add_loading_gif(li);
+    $.post(WEBROOT + '/xhr/play_dir/' + $(this).data('file_type') + '/',{dir: encodeURI(dir)}, function(data){
       remove_loading_gif(li);
     });
   });
@@ -714,6 +724,16 @@ $(document).ready(function() {
 
     add_loading_gif(li);
     $.post(WEBROOT + '/xhr/enqueue_file/' + $(this).data('file_type') + '/',{file: encodeURI(file)}, function(data){
+      remove_loading_gif(li);
+    });
+  });
+
+  $(document).on('click', '#library #queue_dir', function() {
+    var li = this;
+    var dir = $(this).data('path');
+
+    add_loading_gif(li);
+    $.post(WEBROOT + '/xhr/enqueue_dir/' + $(this).data('file_type') + '/',{dir: encodeURI(dir)}, function(data){
       remove_loading_gif(li);
     });
   });
