@@ -1,5 +1,7 @@
-from flask import Flask, jsonify
-import jsonrpclib, socket, struct
+from flask import jsonify
+import jsonrpclib
+import socket
+import struct
 import urllib
 
 from Maraschino import app
@@ -277,42 +279,6 @@ def xhr_playlist_play(playlistid, position):
     xbmc = jsonrpclib.Server(server_api_address())
 
     try:
-        xbmc.Player.Open({ 'playlistid': playlistid, 'position': position })
-        return jsonify({ 'success': True })
-
-<<<<<<< HEAD
-    except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-        return jsonify({ 'failed': True })
-
-@app.route('/xhr/playlist/<int:playlistid>/clear')
-@requires_auth
-def xhr_clear_playlist(playlistid):
-    logger.log('CONTROLS :: Clearing playlist', 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
-
-    try:
-        xbmc.Playlist.Clear(playlistid=playlistid)
-        return jsonify({ 'success': True })
-
-    except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-        return jsonify({ 'failed': True })
-
-@app.route('/xhr/playlist/<int:playlistid>/move_item/<int:position1>/<direction>')
-@requires_auth
-def xhr_move_playlist_item(playlistid, position1, direction):
-    logger.log('CONTROLS :: Moving playlist item %s' % direction, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
-
-=======
-@app.route('/xhr/playlist/<int:playlistid>/play/<int:position>')
-@requires_auth
-def xhr_playlist_play(playlistid, position):
-    logger.log('CONTROLS :: playing playlist position %i' % position, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
-
-    try:
         xbmc.Player.Open({'playlistid': playlistid, 'position': position})
         return jsonify({'success': True})
 
@@ -320,7 +286,6 @@ def xhr_playlist_play(playlistid, position):
         logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
         return jsonify({'failed': True})
 
-
 @app.route('/xhr/playlist/<int:playlistid>/clear')
 @requires_auth
 def xhr_clear_playlist(playlistid):
@@ -335,14 +300,12 @@ def xhr_clear_playlist(playlistid):
         logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
         return jsonify({'failed': True})
 
-
 @app.route('/xhr/playlist/<int:playlistid>/move_item/<int:position1>/<direction>')
 @requires_auth
 def xhr_move_playlist_item(playlistid, position1, direction):
     logger.log('CONTROLS :: Moving playlist item %s' % direction, 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
 
->>>>>>> bcf0020... cleanup
     if direction == 'up':
         if position1 != 0:
             position2 = position1 - 1
@@ -354,24 +317,6 @@ def xhr_move_playlist_item(playlistid, position1, direction):
 
     try:
         xbmc.Playlist.Swap(playlistid=playlistid, position1=position1, position2=position2)
-<<<<<<< HEAD
-=======
-        return jsonify({'success': True})
-
-    except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-        return jsonify({'failed': True})
-
-
-@app.route('/xhr/playlist/<int:playlistid>/remove_item/<int:position>')
-@requires_auth
-def xhr_remove_playlist_item(playlistid, position):
-    logger.log('CONTROLS :: Removing playlist item %s' % position, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
-
-    try:
-        xbmc.Playlist.Remove(playlistid=playlistid, position=position)
->>>>>>> bcf0020... cleanup
         return jsonify({'success': True})
 
     except:
