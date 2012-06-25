@@ -1,6 +1,6 @@
 #currently_playing
 {
-  background: url('@{webroot}/static/images/alpha/000_80.png');
+  background: url('/@{webroot}/images/alpha/000_80.png');
   bottom: 0;
   left: 0;
   min-width: 900px;
@@ -44,7 +44,9 @@
     width: 400px;
 
     .show:hover,
-    .season:hover {
+    .season:hover,
+    .episode:hover,
+    .movie:hover {
       border-bottom: 1px solid #555;
       cursor: pointer;
     }
@@ -80,7 +82,8 @@
     width: 400px;
 
     .show:hover,
-    .season:hover  {
+    .season:hover,
+    .episode:hover {
       border-bottom: 1px solid #555;
       cursor: pointer;
     }
@@ -96,6 +99,11 @@
     margin-left: 102px;
     line-height: 1.5em;
     width: 400px;
+
+    .movie:hover {
+      border-bottom: 1px solid #555;
+      cursor: pointer;
+    }
   }
   .controls {
     margin-left: 45%;
@@ -135,37 +143,37 @@
     }
 
     .stop {
-      background: #111 url('@{webroot}/static/images/player_buttons/stop.png') no-repeat center;
+      background: #111 url('/@{webroot}/images/player_buttons/stop.png') no-repeat center;
     }
     .play_pause {
-      background: #111 url('@{webroot}/static/images/player_buttons/play_pause.png') no-repeat center;
+      background: #111 url('/@{webroot}/images/player_buttons/play_pause.png') no-repeat center;
     }
     .next {
-      background: #111 url('@{webroot}/static/images/player_buttons/next.png') no-repeat center;
+      background: #111 url('/@{webroot}/images/player_buttons/next.png') no-repeat center;
     }
     .previous {
-      background: #111 url('@{webroot}/static/images/player_buttons/previous.png') no-repeat center;
+      background: #111 url('/@{webroot}/images/player_buttons/previous.png') no-repeat center;
     }
     .fast_forward {
-      background: #111 url('@{webroot}/static/images/player_buttons/fast_forward.png') no-repeat center;
+      background: #111 url('/@{webroot}/images/player_buttons/fast_forward.png') no-repeat center;
     }
     .rewind {
-      background: #111 url('@{webroot}/static/images/player_buttons/rewind.png') no-repeat center;
+      background: #111 url('/@{webroot}/images/player_buttons/rewind.png') no-repeat center;
     }
     .shuffle {
-      background: #111 url('@{webroot}/static/images/player_buttons/shuffle.png') no-repeat center;
+      background: #111 url('/@{webroot}/images/player_buttons/shuffle.png') no-repeat center;
     }
     .repeat {
-      background: #111 url('@{webroot}/static/images/player_buttons/repeat.png') no-repeat center;
+      background: #111 url('/@{webroot}/images/player_buttons/repeat.png') no-repeat center;
     }
     .active {
       background-color: #444;
     }
     #repeat_one {
-      background: #444 url('@{webroot}/static/images/player_buttons/repeat_one.png') no-repeat center;
+      background: #444 url('/@{webroot}/images/player_buttons/repeat_one.png') no-repeat center;
     }
     #repeat_all {
-      background: #444 url('@{webroot}/static/images/player_buttons/repeat_all.png') no-repeat center;
+      background: #444 url('/@{webroot}/images/player_buttons/repeat_all.png') no-repeat center;
     }
   }
 
@@ -235,7 +243,7 @@
     .border-radius(3px);
     
     .volume-icon{
-      background: url('@{webroot}/static/images/player_buttons/volume.png') no-repeat center;
+      background: url('/@{webroot}/images/player_buttons/volume.png') no-repeat center;
       position: absolute;
       left: -2px;
       bottom: -20px;
@@ -263,6 +271,11 @@
       padding:2px;
       text-align: center;
     }
+  }
+
+  .playlist:hover {
+    border-bottom: 1px solid #555;
+    cursor: pointer;
   }
 
   .synopsis {

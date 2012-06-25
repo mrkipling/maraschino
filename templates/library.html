@@ -39,19 +39,33 @@
       {% endif %}
 
       {% if library.tvshowdetails %}
-      <li class="details" data-command="shows/info/{{ show.tvshowid }}">
-          {% if show.thumbnail %}
-            <img class="{% if bannerart %}bannerart{% else %}posterart{% endif %}" src="{{ itemart|xbmc_image }}">
+        <li class="details" data-command="shows/info/{{ library.tvshowdetails.tvshowid }}">
+          {% if library.tvshowdetails.thumbnail %}
+            <img class="{% if bannerart %}bannerart{% else %}posterart{% endif %}" src="{{ library.tvshowdetails.thumbnail|xbmc_image }}">
           {% endif %}
           <p class="p_info">
             <table border="0">
-			<tr><td width="75" style="font-weight:bold;">Studio:</td><td style="font-size: 0.950em;">{{ show.studio }}</td></tr>
-            <tr><td style="font-weight:bold;">Premier:</td><td style="font-size: 0.950em;">{{ show.Premier }}</td></tr>
-            <tr><td style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ show.genre|truncate(30, 'false') }}</td></tr>
-            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;">{{ show.rating|float|round(1, 'common') }} / 10</td></tr></table>
-            <br /><span style="font-weight:bold;">Plot:</span><br /><span style="font-size: 0.950em;">{{ show.plot }}</span>
+              <tr>
+                <td width="75" style="font-weight:bold;">Studio:</td>
+                <td style="font-size: 0.950em;">{{ library.tvshowdetails.studio }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Premier:</td>
+                <td style="font-size: 0.950em;">{{ library.tvshowdetails.Premier }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Genre:</td>
+                <td style="font-size: 0.950em;">{{ library.tvshowdetails.genre|truncate(30, 'false') }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Rating:</td>
+                <td style="font-size: 0.950em;">{{ library.tvshowdetails.rating|float|round(1, 'common') }} / 10</td>
+              </tr>
+            </table>
+            <br /><span style="font-weight:bold;">Plot:</span>
+            <br /><span style="font-size: 0.950em;">{{ library.tvshowdetails.plot }}</span>
           </p>
-      </li>
+        </li>
       {% endif %}
 
       {% if library.seasons %}
@@ -92,18 +106,26 @@
       {% endif %}
 
       {% if library.episodedetails %}
-      <li class="details" data-command="shows/{{ episode.tvshowid }}/{{ episode.season }}/info/{{ episode.episodeid }}">
-          {% if episode.thumbnail %}
-            <img class="episodeart" src="{{ itemart|xbmc_image }}">
+        <li class="details" data-command="shows/{{ library.episodedetails.tvshowid }}/{{ library.episodedetails.season }}/info/{{ library.episodedetails.episodeid }}">
+          {% if library.episodedetails.thumbnail %}
+            <img class="episodeart" src="{{ library.episodedetails.thumbnail|xbmc_image }}">
           {% endif %}
 
           <p class="p_info">
             <table border="0">
-			<tr><td width="75" style="font-weight:bold;">First Aired:</td><td style="font-size: 0.950em;">{{ episode.firstaired }}</td></tr>
-            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;"> {{ episode.rating|float|round(1, 'common') }} / 10</td></tr></table>
-            <br /><span style="font-weight:bold;">Plot:</span><br /><span style="font-size: 0.950em;">{{ episode.plot }}</span>
+              <tr>
+                <td width="75" style="font-weight:bold;">First Aired:</td>
+                <td style="font-size: 0.950em;">{{ library.episodedetails.firstaired }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Rating:</td>
+                <td style="font-size: 0.950em;"> {{ library.episodedetails.rating|float|round(1, 'common') }} / 10</td>
+              </tr>
+            </table>
+            <br /><span style="font-weight:bold;">Plot:</span>
+            <br /><span style="font-size: 0.950em;">{{ library.episodedetails.plot }}</span>
           </p>
-      </li>
+        </li>
       {% endif %}
 
       {% if library.movies %}
@@ -129,19 +151,33 @@
       {% endif %}
 
       {% if library.moviedetails %}
-      <li class="details" data-command="movies/info/{{ movie.movieid }}">
-          {% if movie.thumbnail %}
-            <img class="posterart" src="{{ itemart|xbmc_image }}">
+        <li class="details" data-command="movies/info/{{ library.moviedetails.movieid }}">
+          {% if library.moviedetails.thumbnail %}
+            <img class="posterart" src="{{ library.moviedetails.thumbnail|xbmc_image }}">
           {% endif %}
           <p class="p_info">
             <table border="0">
-			<tr><td width="75" style="font-weight:bold;">Director:</td><td style="font-size: 0.950em;">{{ movie.director }}</td></tr>
-            <tr><td style="font-weight:bold;">Year:</td><td style="font-size: 0.950em;">{{ movie.year }}</td></tr>
-            <tr><td style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ movie.genre|truncate(30, 'false') }}</td></tr>
-            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;">{{ movie.rating|float|round(1, 'common') }} / 10</td></tr></table>
-            <br /><span style="font-weight:bold;">Plot:</span><br /><span style="font-size: 0.950em;">{{ movie.plot }}</span>
+              <tr>
+                <td width="75" style="font-weight:bold;">Director:</td>
+                <td style="font-size: 0.950em;">{{ library.moviedetails.director }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Year:</td>
+                <td style="font-size: 0.950em;">{{ library.moviedetails.year }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Genre:</td>
+                <td style="font-size: 0.950em;">{{ library.moviedetails.genre|truncate(30, 'false') }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Rating:</td>
+                <td style="font-size: 0.950em;">{{ library.moviedetails.rating|float|round(1, 'common') }} / 10</td>
+              </tr>
+            </table>
+            <br /><span style="font-weight:bold;">Plot:</span>
+            <br /><span style="font-size: 0.950em;">{{ library.moviedetails.plot }}</span>
           </p>
-      </li>
+        </li>
       {% endif %}
 
       {% if library.artists %}
@@ -158,16 +194,21 @@
       {% endif %}
 
       {% if library.artistdetails %}
-      <li class="details" data-command="artists/info/{{ artist.artistid }}">
-          {% if artist.thumbnail %}
-            <img class="artistart" src="{{ itemart|xbmc_image }}">
+        <li class="details" data-command="artists/info/{{ library.artistdetails.artistid }}">
+          {% if library.artistdetails.thumbnail %}
+            <img class="artistart" src="{{ library.artistdetails.thumbnail|xbmc_image }}">
           {% endif %}
           <p class="p_info">
             <table border="0">
-			<tr><td width="75" style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ artist.genre|truncate(30, 'false') }}</td></tr></table>
-            <br /><span style="font-weight:bold;">Artist Information:</span><br /><span style="font-size: 0.950em;">{{ artist.description }}</span>
+              <tr>
+                <td width="75" style="font-weight:bold;">Genre:</td>
+                <td style="font-size: 0.950em;">{{ library.artistdetails.genre|truncate(30, 'false') }}</td>
+              </tr>
+            </table>
+            <br /><span style="font-weight:bold;">Artist Information:</span>
+            <br /><span style="font-size: 0.950em;">{{ library.artistdetails.description }}</span>
           </p>
-      </li>
+        </li>
       {% endif %}
 
       {% if library.albums %}
@@ -184,18 +225,29 @@
       {% endif %}
 
       {% if library.albumdetails %}
-      <li class="details" data-command="artists/{{ album.artistid }}/info/{{ album.albumid }}">
-          {% if album.thumbnail %}
-            <img class="albumart" src="{{ itemart|xbmc_image }}">
+        <li class="details" data-command="artists/{{ library.albumdetails.artistid }}/info/{{ library.albumdetails.albumid }}">
+          {% if library.albumdetails.thumbnail %}
+            <img class="albumart" src="{{ library.albumdetails.thumbnail|xbmc_image }}">
           {% endif %}
           <p class="p_info">
             <table border="0">
-			<tr><td width="75" style="font-weight:bold;">Genre:</td><td style="font-size: 0.950em;">{{ album.genre|truncate(30, 'false') }}</td></tr>
-            <tr><td style="font-weight:bold;">Year:</td><td style="font-size: 0.950em;">{{ album.year }}</td></tr>
-            <tr><td style="font-weight:bold;">Rating:</td><td style="font-size: 0.950em;">{{ album.rating|float|round(1, 'common') }} / 10</td></tr></table>
-            <br /><span style="font-weight:bold;">Album Description:</span><br /><span style="font-size: 0.950em;">{{ album.description }}</span>
+              <tr>
+                <td width="75" style="font-weight:bold;">Genre:</td>
+                <td style="font-size: 0.950em;">{{ library.albumdetails.genre|truncate(30, 'false') }}</td></tr>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Year:</td>
+                <td style="font-size: 0.950em;">{{ library.albumdetails.year }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">Rating:</td>
+                <td style="font-size: 0.950em;">{{ library.albumdetails.rating|float|round(1, 'common') }} / 10</td>
+              </tr>
+            </table>
+            <br /><span style="font-weight:bold;">Album Description:</span>
+            <br /><span style="font-size: 0.950em;">{{ library.albumdetails.description }}</span>
           </p>
-      </li>
+        </li>
       {% endif %}
 
       {% if library.songs %}
@@ -238,7 +290,7 @@
       {% if file_type == "video_directory" %}
         {% for item in library.files %}
           {% if item.filetype == "directory" %}
-            <li {% if item.type != "unknown" %}class="play_file"{% else %}class="dir"{% endif %} media-type="file" data-file_type="video" data-path="{{ item.file }}">{{ item.label }}</li>
+            <li class="{% if item.type != "unknown" %}play_file{% else %}dir{% endif %}" media-type="file" data-file_type="video" data-path="{{ item.file }}">{{ item.label }}</li>
           {% elif item.filetype == "none" %}
             <li class="empty">No video files found.</li>
           {% else %}
@@ -291,33 +343,33 @@
 
   {% if library %}
 	{% if library.moviedetails %}
-      {% if movie.resume.position >= 1 %}
-        <a class="info_buttons" id="resume" media-type="movie" data-id="{{ movie.movieid }}" title="Resume Movie">Resume</a>
+      {% if library.moviedetails.resume.position >= 1 %}
+        <a class="info_buttons" id="resume" media-type="movie" data-id="{{ library.moviedetails.movieid }}" title="Resume Movie">Resume</a>
       {% endif %}
-      <a class="info_buttons" id="play" file-type="video" media-type="movie" data-id="{{ movie.movieid }}" title="Play Movie">Play</a>
-      <a class="info_buttons" id="queue" file-type="video" media-type="movie" data-id="{{ movie.movieid }}" title="Add to Queue">Queue</a>
-      {% if movie.trailer %}
-        <a class="info_buttons" id="trailer" data-id="{{ movie.movieid }}" title="Play Trailer">Trailer</a>
+      <a class="info_buttons" id="play" file-type="video" media-type="movie" data-id="{{ library.moviedetails.movieid }}" title="Play Movie">Play</a>
+      <a class="info_buttons" id="queue" file-type="video" media-type="movie" data-id="{{ library.moviedetails.movieid }}" title="Add to Queue">Queue</a>
+      {% if library.moviedetails.trailer %}
+        <a class="info_buttons" id="trailer" data-id="{{ library.moviedetails.movieid }}" title="Play Trailer">Trailer</a>
       {% endif %}
 
 	{% elif library.tvshowdetails %}
-      <a class="info_buttons" id="play" file-type="video" media-type="tvshow" data-id="{{ show.tvshowid }}" title="Play TV show">Play</a>
-      <a class="info_buttons" id="queue" file-type="video" media-type="tvshow" data-id="{{ show.tvshowid }}" title="Add to Queue">Queue</a>
+      <a class="info_buttons" id="play" file-type="video" media-type="tvshow" data-id="{{ library.tvshowdetails.tvshowid }}" title="Play TV show">Play</a>
+      <a class="info_buttons" id="queue" file-type="video" media-type="tvshow" data-id="{{ library.tvshowdetails.tvshowid }}" title="Add to Queue">Queue</a>
 
 	{% elif library.episodedetails %}
-      {% if episode.resume.position >= 1 %}
-        <a class="info_buttons" id="resume" file-type="video" media-type="episode" data-id="{{ episode.episodeid }}" title="Resume Episode">Resume</a>
+      {% if library.episodedetails.resume.position >= 1 %}
+        <a class="info_buttons" id="resume" file-type="video" media-type="episode" data-id="{{ library.episodedetails.episodeid }}" title="Resume Episode">Resume</a>
       {% endif %}
-      <a class="info_buttons" id="play" file-type="video" media-type="episode" data-id="{{ episode.episodeid }}" title="Play Episode">Play</a>
-      <a class="info_buttons" id="queue" file-type="video" media-type="episode" data-id="{{ episode.episodeid }}" title="Add to Queue">Queue</a>
+      <a class="info_buttons" id="play" file-type="video" media-type="episode" data-id="{{ library.episodedetails.episodeid }}" title="Play Episode">Play</a>
+      <a class="info_buttons" id="queue" file-type="video" media-type="episode" data-id="{{ library.episodedetails.episodeid }}" title="Add to Queue">Queue</a>
 
 	{% elif library.artistdetails %}
-      <a class="info_buttons" id="play" file-type="audio" media-type="artist" data-id="{{ artist.artistid }}" title="Play All Albums">Play</a>
-      <a class="info_buttons" id="queue" file-type="audio" media-type="artist" data-id="{{ artist.artistid }}" title="Add to Queue">Queue</a>
+      <a class="info_buttons" id="play" file-type="audio" media-type="artist" data-id="{{ library.artistdetails.artistid }}" title="Play All Albums">Play</a>
+      <a class="info_buttons" id="queue" file-type="audio" media-type="artist" data-id="{{ library.artistdetails.artistid }}" title="Add to Queue">Queue</a>
 
 	{% elif library.albumdetails %}
-      <a class="info_buttons" id="play" file-type="audio" media-type="album" data-id="{{ album.albumid }}" title="Play Album">Play</a>
-      <a class="info_buttons" id="queue" file-type="audio" media-type="album" data-id="{{ album.albumid }}" title="Add to Queue">Queue</a>
+      <a class="info_buttons" id="play" file-type="audio" media-type="album" data-id="{{ library.albumdetails.albumid }}" title="Play Album">Play</a>
+      <a class="info_buttons" id="queue" file-type="audio" media-type="album" data-id="{{ library.albumdetails.albumid }}" title="Add to Queue">Queue</a>
     {% endif %}
 
 	{% if library.tvshows or library.seasons or library.episodes or library.movies or library.moviedetails or library.tvshowdetails or library.episodedetails or file_type == "video_directory" %}

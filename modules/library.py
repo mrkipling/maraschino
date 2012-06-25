@@ -1,5 +1,6 @@
-from flask import Flask, render_template
-import jsonrpclib, urllib, maraschino
+from flask import render_template
+import jsonrpclib
+import urllib
 
 from Maraschino import app
 from maraschino.noneditable import *
@@ -8,10 +9,12 @@ from maraschino import logger
 
 xbmc_error = 'There was a problem connecting to the XBMC server'
 
+
 @app.route('/xhr/library')
 @requires_auth
 def xhr_library():
     return render_library()
+
 
 @app.route('/xhr/library/<item_type>')
 @requires_auth
@@ -29,7 +32,8 @@ def xhr_library_root(item_type):
 
         if item_type == 'movies':
             logger.log('LIBRARY :: Retrieving movies', 'INFO')
-            library = xbmc.VideoLibrary.GetMovies(sort={ 'method': 'label', 'ignorearticle' : True }, properties=['playcount', 'resume'])
+            library = xbmc.VideoLibrary.GetMovies(sort={'method': 'label', 'ignorearticle': True}, properties=['playcount', 'resume'])
+            logger.log('LIBRARY :: Finished retrieveing movies', 'DEBUG')
 
             if get_setting_value('library_watched_movies') == '0':
                 logger.log('LIBRARY :: Showing only unwatched movies', 'INFO')
@@ -47,7 +51,8 @@ def xhr_library_root(item_type):
         if item_type == 'shows':
             logger.log('LIBRARY :: Retrieving TV shows', 'INFO')
             title = "TV Shows"
-            library = xbmc.VideoLibrary.GetTVShows(sort={ 'method': 'label', 'ignorearticle' : True }, properties=['playcount'])
+            library = xbmc.VideoLibrary.GetTVShows(sort={'method': 'label', 'ignorearticle': True}, properties=['playcount'])
+            logger.log('LIBRARY :: Finished retrieveing TV Shows', 'DEBUG')
 
             if get_setting_value('library_watched_tv') == '0':
                 logger.log('LIBRARY :: Showing only unwatched TV shows', 'INFO')
@@ -65,7 +70,8 @@ def xhr_library_root(item_type):
         if item_type == 'artists':
             logger.log('LIBRARY :: Retrieving music', 'INFO')
             title = "Music"
-            library = xbmc.AudioLibrary.GetArtists(sort={ 'method': 'label', 'ignorearticle' : True })
+            library = xbmc.AudioLibrary.GetArtists(sort={'method': 'label', 'ignorearticle': True})
+            logger.log('LIBRARY :: Finished retrieveing music', 'DEBUG')
 
             for artist in library['artists']:
                 artistid = artist['artistid']
@@ -75,11 +81,10 @@ def xhr_library_root(item_type):
                 except:
                     None
 
-
         if item_type == 'files':
             logger.log('LIBRARY :: Retrieving files', 'INFO')
             title = "Files"
-            library = {'filemode' : 'true'}
+            library = {'filemode': 'true'}
             xbmc.JSONRPC.Ping()
 
     except:
@@ -87,6 +92,7 @@ def xhr_library_root(item_type):
         return render_library(message=xbmc_error)
 
     return render_library(library, title)
+
 
 @app.route('/xhr/library/shows/<int:show>')
 @requires_auth
@@ -118,12 +124,13 @@ def xhr_library_show(show):
 
     return render_library(library, title)
 
+
 @app.route('/xhr/library/shows/<int:show>/<int:season>')
 @requires_auth
 def xhr_library_season(show, season):
     logger.log('LIBRARY :: Retrieving episodes', 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-    sort = { 'method': 'episode' }
+    sort = {'method': 'episode'}
 
     try:
         library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode', 'plot', 'playcount', 'resume'])
@@ -149,12 +156,13 @@ def xhr_library_season(show, season):
 
     return render_library(library, title)
 
+
 @app.route('/xhr/library/artists/<int:artist>')
 @requires_auth
 def xhr_library_artist(artist):
     logger.log('LIBRARY :: Retrieving albums', 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-    sort = { 'method': 'year' }
+    sort = {'method': 'year'}
 
     try:
         library = xbmc.AudioLibrary.GetAlbums(artistid=artist, sort=sort, properties=['artistid', 'title', 'artist', 'year'])
@@ -167,12 +175,13 @@ def xhr_library_artist(artist):
 
     return render_library(library, title)
 
+
 @app.route('/xhr/library/artists/<int:artist>/<int:album>')
 @requires_auth
 def xhr_library_album(artist, album):
     logger.log('LIBRARY :: Retrieving songs', 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-    sort = { 'method': 'track' }
+    sort = {'method': 'track'}
 
     try:
         library = xbmc.AudioLibrary.GetSongs(artistid=artist, albumid=album, sort=sort, properties=['artistid', 'artist', 'album', 'track', 'playcount', 'year'])
@@ -185,123 +194,40 @@ def xhr_library_album(artist, album):
 
     return render_library(library, title)
 
-@app.route('/xhr/library/movie/info/<int:movieid>')
+
+@app.route('/xhr/library/<type>/info/<int:id>')
 @requires_auth
-def xhr_library_info_movie(movieid):
-    logger.log('LIBRARY :: Retrieving movie details', 'INFO')
+def xhr_library_info(type, id):
+    logger.log('LIBRARY :: Retrieving %s details' % type, 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
 
     try:
-        library = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties=['title', 'rating', 'year', 'genre', 'plot', 'director', 'thumbnail', 'trailer', 'playcount', 'resume'])
+        if type == 'movie':
+            library = xbmc.VideoLibrary.GetMovieDetails(movieid=id, properties=['title', 'rating', 'year', 'genre', 'plot', 'director', 'thumbnail', 'trailer', 'playcount', 'resume'])
+            title = library['moviedetails']['title']
+
+        elif type == 'tvshow':
+            library = xbmc.VideoLibrary.GetTVShowDetails(tvshowid=id, properties=['title', 'rating', 'year', 'genre', 'plot', 'premiered', 'thumbnail', 'playcount', 'studio'])
+            title = library['tvshowdetails']['title']
+
+        elif type == 'episode':
+            library = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=id, properties=['season', 'tvshowid', 'title', 'rating', 'plot', 'thumbnail', 'playcount', 'firstaired', 'resume'])
+            title = library['episodedetails']['title']
+
+        elif type == 'artist':
+            library = xbmc.AudioLibrary.GetArtistDetails(artistid=id, properties=['description', 'thumbnail', 'genre'])
+            title = library['artistdetails']['label']
+
+        elif type == 'album':
+            library = xbmc.AudioLibrary.GetAlbumDetails(albumid=id, properties=['artistid', 'title', 'artist', 'year', 'genre', 'description', 'albumlabel', 'rating', 'thumbnail'])
+            title = library['albumdetails']['title']
+
     except:
         logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
         return render_library(message=xbmc_error)
 
-    movie = library['moviedetails']
-    title = movie['title']
-    itemart = movie['thumbnail']
+    return render_library(library, title)
 
-    return render_template('library.html',
-        library = library,
-        title = title,
-        movie = movie,
-        itemart = itemart,
-    )
-
-@app.route('/xhr/library/tvshow/info/<int:tvshowid>')
-@requires_auth
-def xhr_library_info_show(tvshowid):
-    logger.log('LIBRARY :: Retrieving TV show details', 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
-
-    try:
-        library = xbmc.VideoLibrary.GetTVShowDetails(tvshowid=tvshowid, properties=['title', 'rating', 'year', 'genre', 'plot', 'premiered', 'thumbnail', 'playcount', 'studio'])
-    except:
-        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
-        return render_library(message=xbmc_error)
-
-    show = library['tvshowdetails']
-    title = show['title']
-    itemart = show['thumbnail']
-
-    bannerart = get_setting_value('library_use_bannerart') == '1'
-
-    return render_template('library.html',
-        library = library,
-        title = title,
-        show = show,
-        itemart = itemart,
-        bannerart = bannerart,
-    )
-
-@app.route('/xhr/library/episode/info/<int:episodeid>')
-@requires_auth
-def xhr_library_info_episode(episodeid):
-    logger.log('LIBRARY :: Retrieving episode details', 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
-
-    try:
-        library = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=episodeid, properties=['season', 'tvshowid', 'title', 'rating', 'plot', 'thumbnail', 'playcount', 'firstaired', 'resume'])
-    except:
-        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
-        return render_library(message=xbmc_error)
-
-    episode = library['episodedetails']
-    title = episode['title']
-    itemart = episode['thumbnail']
-
-    return render_template('library.html',
-        library = library,
-        title = title,
-        episode = episode,
-        itemart = itemart,
-    )
-
-@app.route('/xhr/library/artist/info/<int:artistid>')
-@requires_auth
-def xhr_library_info_artist(artistid):
-    logger.log('LIBRARY :: Retrieving artist details', 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
-
-    try:
-        library = xbmc.AudioLibrary.GetArtistDetails(artistid=artistid, properties=['description', 'thumbnail', 'formed', 'genre'])
-    except:
-        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
-        return render_library(message=xbmc_error)
-
-    artist = library['artistdetails']
-    title = artist['label']
-    itemart = artist['thumbnail']
-
-    return render_template('library.html',
-        library = library,
-        title = title,
-        artist = artist,
-        itemart = itemart,
-    )
-
-@app.route('/xhr/library/album/info/<int:albumid>')
-@requires_auth
-def xhr_library_info_album(albumid):
-    logger.log('LIBRARY :: Retrieving album details', 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
-
-    try:
-        library = xbmc.AudioLibrary.GetAlbumDetails(albumid=albumid, properties=['artistid', 'title', 'artist', 'year', 'genre', 'description', 'albumlabel', 'rating', 'thumbnail'])
-    except:
-        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
-        return render_library(message=xbmc_error)
-
-    album = library['albumdetails']
-    title = '%s - %s' % (album['artist'], album['title'])
-    itemart = album['thumbnail']
-
-    return render_template('library.html',
-        library = library,
-        title = title,
-        album = album,
-        itemart = itemart,
-    )
 
 @app.route('/xhr/library/files/<file_type>')
 @requires_auth
@@ -322,6 +248,7 @@ def xhr_library_files_file_type(file_type):
 
     return render_library(library, title, file_type)
 
+
 @app.route('/xhr/library/files/<file_type>/dir/', methods=['POST'])
 @requires_auth
 def xhr_library_files_directory(file_type):
@@ -330,7 +257,7 @@ def xhr_library_files_directory(file_type):
     logger.log('LIBRARY :: Retrieving %s path: %s' % (file_type, path), 'INFO')
 
     xbmc = jsonrpclib.Server(server_api_address())
-    sort = { 'method': 'file' }
+    sort = {'method': 'file'}
 
     try:
         library = xbmc.Files.GetDirectory(media=file_type, sort=sort, directory=path)
@@ -355,8 +282,8 @@ def xhr_library_files_directory(file_type):
     else:
         x = previous_dir.rfind("/")
 
-    current_dir = previous_dir[x+1:]
-    previous_dir = previous_dir[0:x+1]
+    current_dir = previous_dir[x + 1:]
+    previous_dir = previous_dir[0:x + 1]
 
     for source in sources['sources']:
         if source['file'] in path:
@@ -384,15 +311,15 @@ def xhr_library_files_directory(file_type):
 
     return render_library(library, title, file_type, previous_dir)
 
-def render_library(library=None, title="Media Library", file_type=None, previous_dir=None, message=None):
-    show_info = get_setting_value('library_show_info') == '1'
 
+def render_library(library=None, title="Media Library", file_type=None, previous_dir=None, message=None):
     return render_template('library.html',
-        library = library,
-        title = title,
-        message = message,
-        file_type = file_type,
-        previous_dir = previous_dir,
-        show_info = show_info,
-        library_show_power_buttons = get_setting_value('library_show_power_buttons', '1') == '1',
+        library=library,
+        title=title,
+        message=message,
+        file_type=file_type,
+        previous_dir=previous_dir,
+        show_info=get_setting_value('library_show_info') == '1',
+        library_show_power_buttons=get_setting_value('library_show_power_buttons', '1') == '1',
+        bannerart=get_setting_value('library_use_bannerart') == '1',
     )
