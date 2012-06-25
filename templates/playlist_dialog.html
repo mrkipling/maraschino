@@ -1,0 +1,35 @@
+<div id="playlist_dialog" class="dialog">
+
+  <div class="close">x</div>
+
+  <h2>Currently Playing</h2>
+
+  {% if playlist %}
+    {% if playlist.limits.total >= 1  %}
+      <div class="current_playlist">
+        <span class="clear buttons btn" data-command="{{ playlist.id }}/clear"><b>CLEAR</b></span>
+        <ul>
+          {% for item in playlist['items'] %}
+            <li class="play{{ ' playing' if item.playing }}" data-playlistid="{{ playlist.id }}" data-position="{{ item.position }}">
+              {{ item.label }}
+              <span class="buttons">
+                <span class="control btn" data-command="{{ playlist.id }}/move_item/{{ item.position }}/up" title="Move up">
+                  <img src="{{ url_for('static', filename='images/arrow_up.png') }}" />
+                </span>
+                <span class="control btn" data-command="{{ playlist.id }}/move_item/{{ item.position }}/down" title="Move down">
+                  <img src="{{ url_for('static', filename='images/arrow_down.png') }}" />
+                </span>
+                <span class="control btn" data-command="{{ playlist.id }}/remove_item/{{ item.position }}" title="Remove">
+                  <img src="{{ url_for('static', filename='images/remove_icon.png') }}" height="10" />
+                </span>
+              </span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% else %}
+      <div class="empty">The {% if playlist.id == 0 %}audio{% else %}video{% endif %} playlist is empty.</div>
+    {% endif %}
+  {% endif %}
+
+</div>
