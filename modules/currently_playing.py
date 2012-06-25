@@ -61,7 +61,8 @@ def xhr_current_playlist():
             item['position'] = playlist['items'].index(item)
 
             if item['position'] == player_info['position']:
-                item['playing'] = True
+                if item['label'] == currently_playing['label']:
+                    item['playing'] = True
             else:
                 item['playing'] = False
 
