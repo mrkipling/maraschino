@@ -1343,10 +1343,43 @@ $(document).ready(function() {
   $(document).on('click', '#couchpotato .search ul li', function() {
     var imdbid = $(this).data('imdbid');
     var title = $(this).data('title');
-    alert('Adding ' + title + ' ' + imdbid + ' to CP wanted');
     $.get(WEBROOT + '/xhr/couchpotato/add_movie/'+imdbid+'/'+title, function(data) {
       console.log(data);
-      alert(data);
+      if(data.status){
+        popup_message('Movie added successfully');
+      } else {
+        popup_message('Failed to add movie to CouchPotato');
+      }
+    });
+  });
+
+  $(document).on('click', '#couchpotato #cp_content .movie .image', function() {
+    var id = $(this).parent().attr('id');
+    var el = $('#'+id);
+    el.toggleClass('selected');
+    if(el.hasClass('selected')){
+      el.transition({x: '30px', opacity: 0.7}, function(){
+        $('#couchpotato #cp_content .options&.'+id).transition({opacity: 1});
+      });
+    } else {
+      $('#couchpotato #cp_content .options&.'+id).transition({opacity: 0}, function(){
+        el.transition({opacity: 1, x: '0px'});
+      });
+    }
+  });
+
+  $(document).on('click', '#couchpotato #cp_content .options img.delete', function() {
+    var id = $(this).parent().data('cpid');
+    var imdbid = $(this).parent().data('imdbid');
+    $.get(WEBROOT+'/xhr/couchpotato/delete_movie/'+id, function(data) {
+      if(data == '{"success": true}'){
+        $('#couchpotato #cp_content #'+imdbid).transition({opacity: 0, duration: 2000}, function(){
+          $(this).remove();
+          popup_message('Movie deleted successfully');
+        });
+      } else {
+        popup_message('Failed to delete movie, see log for more datials');
+      }
     });
     
   });

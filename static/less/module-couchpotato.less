@@ -1,7 +1,6 @@
 @import "mixins.less";
 
 #couchpotato {
-
   .menu {
     .history span {
       background: url('/@{webroot}/images/history.png') center no-repeat;
@@ -10,7 +9,7 @@
       text-indent: 0;
     }
     .wanted span  {
-      background: url('/@{webroot}/images/coming.png') center no-repeat
+      background: url('/@{webroot}/images/coming.png') center no-repeat;
     }
   }
 
@@ -76,7 +75,7 @@
 
   #cp_content {
     max-height: 264px;
-    overflow: auto;
+    overflow-x: hidden;
     
     .movie {
       background: url('/@{webroot}/images/alpha/fff_10.png');
@@ -90,8 +89,9 @@
       padding: 5px;
       overflow: hidden;
       position: relative;
-
+      z-index: 10;
       .border-radius(4px);
+
       &:hover {
         background: url('/@{webroot}/images/alpha/fff_20.png');
       }
@@ -103,7 +103,6 @@
         position: absolute;
         top: 0;
         right: 0;
-        z-index: 1;
       }
       
       div.image {
@@ -111,6 +110,7 @@
         height: 100%;
         padding-right: 5px;
         position: relative;
+        cursor: pointer;
         
         img.poster {
           height: 100%;
@@ -138,6 +138,26 @@
         a.more {
           cursor: pointer;
         }
+      }
+    }
+    div.options {
+      opacity: 0;
+      -moz-opacity: 0;
+      filter:alpha(opacity=0);
+      top: -60px;
+      left: 10px;
+      height: 0px;
+      margin: 0px;
+      position: relative;
+      float: left;
+      z-index: 1;
+
+      img {
+        display: block;
+        height: 15px;
+        width: 15px;
+        padding: 2px;
+        cursor: pointer;
       }
     }
   }
