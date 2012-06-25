@@ -1303,28 +1303,34 @@ $(document).ready(function() {
     $("#"+id+" .plot").toggle();
   });
 
+  $(document).on('click', '#couchpotato .menu .wanted', function(){
+    $.get(WEBROOT + '/xhr/couchpotato/')
+    .success(function(data){
+      $('#couchpotato').replaceWith(data);
+    });
+  });
+
   //Load search template
   $(document).on('click', '#couchpotato div.powerholder .add', function(){
-    $.get(WEBROOT + '/couchpotato/search/')
+    $.get(WEBROOT + '/xhr/couchpotato/search/')
     .success(function(data){
       $('#couchpotato').replaceWith(data);
     })
     .error(function(){
       popup_message('Could not reach Maraschino.');
     });
-
   });
   
   // Load search results
-  $(document).on('keypress', '#couchpotato #search #value', function(e){
+  $(document).on('keypress', '#couchpotato .search .value', function(e){
     if(e.which == 13){
       e.preventDefault();
-      var name = $('#couchpotato #search #value').attr('value');
-      params = ''
-      if(name != ''){
+      var name = $('#couchpotato .search .value').attr('value');
+      params = '';
+      if(name !== ''){
           params = 'name='+name;
       }
-      $.get(WEBROOT + '/couchpotato/search/?'+params)
+      $.get(WEBROOT + '/xhr/couchpotato/search/?'+params)
       .success(function(data){
         $('#couchpotato').replaceWith(data);
       })
@@ -1334,6 +1340,16 @@ $(document).ready(function() {
     }
   });
 
+  $(document).on('click', '#couchpotato .search ul li', function() {
+    var imdbid = $(this).data('imdbid');
+    var title = $(this).data('title');
+    alert('Adding ' + title + ' ' + imdbid + ' to CP wanted');
+    $.get(WEBROOT + '/xhr/couchpotato/add_movie/'+imdbid+'/'+title, function(data) {
+      console.log(data);
+      alert(data);
+    });
+    
+  });
   /********* END CouchPotato ***********/
 
   /********* SEARCH ***********/

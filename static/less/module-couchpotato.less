@@ -4,18 +4,18 @@
 
   .menu {
     .history span {
-      background-image: url(/static/images/history.png);
+      background: url('/@{webroot}/images/history.png') center no-repeat;
     }
     .all {
       text-indent: 0;
     }
-    .upcoming span  {
-      background-image: url(/static/images/coming.png);
+    .wanted span  {
+      background: url('/@{webroot}/images/coming.png') center no-repeat
     }
   }
 
   div.back {
-    background: url(/static/images/alpha/fff_10.png);
+    background: url('/@{webroot}/images/alpha/fff_10.png');
     cursor: pointer;
     display: inline-block;
     height: 30px;
@@ -30,7 +30,7 @@
     .border-radius(4px);
 
     &:hover {
-      background: url(/static/images/alpha/fff_20.png);
+      background: url('/@{webroot}/images/alpha/fff_20.png');
     }
   }
 
@@ -41,7 +41,7 @@
     cursor: default;
 
     .button {
-      background: url(/static/images/alpha/fff_10.png);
+      background: url('/@{webroot}/images/alpha/fff_10.png');
       cursor: pointer;
       display: inline-block;
       height: 30px;
@@ -52,11 +52,10 @@
       color: #ccc;
       vertical-align: middle;
       width: 30px;
-
       .border-radius(4px);
 
       &:hover {
-        background: url(/static/images/alpha/fff_20.png);
+        background: url('/@{webroot}/images/alpha/fff_20.png');
       }
 
       img {
@@ -80,7 +79,7 @@
     overflow: auto;
     
     .movie {
-      background: url(/static/images/alpha/fff_10.png);
+      background: url('/@{webroot}/images/alpha/fff_10.png');
       display: inline-block;
       margin: 5px 0 0 4px;
       text-align:justify;
@@ -94,11 +93,11 @@
 
       .border-radius(4px);
       &:hover {
-        background: url(/static/images/alpha/fff_20.png);
+        background: url('/@{webroot}/images/alpha/fff_20.png');
       }
       
       div.active {
-        background: url(/static/images/snatched-banner.png) no-repeat;
+        background: url('/@{webroot}/images/snatched-banner.png') no-repeat;
         width: 55px;
         height: 100%;
         position: absolute;
@@ -142,15 +141,45 @@
       }
     }
   }
-  #search {
-    #result{
-      ul li{
-        img{
-          width: 80px;
-          height: 140px;
-        }
-        div.extra{
-          display: none;
+
+  .search {
+    .result{
+      max-height: 200px;
+      overflow: auto;
+      ul{
+        padding: 10px;
+        li{
+          cursor: pointer;
+          background: url('/@{webroot}/images/alpha/fff_10.png');
+          height: 100px;
+          margin: 8px;
+          padding: 8px;
+          .border-radius(6px);
+
+          &:hover{
+            background: url('/@{webroot}/images/alpha/fff_20.png');
+          }
+
+          img{
+            width: 60px;
+            height: 90px;
+            float: left;
+            padding: 2px;
+          }
+
+          .name {
+            font-size: 16px;
+            margin: auto;
+            width: 90%;
+            text-align: center;
+          }
+
+          div.extra{
+            height: 60px;
+            overflow: auto;
+            text-align: justify;
+            padding: 6px;
+          }
         }
       }
     }
