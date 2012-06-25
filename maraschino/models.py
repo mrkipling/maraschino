@@ -75,6 +75,26 @@ class Disk(Base):
     def __repr__(self):
         return '<Disk %r>' % (self.path)
 
+class Disk2(Base):
+    __tablename__ = 'disks2'
+    id = Column(Integer, primary_key=True)
+    path = Column(String(500))
+    name = Column(String(100))
+    position = Column(Integer)
+
+    def __init__(self, path, name, position=None):
+        self.path = path
+        self.name = name
+
+        if position == None:
+            self.position = highest_position(Disk)
+
+        else:
+            self.position = position
+
+    def __repr__(self):
+        return '<Disk %r>' % (self.path)
+
 class XbmcServer(Base):
     __tablename__ = 'xbmc_servers'
     id = Column(Integer, primary_key=True)
