@@ -1,4 +1,5 @@
-from flask import render_template, request, jsonify, json
+from flask import render_template, request, jsonify
+import json
 import urllib
 
 from Maraschino import app
@@ -24,7 +25,7 @@ def couchpotato_url_no_api():
     return 'http://%s%s:%s/' % (login_string(), get_setting_value('couchpotato_ip'), get_setting_value('couchpotato_port'))
 
 
-def couchpotato_api(method, params=None):
+def couchpotato_api(method, params=None, dev=False):
     if params:
         params = '/?%s' % params
     else:
@@ -32,8 +33,12 @@ def couchpotato_api(method, params=None):
     try:
         url = '%s/%s%s' % (couchpotato_url(), method, params)
         result = urllib.urlopen(url).read()
+        if dev:
+            print url
+            print result
         return result
-    except:
+    except Exception as e:
+        print e
         return jsonify({'success': False})
 
 
@@ -192,7 +197,7 @@ def update_check():
     return jsonify({'success': False})
 
 
-@app.route('/xhr/couchpotato/delete_movie/<id>')
+@app.route('/xhr/couchpotato/delete_movie/<id>/')
 @requires_auth
 def movie_delete(id):
     """
@@ -207,5 +212,38 @@ def movie_delete(id):
         return result
     except Exception as e:
         print e
+
+    return jsonify({'success': False})
+
+
+@app.route('/xhr/couchpotato/refresh_movie/<id>/')
+def movie_refresh(id):
+    """
+    Refresh a movie from list
+    ----- Params -----
+    id                  int (comma separated)                       Movie ID(s) you want to refresh.
+    """
+    try:
+        logger.log('CouchPotato :: Refreshing movie %s' % id, 'INFO')
+        result = couchpotato_api('movie.refresh', 'id=%s' % id)
+        return result
+    except Exception as e:
+        print e
+
+    return jsonify({'success': False})
+
+
+@app.route('/xhr/couchpotato/settings/')
+@requires_auth
+def settings():
+    """
+    Retrieve settings from CP
+    """
+    try:
+        logger.log('CouchPotato :: Retrieving settings', 'INFO')
+        result = couchpotato_api('settings')
+        return result
+    except Exception as e:
+        logger.log('CouchPotato :: EXCEPTION -- %s' % e, 'DEBUG')
 
     return jsonify({'success': False})

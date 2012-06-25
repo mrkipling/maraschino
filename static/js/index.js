@@ -1381,7 +1381,20 @@ $(document).ready(function() {
         popup_message('Failed to delete movie, see log for more datials');
       }
     });
-    
+  });
+
+  $(document).on('click', '#couchpotato #cp_content .options img.search', function() {
+    var id = $(this).parent().data('cpid');
+    var imdbid = $(this).parent().data('imdbid');
+    var el = $(this);
+    el.attr('src', WEBROOT + '/static/images/xhrloading.gif');
+    $.get(WEBROOT+'/xhr/couchpotato/refresh_movie/'+id, function(data) {
+      if(data == '{"success": true}'){
+        el.attr('src', WEBROOT + '/static/images/search.png');
+      } else {
+        popup_message('Failed to refresh movie, see log for more datials');
+      }
+    });
   });
   /********* END CouchPotato ***********/
 
