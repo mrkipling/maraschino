@@ -255,21 +255,22 @@ def xhr_play_file(file_type):
 
     return jsonify({'success': True})
 
-
-        item = { 'file': file }
+    try:
+        item = {'file': file}
         xbmc.Playlist.Add(playlistid=player, item=item)
     except:
         logger.log('CONTROLS :: Failed to add %s to playlist' % file_type, 'DEBUG')
-        return jsonify({ 'failed': True })
+        return jsonify({'failed': True})
 
     try:
-        item = { 'playlistid': player }
+        item = {'playlistid': player}
         xbmc.Player.Open(item)
     except:
         logger.log('CONTROLS :: Failed to open %s' % file_type, 'DEBUG')
-        return jsonify({ 'failed': True })
+        return jsonify({'failed': True})
 
-    return jsonify({ 'success': True })
+    return jsonify({'success': True})
+
 
 @app.route('/xhr/enqueue_file/<file_type>/', methods=['POST'])
 @requires_auth
@@ -294,8 +295,6 @@ def xhr_enqueue_file(file_type):
 
     return jsonify({'success': True})
 
-
-    return jsonify({ 'success': True })
 
 @app.route('/xhr/clear_playlist/<playlist_type>')
 @requires_auth

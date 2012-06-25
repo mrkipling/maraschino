@@ -35,7 +35,7 @@ $(document).ready(function() {
     required.each(function() {
       var formrow = $(this).closest('.formrow');
 
-      if ($(this).val() == '') {
+      if ($(this).val() === '') {
         valid = false;
         formrow.addClass('invalid');
 
@@ -51,7 +51,7 @@ $(document).ready(function() {
     var popup = $('<div id="popup_message" class="dialog"><div class="close">x</div><p>' + message + '</p><div class="choices"><div class="cancel">OK</div></div></div>');
     $('body').append(popup);
     popup.showPopup({ dispose: true });
-  };
+  }
 
   // get/poll module
 
@@ -60,7 +60,7 @@ $(document).ready(function() {
       poll: 0,
       placeholder: $('.placeholder[data-module=' + module + ']'),
       params: []
-    }
+    };
 
     if (customsettings !== undefined) {
       $.extend(settings, customsettings);
@@ -107,8 +107,8 @@ $(document).ready(function() {
         window[timer] = setTimeout(function() {
           get_module(module, {
             poll: settings.poll,
-            params: [settings.params],
-          })
+            params: [settings.params]
+          });
         }, settings.poll * 1000);
       }
     }
@@ -144,7 +144,7 @@ $(document).ready(function() {
 
   function get_currently_playing() {
     $.get(WEBROOT + '/xhr/currently_playing', function(data) {
-
+      var module;
       if (data.playing === false) {
 
         // hide currently playing
@@ -171,7 +171,7 @@ $(document).ready(function() {
           currently_playing_module.replaceWith(data);
 
         } else {
-          var module = $(data).hide();
+          module = $(data).hide();
           $('body').append(module);
           $('#currently_playing').slideDown(200);
         }
@@ -202,7 +202,7 @@ $(document).ready(function() {
           // if currently playing item has a synopsis
           var synopsis = $('#currently_playing .synopsis');
           if (synopsis.length > 0) {
-            var module = $('<div id="synopsis" class="module generic" data-module="synopsis">' + settings_buttons + '<h2></h2><div class="inner"><p></p></div></div>');
+            module = $('<div id="synopsis" class="module generic" data-module="synopsis">' + settings_buttons + '<h2></h2><div class="inner"><p></p></div></div>');
             module.find('h2').replaceWith(synopsis.find('h2'));
             module.find('p').replaceWith(synopsis.find('p'));
 
@@ -258,8 +258,8 @@ $(document).ready(function() {
   $(document).on('mouseenter', '#currently_playing .progress', function(e){
     var x = e.pageX - $(this).offset().left;
     var percent = Math.round((x / $(this).width())*100);
-    var time = parseInt($(this).children('.total').data('seconds'))*(percent/100);
-    time = (new Date).clearTime().addSeconds(time).toString('H:mm:ss');
+    var time = parseInt($(this).children('.total').data('seconds'), 10)*(percent/100);
+    time = (new Date()).clearTime().addSeconds(time).toString('H:mm:ss');
     $(this).append('<div id="tooltip">' + percent + '</div>');
     $(this).children('div#tooltip').css('margin-left', (percent-5)+'%');
   });
@@ -268,8 +268,8 @@ $(document).ready(function() {
     var x = e.pageX - $(this).offset().left;
     var percent = Math.round((x / $(this).width())*100);
     if(percent < 0 || percent > 100){return;}
-    var time = parseInt($(this).children('.total').data('seconds'))*(percent/100);
-    time = (new Date).clearTime().addSeconds(time).toString('H:mm:ss');
+    var time = parseInt($(this).children('.total').data('seconds'), 10)*(percent/100);
+    time = (new Date()).clearTime().addSeconds(time).toString('H:mm:ss');
     $(this).children('div#tooltip').html(time);
     $(this).children('#tooltip').css('margin-left', (percent-5)+'%');
   });
@@ -932,7 +932,7 @@ $(document).ready(function() {
   //Delete show function
 
   $(document).on('click', '#sickbeard #show .banner .manage .delete' , function(){
-    var id = $('#sickbeard #show .banner .manage').attr('tvdbid')
+    var id = $('#sickbeard #show .banner .manage').attr('tvdbid');
     $.get(WEBROOT + '/sickbeard/delete_show/'+id)
     .success(function(data){
       popup_message(data);
@@ -945,7 +945,7 @@ $(document).ready(function() {
   //Refresh show function
 
   $(document).on('click', '#sickbeard #show .banner .manage .refresh' , function(){
-    var id = $('#sickbeard #show .banner .manage').attr('tvdbid')
+    var id = $('#sickbeard #show .banner .manage').attr('tvdbid');
     $.get(WEBROOT + '/sickbeard/refresh_show/'+id)
     .success(function(data){
       popup_message(data);
@@ -958,7 +958,7 @@ $(document).ready(function() {
   //Update show function
 
   $(document).on('click', '#sickbeard #show .banner .manage .update' , function(){
-    var id = $('#sickbeard #show .banner .manage').attr('tvdbid')
+    var id = $('#sickbeard #show .banner .manage').attr('tvdbid');
     $.get(WEBROOT + '/sickbeard/update_show/'+id)
     .success(function(data){
       popup_message(data);
@@ -1029,14 +1029,14 @@ $(document).ready(function() {
       var name = $('#sickbeard #sb_search #value').attr('value');
       var type = $('#sickbeard #sb_search #tvdbid').attr('value');
       var lang = $('#sickbeard #sb_search #lang').attr('value');
-      params = ''
-      if(name != ''){
+      params = '';
+      if(name !== ''){
         if(type == 'name'){
           params = 'name='+name;
         } else {
           params = 'tvdbid='+name;
         }
-        if(lang != ''){
+        if(lang !== ''){
           params = params + '&lang='+lang;
         }
       }
@@ -1045,7 +1045,7 @@ $(document).ready(function() {
         $('#sickbeard').replaceWith(data);
       })
       .error(function(){
-	    popup_message('Could not reach Maraschino.');
+        popup_message('Could not reach Maraschino.');
       });
     }
   });
@@ -1153,7 +1153,7 @@ $(document).ready(function() {
             110:"period", 111: "forwardslash", 112:"f1", 113:"f2", 114:"f3", 115:"f4", 116:"f5", 117:"f6", 118:"f7", 119:"f8", 120:"f9", 121:"f10", 122:"f11",
             123:"f12", 144:"numlock", 145:"scrolllock", 186:"semicolon", 187:"plus", 188:"comma", 189:"minus", 190:"period", 191:"forwardslash", 192:"tilde",
             219:"openbracket", 220:"backslash", 221:"closebracket", 222:"singlequote"};
-        if (e.which == null){
+        if (e.which === null){
           char= String.fromCharCode(e.keyCode);    // old IE
         } else {
           char = keyCodeMap[e.which];
@@ -1283,11 +1283,11 @@ $(document).ready(function() {
       var query = $('#search form #value').val();
       var site = $('#search form #site').val();
       var cat = $('#search form #category').val();
-      if(site == ''){
+      if(site === ''){
         popup_message('You must pick a website');
         return false;
       }
-      if(query == ''){
+      if(query === ''){
         popup_message('Must search something!');
         return false;
       }
@@ -1302,7 +1302,7 @@ $(document).ready(function() {
           byteSizeOrdering();
           $('#search #results .tablesorter').tablesorter({headers: { 2: { sorter: 'filesize'}}});
         }
-      })
+      });
     }
   });
 
@@ -1313,7 +1313,7 @@ $(document).ready(function() {
     .success( function(data){
       $('#search').replaceWith(data);
       $('#search form #value').val(query);
-    })
+    });
   });
 
   $(document).on('click', '#search #results table tbody tr td:first-child img', function(){
