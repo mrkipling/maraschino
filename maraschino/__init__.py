@@ -1,4 +1,8 @@
-import sys, os, subprocess, threading, wsgiserver
+import sys
+import os
+import subprocess
+import threading
+import wsgiserver
 from Maraschino import app
 from Logger import maraschinoLogger
 from apscheduler.scheduler import Scheduler
@@ -17,6 +21,8 @@ __INITIALIZED__ = False
 DEVELOPMENT = False
 SCHEDULE = Scheduler()
 WEBROOT = ''
+logger = None
+SERVER = None
 
 AUTH = {
     'username': None,
@@ -27,6 +33,7 @@ CURRENT_COMMIT = None
 LATEST_COMMIT = None
 COMMITS_BEHIND = 0
 COMMITS_COMPARE_URL = ''
+
 
 def initialize():
 
@@ -58,37 +65,33 @@ def initialize():
         from database import init_db
 
         try:
-            logger.log('Opening database at: %s' %(DATABASE), 'INFO')
+            logger.log('Opening database at: %s' % (DATABASE), 'INFO')
             open(DATABASE)
 
-        except IOError, e:
+        except IOError:
             logger.log('Opening database failed', 'CRITICAL')
             try:
-                logger.log('Checking if PATH exists: %s' %(DATABASE), 'WARNING')
+                logger.log('Checking if PATH exists: %s' % (DATABASE), 'WARNING')
                 dbpath = os.path.dirname(DATABASE)
                 if not os.path.exists(dbpath):
                     try:
                         logger.log('It does not exist, creating it...', 'WARNING')
                         os.makedirs(dbpath)
                     except:
-                        logger.log('Could not create %s.'% (DATABASE) , 'CRITICAL')
-                        print 'Could not create %s.'% (DATABASE)
+                        logger.log('Could not create %s.' % (DATABASE), 'CRITICAL')
+                        print 'Could not create %s.' % (DATABASE)
                         quit()
 
             except:
-                logger.log('Could not create %s.' % (DATABASE) , 'CRITICAL')
+                logger.log('Could not create %s.' % (DATABASE), 'CRITICAL')
                 quit()
 
-            logger.log('Database successfully initialised' , 'INFO')
+            logger.log('Database successfully initialised', 'INFO')
 
         init_db()
 
         # Web server settings
         from tools import get_setting_value
-
-        if get_setting_value('maraschino_webroot') != None or '':
-            if '--webroot' not in str(ARGS):
-                WEBROOT = get_setting_value('maraschino_webroot')
 
         if get_setting_value('maraschino_port') != None or '':
             port_arg = False
@@ -109,6 +112,11 @@ def initialize():
             }
 
         # Set up web server
+        if '--webroot' not in str(ARGS):
+            WEBROOT = get_setting_value('maraschino_webroot')
+            if WEBROOT is None:
+                WEBROOT = ''
+
         if WEBROOT:
             if WEBROOT[0] != '/':
                 WEBROOT = '/' + WEBROOT
@@ -120,7 +128,10 @@ def initialize():
         # Set up webroot for .less
         less_webroot = os.path.join(RUNDIR, 'static/less/webroot.less')
         f = open(less_webroot, 'w')
-        f.write('@webroot: "http://127.0.0.1:%i%s";' % (PORT, WEBROOT))
+        if WEBROOT:
+            f.write('@webroot: "%s/static";' % (WEBROOT[1:]))
+        else:
+            f.write('@webroot: "static";')
         f.close()
 
         # Set up the updater
@@ -143,14 +154,15 @@ def initialize():
 
         threading.Thread(target=checkGithub).start()
 
-
         __INITIALIZED__ = True
         return True
+
 
 def start_schedules():
     from maraschino.updater import checkGithub
     SCHEDULE.add_interval_job(checkGithub, hours=6)
     SCHEDULE.start()
+
 
 def start():
     if __INITIALIZED__:
@@ -159,15 +171,17 @@ def start():
 
         if not DEVELOPMENT:
             try:
-                logger.log('Starting Maraschino on port: %i' % PORT, 'INFO')
+                logger.log('Starting Maraschino on port/webroot: %i%s' % (PORT, WEBROOT), 'INFO')
                 SERVER.start()
                 while not True:
                     pass
             except KeyboardInterrupt:
                 stop()
         else:
-            logger.log('Starting Maraschino development server on port: %i' % PORT, 'INFO')
+            logger.log('Starting Maraschino development server on port: %i' % (PORT), 'INFO')
+            logger.log(' ##### IMPORTANT : WEBROOT DOES NOT WORK UNDER THE DEV SERVER #######', 'INFO')
             app.run(debug=True, port=PORT, host='0.0.0.0')
+
 
 def stop():
     logger.log('Shutting down Maraschino...', 'INFO')
@@ -186,6 +200,7 @@ def stop():
     if PIDFILE:
         logger.log('Removing pidfile: %s' % str(PIDFILE), 'INFO')
         os.remove(PIDFILE)
+
 
 def restart():
     SERVER.stop()
