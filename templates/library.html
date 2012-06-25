@@ -287,11 +287,7 @@
       {% if file_type == "video_directory" %}
         {% for item in library.files %}
           {% if item.filetype == "directory" %}
-            <li {% if item.type != "unknown" %}class="play_file"{% else %}class="dir"{% endif %} media-type="file" data-file_type="video" data-path="{{ item.file }}">{{ item.label }}</li>
-              <span class="span">
-                <a class="li_buttons" id="play_dir" media-type="dir" data-file_type="video" data-path="{{ item.file }}">Play</a>
-                <a class="li_buttons" id="queue_dir" media-type="dir" data-file_type="video" data-path="{{ item.file }}">Queue</a>
-              </span>
+            <li class="{% if item.type != "unknown" %}play_file{% else %}dir{% endif %}" media-type="file" data-file_type="video" data-path="{{ item.file }}">{{ item.label }}</li>
           {% elif item.filetype == "none" %}
             <li class="empty">No video files found.</li>
           {% else %}
