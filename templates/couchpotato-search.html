@@ -13,7 +13,11 @@
       <ul>
       {% for item in data %}
         <li data-imdbid="{{ item.imdb }}" data-title="{{item.original_title}}">
-          <img src="{{ (item.images.poster)|replace( '[u\'', '')|replace('\']', '') }}" />
+          {% if item.images.poster %}
+            <img src="{{ (item.images.poster)|replace( '[u\'', '')|replace('\']', '') }}" />
+          {% else %}
+            <img src="{{ url_for('static', filename='images/poster.png')}}" />
+          {% endif %}          
           <span class="name">{{ item.original_title }} - {{ item.released }}</span>
           <div class="extra {% if item.in_library%} library {% endif %} {% if item.in_wanted %} wanted {% endif %}">
             <p>{{item.plot}}</p>
