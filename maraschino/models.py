@@ -87,7 +87,7 @@ class Disk2(Base):
         self.name = name
 
         if position == None:
-            self.position = highest_position(Disk)
+            self.position = highest_position(Disk2)
 
         else:
             self.position = position
