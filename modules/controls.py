@@ -16,8 +16,14 @@ xbmc_error = 'There was a problem connecting to the XBMC server'
 def xhr_play_media(file_type, media_type, media_id):
     logger.log('CONTROLS :: Playing %s' % media_type, 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
+
+    if file_type == 'video':
+        id = 1
+    else:
+        id = 0
+
     try:
-        xhr_clear_playlist(file_type)
+        xhr_clear_playlist(id)
     except:
         logger.log('CONTROLS :: Failed to clear %s playlist' % file_type, 'DEBUG')
         return jsonify({ 'failed': True })
@@ -140,7 +146,7 @@ def xhr_resume_video(video_type, video_id):
     xbmc = jsonrpclib.Server(server_api_address())
 
     try:
-        xhr_clear_playlist('video')
+        xhr_clear_playlist(1)
     except:
         logger.log('CONTROLS :: Failed to clear video playlist', 'DEBUG')
         return jsonify({ 'failed': True })
@@ -188,7 +194,7 @@ def xhr_play_trailer(movieid):
     xbmc = jsonrpclib.Server(server_api_address())
 
     try:
-        xhr_clear_playlist('video')
+        xhr_clear_playlist(1)
     except:
         logger.log('CONTROLS :: Failed to clear video playlist', 'DEBUG')
         return jsonify({ 'failed': True })
@@ -218,9 +224,12 @@ def xhr_play_file(file_type):
     xbmc = jsonrpclib.Server(server_api_address())
     if file_type == "music":
         file_type = "audio"
+        id = 0
+    else:
+        id = 1
 
     try:
-        xhr_clear_playlist(file_type)
+        xhr_clear_playlist(id)
     except:
         logger.log('CONTROLS :: Failed to clear %s playlist' % file_type, 'DEBUG')
         return jsonify({ 'failed': True })
