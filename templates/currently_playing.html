@@ -33,20 +33,23 @@
     {% endif %}
   {% endif %}
 
-    <strong>Currently playing:</strong><br>
+    <span class="playlist" title="View playlist"><strong>Currently playing:</strong></span><br>
 
     {% if currently_playing.showtitle %}
       <span class="show" data-show="{{ currently_playing.tvshowid }}">{{ currently_playing.showtitle }}</span>
       <span class="separator">-</span>
       <span class="season" data-season="{{ currently_playing.season }}">Season {{ currently_playing.season }}</span>,
-      <span class="episode">Episode {{ currently_playing.episode }}</span>
-      <span class="separator">-</span>
-      "{{ currently_playing.label }}"
+      <span class="episode" data-episode="{{ currently_playing.id }}">Episode {{ currently_playing.episode }}
+        <span class="separator">-</span>
+        "{{ currently_playing.label }}"
+      </span>
     {% elif currently_playing.artist %}
       <span class="artist" data-artist="{{ currently_playing.artistid }}">{{ currently_playing.artist }}</span>
       <span class="separator">-</span>
       <span class="album" data-album="{{ currently_playing.albumid }}">{{ currently_playing.album }} ({{ currently_playing.year }})</span>
       <br>{% if currently_playing.track < 10 %}0{% endif %}{{ currently_playing.track }}. {{ currently_playing.label }}
+    {% elif currently_playing.type == 'movie' %}
+      <span class="movie" data-movie="{{ currently_playing.id }}">{{ currently_playing.label }} ({{ currently_playing.year }})</span>
     {% else %}
       {{ currently_playing.label }}
     {% endif %}
@@ -81,7 +84,6 @@
       <div class="inner" style="height: {{ volume/2 }}px;"></div>
     </div>
   </div>
-
 
   {% if currently_playing.plot %}
     <div class="synopsis">

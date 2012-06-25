@@ -245,6 +245,50 @@ $(document).ready(function() {
     setTimeout(get_currently_playing, 5000);
   }
 
+  // Currently playing playlist
+
+  $(document).on('click', '#currently_playing .playlist', function() {
+    $.get(WEBROOT + '/xhr/currently_playing/playlist', function(data){
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({dispose: true});
+    });
+  });
+
+  $(document).on('click', '#playlist_dialog .btn', function(e) {
+    e.stopPropagation();
+  });
+
+  $(document).on('click', '#playlist_dialog .clear', function() {
+    $.get(WEBROOT + '/xhr/playlist/' + $(this).data('command'));
+    $('#playlist_dialog .close').click();
+  });
+
+  $(document).on('click', '#playlist_dialog .control', function() {
+    $.get(WEBROOT + '/xhr/playlist/' + $(this).data('command'));
+    $.get(WEBROOT + '/xhr/currently_playing/playlist', function(data){
+      $('#playlist_dialog .close').click();
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({dispose: true});
+    });
+  });
+
+  $(document).on('click', '#playlist_dialog .play', function() {
+    var playlistid = $(this).data('playlistid');
+    var position = $(this).data('position');
+
+    add_loading_gif(this);
+
+    $.get(WEBROOT + '/xhr/playlist/' + playlistid + '/play/' + position);
+    $.get(WEBROOT + '/xhr/currently_playing/playlist', function(data){
+      $('#playlist_dialog .close').click();
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({dispose: true});
+    });
+  });
+
   // Seek Function
   $(document).on('click', '#currently_playing .progress', function(e){
     var x = e.pageX - $(this).offset().left;
@@ -350,6 +394,18 @@ $(document).ready(function() {
 
   $(document).on('click', '#currently_playing .item_info_show .season', function() {
     invoke_library(WEBROOT + '/xhr/library/shows/' + $(this).parent().find('.show').data('show') + '/' + $(this).data('season'));
+  });
+
+  // click episode to view in media library module
+
+  $(document).on('click', '#currently_playing .item_info_show .episode', function() {
+    invoke_library(WEBROOT + '/xhr/library/episode/info/' + $(this).data('episode'));
+  });
+
+  // click movie to view in media library module
+
+  $(document).on('click', '#currently_playing .item_info_movie .movie', function() {
+    invoke_library(WEBROOT + '/xhr/library/movie/info/' + $(this).data('movie'));
   });
 
   // click artist name to view in media library module
