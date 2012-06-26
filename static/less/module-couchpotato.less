@@ -76,17 +76,35 @@
   #cp_content {
     max-height: 264px;
     overflow-x: hidden;
-    
+    &.compact {
+      div.image{
+        display: none;
+      }
+      .movie {
+        height: 20px;
+      }
+      span {
+        line-height: 20px;
+        &.tagline{
+          display: none;
+        }
+        &.quality {
+          display: block;
+          float: right;
+          font-size: 0.5em;
+        }
+      }
+    }
     .movie {
       background: url('/@{webroot}/images/alpha/fff_10.png');
       display: inline-block;
-      margin: 5px 0 0 4px;
+      margin: 5px;
       text-align:justify;
       color: #ccc;
       vertical-align: middle;
       height: 60px;
-      width: 96%;
-      padding: 5px;
+      width: 95%;
+      padding: 6px;
       overflow: hidden;
       position: relative;
       z-index: 10;
@@ -127,24 +145,16 @@
         }
       }
             
-      span.text {
+      span {
         display: inline;
         padding-bottom: 5px;
-        
-        &.plot {
-          display: none;
-        }
-        
-        a.more {
-          cursor: pointer;
-        }
       }
     }
     div.options {
       opacity: 0;
       -moz-opacity: 0;
       filter:alpha(opacity=0);
-      top: -65px;
+      top: -70px;
       left: 10px;
       height: 0px;
       margin: 0px;

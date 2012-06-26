@@ -2,7 +2,7 @@
 
 {% block couchpotato_content %}
 
-<div id="cp_content">
+<div id="cp_content" {%if compact_view %}class="compact"{%endif%}>
   {% for item in couchpotato %}
     <div class="movie" id="{{item.library.identifier}}">
       <div class="{{item.releases.status}}"></div>
@@ -12,9 +12,10 @@
         />
         <span class="profile" title="CouchPotato quality profile">{{item.profile.label}}</span>
       </div>
-      <span class="title text"><h3>{{item.library.titles[0].title}} ({{item.library.year}})</h3></span>
+      <span class="title">{{item.library.titles[0].title}} ({{item.library.year}})</span>
       {% if item.library.rating %}<span class="rating text"><h3>Rating: {{item.library.rating}}</h3></span>{% endif %}
-      <span class="tagline text">{% if item.library.tagline %}{{item.library.tagline}}{% else %}{{item.library.plot|truncate(150)}}{% endif %}</span>
+      <span class="tagline">{% if item.library.tagline %}{{item.library.tagline}}{% else %}{{item.library.plot|truncate(150)}}{% endif %}</span>
+      {%if compact_view %}<span class="quality">{{item.profile.label}}</span>{%endif%}
     </div>
     <div class="options {{item.library.identifier}}" data-imdbid="{{item.library.identifier}}" data-cpid="{{item.library_id}}">
       <img class="delete" src="{{ url_for('static', filename='images/no.png')}}"/>

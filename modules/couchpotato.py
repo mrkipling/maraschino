@@ -66,13 +66,11 @@ def xhr_couchpotato(status=False):
     except:
         couchpotato = None
 
-    compact_view = get_setting_value('couchpotato_compact') == '1'
-
     logger.log('CouchPotato :: Finished fetching wanted list', 'INFO')
     return render_template(template,
         url=couchpotato_url(),
         couchpotato=couchpotato,
-        compact_view=compact_view,
+        compact_view=get_setting_value('couchpotato_compact') == '1',
     )
 
 
