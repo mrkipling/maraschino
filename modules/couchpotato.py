@@ -1,10 +1,8 @@
-from flask import render_template, request, jsonify
-import json
+from flask import render_template, request, jsonify, json
 import urllib
 
-from Maraschino import app
 from maraschino.tools import *
-from maraschino import logger
+from maraschino import logger, app
 
 
 def login_string():
@@ -63,7 +61,8 @@ def xhr_couchpotato(status=False):
         if couchpotato['success'] and not couchpotato['empty']:
             couchpotato = couchpotato['movies']
 
-    except:
+    except Exception as e:
+        log_exception(e)
         couchpotato = None
 
     logger.log('CouchPotato :: Finished fetching wanted list', 'INFO')
@@ -129,7 +128,6 @@ def cp_restart():
     try:
         logger.log('CouchPotato :: Restarting', 'INFO')
         result = couchpotato_api('app.restart', use_json=False)
-        print result
         if 'restarting' in result:
             return jsonify({'success': True})
     except Exception as e:
@@ -211,7 +209,7 @@ def cp_update_check():
         result = couchpotato_api('updater.check')
         return jsonify(result)
     except Exception as e:
-        print e
+        log_exception(e)
 
     return jsonify({'success': False})
 
@@ -230,7 +228,7 @@ def movie_delete(id):
         result = couchpotato_api('movie.delete', 'id=%s' % id)
         return jsonify(result)
     except Exception as e:
-        print e
+        log_exception(e)
 
     return jsonify({'success': False})
 
@@ -261,6 +259,25 @@ def cp_settings():
         logger.log('CouchPotato :: Retrieving settings', 'INFO')
         result = couchpotato_api('settings')
         return render_template('couchpotato-settings.html',
+            couchpotato=result,
+        )
+    except Exception as e:
+        log_exception(e)
+
+    return jsonify({'success': False})
+
+
+@app.route('/xhr/couchpotato/get_movie/<id>')
+def cp_get_movie(id):
+    """
+    Retrieve movie from CP
+    ---- Params -----
+    id                  int (comma separated)                       The id of the movie
+    """
+    try:
+        logger.log('CouchPotato :: Retrieving movie info', 'INFO')
+        result = couchpotato_api('movie.get', 'id=%s' % id, dev=True)
+        return render_template('couchpotato-info.html',
             couchpotato=result,
         )
     except Exception as e:

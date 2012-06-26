@@ -1,0 +1,29 @@
+{% extends "couchpotato-base.html" %}
+
+{% block couchpotato_content %}
+
+{% if couchpotato['success'] %}
+<div id="info">
+  <h3> {{couchpotato['movie']['library']['info']['original_title']}} ({{couchpotato['movie']['library']['info']['year']}})</h3>
+  Runtime: {{couchpotato['movie']['library']['info']['runtime']}} mins <br>
+  Plot: {{couchpotato['movie']['library']['plot']}}<br>
+  Rating: {{couchpotato['movie']['library']['info']['rating']['imdb'][0]}} ({{couchpotato['movie']['library']['info']['rating']['imdb'][1]}} votes)<br>
+  Genres: {% for genre in couchpotato['movie']['library']['info']['genres'] %} | {{genre}} | {% endfor %}<br>
+  Theater release: {{couchpotato['movie']['library']['info']['release_date']['theater']|time}}<br>
+  DVD release: {{couchpotato['movie']['library']['info']['release_date']['dvd']|time}}<br>
+  Theater release: {{couchpotato['movie']['library']['info']['released']}}<br>
+  Writers: {%for writer in couchpotato['movie']['library']['info']['writers']%} {{writer}}, {%endfor%}<br>
+  Directors: {%for director in couchpotato['movie']['library']['info']['directors']%} {{director}}, {%endfor%}<br>
+  Actors: {%for actor in couchpotato['movie']['library']['info']['actors']%} {{actor}}, {%endfor%}<br>
+  {%for image in couchpotato['movie']['library']['info']['images']%}
+    {% for src in couchpotato['movie']['library']['info']['images'][image] %}
+      <img src="{{src}}" alt="{{image}}" />
+    {%endfor%}
+  {%endfor%}
+</div>
+{% else %}
+<div id="error">
+  <p>An error ocurred</p>
+</div>
+{%endif%}
+{% endblock %}
