@@ -1296,13 +1296,7 @@ $(document).ready(function() {
   /********* END SABNZBD ***********/
 
   /********* CouchPotato **********/
-  
-  $(document).on('click', '#cp_content .movie .tagline a.more', function(){
-    var id = $(this).closest('div.movie').attr('id');
-    $("#"+id+" .tagline").toggle();
-    $("#"+id+" .plot").toggle();
-  });
-
+  // menu wanted click
   $(document).on('click', '#couchpotato .menu .wanted', function(){
     $.get(WEBROOT + '/xhr/couchpotato/')
     .success(function(data){
@@ -1310,6 +1304,7 @@ $(document).ready(function() {
     });
   });
 
+  //menu + click
   $(document).on('click', '#couchpotato .menu .all', function(){
     $.get(WEBROOT + '/xhr/couchpotato/done/')
     .success(function(data){
@@ -1317,12 +1312,14 @@ $(document).ready(function() {
     });
   });
 
+  //menu settings click
   $(document).on('click', '#couchpotato .menu .settings', function(){
     $.get(WEBROOT + '/xhr/couchpotato/settings/')
     .success(function(data){
       $('#couchpotato').replaceWith(data);
     });
   });
+
   //Load search template
   $(document).on('click', '#couchpotato .menu .add', function(){
     $.get(WEBROOT + '/xhr/couchpotato/search/')
@@ -1352,7 +1349,7 @@ $(document).ready(function() {
       });
     }
   });
-
+  // Search add movie click
   $(document).on('click', '#couchpotato .search ul li', function() {
     var imdbid = $(this).data('imdbid');
     var title = $(this).data('title');
@@ -1364,7 +1361,7 @@ $(document).ready(function() {
       }
     });
   });
-
+  // wanted slide option
   $(document).on('click', '#couchpotato #cp_content .movie .image', function() {
     var id = $(this).parent().attr('id');
     var el = $('#'+id);
@@ -1379,7 +1376,7 @@ $(document).ready(function() {
       });
     }
   });
-
+  // wanted delete
   $(document).on('click', '#couchpotato #cp_content .options img.delete', function() {
     var id = $(this).parent().data('cpid');
     var imdbid = $(this).parent().data('imdbid');
@@ -1387,14 +1384,14 @@ $(document).ready(function() {
       if(data.success){
         $('#couchpotato #cp_content #'+imdbid).transition({opacity: 0, duration: 1000}, function(){
           $(this).remove();
-          // popup_message('Movie deleted successfully');
         });
       } else {
         popup_message('Failed to delete movie, see log for more datials');
+        $('#couchpotato #cp_content #'+imdbid).transition({opacity: 1, x: '0px'});
       }
     });
   });
-
+  // wanted refresh
   $(document).on('click', '#couchpotato #cp_content .options img.search', function() {
     var id = $(this).parent().data('cpid');
     var imdbid = $(this).parent().data('imdbid');
@@ -1405,6 +1402,37 @@ $(document).ready(function() {
         el.attr('src', WEBROOT + '/static/images/search.png');
       } else {
         popup_message('Failed to refresh movie, see log for more datials');
+      }
+    });
+  });
+  // shutdown
+  $(document).on('click', '#couchpotato div.powerholder a.power', function() {
+    $('#couchpotato div.powerholder a.power img').attr('src', WEBROOT + '/static/images/yes.png');
+    $.get(WEBROOT + '/xhr/couchpotato/shutdown/', function(data) {
+      console.log(data);
+      if(data.success){
+        $('#couchpotato div.powerholder a.power img').attr('src', WEBROOT + '/static/images/yes.png');
+        var x = setInterval(function(){
+          $('#couchpotato').remove();
+          clearInterval(x);
+        }, 3000);
+      }
+    });
+  });
+  // restart
+  $(document).on('click', '#couchpotato div.powerholder a.restart', function() {
+    $('#couchpotato div.powerholder a.restart img').attr('src', WEBROOT + '/static/images/yes.png');
+    $.get(WEBROOT + '/xhr/couchpotato/restart/', function(data) {
+      console.log(data);
+      if(data.success){
+        $('#couchpotato div.powerholder a.restart img').attr('src', WEBROOT + '/static/images/yes.png');
+        var x = setInterval(function(){
+          $.get(WEBROOT + '/xhr/couchpotato/')
+          .success(function(data){
+            $('#couchpotato').replaceWith(data);
+            clearInterval(x);
+          });
+        }, 3000);
       }
     });
   });

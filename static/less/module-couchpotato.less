@@ -168,6 +168,58 @@
     }
   }
 
+  #all {
+    max-height: 264px;
+    overflow-x: hidden;
+    
+    .movie {
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      display: inline-block;
+      margin: 5px;
+      height: 30px;
+      width: 96%;
+      padding: 5px;
+      overflow: hidden;
+      position: relative;
+      .border-radius(4px);
+
+      &:hover {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
+      
+      div.active {
+        background: url('/@{webroot}/images/snatched-banner.png') no-repeat;
+        width: 55px;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      
+      img.poster {
+        float: left;
+        height: 100%;
+        padding-right: 5px;
+        position: relative;
+        cursor: pointer;
+      }
+            
+      span.text {
+        display: inline;
+        line-height:30px;
+        font-size: 1.3em;
+        max-width: 300px;
+        overflow: hidden;
+      }
+
+      span.profile {
+        float:right;
+        line-height:30px;
+        font-size: 0.5em;
+      }
+    }
+  }
+
   .search {
     .result{
       max-height: 200px;
