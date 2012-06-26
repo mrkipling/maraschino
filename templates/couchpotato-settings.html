@@ -1,0 +1,13 @@
+{% extends "couchpotato-base.html" %}
+
+{% block couchpotato_content %}
+
+<div id="cp_settings">
+    <ul>
+      {% for item in couchpotato['values']['core']%}
+        <li><span class="title">{{item}}</span><input value="{{couchpotato['values']['core'][item]}}" type="text" /></li>
+      {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

@@ -1310,6 +1310,19 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#couchpotato .menu .all', function(){
+    $.get(WEBROOT + '/xhr/couchpotato/done/')
+    .success(function(data){
+      $('#couchpotato').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#couchpotato .menu .settings', function(){
+    $.get(WEBROOT + '/xhr/couchpotato/settings/')
+    .success(function(data){
+      $('#couchpotato').replaceWith(data);
+    });
+  });
   //Load search template
   $(document).on('click', '#couchpotato div.powerholder .add', function(){
     $.get(WEBROOT + '/xhr/couchpotato/search/')
@@ -1344,8 +1357,7 @@ $(document).ready(function() {
     var imdbid = $(this).data('imdbid');
     var title = $(this).data('title');
     $.get(WEBROOT + '/xhr/couchpotato/add_movie/'+imdbid+'/'+title, function(data) {
-      console.log(data);
-      if(data.status){
+      if(data.success){
         popup_message('Movie added successfully');
       } else {
         popup_message('Failed to add movie to CouchPotato');
@@ -1372,7 +1384,7 @@ $(document).ready(function() {
     var id = $(this).parent().data('cpid');
     var imdbid = $(this).parent().data('imdbid');
     $.get(WEBROOT+'/xhr/couchpotato/delete_movie/'+id, function(data) {
-      if(data == '{"success": true}'){
+      if(data.success){
         $('#couchpotato #cp_content #'+imdbid).transition({opacity: 0, duration: 2000}, function(){
           $(this).remove();
           popup_message('Movie deleted successfully');
@@ -1389,7 +1401,7 @@ $(document).ready(function() {
     var el = $(this);
     el.attr('src', WEBROOT + '/static/images/xhrloading.gif');
     $.get(WEBROOT+'/xhr/couchpotato/refresh_movie/'+id, function(data) {
-      if(data == '{"success": true}'){
+      if(data.success){
         el.attr('src', WEBROOT + '/static/images/search.png');
       } else {
         popup_message('Failed to refresh movie, see log for more datials');

@@ -29,24 +29,31 @@ def couchpotato_api(method, params=None, dev=False):
     if params:
         params = '/?%s' % params
     else:
-        params = ''
-    try:
-        url = '%s/%s%s' % (couchpotato_url(), method, params)
-        result = urllib.urlopen(url).read()
-        if dev:
-            print url
-            print result
-        return result
-    except Exception as e:
-        print e
-        return jsonify({'success': False})
+        params = '/'
+
+    url = '%s/%s%s' % (couchpotato_url(), method, params)
+    data = urllib.urlopen(url).read()
+    if dev:
+        print url
+        print data
+    result = json.JSONDecoder().decode(data)
+    return result
+
+
+def log_exception(e):
+    logger.log('CouchPotato :: EXCEPTION -- %s' % e, 'DEBUG')
 
 
 @app.route('/xhr/couchpotato/')
-def xhr_couchpotato():
+@app.route('/xhr/couchpotato/<status>/')
+def xhr_couchpotato(status=False):
+    if status:
+        status = '?status=%s' % status
+    else:
+        status = ''
     try:
         logger.log('CouchPotato :: Fetching wanted list', 'INFO')
-        url = '%s/movie.list/' % (couchpotato_url())
+        url = '%s/movie.list/%s' % (couchpotato_url(), status)
         result = urllib.urlopen(url).read()
         couchpotato = json.JSONDecoder().decode(result)
 
@@ -89,7 +96,8 @@ def cp_search():
             else:
                 return render_template('couchpotato-search.html', error='No movies with "%s" were found' % (params), couchpotato='results')
 
-        except:
+        except Exception as e:
+            log_exception(e)
             couchpotato = None
 
     else:
@@ -106,11 +114,12 @@ def cp_search():
 def add_movie(imdbid, title):
     try:
         logger.log('CouchPotato :: Adding %s (%s) to wanted list' % (title, imdbid), 'INFO')
-        url = '%s/movie.add/?identifier=%s&title=%s' % (couchpotato_url(), imdbid, title)
-        result = urllib.urlopen(url).read()
-        return jsonify({'status': True})
-    except:
-        return jsonify({'status': False})
+        result = couchpotato_api('movie.add', 'identifier=%s&title=%s' % (imdbid, title), dev=True)
+        return jsonify(result)
+    except Exception as e:
+        log_exception(e)
+
+    return jsonify({'success': False})
 
 
 @app.route('/xhr/couchpotato/restart/')
@@ -118,9 +127,12 @@ def add_movie(imdbid, title):
 def restart():
     try:
         logger.log('CouchPotato :: Restarting', 'INFO')
-        return couchpotato_api('app.restart')
-    except:
-        return jsonify({'success': False})
+        result = couchpotato_api('app.restart')
+        return jsonify(result)
+    except Exception as e:
+        log_exception(e)
+
+    return jsonify({'success': False})
 
 
 @app.route('/xhr/couchpotato/available/')
@@ -128,9 +140,12 @@ def restart():
 def available():
     try:
         logger.log('CouchPotato :: Checking if CouchPotato is available', 'INFO')
-        return couchpotato_api('app.available')
-    except:
-        return jsonify({'success': False})
+        result = couchpotato_api('app.available')
+        return jsonify(result)
+    except Exception as e:
+        log_exception(e)
+
+    return jsonify({'success': False})
 
 
 @app.route('/xhr/couchpotato/shutdown/')
@@ -138,8 +153,10 @@ def available():
 def shutdown():
     try:
         logger.log('CouchPotato :: Shutting down', 'INFO')
-        return couchpotato_api('app.shutdown')
-    except:
+        result = couchpotato_api('app.shutdown')
+        return jsonify(result)
+    except Exception as e:
+        log_exception(e)
         return jsonify({'success': False})
 
 
@@ -147,9 +164,12 @@ def shutdown():
 @requires_auth
 def version():
     try:
-        return couchpotato_api('app.version')
-    except:
-        return jsonify({'success': False})
+        result = couchpotato_api('app.version')
+        return jsonify(result)
+    except Exception as e:
+        log_exception(e)
+
+    return jsonify({'success': False})
 
 
 @app.route('/xhr/couchpotato/profiles/')
@@ -158,11 +178,9 @@ def profiles():
     try:
         logger.log('CouchPotato :: Getting profiles', 'INFO')
         result = couchpotato_api('profile.list')
-        result = json.JSONDecoder().decode(result)
-        if result.success:
-            return result
-    except:
-        pass
+        return jsonify(result)
+    except Exception as e:
+        log_exception(e)
 
     return jsonify({'success': False})
 
@@ -173,11 +191,9 @@ def quality():
     try:
         logger.log('CouchPotato :: Getting quality', 'INFO')
         result = couchpotato_api('quality.list')
-        result = json.JSONDecoder().decode(result)
-        if result.success:
-            return result
-    except:
-        pass
+        return jsonify(result)
+    except Exception as e:
+        log_exception(e)
 
     return jsonify({'success': False})
 
@@ -188,11 +204,9 @@ def update_check():
     try:
         logger.log('CouchPotato :: Getting update', 'INFO')
         result = couchpotato_api('updater.check')
-        result = json.JSONDecoder().decode(result)
-        if result.success:
-            return result
-    except:
-        pass
+        return jsonify(result)
+    except Exception as e:
+        print e
 
     return jsonify({'success': False})
 
@@ -209,7 +223,7 @@ def movie_delete(id):
     try:
         logger.log('CouchPotato :: Deleting movie %s' % id, 'INFO')
         result = couchpotato_api('movie.delete', 'id=%s' % id)
-        return result
+        return jsonify(result)
     except Exception as e:
         print e
 
@@ -226,24 +240,25 @@ def movie_refresh(id):
     try:
         logger.log('CouchPotato :: Refreshing movie %s' % id, 'INFO')
         result = couchpotato_api('movie.refresh', 'id=%s' % id)
-        return result
+        return jsonify(result)
     except Exception as e:
-        print e
+        log_exception(e)
 
     return jsonify({'success': False})
 
 
 @app.route('/xhr/couchpotato/settings/')
-@requires_auth
 def settings():
     """
     Retrieve settings from CP
     """
     try:
         logger.log('CouchPotato :: Retrieving settings', 'INFO')
-        result = couchpotato_api('settings')
-        return result
+        result = couchpotato_api('settings', dev=True)
+        return render_template('couchpotato-settings.html',
+            couchpotato=result,
+        )
     except Exception as e:
-        logger.log('CouchPotato :: EXCEPTION -- %s' % e, 'DEBUG')
+        log_exception(e)
 
     return jsonify({'success': False})
