@@ -47,17 +47,14 @@ def log_exception(e):
 @app.route('/xhr/couchpotato/<status>/')
 def xhr_couchpotato(status=False):
     if status:
-        status = '?status=%s' % status
+        status = 'status=%s' % status
         template = 'couchpotato-all.html'
     else:
-        status = ''
+        status = False
         template = 'couchpotato.html'
     try:
         logger.log('CouchPotato :: Fetching wanted list', 'INFO')
-        url = '%s/movie.list/%s' % (couchpotato_url(), status)
-        result = urllib.urlopen(url).read()
-        couchpotato = json.JSONDecoder().decode(result)
-
+        couchpotato = couchpotato_api('movie.list', params=status)
         if couchpotato['success'] and not couchpotato['empty']:
             couchpotato = couchpotato['movies']
 
@@ -76,19 +73,17 @@ def xhr_couchpotato(status=False):
 @app.route('/xhr/couchpotato/search/')
 def cp_search():
     couchpotato = {}
-    params = ''
+    params = False
 
     try:
-        params = request.args['name']
+        params = 'q=' + request.args['name']
     except:
         pass
 
     if params is not '':
         try:
             logger.log('CouchPotato :: Searching for movie: %s' % (params), 'INFO')
-            url = '%s/movie.search/?q=%s' % (couchpotato_url(), params)
-            result = urllib.urlopen(url).read()
-            couchpotato = json.JSONDecoder().decode(result)
+            couchpotato = couchpotato_api('movie.search', params=params)
             amount = len(couchpotato['movies'])
             logger.log('CouchPotato :: found %i movies for %s' % (amount, params), 'INFO')
             if couchpotato['success'] and amount != 0:

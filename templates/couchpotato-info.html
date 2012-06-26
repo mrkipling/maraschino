@@ -1,29 +1,68 @@
 {% extends "couchpotato-base.html" %}
+{% block couchpotato_title %}{% if couchpotato['success'] %}{{ couchpotato['movie']['library']['info']['original_title'] }}{% endif %}{% endblock %}
 
 {% block couchpotato_content %}
-
 {% if couchpotato['success'] %}
-{% set info = couchpotato['movie']['library'] %}
-<div id="info">
-  <h3> {{info['info']['original_title']}} ({{info['info']['year']}})</h3>
-  Runtime: {{info['info']['runtime']}} mins <br>
-  Plot: {{info['plot']}}<br>
-  Status: {{couchpotato['movie']['status']['identifier']}}<br>
-  {%if info['info']['rating']%}Rating: {{info['info']['rating']['imdb'][0]}} ({{info['info']['rating']['imdb'][1]}} votes)<br>{%endif%}
-  Genres: {% for genre in info['info']['genres'] %} {{genre}} {%if not loop.last%}|{%endif%} {% endfor %}<br>
-  Theater release: {{info['info']['release_date']['theater']|time}}<br>
-  DVD release: {{info['info']['release_date']['dvd']|time}}<br>
-  Theater release: {{info['info']['released']}}<br>
-  Writers: {%for writer in info['info']['writers']%} {{writer}}{%if not loop.last%},{%endif%} {%endfor%}<br>
-  Directors: {%for director in info['info']['directors']%} {{director}}{%if not loop.last%},{%endif%} {%endfor%}<br>
-  Actors: {%for actor in info['info']['actors']%} {{actor}}{%if not loop.last%},{%endif%} {%endfor%}<br>
-  {%for image in info['info']['images']%}
-    {% for src in info['info']['images'][image] %}
-      <img src="{{src}}" alt="{{image}}" />
-    {%endfor%}
-  {%endfor%}
-  Profile: {{couchpotato['movie']['profile']['label']}}<br>
-</div>
+  {% set info = couchpotato['movie']['library'] %}
+  <div id="info" class="{{couchpotato['movie']['status']['identifier']}}">
+    <img src="{{info['info']['images']['poster'][0]}}" alt="poster" style="float:left;" width="100px;">
+    <div style="height: 30px; width: 100px; overflow: hidden; float: left; clear: left;">
+      <div style="width: 108px; height:38px; overflow: scroll; white-space: nowrap;" >
+        {%for image in info['info']['images']%}
+          {% for src in info['info']['images'][image] %}
+            <img src="{{src}}" alt="{{image}}" style="height: 28px; border: 1px white solid; cursor: pointer;">
+          {%endfor%}
+        {%endfor%}
+      </div>
+    </div>
+    <p class="p_info">
+      <table border="0">
+        <tr>
+          <td width="75" style="font-weight:bold;" align="right">Year:</td>
+          <td style="font-size: 0.95em;" align="right">{{info['info']['year']}}</td>
+        </tr>        <tr>
+          <td width="75" style="font-weight:bold;" align="right">Rating:</td>
+          <td style="font-size: 0.95em;" align="right">{{info['info']['rating']['imdb'][0]}}/10 ({{info['info']['rating']['imdb'][1]}} votes</td>
+        </tr>
+        <tr>
+          <td width="100" style="font-weight:bold;" align="right">Genres:</td>
+          <td style="font-size: 0.95em;" align="right">{% for genre in info['info']['genres'] %} {{genre}} {%if not loop.last%}|{%endif%} {% endfor %}</td>
+        </tr>
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">DVD release:</td>
+          <td style="font-size:0.95em;" align="right">{{info['info']['release_date']['dvd']|time}}</td>
+        </tr>
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">Theater release:</td>
+          <td style="font-size:0.95em;" align="right">{{info['info']['released']}}</td>
+        </tr>
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">Writers:</td>
+          <td style="font-size:0.95em;" align="right">{%for writer in info['info']['writers']%} {{writer}}{%if not loop.last%},{%endif%} {%endfor%}</td>
+        </tr>
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">Directors:</td>
+          <td style="font-size:0.95em;" align="right">{%for director in info['info']['directors']%} {{director}}{%if not loop.last%},{%endif%} {%endfor%}</td>
+        </tr>
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">Actors:</td>
+          <td style="font-size:0.95em;" align="right">{%for actor in info['info']['actors']%} {{actor}}{%if not loop.last%},{%endif%} {%endfor%}</td>
+        </tr>
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">Runtime:</td>
+          <td style="font-size:0.95em;" align="right">{{info['info']['runtime']}}</td>
+        </tr>
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">Profile:</td>
+          <td style="font-size:0.95em;" align="right">{{couchpotato['movie']['profile']['label']}}</td>
+        </tr>
+      </table>
+    </p>
+    <p style="clear: left;"> 
+      <br /><span style="font-weight:bold;">Plot:</span>
+      <br /><span style="font-size: 0.950em;">{{info['plot']}}</span>
+    </p>
+  </div>
 {% else %}
 <div id="error">
   <p>An error ocurred</p>

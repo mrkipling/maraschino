@@ -1304,7 +1304,7 @@ $(document).ready(function() {
     });
   });
 
-  //menu + click
+  // menu '+'' click
   $(document).on('click', '#couchpotato .menu .all', function(){
     $.get(WEBROOT + '/xhr/couchpotato/done/')
     .success(function(data){
@@ -1312,7 +1312,7 @@ $(document).ready(function() {
     });
   });
 
-  //menu settings click
+  // menu settings click
   $(document).on('click', '#couchpotato .menu .settings', function(){
     $.get(WEBROOT + '/xhr/couchpotato/settings/')
     .success(function(data){
@@ -1320,7 +1320,7 @@ $(document).ready(function() {
     });
   });
 
-  //Load search template
+  // Load search template
   $(document).on('click', '#couchpotato .menu .add', function(){
     $.get(WEBROOT + '/xhr/couchpotato/search/')
     .success(function(data){
@@ -1403,6 +1403,14 @@ $(document).ready(function() {
       } else {
         popup_message('Failed to refresh movie, see log for more datials');
       }
+    });
+  });
+  // movie info
+  $(document).on('click', '#couchpotato .movie', function() {
+    var id = $(this).data('cpid');
+    add_loading_gif($(this));
+    $.get(WEBROOT+'/xhr/couchpotato/get_movie/'+id, function(data) {
+      $('#couchpotato').replaceWith(data);
     });
   });
   // shutdown

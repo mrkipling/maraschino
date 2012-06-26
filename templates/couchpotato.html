@@ -4,7 +4,7 @@
 
 <div id="cp_content" {%if compact_view %}class="compact"{%endif%}>
   {% for item in couchpotato %}
-    <div class="movie" id="{{item.library.identifier}}">
+    <div class="movie" id="{{item.library.identifier}}" data-cpid="{{item.library_id}}">
       <div class="{{item.releases.status}}"></div>
       <div class="image">
         <img class="poster" 
