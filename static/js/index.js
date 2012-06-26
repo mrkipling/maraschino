@@ -1324,7 +1324,7 @@ $(document).ready(function() {
     });
   });
   //Load search template
-  $(document).on('click', '#couchpotato div.powerholder .add', function(){
+  $(document).on('click', '#couchpotato .menu .add', function(){
     $.get(WEBROOT + '/xhr/couchpotato/search/')
     .success(function(data){
       $('#couchpotato').replaceWith(data);
@@ -1385,9 +1385,9 @@ $(document).ready(function() {
     var imdbid = $(this).parent().data('imdbid');
     $.get(WEBROOT+'/xhr/couchpotato/delete_movie/'+id, function(data) {
       if(data.success){
-        $('#couchpotato #cp_content #'+imdbid).transition({opacity: 0, duration: 2000}, function(){
+        $('#couchpotato #cp_content #'+imdbid).transition({opacity: 0, duration: 1000}, function(){
           $(this).remove();
-          popup_message('Movie deleted successfully');
+          // popup_message('Movie deleted successfully');
         });
       } else {
         popup_message('Failed to delete movie, see log for more datials');

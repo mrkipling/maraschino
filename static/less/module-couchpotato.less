@@ -1,11 +1,15 @@
 @import "mixins.less";
 
 #couchpotato {
+  padding-bottom: 10px;
   .menu {
     .settings span {
       background: url('/@{webroot}/images/cog.png') center no-repeat;
     }
     .all {
+      text-indent: 0;
+    }
+    .add {
       text-indent: 0;
     }
     .wanted span  {
@@ -62,10 +66,6 @@
         margin-top: 8px;
         width: 14px;
       }
-    }
-
-    .add {
-      font-size: 1.5em;
     }
 
     .log {
@@ -212,12 +212,24 @@
   }
 
   #cp_settings {
-    padding: 20px;
+    padding: 5px;
+    max-height: 260px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
     ul li {
       background: url('/@{webroot}/images/alpha/fff_10.png');
       padding: 10px;
-      margin: 10px;
+      margin: 4px;
+      width: 92%;
       .border-radius(4px);
+
+      .value {
+        float: right;
+        width: 50%;
+        top: -6px;
+        position: relative;
+      }
     }
   }
 }
