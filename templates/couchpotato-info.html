@@ -3,23 +3,26 @@
 {% block couchpotato_content %}
 
 {% if couchpotato['success'] %}
+{% set info = couchpotato['movie']['library'] %}
 <div id="info">
-  <h3> {{couchpotato['movie']['library']['info']['original_title']}} ({{couchpotato['movie']['library']['info']['year']}})</h3>
-  Runtime: {{couchpotato['movie']['library']['info']['runtime']}} mins <br>
-  Plot: {{couchpotato['movie']['library']['plot']}}<br>
-  Rating: {{couchpotato['movie']['library']['info']['rating']['imdb'][0]}} ({{couchpotato['movie']['library']['info']['rating']['imdb'][1]}} votes)<br>
-  Genres: {% for genre in couchpotato['movie']['library']['info']['genres'] %} | {{genre}} | {% endfor %}<br>
-  Theater release: {{couchpotato['movie']['library']['info']['release_date']['theater']|time}}<br>
-  DVD release: {{couchpotato['movie']['library']['info']['release_date']['dvd']|time}}<br>
-  Theater release: {{couchpotato['movie']['library']['info']['released']}}<br>
-  Writers: {%for writer in couchpotato['movie']['library']['info']['writers']%} {{writer}}, {%endfor%}<br>
-  Directors: {%for director in couchpotato['movie']['library']['info']['directors']%} {{director}}, {%endfor%}<br>
-  Actors: {%for actor in couchpotato['movie']['library']['info']['actors']%} {{actor}}, {%endfor%}<br>
-  {%for image in couchpotato['movie']['library']['info']['images']%}
-    {% for src in couchpotato['movie']['library']['info']['images'][image] %}
+  <h3> {{info['info']['original_title']}} ({{info['info']['year']}})</h3>
+  Runtime: {{info['info']['runtime']}} mins <br>
+  Plot: {{info['plot']}}<br>
+  Status: {{couchpotato['movie']['status']['identifier']}}<br>
+  {%if info['info']['rating']%}Rating: {{info['info']['rating']['imdb'][0]}} ({{info['info']['rating']['imdb'][1]}} votes)<br>{%endif%}
+  Genres: {% for genre in info['info']['genres'] %} {{genre}} {%if not loop.last%}|{%endif%} {% endfor %}<br>
+  Theater release: {{info['info']['release_date']['theater']|time}}<br>
+  DVD release: {{info['info']['release_date']['dvd']|time}}<br>
+  Theater release: {{info['info']['released']}}<br>
+  Writers: {%for writer in info['info']['writers']%} {{writer}}{%if not loop.last%},{%endif%} {%endfor%}<br>
+  Directors: {%for director in info['info']['directors']%} {{director}}{%if not loop.last%},{%endif%} {%endfor%}<br>
+  Actors: {%for actor in info['info']['actors']%} {{actor}}{%if not loop.last%},{%endif%} {%endfor%}<br>
+  {%for image in info['info']['images']%}
+    {% for src in info['info']['images'][image] %}
       <img src="{{src}}" alt="{{image}}" />
     {%endfor%}
   {%endfor%}
+  Profile: {{couchpotato['movie']['profile']['label']}}<br>
 </div>
 {% else %}
 <div id="error">

@@ -114,7 +114,7 @@ def cp_search():
 def add_movie(imdbid, title):
     try:
         logger.log('CouchPotato :: Adding %s (%s) to wanted list' % (title, imdbid), 'INFO')
-        result = couchpotato_api('movie.add', 'identifier=%s&title=%s' % (imdbid, title), dev=True)
+        result = couchpotato_api('movie.add', 'identifier=%s&title=%s' % (imdbid, title))
         return jsonify(result)
     except Exception as e:
         log_exception(e)
@@ -276,7 +276,7 @@ def cp_get_movie(id):
     """
     try:
         logger.log('CouchPotato :: Retrieving movie info', 'INFO')
-        result = couchpotato_api('movie.get', 'id=%s' % id, dev=True)
+        result = couchpotato_api('movie.get', 'id=%s' % id)
         return render_template('couchpotato-info.html',
             couchpotato=result,
         )
