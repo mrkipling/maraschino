@@ -1338,7 +1338,7 @@ $(document).ready(function() {
       var name = $('#couchpotato .search .value').attr('value');
       params = '';
       if(name !== ''){
-          params = 'name='+name;
+          params = 'name='+encodeURIComponent(name);
       }
       $.get(WEBROOT + '/xhr/couchpotato/search/?'+params)
       .success(function(data){
@@ -1352,8 +1352,8 @@ $(document).ready(function() {
   // Search add movie click
   $(document).on('click', '#couchpotato .search ul li', function() {
     var imdbid = $(this).data('imdbid');
-    var title = $(this).data('title');
-    $.get(WEBROOT + '/xhr/couchpotato/add_movie/'+imdbid+'/'+title, function(data) {
+    var title = $(this).data('title').replace('/','%20');
+    $.get(WEBROOT + '/xhr/couchpotato/add_movie/'+imdbid+'/'+encodeURIComponent(title), function(data) {
       if(data.success){
         popup_message('Movie added successfully');
       } else {
