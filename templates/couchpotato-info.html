@@ -7,7 +7,7 @@
   <div id="info" class="{{couchpotato['movie']['status']['identifier']}}">
     <img src="{{info['info']['images']['poster'][0]}}" alt="poster" style="float:left;" width="100px;">
     <div style="height: 30px; width: 100px; overflow: hidden; float: left; clear: left;">
-      <div style="width: 108px; height:38px; overflow: scroll; white-space: nowrap;" >
+      <div class="thumbs">
         {%for image in info['info']['images']%}
           {% for src in info['info']['images'][image] %}
             <img src="{{src}}" alt="{{image}}" style="height: 28px; border: 1px white solid; cursor: pointer;">

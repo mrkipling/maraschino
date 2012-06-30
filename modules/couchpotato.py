@@ -189,7 +189,7 @@ def cp_profiles():
     try:
         logger.log('CouchPotato :: Getting profiles', 'INFO')
         result = couchpotato_api('profile.list')
-        return render_template('couchpotato-profiles-popup.html', profiles=result)
+        return jsonify(result)
     except Exception as e:
         log_exception(e)
 

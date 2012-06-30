@@ -1430,6 +1430,10 @@ $(document).ready(function() {
       $('#couchpotato').replaceWith(data);
     });
   });
+  // img popup
+  $(document).on('click', '#couchpotato #info .thumbs img', function() {
+    popup_message('<img src ="'+$(this).attr('src')+'" style="max-height: 100%;max-width:100%;" />');
+  });
   // shutdown
   $(document).on('click', '#couchpotato div.powerholder a.power', function() {
     $('#couchpotato div.powerholder a.power img').attr('src', WEBROOT + '/static/images/yes.png');
