@@ -80,16 +80,16 @@ def cp_search():
     except:
         pass
 
-    if params is not '':
+    if params:
         try:
             logger.log('CouchPotato :: Searching for movie: %s' % (params), 'INFO')
-            couchpotato = couchpotato_api('movie.search', params=params)
+            couchpotato = couchpotato_api('movie.search', params=params, dev=True)
             amount = len(couchpotato['movies'])
             logger.log('CouchPotato :: found %i movies for %s' % (amount, params), 'INFO')
             if couchpotato['success'] and amount != 0:
                 couchpotato = couchpotato['movies']
             else:
-                return render_template('couchpotato-search.html', error='No movies with "%s" were found' % (params), couchpotato='results')
+                return render_template('couchpotato-search.html', error='No movies with "%s" were found' % (params[2:]), couchpotato='results')
 
         except Exception as e:
             log_exception(e)
@@ -106,10 +106,16 @@ def cp_search():
 
 
 @app.route('/xhr/couchpotato/add_movie/<imdbid>/<title>/')
-def add_movie(imdbid, title):
+@app.route('/xhr/couchpotato/add_movie/<imdbid>/<title>/<profile>/')
+def add_movie(imdbid, title, profile=False):
+    if profile:
+        params = 'identifier=%s&title=%s&profile_id=%s' % (imdbid, title, profile)
+    else:
+        params = 'identifier=%s&title=%s' % (imdbid, title)
+
     try:
         logger.log('CouchPotato :: Adding %s (%s) to wanted list' % (title, imdbid), 'INFO')
-        result = couchpotato_api('movie.add', 'identifier=%s&title=%s' % (imdbid, title))
+        result = couchpotato_api('movie.add', params)
         return jsonify(result)
     except Exception as e:
         log_exception(e)
@@ -176,7 +182,7 @@ def cp_profiles():
     try:
         logger.log('CouchPotato :: Getting profiles', 'INFO')
         result = couchpotato_api('profile.list')
-        return jsonify(result)
+        return render_template('couchpotato-profiles-popup.html', profiles=result)
     except Exception as e:
         log_exception(e)
 

@@ -1,0 +1,14 @@
+<div id="cp_add_profiles_dialog" class="dialog">
+
+  <div class="close">x</div>
+  {% if profiles %}
+    <select class="profiles">
+      {% for profile in profiles.list %}
+        <option value="{{profile.id}}">{{profile.label}}</option>
+      {% endfor %}
+    </select>
+    <div class="clearfix">
+      <span class="add">add</span>
+    </div>
+  {% endif %}
+</div>
