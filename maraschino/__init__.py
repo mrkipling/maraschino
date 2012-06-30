@@ -23,6 +23,7 @@ SCHEDULE = Scheduler()
 WEBROOT = ''
 logger = None
 SERVER = None
+HOST = '0.0.0.0'
 
 AUTH = {
     'username': None,
@@ -123,7 +124,7 @@ def initialize():
             d = wsgiserver.WSGIPathInfoDispatcher({WEBROOT: app})
         else:
             d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
-        SERVER = wsgiserver.CherryPyWSGIServer(('0.0.0.0', PORT), d)
+        SERVER = wsgiserver.CherryPyWSGIServer((HOST, PORT), d)
 
         # Set up webroot for .less
         less_webroot = os.path.join(RUNDIR, 'static/less/webroot.less')
@@ -171,7 +172,7 @@ def start():
 
         if not DEVELOPMENT:
             try:
-                logger.log('Starting Maraschino on port/webroot: %i%s' % (PORT, WEBROOT), 'INFO')
+                logger.log('Starting Maraschino on %s:%i%s' % (HOST, PORT, WEBROOT), 'INFO')
                 SERVER.start()
                 while not True:
                     pass
@@ -180,7 +181,7 @@ def start():
         else:
             logger.log('Starting Maraschino development server on port: %i' % (PORT), 'INFO')
             logger.log(' ##### IMPORTANT : WEBROOT DOES NOT WORK UNDER THE DEV SERVER #######', 'INFO')
-            app.run(debug=True, port=PORT, host='0.0.0.0')
+            app.run(debug=True, port=PORT, host=HOST)
 
 
 def stop():
