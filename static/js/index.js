@@ -1349,6 +1349,21 @@ $(document).ready(function() {
       });
     }
   });
+  // Search button click
+  $(document).on('click', '#couchpotato .search span.search', function() {
+    var name = $('#couchpotato .search .value').attr('value');
+    params = '';
+    if(name !== ''){
+        params = 'name='+encodeURIComponent(name);
+    }
+    $.get(WEBROOT + '/xhr/couchpotato/search/?'+params)
+    .success(function(data){
+      $('#couchpotato').replaceWith(data);
+    })
+    .error(function(){
+      popup_message('Could not reach Maraschino.');
+    });
+  });
   // Search add movie click
   $(document).on('click', '#couchpotato .search ul li', function() {
     var imdbid = $(this).data('imdbid');
@@ -1362,7 +1377,8 @@ $(document).ready(function() {
     });
   });
   // wanted slide option
-  $(document).on('click', '#couchpotato #cp_content .movie .image', function() {
+  $(document).on('click', '#couchpotato #cp_content .movie .image', function(e) {
+    e.stopPropagation();
     var id = $(this).parent().attr('id');
     var el = $('#'+id);
     el.toggleClass('selected');

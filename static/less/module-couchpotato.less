@@ -232,6 +232,23 @@
   }
 
   .search {
+    form {
+      input.value {
+        padding: 4px;
+        width: 150px;
+        margin: 4px;
+      }
+      span.search {
+        background: url('/@{webroot}/images/alpha/fff_10.png');
+        padding: 4px;
+        cursor: pointer;
+        .border-radius(4px);
+
+        &:hover{
+          background: url('/@{webroot}/images/alpha/fff_20.png');
+        }
+      }
+    }
     .result{
       max-height: 200px;
       overflow: auto;
