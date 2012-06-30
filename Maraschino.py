@@ -88,6 +88,9 @@ def main():
     p.add_option('--webroot',
                  dest='webroot',
                  help='web root for Maraschino')
+    p.add_option('--host',
+                 dest='host',
+                 help='web host for Maraschino')
 
     options, args = p.parse_args()
 
@@ -120,6 +123,9 @@ def main():
 
     if options.webroot:
         maraschino.WEBROOT = options.webroot
+
+    if options.host:
+        maraschino.HOST = options.host
 
     maraschino.RUNDIR = rundir
     maraschino.FULL_PATH = os.path.join(rundir, 'Maraschino.py')
