@@ -1436,7 +1436,13 @@ $(document).ready(function() {
   });
   // img popup
   $(document).on('click', '#couchpotato #info .thumbs img', function() {
-    popup_message('<img src ="'+$(this).attr('src')+'" style="max-height: 100%;max-width:100%;" />');
+    var popup = $('<div id="cp_image" class="dialog" align="center"><div class="close">x</div><img src ="'+$(this).attr('src')+'" style="max-height: 100%;max-width:100%;" /></div>');
+    $('body').append(popup);
+    popup.showPopup({ dispose: true });
+    $(document).on('keydown', 'body', function() {
+      $('#cp_image .close').click();
+      $(document).off('keydown', 'body');
+    });
   });
   // shutdown
   $(document).on('click', '#couchpotato div.powerholder a.power', function() {
