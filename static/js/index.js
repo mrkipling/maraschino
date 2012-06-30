@@ -51,6 +51,10 @@ $(document).ready(function() {
     var popup = $('<div id="popup_message" class="dialog"><div class="close">x</div><p>' + message + '</p><div class="choices"><div class="cancel">OK</div></div></div>');
     $('body').append(popup);
     popup.showPopup({ dispose: true });
+    $(document).on('keydown', 'body', function() {
+      $('#popup_message .choices .cancel').click();
+      $(document).off('keydown', 'body');
+    });
   }
 
   // get/poll module
