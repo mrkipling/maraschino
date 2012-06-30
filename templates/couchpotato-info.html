@@ -29,11 +29,11 @@
           <td style="font-size: 0.95em;" align="right">{% for genre in info['info']['genres'] %} {{genre}} {%if not loop.last%}|{%endif%} {% endfor %}</td>
         </tr>
         <tr>
-          <td width="75" style="font-weight: bold;" align="right">DVD release:</td>
+          <td width="75" style="font-weight: bold;" align="right">DVD:</td>
           <td style="font-size:0.95em;" align="right">{{info['info']['release_date']['dvd']|time}}</td>
         </tr>
         <tr>
-          <td width="75" style="font-weight: bold;" align="right">Theater release:</td>
+          <td width="75" style="font-weight: bold;" align="right">Theater:</td>
           <td style="font-size:0.95em;" align="right">{{info['info']['released']}}</td>
         </tr>
         <tr>

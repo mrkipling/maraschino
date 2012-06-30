@@ -20,11 +20,19 @@
           {% endif %}          
           <span class="name">{{ item.original_title }}</span><br>
           <span class="year">{{ item.released }}</span>
+          <br>
           <div class="extra {% if item.in_library%} library {% endif %} {% if item.in_wanted %} wanted {% endif %}">
             <p>{{item.plot}}</p>
           </div>
           <div class="choices">
-            <span class="add">Add</span><span class="add_profile">Add with profile</span>
+            {% if profiles %}
+              <select class="profiles">
+                {% for profile in profiles.list %}
+                  <option value="{{profile.id}}">{{profile.label}}</option>
+                {% endfor %}
+              </select>
+            {% endif %}
+            <span class="add">Add</span>
           </div>
         </li>
       {% endfor %}

@@ -1364,49 +1364,12 @@ $(document).ready(function() {
       popup_message('Could not reach Maraschino.');
     });
   });
-  // search mouseover function
-  $(document).on('mouseenter mouseleave', '#couchpotato .search ul li', function(e) {
-    $(this).children('img, .extra, .choices, .year').toggle();
-    if(e.type == 'mouseleave'){
-      $(this).height(20);
-    } else {
-      $(this).height(110);
-    }
-  });
-  // search add with profile button
-  $(document).on('click', '#couchpotato .search ul li .choices .add_profile', function() {
-    var imdbid = $(this).parent().parent().data('imdbid');
-    var title = $(this).parent().parent().data('title').replace('/','%20');
-    $.get(WEBROOT + '/xhr/couchpotato/profiles/', function(data) {
-      if(data.success === false){
-        popup_message('Failed to get profiles from CouchPotato');
-      } else {
-        var popup = $(data);
-        $('body').append(popup);
-        popup.showPopup({ dispose: true });
-        $('#cp_add_profiles_dialog').data('imdbid', imdbid);
-        $('#cp_add_profiles_dialog').data('title', title);
-      }
-    });
-  });
-  $(document).on('click', '#cp_add_profiles_dialog .add', function() {
-    var profile = $('#cp_add_profiles_dialog .profiles').find(":selected").val();
-    var imdbid = $('#cp_add_profiles_dialog').data('imdbid');
-    var title = $('#cp_add_profiles_dialog').data('title').replace('/','%20');
-    $('#cp_add_profiles_dialog').remove();
-    $.get(WEBROOT + '/xhr/couchpotato/add_movie/'+imdbid+'/'+encodeURIComponent(title)+'/'+profile, function(data) {
-      if(data.success){
-        popup_message('Movie added successfully');
-      } else {
-        popup_message('Failed to add movie to CouchPotato');
-      }
-    });
-  });
   // Search add movie click
   $(document).on('click', '#couchpotato .search ul li .choices .add', function() {
     var imdbid = $(this).parent().parent().data('imdbid');
     var title = $(this).parent().parent().data('title').replace('/','%20');
-    $.get(WEBROOT + '/xhr/couchpotato/add_movie/'+imdbid+'/'+encodeURIComponent(title), function(data) {
+    var profile = $('#couchpotato .search ul li .choices .profiles').find(':selected').val();
+    $.get(WEBROOT + '/xhr/couchpotato/add_movie/'+imdbid+'/'+encodeURIComponent(title)+'/'+profile, function(data) {
       if(data.success){
         popup_message('Movie added successfully');
       } else {

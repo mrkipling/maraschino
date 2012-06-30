@@ -74,6 +74,7 @@ def xhr_couchpotato(status=False):
 def cp_search():
     couchpotato = {}
     params = False
+    profiles = {}
 
     try:
         params = 'q=' + request.args['name']
@@ -88,6 +89,11 @@ def cp_search():
             logger.log('CouchPotato :: found %i movies for %s' % (amount, params), 'INFO')
             if couchpotato['success'] and amount != 0:
                 couchpotato = couchpotato['movies']
+                try:
+                    logger.log('CouchPotato :: Getting quality profiles', 'INFO')
+                    profiles = couchpotato_api('profile.list')
+                except Exception as e:
+                    log_exception(e)
             else:
                 return render_template('couchpotato-search.html', error='No movies with "%s" were found' % (params[2:]), couchpotato='results')
 
@@ -102,6 +108,7 @@ def cp_search():
     return render_template('couchpotato-search.html',
         data=couchpotato,
         couchpotato='results',
+        profiles=profiles,
     )
 
 

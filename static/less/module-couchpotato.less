@@ -97,6 +97,7 @@
     }
     .movie {
       background: url('/@{webroot}/images/alpha/fff_10.png');
+      cursor: pointer;
       display: inline-block;
       margin: 5px;
       text-align:justify;
@@ -260,9 +261,11 @@
         padding: 10px;
         li{
           background: url('/@{webroot}/images/alpha/fff_10.png');
-          height: 20px;
+          height: 115px;
           margin: 8px;
           padding: 10px;
+          width: 90%;
+          overflow: hidden;
           .border-radius(6px);
 
           img{
@@ -270,7 +273,6 @@
             height: 100px;
             float: left;
             padding: 2px;
-            display: none;
           }
 
           .name{
@@ -282,26 +284,23 @@
           }
 
           .year{
-            float: right;
-            margin-top: -10px;
+            float: left;
           }
 
           div.extra{
-            height: 50px;
+            height: 40px;
             overflow: auto;
             text-align: justify;
             padding: 6px;
             margin: 10px;
-            display: none;
           }
 
           div.choices{
-            margin: 0px;
+            margin-top: -8px;
+            padding: 4px;
             height: 10px;
             float: right;
-            display: none;
-            span.add,
-            span.add_profile{
+            span.add {
               cursor: pointer;
               padding: 4px;
               margin: 4px;
@@ -337,23 +336,6 @@
         top: -6px;
         position: relative;
       }
-    }
-  }
-}
-
-#cp_add_profiles_dialog {
-  text-align: center;
-  .add {
-    background: url('/@{webroot}/images/alpha/fff_20.png');
-    display: inline-block;
-    cursor: pointer;
-    padding: 8px;
-    width: 60px;
-    margin-top: 10px;
-    .border-radius(4px);
-
-    &:hover{
-      background: url('/@{webroot}/images/alpha/fff_40.png');
     }
   }
 }
