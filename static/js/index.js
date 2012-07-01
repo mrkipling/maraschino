@@ -1430,7 +1430,7 @@ $(document).ready(function() {
   $(document).on('click', '#couchpotato .movie', function() {
     var id = $(this).data('cpid');
     add_loading_gif($(this));
-    $.get(WEBROOT+'/xhr/couchpotato/get_movie/'+id, function(data) {
+    $.get(WEBROOT + '/xhr/couchpotato/get_movie/'+id, function(data) {
       $('#couchpotato').replaceWith(data);
     });
   });
@@ -1440,7 +1440,7 @@ $(document).ready(function() {
     var profileid = $(this).find(':selected').val();
     var td = $(this).parent();
     add_loading_gif(td);
-    $.get('/xhr/couchpotato/edit_movie/'+movieid+'/'+profileid+'/', function(data){
+    $.get(WEBROOT + '/xhr/couchpotato/edit_movie/'+movieid+'/'+profileid+'/', function(data){
       if(data.success){
         remove_loading_gif(td);
       } else {
@@ -1488,6 +1488,21 @@ $(document).ready(function() {
         }, 3000);
       }
     });
+  });
+  // log
+  $(document).on('click', '#couchpotato div.powerholder a.log', function() {
+    $.get(WEBROOT + '/xhr/couchpotato/log/', function(data){
+      if(data){
+        $('#couchpotato').replaceWith(data);
+      }
+    });
+  });
+  // log level change
+  $(document).on('change', '#couchpotato #cp_log select.level', function() {
+    $.get(WEBROOT + '/xhr/couchpotato/log/' + $(this).find(':selected').val() + '/30/', function(data) {
+      $('#couchpotato').replaceWith(data);
+    });
+    
   });
   /********* END CouchPotato ***********/
 

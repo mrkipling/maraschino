@@ -47,14 +47,15 @@ def log_exception(e):
 @app.route('/xhr/couchpotato/<status>/')
 def xhr_couchpotato(status=False):
     if status:
-        status = 'status=%s' % status
+        status_string = 'status=%s' % status
         template = 'couchpotato-all.html'
     else:
-        status = False
+        status = 'wanted'
+        status_string = False
         template = 'couchpotato.html'
     try:
-        logger.log('CouchPotato :: Fetching wanted list', 'INFO')
-        couchpotato = couchpotato_api('movie.list', params=status)
+        logger.log('CouchPotato :: Fetching "%s movies" list' % status, 'INFO')
+        couchpotato = couchpotato_api('movie.list', params=status_string)
         if couchpotato['success'] and not couchpotato['empty']:
             couchpotato = couchpotato['movies']
 
@@ -62,7 +63,7 @@ def xhr_couchpotato(status=False):
         log_exception(e)
         couchpotato = None
 
-    logger.log('CouchPotato :: Finished fetching wanted list', 'INFO')
+    logger.log('CouchPotato :: Fetching "%s movies" list (DONE)' % status, 'INFO')
     return render_template(template,
         url=couchpotato_url(),
         couchpotato=couchpotato,
@@ -266,6 +267,7 @@ def cp_settings():
     try:
         logger.log('CouchPotato :: Retrieving settings', 'INFO')
         result = couchpotato_api('settings')
+        logger.log('CouchPotato :: Retrieving settings (DONE)', 'INFO')
         return render_template('couchpotato-settings.html',
             couchpotato=result,
         )
@@ -290,6 +292,7 @@ def cp_get_movie(id):
             profiles = couchpotato_api('profile.list')
         except Exception as e:
             log_exception(e)
+        logger.log('CouchPotato :: Retrieving movie info (DONE)', 'INFO')
         return render_template('couchpotato-info.html',
             couchpotato=result,
             profiles=profiles,
@@ -312,7 +315,32 @@ def cp_edit_movie(movieid, profileid):
         logger.log('CouchPotato :: Retrieving movie info', 'INFO')
         result = couchpotato_api('movie.edit', 'id=%s&profile_id=%s' % (movieid, profileid))
         if result['success']:
+            logger.log('CouchPotato :: Retrieving movie info (DONE)', 'INFO')
             return jsonify({'success': True})
+    except Exception as e:
+        log_exception(e)
+
+    return jsonify({'success': False})
+
+
+@app.route('/xhr/couchpotato/log/')
+@app.route('/xhr/couchpotato/log/<type>/<lines>/')
+def cp_log(type='all', lines=30):
+    """
+    Edit movie in CP
+    ---- Params -----
+    type <optional>          all, error, info, debug                     Type of log
+    lines <optional>         int                                         Number of lines - last to first
+    """
+    try:
+        logger.log('CouchPotato :: Retrieving "%s" log' % type, 'INFO')
+        result = couchpotato_api('logging.partial', 'type=%s&lines=%s' % (type, lines))
+        if result['success']:
+            logger.log('CouchPotato :: Retrieving "%s" log (DONE)' % type, 'INFO')
+            return render_template('couchpotato-log.html',
+                couchpotato=result,
+                level=type,
+            )
     except Exception as e:
         log_exception(e)
 
