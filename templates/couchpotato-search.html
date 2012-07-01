@@ -12,7 +12,7 @@
     {% elif data %}
       <ul>
       {% for item in data %}
-        <li data-imdbid="{{ item.imdb }}" data-title="{{item.original_title}}">
+        <li data-imdbid="{% if item.imdb %}{{item.imdb}}{%else%}{{item.tmdb_id}}{%endif%}" data-title="{{item.original_title}}">
           {% if item.images.poster %}
             <img src="{{ (item.images.poster)|replace( '[u\'', '')|replace('\']', '') }}" />
           {% else %}

@@ -5,6 +5,13 @@
 {% if couchpotato['success'] %}
   {% set info = couchpotato['movie']['library'] %}
   <div id="info" class="{{couchpotato['movie']['status']['identifier']}}">
+    <div class="options" data-imdbid="{{info.info.imdb}}" data-cpid="{{couchpotato.movie.library_id}}">
+      <img class="delete" src="{{ url_for('static', filename='images/no.png')}}"/>
+      <img class="search" src="{{ url_for('static', filename='images/search.png')}}"/>
+      <a href="http://imdb.com/title/{{info.info.imdb}}" target="_blank">
+        <img src="{{ url_for('static', filename='images/imdb.png')}}" alt="" />
+      </a>
+    </div>
     <img src="{{info['info']['images']['poster'][0]}}" alt="poster" style="float:left;" width="100px;">
     <div style="height: 30px; width: 100px; overflow: hidden; float: left; clear: left;">
       <div class="thumbs">
@@ -26,7 +33,7 @@
           <td style="font-size: 0.95em;">{{info['info']['rating']['imdb'][0]}}/10 ({{info['info']['rating']['imdb'][1]}} votes</td>
         </tr>
         <tr>
-          <td width="100" style="font-weight:bold;" align="right">Genres:&nbsp;&nbsp;</td>
+          <td width="75" style="font-weight:bold;" align="right">Genres:&nbsp;&nbsp;</td>
           <td style="font-size: 0.95em;">{% for genre in info['info']['genres'] %} {{genre}} {%if not loop.last%}|{%endif%} {% endfor %}</td>
         </tr>
         <tr>

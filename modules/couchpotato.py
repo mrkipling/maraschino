@@ -85,7 +85,7 @@ def cp_search():
     if params:
         try:
             logger.log('CouchPotato :: Searching for movie: %s' % (params), 'INFO')
-            couchpotato = couchpotato_api('movie.search', params=params, dev=True)
+            couchpotato = couchpotato_api('movie.search', params=params)
             amount = len(couchpotato['movies'])
             logger.log('CouchPotato :: found %i movies for %s' % (amount, params), 'INFO')
             if couchpotato['success'] and amount != 0:

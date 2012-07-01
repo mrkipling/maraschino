@@ -1403,30 +1403,40 @@ $(document).ready(function() {
       });
     }
   });
-  // wanted delete
-  $(document).on('click', '#couchpotato #cp_content .options img.delete', function() {
+  // wanted delete, info delete
+  $(document).on('click', '#couchpotato #cp_content .options img.delete, #couchpotato #info .options img.delete', function(selector) {
     var id = $(this).parent().data('cpid');
     var imdbid = $(this).parent().data('imdbid');
+    var el = $(this);
+    el.attr('src', WEBROOT + '/static/images/xhrloading.gif');
     $.get(WEBROOT+'/xhr/couchpotato/delete_movie/'+id, function(data) {
       if(data.success){
-        $('#couchpotato #cp_content #'+imdbid).transition({opacity: 0, duration: 1000}, function(){
-          $(this).remove();
-        });
+        if(el.parent().parent().attr('id') === 'info'){
+          el.attr('src', WEBROOT + '/static/images/yes.png');
+        } else {
+          $('#couchpotato #cp_content #'+imdbid).transition({opacity: 0, duration: 1000}, function(){
+            $(this).remove();
+          });
+        }
       } else {
         popup_message('Failed to delete movie, see log for more datials');
         $('#couchpotato #cp_content #'+imdbid).transition({opacity: 1, x: '0px'});
       }
     });
   });
-  // wanted refresh
-  $(document).on('click', '#couchpotato #cp_content .options img.search', function() {
+  // wanted refresh, info refresh
+  $(document).on('click', '#couchpotato #cp_content .options img.search, , #couchpotato #info .options img.search', function() {
     var id = $(this).parent().data('cpid');
     var imdbid = $(this).parent().data('imdbid');
     var el = $(this);
     el.attr('src', WEBROOT + '/static/images/xhrloading.gif');
     $.get(WEBROOT+'/xhr/couchpotato/refresh_movie/'+id, function(data) {
       if(data.success){
-        el.attr('src', WEBROOT + '/static/images/search.png');
+        if(el.parent().parent().attr('id') === 'info'){
+          el.attr('src', WEBROOT + '/static/images/yes.png');
+        } else {
+          el.attr('src', WEBROOT + '/static/images/search.png');
+        }
       } else {
         popup_message('Failed to refresh movie, see log for more datials');
       }
