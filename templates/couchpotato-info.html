@@ -18,44 +18,44 @@
     <p class="p_info">
       <table border="0">
         <tr>
-          <td width="75" style="font-weight:bold;" align="right">Year:</td>
-          <td style="font-size: 0.95em;" align="right">{{info['info']['year']}}</td>
+          <td width="75" style="font-weight:bold;" align="right">Year:&nbsp;&nbsp;</td>
+          <td style="font-size: 0.95em;">{{info['info']['year']}}</td>
         </tr>        
         <tr>
-          <td width="75" style="font-weight:bold;" align="right">Rating:</td>
-          <td style="font-size: 0.95em;" align="right">{{info['info']['rating']['imdb'][0]}}/10 ({{info['info']['rating']['imdb'][1]}} votes</td>
+          <td width="75" style="font-weight:bold;" align="right">Rating:&nbsp;&nbsp;</td>
+          <td style="font-size: 0.95em;">{{info['info']['rating']['imdb'][0]}}/10 ({{info['info']['rating']['imdb'][1]}} votes</td>
         </tr>
         <tr>
-          <td width="100" style="font-weight:bold;" align="right">Genres:</td>
-          <td style="font-size: 0.95em;" align="right">{% for genre in info['info']['genres'] %} {{genre}} {%if not loop.last%}|{%endif%} {% endfor %}</td>
+          <td width="100" style="font-weight:bold;" align="right">Genres:&nbsp;&nbsp;</td>
+          <td style="font-size: 0.95em;">{% for genre in info['info']['genres'] %} {{genre}} {%if not loop.last%}|{%endif%} {% endfor %}</td>
         </tr>
         <tr>
-          <td width="75" style="font-weight: bold;" align="right">DVD:</td>
-          <td style="font-size:0.95em;" align="right">{{info['info']['release_date']['dvd']|time}}</td>
+          <td width="75" style="font-weight: bold;" align="right">DVD:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;">{{info['info']['release_date']['dvd']|time}}</td>
         </tr>
         <tr>
-          <td width="75" style="font-weight: bold;" align="right">Theater:</td>
-          <td style="font-size:0.95em;" align="right">{{info['info']['released']}}</td>
+          <td width="75" style="font-weight: bold;" align="right">Theater:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;">{{info['info']['released']}}</td>
         </tr>
         <tr>
-          <td width="75" style="font-weight: bold;" align="right">Writers:</td>
-          <td style="font-size:0.95em;" align="right">{%for writer in info['info']['writers']%} {{writer}}{%if not loop.last%},{%endif%} {%endfor%}</td>
+          <td width="75" style="font-weight: bold;" align="right">Writers:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;">{%for writer in info['info']['writers']%} {{writer}}{%if not loop.last%},{%endif%} {%endfor%}</td>
         </tr>
         <tr>
-          <td width="75" style="font-weight: bold;" align="right">Directors:</td>
-          <td style="font-size:0.95em;" align="right">{%for director in info['info']['directors']%} {{director}}{%if not loop.last%},{%endif%} {%endfor%}</td>
+          <td width="75" style="font-weight: bold;" align="right">Directors:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;">{%for director in info['info']['directors']%} {{director}}{%if not loop.last%},{%endif%} {%endfor%}</td>
         </tr>
         <tr>
-          <td width="75" style="font-weight: bold;" align="right">Actors:</td>
-          <td style="font-size:0.95em;" align="right">{%for actor in info['info']['actors']%} {{actor}}{%if not loop.last%},{%endif%} {%endfor%}</td>
+          <td width="75" style="font-weight: bold;" align="right">Actors:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;">{%for actor in info['info']['actors']%} {{actor}}{%if not loop.last%},{%endif%} {%endfor%}</td>
         </tr>
         <tr>
-          <td width="75" style="font-weight: bold;" align="right">Runtime:</td>
-          <td style="font-size:0.95em;" align="right">{{info['info']['runtime']}}</td>
+          <td width="75" style="font-weight: bold;" align="right">Runtime:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;">{{info['info']['runtime']}}</td>
         </tr>
         <tr>
-          <td width="75" style="font-weight: bold;" align="right">Profile:</td>
-          <td style="font-size:0.95em;" align="right" class="profile">
+          <td width="75" style="font-weight: bold;" align="right">Profile:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;" class="profile">
             {% if profiles %}
               <select class="profiles" data-id="{{couchpotato.movie.library_id}}">
                 {% for profile in profiles.list %}

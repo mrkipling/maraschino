@@ -1336,6 +1336,7 @@ $(document).ready(function() {
   });
   
   // Load search results
+  // on enter
   $(document).on('keypress', '#couchpotato .search .value', function(e){
     if(e.which == 13){
       e.preventDefault();
@@ -1344,6 +1345,8 @@ $(document).ready(function() {
       if(name !== ''){
           params = 'name='+encodeURIComponent(name);
       }
+      $('#couchpotato .search span.search').text('');
+      add_loading_gif($('#couchpotato .search span.search'));
       $.get(WEBROOT + '/xhr/couchpotato/search/?'+params)
       .success(function(data){
         $('#couchpotato').replaceWith(data);
@@ -1353,13 +1356,16 @@ $(document).ready(function() {
       });
     }
   });
-  // Search button click
+  // Load search results
+  // on button click
   $(document).on('click', '#couchpotato .search span.search', function() {
     var name = $('#couchpotato .search .value').attr('value');
     params = '';
     if(name !== ''){
         params = 'name='+encodeURIComponent(name);
     }
+    $(this).text('');
+    add_loading_gif($(this));
     $.get(WEBROOT + '/xhr/couchpotato/search/?'+params)
     .success(function(data){
       $('#couchpotato').replaceWith(data);
