@@ -20,7 +20,8 @@
         <tr>
           <td width="75" style="font-weight:bold;" align="right">Year:</td>
           <td style="font-size: 0.95em;" align="right">{{info['info']['year']}}</td>
-        </tr>        <tr>
+        </tr>        
+        <tr>
           <td width="75" style="font-weight:bold;" align="right">Rating:</td>
           <td style="font-size: 0.95em;" align="right">{{info['info']['rating']['imdb'][0]}}/10 ({{info['info']['rating']['imdb'][1]}} votes</td>
         </tr>
@@ -54,7 +55,17 @@
         </tr>
         <tr>
           <td width="75" style="font-weight: bold;" align="right">Profile:</td>
-          <td style="font-size:0.95em;" align="right">{{couchpotato['movie']['profile']['label']}}</td>
+          <td style="font-size:0.95em;" align="right" class="profile">
+            {% if profiles %}
+              <select class="profiles" data-id="{{couchpotato.movie.library_id}}">
+                {% for profile in profiles.list %}
+                  <option value="{{profile.id}}" {% if couchpotato['movie']['profile']['label'] == profile.label %}selected="selected"{%endif%}>{{profile.label}}</option>
+                {% endfor %}
+              </select>
+            {% else %}
+              {{couchpotato['movie']['profile']['label']}}
+            {% endif %}
+          </td>
         </tr>
       </table>
     </p>

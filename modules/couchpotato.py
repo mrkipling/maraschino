@@ -275,7 +275,7 @@ def cp_settings():
     return jsonify({'success': False})
 
 
-@app.route('/xhr/couchpotato/get_movie/<id>')
+@app.route('/xhr/couchpotato/get_movie/<id>/')
 def cp_get_movie(id):
     """
     Retrieve movie from CP
@@ -285,9 +285,34 @@ def cp_get_movie(id):
     try:
         logger.log('CouchPotato :: Retrieving movie info', 'INFO')
         result = couchpotato_api('movie.get', 'id=%s' % id)
+        try:
+            logger.log('CouchPotato :: Getting quality profiles', 'INFO')
+            profiles = couchpotato_api('profile.list')
+        except Exception as e:
+            log_exception(e)
         return render_template('couchpotato-info.html',
             couchpotato=result,
+            profiles=profiles,
         )
+    except Exception as e:
+        log_exception(e)
+
+    return jsonify({'success': False})
+
+
+@app.route('/xhr/couchpotato/edit_movie/<movieid>/<profileid>/')
+def cp_edit_movie(movieid, profileid):
+    """
+    Edit movie in CP
+    ---- Params -----
+    movieid                  int (comma separated)                       The id of the movie
+    profileid                int                                         Id of the profile to go to
+    """
+    try:
+        logger.log('CouchPotato :: Retrieving movie info', 'INFO')
+        result = couchpotato_api('movie.edit', 'id=%s&profile_id=%s' % (movieid, profileid))
+        if result['success']:
+            return jsonify({'success': True})
     except Exception as e:
         log_exception(e)
 

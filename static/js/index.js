@@ -1434,6 +1434,20 @@ $(document).ready(function() {
       $('#couchpotato').replaceWith(data);
     });
   });
+  // movie info change profile
+  $(document).on('change', '#couchpotato #info td.profile select.profiles', function() {
+    var movieid = $(this).data('id');
+    var profileid = $(this).find(':selected').val();
+    var td = $(this).parent();
+    add_loading_gif(td);
+    $.get('/xhr/couchpotato/edit_movie/'+movieid+'/'+profileid+'/', function(data){
+      if(data.success){
+        remove_loading_gif(td);
+      } else {
+        popup_message('Failed to get qulaity profiles from CouchPotato');
+      }
+    });
+  });
   // img popup
   $(document).on('click', '#couchpotato #info .thumbs img', function() {
     var popup = $('<div id="cp_image" class="dialog" align="center"><div class="close">x</div><img src ="'+$(this).attr('src')+'" style="max-height: 100%;max-width:100%;" /></div>');
