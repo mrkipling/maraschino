@@ -1,0 +1,211 @@
+@import "mixins.less";
+
+#headphones
+{
+  h2 {
+    padding-right: 120px;
+  }
+
+  .headphones_head {
+    position: absolute;
+    right: 5px;
+    top: 15px;
+
+    .head_item {
+      float: right;
+      margin-left: 5px;
+    }
+  }
+
+  .artists,
+  .albums,
+  .album,
+  .upcoming,
+  .similar {
+    max-height: 200px;
+    overflow: auto;
+
+    .list_item {
+      position: relative;
+      height: 62px;
+      margin-top: 5px;
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      line-height: 1.3em;
+      font-size: 0.9em;
+      border: 1px solid #333;
+      padding: 5px 10px 5px 10px;
+      .border-radius(4px);
+      overflow: hidden;
+
+      &:hover {
+        cursor: pointer;
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
+
+      p {
+        position: absolute;
+        left: 76px;
+        max-width: 60%;
+      }
+
+      .compact {
+        left: 10px;
+        max-width: 80%;
+      }
+
+      .list_img {
+        float: left;
+        width: 62px;
+        height: 62px;
+      }
+
+      .right_span {
+        position: absolute;
+        right: 5px;
+
+        a {
+          padding-right: 5px;
+          color: #eee;
+        }
+      }
+    }
+
+    .list_item.compact {
+      height: 16px;
+    }
+  }
+
+  .albums h1 {
+    margin-left: 12px;
+  }
+
+  .search_div {
+    height: 40px;
+
+    .search {
+      position: absolute;
+      bottom: 8px;
+      right: 4px;
+
+      input[type="search"] {
+        background: url('/@{webroot}/images/alpha/fff_10.png');
+        border: 1px solid #222;
+        cursor: pointer;
+        color: #ccc;
+        height: 28px;
+        line-height: 28px;
+        padding: 2px 12px;
+        .border-radius(4px);
+        -webkit-appearance: none;
+
+        &:hover {
+          background: url('/@{webroot}/images/alpha/fff_20.png');
+        }
+
+        &:focus {
+          background: url('/@{webroot}/images/alpha/fff_40.png');
+        }
+      }
+    }
+  }
+
+  .controls {
+    margin: 5px;
+    height: 40px;
+    a {
+      margin-top: 10px;
+    }
+  }
+
+  .controls a,
+  .head_item {
+    color: #eee;
+    padding: 5px 8px;
+    float: right;
+    margin-right: 6px;
+    border: 1px solid #333;
+    .border-radius(4px);
+    background: url('/@{webroot}/images/alpha/fff_10.png');
+
+    &:hover {
+      cursor: pointer;
+      background: url('/@{webroot}/images/alpha/fff_20.png');
+    }
+  }
+
+  .back {
+    font-size: 20px;
+    padding: 3px 9px;
+  }
+
+  .album_info {
+    padding-left: 10px;
+
+    img {
+      float: left;
+      height: 80px;
+      width: 80px;
+      padding-right: 10px;
+    }
+  }
+
+  .change_status {
+    position: relative;
+    margin-bottom: 5px;
+  }
+
+  .li_button {
+    border: 1px solid #333;
+    .border-radius(4px);
+    padding: 2px 4px;
+
+    &:hover {
+      background: url('/@{webroot}/images/alpha/fff_20.png');
+    }
+  }
+
+  .highlight {
+    background: url('/@{webroot}/images/alpha/fff_20.png');
+  }
+}
+
+#headphones-search_dialog {
+  h2 {
+  font-size: large;
+  padding-bottom: 20px;
+  }
+
+  .inner {
+    max-height: 400px;
+    overflow: auto;
+
+    .loading {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+    }
+
+    th {
+      height: 20px;
+    }
+
+    td {
+      height: 20px
+    }
+
+    a {
+      color: #eee;
+    }
+  }
+}
+
+.f_operation_mode #headphones .settings_only {
+  display: none;
+}
+
+.f_settings_mode #headphones {
+  .operation_only,
+  .back {
+    display: none;
+  }
+}
