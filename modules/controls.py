@@ -281,14 +281,14 @@ def xhr_enqueue_file(file_type):
 
     return jsonify({ 'success': True })
 
-@app.route('/xhr/playlist/<int:playlistid>/play/<int:position>')
+@app.route('/xhr/playlist/<int:playerid>/play/<int:position>')
 @requires_auth
-def xhr_playlist_play(playlistid, position):
+def xhr_playlist_play(playerid, position):
     logger.log('CONTROLS :: playing playlist position %i' % position, 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
 
     try:
-        xbmc.Player.Open({'playlistid': playlistid, 'position': position})
+        xbmc.Player.GoTo(playerid=playerid, position=position)
         return jsonify({'success': True})
 
     except:
