@@ -105,14 +105,12 @@ def xhr_headphones():
 @requires_auth
 def xhr_headphones_artists():
     logger.log('HEADPHONES :: Fetching artists list', 'INFO')
-    command = 'getIndex'
 
     try:
-        headphones = headphones_api(command)
+        headphones = headphones_api('getIndex')
         updates = headphones_api('getVersion')
     except Exception as e:
         return headphones_exception(e)
-
 
     artists = []
 
@@ -124,7 +122,10 @@ def xhr_headphones_artists():
                 artist['Percent'] = 0
 
             if not hp_compact():
-                artist['ThumbURL'] = hp_artistart(artist['ArtistID'])
+                try:
+                    artist['ThumbURL'] = hp_artistart(artist['ArtistID'])
+                except:
+                    pass
             artists.append(artist)
 
     return render_template('headphones.html',
@@ -139,22 +140,21 @@ def xhr_headphones_artists():
 @requires_auth
 def xhr_headphones_artist(artistid):
     logger.log('HEADPHONES :: Fetching artist', 'INFO')
-    command = 'getArtist&id=%s' % artistid
 
     try:
-        headphones = headphones_api(command)
+        albums = headphones_api('getArtist&id=%s' % artistid)
     except Exception as e:
         return headphones_exception(e)
 
     if not hp_compact():
-        for album in headphones['albums']:
+        for album in albums['albums']:
             try:
                 album['ThumbURL'] = hp_albumart(album['AlbumID'])
             except:
                 pass
 
     return render_template('headphones-artist.html',
-        albums=headphones,
+        albums=albums,
         headphones=True,
         compact=hp_compact(),
     )
@@ -164,10 +164,9 @@ def xhr_headphones_artist(artistid):
 @requires_auth
 def xhr_headphones_album(albumid):
     logger.log('HEADPHONES :: Fetching album', 'INFO')
-    command = 'getAlbum&id=%s' % albumid
 
     try:
-        headphones = headphones_api(command)
+        headphones = headphones_api('getAlbum&id=%s' % albumid)
     except Exception as e:
         return headphones_exception(e)
 
@@ -200,10 +199,9 @@ def xhr_headphones_album(albumid):
 @requires_auth
 def xhr_headphones_upcoming():
     logger.log('HEADPHONES :: Fetching upcoming albums', 'INFO')
-    command = 'getUpcoming'
 
     try:
-        upcoming = headphones_api(command)
+        upcoming = headphones_api('getUpcoming')
     except Exception as e:
         return headphones_exception(e)
 
@@ -242,10 +240,9 @@ def xhr_headphones_upcoming():
 @requires_auth
 def xhr_headphones_similar():
     logger.log('HEADPHONES :: Fetching similar artists', 'INFO')
-    command = 'getSimilar'
 
     try:
-        headphones = headphones_api(command)
+        headphones = headphones_api('getSimilar')
     except Exception as e:
         return headphones_exception(e)
 
