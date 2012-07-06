@@ -66,6 +66,9 @@ def initialize():
         # check if database exists or create it
         from database import init_db
 
+        if KIOSK:
+            logger.log('Running in KIOSK Mode, settings disabled.', 'INFO')
+
         try:
             logger.log('Opening database at: %s' % (DATABASE), 'INFO')
             open(DATABASE)
