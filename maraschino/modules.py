@@ -48,6 +48,47 @@ AVAILABLE_MODULES = [
         'delay': 0,
     },
     {
+        'name': 'headphones',
+        'label': 'Headphones Manager',
+        'description': 'Manage Headphones from within Maraschino',
+        'static': True,
+        'poll': 0,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'headphones_host',
+                'value': '',
+                'description': 'Headphones Hostname',
+            },
+            {
+                'key': 'headphones_port',
+                'value': '',
+                'description': 'Headphones Port',
+            },
+            {
+                'key': 'headphones_user',
+                'value': '',
+                'description': 'Headphones Username',
+            },
+            {
+                'key': 'headphones_password',
+                'value': '',
+                'description': 'Headphones Password',
+            },
+            {
+                'key': 'headphones_api',
+                'value': '',
+                'description': 'Headphones API Key',
+            },
+            {
+                'key': 'headphones_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
+            },
+        ]
+    },
+    {
         'name': 'library',
         'label': 'Media Library',
         'description': 'Allows you to browse your media library and select items to play in XBMC.',

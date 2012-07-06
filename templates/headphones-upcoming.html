@@ -1,0 +1,59 @@
+{% extends "headphones-base.html" %}
+{% block headphones_content %}
+{% if upcoming %}
+
+  <div class="upcoming">
+    <h1>
+      Upcoming Albums
+    </h1>
+    <ul>
+      {% if upcoming != 'empty' %}
+        {% for album in upcoming %}
+          <li class="list_item get {{ 'compact' if compact }}" data-url="/album/{{ album.AlbumID }}">
+            {% if not compact %}
+              <div class="list_img" style="background:url({{ album.ThumbURL }}) no-repeat center center;"></div>
+              <p>
+                {{ album.ArtistName }} - {{ album.AlbumTitle }}
+              </p>
+            {% else %}
+              <p class="compact">
+                {{ album.ArtistName }} - {{ album.AlbumTitle }}
+              </p>
+            {% endif %}
+            <span class="right_span">{{ album.Status }}</span>
+          </li>
+        {% endfor %}
+      {% else %}
+        <li class="list_item"><b>There are no upcoming albums.</b></li>
+      {% endif %}
+
+      <h1 class="wanted_heading">
+        Wanted Albums
+      </h1>
+      {% if wanted != 'empty' %}
+        {% for album in wanted %}
+          <li class="list_item get {{ 'compact' if compact }}" data-url="/album/{{ album.AlbumID }}">
+            {% if not compact %}
+              <div class="list_img" style="background:url({{ album.ThumbURL }}) no-repeat center center;"></div>
+              <p>
+                {{ album.ArtistName }} - {{ album.AlbumTitle }}
+                <br />
+                Release date:
+                <br />
+                {{ album.ReleaseDate }}
+              </p>
+            {% else %}
+              <p class="compact">
+                {{ album.ArtistName }} - {{ album.AlbumTitle }}
+              </p>
+            {% endif %}
+          </li>
+        {% endfor %}
+      {% else %}
+        <li class="list_item"><b>You have not marked any albums as wanted.</b></li>
+      {% endif %}
+    </ul>
+  </div>
+
+{% endif %}
+{% endblock %}

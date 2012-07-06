@@ -1,0 +1,40 @@
+{% extends "headphones-base.html" %}
+
+{% block headphones_content %}
+{% if artists %}
+
+  <div class="artists">
+    <ul>
+      {% for artist in artists %}
+        <li class="list_item get {{ 'compact' if compact }}" data-id="{{ artist.ArtistID }}" data-url="/artist/{{ artist.ArtistID }}" title="{{ artist.Percent }}% complete">
+          {% if not compact %}
+            <div class="list_img" style="background:url({{ artist.ThumbURL }}) no-repeat center center;"></div>
+            <p>
+              <b>{{ artist.ArtistName }}</b>
+              <br />
+              Latest:
+              <br />
+              {{ artist.LatestAlbum }}
+            </p>
+          {% else %}
+            <p class="compact">
+              {{ artist.ArtistName }}
+            </p>
+          {% endif %}
+          <span class="right_span">
+            <a class="settings_only refresh li_button" data-action="refresh" title="Refresh"><img src="{{ url_for('static', filename='images/refresh.png') }}" height="10" /></a>
+            {% if artist.Status == 'Active' %}
+              <a class="settings_only play_pause li_button" data-action="pause" title="Pause"><img src="{{ url_for('static', filename='images/pause.png') }}" /></a>
+            {% elif artist.Status == 'Paused' %}
+              <a class="settings_only play_pause li_button" data-action="resume" title="Resume"><img src="{{ url_for('static', filename='images/play.png') }}" /></a>
+            {% endif %}
+            <a class="settings_only li_button remove" data-action="remove" title="Remove"><img src="{{ url_for('static', filename='images/remove_icon.png') }}" height="10" /></a>
+
+            <span class="operation_only">{{ artist.HaveTracks }}/{{ artist.TotalTracks }} Downloaded</span>
+          </span>
+        </li>
+      {% endfor %}
+     </ul>
+  </div>
+{% endif %}
+{% endblock %}

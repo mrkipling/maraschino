@@ -1,0 +1,66 @@
+{% if headphones %}
+  <div id="headphones" class="module{% if compact_view %} compact{% endif %}" data-module="headphones">
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
+
+    <h2 class="title">Headphones</h2>
+
+    <div class="headphones_head operation_only">
+      {% if albums %}
+        <span class="head_item get back" data-url="/artists"><span>&laquo;</span></span>
+      {% elif album %}
+        <span class="head_item get back" data-url="/artist/{{ album.album.0.ArtistID }}"><span>&laquo;</span></span>
+      {% else %}
+        <a class="head_item get {{ 'highlight' if artists }}" data-url="/artists" title="Artits">
+          <img src="{{ url_for('static', filename='images/music_note.png') }}" width="14" height="14"/>
+        </a>
+      {% endif %}
+      <a class="head_item get {{ 'highlight' if similar }}" data-url="/similar" title="Similar">
+        <img src="{{ url_for('static', filename='images/similar.png') }}" width="14" height="14"/>
+      </a>
+      <a class="head_item get {{ 'highlight' if upcoming }}" data-url="/upcoming" title="Upcoming">
+        <img src="{{ url_for('static', filename='images/coming.png') }}" width="14" height="14"/>
+      </a>
+    </div>
+
+    {% block headphones_content %}{% endblock %}
+
+    {% if message %}
+      {{ message }}
+    {% endif %}
+
+    <div class="search_div operation_only">
+      <span class="search">
+        <select class="search_type">
+          <option value="artist">Artist</option>
+          <option value="album">Album</option>
+        </select>
+
+        <input class="query" type="search" value="Search" onclick="this.value='';" onfocus="this.select()" onblur="this.value=!this.value?'Search':this.value;"></input>
+        <span class="loading"></span>
+      </span>
+    </div>
+
+    <div class="controls settings_only">
+      <a class="control" data-control="shutdown" title="Shutdown"><img src="{{ url_for('static', filename='images/shutdown.png') }}" width="14" height="14"/></a>
+      <a class="control" data-control="restart" title="Restart"><img src="{{ url_for('static', filename='images/reboot.png') }}" width="14" height="14"/></a>
+      <a class="control" data-control="force_search" title="Force search"><img src="{{ url_for('static', filename='images/search_white.png') }}" width="14" height="14"/></a>
+      <a class="control" data-control="force_process" title="Force process"><img src="{{ url_for('static', filename='images/refresh.png') }}" width="14" height="14"/></a>
+      {% if updates %}
+        {% if updates.current_version != updates.latest_version and updates.install_type != 'exe' %}
+          <a class="control hp_update" data-control="update" title="Update"><img src="{{ url_for('static', filename='images/update.png') }}" width="14" height="14"/></a>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+{% else %}
+
+  <div class="placeholder" data-module="headphones">
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
+    <h2>Headphones</h2>
+  </div>
+
+{% endif %}
+
+

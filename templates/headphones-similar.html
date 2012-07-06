@@ -1,0 +1,19 @@
+{% extends "headphones-base.html" %}
+{% block headphones_content %}
+{% if similar %}
+
+  <div class="similar">
+    <ul>
+      {% for artist in similar %}
+        <li class="list_item compact" data-id="{{ artist.ArtistID }}">
+          <p class="compact">
+            {{ artist.ArtistName }}
+          </p>
+          <span class="right_span add_artist" data-id="{{ artist.ArtistID }}"><span class="li_button">Add</span></span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+{% endif %}
+{% endblock %}
