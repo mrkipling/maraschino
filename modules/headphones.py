@@ -285,7 +285,11 @@ def xhr_headphones_artist_action(artistid, action):
         command = 'addArtist&id=%s' % artistid
 
     try:
-        if command == 'remove' or command == 'resume' or command == 'pause':
+        if command == 'remove':
+            headphones_api(command, False)
+        elif command == 'pause':
+            headphones_api(command, False)
+        elif command == 'resume':
             headphones_api(command, False)
         else:
             Thread(target=headphones_api, args=(command, False)).start()
