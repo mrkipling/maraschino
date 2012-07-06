@@ -2102,7 +2102,8 @@ $(document).ready(function() {
     });
   });
 
-  $(document).on('click', '#headphones .add_artist', function() {
+  $(document).on('click', '#headphones .add_artist', function(e) {
+    e.stopPropagation();
     $.get(WEBROOT + '/xhr/headphones/artist/' + $(this).data('id') + '/add');
     $.get(WEBROOT + '/xhr/headphones/artist/' + $(this).data('id'), function(data){
       $('#headphones').replaceWith(data);
