@@ -203,21 +203,36 @@ def xhr_headphones_upcoming():
     command = 'getUpcoming'
 
     try:
-        headphones = headphones_api(command)
+        upcoming = headphones_api(command)
     except Exception as e:
         return headphones_exception(e)
 
-    if headphones == []:
-        headphones = 'empty'
+    if upcoming == []:
+        upcoming = 'empty'
 
-    for album in headphones:
+    for album in upcoming:
         try:
-            album['ThumbURL'] = hp_albumart(headphones[0]['AlbumID'])
+            album['ThumbURL'] = hp_albumart(album['AlbumID'])
+        except:
+            pass
+
+    try:
+        wanted = headphones_api('getWanted')
+    except Exception as e:
+        return headphones_exception(e)
+
+    if wanted == []:
+        wanted = 'empty'
+
+    for album in wanted:
+        try:
+            album['ThumbURL'] = hp_albumart(album['AlbumID'])
         except:
             pass
 
     return render_template('headphones-upcoming.html',
-        upcoming=headphones,
+        upcoming=upcoming,
+        wanted=wanted,
         headphones=True,
         compact=hp_compact(),
     )
