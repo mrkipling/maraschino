@@ -129,6 +129,7 @@ def index():
         library_show_power_buttons = library_show_power_buttons,
         show_tutorial = unorganised_modules.count() == 0,
         webroot = maraschino.WEBROOT,
+        kiosk = maraschino.KIOSK
     )
 
 @app.route('/xhr/shutdown')

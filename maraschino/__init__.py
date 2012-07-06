@@ -24,6 +24,7 @@ WEBROOT = ''
 logger = None
 SERVER = None
 HOST = '0.0.0.0'
+KIOSK = False
 
 AUTH = {
     'username': None,
@@ -41,7 +42,7 @@ def initialize():
     with INIT_LOCK:
 
         global __INITIALIZED__, app, FULL_PATH, RUNDIR, ARGS, DAEMON, PIDFILE, VERBOSE, LOG_FILE, LOG_DIR, logger, PORT, SERVER, DATABASE, AUTH, \
-                CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT
+                CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT, HOST, KIOSK
 
         if __INITIALIZED__:
             return False

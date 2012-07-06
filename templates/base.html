@@ -41,24 +41,26 @@
 
   <body data-show_currently_playing="{{ show_currently_playing }}" data-fanart_backgrounds="{{ fanart_backgrounds }}"{% if background %} style="background-image: url({{ background }});"{% endif %} data-search_enabled="{{ search_enabled }}" class="f_operation_mode num_columns_{{ num_columns }}">
 
-    <!-- settings mode icon -->
+    {% if not kiosk %}
+      <!-- settings mode icon -->
 
-    <div id="settings_icon" title="Settings"><div class="inner"></div></div>
+      <div id="settings_icon" title="Settings"><div class="inner"></div></div>
 
-    <!-- extra settings menu -->
+      <!-- extra settings menu -->
 
-    <div id="extra_settings">
-      <div class="inner"></div>
-      <ul>
-        <li id="remote_icon">Remote control</li>
-        <li id="activate_search">
-          Search
-          <div id="search_settings" class="settings edit">Edit</div>
-        </li>
-        {% include 'includes/manage.html' %}
-        {% include 'includes/servers.html' %}
-      </ul>
-    </div>
+      <div id="extra_settings">
+        <div class="inner"></div>
+        <ul>
+          <li id="remote_icon">Remote control</li>
+          <li id="activate_search">
+            Search
+            <div id="search_settings" class="settings edit">Edit</div>
+          </li>
+          {% include 'includes/manage.html' %}
+          {% include 'includes/servers.html' %}
+        </ul>
+      </div>
+    {% endif %}
 
     <!-- fanart container -->
 
