@@ -2175,4 +2175,8 @@ $(document).ready(function() {
     popup_message('Sent update request to Headphones.');
   });
 
+  $(document).on('click', '#headphones .head_item', function() {
+    $(this).children().replaceWith('<img src="' + WEBROOT + '/static/images/xhrloading.gif" width="14" height="14">');
+  });
+
 });
