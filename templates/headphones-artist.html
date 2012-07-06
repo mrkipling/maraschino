@@ -1,0 +1,44 @@
+{% extends "headphones-base.html" %}
+{% block headphones_content %}
+
+{% if albums %}
+
+  <div class="albums">
+    {% if albums.artist.0.Status == 'Loading' %}
+      <h1>
+        {{ albums.artist.0.ArtistName }} is loading...
+        <img src="{{ url_for('static', filename='images/xhrloading.gif')}}" />
+      </h1>
+      <script>
+        setTimeout(
+          function() {
+            $.get(WEBROOT + '/xhr/headphones/artist/{{ albums.artist.0.ArtistID }}', function(data){
+              $('#headphones').replaceWith(data);
+            });
+          }, 5000
+        );
+      </script>
+    {% endif %}
+    <ul>
+      {% for album in albums.albums %}
+        <li class="list_item get {{ 'compact' if compact }}" data-url="/album/{{ album.AlbumID }}">
+          {% if not compact %}
+            <div class="list_img" style="background:url({{ album.ThumbURL }}) no-repeat center center;"></div>
+            <p>
+              <span>{{ album.AlbumTitle }}<span>
+              <br />
+              <span>{{ album.Type }}</span>
+            </p>
+          {% else %}
+            <p class="compact">
+              {{ album.AlbumTitle }}
+            </p>
+          {% endif %}
+          <span class="right_span">{{ album.Status }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+{% endblock %}

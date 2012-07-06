@@ -1,0 +1,35 @@
+{% extends "headphones-base.html" %}
+{% block headphones_content %}
+{% if upcoming %}
+
+  <div class="upcoming">
+
+    <ul>
+      {% if upcoming != 'empty' %}
+        {% for album in upcoming %}
+          <li class="list_item get {{ 'compact' if compact }}" data-url="/album/{{ album.AlbumID }}">
+            {% if not compact %}
+              <div class="list_img" style="background:url({{ album.ThumbURL }}) no-repeat center center;"></div>
+              <p>
+                {{ album.ArtistName }} - {{ album.AlbumTitle }}
+                <br />
+                Release date:
+                <br />
+                {{ album.ReleaseDate }}
+              </p>
+            {% else %}
+              <p class="compact">
+                {{ album.ArtistName }} - {{ album.AlbumTitle }}
+              </p>
+            {% endif %}
+            <span class="right_span">{{ album.Status }}</span>
+          </li>
+        {% endfor %}
+      {% else %}
+        <li class="list_item">There are no upcoming albums.</li>
+      {% endif %}
+    </ul>
+  </div>
+
+{% endif %}
+{% endblock %}

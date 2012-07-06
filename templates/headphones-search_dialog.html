@@ -1,0 +1,26 @@
+<div id="headphones-search_dialog" class="dialog">
+  {% if search %}
+
+    <div class="close">x</div>
+
+    <h2>Search results: {{ query }}</h2>
+
+    <div class="inner">
+      <span class="loading"></span>
+      <table width="100%">
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Score</th>
+        </tr>
+        {% for artist in search %}
+          <tr>
+            <td width="10%" align="center"><a class="add_artist" href="#" data-id="{{ artist.id }}" title="Add {{ artist.uniquename }} to Headphones">Add</a></td>
+            <td class="artist" width="80%"><a href="{{ artist.url }}" target="_blank" title="{{ artist.uniquename }} on MusicBrainz">{{ artist.uniquename }}</a></td>
+            <td width="10%" align="center">{{ artist.score }}</td>
+          </tr>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</div>
