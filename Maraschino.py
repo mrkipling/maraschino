@@ -91,6 +91,10 @@ def main():
     p.add_option('--host',
                  dest='host',
                  help='web host for Maraschino')
+    p.add_option('--kiosk',
+                 dest='kiosk',
+                 action='store_true',
+                 help='Disable settings in the UI')
 
     options, args = p.parse_args()
 
@@ -126,6 +130,9 @@ def main():
 
     if options.host:
         maraschino.HOST = options.host
+
+    if options.kiosk:
+        maraschino.KIOSK = True
 
     maraschino.RUNDIR = rundir
     maraschino.FULL_PATH = os.path.join(rundir, 'Maraschino.py')

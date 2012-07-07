@@ -2,7 +2,9 @@
 
 {% block content %}
 
-{% include 'includes/update_bar.html' %}
+{% if not kiosk %}
+  {% include 'includes/update_bar.html' %}
+{% endif %}
 
 {% if show_tutorial %}
   <div id="tutorial">
