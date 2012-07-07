@@ -133,6 +133,14 @@ def xbmc_image(url):
 
 FILTERS['xbmc_image'] = xbmc_image
 
+
+def epochTime(seconds):
+    import time
+    return time.ctime(seconds)
+
+FILTERS['time'] = epochTime
+
+
 @app.route('/xhr/xbmc_image/<version>/<path:url>')
 def xbmc_proxy(version, url):
     from maraschino.noneditable import server_address

@@ -1299,6 +1299,229 @@ $(document).ready(function() {
 
   /********* END SABNZBD ***********/
 
+  /********* CouchPotato **********/
+  // menu wanted click
+  $(document).on('click', '#couchpotato .menu .wanted', function(){
+    $.get(WEBROOT + '/xhr/couchpotato/')
+    .success(function(data){
+      $('#couchpotato').replaceWith(data);
+    });
+  });
+
+  // menu '+'' click
+  $(document).on('click', '#couchpotato .menu .all', function(){
+    $.get(WEBROOT + '/xhr/couchpotato/done/')
+    .success(function(data){
+      $('#couchpotato').replaceWith(data);
+    });
+  });
+
+  // menu settings click
+  $(document).on('click', '#couchpotato .menu .settings', function(){
+    $.get(WEBROOT + '/xhr/couchpotato/settings/')
+    .success(function(data){
+      $('#couchpotato').replaceWith(data);
+    });
+  });
+
+  // Load search template
+  $(document).on('click', '#couchpotato .menu .add', function(){
+    $.get(WEBROOT + '/xhr/couchpotato/search/')
+    .success(function(data){
+      $('#couchpotato').replaceWith(data);
+    })
+    .error(function(){
+      popup_message('Could not reach Maraschino.');
+    });
+  });
+  
+  // Load search results
+  // on enter
+  $(document).on('keypress', '#couchpotato .search .value', function(e){
+    if(e.which == 13){
+      e.preventDefault();
+      var name = $('#couchpotato .search .value').attr('value');
+      params = '';
+      if(name !== ''){
+          params = 'name='+encodeURIComponent(name);
+      }
+      $('#couchpotato .search span.search').text('');
+      add_loading_gif($('#couchpotato .search span.search'));
+      $.get(WEBROOT + '/xhr/couchpotato/search/?'+params)
+      .success(function(data){
+        $('#couchpotato').replaceWith(data);
+      })
+      .error(function(){
+        popup_message('Could not reach Maraschino.');
+      });
+    }
+  });
+  // Load search results
+  // on button click
+  $(document).on('click', '#couchpotato .search span.search', function() {
+    var name = $('#couchpotato .search .value').attr('value');
+    params = '';
+    if(name !== ''){
+        params = 'name='+encodeURIComponent(name);
+    }
+    $(this).text('');
+    add_loading_gif($(this));
+    $.get(WEBROOT + '/xhr/couchpotato/search/?'+params)
+    .success(function(data){
+      $('#couchpotato').replaceWith(data);
+    })
+    .error(function(){
+      popup_message('Could not reach Maraschino.');
+    });
+  });
+  // Search add movie click
+  $(document).on('click', '#couchpotato .search ul li .choices .add', function() {
+    var imdbid = $(this).parent().parent().data('imdbid');
+    var title = $(this).parent().parent().data('title').replace('/','%20');
+    var profile = $('#couchpotato .search ul li .choices .profiles').find(':selected').val();
+    $.get(WEBROOT + '/xhr/couchpotato/add_movie/'+imdbid+'/'+encodeURIComponent(title)+'/'+profile, function(data) {
+      if(data.success){
+        popup_message('Movie added successfully');
+      } else {
+        popup_message('Failed to add movie to CouchPotato');
+      }
+    });
+  });
+  // wanted slide option
+  $(document).on('click', '#couchpotato #cp_content .movie .image', function(e) {
+    e.stopPropagation();
+    var id = $(this).parent().attr('id');
+    var el = $('#'+id);
+    el.toggleClass('selected');
+    if(el.hasClass('selected')){
+      el.transition({x: '30px', opacity: 0.7}, function(){
+        $('#couchpotato #cp_content .options&.'+id).transition({opacity: 1});
+      });
+    } else {
+      $('#couchpotato #cp_content .options&.'+id).transition({opacity: 0}, function(){
+        el.transition({opacity: 1, x: '0px'});
+      });
+    }
+  });
+  // wanted delete, info delete
+  $(document).on('click', '#couchpotato #cp_content .options img.delete, #couchpotato #info .options img.delete', function(selector) {
+    var id = $(this).parent().data('cpid');
+    var imdbid = $(this).parent().data('imdbid');
+    var el = $(this);
+    el.attr('src', WEBROOT + '/static/images/xhrloading.gif');
+    $.get(WEBROOT+'/xhr/couchpotato/delete_movie/'+id, function(data) {
+      if(data.success){
+        if(el.parent().parent().attr('id') === 'info'){
+          el.attr('src', WEBROOT + '/static/images/yes.png');
+        } else {
+          $('#couchpotato #cp_content #'+imdbid).transition({opacity: 0, duration: 1000}, function(){
+            $(this).remove();
+          });
+        }
+      } else {
+        popup_message('Failed to delete movie, see log for more datials');
+        $('#couchpotato #cp_content #'+imdbid).transition({opacity: 1, x: '0px'});
+      }
+    });
+  });
+  // wanted refresh, info refresh
+  $(document).on('click', '#couchpotato #cp_content .options img.search, , #couchpotato #info .options img.search', function() {
+    var id = $(this).parent().data('cpid');
+    var imdbid = $(this).parent().data('imdbid');
+    var el = $(this);
+    el.attr('src', WEBROOT + '/static/images/xhrloading.gif');
+    $.get(WEBROOT+'/xhr/couchpotato/refresh_movie/'+id, function(data) {
+      if(data.success){
+        if(el.parent().parent().attr('id') === 'info'){
+          el.attr('src', WEBROOT + '/static/images/yes.png');
+        } else {
+          el.attr('src', WEBROOT + '/static/images/search.png');
+        }
+      } else {
+        popup_message('Failed to refresh movie, see log for more datials');
+      }
+    });
+  });
+  // movie info
+  $(document).on('click', '#couchpotato .movie', function() {
+    var id = $(this).data('cpid');
+    add_loading_gif($(this));
+    $.get(WEBROOT + '/xhr/couchpotato/get_movie/'+id, function(data) {
+      $('#couchpotato').replaceWith(data);
+    });
+  });
+  // movie info change profile
+  $(document).on('change', '#couchpotato #info td.profile select.profiles', function() {
+    var movieid = $(this).data('id');
+    var profileid = $(this).find(':selected').val();
+    var td = $(this).parent();
+    add_loading_gif(td);
+    $.get(WEBROOT + '/xhr/couchpotato/edit_movie/'+movieid+'/'+profileid+'/', function(data){
+      if(data.success){
+        remove_loading_gif(td);
+      } else {
+        popup_message('Failed to get qulaity profiles from CouchPotato');
+      }
+    });
+  });
+  // img popup
+  $(document).on('click', '#couchpotato #info .thumbs img', function() {
+    var popup = $('<div id="cp_image" class="dialog" align="center"><div class="close">x</div><img src ="'+$(this).attr('src')+'" style="max-height: 100%;max-width:100%;" /></div>');
+    $('body').append(popup);
+    popup.showPopup({ dispose: true });
+    $(document).on('keydown', 'body', function() {
+      $('#cp_image .close').click();
+      $(document).off('keydown', 'body');
+    });
+  });
+  // shutdown
+  $(document).on('click', '#couchpotato div.powerholder a.power', function() {
+    $('#couchpotato div.powerholder a.power img').attr('src', WEBROOT + '/static/images/yes.png');
+    $.get(WEBROOT + '/xhr/couchpotato/shutdown/', function(data) {
+      console.log(data);
+      if(data.success){
+        $('#couchpotato div.powerholder a.power img').attr('src', WEBROOT + '/static/images/yes.png');
+        var x = setInterval(function(){
+          $('#couchpotato').remove();
+          clearInterval(x);
+        }, 3000);
+      }
+    });
+  });
+  // restart
+  $(document).on('click', '#couchpotato div.powerholder a.restart', function() {
+    $('#couchpotato div.powerholder a.restart img').attr('src', WEBROOT + '/static/images/yes.png');
+    $.get(WEBROOT + '/xhr/couchpotato/restart/', function(data) {
+      console.log(data);
+      if(data.success){
+        $('#couchpotato div.powerholder a.restart img').attr('src', WEBROOT + '/static/images/yes.png');
+        var x = setInterval(function(){
+          $.get(WEBROOT + '/xhr/couchpotato/')
+          .success(function(data){
+            $('#couchpotato').replaceWith(data);
+            clearInterval(x);
+          });
+        }, 3000);
+      }
+    });
+  });
+  // log
+  $(document).on('click', '#couchpotato div.powerholder a.log', function() {
+    $.get(WEBROOT + '/xhr/couchpotato/log/', function(data){
+      if(data){
+        $('#couchpotato').replaceWith(data);
+      }
+    });
+  });
+  // log level change
+  $(document).on('change', '#couchpotato #cp_log select.level', function() {
+    $.get(WEBROOT + '/xhr/couchpotato/log/' + $(this).find(':selected').val() + '/30/', function(data) {
+      $('#couchpotato').replaceWith(data);
+    });
+    
+  });
+  /********* END CouchPotato ***********/
+
   /********* SEARCH ***********/
 
   $('#activate_search').live('click', function (e) {

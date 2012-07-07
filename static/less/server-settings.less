@@ -1,0 +1,38 @@
+@import "module.less";
+
+#server_settings {
+  .module;
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  width: 400px;
+  margin-left: -200px;
+  z-index: 1;
+  border: 0px !important;
+
+
+  &.hidden {
+    .inner { display: none; }
+  }
+
+
+  .tab {
+    position: absolute;
+    cursor: pointer;
+    bottom: -34px;
+    padding: 10px;
+    left: 36%;
+
+    background: url(/static/images/alpha/000_80.png);
+    border: 1px solid #333;
+    border-top: 0px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    .text {
+      margin: 0 auto;
+      position: relative;
+      top: 2px;
+    }
+  }
+}

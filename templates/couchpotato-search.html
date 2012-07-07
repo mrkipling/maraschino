@@ -1,0 +1,45 @@
+{% extends "couchpotato-base.html" %}
+
+{% block couchpotato_content %}
+
+<div class="search">
+  <form>
+    <input class="value" type="search"><span class="search">search</span>
+  </form>
+  <div class="result">
+    {% if error %}
+      <p class="error">{{error}}</p>
+    {% elif data %}
+      <ul>
+      {% for item in data %}
+        <li data-imdbid="{% if item.imdb %}{{item.imdb}}{%else%}{{item.tmdb_id}}{%endif%}" data-title="{{item.original_title}}">
+          {% if item.images.poster %}
+            <img src="{{ (item.images.poster)|replace( '[u\'', '')|replace('\']', '') }}" />
+          {% else %}
+            <img src="{{ url_for('static', filename='images/poster.png')}}" />
+          {% endif %}          
+          <span class="name">{{ item.original_title }}</span><br>
+          <span class="year">{{ item.released }}</span>
+          <br>
+          <div class="extra {% if item.in_library%} library {% endif %} {% if item.in_wanted %} wanted {% endif %}">
+            <p>{{item.plot}}</p>
+          </div>
+          <div class="choices">
+            {% if profiles %}
+              <select class="profiles">
+                {% for profile in profiles.list %}
+                  <option value="{{profile.id}}">{{profile.label}}</option>
+                {% endfor %}
+              </select>
+            {% endif %}
+            <span class="add">Add</span>
+          </div>
+        </li>
+      {% endfor %}
+      </ul>
+
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
