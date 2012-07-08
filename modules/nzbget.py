@@ -99,3 +99,15 @@ def individual_action_nzbget(id, action):
         nzbget_exception(e)
 
     return jsonify({'success': status, 'id': id, 'action': action})
+
+
+@app.route('/xhr/nzbget/set_speed/<int:speed>/')
+@requires_auth
+def set_speed_nzbget(speed):
+    try:
+        nzbget = jsonrpc.ServerProxy('%s/jsonrpc' % nzbget_url())
+        status = nzbget.rate(speed)
+    except Exception as e:
+        nzbget_exception(e)
+
+    return jsonify({'success': status})

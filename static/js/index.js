@@ -1420,7 +1420,6 @@ $(document).ready(function() {
     var action = $(this).parent().data('action');
     var id = $(this).parent().attr('id');
     $.get(WEBROOT + '/xhr/nzbget/individual/'+ id + '/' + action, function(data) {
-      console.log(data);
       if(data.success){
         $.get(WEBROOT + '/xhr/nzbget/', function(data) {
           if(data){
@@ -1438,7 +1437,6 @@ $(document).ready(function() {
   $(document).on('click', '#nzbget .inner div.queue table tr td.delete', function() {
     var id = $(this).parent().attr('id');
     $.get(WEBROOT + '/xhr/nzbget/individual/'+ id + '/delete/', function(data) {
-      console.log(data);
       if(data.success){
         $.get(WEBROOT + '/xhr/nzbget/', function(data) {
           if(data){
@@ -1451,6 +1449,31 @@ $(document).ready(function() {
         popup_message('Problem reaching Maraschino: '+ data);
       }
     });
+  });
+  
+  $(document).on('click', '#nzbget .inner div.speed input', function() {
+    $(this).attr('value', '');
+    $(this).parent().html($('<div>').append($(this).clone()).html()+'KB');
+    $('#nzbget .inner div.speed input').focus();
+  });
+
+  $(document).on('keypress', '#nzbget .inner div.speed input', function(e) {
+    if(e.which == 13){
+      var speed = $(this).attr('value');
+      $.get(WEBROOT + '/xhr/nzbget/set_speed/' + speed, function(data) {
+        if(data.success){
+          $.get(WEBROOT + '/xhr/nzbget/', function(data) {
+            if(data){
+              $('#nzbget').replaceWith(data);
+            } else {
+              popup_message('Maraschino could not reach NZBGet');
+            }
+          });
+        } else {
+          popup_message('Problem reaching Maraschino: '+ data);
+        }
+      });
+    }
   });
   /********* END NZBGET ***********/
 

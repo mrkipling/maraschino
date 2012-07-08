@@ -8,7 +8,7 @@
       Downloading
     {%endif%}
   </div>
-  <div class="speed"><input type="text" value="{{ nzbget.DownloadRate }}" title="Adjust Speed" size="5"/></div>
+  <div class="speed"><input type="text" value="{{ (nzbget.DownloadRate|convert_bytes(False))[0] }}" title="Adjust Speed" size="5"/>{{(nzbget.DownloadRate|convert_bytes(False))[1]}}</div>
 
   <p>{{ downloads[0].NZBNicename }}</p>
 
