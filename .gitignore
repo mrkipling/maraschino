@@ -13,6 +13,7 @@ static/images/trakt
 static/js/webroot.js
 static/less/webroot.less
 /logs/
+cache
 Version.txt
 
 ######################
