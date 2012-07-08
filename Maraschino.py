@@ -95,8 +95,18 @@ def main():
                  dest='kiosk',
                  action='store_true',
                  help='Disable settings in the UI')
+    p.add_option('--datadir',
+                 dest='datadir',
+                 help='Write files to custom location')
 
     options, args = p.parse_args()
+
+    if options.datadir:
+        data_dir = options.datadir
+        maraschino.DATA_DIR = options.datadir
+    else:
+        data_dir = rundir
+        maraschino.DATA_DIR = rundir
 
     if options.daemon:
         maraschino.DAEMON = True
@@ -123,7 +133,7 @@ def main():
     if options.database:
         DATABASE = options.database
     else:
-        DATABASE = os.path.join(rundir, 'maraschino.db')
+        DATABASE = os.path.join(data_dir, 'maraschino.db')
 
     if options.webroot:
         maraschino.WEBROOT = options.webroot

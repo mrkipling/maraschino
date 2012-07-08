@@ -1,12 +1,9 @@
-from flask import Flask, jsonify, render_template, request, json
-import hashlib, jsonrpclib, urllib, random, time
+from flask import Flask, jsonify, render_template, request, json, send_file
+import hashlib, jsonrpclib, urllib, random, time, os
 from threading import Thread
-from maraschino.noneditable import *
-from maraschino.tools import *
-from maraschino import logger, app, RUNDIR
-import maraschino
+from maraschino.tools import get_setting_value, requires_auth
+from maraschino import logger, app, WEBROOT, DATA_DIR
 
-global url_error
 url_error = 'There was a problem connecting to trakt.tv. Please check your settings.'
 threads = []
 
@@ -18,8 +15,8 @@ def create_dir(dir):
         except:
             logger.log('TRAKT :: Problem creating dir %s' % dir, 'ERROR')
 
-create_dir('%s/static/images/trakt/shows' % RUNDIR)
-create_dir('%s/static/images/trakt/movies' % RUNDIR)
+create_dir('%s/cache/trakt/shows' % DATA_DIR)
+create_dir('%s/cache/trakt/movies' % DATA_DIR)
 
 def small_poster(image):
     if not 'poster-small' in image:
@@ -57,9 +54,9 @@ def download_image(image, file_path):
 def cache_image(image, type):
 
     if type == 'shows':
-        dir = '%s/static/images/trakt/shows' % RUNDIR
+        dir = '%s/cache/trakt/shows' % DATA_DIR
     else:
-        dir = '%s/static/images/trakt/movies' % RUNDIR
+        dir = '%s/cache/trakt/movies' % DATA_DIR
 
     image = small_poster(image)
 
@@ -71,22 +68,23 @@ def cache_image(image, type):
         Thread(target=download_image, args=(image, file_path)).start()
         threads.append(len(threads) + 1)
 
-    if type == 'shows':
-        dir = maraschino.WEBROOT + '/static/images/trakt/shows'
-    else:
-        dir = maraschino.WEBROOT + '/static/images/trakt/movies'
+    return '%s/cache/trakt/%s/%s' % (WEBROOT, type, filename[1:])
 
-    file_path = "%s%s" % (dir, filename)
 
-    return file_path
+@app.route('/cache/trakt/<type>/<filename>')
+@requires_auth
+def img_cache(type, filename):
+    img = os.path.join(DATA_DIR, 'cache', 'trakt', type, filename)
+    return send_file(img, mimetype='image/jpeg')
 
-@app.route('/xhr/traktplus')
 @app.route('/xhr/traktplus/')
+@requires_auth
 def xhr_traktplus():
     render_template('trakt-base.html')
     return xhr_trakt_trending(type = 'shows')
 
-@app.route('/xhr/trakt/recommendations')
+@app.route('/xhr/trakt/recommendations/')
+@requires_auth
 def xhr_recommendations():
     logger.log('TRAKT :: Fetching recommendations', 'INFO')
     username = get_setting_value('trakt_username')
@@ -184,7 +182,7 @@ def xhr_recommendations():
         title = 'Recommendations',
     )
 
-@app.route('/xhr/trakt/trending/<type>')
+@app.route('/xhr/trakt/trending/<type>/')
 @requires_auth
 def xhr_trakt_trending(type):
     logger.log('TRAKT :: Fetching trending %s' % type, 'INFO')
@@ -215,7 +213,7 @@ def xhr_trakt_trending(type):
         title = 'Trending',
     )
 
-@app.route('/xhr/trakt/friends')
+@app.route('/xhr/trakt/friends/')
 @requires_auth
 def xhr_trakt_friends():
     logger.log('TRAKT :: Fetching friends list', 'INFO')
@@ -237,8 +235,8 @@ def xhr_trakt_friends():
         title = 'Friends',
     )
 
-@app.route('/xhr/trakt/profile')
-@app.route('/xhr/trakt/profile/<user>')
+@app.route('/xhr/trakt/profile/')
+@app.route('/xhr/trakt/profile/<user>/')
 @requires_auth
 def xhr_trakt_profile(user=None):
     if not user:
@@ -290,7 +288,7 @@ def xhr_trakt_profile(user=None):
         title = 'Profile',
     )
 
-@app.route('/xhr/trakt/library/<user>/<type>')
+@app.route('/xhr/trakt/library/<user>/<type>/')
 @requires_auth
 def xhr_trakt_library(user, type):
     logger.log('TRAKT :: Fetching %s\'s %s library' % (user, type), 'INFO')
@@ -313,7 +311,7 @@ def xhr_trakt_library(user, type):
         title = 'Library',
     )
 
-@app.route('/xhr/trakt/watchlist/<user>/<type>')
+@app.route('/xhr/trakt/watchlist/<user>/<type>/')
 @requires_auth
 def xhr_trakt_watchlist(user, type):
     logger.log('TRAKT :: Fetching %s\'s %s watchlist' % (user, type), 'INFO')
@@ -339,7 +337,7 @@ def xhr_trakt_watchlist(user, type):
         title = 'Watchlist',
     )
 
-@app.route('/xhr/trakt/loved/<user>/<type>')
+@app.route('/xhr/trakt/loved/<user>/<type>/')
 @requires_auth
 def xhr_trakt_loved(user, type):
     logger.log('TRAKT :: Fetching %s\'s loved %s' % (user, type), 'INFO')
@@ -368,7 +366,7 @@ def xhr_trakt_loved(user, type):
         title = 'Loved',
     )
 
-@app.route('/xhr/trakt/hated/<user>/<type>')
+@app.route('/xhr/trakt/hated/<user>/<type>/')
 @requires_auth
 def xhr_trakt_hated(user, type):
     logger.log('TRAKT :: Fetching %s\'s hated %s' % (user, type), 'INFO')
@@ -397,7 +395,7 @@ def xhr_trakt_hated(user, type):
         title = 'Hated',
     )
 
-@app.route('/xhr/trakt/calendar/<type>')
+@app.route('/xhr/trakt/calendar/<type>/')
 @requires_auth
 def xhr_trakt_calendar(type):
     logger.log('TRAKT :: Fetching %s calendar' % type, 'INFO')
