@@ -78,3 +78,24 @@ def queue_add_nzbget():
             nzbget_exception(e)
 
     return jsonify({'success': status})
+
+
+@app.route('/xhr/nzbget/individual/<int:id>/<action>/')
+@requires_auth
+def individual_action_nzbget(id, action):
+    status = False
+    if 'resume' in action:
+        action = 'GroupResume'
+    elif 'pause' in action:
+        action = 'GroupPause'
+    elif 'delete' in action:
+        action = 'GroupDelete'
+
+    try:
+        nzbget = jsonrpc.ServerProxy('%s/jsonrpc' % nzbget_url())
+        status = nzbget.editqueue(action, 0, '', id)
+
+    except Exception as e:
+        nzbget_exception(e)
+
+    return jsonify({'success': status, 'id': id, 'action': action})

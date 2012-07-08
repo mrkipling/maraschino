@@ -10,16 +10,27 @@
   </div>
   <div class="speed"><input type="text" value="{{ nzbget.DownloadRate }}" title="Adjust Speed" size="5"/></div>
 
-  {% for item in downloads %}
-  <p>{{ item.NZBNicename }}</p>
+  <p>{{ downloads[0].NZBNicename }}</p>
 
   <div class="bar">
-    <div class="inner" style="width: {{ 100*(1-(item.RemainingSizeMB/item.FileSizeMB)) }}%;"></div>
+    <div class="inner" style="width: {{ 100*(1-(downloads[0].RemainingSizeMB/downloads[0].FileSizeMB)) }}%;"></div>
   </div>
 
   <div class="clearfix">
-    <p class="remaining"><strong>Remaining:</strong> {{item.RemainingSizeMB}} / {{item.FileSizeMB}} MB</p>
-    <p class="percentage_complete">{{ (100*(1-(item.RemainingSizeMB/item.FileSizeMB)))|int }}% complete</p>
+    <p class="remaining"><strong>Remaining:</strong> {{downloads[0].RemainingSizeMB}} / {{downloads[0].FileSizeMB}} MB</p>
+    <p class="percentage_complete">{{ (100*(1-(downloads[0].RemainingSizeMB/downloads[0].FileSizeMB)))|int }}% complete</p>
   </div>
-  {% endfor %}
+
+  <div class="queue {% if item %}{{ queue_status }}{% else %}show{% endif %}">
+    <table>
+    {% for item in downloads %}
+      <tr id="{{item.LastID}}" data-action={% if item.PausedSizeMB %}resume{% else %}pause{% endif %}>
+        <td class="pause"><img src="{% if item.PausedSizeMB %}{{ url_for('static', filename='images/play.png') }}{% else %}{{ url_for('static', filename='images/pause.png') }}{% endif %}" ></td>
+        <td class="name">{{item.NZBNicename}}</td>
+        <td class="size">{{item.FileSizeMB}}MB</td>
+        <td class="delete"><img src="{{ url_for('static', filename='images/remove_icon.png') }}" ></td>
+      </tr>
+    {% endfor %}
+    </table>
+  </div>
 {% endblock %}

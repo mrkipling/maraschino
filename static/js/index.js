@@ -1403,7 +1403,7 @@ $(document).ready(function() {
     }
     $.get(WEBROOT + '/xhr/nzbget/queue/' + action, function(data) {
       if(data.success){
-        $.get('/xhr/nzbget/', function(data) {
+        $.get(WEBROOT + '/xhr/nzbget/', function(data) {
           if(data){
             $('#nzbget').replaceWith(data);
           } else {
@@ -1416,6 +1416,42 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#nzbget .inner div.queue table tr td.pause', function() {
+    var action = $(this).parent().data('action');
+    var id = $(this).parent().attr('id');
+    $.get(WEBROOT + '/xhr/nzbget/individual/'+ id + '/' + action, function(data) {
+      console.log(data);
+      if(data.success){
+        $.get(WEBROOT + '/xhr/nzbget/', function(data) {
+          if(data){
+            $('#nzbget').replaceWith(data);
+          } else {
+            popup_message('Maraschino could not reach NZBGet');
+          }
+        });
+      } else {
+        popup_message('Problem reaching Maraschino: '+ data);
+      }
+    });
+  });
+
+  $(document).on('click', '#nzbget .inner div.queue table tr td.delete', function() {
+    var id = $(this).parent().attr('id');
+    $.get(WEBROOT + '/xhr/nzbget/individual/'+ id + '/delete/', function(data) {
+      console.log(data);
+      if(data.success){
+        $.get(WEBROOT + '/xhr/nzbget/', function(data) {
+          if(data){
+            $('#nzbget').replaceWith(data);
+          } else {
+            popup_message('Maraschino could not reach NZBGet');
+          }
+        });
+      } else {
+        popup_message('Problem reaching Maraschino: '+ data);
+      }
+    });
+  });
   /********* END NZBGET ***********/
 
   /********* TableSorter byte size sorting ***********/
