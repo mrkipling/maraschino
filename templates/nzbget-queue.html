@@ -1,0 +1,25 @@
+{% extends "nzbget-base.html" %}
+
+{% block nzbget_content %}
+  <div class="status" id="status" data-paused="{{ nzbget.DownloadPaused }}" title="Toggle paused/downloading">
+    {% if nzbget.DownloadPaused %}
+      Paused
+    {%else%}
+      Downloading
+    {%endif%}
+  </div>
+  <div class="speed"><input type="text" value="{{ nzbget.DownloadRate }}" title="Adjust Speed" size="5"/></div>
+
+  {% for item in downloads %}
+  <p>{{ item.NZBNicename }}</p>
+
+  <div class="bar">
+    <div class="inner" style="width: {{ 100*(1-(item.RemainingSizeMB/item.FileSizeMB)) }}%;"></div>
+  </div>
+
+  <div class="clearfix">
+    <p class="remaining"><strong>Remaining:</strong> {{item.RemainingSizeMB}} / {{item.FileSizeMB}} MB</p>
+    <p class="percentage_complete">{{ (100*(1-(item.RemainingSizeMB/item.FileSizeMB)))|int }}% complete</p>
+  </div>
+  {% endfor %}
+{% endblock %}

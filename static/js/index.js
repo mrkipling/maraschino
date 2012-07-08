@@ -1394,6 +1394,30 @@ $(document).ready(function() {
 
   /********* END SEARCH ***********/
 
+  /********* START NZBGET ***********/
+
+  $(document).on('click', '#nzbget #status', function() {
+    action = 'pause';
+    if($(this).data('paused') === 'True'){
+      action = 'resume';
+    }
+    $.get(WEBROOT + '/xhr/nzbget/queue/' + action, function(data) {
+      if(data.success){
+        $.get('/xhr/nzbget/', function(data) {
+          if(data){
+            $('#nzbget').replaceWith(data);
+          } else {
+            popup_message('Maraschino could not reach NZBGet');
+          }
+        });
+      } else {
+        popup_message('Problem reaching Maraschino: '+ data);
+      }
+    });
+  });
+
+  /********* END NZBGET ***********/
+
   /********* TableSorter byte size sorting ***********/
   function byteSizeOrdering() {
     jQuery.tablesorter.addParser(
