@@ -1993,6 +1993,13 @@ $(document).ready(function() {
     });
   });
 
+  // INPUT HTTP:// CHECK
+  $(document).on('keypress', 'input[id*="host"], input[id*="ip"]', function() {
+    if($(this).val() == 'http://'){
+      $(this).val('');
+    }
+  });
+
   // UPDATER
   function check_for_update() {
     $.get(WEBROOT + '/xhr/update_bar', function(data){
