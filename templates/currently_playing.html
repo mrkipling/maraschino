@@ -78,13 +78,14 @@
     </div>
  -->  
   </div>
+  {% if servertype!='PLEX' %}
   <div class="volume" data-volume="{{ volume }}%">
     <div class="volume-icon"></div>
     <div class="bar">
       <div class="inner" style="height: {{ volume/2 }}px;"></div>
     </div>
   </div>
-
+  {% endif %}
   {% if currently_playing.plot %}
     <div class="synopsis">
       <h2>

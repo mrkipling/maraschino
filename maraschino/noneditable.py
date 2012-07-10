@@ -33,6 +33,7 @@ def server_settings():
         'port': server.port,
         'username': server.username,
         'password': server.password,
+        'type': server.type,
         'mac_address': server.mac_address,
     }
 
@@ -40,9 +41,9 @@ def server_username_password():
     username_password = ''
     server = server_settings()
 
-    if server['username'] != None:
+    if server['username']:
         username_password = server['username']
-        if server['password'] != None:
+        if server['password']:
             username_password += ':' + server['password']
         username_password += '@'
 
@@ -63,6 +64,12 @@ def server_api_address():
         return None
 
     return '%s/jsonrpc' % (address)
+
+def server_type():
+    server = server_settings()
+    if not server:
+        return None
+    return server['type']
 
 def safe_server_address():
     if using_auth():

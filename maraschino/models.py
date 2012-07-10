@@ -78,6 +78,7 @@ class Disk(Base):
 class XbmcServer(Base):
     __tablename__ = 'xbmc_servers'
     id = Column(Integer, primary_key=True)
+    type = Column(String(15))
     label = Column(String(500))
     position = Column(Integer)
     hostname = Column(String(500))
@@ -87,6 +88,7 @@ class XbmcServer(Base):
     mac_address = Column(String(100))
 
     def __init__(self, label, position, hostname, port='8080', username=None, password=None, mac_address=None):
+        self.type= type
         self.label = label
 
         if position == None:

@@ -482,25 +482,25 @@ $(document).ready(function() {
     $.get(WEBROOT + '/xhr/controls/clean_audio');
   });
 
-  // xbmc poweron
+  // media player poweron
 
   $(document).on('click', '#library #poweron', function() {
     $.get(WEBROOT + '/xhr/controls/poweron');
   });
 
-  // xbmc poweroff
+  // media player poweroff
 
   $(document).on('click', '#library #poweroff', function() {
     $.get(WEBROOT + '/xhr/controls/poweroff');
   });
 
-  // xbmc reboot
+  // media player reboot
 
   $(document).on('click', '#library #reboot', function() {
     $.get(WEBROOT + '/xhr/controls/reboot');
   });
 
-  // xbmc suspend
+  // media player suspend
 
   $(document).on('click', '#library #suspend', function() {
     $.get(WEBROOT + '/xhr/controls/suspend');
@@ -1829,7 +1829,7 @@ $(document).ready(function() {
 
           $.post(WEBROOT + '/xhr/server_settings_dialog/' + server_id, settings, function(data) {
             if (data.status === 'error') {
-              popup_message('There was an error saving the XBMC server.');
+              popup_message('There was an error saving the Media server.');
               return;
             }
 
@@ -1853,7 +1853,7 @@ $(document).ready(function() {
   $('#server_settings_dialog .delete').live('click', function() {
     $.post(WEBROOT + '/xhr/delete_server/' + $(this).data('server_id'), {}, function(data) {
       if (data.status === 'error') {
-        popup_message('There was an error deleting the XBMC server.');
+        popup_message('There was an error deleting the media server.');
       } else {
         $('#server_settings_dialog').closePopup();
         var servers_menu = $(data);
@@ -1862,7 +1862,7 @@ $(document).ready(function() {
           $('#extra_settings #server_settings').replaceWith(servers_menu);
         }
 
-        popup_message('XBMC server has been deleted.');
+        popup_message('Media server has been deleted.');
       }
     });
   });
@@ -1875,7 +1875,7 @@ $(document).ready(function() {
 
       $.get(WEBROOT + '/xhr/switch_server/' + $(this).data('server_id'), function(data) {
         if (data.status === 'error') {
-          popup_message('There was an error switching XBMC servers.');
+          popup_message('There was an error switching Media servers.');
           return;
         }
 
@@ -1900,7 +1900,7 @@ $(document).ready(function() {
     });
   });
 
-  // Send XBMC notification
+  // Send media player notification
 
   $(document).on('click', '.switch_server .message', function(){
     var label = $(this).data('label');
@@ -1911,7 +1911,7 @@ $(document).ready(function() {
       hostname: hostname
     };
 
-    $.post(WEBROOT + '/xhr/xbmc_notify', dict, function(data){
+    $.post(WEBROOT + '/xhr/notify', dict, function(data){
       var popup = $(data);
       $('body').append(popup);
       popup.showPopup({ dispose: true });
@@ -1941,7 +1941,7 @@ $(document).ready(function() {
       message: message
     };
 
-    $.post(WEBROOT + '/xhr/xbmc_notify/send', dict, function(data) {
+    $.post(WEBROOT + '/xhr/notify/send', dict, function(data) {
       if(data['error']){
         result.append(data['error']);
       }

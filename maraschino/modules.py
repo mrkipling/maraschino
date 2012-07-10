@@ -50,7 +50,7 @@ AVAILABLE_MODULES = [
     {
         'name': 'library',
         'label': 'Media Library',
-        'description': 'Allows you to browse your media library and select items to play in XBMC.',
+        'description': 'Allows you to browse your media library and select items to play in your media center.',
         'static': True,
         'poll': 0,
         'delay': 0,
@@ -101,6 +101,11 @@ AVAILABLE_MODULES = [
                 'description': 'Number of episodes to display',
             },
             {
+                'key': 'plex_tvlib_id',
+                'value': 2,
+                'description': 'Library ID TV Series (Plex only)',
+            },
+            {
                 'key': 'recently_added_compact',
                 'value': '0',
                 'description': 'Compact view',
@@ -132,6 +137,11 @@ AVAILABLE_MODULES = [
                 'key': 'num_recent_movies',
                 'value': 3,
                 'description': 'Number of movies to display',
+            },
+            {                    
+                'key': 'plex_movielib_id',
+                'value': 1,
+                'description': 'Library ID Movies (Plex only)',
             },
             {
                 'key': 'recently_added_movies_compact',
@@ -165,6 +175,11 @@ AVAILABLE_MODULES = [
                 'key': 'num_recent_albums',
                 'value': 3,
                 'description': 'Number of albums to display',
+            },
+            {
+                'key': 'plex_musiclib_id',
+                'value': 3,
+                'description': 'Library ID Music (Plex only)',
             },
             {
                 'key': 'recently_added_albums_compact',
@@ -774,9 +789,10 @@ def server_settings_dialog(server_id=None):
 
         label = request.form['label']
         if not label:
-            label = 'XBMC server'
+            label = 'Media server'
 
         try:
+            server.type = request.form['type']
             server.label = label
             server.position = request.form['position']
             server.hostname = request.form['hostname']
