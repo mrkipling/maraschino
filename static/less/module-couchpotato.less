@@ -1,0 +1,388 @@
+@import "mixins.less";
+
+#couchpotato {
+  padding-bottom: 10px;
+  .menu {
+    .settings span {
+      background: url('/@{webroot}/images/cog.png') center no-repeat;
+    }
+    .all {
+      text-indent: 0;
+    }
+    .add {
+      text-indent: 0;
+    }
+    .wanted span  {
+      background: url('/@{webroot}/images/coming.png') center no-repeat;
+    }
+  }
+
+  div.back {
+    background: url('/@{webroot}/images/alpha/fff_10.png');
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 4px;
+    position: absolute;
+    right: 121px;
+    text-align: center;
+    top: 10px;
+    width: 30px;
+
+    .border-radius(4px);
+
+    &:hover {
+      background: url('/@{webroot}/images/alpha/fff_20.png');
+    }
+  }
+
+  div.powerholder {
+    text-align:right;
+    margin-top: 10px;
+    margin: 5px;
+    cursor: default;
+
+    .button {
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      cursor: pointer;
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+      margin: 5px 0 0 4px;
+      text-align: center;
+      right: 0px;
+      color: #ccc;
+      vertical-align: middle;
+      width: 30px;
+      .border-radius(4px);
+
+      &:hover {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
+
+      img {
+        height: 14px;
+        margin-top: 8px;
+        width: 14px;
+      }
+    }
+
+    .log {
+      font-size: 0.8em;
+    }
+  }
+
+  #cp_content {
+    max-height: 264px;
+    overflow-x: hidden;
+    &.compact {
+      div.image{
+        display: none;
+      }
+      .movie {
+        height: 20px;
+      }
+      span {
+        line-height: 20px;
+        &.tagline{
+          display: none;
+        }
+        &.quality {
+          display: block;
+          float: right;
+          font-size: 0.5em;
+        }
+      }
+    }
+    .movie {
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      cursor: pointer;
+      display: inline-block;
+      margin: 5px;
+      text-align:justify;
+      color: #ccc;
+      vertical-align: middle;
+      height: 60px;
+      width: 95%;
+      padding: 6px;
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
+      .border-radius(4px);
+
+      &:hover {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
+      
+      div.active {
+        background: url('/@{webroot}/images/snatched-banner.png') no-repeat;
+        width: 55px;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+
+      div.image {
+        float: left;
+        height: 100%;
+        padding-right: 5px;
+        position: relative;
+        cursor: pointer;
+        
+        img.poster {
+          height: 100%;
+        }
+        
+        span.profile {
+          position: absolute;
+          bottom: 0;
+          margin: auto;
+          width: 90%;
+          text-align: center;
+          background: rgb(0, 0, 0); /* fallback color */
+          background: rgba(0, 0, 0, 0.8);
+        }
+      }
+            
+      span {
+        display: block;
+        padding-bottom: 5px;
+        &.title{
+          font-size: 1.2em;
+        }
+      }
+    }
+    div.options {
+      opacity: 0;
+      -moz-opacity: 0;
+      filter:alpha(opacity=0);
+      top: -70px;
+      left: 10px;
+      height: 0px;
+      margin: 0px;
+      position: relative;
+      float: left;
+      z-index: 1;
+
+      img {
+        display: block;
+        height: 15px;
+        width: 15px;
+        padding: 2px;
+        margin: 2px;
+        cursor: pointer;
+        background: url('/@{webroot}/images/alpha/fff_10.png');
+        .border-radius(4px);
+        &:hover{
+          background: url('/@{webroot}/images/alpha/fff_20.png');
+        }
+      }
+    }
+  }
+
+  #all {
+    max-height: 264px;
+    overflow-x: hidden;
+    
+    .movie {
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      cursor: pointer;
+      display: inline-block;
+      margin: 5px;
+      height: 30px;
+      width: 96%;
+      padding: 5px;
+      overflow: hidden;
+      position: relative;
+      .border-radius(4px);
+
+      &:hover {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
+      
+      div.active {
+        background: url('/@{webroot}/images/snatched-banner.png') no-repeat;
+        width: 55px;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      
+      img.poster {
+        float: left;
+        height: 100%;
+        padding-right: 5px;
+        position: relative;
+        cursor: pointer;
+      }
+            
+      span.text {
+        display: inline;
+        line-height:30px;
+        font-size: 1.3em;
+        max-width: 300px;
+        overflow: hidden;
+      }
+
+      span.profile {
+        float:right;
+        line-height:30px;
+        font-size: 0.5em;
+      }
+    }
+  }
+
+  .search {
+    form {
+      input.value {
+        padding: 4px;
+        width: 150px;
+        margin: 4px;
+      }
+      span.search {
+        background: url('/@{webroot}/images/alpha/fff_10.png');
+        padding: 4px;
+        cursor: pointer;
+        .border-radius(4px);
+
+        &:hover{
+          background: url('/@{webroot}/images/alpha/fff_20.png');
+        }
+      }
+    }
+    .result{
+      max-height: 200px;
+      overflow: auto;
+      .error{
+        padding: 10px;
+        margin: 10px;
+      }
+      ul{
+        padding: 10px;
+        li{
+          background: url('/@{webroot}/images/alpha/fff_10.png');
+          height: 115px;
+          margin: 8px;
+          padding: 10px;
+          width: 90%;
+          overflow: hidden;
+          .border-radius(6px);
+
+          img{
+            width: 60px;
+            height: 100px;
+            float: left;
+            padding: 2px;
+          }
+
+          .name{
+            font-size: 16px;
+            margin: 2px;
+            width: 80%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .year{
+            float: left;
+          }
+
+          div.extra{
+            height: 40px;
+            overflow: auto;
+            text-align: justify;
+            padding: 6px;
+            margin: 10px;
+          }
+
+          div.choices{
+            margin-top: -8px;
+            padding: 4px;
+            height: 10px;
+            float: right;
+            span.add {
+              cursor: pointer;
+              padding: 4px;
+              margin: 4px;
+              background: url('/@{webroot}/images/alpha/fff_10.png');
+              .border-radius(4px);
+
+              &:hover{
+                background: url('/@{webroot}/images/alpha/fff_20.png');
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  #info {
+    margin: 5px;
+    width: 100%;
+    overflow: hidden;
+    table {
+      width: 70%;
+    }
+    .thumbs{
+      width: 108px;
+      height:38px;
+      overflow: scroll;
+      white-space: nowrap;
+    }
+
+    .options{
+      margin: 5px;
+      float: right;
+      img {
+        width: 15px;
+        height: 15px;
+        padding: 5px;
+        cursor: pointer;
+        .border-radius(4px);
+        background: url('/@{webroot}/images/alpha/fff_10.png');
+
+        &:hover{
+          background: url('/@{webroot}/images/alpha/fff_20.png');
+        }
+      }
+    }
+  }
+
+  #cp_settings {
+    padding: 5px;
+    max-height: 260px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    ul li {
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      padding: 10px;
+      margin: 4px;
+      width: 92%;
+      .border-radius(4px);
+
+      .value {
+        float: right;
+        width: 50%;
+        top: -6px;
+        position: relative;
+      }
+    }
+  }
+
+  #cp_log {
+    h3 {
+      margin-left: 15px;
+    }
+    div.log {
+      line-height: 1.3em;
+      overflow: auto;
+      height: 211px;
+      margin-left: 15px;
+    }
+  }
+}
