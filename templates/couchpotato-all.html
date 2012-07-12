@@ -7,7 +7,7 @@
     <div class="movie" id="{{item.library.identifier}}" data-cpid="{{item.library_id}}">
       <div class="{{item.releases.status}}"></div>
       <img class="poster" 
-      src="{% if item.library.files[1] %} {{url}}/file.cache{{item.library.files[1].path}} {% else %}{{ url_for('static', filename='images/poster.png') }}{% endif %}"
+      src="{% if item.library.files[1] %}{{item.library.files[1].path|cp_img}} {% else %}{{ url_for('static', filename='images/poster.png') }}{% endif %}"
       />
       <span class="title text">{{item.library.titles[0].title}} ({{item.library.year}})</span>
       {% if item.library.rating %}<span class="rating text">Rating: {{item.library.rating}}</span>{% endif %}

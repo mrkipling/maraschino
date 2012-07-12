@@ -1,8 +1,9 @@
-from flask import render_template, request, jsonify, json
+from flask import render_template, request, jsonify, json, send_file
+from jinja2.filters import FILTERS
+from maraschino.tools import get_setting_value, requires_auth
+from maraschino import logger, app, WEBROOT
 import urllib
-
-from maraschino.tools import *
-from maraschino import logger, app
+import StringIO
 
 
 def login_string():
@@ -41,6 +42,22 @@ def couchpotato_api(method, params=None, use_json=True, dev=False):
 
 def log_exception(e):
     logger.log('CouchPotato :: EXCEPTION -- %s' % e, 'DEBUG')
+
+
+def couchpotato_image(path):
+    if path.startswith('/'):
+        path = path[1:]
+    return '%s/xhr/couchpotato/image/%s' % (WEBROOT, path)
+
+
+FILTERS['cp_img'] = couchpotato_image
+
+
+@app.route('/xhr/couchpotato/image/<path:url>')
+def couchpotato_proxy(url):
+    url = '%s/file.cache/%s' % (couchpotato_url(), url)
+    img = StringIO.StringIO(urllib.urlopen(url).read())
+    return send_file(img, mimetype='image/jpeg')
 
 
 @app.route('/xhr/couchpotato/')
