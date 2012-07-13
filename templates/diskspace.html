@@ -13,7 +13,7 @@
       {% for disk in disks %}
         <li data-id="{{ disk.id }}">
           <div class="clearfix">
-            <div class="path">{{ disk.path }}</div>
+            <div class="name">{% if disk.name == '' %}{{ disk.path }}{% else %}{{ disk.name }}{% endif %}</div>
             <div class="stats">
               {{ disk.used }} used,
               {{ disk.free }} free
