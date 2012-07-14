@@ -2055,4 +2055,129 @@ $(document).ready(function() {
   });
 
   check_for_update();
+
+  // Headphones
+  $(document).on('click', '#headphones .get', function() {
+    $.get(WEBROOT + '/xhr/headphones' + $(this).data('url'), function(data){
+      $('#headphones').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#headphones .artists .action', function() {
+    var li = $(this).parent().parent();
+    $.get(WEBROOT + '/xhr/headphones/artist/' + li.data('id') + '/' + $(this).data('action'));
+  });
+
+  $(document).on('change keydown search', '#headphones .search .query', function(e) {
+    var search_type = $('#headphones .search .search_type').val();
+    var query = $(this).val();
+
+    if(e.which == 13) {
+      add_loading_gif('#headphones .search .loading');
+
+      $.get(WEBROOT + '/xhr/headphones/search/' + search_type + '/' + query, function(data){
+        var popup = $(data);
+        $('body').append(popup);
+        popup.showPopup({ dispose: true });
+        remove_loading_gif('#headphones .search .loading');
+      });
+    }
+  });
+
+  $(document).on('click', '#headphones-search_dialog .add_artist', function() {
+    var id = $(this).data('id');
+    add_loading_gif('#headphones-search_dialog .inner .loading');
+
+    $.get(WEBROOT + '/xhr/headphones/artist/' + id + '/add', function(data){
+      $('#headphones-search_dialog .close').click();
+
+      if (data.status == 'successful') {
+        $.get(WEBROOT + '/xhr/headphones/artist/' + id, function(data){
+          $('#headphones').replaceWith(data);
+        });
+      }
+      else {
+        popup_message('Failed to add artist');
+      }
+    });
+  });
+
+  $(document).on('click', '#headphones .add_artist', function(e) {
+    e.stopPropagation();
+    $.get(WEBROOT + '/xhr/headphones/artist/' + $(this).data('id') + '/add');
+    $.get(WEBROOT + '/xhr/headphones/artist/' + $(this).data('id'), function(data){
+      $('#headphones').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#headphones .control', function() {
+    $.get(WEBROOT + '/xhr/headphones/control/' + $(this).data('control'));
+  });
+
+  $(document).on('click', '#headphones .artists .remove', function(e) {
+    e.stopPropagation();
+    var li = $(this).parent().parent();
+
+    $(this).children('img').attr('src', WEBROOT + '/static/images/xhrloading.gif');
+
+    $.get(WEBROOT + '/xhr/headphones/artist/' + li.data('id') + '/remove', function(data){
+      if (data.status == 'successful') {
+        li.transition({opacity: 0, duration: 1000}, function(){
+          li.remove();
+      });
+      }
+      else {
+        popup_message('Failed to remove artist.');
+      }
+    });
+  });
+
+  $(document).on('click', '#headphones .artists .play_pause', function(e) {
+    e.stopPropagation();
+    var li = $(this).parent().parent();
+    var button = $(this);
+
+    $.get(WEBROOT + '/xhr/headphones/artist/' + li.data('id') + '/' + $(this).data('action'), function(data) {
+      if (data.status == 'successful') {
+        if (button.data('action') === 'pause') {
+          button.data('action', 'resume').attr('title', 'Resume');
+          button.children('img').attr('src', WEBROOT + '/static/images/play.png');
+        }
+        else {
+          button.data('action', 'pause').attr('title', 'Pause');
+          button.children('img').attr('src', WEBROOT + '/static/images/pause.png');
+        }
+      }
+      else {
+        popup_message('Failed to ' + button.data('action') + ' artist.');
+      }
+    });
+  });
+
+  $(document).on('click', '#headphones .artists .refresh', function(e) {
+    e.stopPropagation();
+    var li = $(this).parent().parent();
+
+    $(this).children('img').attr('src', WEBROOT + '/static/images/xhrloading.gif');
+
+    $.get(WEBROOT + '/xhr/headphones/artist/' + li.data('id') + '/' + $(this).data('action'));
+  });
+
+  $(document).on('change', '#headphones .album_status', function() {
+    $.get(WEBROOT + '/xhr/headphones/album/' + $(this).data('id') + '/' + $(this).val());
+  });
+
+  $(document).on('click', '#headphones .similar .list_item', function() {
+    window.open('http://musicbrainz.org/artist/' + $(this).data('id'));
+  });
+
+  $(document).on('click', '#headphones .hp_update', function() {
+    $(this).hide();
+    popup_message('Sent update request to Headphones.');
+  });
+
+  $(document).on('click', '#headphones .head_item', function() {
+    $(this).children().replaceWith('<img src="' + WEBROOT + '/static/images/xhrloading.gif" width="14" height="14">');
+  });
+
 });
