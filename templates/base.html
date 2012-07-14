@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Sans:regular,bold">
 
     <!-- CSS -->
+    <script>var LESS_WEBROOT = "{% if webroot %}{{ webroot[1:] }}/{% endif %}static";</script>
     <link rel="stylesheet/less" href="{{ url_for('static', filename='less/base.less') }}">
     <link rel="stylesheet/less" href="{{ url_for('static', filename='less/site.less') }}">
 

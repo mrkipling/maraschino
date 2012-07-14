@@ -97,16 +97,14 @@ def main():
                  help='Disable settings in the UI')
     p.add_option('--datadir',
                  dest='datadir',
-                 help='Write files to custom location')
+                 help='Write program data to custom location')
 
     options, args = p.parse_args()
 
     if options.datadir:
         data_dir = options.datadir
-        maraschino.DATA_DIR = options.datadir
     else:
         data_dir = rundir
-        maraschino.DATA_DIR = rundir
 
     if options.daemon:
         maraschino.DAEMON = True
@@ -145,6 +143,7 @@ def main():
         maraschino.KIOSK = True
 
     maraschino.RUNDIR = rundir
+    maraschino.DATA_DIR = data_dir
     maraschino.FULL_PATH = os.path.join(rundir, 'Maraschino.py')
     maraschino.ARGS = sys.argv[1:]
     maraschino.PORT = PORT
