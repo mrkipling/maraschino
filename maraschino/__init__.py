@@ -131,15 +131,6 @@ def initialize():
             d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
         SERVER = wsgiserver.CherryPyWSGIServer((HOST, PORT), d)
 
-        # Set up webroot for .less
-        less_webroot = os.path.join(RUNDIR, 'static/less/webroot.less')
-        f = open(less_webroot, 'w')
-        if WEBROOT:
-            f.write('@webroot: "%s/static";' % (WEBROOT[1:]))
-        else:
-            f.write('@webroot: "static";')
-        f.close()
-
         # Set up the updater
         from maraschino.updater import checkGithub, gitCurrentVersion
 
