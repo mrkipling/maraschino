@@ -6,10 +6,10 @@
   {% set info = couchpotato['movie']['library'] %}
   <div id="info" class="{{couchpotato['movie']['status']['identifier']}}">
     <div class="options" data-imdbid="{{info.info.imdb}}" data-cpid="{{couchpotato.movie.library_id}}">
-      <img class="delete" src="{{ url_for('static', filename='images/no.png')}}"/>
-      <img class="search" src="{{ url_for('static', filename='images/search.png')}}"/>
+      <img class="delete" src="{{ url_for('static', filename='images/no.png')}}" title="Delete"/>
+      <img class="search" src="{{ url_for('static', filename='images/search.png')}}" title="Refresh"/>
       <a href="http://imdb.com/title/{{info.info.imdb}}" target="_blank">
-        <img src="{{ url_for('static', filename='images/imdb.png')}}" alt="" />
+        <img src="{{ url_for('static', filename='images/imdb.png')}}" title="IMDB" />
       </a>
     </div>
     <img src="{{info['info']['images']['poster'][0]}}" alt="poster" style="float:left;" width="100px;">
