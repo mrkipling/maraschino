@@ -1,0 +1,30 @@
+{% extends "couchpotato-base.html" %}
+
+{% block couchpotato_content %}
+
+<div id="cp_content" {%if compact_view %}class="compact"{%endif%}>
+  {% for item in couchpotato %}
+    <div class="movie" id="{{item.library.identifier}}" data-cpid="{{item.library_id}}">
+      <div class="{{item.releases.status}}"></div>
+      <div class="image">
+        <img class="poster" 
+        src="{% if item.library.files[1] %}{{item.library.files[1].path|cp_img}}{% else %}{{ url_for('static', filename='images/poster.png') }}{% endif %}"
+        />
+        <span class="profile" title="CouchPotato quality profile">{{item.profile.label}}</span>
+      </div>
+      <span class="title">{{item.library.titles[0].title}} ({{item.library.year}})</span>
+      {% if item.library.rating %}<span class="rating text"><h3>Rating: {{item.library.rating}}</h3></span>{% endif %}
+      <span class="tagline">{% if item.library.tagline %}{{item.library.tagline}}{% else %}{{item.library.plot|truncate(150)}}{% endif %}</span>
+      {%if compact_view %}<span class="quality">{{item.profile.label}}</span>{%endif%}
+    </div>
+    <div class="options {{item.library.identifier}}" data-imdbid="{{item.library.identifier}}" data-cpid="{{item.library_id}}">
+      <img class="delete" src="{{ url_for('static', filename='images/no.png')}}"/>
+      <img class="search" src="{{ url_for('static', filename='images/search.png')}}"/>
+      <a href="http://imdb.com/title/{{item.library.identifier}}" target="_blank">
+        <img src="{{ url_for('static', filename='images/imdb.png')}}" alt="" />
+      </a>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

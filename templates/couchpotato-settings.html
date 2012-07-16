@@ -1,0 +1,19 @@
+{% extends "couchpotato-base.html" %}
+
+{% block couchpotato_content %}
+
+<div id="cp_settings">
+    <ul>
+      {% for item in couchpotato['values']['core']%}
+        <li><span class="title">{{item|replace('_',' ')}}</span><input class="value" value="{{couchpotato['values']['core'][item]}}" type="{% if item == 'password' %}password{%else%}text{%endif%}" disabled="disabled" /></li>
+      {% endfor %}
+    </ul>
+</div>
+
+<div class="powerholder">
+  <a class="button log" title ="CouchPotato logs">Log</a>
+  <a class="button restart" title ="Restart CouchPotato"><img src="{{ url_for('static', filename='images/reboot.png') }}" /></a>
+  <a class="button power" title ="Shutdown CouchPotato"><img src="{{ url_for('static', filename='images/shutdown.png') }}" /></a>
+</div>
+
+{% endblock %}
