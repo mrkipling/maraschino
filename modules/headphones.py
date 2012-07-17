@@ -13,6 +13,15 @@ def headphones_http():
     else:
         return 'http://'
 
+def login_string():
+    try:
+        login = '%s:%s@' % (get_setting_value('headphones_user'), get_setting_value('headphones_password'))
+
+    except:
+        login = ''
+
+    return login
+
 def headphones_url():
     port = get_setting_value('headphones_port')
     url_base = get_setting_value('headphones_host')
@@ -30,6 +39,9 @@ def headphones_url_no_api():
 
     if port:
         url_base = '%s:%s' % (url_base, port)
+    
+    if login_string():
+        return headphones_http() + login_string() + url_base
 
     return headphones_http() + url_base
 
@@ -91,6 +103,7 @@ def xhr_headphones_image(type, id):
         cache_url = headphones_api('getAlbumThumb&id=' + id)
 
     if cache_url:
+        print 'DEVELOPER :: %s' % headphones_url_no_api()
         url = '%s/%s' % (headphones_url_no_api(), cache_url)
     else:
         img = RUNDIR + '/static/images/applications/HeadPhones.png'
