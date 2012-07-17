@@ -95,8 +95,7 @@ def hp_artistart(id):
 
 
 def hp_albumart(id):
-    return '%s/xhr/headphones/img/album/%s' (WEBROOT, id)
-
+    return '%s/xhr/headphones/img/album/%s' % (WEBROOT, id)
 
 @app.route('/xhr/headphones/img/<type>/<id>/')
 @requires_auth
