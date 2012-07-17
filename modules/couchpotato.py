@@ -6,6 +6,13 @@ import urllib
 import StringIO
 
 
+def couchpotato_http():
+    if get_setting_value('couchpotato_https') == '1':
+        return 'https://'
+    else:
+        return 'http://'
+
+
 def login_string():
     try:
         login = '%s:%s@' % (get_setting_value('couchpotato_user'), get_setting_value('couchpotato_password'))
@@ -17,11 +24,11 @@ def login_string():
 
 
 def couchpotato_url():
-    return 'http://%s%s:%s/api/%s' % (login_string(), get_setting_value('couchpotato_ip'), get_setting_value('couchpotato_port'), get_setting_value('couchpotato_api'))
+    return '%s%s%s:%s/api/%s' % (couchpotato_http(), login_string(), get_setting_value('couchpotato_ip'), get_setting_value('couchpotato_port'), get_setting_value('couchpotato_api'))
 
 
 def couchpotato_url_no_api():
-    return 'http://%s%s:%s/' % (login_string(), get_setting_value('couchpotato_ip'), get_setting_value('couchpotato_port'))
+    return '%s%s%s:%s/' % (couchpotato_http(), login_string(), get_setting_value('couchpotato_ip'), get_setting_value('couchpotato_port'))
 
 
 def couchpotato_api(method, params=None, use_json=True, dev=False):
