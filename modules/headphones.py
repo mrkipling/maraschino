@@ -13,15 +13,6 @@ def headphones_http():
     else:
         return 'http://'
 
-def login_string():
-    try:
-        login = '%s:%s@' % (get_setting('headphones_user').value, get_setting('headphones_password').value)
-
-    except:
-        login = ''
-
-    return login
-
 def headphones_url():
     port = get_setting_value('headphones_port')
     url_base = get_setting_value('headphones_host')
@@ -31,9 +22,6 @@ def headphones_url():
 
     url = '%s/api?apikey=%s' % (url_base, get_setting_value('headphones_api'))
 
-    if login_string():
-        return headphoneshttp() + login_string() + url
-
     return headphones_http() + url
     
 def headphones_url_no_api():
@@ -42,9 +30,6 @@ def headphones_url_no_api():
 
     if port:
         url_base = '%s:%s' % (url_base, port)
-
-    if login_string():
-        return headphones_http() + login_string() + url_base
 
     return headphones_http() + url_base
 
