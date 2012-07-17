@@ -1,6 +1,6 @@
 # Original code by Mikie (https://github.com/Mikie-Ghost/)
 import maraschino
-from maraschino import RUNDIR, logger
+from maraschino import RUNDIR, logger, DATA_DIR
 import urllib2, tarfile, os, shutil, platform, subprocess, re
 from flask import json
 
@@ -10,7 +10,7 @@ branch = 'master'
 def joinRundir(path):
     return os.path.join(RUNDIR, path)
 
-version_file = joinRundir('Version.txt')
+version_file = os.path.join(DATA_DIR, 'Version.txt')
 
 def writeVersion(hash):
     f = open(version_file, 'w')
