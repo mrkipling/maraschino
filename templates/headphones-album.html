@@ -1,0 +1,53 @@
+{% extends "headphones-base.html" %}
+{% block headphones_content %}
+
+{% if album %}
+  <div class="album_info">
+  {% if not compact %}
+    <img src="{{ album.album.0.ThumbURL }}" />
+    <span>Released: {{ album.album.0.ReleaseDate }}</span><br />
+    <span>Added: {{ album.album.0.DateAdded }}</span><br />
+    <span>Type: {{ album.album.0.Type }}</span><br />
+    <span>Duration: {{ album.album.0.TotalDuration }}</span><br />
+    <span>Tracks: {{ album.album.0.Tracks }}</span>
+  {% endif %}
+  <div class="change_status">
+    <p align="right">
+      Change status:
+      {% if not compact %}
+        <br />
+      {% endif %}
+      <select class="album_status" data-id="{{ album.album.0.AlbumID }}">
+        <option {% if album.album.0.Status == 'Wanted' %}selected{% endif %} value="wanted">Wanted</option>
+        <option value="wanted_new">Wanted (new)</option>
+        <option {% if album.album.0.Status == 'Skipped' %}selected{% endif %} value="skipped">Skipped</option>
+        {% if album.album.0.Status =='Downloaded' %}
+          <option value="" selected>Downloaded</option>
+        {% elif album.album.0.Status =='Snatched' %}
+          <option value="" selected>Snatched</option>
+        {% endif %}
+      </select>
+    </p>
+  </div>
+  </div>
+
+  <div class="album">
+
+    <ul>
+      {% for track in album.tracks %}
+        <li class="list_item get compact" data-url="/album/{{ album.AlbumID }}">
+          {{ "%02d"|format(track.TrackNumber) }} - {{ track.TrackTitle }}
+          <span class="right_span">
+            {{ track.TrackDuration }}
+            {% if track.Format %}
+              <img src="/static/images/tick.png" height="14" width="14" />
+              {{ track.Format }}
+            {% endif %}
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+{% endif %}
+{% endblock %}

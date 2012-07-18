@@ -1,0 +1,28 @@
+{% if couchpotato %}
+
+<div id="couchpotato" class="module{% if compact_view %} compact{% endif %}" data-module="couchpotato">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2 class="title">{% block couchpotato_title %}CouchPotato{% endblock %}</h2>
+
+  <ul class="menu">
+    <li class="settings" title="View Settings"><span>Settings</span></li>
+    <li class="add" title ="Add new movies to CouchPotato"><span>+</span></li>
+    <li class="all" title="View all"><span>All</span></li>
+    <li class="wanted" title="View wanted"><span>Wanted</span></li>
+  </ul>
+
+  {% block couchpotato_content %}{% endblock %}
+
+</div>
+
+{% else %}
+
+<div class="placeholder" data-module="couchpotato">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+  <h2>CouchPotato</h2>
+</div>
+
+{% endif %}

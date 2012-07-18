@@ -3,7 +3,7 @@ try:
 except ImportError:
     import simplejson as json
 
-from flask import Flask, jsonify, render_template, request
+from flask import jsonify, render_template, request
 from maraschino.database import db_session
 
 import maraschino
@@ -40,12 +40,100 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'couchpotato',
+        'label': 'CouchPotato Manager',
+        'description': 'Manage CouchPotato from within Maraschino',
+        'static': True,
+        'poll': 0,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'couchpotato_api',
+                'value': '',
+                'description': 'CouchPotato API Key',
+            },
+            {
+                'key': 'couchpotato_user',
+                'value': '',
+                'description': 'CouchPotato Username',
+            },
+            {
+                'key': 'couchpotato_password',
+                'value': '',
+                'description': 'CouchPotato Password',
+            },
+            {
+                'key': 'couchpotato_ip',
+                'value': '',
+                'description': 'CouchPotato Hostname',
+            },
+            {
+                'key': 'couchpotato_port',
+                'value': '',
+                'description': 'CouchPotato Port',
+            },
+            {
+                'key': 'couchpotato_https',
+                'value': '0',
+                'description': 'Use HTTPS',
+                'type': 'bool',
+            },
+            {
+                'key': 'couchpotato_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
+            },
+        ]
+    },
+    {
         'name': 'diskspace',
         'label': 'Disk space',
         'description': 'Shows you available disk space on your various drives.',
         'static': False,
         'poll': 350,
         'delay': 0,
+    },
+    {
+        'name': 'headphones',
+        'label': 'Headphones Manager',
+        'description': 'Manage Headphones from within Maraschino',
+        'static': True,
+        'poll': 0,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'headphones_host',
+                'value': '',
+                'description': 'Headphones Hostname',
+            },
+            {
+                'key': 'headphones_port',
+                'value': '',
+                'description': 'Headphones Port',
+            },
+            {
+                'key': 'headphones_user',
+                'value': '',
+                'description': 'Headphones Username',
+            },
+            {
+                'key': 'headphones_password',
+                'value': '',
+                'description': 'Headphones Password',
+            },
+            {
+                'key': 'headphones_api',
+                'value': '',
+                'description': 'Headphones API Key',
+            },
+            {
+                'key': 'headphones_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
+            },
+        ]
     },
     {
         'name': 'library',

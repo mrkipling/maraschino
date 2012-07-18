@@ -28,8 +28,10 @@ app = Flask(__name__)
 def import_modules():
     import modules.applications
     import modules.controls
+    import modules.couchpotato
     import modules.currently_playing
     import modules.diskspace
+    import modules.headphones
     import modules.index
     import modules.library
     import modules.log

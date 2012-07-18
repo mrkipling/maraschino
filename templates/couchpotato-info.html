@@ -1,0 +1,109 @@
+{% extends "couchpotato-base.html" %}
+{% block couchpotato_title %}{% if couchpotato['success'] %}{{ couchpotato['movie']['library']['info']['original_title'] }}{% endif %}{% endblock %}
+
+{% block couchpotato_content %}
+{% if couchpotato['success'] %}
+  {% set info = couchpotato['movie']['library'] %}
+  <div id="info" class="{{couchpotato['movie']['status']['identifier']}}">
+    <div class="options" data-imdbid="{{info.info.imdb}}" data-cpid="{{couchpotato.movie.library_id}}">
+      <img class="delete" src="{{ url_for('static', filename='images/no.png')}}" title="Delete"/>
+      <img class="search" src="{{ url_for('static', filename='images/search.png')}}" title="Refresh"/>
+      <a href="http://imdb.com/title/{{info.info.imdb}}" target="_blank">
+        <img src="{{ url_for('static', filename='images/imdb.png')}}" title="IMDB" />
+      </a>
+    </div>
+    <img src="{{info['info']['images']['poster'][0]}}" alt="poster" style="float:left;" width="100px;">
+    <div style="height: 30px; width: 100px; overflow: hidden; float: left; clear: left;">
+      <div class="thumbs">
+        {%for image in info['info']['images']%}
+          {% for src in info['info']['images'][image] %}
+            <img src="{{src}}" alt="{{image}}" style="height: 28px; border: 1px white solid; cursor: pointer;">
+          {%endfor%}
+        {%endfor%}
+      </div>
+    </div>
+    <p class="p_info">
+      <table border="0">
+        {% if info['info']['year'] %}
+        <tr>
+          <td width="75" style="font-weight:bold;" align="right">Year:&nbsp;&nbsp;</td>
+          <td style="font-size: 0.95em;">{{info['info']['year']}}</td>
+        </tr>
+        {% endif %}
+        {% if info['info']['rating']['imdb'] %}
+        <tr>
+          <td width="75" style="font-weight:bold;" align="right">Rating:&nbsp;&nbsp;</td>
+          <td style="font-size: 0.95em;">{{info['info']['rating']['imdb'][0]}}/10 ({{info['info']['rating']['imdb'][1]}} votes</td>
+        </tr>
+        {% endif %}
+        {% if info['info']['genres'] %}
+        <tr>
+          <td width="75" style="font-weight:bold;" align="right">Genres:&nbsp;&nbsp;</td>
+          <td style="font-size: 0.95em;">{% for genre in info['info']['genres'] %} {{genre}} {%if not loop.last%}|{%endif%} {% endfor %}</td>
+        </tr>
+        {% endif %}
+        {% if info['info']['release_date']['dvd'] %}
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">DVD:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;">{{info['info']['release_date']['dvd']|time}}</td>
+        </tr>
+        {% endif %}
+        {% if info['info']['released'] %}
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">Theater:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;">{{info['info']['released']}}</td>
+        </tr>
+        {% endif %}
+        {% if info['info']['writers'] %}
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">Writers:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;">{%for writer in info['info']['writers']%} {{writer}}{%if not loop.last%},{%endif%} {%endfor%}</td>
+        </tr>
+        {% endif %}
+        {% if info['info']['directors'] %}
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">Directors:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;">{%for director in info['info']['directors']%} {{director}}{%if not loop.last%},{%endif%} {%endfor%}</td>
+        </tr>
+        {% endif %}
+        {% if info['info']['actors'] %}
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">Actors:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;">{%for actor in info['info']['actors']%} {{actor}}{%if not loop.last%},{%endif%} {%endfor%}</td>
+        </tr>
+        {% endif %}
+        {% if info['info']['runtime'] %}
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">Runtime:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;">{{info['info']['runtime']}}</td>
+        </tr>
+        {% endif %}
+        <tr>
+          <td width="75" style="font-weight: bold;" align="right">Profile:&nbsp;&nbsp;</td>
+          <td style="font-size:0.95em;" class="profile">
+            {% if profiles %}
+              <select class="profiles" data-id="{{couchpotato.movie.library_id}}">
+                {% for profile in profiles.list %}
+                  <option value="{{profile.id}}" {% if couchpotato['movie']['profile']['label'] == profile.label %}selected="selected"{%endif%}>{{profile.label}}</option>
+                {% endfor %}
+              </select>
+            {% else %}
+              {{couchpotato['movie']['profile']['label']}}
+            {% endif %}
+          </td>
+        </tr>
+      </table>
+    </p>
+    {% if info['plot'] %}
+    <p style="clear: left;"> 
+      <br /><span style="font-weight:bold;">Plot:</span>
+      <br /><span style="font-size: 0.950em;">{{info['plot']}}</span>
+    </p>
+    {% endif %}
+  </div>
+{% else %}
+<div id="error">
+  <p>An error ocurred</p>
+</div>
+{%endif%}
+{% endblock %}
