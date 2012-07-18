@@ -24,11 +24,17 @@ def login_string():
 
 
 def couchpotato_url():
-    return '%s%s%s:%s/api/%s' % (couchpotato_http(), login_string(), get_setting_value('couchpotato_ip'), get_setting_value('couchpotato_port'), get_setting_value('couchpotato_api'))
+    port = get_setting_value('couchpotato_port')
+    if port:
+        port = ':%s' % (port)
+    return '%s%s%s%s/api/%s' % (couchpotato_http(), login_string(), get_setting_value('couchpotato_ip'), port, get_setting_value('couchpotato_api'))
 
 
 def couchpotato_url_no_api():
-    return '%s%s%s:%s/' % (couchpotato_http(), login_string(), get_setting_value('couchpotato_ip'), get_setting_value('couchpotato_port'))
+    port = get_setting_value('couchpotato_port')
+    if port:
+        port = ':%s' % (port)
+    return '%s%s%s%s/' % (couchpotato_http(), login_string(), get_setting_value('couchpotato_ip'), port)
 
 
 def couchpotato_api(method, params=None, use_json=True, dev=False):
@@ -60,7 +66,7 @@ def couchpotato_image(path):
 FILTERS['cp_img'] = couchpotato_image
 
 
-@app.route('/xhr/couchpotato/image/<path:url>')
+@app.route('/xhr/couchpotato/image/<path:url>/')
 def couchpotato_proxy(url):
     url = '%s/file.cache/%s' % (couchpotato_url(), url)
     img = StringIO.StringIO(urllib.urlopen(url).read())
