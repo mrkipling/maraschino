@@ -66,10 +66,11 @@ def couchpotato_image(path):
 FILTERS['cp_img'] = couchpotato_image
 
 
-@app.route('/xhr/couchpotato/image/<path:url>/')
+@app.route('/xhr/couchpotato/image/<path:url>')
 def couchpotato_proxy(url):
     url = '%s/file.cache/%s' % (couchpotato_url(), url)
     img = StringIO.StringIO(urllib.urlopen(url).read())
+    logger.log('CouchPotato :: Fetching image from %s' % (url), 'DEBUG')
     return send_file(img, mimetype='image/jpeg')
 
 
