@@ -33,7 +33,7 @@ def nzbget_exception(e):
 @requires_auth
 def xhr_nzbget():
     downloads = status = nzbget = None
-
+    logger.log('NZBGet :: Getting download list', 'INFO')
     try:
         nzbget = jsonrpc.ServerProxy('%s/jsonrpc' % nzbget_url())
         status = nzbget.status()
@@ -41,6 +41,7 @@ def xhr_nzbget():
     except Exception as e:
         nzbget_exception(e)
 
+    logger.log('NZBGet :: Getting download list (DONE)', 'INFO')
     return render_template('nzbget-queue.html',
         nzbget=status,
         downloads=downloads,
@@ -51,6 +52,7 @@ def xhr_nzbget():
 @requires_auth
 def queue_action_nzbget(action):
     status = False
+    logger.log('NZBGet :: Queue action: %s' % action, 'INFO')
     try:
         nzbget = jsonrpc.ServerProxy('%s/jsonrpc' % nzbget_url())
         if 'resume' in action:
@@ -84,6 +86,7 @@ def queue_add_nzbget():
 @requires_auth
 def individual_action_nzbget(id, action):
     status = False
+    logger.log('NZBGet :: Item %s action: %s' % (id, action), 'INFO')
     if 'resume' in action:
         action = 'GroupResume'
     elif 'pause' in action:
@@ -104,6 +107,7 @@ def individual_action_nzbget(id, action):
 @app.route('/xhr/nzbget/set_speed/<int:speed>/')
 @requires_auth
 def set_speed_nzbget(speed):
+    logger.log('NZBGet :: Setting speed limit: %s' % speed, 'INFO')
     try:
         nzbget = jsonrpc.ServerProxy('%s/jsonrpc' % nzbget_url())
         status = nzbget.rate(speed)
