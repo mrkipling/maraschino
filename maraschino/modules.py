@@ -176,6 +176,37 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'nzbget',
+        'label': 'NZBGet',
+        'description': 'Shows you information about your NZBGet downloads.',
+        'static': False,
+        'poll': 10,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'nzbget_host',
+                'value': '',
+                'description': 'Hostname',
+            },
+            {
+                'key': 'nzbget_port',
+                'value': '',
+                'description': 'Port',
+            },
+            {
+                'key': 'nzbget_password',
+                'value': '',
+                'description': 'Password',
+            },
+            {
+                'key': 'nzbget_https',
+                'value': '0',
+                'description': 'Use HTTPS',
+                'type': 'bool',
+            },
+        ]
+    },
+    {
         'name': 'recently_added',
         'label': 'Recently added episodes',
         'description': 'Shows you TV Episodes recently added to your library.',

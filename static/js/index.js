@@ -1617,6 +1617,89 @@ $(document).ready(function() {
 
   /********* END SEARCH ***********/
 
+  /********* START NZBGET ***********/
+  // queue pause/resume
+  $(document).on('click', '#nzbget #status', function() {
+    action = 'pause';
+    if($(this).data('paused') === 'True'){
+      action = 'resume';
+    }
+    $.get(WEBROOT + '/xhr/nzbget/queue/' + action, function(data) {
+      if(data.success){
+        $.get(WEBROOT + '/xhr/nzbget/', function(data) {
+          if(data){
+            $('#nzbget').replaceWith(data);
+          } else {
+            popup_message('Maraschino could not reach NZBGet');
+          }
+        });
+      } else {
+        popup_message('Problem reaching Maraschino: '+ data);
+      }
+    });
+  });
+  // individual pause/resume
+  $(document).on('click', '#nzbget .inner div.queue table tr td.pause', function() {
+    var action = $(this).parent().data('action');
+    var id = $(this).parent().attr('id');
+    $.get(WEBROOT + '/xhr/nzbget/individual/'+ id + '/' + action, function(data) {
+      if(data.success){
+        $.get(WEBROOT + '/xhr/nzbget/', function(data) {
+          if(data){
+            $('#nzbget').replaceWith(data);
+          } else {
+            popup_message('Maraschino could not reach NZBGet');
+          }
+        });
+      } else {
+        popup_message('Problem reaching Maraschino: '+ data);
+      }
+    });
+  });
+  // individual delete
+  $(document).on('click', '#nzbget .inner div.queue table tr td.delete', function() {
+    var id = $(this).parent().attr('id');
+    $.get(WEBROOT + '/xhr/nzbget/individual/'+ id + '/delete/', function(data) {
+      if(data.success){
+        $.get(WEBROOT + '/xhr/nzbget/', function(data) {
+          if(data){
+            $('#nzbget').replaceWith(data);
+          } else {
+            popup_message('Maraschino could not reach NZBGet');
+          }
+        });
+      } else {
+        popup_message('Problem reaching Maraschino: '+ data);
+      }
+    });
+  });
+  // Speed limit - erase the current value, give focus and switch to kb's
+  $(document).on('click', '#nzbget .inner div.speed input', function() {
+    $(this).attr('value', '');
+    $(this).parent().html($('<div>').append($(this).clone()).html()+'KB');
+    $('#nzbget .inner div.speed input').focus();
+  });
+  // send new speed limit when pressing enter
+  $(document).on('keypress', '#nzbget .inner div.speed input', function(e) {
+    if(e.which == 13){
+      var speed = $(this).attr('value');
+      $.get(WEBROOT + '/xhr/nzbget/set_speed/' + speed, function(data) {
+        if(data.success){
+          $.get(WEBROOT + '/xhr/nzbget/', function(data) {
+            if(data){
+              $('#nzbget').replaceWith(data);
+            } else {
+              popup_message('Maraschino could not reach NZBGet');
+            }
+          });
+        } else {
+          popup_message('Problem reaching Maraschino: '+ data);
+        }
+      });
+    }
+  });
+  /********* END NZBGET ***********/
+
   /********* TableSorter byte size sorting ***********/
   function byteSizeOrdering() {
     jQuery.tablesorter.addParser(
