@@ -27,7 +27,7 @@ In addition, there's also a thread on the [XBMC forums](http://forum.xbmc.org/sh
 
 * **Control multiple XBMC servers** - do you have an XBMC server in both the living room and bedroom? Switch between the two instantly and control them using Maraschino. Send notification messages to them remotely!
 
-* **SABnzbd+ module** which appears when something is downloading and hides again when finished - shows you what is currently downloading, speed, time/MB remaining, and a progress bar. Control (pause, resume, speed limit) your downloads.
+* **SABnzbd+ and NZBGet modules** manage your nzb queue from within Maraschino - they appear when something is downloading and hide again when finished - shows you what is currently downloading, speed, time/MB remaining, and a progress bar. Control (pause, resume, speed limit) your downloads.
 
 * **Usenet search** - search Usenet and add files directly to SABnzbd+ with the click of a button.
 
@@ -38,6 +38,10 @@ In addition, there's also a thread on the [XBMC forums](http://forum.xbmc.org/sh
 * **trakt.tv plus module** - see what your friends are watching, and view personalised TV and movie recommendations based on your viewing history.
 
 * **Sickbeard module** which allows you to browse upcoming episodes and manage Sickbeard directly from Maraschino (add new shows, search for episodes, etc.).
+
+* **CouchPotato module** which allows you to browse upcoming movies and manage CouchPotato directly from Maraschino (add new movies, etc.).
+
+* **Headphones module** which allows you to browse upcoming albums and manage Headphones directly from Maraschino (add new artists, search for albums, etc.).
 
 * **Disk space module** showing you used/remaining space on your various drives.
 

@@ -30,7 +30,7 @@ def couchpotato_url():
     
     url = '%s/api/%s' % ( url_base, get_setting_value('couchpotato_api') )
     
-    if using_auth():
+    if login_string():
         return couchpotato_http() + login_string() + url
     
     return couchpotato_http() + url
@@ -43,7 +43,7 @@ def couchpotato_url_no_api():
     if port:
         url_base = '%s:%s' % ( url_base, port )
     
-    if using_auth():
+    if login_string():
         return couchpotato_http() + login_string() + url_base
         
     return couchpotato_http() + url_base
@@ -82,6 +82,7 @@ FILTERS['cp_img'] = couchpotato_image
 def couchpotato_proxy(url):
     url = '%s/file.cache/%s' % (couchpotato_url(), url)
     img = StringIO.StringIO(urllib.urlopen(url).read())
+    logger.log('CouchPotato :: Fetching image from %s' % (url), 'DEBUG')
     return send_file(img, mimetype='image/jpeg')
 
 
