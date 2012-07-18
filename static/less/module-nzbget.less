@@ -1,0 +1,171 @@
+#nzbget
+{
+  position: relative;
+
+  > .inner {
+    line-height: 1.3em;
+    padding: 0 15px 15px;
+  }
+
+  .inner {
+    #status {
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      border: 1px solid #222;
+      padding: 4px 8px 2px;
+      font-size: 10px;
+      left: 50%;
+      margin-left: -58px;
+      position: absolute;
+      text-align: center;
+      top: 14px;
+      cursor: pointer;
+      width: 100px;
+
+      .border-radius(4px);
+
+      &:hover {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
+    }
+
+    .speed {
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      border: 1px solid #222;
+      font-size: 10px;
+      padding: 4px 8px 2px;
+      position: absolute;
+      right: 20px;
+      top: 14px;
+
+      .border-radius(4px);
+
+      input {
+        background-color:transparent;
+        color:white;
+        border:none;
+        text-align:right;
+
+        &:hover,
+        &:focus {
+          font-weight: bolder;
+        }
+      }
+    }
+
+    .queue-title {
+      font-size: 10px;
+      margin-top: 10px;
+      width: 100%;
+
+      span {
+        background: url('/@{webroot}/images/alpha/fff_10.png');
+        cursor: pointer;
+        display: block;
+        margin: 0 auto;
+        padding-right: 6px;
+        padding-left: 18px;
+        position: relative;
+        text-align: center;
+        width: 33px;
+        .border-radius(4px);
+
+        &:hover {
+          background: url('/@{webroot}/images/alpha/fff_20.png');
+        }
+
+        img {
+          left: 5px;
+          position: absolute;
+          top: 3px;
+        }
+      }
+    }
+
+    .queue {
+      max-height: 190px;
+      margin-top: 20px;
+      padding-right: 0.5%;
+      overflow: auto;
+      width: 99.5%%;
+      display: block;
+
+      &.hide{
+        display: none;
+      }
+
+      table{
+        white-space:nowrap;
+        overflow: hidden;
+        table-layout: fixed;
+        width: 100%;
+
+        tr {
+          width: 100%;
+
+          &:hover td {
+            background: url('/@{webroot}/images/alpha/fff_10.png');
+          }
+
+          td {
+            padding: 4px 0;
+          }
+
+          .name {
+            white-space: nowrap;
+            overflow: hidden;
+            padding-left: 5px;
+          }
+
+          .size {
+            width: 15%;
+          }
+
+          .delete,
+          .pause {
+            width: 15px;
+            cursor: pointer;
+            background: url('/@{webroot}/images/alpha/fff_20.png') !important;
+            background-size: 13px 13px;
+            .border-radius(2px);
+
+            &:hover {
+              background: url('/@{webroot}/images/alpha/fff_40.png') !important;
+            }
+
+            img {
+              height: 10px;
+              width: 10px;
+              margin: auto;
+              display: block;
+            }
+          }
+        }
+      }
+    }
+
+    .bar {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+    .remaining {
+      float: left;
+      font-size: 0.9em;
+      font-size: smaller;
+    }
+
+    .percentage_complete {
+      float: right;
+      font-size: 0.9em;
+      margin: 0;
+      font-size: smaller;
+    }
+  }
+}
+.hide {
+  display: none;
+}
+.f_settings_mode #nzbget .speed
+{
+  display: none;
+}
