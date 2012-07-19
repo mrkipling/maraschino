@@ -128,6 +128,12 @@ AVAILABLE_MODULES = [
                 'description': 'Headphones API Key',
             },
             {
+                'key': 'headphones_https',
+                'value': '0',
+                'description': 'Use HTTPS',
+                'type': 'bool',
+            },
+            {
                 'key': 'headphones_compact',
                 'value': '0',
                 'description': 'Compact view',
