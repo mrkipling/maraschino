@@ -18,6 +18,9 @@
       <a class="head_item get {{ 'highlight' if similar }}" data-url="/similar" title="Similar">
         <img src="{{ url_for('static', filename='images/similar.png') }}" width="14" height="14"/>
       </a>
+      <a class="head_item get {{ 'highlight' if history }}" data-url="/history" title="History">
+        <img src="{{ url_for('static', filename='images/history.png') }}" width="14" height="14"/>
+      </a>
       <a class="head_item get {{ 'highlight' if upcoming }}" data-url="/upcoming" title="Upcoming">
         <img src="{{ url_for('static', filename='images/coming.png') }}" width="14" height="14"/>
       </a>

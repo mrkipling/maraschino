@@ -254,6 +254,22 @@ def xhr_headphones_similar():
     )
 
 
+@app.route('/xhr/headphones/history/')
+@requires_auth
+def xhr_headphones_history():
+    logger.log('HEADPHONES :: Fetching history', 'INFO')
+
+    try:
+        headphones = headphones_api('getHistory')
+    except Exception as e:
+        return headphones_exception(e)
+
+    return render_template('headphones-history.html',
+        history=headphones,
+        headphones=True,
+    )
+
+
 @app.route('/xhr/headphones/search/<type>/<query>/')
 @requires_auth
 def xhr_headphones_search(type, query):

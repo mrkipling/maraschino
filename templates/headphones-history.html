@@ -1,0 +1,19 @@
+{% extends "headphones-base.html" %}
+{% block headphones_content %}
+{% if history %}
+
+  <div class="history">
+    <ul>
+      {% for album in history %}
+        <li class="list_item compact" data-id="{{ album.AlbumID }}">
+          <p class="compact">
+            {{ album.Title }}
+          </p>
+          <span class="right_span">{{ album.Status }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+{% endif %}
+{% endblock %}
