@@ -100,7 +100,7 @@ def xhr_headphones_image(type, id):
 @app.route('/xhr/headphones/')
 @requires_auth
 def xhr_headphones():
-    return xhr_headphones_artists()
+    return xhr_headphones_upcoming()
 
 
 @app.route('/xhr/headphones/artists/')
@@ -130,7 +130,7 @@ def xhr_headphones_artists():
                     pass
             artists.append(artist)
 
-    return render_template('headphones.html',
+    return render_template('headphones-artists.html',
         headphones=True,
         artists=artists,
         updates=updates,
@@ -230,7 +230,7 @@ def xhr_headphones_upcoming():
         except:
             pass
 
-    return render_template('headphones-upcoming.html',
+    return render_template('headphones.html',
         upcoming=upcoming,
         wanted=wanted,
         headphones=True,

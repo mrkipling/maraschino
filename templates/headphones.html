@@ -1,40 +1,59 @@
 {% extends "headphones-base.html" %}
-
 {% block headphones_content %}
-{% if artists %}
+{% if upcoming %}
 
-  <div class="artists">
+  <div class="upcoming">
+    <h1>
+      Upcoming Albums
+    </h1>
     <ul>
-      {% for artist in artists %}
-        <li class="list_item get {{ 'compact' if compact }}" data-id="{{ artist.ArtistID }}" data-url="/artist/{{ artist.ArtistID }}" title="{{ artist.Percent }}% complete">
-          {% if not compact %}
-            <div class="list_img" style="background:url({{ artist.ThumbURL }}) no-repeat center center;"></div>
-            <p>
-              <b>{{ artist.ArtistName }}</b>
-              <br />
-              Latest:
-              <br />
-              {{ artist.LatestAlbum }}
-            </p>
-          {% else %}
-            <p class="compact">
-              {{ artist.ArtistName }}
-            </p>
-          {% endif %}
-          <span class="right_span">
-            <a class="settings_only refresh li_button" data-action="refresh" title="Refresh"><img src="{{ url_for('static', filename='images/refresh.png') }}" height="10" /></a>
-            {% if artist.Status == 'Active' %}
-              <a class="settings_only play_pause li_button" data-action="pause" title="Pause"><img src="{{ url_for('static', filename='images/pause.png') }}" /></a>
-            {% elif artist.Status == 'Paused' %}
-              <a class="settings_only play_pause li_button" data-action="resume" title="Resume"><img src="{{ url_for('static', filename='images/play.png') }}" /></a>
+      {% if upcoming != 'empty' %}
+        {% for album in upcoming %}
+          <li class="list_item get {{ 'compact' if compact }}" data-url="/album/{{ album.AlbumID }}">
+            {% if not compact %}
+              <div class="list_img" style="background:url({{ album.ThumbURL }}) no-repeat center center;"></div>
+              <p>
+                {{ album.ArtistName }} - {{ album.AlbumTitle }}
+              </p>
+            {% else %}
+              <p class="compact">
+                {{ album.ArtistName }} - {{ album.AlbumTitle }}
+              </p>
             {% endif %}
-            <a class="settings_only li_button remove" data-action="remove" title="Remove"><img src="{{ url_for('static', filename='images/remove_icon.png') }}" height="10" /></a>
+            <span class="right_span">{{ album.Status }}</span>
+          </li>
+        {% endfor %}
+      {% else %}
+        <li class="list_item"><b>There are no upcoming albums.</b></li>
+      {% endif %}
 
-            <span class="operation_only">{{ artist.HaveTracks }}/{{ artist.TotalTracks }} Downloaded</span>
-          </span>
-        </li>
-      {% endfor %}
-     </ul>
+      <h1 class="wanted_heading">
+        Wanted Albums
+      </h1>
+      {% if wanted != 'empty' %}
+        {% for album in wanted %}
+          <li class="list_item get {{ 'compact' if compact }}" data-url="/album/{{ album.AlbumID }}">
+            {% if not compact %}
+              <div class="list_img" style="background:url({{ album.ThumbURL }}) no-repeat center center;"></div>
+              <p>
+                {{ album.ArtistName }} - {{ album.AlbumTitle }}
+                <br />
+                Release date:
+                <br />
+                {{ album.ReleaseDate }}
+              </p>
+            {% else %}
+              <p class="compact">
+                {{ album.ArtistName }} - {{ album.AlbumTitle }}
+              </p>
+            {% endif %}
+          </li>
+        {% endfor %}
+      {% else %}
+        <li class="list_item"><b>You have not marked any albums as wanted.</b></li>
+      {% endif %}
+    </ul>
   </div>
+
 {% endif %}
 {% endblock %}
