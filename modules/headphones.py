@@ -7,16 +7,50 @@ import urllib
 import urllib2
 import base64
 
+def headphones_http():
+    if get_setting_value('headphones_https') == '1':
+        return 'https://'
+    else:
+        return 'http://'
+
+def login_string():
+    try:
+        login = '%s:%s@' % (get_setting_value('headphones_user'), get_setting_value('headphones_password'))
+
+    except:
+        login = ''
+
+    return login
+
+def headphones_url():
+    port = get_setting_value('headphones_port')
+    url_base = get_setting_value('headphones_host')
+
+    if port:
+        url_base = '%s:%s' % (url_base, port)
+
+    url = '%s/api?apikey=%s' % (url_base, get_setting_value('headphones_api'))
+
+    return headphones_http() + url
+    
+def headphones_url_no_api():
+    port = get_setting_value('headphones_port')
+    url_base = get_setting_value('headphones_host')
+
+    if port:
+        url_base = '%s:%s' % (url_base, port)
+    
+    if login_string():
+        return headphones_http() + login_string() + url_base
+
+    return headphones_http() + url_base
 
 def headphones_api(command, use_json=True, dev=False):
-    hostname = get_setting_value('headphones_host')
-    port = get_setting_value('headphones_port')
     username = get_setting_value('headphones_user')
     password = get_setting_value('headphones_password')
-    apikey = get_setting_value('headphones_api')
 
-    url = 'http://%s:%s/api?apikey=%s&cmd=%s' % (hostname, port, apikey, command)
-
+    url = '%s&cmd=%s' % (headphones_url(), command)
+    
     request = urllib2.Request(url)
     base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
     request.add_header("Authorization", "Basic %s" % base64string)
@@ -48,22 +82,6 @@ def convert_track_duration(milliseconds):
 def hp_compact():
     return get_setting_value('headphones_compact') == '1'
 
-
-def headphones_url():
-    url = 'http://'
-
-    hostname = get_setting_value('headphones_host')
-    port = get_setting_value('headphones_port')
-    username = get_setting_value('headphones_user')
-    password = get_setting_value('headphones_password')
-
-    if len(password) > 0:
-        url += '%s:%s@' % (username, password)
-
-    url += '%s:%s' % (hostname, port)
-    return url
-
-
 def headphones_exception(e):
     logger.log('HEADPHONES :: EXCEPTION -- %s' % e, 'DEBUG')
     return render_template('headphones-base.html', headphones=True, message=e)
@@ -76,7 +94,6 @@ def hp_artistart(id):
 def hp_albumart(id):
     return '%s/xhr/headphones/img/album/%s' % (WEBROOT, id)
 
-
 @app.route('/xhr/headphones/img/<type>/<id>/')
 @requires_auth
 def xhr_headphones_image(type, id):
@@ -86,7 +103,8 @@ def xhr_headphones_image(type, id):
         cache_url = headphones_api('getAlbumThumb&id=' + id)
 
     if cache_url:
-        url = '%s/%s' % (headphones_url(), cache_url)
+        print 'DEVELOPER :: %s' % headphones_url_no_api()
+        url = '%s/%s' % (headphones_url_no_api(), cache_url)
     else:
         img = RUNDIR + '/static/images/applications/HeadPhones.png'
         return send_file(img, mimetype='image/jpeg')
