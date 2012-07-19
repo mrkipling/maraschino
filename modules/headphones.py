@@ -13,15 +13,6 @@ def headphones_http():
     else:
         return 'http://'
 
-def login_string():
-    try:
-        login = '%s:%s@' % (get_setting_value('headphones_user'), get_setting_value('headphones_password'))
-
-    except:
-        login = ''
-
-    return login
-
 def headphones_url():
     port = get_setting_value('headphones_port')
     url_base = get_setting_value('headphones_host')
@@ -29,27 +20,14 @@ def headphones_url():
     if port:
         url_base = '%s:%s' % (url_base, port)
 
-    url = '%s/api?apikey=%s' % (url_base, get_setting_value('headphones_api'))
-
-    return headphones_http() + url
-    
-def headphones_url_no_api():
-    port = get_setting_value('headphones_port')
-    url_base = get_setting_value('headphones_host')
-
-    if port:
-        url_base = '%s:%s' % (url_base, port)
-    
-    if login_string():
-        return headphones_http() + login_string() + url_base
-
     return headphones_http() + url_base
 
 def headphones_api(command, use_json=True, dev=False):
     username = get_setting_value('headphones_user')
     password = get_setting_value('headphones_password')
+    apikey =  get_setting_value('headphones_api')
 
-    url = '%s&cmd=%s' % (headphones_url(), command)
+    url = '%s/api?apikey=%s&cmd=%s' % (headphones_url(), apikey, command)
     
     request = urllib2.Request(url)
     base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
@@ -103,13 +81,19 @@ def xhr_headphones_image(type, id):
         cache_url = headphones_api('getAlbumThumb&id=' + id)
 
     if cache_url:
-        print 'DEVELOPER :: %s' % headphones_url_no_api()
-        url = '%s/%s' % (headphones_url_no_api(), cache_url)
+        url = '%s/%s' % (headphones_url(), cache_url)
     else:
         img = RUNDIR + '/static/images/applications/HeadPhones.png'
         return send_file(img, mimetype='image/jpeg')
 
-    img = StringIO.StringIO(urllib.urlopen(url).read())
+    username = get_setting_value('headphones_user')
+    password = get_setting_value('headphones_password')
+
+    request = urllib2.Request(url)
+    base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
+    request.add_header("Authorization", "Basic %s" % base64string)
+
+    img = StringIO.StringIO(urllib2.urlopen(request).read())
     return send_file(img, mimetype='image/jpeg')
 
 
