@@ -38,6 +38,7 @@ def import_modules():
     import modules.nzbget
     import modules.recently_added
     import modules.remote
+    import modules.rssfeeds
     import modules.sabnzbd
     import modules.search
     import modules.sickbeard
