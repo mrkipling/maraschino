@@ -314,21 +314,15 @@ AVAILABLE_MODULES = [
         'delay': 0,
         'settings': [
             {
-                'key': 'nzb_matrix_API',
-                'value': '',
-                'description': 'NZBMatrix API',
-                'link': 'http://nzbmatrix.com/account.php?action=api',
-            },
-            {
                 'key': 'nzb_matrix_user',
                 'value': '',
                 'description': 'NZBMatrix Username',
             },
             {
-                'key': 'nzb_su_API',
+                'key': 'nzb_matrix_API',
                 'value': '',
-                'description': 'nzb.su API',
-                'link': 'http://nzb.su/profile',
+                'description': 'NZBMatrix API',
+                'link': 'http://nzbmatrix.com/account.php?action=api',
             },
         ]
     },

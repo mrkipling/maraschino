@@ -5,71 +5,6 @@ from maraschino.tools import *
 from feedparser import feedparser
 import re
 
-cat_newznab = [
-            {'id': '', 'name': 'Select Category'},
-        { 'label' : 'Movies' , 'value' : [
-            {'id': 2000, 'name': 'All'},
-            {'id': 2010, 'name': 'Foreign'},
-            {'id': 2040, 'name': 'HD'},
-            {'id': 2020, 'name': 'Other'},
-            {'id': 2030, 'name': 'SD'},
-          ]
-        },
-        { 'label' : 'TV' , 'value' : [
-            {'id': 5000, 'name': 'All'},
-            {'id': 5020, 'name': 'Foreign'},
-            {'id': 5040, 'name': 'HD'},
-            {'id': 5050, 'name': 'Other'},
-            {'id': 5030, 'name': 'SD'},
-            {'id': 5060, 'name': 'Sport'},
-          ]
-        },
-        { 'label' : 'Audio' , 'value' : [
-            {'id': 3000, 'name': 'All'},
-            {'id': 3030, 'name': 'Audiobook'},
-            {'id': 3040, 'name': 'Lossless'},
-            {'id': 3010, 'name': 'MP3'},
-            {'id': 3020, 'name': 'Video'},
-          ]
-        },
-        { 'label' : 'Consoles' , 'value' : [
-            {'id': 1000, 'name': 'All'},
-            {'id': 1010, 'name': 'NDS'},
-            {'id': 1080, 'name': 'PS3'},
-            {'id': 1020, 'name': 'PSP'},
-            {'id': 1030, 'name': 'Wii'},
-            {'id': 1060, 'name': 'WiiWare/VC'},
-            {'id': 1070, 'name': 'XBOX 360 DLC'},
-            {'id': 1040, 'name': 'Xbox'},
-            {'id': 1050, 'name': 'Xbox 360'},
-          ]
-        },
-        { 'label' : 'PC' , 'value' : [
-            {'id': 4000, 'name': 'All'},
-            {'id': 4010, 'name': '0day'},
-            {'id': 4050, 'name': 'Games'},
-            {'id': 4020, 'name': 'ISO'},
-            {'id': 4030, 'name': 'Mac'},
-            {'id': 4040, 'name': 'Phone'},
-          ]
-        },
-        { 'label' : 'XXX' , 'value' : [
-            {'id': 6000, 'name': 'All'},
-            {'id': 6010, 'name': 'DVD'},
-            {'id': 6020, 'name': 'WMV'},
-            {'id': 6030, 'name': 'XviD'},
-            {'id': 6040, 'name': 'x264'},
-          ]
-        },
-        { 'label' : 'Other' , 'value' : [
-            {'id': 7000, 'name': 'All'},
-            {'id': 7030, 'name': 'Comics'},
-            {'id': 7020, 'name': 'Ebook'},
-            {'id': 7010, 'name': 'Misc'} 
-          ]
-        },
-    ]
-
 cat_nzbmatrix = [
             { 'id': 0 , 'name': 'Select Category...' },
         { 'label' : 'Movies' , 'value' : [
@@ -450,16 +385,12 @@ def xhr_rssfeeds_site(site = None):
 
     if site == 'nzbmatrix':
         categories = cat_nzbmatrix
-    elif site == 'newznab':
-        categories = cat_newznab
     elif site == 'piratebay':
         categories = cat_piratebay
     elif site == 'rlslog':
         categories = cat_rlslog
     elif site == 'scnsrc':
         categories = cat_scnsrc
-    elif site == 'oneddl':
-        categories = cat_oneddl
     elif site == 'sceper':
         categories = cat_sceper
     elif site == 'vcdq':
@@ -830,12 +761,6 @@ def xhr_rssfeeds_category(site = None, category = None):
                     path = subcat['path']
                     
         feed = 'http://www.vcdq.com/browse/rss/' + path
-        feed = feedparser.parse(feed)
-
-# NewzNab
-    elif site == "newznab":
-        categories = cat_newznab
-        feed = 'http://nzb.su/rss?t=' + category
         feed = feedparser.parse(feed)
 
 # IRFree
