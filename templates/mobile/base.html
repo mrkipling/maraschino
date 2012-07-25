@@ -11,6 +11,7 @@
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
 
     <!-- CSS -->
+    <script>var LESS_WEBROOT = "{% if webroot %}{{ webroot[1:] }}/{% endif %}static";</script>
     <link rel="stylesheet/less" href="{{ url_for('static', filename='less/mobile/mobile.less') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='less/mobile/lib/jquery.mobile.min.css') }}">
 
