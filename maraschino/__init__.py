@@ -25,6 +25,7 @@ logger = None
 SERVER = None
 HOST = '0.0.0.0'
 KIOSK = False
+DATA_DIR = None
 
 AUTH = {
     'username': None,
@@ -42,14 +43,14 @@ def initialize():
     with INIT_LOCK:
 
         global __INITIALIZED__, app, FULL_PATH, RUNDIR, ARGS, DAEMON, PIDFILE, VERBOSE, LOG_FILE, LOG_DIR, logger, PORT, SERVER, DATABASE, AUTH, \
-                CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT, HOST, KIOSK
+                CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT, HOST, KIOSK, DATA_DIR
 
         if __INITIALIZED__:
             return False
 
         # Set up logger
         if not LOG_FILE:
-            LOG_FILE = os.path.join(RUNDIR, 'logs', 'maraschino.log')
+            LOG_FILE = os.path.join(DATA_DIR, 'logs', 'maraschino.log')
 
         FILENAME = os.path.basename(LOG_FILE)
         LOG_DIR = LOG_FILE[:-len(FILENAME)]
@@ -130,15 +131,6 @@ def initialize():
             d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
         SERVER = wsgiserver.CherryPyWSGIServer((HOST, PORT), d)
 
-        # Set up webroot for .less
-        less_webroot = os.path.join(RUNDIR, 'static/less/webroot.less')
-        f = open(less_webroot, 'w')
-        if WEBROOT:
-            f.write('@webroot: "%s/static";' % (WEBROOT[1:]))
-        else:
-            f.write('@webroot: "static";')
-        f.close()
-
         # Set up the updater
         from maraschino.updater import checkGithub, gitCurrentVersion
 
@@ -149,7 +141,7 @@ def initialize():
             if USE_GIT:
                 gitCurrentVersion()
 
-        version_file = os.path.join(RUNDIR, 'Version.txt')
+        version_file = os.path.join(DATA_DIR, 'Version.txt')
         if os.path.isfile(version_file):
             f = open(version_file, 'r')
             CURRENT_COMMIT = f.read()
