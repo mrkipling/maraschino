@@ -132,7 +132,7 @@ def xhr_library_season(show, season):
     sort = {'method': 'episode'}
 
     try:
-        library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode', 'plot', 'playcount', 'resume'])
+        library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode', 'plot', 'playcount'])
     except:
         logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
         return render_library(message=xbmc_error)
