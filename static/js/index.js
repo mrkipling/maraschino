@@ -727,6 +727,39 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#library #resume_check', function() {
+    var li;
+    if ($(this).hasClass('li_buttons')) {
+      li = $(this).parent().parent();
+    }
+    else {
+      li = this;
+    }
+
+    var file_type = $(li).attr('file-type');
+    var media_type = $(li).attr('media-type');
+    var id = $(li).data('id');
+    add_loading_gif(li);
+
+    $.get(WEBROOT + '/xhr/library/' + media_type + '/resume_check/' + id, function(data) {
+      remove_loading_gif(li);
+      if (data.resume) {
+        var popup = $(data.template);
+        $('body').append(popup);
+        popup.showPopup({ dispose: true });
+      }
+      else {
+        $.get(WEBROOT + '/xhr/play/' + file_type + '/' + media_type + '/' + id);
+      }
+    });
+  });
+
+  $(document).on('click', '#resume_dialog .action', function() {
+    $.get(WEBROOT + $(this).data('url'), function() {
+      $('#resume_dialog .close').click();
+    });
+  });
+
   $(document).on('click', '#library #trailer', function() {
     $.get(WEBROOT + '/xhr/play/trailer/' + $(this).data('id'));
   });

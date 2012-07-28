@@ -1,11 +1,10 @@
-from flask import render_template
+from flask import render_template, jsonify
 import jsonrpclib
 import urllib
 
-from Maraschino import app
 from maraschino.noneditable import *
 from maraschino.tools import *
-from maraschino import logger
+from maraschino import app, logger
 
 xbmc_error = 'There was a problem connecting to the XBMC server'
 
@@ -32,7 +31,7 @@ def xhr_library_root(item_type):
 
         if item_type == 'movies':
             logger.log('LIBRARY :: Retrieving movies', 'INFO')
-            library = xbmc.VideoLibrary.GetMovies(sort={'method': 'label', 'ignorearticle': True}, properties=['playcount', 'resume'])
+            library = xbmc.VideoLibrary.GetMovies(sort={'method': 'label', 'ignorearticle': True}, properties=['playcount'])
             logger.log('LIBRARY :: Finished retrieveing movies', 'DEBUG')
 
             if get_setting_value('library_watched_movies') == '0':
@@ -227,6 +226,42 @@ def xhr_library_info(type, id):
         return render_library(message=xbmc_error)
 
     return render_library(library, title)
+
+@app.route('/xhr/library/<type>/resume_check/<int:id>')
+@requires_auth
+def xhr_library_resume_check(type, id):
+    logger.log('LIBRARY :: Checking if %s has resume position' % type, 'INFO')
+    xbmc = jsonrpclib.Server(server_api_address())
+    resume = False
+
+    try:
+        if type == 'movie':
+            library = xbmc.VideoLibrary.GetMovieDetails(movieid=id, properties=['resume'])
+
+        elif type == 'episode':
+            library = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=id, properties=['resume'])
+
+    except:
+        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
+        return render_library(message=xbmc_error)
+
+    position = library[type+'details']['resume']['position']
+
+    if position:
+        seconds = position
+        hours = seconds / 3600
+        seconds -= 3600 * hours
+        minutes = seconds / 60
+        seconds -= 60 * minutes
+        if hours == 0:
+            position = '%02d:%02d' % (minutes, seconds)
+        else:
+            position = '%02d:%02d:%02d' % (hours, minutes, seconds)
+
+        template = render_template('library-resume_dialog.html', position=position, library=library)
+        return jsonify(resume=True, template=template)
+    else:
+        return jsonify(resume=False, template=None)
 
 
 @app.route('/xhr/library/files/<file_type>')
