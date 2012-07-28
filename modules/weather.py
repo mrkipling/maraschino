@@ -71,7 +71,8 @@ def xhr_weather():
                 'Scattered Showers',
                 'Showers',
                 'Rain Showers',
-                'Rain'
+                'Rain',
+                'Heavy Rain'
             ]
         },
         {
