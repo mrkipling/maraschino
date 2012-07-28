@@ -1,0 +1,37 @@
+<div id="add_edit_script_dialog" class="dialog">
+
+  <div class="close">x</div>
+
+  <h2>{% if script %}Edit{% else %}Add{% endif %} Script</h2>
+
+  <form method="" action="">
+
+    {% if script %}
+      <input type="hidden" name="script_id" value="{{ script.id }}">
+    {% endif %}
+
+    <div class="formrow">
+      <label for="id_script_label">Label (required)</label>
+      <input id="id_script_label" class="required" name="label" type="text"{% if script %} value="{{ script.label }}"{% endif %}>
+    </div>
+
+    <div class="formrow">
+      <label for="id_script_command">Command (required)</label>
+      <input id="id_script_command" class="required" name="command" type="text"{% if script %} value="{{ script.command }}"{% endif %}>
+    </div>
+
+    <div class="formrow">
+      <div class="spacer"/>
+      <input id="id_script_type" name="type" type="checkbox" {% if script.updates == 1 %} checked="{{ script.updates }}"{% endif %}>
+      <label for="id_script_type" class="checkboxlabel">Updates Status</label>
+    </div>
+
+    <div class="choices">
+      <div class="save add_script">{% if script %}Save{% else %}Add{% endif %} script</div>
+      {% if script %}<div class="delete">Delete</div>{% endif %}
+      <div class="cancel">Cancel</div>
+    </div>
+
+  </form>
+
+</div>

@@ -337,6 +337,14 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'script_launcher',
+        'label': 'Script Launcher',
+        'description': 'Runs scripts on same system Maraschino is located.',
+        'static': False,
+        'poll': 60,
+        'delay': 0,
+    },
+    {
         'name': 'synopsis',
         'label': 'Synopsis',
         'description': 'Shows you a plot synopsis of what you are currently watching.',

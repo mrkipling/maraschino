@@ -104,6 +104,23 @@ class XbmcServer(Base):
     def __repr__(self):
         return '<XbmcServer %r>' % (self.label)
 
+class Script(Base):
+    __tablename__ = 'scripts'
+    id = Column(Integer, primary_key=True)
+    label = Column(String(500))
+    command = Column(String(500))
+    updates = Column(Integer)
+    status = Column(String(500))
+
+    def __init__(self, label, command, updates=0, status=None):
+        self.label = label
+        self.command = command
+        self.updates = updates
+        self.status = status
+
+    def __repr__(self):
+        return '<Script %r>' % (self.label)
+    
 def highest_position(model):
     highest_position = 0
 
