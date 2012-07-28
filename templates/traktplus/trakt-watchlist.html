@@ -1,9 +1,9 @@
-{% extends "trakt-base.html" %}
-{% block trakt_title %}{{ title }}{% endblock %}
+{% extends "traktplus/trakt-base.html" %}
+{% block trakt_title %}
+  <a class="trakt_user link addloading" data-username="{{ user }}" title="Back to profile">{{ user }}</a>'s {{ title }}
+{% endblock %}
 {% block trakt_content %}
 {% if watchlist %}
-
-<h2><a class="trakt_user addloading" href="#" data-username="{{ user }}">{{ user }}</a>'s {{ type }} watchlist</h2>
 
 <div class="trakt_choices">
   <b>{{ type }}</b>
@@ -20,7 +20,15 @@
   {% else %}
     <ul>
       {% for item in watchlist %}
-        <a href="{{ item.url }}" target="_blank"><li>{{ item.title }} {% if type == 'Movies' %}({{ item.year }}){% endif %}</li></a>
+      {% if type == 'Movies' %}
+        <li class="goto_movie addloading" data-id="{{ item.imdb_id }}">
+          {{ item.title }} ({{ item.year }})
+        </li>
+      {% else %}
+        <li class="goto_show addloading" data-id="{{ item.imdb_id }}">
+          {{ item.title }}
+        </li>
+      {% endif %}
       {% endfor %}
     </ul>
   {% endif %}

@@ -1,0 +1,129 @@
+{% extends "traktplus/trakt-base.html" %}
+{% block trakt_title %}{{ title }}{% endblock %}
+{% block trakt_content %}
+{% if trending %}
+
+<div class="trakt_choices">
+  <b>{{ type }}</b>
+  {% if type == 'Movies' %}
+    <a class="button addloading" data-xhr_url="trending/shows">Shows</a>
+  {% else %}
+    <a class="button addloading" data-xhr_url="trending/movies">Movies</a>
+  {% endif %}
+</div>
+
+<div class="trending">
+  <div id="carousel">
+    {% for item in trending %}
+      <div
+        class="poster"
+        data-type="{{ type[:-1]|lower }}"
+        data-title="{{ item.title }}"
+        data-year="{{ item.year }}"
+        data-imdb_id="{{ item.imdb_id }}"
+        {% if type == 'Movies' %}
+          data-tmdb_id="{{ item.tmdb_id }}"
+        {% else %}
+          data-tvdb_id="{{ item.tvdb_id }}"
+        {% endif %}
+      >
+        <div
+          class="goto_{{ type[:-1]|lower }} addloading"
+          {% if type == 'Movies' %}
+            data-id="{{ item.imdb_id }}"
+          {% else %}
+            data-id="{{ item.tvdb_id }}"
+          {% endif %}
+        >
+          <img alt="" src="{{ item.images.poster }}" height="141" width="95"/>
+
+          {% if item.in_collection %}
+            <div class="collection"></div>
+          {% endif %}
+          {% if item.in_watchlist %}
+            <div class="watchlist"></div>
+          {% endif %}
+          {% if item.rating %}
+            {% if item.rating == 'love' %}
+            <div class="love"></div>
+            {% elif item.rating == 'hate' %}
+              <div class="hate"></div>
+            {% endif %}
+          {% endif %}
+          {% if item.watched %}
+            <div class="watched"></div>
+          {% endif %}
+        </div>
+
+        <div class="overlay_menu" align="center">
+          {% if not item.watched %}
+            <div class="mark_watched" title="Mark as watched"></div>
+          {% endif %}
+          {% if not item.in_watchlist %}
+            <div class="add_watchlist" title="Add to watchlist"></div>
+          {% endif %}
+          <div class="add_customlist" title="Add to custom list"></div>
+          {% if not item.in_collection %}
+            <div class="add_collection" title="Add to collection"></div>
+          {% endif %}
+        </div>
+        <div class="footer">
+          <div class="item_info">
+          <span class="percentage">{{ item.ratings.percentage }}%</span>
+          <span class="votes">{{ item.ratings.votes }} votes</span>
+          </div>
+          <div class="item_rate" align="center">
+            <div class="rate r_love {{ 'rated' if item.rating == 'love' }}" data-rating="love" {% if item.rating == 'love' %}title="Unrate"{% else %}title="Loved"{% endif %}></div>
+            <div class="rate r_hate {{ 'rated' if item.rating == 'hate' }}" data-rating="hate" {% if item.rating == 'hate' %}title="Unrate"{% else %}title="Hated"{% endif %}></div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div id="pages">
+  </div>
+
+  <script>
+    function generatePages() {
+      var _total, i, _link;
+      _total = $('#carousel').rcarousel('getTotalPages');
+
+      for (i = 0; i < _total; i++) {
+        _link = $('<div>page</div>');
+
+        $(_link).bind('click', {page: i},function(e) {
+          $('#carousel').rcarousel('goToPage', e.data.page);
+          e.preventDefault();
+        }).addClass('bullet off').appendTo('#pages');
+      }
+      $('div:eq(0)', '#pages').removeClass('off').addClass('on').css('background', 'url(' + WEBROOT + '/static/images/alpha/fff_40.png)');
+    }
+
+    function pageLoaded(e, data) {
+      $('div.on', '#pages').removeClass('on').css('background', '');
+      $('div', '#pages').eq(data.page).addClass('on').css('background', 'url(' + WEBROOT + '/static/images/alpha/fff_40.png)');
+    }
+
+    $('#carousel').rcarousel({
+      visible: 4,
+      step: 4,
+      auto: {
+        enabled: true,
+        interval: 3000,
+        direction: 'next'
+      },
+      navigation: {
+        prev: '.trending_prev',
+        next: '.trending_next'
+      },
+      height: 166,
+      width: 95,
+      margin: 5,
+      start: generatePages,
+      pageLoaded: pageLoaded
+    });
+  </script>
+</div>
+
+{% endif %}
+{% endblock %}

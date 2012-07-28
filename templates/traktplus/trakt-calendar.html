@@ -1,4 +1,4 @@
-{% extends "trakt-base.html" %}
+{% extends "traktplus/trakt-base.html" %}
 {% block trakt_title %}{{ title }}{% endblock %}
 {% block trakt_content %}
 {% if calendar %}
@@ -22,18 +22,25 @@
     {% for day in calendar %}
       <span class="date"><b>{{day.episodes.0.show.air_day }} {{ day.date }}</b></span>
       {% for item in day.episodes %}
-        <a href="{{ item.episode.url }}" target="_blank">
-          <li>
+        <li>
+          <span class="goto_show list_link addloading" data-id="{{ item.show.imdb_id }}">
             {{ item.show.title }}
-            {% if type != 'Premieres'%}
+          </span>
+          {% if type != 'Premieres'%}
+            <span
+              class="goto_episode list_link addloading" 
+              data-id="{{ item.show.imdb_id }}" 
+              data-season="{{ item.episode.season }}"
+              data-episode="{{ item.episode.number }}"
+            >
               {{ item.episode.season }}x{{ item.episode.number }} - {{ item.episode.title }}
-            {% else %}
-              Season {{ item.episode.season }}
-            {% endif %}
-            <span class="time">{{ item.show.air_time }}</span>
-          </li>
-        </a>
-	  {% endfor %}
+            </span>
+          {% else %}
+            Season {{ item.episode.season }}
+          {% endif %}
+          <span class="time">{{ item.show.air_time }}</span>
+        </li>
+	    {% endfor %}
     {% endfor %}
   </ul>
 </div>

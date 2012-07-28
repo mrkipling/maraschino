@@ -22,26 +22,6 @@
     background: #000;
 }
 
-::-webkit-scrollbar {
-	width: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: white;
-    -webkit-border-radius: 3ex;
-    -webkit-box-shadow: 1px 1px 3px rgb(0, 0, 0);
-}
-
-::-webkit-scrollbar-track {
-    background: url(/static/images/alpha/fff_20.png);
-    -webkit-border-radius: 5ex;
-    -webkit-border: 1px rgb(0, 0, 0);
-}
-
-::-webkit-scrollbar-corner {
-    background: #000;
-}
-
 #fanart
 {
   bottom: 0;
@@ -162,13 +142,19 @@
   input[type=text],
   input[type=search],
   input[type=password],
-  select {
+  select,
+  textarea {
     background-color: #fff;
     border: 1px solid #555;
     float: right;
     padding: 4px 6px;
     width: 60%;
     .border-radius(3px);
+  }
+
+  textarea {
+    max-width: 60%;
+    height: 80px;
   }
 
   select {
