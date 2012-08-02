@@ -8,7 +8,7 @@ from maraschino.database import db_session
 
 from maraschino.models import Disk
 
-@app.route('/xhr/diskspace')
+@app.route('/xhr/diskspace/')
 @requires_auth
 def xhr_diskspace():
     disks = []
