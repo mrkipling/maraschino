@@ -2273,30 +2273,19 @@ $(document).ready(function() {
     $('body').append(popup);
     popup.showPopup({ dispose: true });
 
-    $.get(WEBROOT + '/xhr/restart', function(data){
-      if(data['restart_complete']){
-        setTimeout(
-          function() {
-            window.location.reload(true);
-          }, 2000
-        );
-      }
-    });
+    $.get(WEBROOT + '/xhr/restart');
+    setTimeout(
+      function() {
+        window.location.reload(true);
+      }, 30000
+    );
   });
 
   // SHUTDOWN
   $(document).on('click', '#manage_settings #shutdown', function(){
-    var popup = $('<div id="updater" class="dialog" align="center"><div class="close" style="display:none;"></div><p>Maraschino is shutting down...</p></div>');
-    $('body').append(popup);
-    popup.showPopup({ dispose: true });
-    $.get(WEBROOT + '/xhr/shutdown', function(data){
-      if(data['shutdown_complete']){
-        window.open('', '_self', '');
-        window.close();
-      } else {
-        $("updater").text("Something prevented Maraschino from shutting down. Please check the logs for more details...");
-      }
-    });
+    $.get(WEBROOT + '/xhr/shutdown');
+    window.open('', '_self', '');
+    window.close();
   });
 
   // UPDATER
@@ -2342,18 +2331,20 @@ $(document).ready(function() {
     $.get(WEBROOT + '/xhr/updater/update', function(data){
       if(data['updated'] !== false){
         $('#updating p').replaceWith('<p>Update Complete.</p>');
+        setTimeout(
+          function() {
+            $('#updating p').replaceWith('<p>Restarting  <img src="' + WEBROOT + '/static/images/xhrloading.gif"/></p>');
+          }, 20000
+        );
 
-        $.get(WEBROOT + '/xhr/restart', function(data){
-          $('#updating p').replaceWith('<p>Restarting  <img src="' + WEBROOT + '/static/images/xhrloading.gif"/></p>');
-          if(data['restart_complete']){
-            setTimeout(
-              function() {
-                window.location.reload(true);
-              }, 2000
-            );
-          }
-        });
-      } else {
+        $.get(WEBROOT + '/xhr/restart');
+        setTimeout(
+          function() {
+            window.location.reload(true);
+          }, 30000
+        );
+      }
+      else {
         $('#updating .close').click();
         popup_message('Update failed.');
       }

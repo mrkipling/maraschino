@@ -197,6 +197,7 @@ def stop():
     if PIDFILE:
         logger.log('Removing pidfile: %s' % str(PIDFILE), 'INFO')
         os.remove(PIDFILE)
+    os._exit(0)
 
 
 def restart():
@@ -206,6 +207,7 @@ def restart():
     logger.log('Restarting Maraschino with: %s' % popen_list, 'INFO')
     SCHEDULE.shutdown(wait=False)
     subprocess.Popen(popen_list, cwd=RUNDIR)
+    os._exit(0)
 
 
 def daemonize():
