@@ -40,7 +40,7 @@
           <span class="right_span">
             {{ track.TrackDuration }}
             {% if track.Format %}
-              <img src="/static/images/tick.png" height="14" width="14" />
+              <img src="{{ url_for('static', filename='images/tick.png') }} height="14" width="14" />
               {{ track.Format }}
             {% endif %}
           </span>
