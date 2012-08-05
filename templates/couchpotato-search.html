@@ -14,7 +14,7 @@
       {% for item in data %}
         <li data-imdbid="{% if item.imdb %}{{item.imdb}}{%else%}{{item.tmdb_id}}{%endif%}" data-title="{{item.original_title}}">
           {% if item.images.poster %}
-            <img src="{{ (item.images.poster)|replace( '[u\'', '')|replace('\']', '') }}" />
+            <img src="{{ item.images.poster.0 }}" />
           {% else %}
             <img src="{{ url_for('static', filename='images/poster.png')}}" />
           {% endif %}          
