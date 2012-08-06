@@ -341,8 +341,15 @@ AVAILABLE_MODULES = [
         'label': 'Script Launcher',
         'description': 'Runs scripts on same system Maraschino is located.',
         'static': False,
-        'poll': 60,
+        'poll': 350,
         'delay': 0,
+        'settings': [
+            {
+                'key': 'script_dir',
+                'value': '',
+                'description': 'Script Directory',
+            },
+        ]
     },
     {
         'name': 'synopsis',

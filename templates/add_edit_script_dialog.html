@@ -16,8 +16,23 @@
     </div>
 
     <div class="formrow">
-      <label for="id_script_command">Command (required)</label>
-      <input id="id_script_command" class="required" name="command" type="text"{% if script %} value="{{ script.command }}"{% endif %}>
+      <label for="id_script_file">Script (required)</label>
+      {% if script_files %}
+        <select id="id_script_file" name="script_file">
+          <option value=""{% if script.script == '' %} selected="selected"{% endif %}></option>
+          {% for script_file in script_files %}
+            <option value="{{ script_file }}"{% if script.script == script_file %} selected="selected"{% endif %}>{{ script_file }}</option>
+          {% endfor %}
+        </select>
+
+      {% else %}
+        <label for="id_script_file">No Scripts where found in the script dir.</label>
+      {% endif %}
+    </div>
+
+    <div class="formrow">
+      <label for="id_script_parameters">Command Parameters</label>
+      <input id="id_script_parameters" name="parameters" type="text"{% if script %} value="{{ script.parameters }}"{% endif %}>
     </div>
 
     <div class="formrow">

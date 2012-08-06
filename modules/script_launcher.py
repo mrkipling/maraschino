@@ -20,7 +20,7 @@ def xhr_script_launcher():
     if scripts_db.count() > 0:
         for script_db in scripts_db:
             script = {}
-            script['command'] = script_db.command
+            script['script'] = script_db.script
             script['label'] = script_db.label
             script['status'] = script_db.status
             script['id'] = script_db.id
@@ -31,7 +31,7 @@ def xhr_script_launcher():
 
 @app.route('/xhr/script_launcher/script_status/<script_id>', methods=['GET', 'POST'])
 def xhr_script_status(script_id):
-    logger.log('SCRIPT_LAUNCHER :: xhr_script_status()', 'DEBUG')
+    
     status = request.form['status']
     
     if status == '':
@@ -54,14 +54,17 @@ def xhr_script_status(script_id):
 @app.route('/xhr/script_launcher/start_script/<script_id>')
 @requires_auth
 def xhr_start_script(script_id):
-    
-     #first get the script we want
+    #first get the script we want
     script = None
     message = None
     script = Script.query.filter(Script.id == script_id).first()
     now = datetime.datetime.now()
+
+    command = os.path.join(script_dir(),script.script)
     
-    command = None
+    if (script.parameters):
+        command = ''.join([command, ' ', script.parameters])
+         
     if (script.updates == 1):        
         #these are extra parameters to be passed to any scripts ran, so they 
         #can update the status if necessary
@@ -73,13 +76,17 @@ def xhr_start_script(script_id):
         else:
             extras = '--i "%s" --p "%s" --s "%s"' % (host, port, script.id)
         #the command in all its glory
-        command = '%s %s' % (script.command, extras)
+        command = ''.join([command, ' ', extras])
         script.status="Script Started at: %s" % now.strftime("%m-%d-%Y %H:%M")
     else:
-        command = script.command
         script.status="Last Ran: %s" % now.strftime("%m-%d-%Y %H:%M")
     
-    logger.log('SCRIPT_LAUNCHER :: %s' % command, 'ERROR')
+    
+    #figure out the command prefix based on the file extension
+    if (os.path.splitext(script.script)[1] == '.py'):
+        command =  ''.join(['python ', command])
+        
+    logger.log('SCRIPT_LAUNCHER :: %s' % command, 'INFO')
     #now run the command
     subprocess.Popen(command, shell=True)
     
@@ -100,7 +107,12 @@ def edit_script_dialog(script_id):
 
 def add_edit_script_dialog(script_id=None):
     script = None
-
+    script_files = get_file_list(
+        folder = script_dir(),
+        extensions = ['.py'],
+        prepend_path = False,
+        prepend_path_minus_root = True
+    )
     if script_id:
         try:
             script = Script.query.filter(Script.id == script_id).first()
@@ -108,47 +120,46 @@ def add_edit_script_dialog(script_id=None):
             pass
 
     return render_template('add_edit_script_dialog.html',
-        script = script,
+        script = script, script_files = script_files,
     )
 
 @app.route('/xhr/add_edit_script', methods=['POST'])
 @requires_auth
 def add_edit_script():
     logger.log('SCRIPT_LAUNCHER :: add_edit_script() ', 'DEBUG')
-    print request.form
-    command = request.form['command']
-    print command
+    script = request.form['script_file']
     label = request.form['label']
-    print label
+    parameters = request.form['parameters']
     updates = 0
+    
+    
     try:
-        print request.form['type']
         if (request.form['type']):
             updates = 1
     except:
         pass
-    print "here"    
     #Check that we have the command and label
-    if command == '':
+    if script == '':
         return jsonify({ 'status': 'Command Required' })
     if label == '':
         return jsonify({ 'status': 'Label Required' })
     
     #figure out if it is a new script or existing script
     if 'script_id' in request.form:
-        script = Script.query.filter(Script.id == request.form['script_id']).first()
-        script.command = command
-        script.label = label
-        script.updates = updates
+        db_script = Script.query.filter(Script.id == request.form['script_id']).first()
+        db_script.script = script
+        db_script.label = label
+        db_script.parameters = parameters
+        db_script.updates = updates
+        
     else:
-        script = Script(label,command, updates)
+        db_script = Script(label,script, parameters,updates)
         
     #save it to the database
     try:
-        db_session.add(script)
+        db_session.add(db_script)
         db_session.commit()
     except Exception, e:
-        print e
         logger.log('SCRIPT_LAUNCHER :: Add Failed', 'ERROR')
         return jsonify({ 'status': 'Add Failed' })
     
@@ -168,3 +179,17 @@ def delete_script(script_id):
         return jsonify({ 'status': 'Delete Failed' })
     
     return xhr_script_launcher()
+
+def script_dir():
+    return get_setting('script_dir').value
+
+def scripts():
+    script_loc = script_dir()
+    scripts = []
+    for r,d,f in os.walk(script_loc):
+        for file in f:
+            if file.endswith(".py"):
+                scripts.append(file)
+    return scripts
+    
+    

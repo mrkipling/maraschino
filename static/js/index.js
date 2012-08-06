@@ -2537,9 +2537,9 @@ $(document).ready(function() {
     });
   });
   
-  $(document).on('click', '#script_launcher li .script', function() {
+  $(document).on('click', '#script_launcher .script', function() {
     $.get('/xhr/script_launcher/start_script/' + $(this).data('id'), function(data) {
-    $('#script_launcher').replaceWith(data);
+    	$('#script_launcher').replaceWith(data);
     });
   });
   
