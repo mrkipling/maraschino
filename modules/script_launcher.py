@@ -64,27 +64,43 @@ def xhr_start_script(script_id):
     
     if (script.parameters):
         command = ''.join([command, ' ', script.parameters])
-         
-    if (script.updates == 1):        
-        #these are extra parameters to be passed to any scripts ran, so they 
-        #can update the status if necessary
-        host = maraschino.HOST
-        port = maraschino.PORT
-        webroot = maraschino.WEBROOT
-        if webroot:
-            extras = '--i "%s" --p "%s" --w "%s" --s "%s"' % (host, port, webroot, script.id)
+    
+    #Parameters needed for scripts that update
+    host = maraschino.HOST
+    port = maraschino.PORT
+    webroot = maraschino.WEBROOT
+    
+    file_ext = os.path.splitext(script.script)[1]
+    
+    if (file_ext == '.py'):
+        if (script.updates == 1):        
+            #these are extra parameters to be passed to any scripts ran, so they 
+            #can update the status if necessary
+            if webroot:
+                extras = '--i "%s" --p "%s" --s "%s" --w "%s"' % (host, port, script.id, webroot)
+            else:
+                extras = '--i "%s" --p "%s" --s "%s"' % (host, port, script.id)
+            #the command in all its glory
+            command = ''.join([command, ' ', extras])
+            script.status="Script Started at: %s" % now.strftime("%m-%d-%Y %H:%M")
         else:
-            extras = '--i "%s" --p "%s" --s "%s"' % (host, port, script.id)
-        #the command in all its glory
-        command = ''.join([command, ' ', extras])
-        script.status="Script Started at: %s" % now.strftime("%m-%d-%Y %H:%M")
-    else:
-        script.status="Last Ran: %s" % now.strftime("%m-%d-%Y %H:%M")
-    
-    
-    #figure out the command prefix based on the file extension
-    if (os.path.splitext(script.script)[1] == '.py'):
+            script.status="Last Ran: %s" % now.strftime("%m-%d-%Y %H:%M")
+        
         command =  ''.join(['python ', command])
+        
+    elif (file_ext =='.sh'):
+        if (script.updates == 1):   
+            if webroot:
+                extras = '%s %s %s %s' % (host, port, script.id, webroot)
+            else:
+                extras = '%s %s %s' % (host, port, script.id)
+            #the command in all its glory
+            command = ''.join([command, ' ', extras])
+            script.status="Script Started at: %s" % now.strftime("%m-%d-%Y %H:%M")
+        else:
+            script.status="Last Ran: %s" % now.strftime("%m-%d-%Y %H:%M")
+        
+        
         
     logger.log('SCRIPT_LAUNCHER :: %s' % command, 'INFO')
     #now run the command
@@ -109,7 +125,7 @@ def add_edit_script_dialog(script_id=None):
     script = None
     script_files = get_file_list(
         folder = script_dir(),
-        extensions = ['.py'],
+        extensions = ['.py', '.sh'],
         prepend_path = False,
         prepend_path_minus_root = True
     )
@@ -183,13 +199,5 @@ def delete_script(script_id):
 def script_dir():
     return get_setting('script_dir').value
 
-def scripts():
-    script_loc = script_dir()
-    scripts = []
-    for r,d,f in os.walk(script_loc):
-        for file in f:
-            if file.endswith(".py"):
-                scripts.append(file)
-    return scripts
     
     
