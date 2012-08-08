@@ -9,7 +9,7 @@ from datetime import timedelta
 from Maraschino import app
 from maraschino.tools import *
 
-@app.route('/xhr/utorrent')
+@app.route('/xhr/utorrent/')
 @requires_auth
 def xhr_utorrent():
     # initialize empty list, which will be later populated with listing

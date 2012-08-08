@@ -22,10 +22,10 @@ def get_date():
     now = datetime.datetime.now()
     return now.strftime('%A %d %B')
 
-@app.route('/xhr/weather')
+@app.route('/xhr/weather/')
 @requires_auth
 def xhr_weather():
-
+    
     location = get_setting_value('weather_location')
     use_celcius = get_setting_value('weather_use_celcius') == '1'
     use_kilometers = get_setting_value('weather_use_kilometers') == '1'
