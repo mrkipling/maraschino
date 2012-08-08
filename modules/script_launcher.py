@@ -88,7 +88,7 @@ def xhr_start_script(script_id):
         
         command =  ''.join(['python ', command])
         
-    elif (file_ext =='.sh'):
+    elif (file_ext in ['.sh', '.pl']):
         if (script.updates == 1):   
             if webroot:
                 extras = '%s %s %s %s' % (host, port, script.id, webroot)
@@ -100,7 +100,8 @@ def xhr_start_script(script_id):
         else:
             script.status="Last Ran: %s" % now.strftime("%m-%d-%Y %H:%M")
         
-        
+        if(file_ext == '.pl'):
+            command = ''.join(['perl ', command])
         
     logger.log('SCRIPT_LAUNCHER :: %s' % command, 'INFO')
     #now run the command
@@ -125,7 +126,7 @@ def add_edit_script_dialog(script_id=None):
     script = None
     script_files = get_file_list(
         folder = script_dir(),
-        extensions = ['.py', '.sh'],
+        extensions = ['.py', '.sh', '.pl'],
         prepend_path = False,
         prepend_path_minus_root = True
     )
