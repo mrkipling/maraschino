@@ -5,19 +5,19 @@ from maraschino import app
 from maraschino.noneditable import *
 from maraschino.tools import *
 
-@app.route('/xhr/recently_added')
+@app.route('/xhr/recently_added/')
 @requires_auth
 def xhr_recently_added():
     return render_recently_added_episodes()
 
 
-@app.route('/xhr/recently_added_movies')
+@app.route('/xhr/recently_added_movies/')
 @requires_auth
 def xhr_recently_added_movies():
     return render_recently_added_movies()
 
 
-@app.route('/xhr/recently_added_albums')
+@app.route('/xhr/recently_added_albums/')
 @requires_auth
 def xhr_recently_added_albums():
     return render_recently_added_albums()
