@@ -1,10 +1,11 @@
 from flask import jsonify, render_template, request, json, send_file
-import hashlib, urllib, urllib2, base64, random, time, datetime, os
+import hashlib, urllib2, base64, random, time, datetime, os
 from threading import Thread
 from maraschino.tools import get_setting_value, requires_auth
 from maraschino import logger, app, WEBROOT, DATA_DIR
 
 threads = []
+
 
 def trak_api(url, params={}):
     username = get_setting_value('trakt_username')
@@ -41,11 +42,13 @@ def create_dir(dir):
 create_dir('%s/cache/trakt/shows' % DATA_DIR)
 create_dir('%s/cache/trakt/movies' % DATA_DIR)
 
+
 def small_poster(image):
     if not 'poster-small' in image:
         x = image.rfind('.')
         image = image[:x] + '-138' + image[x:]
     return image
+
 
 def download_image(image, file_path):
     try:
@@ -59,7 +62,7 @@ def download_image(image, file_path):
 
     try:
         logger.log('TRAKT :: Downloading %s' % image, 'INFO')
-        image_on_web = urllib.urlopen(image)
+        image_on_web = urllib2.urlopen(image)
         while True:
             buf = image_on_web.read(65536)
             if len(buf) == 0:
@@ -67,12 +70,14 @@ def download_image(image, file_path):
             downloaded_image.write(buf)
         downloaded_image.close()
         image_on_web.close()
+        logger.log('TRAKT :: Image cached successfully: %s' % image, 'DEBUG')
     except:
         logger.log('TRAKT :: Failed to download %s' % image, 'ERROR')
 
     threads.pop()
 
     return
+
 
 def cache_image(image, type):
     if type == 'shows':
@@ -191,6 +196,7 @@ def xhr_trakt_trending(type=None):
         title='Trending',
     )
 
+
 @app.route('/xhr/trakt/activity')
 @app.route('/xhr/trakt/activity/<type>')
 @requires_auth
@@ -242,7 +248,7 @@ def xhr_trakt_friends(user=None):
 @requires_auth
 def xhr_trakt_friend_action(action, user):
     url = 'http://api.trakt.tv/friends/%s/%s' % (action, trakt_apikey())
-    params={'friend': user}
+    params = {'friend': user}
 
     try:
         trakt = trak_api(url, params)
@@ -253,7 +259,7 @@ def xhr_trakt_friend_action(action, user):
     if trakt['status'] == 'success':
         return jsonify(status='successful')
     else:
-        return jsonify(status=action.title()+' friend failed')
+        return jsonify(status=action.title() + ' friend failed')
 
 
 @app.route('/xhr/trakt/profile')
@@ -422,6 +428,7 @@ def xhr_trakt_calendar(type):
         title='Calendar',
     )
 
+
 @app.route('/xhr/trakt/summary/<type>/<id>')
 @app.route('/xhr/trakt/summary/<type>/<id>/<season>/<episode>')
 @requires_auth
@@ -439,7 +446,7 @@ def xhr_trakt_summary(type, id, season=None, episode=None):
         return render_template('traktplus/trakt-base.html', message=e)
 
     if type != 'episode':
-        trakt['images']['poster'] = cache_image(trakt['images']['poster'], type+'s')
+        trakt['images']['poster'] = cache_image(trakt['images']['poster'], type + 's')
         if type == 'show':
             trakt['first_aired'] = datetime.datetime.fromtimestamp(int(trakt['first_aired'])).strftime('%B %d, %Y')
     else:
@@ -452,7 +459,7 @@ def xhr_trakt_summary(type, id, season=None, episode=None):
         return render_template('traktplus/trakt-episode.html',
             episode=trakt,
             type=type,
-            title = trakt['episode']['title'],
+            title=trakt['episode']['title'],
             )
     elif type == 'show':
         return render_template('traktplus/trakt-show.html',
@@ -516,7 +523,6 @@ def xhr_trakt_custom_list(slug, user):
         list=trakt,
         title=trakt['name'],
     )
-
 
 
 @app.route('/xhr/trakt/add_to_list/', methods=['POST'])

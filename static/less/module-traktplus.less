@@ -392,6 +392,48 @@
       display: none;
     }
 
+    .add_watchlist {
+      background-image: url('/@{webroot}/images/trakt/watchlist.png');
+      &:hover {
+        background-image: url('/@{webroot}/images/trakt/watchlist-on.png');
+      }
+    }
+
+    .add_customlist {
+      background-image: url('/@{webroot}/images/trakt/list.png');
+      &:hover {
+        background-image: url('/@{webroot}/images/trakt/list-on.png');
+      }
+    }
+
+    .mark_watched {
+      background-image: url('/@{webroot}/images/trakt/seen.png');
+      &:hover {
+        background-image: url('/@{webroot}/images/trakt/seen-on.png');
+      }
+    }
+
+    .add_collection {
+      background-image: url('/@{webroot}/images/trakt/collection.png');
+      &:hover {
+        background-image: url('/@{webroot}/images/trakt/collection-on.png');
+      }
+    }
+
+    .r_love {
+      left: 30px;
+      background-image: url('/@{webroot}/images/trakt/heart-love.png');
+    }
+
+    .r_hate {
+      right: 30px;
+      background-image: url('/@{webroot}/images/trakt/heart-hate.png');
+    }
+
+    .rated {
+      opacity: 1.0;
+    }
+
     .add_watchlist,
     .add_customlist,
     .mark_watched,
@@ -402,49 +444,8 @@
       height: 16px;
       width: 16px;
       cursor: pointer;
-      background-size: 16px, 16px;
-    }
-
-    .add_watchlist {
-      background: url('/@{webroot}/images/trakt/watchlist.png');
-      &:hover {
-        background: url('/@{webroot}/images/trakt/watchlist-on.png');
-      }
-    }
-
-    .add_customlist {
-      background: url('/@{webroot}/images/trakt/list.png');
-      &:hover {
-        background: url('/@{webroot}/images/trakt/list-on.png');
-      }
-    }
-
-    .mark_watched {
-      background: url('/@{webroot}/images/trakt/seen.png');
-      &:hover {
-        background: url('/@{webroot}/images/trakt/seen-on.png');
-      }
-    }
-
-    .add_collection {
-      background: url('/@{webroot}/images/trakt/collection.png');
-      &:hover {
-        background: url('/@{webroot}/images/trakt/collection-on.png');
-      }
-    }
-
-    .r_love {
-      left: 30px;
-      background: url('/@{webroot}/images/trakt/heart-love.png');
-    }
-
-    .r_hate {
-      right: 30px;
-      background: url('/@{webroot}/images/trakt/heart-hate.png');
-    }
-
-    .rated {
-      opacity: 1.0;
+      background-size: 14px;
+      background-repeat: no-repeat;
     }
   }
 
@@ -471,7 +472,6 @@
       right: 0;
       height: 25px;
       width: 25px;
-      background: url('/@{webroot}/images/trakt/overlay-love.png');
     }
 
     .love {
