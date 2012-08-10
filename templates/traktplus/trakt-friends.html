@@ -1,0 +1,89 @@
+{% extends "traktplus/trakt-base.html" %}
+{% block trakt_title %}{{ title }}{% endblock %}
+{% block trakt_content %}
+{% if friends %}
+
+<div class="friends">
+  <ul>
+    {% if pending %}
+      {% for user in pending %}
+        <li class="trakt_user addloading pending" data-username="{{ user.username }}">
+
+          {% if user.avatar %}
+            <img src="{{ user.avatar }}">
+          {% endif %}
+
+          <span class="user_name"><b>{{ user.username }}</b></span>
+          <b>This user has sent you a friend request.</b>
+
+          <div class="req_buttons">
+            <span class="req_btn friend_action" data-action="approve" data-user="{{ user.username }}">Approve</span>
+            <span class="req_btn friend_action" data-action="deny" data-user="{{ user.username }}">Deny</span>
+          </div>
+        </li>
+      {% endfor %}
+    {% endif %}
+    {% for friend in friends %}
+      <li class="trakt_user addloading" data-username="{{ friend.username }}">
+
+        {% if friend.avatar %}
+          <img src="{{ friend.avatar }}">
+        {% endif %}
+
+        <span class="user_name"><b>{{ friend.username }}</b></span>
+
+        {% if friend.watching %}
+          {% if friend.watching.type == 'episode' %}
+            <b>Currently watching: </b>
+            <span>
+              <span class="goto_show list_link addloading" data-id="{{ friend.watching.show.imdb_id }}">
+                {{ friend.watching.show.title }}
+              </span>
+                <span
+                  class="goto_episode list_link addloading" 
+                  data-id="{{ friend.watching.show.imdb_id }}" 
+                  data-season="{{ friend.watching.episode.season }}"
+                  data-episode="{{ friend.watching.episode.number }}"
+                >
+                  {{ friend.watching.episode.season }}x{{ friend.watching.episode.number }} - {{ friend.watching.episode.title }}
+                </span>
+            </span>
+          {% else %}
+            <b>Currently watching: </b>
+            <span class="list_link goto_movie addloading" data-id="{{ friend.watching.movie.imdb_id }}">
+              {{ friend.watching.movie.title }} ({{ friend.watching.movie.year }})
+            </span>
+          {% endif %}
+        {% else %}
+          {% if friend.watched %}
+            {% if friend.watched.0.type == 'episode' %}
+              <b>Recently watched: </b>
+              <span>
+                <span class="goto_show list_link addloading" data-id="{{ friend.watched.0.show.imdb_id }}">
+                  {{ friend.watched.0.show.title }}
+                </span>
+                <span
+                  class="goto_episode list_link addloading" 
+                  data-id="{{ friend.watched.0.show.imdb_id }}" 
+                  data-season="{{ friend.watched.0.episode.season }}"
+                  data-episode="{{ friend.watched.0.episode.number }}"
+                >
+                  {{ friend.watched.0.episode.season }}x{{ friend.watched.0.episode.number }} - {{ friend.watched.0.episode.title }}
+                </span>
+              </span>
+            {% else %}
+              <b>Recently watched: </b>
+              <span class="list_link goto_movie addloading" data-id="{{ friend.watched.0.movie.imdb_id }}">
+                {{ friend.watched.0.movie.title }} ({{ friend.watched.0.movie.year }})
+              </span>
+            {% endif %}
+          {% endif %}
+        {% endif %}
+
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endif %}
+{% endblock %}

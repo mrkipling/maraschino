@@ -1745,13 +1745,307 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('click', '#traktplus .goto_show', function() {
+    $.get(WEBROOT + '/xhr/trakt/summary/show/' + $(this).data('id'), function(data){
+      $('#traktplus').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#traktplus .goto_movie', function() {
+    $.get(WEBROOT + '/xhr/trakt/summary/movie/' + $(this).data('id'), function(data){
+      $('#traktplus').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#traktplus .goto_episode', function() {
+    $.get(WEBROOT + '/xhr/trakt/summary/episode/' + $(this).data('id') + '/' + $(this).data('season') + '/' + $(this).data('episode'), function(data){
+      $('#traktplus').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#traktplus .get_list', function() {
+    $.get(WEBROOT + '/xhr/trakt/' + $(this).data('xhr_url'), function(data){
+      $('#traktplus').replaceWith(data);
+    });
+  });
+
   $(document).on('click', '#traktplus .list_link', function(e) {
     e.stopPropagation();
+  });
+
+  $(document).on('click', '#traktplus .toggle_hidden', function() {
+    var arrow = $(this).children('img');
+    var div = $(this).next('.hidden');
+
+    if (div.hasClass('active')) {
+      div.removeClass('active');
+      div.slideUp(200);
+      arrow.attr('src', WEBROOT + '/static/images/arrow_down.png');
+    }
+    else {
+      div.addClass('active');
+      div.slideDown(200);
+      arrow.attr('src', WEBROOT + '/static/images/arrow_up.png');
+    }
   });
 
   $(document).on('click', '#traktplus .trakt_user', function() {
     $.get(WEBROOT + '/xhr/trakt/profile/' + $(this).data('username'), function(data){
       $('#traktplus').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#traktplus .friend_action', function(e) {
+    e.stopPropagation();
+    var li = $(this).parent().parent();
+    var action = $(this).data('action');
+    var user = $(this).data('user');
+
+    $.get(WEBROOT + '/xhr/trakt/friend/' + action + '/' + user, function(data){
+      if (data.status == 'successful') {
+        if (action == 'approve') {
+          li.children('.req_buttons').remove()
+          li.css('background', 'url(' + WEBROOT + '/static/images/alpha/fff_10.png)');
+          popup_message(user + ' has been added to friends list');
+        }
+        else {
+          li.transition({opacity: 0, duration: 1000}, function(){
+            li.remove();
+          });
+          popup_message(user + 's friend request has been denied');
+        }
+      }
+      else {
+        popup_message(data.status);
+      }
+    });
+  });
+
+  $(document).on('mouseenter', '#traktplus .poster', function(){
+      $(this).find('.item_info').hide();
+      $(this).find('.item_rate').show();
+      $(this).find('.overlay_menu').show();
+    });
+  $(document).on('mouseleave', '#traktplus .poster', function(){
+      $(this).find('.item_rate').hide();
+      $(this).find('.overlay_menu').hide();
+      $(this).find('.item_info').show();
+    });
+
+  function title_str (str) {
+    return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
+        return $1.toUpperCase();
+    });
+  }
+
+  $(document).on('click', '#traktplus .poster .rate', function() {
+    var poster = $(this).parent().parent().parent();
+    var button = $(this);
+    var type = poster.data('type');
+    var rating = $(this).data('rating');
+    var data = poster.dataset();
+
+    if (button.hasClass('rated')) {
+      data['rating'] = 'unrate';
+      var unrate = true;
+    }
+    else {
+      data['rating'] = rating;
+      var unrate = false;
+    }
+
+    button.css('background', 'url(' + WEBROOT + '/static/images/xhrloading.gif)');
+    $.post(WEBROOT + '/xhr/trakt/action/rate/' + type + '/', data, function(data){
+      if (data.status == 'successful') {
+        if (unrate) {
+          poster.find('.'+rating).remove();
+          button.removeClass('rated')
+          button.attr('title', title_str(rating) + 'd')
+          popup_message(type + ' successfully unrated');
+        }
+        else {
+          poster.append('<div class="' + rating + '"></div>');
+          button.addClass('rated');
+          button.attr('title', 'Unrate')
+          popup_message(type + ' successfully rated as ' + rating + 'd');
+        }
+      }
+      else {
+        popup_message(data.status);
+      }
+      button.css('background', 'url(' + WEBROOT + '/static/images/trakt/heart-' + rating + '.png)');
+    });
+  });
+
+  $(document).on('click', '#traktplus .poster .add_customlist', function() {
+    var poster = $(this).parent().parent();
+    var button = $(this);
+    var data = poster.dataset();
+
+    button.css('background', 'url(' + WEBROOT + '/static/images/xhrloading.gif)');
+    $.post(WEBROOT + '/xhr/trakt/get_lists/', data, function(data){
+      button.css('background', 'url(' + WEBROOT + '/static/images/trakt/list.png)');
+      $('#traktplus').replaceWith(data);
+    });
+  });
+
+  $(document).on('change', '#traktplus .custom_lists .list', function() {
+    var togglebar = $('#traktplus .custom_lists .toggle_hidden');
+    var arrow = togglebar.children('img');
+    var form = $('#traktplus .custom_lists .add_list_form');
+
+    if ($(this).val() != 'none') {
+      if( form.is(':visible') ) {
+        arrow.attr('src', WEBROOT + '/static/images/arrow_down.png');
+        form.removeClass('active');
+        form.slideUp(200);
+      }
+
+      togglebar.hide();
+    }
+    else {
+      togglebar.show();
+    }
+  });
+
+  $(document).on('click', '#traktplus .custom_lists .save', function() {
+    var media = $('#traktplus .list_media').dataset();
+    var list_select = $('#traktplus .custom_lists .list').find(':selected');
+    var form = $('#traktplus .custom_lists form').serializeArray();
+
+    if (list_select.val() != 'none') {
+      var list = list_select.dataset();
+      var data = {
+        media: JSON.stringify(media),
+        list: JSON.stringify(list),
+        exist: true
+      };
+    }
+    else {
+      var data = {
+        media: JSON.stringify(media),
+        list: JSON.stringify(form),
+        exist: false
+      };
+    }
+
+    $.post(WEBROOT + '/xhr/trakt/add_to_list/', data, function(data){
+      remove_loading_gif($('#traktplus .loading'));
+
+      if (data.status == 'successful') {
+        if (list_select.val() != 'none') {
+        popup_message('successfully added ' + media['title'] + ' to ' + list['name']);
+        }
+        else {
+          popup_message('successfully added ' + media['title'] + ' to ' + form[0]['value']);
+        }
+      }
+      else {
+        popup_message(data.status);
+      }
+    });
+  });
+
+  $(document).on('click', '#traktplus .poster .mark_watched', function() {
+    var poster = $(this).parent().parent();
+    var button = $(this);
+    var type = poster.data('type');
+
+    button.css('background', 'url(' + WEBROOT + '/static/images/xhrloading.gif)');
+    $.post(WEBROOT + '/xhr/trakt/action/seen/' + type + '/', poster.dataset(), function(data){
+      if (data.status == 'successful') {
+        poster.append('<div class="watched"></div>');
+        button.transition({opacity: 0, duration: 1000}, function(){
+          button.remove();
+        });
+        popup_message(type + ' successfully marked as watched');
+      }
+      else {
+        img.attr('src', WEBROOT + '/static/images/trakt/seen.png');
+        popup_message(data.status);
+      }
+    });
+  });
+
+  $(document).on('click', '#traktplus .poster .add_collection', function() {
+    var poster = $(this).parent().parent();
+    var button = $(this);
+    var type = poster.data('type');
+
+    button.css('background', 'url(' + WEBROOT + '/static/images/xhrloading.gif)');
+    $.post(WEBROOT + '/xhr/trakt/action/library/' + type + '/', poster.dataset(), function(data){
+      if (data.status == 'successful') {
+        poster.append('<div class="collection"></div>');
+        button.transition({opacity: 0, duration: 1000}, function(){
+          button.remove();
+        });
+        popup_message(type + ' successfully added to collection');
+      }
+      else {
+        img.attr('src', WEBROOT + '/static/images/trakt/collection.png');
+        popup_message(data.status);
+      }
+    });
+  });
+
+  $(document).on('click', '#traktplus .poster .add_watchlist', function() {
+    var poster = $(this).parent().parent();
+    var button = $(this);
+    var type = poster.data('type');
+
+    button.css('background', 'url(' + WEBROOT + '/static/images/xhrloading.gif)');
+    $.post(WEBROOT + '/xhr/trakt/action/watchlist/' + type + '/', poster.dataset(), function(data){
+      if (data.status == 'successful') {
+        poster.append('<div class="watchlist"></div>');
+        button.transition({opacity: 0, duration: 1000}, function(){
+          button.remove();
+        });
+        popup_message(type + ' successfully added to watchlist');
+      }
+      else {
+        img.attr('src', WEBROOT + '/static/images/trakt/watchlist.png');
+        popup_message(data.status);
+      }
+    });
+  });
+
+  $(document).on('click', '#traktplus .media_btn', function(e) {
+    e.stopPropagation();
+  });
+
+  $(document).on('click', '#traktplus .add_sickbeard', function() {
+    $.get(WEBROOT + '/sickbeard/search/?tvdbid=' + $(this).data('tvdb_id'), function(data){
+      $('#sickbeard').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#traktplus .add_couchpotato', function() {
+    $.get(WEBROOT + '/xhr/couchpotato/search/?name=' + encodeURIComponent($(this).data('name')), function(data){
+      $('#couchpotato').replaceWith(data);
+    });
+  });
+
+  $(document).on('click', '#traktplus .trailer', function() {
+    $.get(WEBROOT + '/xhr/play/trailer/url/' + encodeURIComponent($(this).data('trailer')));
+  });
+
+  $(document).on('click', '#traktplus .recommendations .dismiss', function() {
+    var li = $(this).parent().parent().parent();
+    var type = li.data('type');
+    var img = $(this).children('img');
+
+    img.attr('src', WEBROOT + '/static/images/xhrloading.gif');
+
+    $.post(WEBROOT + '/xhr/trakt/action/dismiss/' + type + '/', li.dataset(), function(data){
+      if (data.status == 'successful') {
+        li.transition({opacity: 0, duration: 1000}, function(){
+          li.remove();
+      });
+      }
+      else {
+        img.attr('src', WEBROOT + '/static/images/remove_icon.png');
+        popup_message(data.status);
+      }
     });
   });
 

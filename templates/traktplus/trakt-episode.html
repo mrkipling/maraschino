@@ -1,0 +1,93 @@
+{% extends "traktplus/trakt-base.html" %}
+
+{% block trakt_title %}{{ title }}{% endblock %}
+
+{% block trakt_content %}
+
+{% if episode %}
+
+  <div class="episode inner">
+    <div class="info">
+      <div class="screenshot">
+        <img src="{{ episode.episode.images.screen }}"/>
+
+        {% if episode.episode.in_collection %}
+          <div class="collection"></div>
+        {% endif %}
+        {% if episode.episode.in_watchlist %}
+          <div class="watchlist"></div>
+        {% endif %}
+        {% if episode.episode.rating %}
+          {% if episode.episode.rating == 'love' %}
+          <div class="love"></div>
+          {% elif episode.episode.rating == 'hate' %}
+            <div class="hate"></div>
+          {% endif %}
+        {% endif %}
+        {% if episode.episode.watched %}
+          <div class="watched"></div>
+        {% endif %}
+      </div>
+
+      <table>
+        <tr>
+          <td><b>Classification:</b></td>
+          <td>{{ episode.show.certification }}</td>
+        </tr>
+        <tr>
+          <td><b>Aired:</b></td>
+          <td>{{ episode.episode.first_aired }}</td>
+        </tr>
+        <tr>
+          <td><b>Runtime:</b></td>
+          <td>{{ episode.show.runtime }}m</td>
+        </tr>
+        <tr>
+        <td><b>Genres:</b></td>
+          <td>{% for genre in episode.show.genres %}{{ genre }} {% endfor %}</td>
+        </tr>
+      </table>
+
+      <p class="overview">
+        <span class="truncated">{{ episode.episode.overview|truncate(400, false) }}</span>
+        <span class="expanded" style="display: none;">{{ episode.episode.overview }}</span>
+        {% if episode.episode.overview|count > 400 %}
+          <a class="expand" href="#" title="More">[+]</a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div>
+      <div class="toggle_hidden">
+        <b>Stats</b>
+        <img class="show_hidden" src="{{ url_for('static', filename='images/arrow_down.png') }}"/>
+      </div>
+
+      <div class="hidden">
+        <div class="stats" align="center">
+          <table>
+            <tr>
+              <td><b>Votes:</b></td>
+              <td>{{ episode.episode.ratings.votes }}</td>
+            </tr>
+            <tr>
+              <td><b>Percentage:</b></td>
+              <td>{{ episode.episode.ratings.percentage }}</td>
+            </tr>
+            <tr>
+              <td><b>Loved:</b></td>
+              <td>{{ episode.episode.ratings.loved }}</td>
+            </tr>
+            <tr>
+              <td><b>Hated:</b></td>
+              <td>{{ episode.episode.ratings.hated }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endif %}
+
+{% endblock %}

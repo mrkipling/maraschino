@@ -162,3 +162,9 @@ def xbmc_proxy(version, url):
 
     img = StringIO.StringIO(urllib.urlopen(url).read())
     return send_file(img, mimetype='image/jpeg')
+
+
+def youtube_to_xbmc(url):
+    x = url.find('?v=') + 3
+    id = url[x:]
+    return 'plugin://plugin.video.youtube/?action=play_video&videoid=' + id

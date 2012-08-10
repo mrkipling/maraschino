@@ -188,8 +188,9 @@ def xhr_resume_video(video_type, video_id):
     return jsonify({ 'success': True })
 
 @app.route('/xhr/play/trailer/<int:movieid>')
+@app.route('/xhr/play/trailer/url/<path:trailer>')
 @requires_auth
-def xhr_play_trailer(movieid):
+def xhr_play_trailer(movieid=None, trailer=None):
     logger.log('CONTROLS :: Playing trailer', 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
 
@@ -199,11 +200,14 @@ def xhr_play_trailer(movieid):
         logger.log('CONTROLS :: Failed to clear video playlist', 'DEBUG')
         return jsonify({ 'failed': True })
 
-    try:
-        trailer = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties= ['trailer'])['moviedetails']['trailer']
-    except:
-        logger.log('CONTROLS :: Failed to retrieve trailer url', 'DEBUG')
-        return jsonify({ 'failed': True })
+    if not trailer:
+        try:
+            trailer = xbmc.VideoLibrary.GetMovieDetails(movieid=movieid, properties= ['trailer'])['moviedetails']['trailer']
+        except:
+            logger.log('CONTROLS :: Failed to retrieve trailer url', 'DEBUG')
+            return jsonify({ 'failed': True })
+    else:
+        trailer = youtube_to_xbmc(trailer)
 
     item = { 'file': trailer }
 

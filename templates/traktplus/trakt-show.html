@@ -1,0 +1,167 @@
+{% extends "traktplus/trakt-base.html" %}
+
+{% block trakt_title %}{{ title }}{% endblock %}
+
+{% block trakt_content %}
+
+{% if show %}
+
+  <div class="show inner">
+    <div class="info">
+      <div
+        class="poster"
+        data-type="{{ type }}"
+        data-title="{{ show.title }}"
+        data-year="{{ show.year }}"
+        data-imdb_id="{{ show.imdb_id }}"
+        {% if type == 'shows' %}
+          data-tmdb_id="{{ show.tmdb_id }}"
+        {% else %}
+          data-tvdb_id="{{ show.tvdb_id }}"
+        {% endif %}
+      >
+        <div>
+          <img alt="" src="{{ show.images.poster }}" height="141" width="95"/>
+
+          {% if show.in_collection %}
+            <div class="collection"></div>
+          {% endif %}
+          {% if show.in_watchlist %}
+            <div class="watchlist"></div>
+          {% endif %}
+          {% if show.rating %}
+            {% if show.rating == 'love' %}
+            <div class="love"></div>
+            {% elif show.rating == 'hate' %}
+              <div class="hate"></div>
+            {% endif %}
+          {% endif %}
+          {% if show.watched %}
+            <div class="watched"></div>
+          {% endif %}
+        </div>
+
+        <div class="overlay_menu" align="center">
+          {% if not show.watched %}
+            <div class="mark_watched" title="Mark as watched"></div>
+          {% endif %}
+          {% if not show.in_watchlist %}
+            <div class="add_watchlist" title="Add to watchlist"></div>
+          {% endif %}
+          <div class="add_customlist" title="Add to custom list"></div>
+          {% if not show.in_collection %}
+            <div class="add_collection" title="Add to collection"></div>
+          {% endif %}
+        </div>
+        <div class="footer">
+          <div class="item_info">
+          <span class="percentage">{{ show.ratings.percentage }}%</span>
+          <span class="votes">{{ show.ratings.votes }} votes</span>
+          </div>
+          <div class="item_rate" align="center">
+            <div class="rate r_love {{ 'rated' if show.rating == 'love' }}" data-rating="love" {% if show.rating == 'love' %}title="Unrate"{% else %}title="Loved"{% endif %}></div>
+            <div class="rate r_hate {{ 'rated' if show.rating == 'hate' }}" data-rating="hate" {% if show.rating == 'hate' %}title="Unrate"{% else %}title="Hated"{% endif %}></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="options">
+        <a class="media_btn add_sickbeard" title="Add to Sick Beard" data-tvdb_id="{{ show.tvdb_id }}">
+          <img src="{{ url_for('static', filename='images/applications/SickBeard.png') }}" width="14" height="14"/>
+        </a>
+        <a class="media_btn" href="{{ show.url }}" target="_blank" title="View on trakt.tv">
+          <img src="{{ url_for('static', filename='images/applications/Trakt.png') }}" width="14" height="14"/>
+        </a>
+      </div>
+
+      <table>
+        <tr>
+          <td><b>Classification:</b></td>
+          <td>{{ show.certification }}</td>
+        </tr>
+        <tr>
+          <td><b>Airs:</b></td>
+          <td>{{ show.air_day }}s at {{ show.air_time }} on {{ show.network }}</td>
+        </tr>
+        <tr>
+          <td><b>Premiered:</b></td>
+          <td>{{ show.first_aired }}</td>
+        </tr>
+        <tr>
+          <td><b>Runtime:</b></td>
+          <td>{{ show.runtime }}m</td>
+        </tr>
+        <tr>
+        <td><b>Genres:</b></td>
+          <td>{% for genre in show.genres %}{{ genre }} {% endfor %}</td>
+        </tr>
+      </table>
+
+      <p class="overview">
+        <span class="truncated">{{ show.overview|truncate(400, false) }}</span>
+        <span class="expanded" style="display: none;">{{ show.overview }}</span>
+        {% if show.overview|count > 400 %}
+          <a class="expand" href="#" title="More">[+]</a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div>
+      <div class="toggle_hidden">
+        <b>Stats</b>
+        <img class="show_hidden" src="{{ url_for('static', filename='images/arrow_down.png') }}"/>
+      </div>
+
+      <div class="hidden">
+
+        <div class="stats" align="center">
+          <table>
+            <tr>
+              <td><b>Watchers:</b></td>
+              <td>{{ show.stats.watchers }}</td>
+            </tr>
+            <tr>
+              <td><b>Plays:</b></td>
+              <td>{{ show.stats.plays }}</td>
+            </tr>
+            <tr>
+              <td><b>Scrobbles:</b></td>
+              <td>{{ show.stats.scrobbles }}</td>
+            </tr>
+            <tr>
+              <td><b>Checkins:</b></td>
+              <td>{{ show.stats.checkins }}</td>
+            </tr>
+            <tr>
+              <td><b>In collection:</b></td>
+              <td>{{ show.stats.collection }}</td>
+            </tr>
+          </table>
+
+          <table>
+            <tr>
+              <td><b>Votes:</b></td>
+              <td>{{ show.ratings.votes }}</td>
+            </tr>
+            <tr>
+              <td><b>Percentage:</b></td>
+              <td>{{ show.ratings.percentage }}</td>
+            </tr>
+            <tr>
+              <td><b>Loved:</b></td>
+              <td>{{ show.ratings.loved }}</td>
+            </tr>
+            <tr>
+              <td><b>Hated:</b></td>
+              <td>{{ show.ratings.hated }}</td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endif %}
+
+{% endblock %}

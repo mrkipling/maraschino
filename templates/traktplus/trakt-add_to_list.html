@@ -1,0 +1,74 @@
+{% extends "traktplus/trakt-base.html" %}
+{% block trakt_title %}{{ title }}{% endblock %}
+{% block trakt_content %}
+{% if custom_lists %}
+
+<div class="custom_lists inner">
+  <h1>Select list:</h1>
+  <div class="lists">
+    <select class="list">
+      {% if lists %}
+        <option value="none">Select list</option>
+        {% for list in lists %}
+          <option {% for k,v in list.items() %}data-{{k}}="{{v}}" {% endfor %}>{{ list.name }}</option>
+        {% endfor %}
+      {% else %}
+        <option value="none">You do not have any custom lists.</option>
+      {% endif %}
+    </select>
+  </div>
+
+  <div class="toggle_hidden">
+    <b>Add to new list</b>
+    <img src="{{ url_for('static', filename='images/arrow_down.png') }}"/>
+  </div>
+
+  <div class="add_list_form hidden">
+    <form method="" action="">
+
+      <div class="formrow">
+        <label for="name">List name</label>
+        <input id="name" name="name" type="text" value="">
+      </div>
+
+      <div class="formrow">
+        <label for="description">Description</label>
+        <textarea type="text" id="description" name="description"></textarea>
+      </div>
+
+      <div class="formrow">
+        <label for="privacy">Privacy</label>
+        <select id="privacy" name="privacy">
+            <option value="public">Public</option>
+            <option value="friends">Friends</option>
+            <option value="private">Private</option>
+        </select>
+      </div>
+
+      <div class="formrow">
+        <label for="show_numbers">Use numbering</label>
+        <select id="show_numbers" name="show_numbers">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+
+      <div class="formrow">
+        <label for="allow_shouts">Allow shouts</label>
+        <select id="allow_shouts" name="allow_shouts">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+    </form>
+  </div>
+
+  <div class="choices">
+    <div class="save addloading">Submit</div>
+  </div>
+
+  <div class="list_media" {% for k,v in media.items() %}data-{{k}}="{{v}}" {% endfor %}></div>
+</div>
+
+{% endif %}
+{% endblock %}
