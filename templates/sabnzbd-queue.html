@@ -15,19 +15,22 @@
       <p class="remaining"><strong>Remaining:</strong> {{ item.timeleft }} / {{ item.mbleft }} MB</p>
       <p class="percentage_complete">{{ item.percentage }}% complete</p>
     </div>
-  {% endif %}
+{% endif %}
 
-  <div class="queue-title {% if not item %}hide{% endif %}">
-    <span>
-      {% if queue_status == 'hide' %}
-        <img src="{{ url_for('static', filename='images/arrow_down.png') }}">More
-      {% else %}
-        <img src="{{ url_for('static', filename='images/arrow_up.png') }}">Less
-      {% endif %}
-    </span>
-  </div>
+<div class="queue-title {% if not item %}hide{% endif %}">
+	<table width=100%>
+		<tr>
+			<td align=left><b>Total Remaining:</b> {{sabnzbd.timeleft}} / {{sabnzbd.sizeleft}}</td>
+			<td align=right><span> 
+				{% if queue_status == 'hide' %} <img src="{{ url_for('static', filename='images/arrow_down.png')}}">More
+				{% else %} <img	src="{{ url_for('static', filename='images/arrow_up.png') }}">Less
+				{% endif %}
+			</span></td>
+		</tr>
+	</table>
+</div>
 
-  <div class="queue {% if item %}{{ queue_status }}{% else %}show{% endif %}">
+<div class="queue {% if item %}{{ queue_status }}{% else %}show{% endif %}">
     <table>
     {% for x in sabnzbd.slots %}
       <tr id="{{x.nzo_id}}" data-action={% if x.status == 'Paused' %}resume{% else %}pause{% endif %}>
@@ -38,6 +41,5 @@
       </tr>
     {% endfor %}
     </table>
-    <div><b>Total Remaining:</b> {{sabnzbd.timeleft}}/{{sabnzbd.sizeleft}} </div>
   </div>
 {% endblock %}
