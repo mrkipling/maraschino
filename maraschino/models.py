@@ -1,7 +1,11 @@
+# -*- coding: utf-8 -*-
+"""Class that represent the database structure"""
+
 from sqlalchemy import Column, Integer, String, Boolean
 from maraschino.database import Base
 
 class Module(Base):
+    """Table for one Maraschino module"""
     __tablename__ = 'modules'
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)
@@ -20,7 +24,9 @@ class Module(Base):
     def __repr__(self):
         return '<Module %r>' % (self.name)
 
+
 class Setting(Base):
+    """Table for one setting value"""
     __tablename__ = 'settings'
     id = Column(Integer, primary_key=True)
     key = Column(String(100), unique=True)
@@ -33,7 +39,9 @@ class Setting(Base):
     def __repr__(self):
         return '<Setting %r>' % (self.key)
 
+
 class Application(Base):
+    """Table for one application in the applications module"""
     __tablename__ = 'applications'
     id = Column(Integer, primary_key=True)
     name = Column(String(100))
@@ -50,14 +58,15 @@ class Application(Base):
 
         if position == None:
             self.position = highest_position(Application)
-
         else:
             self.position = position
 
     def __repr__(self):
         return '<Application %r>' % (self.name)
 
+
 class Disk(Base):
+    """Table for one disk in the diskspace module"""
     __tablename__ = 'disks'
     id = Column(Integer, primary_key=True)
     path = Column(String(500))
@@ -68,14 +77,15 @@ class Disk(Base):
 
         if position == None:
             self.position = highest_position(Disk)
-
         else:
             self.position = position
 
     def __repr__(self):
         return '<Disk %r>' % (self.path)
 
+
 class XbmcServer(Base):
+    """Table for the XBMC server config"""
     __tablename__ = 'xbmc_servers'
     id = Column(Integer, primary_key=True)
     label = Column(String(500))
@@ -91,7 +101,6 @@ class XbmcServer(Base):
 
         if position == None:
             self.position = highest_position(Disk)
-
         else:
             self.position = position
 
@@ -103,6 +112,7 @@ class XbmcServer(Base):
 
     def __repr__(self):
         return '<XbmcServer %r>' % (self.label)
+
 
 def highest_position(model):
     highest_position = 0

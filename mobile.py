@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Ressources to use Maraschino on mobile devices"""
+
 import jsonrpclib
 
 from flask import Flask, render_template

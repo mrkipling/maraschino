@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""This file contains the descriptions and settings for all modules. Also it contains functions to add modules and so on"""
+
 try:
     import json
 except ImportError:
@@ -627,9 +630,11 @@ SEARCH_SETTINGS = [
 @app.route('/xhr/add_module_dialog')
 @requires_auth
 def add_module_dialog():
+    """Dialog to add a new module to Maraschino"""
     modules_on_page = Module.query.all()
     available_modules = copy.copy(AVAILABLE_MODULES)
 
+    # filter all available modules that are not currently on the page
     for module_on_page in modules_on_page:
         for available_module in available_modules:
             if module_on_page.name == available_module['name']:
@@ -643,6 +648,7 @@ def add_module_dialog():
 @app.route('/xhr/add_module', methods=['POST'])
 @requires_auth
 def add_module():
+    """Add a new module to Maraschino"""
     try:
         module_id = request.form['module_id']
         column = request.form['column']
@@ -699,9 +705,9 @@ def add_module():
 @app.route('/xhr/rearrange_modules', methods=['POST'])
 @requires_auth
 def rearrange_modules():
+    """Rearrange a module on the page"""
     try:
         modules = json.JSONDecoder().decode(request.form['modules'])
-
     except:
         return jsonify({ 'status': 'error' })
 
@@ -711,7 +717,6 @@ def rearrange_modules():
             m.column = module['column']
             m.position = module['position']
             db_session.add(m)
-
         except:
             pass
 
@@ -722,6 +727,7 @@ def rearrange_modules():
 @app.route('/xhr/remove_module/<name>', methods=['POST'])
 @requires_auth
 def remove_module(name):
+    """Remove module from the page"""
     module = Module.query.filter(Module.name == name).first()
     db_session.delete(module)
     db_session.commit()
@@ -731,6 +737,7 @@ def remove_module(name):
 @app.route('/xhr/module_settings_dialog/<name>')
 @requires_auth
 def module_settings_dialog(name):
+    """show settings dialog for module"""
     module_info = get_module_info(name)
     module_db = get_module(name)
 
@@ -763,6 +770,7 @@ def module_settings_dialog(name):
 @app.route('/xhr/module_settings_cancel/<name>')
 @requires_auth
 def module_settings_cancel(name):
+    """Cancel the settings dialog"""
     module = get_module_info(name)
 
     if module:
@@ -777,9 +785,9 @@ def module_settings_cancel(name):
 @app.route('/xhr/module_settings_save/<name>', methods=['POST'])
 @requires_auth
 def module_settings_save(name):
+    """Save options in settings dialog"""
     try:
         settings = json.JSONDecoder().decode(request.form['settings'])
-
     except:
         return jsonify({ 'status': 'error' })
 
@@ -972,18 +980,16 @@ def switch_server(server_id=None):
 
     return jsonify({ 'status': 'success' })
 
-# helper method which returns a module record from the database
-
 def get_module(name):
+    """helper method which returns a module record from the database"""
     try:
         return Module.query.filter(Module.name == name).first()
 
     except:
         return None
 
-# helper method which returns a module template
-
 def get_module_info(name):
+    """helper method which returns a module template"""
     for available_module in AVAILABLE_MODULES:
         if name == available_module['name']:
             return available_module
