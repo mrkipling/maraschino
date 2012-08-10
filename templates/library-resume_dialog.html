@@ -1,0 +1,26 @@
+<div id="resume_dialog" class="dialog" align="center">
+	<div class="close">x</div>
+	<div>
+		<div 
+			class="action"
+			{% if library.moviedetails %}
+				data-url="/xhr/resume/video/movie/{{ library.moviedetails.movieid }}"
+			{% else %}
+				data-url="/xhr/resume/video/episode/{{ library.episodedetails.episodeid }}"
+			{% endif %}
+		>
+			Resume from {{ position }}
+		</div>
+		<div 
+			class="action"
+			{% if library.moviedetails %}
+				data-url="/xhr/play/video/movie/{{ library.moviedetails.movieid }}"
+			{% else %}
+				data-url="/xhr/play/video/episode/{{ library.episodedetails.episodeid }}"
+			{% endif %}
+		>
+			Start from beginning
+		</div>
+
+	</div>
+</div>

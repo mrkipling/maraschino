@@ -85,12 +85,9 @@
 
       {% if library.episodes %}
         {% for item in library.episodes %}
-          <li {% if show_info %}id="info"{% else %}id="play"{% endif %} file-type="video" media-type="episode" data-id="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}">
+          <li {% if show_info %}id="info"{% else %}id="resume_check"{% endif %} file-type="video" media-type="episode" data-id="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}">
             {{ item.label }}
             <span class="span">
-              {% if item.resume.position >= 1 %}
-                <a class="li_buttons" id="resume">Resume</a>
-              {% endif %}
               {% if show_info %}
                 <a class="li_buttons" id="play">Play</a>
               {% else %}
@@ -130,12 +127,9 @@
 
       {% if library.movies %}
         {% for item in library.movies %}
-          <li {% if show_info %}id="info"{% else %}id="play"{% endif %} file-type="video" media-type="movie" data-id="{{ item.movieid }}">
+          <li {% if show_info %}id="info"{% else %}id="resume_check"{% endif %} file-type="video" media-type="movie" data-id="{{ item.movieid }}">
             {{ item.label }}
             <span class="span">
-              {% if item.resume.position >= 1 %}
-                <a class="li_buttons" id="resume">Resume</a>
-              {% endif %}
               {% if show_info %}
                 <a class="li_buttons" id="play">Play</a>
               {% else %}
