@@ -228,7 +228,7 @@ def xhr_library_info(type, id):
     return render_library(library, title)
 
 
-@app.route('/xhr/library/<type>/resume_check/<int:id>')
+@app.route('/xhr/library/<type>/resume_check/<int:id>/')
 @requires_auth
 def xhr_library_resume_check(type, id):
     logger.log('LIBRARY :: Checking if %s has resume position' % type, 'INFO')
@@ -248,9 +248,9 @@ def xhr_library_resume_check(type, id):
     position = library[type + 'details']['resume']['position']
 
     if position:
-        hours = seconds / 3600
-        minutes = seconds / 60
-        seconds = seconds % 60
+        hours = position / 3600
+        minutes = position / 60
+        seconds = position % 60
         if position < 3600:
             position = '%02d:%02d' % (minutes, seconds)
         else:
