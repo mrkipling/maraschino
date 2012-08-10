@@ -227,12 +227,12 @@ def xhr_library_info(type, id):
 
     return render_library(library, title)
 
+
 @app.route('/xhr/library/<type>/resume_check/<int:id>')
 @requires_auth
 def xhr_library_resume_check(type, id):
     logger.log('LIBRARY :: Checking if %s has resume position' % type, 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
-    resume = False
 
     try:
         if type == 'movie':
@@ -245,15 +245,13 @@ def xhr_library_resume_check(type, id):
         logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
         return render_library(message=xbmc_error)
 
-    position = library[type+'details']['resume']['position']
+    position = library[type + 'details']['resume']['position']
 
     if position:
-        seconds = position
         hours = seconds / 3600
-        seconds -= 3600 * hours
         minutes = seconds / 60
-        seconds -= 60 * minutes
-        if hours == 0:
+        seconds = seconds % 60
+        if position < 3600:
             position = '%02d:%02d' % (minutes, seconds)
         else:
             position = '%02d:%02d:%02d' % (hours, minutes, seconds)
