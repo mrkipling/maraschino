@@ -160,7 +160,7 @@ FILTERS['time'] = epochTime
 
 @app.route('/xhr/xbmc_image/<version>/<path:url>')
 def xbmc_proxy(version, url):
-    """"""
+    """Proxy XBMC image to make it accessible from external networks."""
     from maraschino.noneditable import server_address
 
     if version == 'eden':
