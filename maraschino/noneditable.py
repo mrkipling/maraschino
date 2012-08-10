@@ -1,7 +1,13 @@
+# -*- coding: utf-8 -*-
+""""""
+
 from maraschino.tools import using_auth, get_setting_value
 from maraschino.models import Module, Setting, XbmcServer
 
 def server_settings():
+    """Get settings for active XBMC server instance"""
+
+    # query all configured XBMC servers from the db
     servers = XbmcServer.query.order_by(XbmcServer.position)
 
     if servers.count() == 0:
@@ -37,6 +43,7 @@ def server_settings():
     }
 
 def server_username_password():
+    """Convert username and password for active XBMC server to: username:password@"""
     username_password = ''
     server = server_settings()
 
@@ -49,28 +56,26 @@ def server_username_password():
     return username_password
 
 def server_address():
+    """Get server address with username, password, hostname and port.
+    The format is as following: http://username:password@hostname:port
+    """
     server = server_settings()
 
     if not server['hostname'] and not server['port']:
         return None
 
-    return 'http://%s%s:%s' % (server_username_password(), server['hostname'], server['port'])
+    # if auth is used, build the correct path including username and password
+    username_password = ''
+    if using_auth():
+        username_password = server_username_password()
+
+    return 'http://%s%s:%s' % (username_password, server['hostname'], server['port'])
 
 def server_api_address():
+    """Get address to json rpc api for active XBMC server"""
     address = server_address()
 
     if not address:
         return None
 
     return '%s/jsonrpc' % (address)
-
-def safe_server_address():
-    if using_auth():
-        return server_address()
-
-    server = server_settings()
-
-    if not server['hostname'] and not server['port']:
-        return None
-
-    return 'http://%s:%s' % (server['hostname'], server['port'])

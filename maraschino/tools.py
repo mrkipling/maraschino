@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import request, Response
 from functools import wraps
 from jinja2.filters import FILTERS
@@ -40,13 +42,14 @@ def requires_auth(f):
     return decorated
 
 def using_auth():
+    """Check if authentication is necessary"""
     if maraschino.AUTH['username'] != None and maraschino.AUTH['password'] != None:
         return True
-
     else:
         return False
 
 def format_time(time):
+    """Format the time for the player info"""
     formatted_time = ''
 
     if time['hours'] > 0:
@@ -60,17 +63,8 @@ def format_time(time):
 
     return formatted_time
 
-def format_number(num):
-    extension_list = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB']
-
-    for i in range(len(extension_list)):
-        base = 1024**i
-        if num/base < 1024:
-            return '%.2f' % (float(num)/base) + ' ' + extension_list[i]
-
-    return str(num) + ' bytes'
-
 def get_setting(key):
+    """Get setting 'key' from db"""
     try:
         return Setting.query.filter(Setting.key == key).first()
 
@@ -78,6 +72,7 @@ def get_setting(key):
         return None
 
 def get_setting_value(key, default=None):
+    """Get value for setting 'key' from db"""
     try:
         value = Setting.query.filter(Setting.key == key).first().value
 
@@ -90,6 +85,7 @@ def get_setting_value(key, default=None):
         return default
 
 def get_file_list(folder, extensions, prepend_path=True):
+    """Get list of all files in folder that match an extension. This walks the folder recursively"""
     filelist = []
 
     for root, subFolders, files in os.walk(folder):
@@ -103,36 +99,34 @@ def get_file_list(folder, extensions, prepend_path=True):
     return filelist
 
 def convert_bytes(bytes, with_extension=True):
+    """Convert bytes and add the appropriate prefix"""
+    from math import log10, trunc
+
     bytes = float(bytes)
-    if bytes >= 1099511627776:
-        terabytes = bytes / 1099511627776
-        size = '%.2f' % terabytes
-        extension = 'TB'
-    elif bytes >= 1073741824:
-        gigabytes = bytes / 1073741824
-        size = '%.2f' % gigabytes
-        extension = 'GB'
-    elif bytes >= 1048576:
-        megabytes = bytes / 1048576
-        size = '%.2f' % megabytes
-        extension = 'MB'
-    elif bytes >= 1024:
-        kilobytes = bytes / 1024
-        size = '%.2f' % kilobytes
-        extension = 'KB'
-    else:
-        size = '%.2f' % bytes
-        extension = 'B'
+    prefixes = ['byte', 'kiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
 
+    # determine dimension of number
+    dim = log10(bytes)
+    # calculate prefix index
+    pre_index = trunc(dim / 3)
+    # calculate actual number according to the prefix
+    num = bytes / (10 ** (3*pre_index))
+
+    # if number is to large for defined prefixes, just output the bytes
+    if pre_index >= len(prefixes):
+        return '%.2f' % bytes + ' ' + prefixes[0]
+
+    # either return the number and prefix in one string...
     if with_extension:
-        size = '%s%s' % (size, extension)
-        return size
+        return '%.2f' % num + ' ' + prefixes[pre_index]
 
-    return size, extension
+    # ...or return them seperatly
+    return num, prefixes[pre_index]
 
 FILTERS['convert_bytes'] = convert_bytes
 
 def xbmc_image(url):
+    """Build xbmc image url"""
     if url.startswith('special://'): #eden
         return '%s/xhr/xbmc_image/eden/%s' % (maraschino.WEBROOT, url[len('special://'):])
     elif url.startswith('image://'): #frodo
@@ -143,8 +137,8 @@ def xbmc_image(url):
 
 FILTERS['xbmc_image'] = xbmc_image
 
-
 def epochTime(seconds):
+    """Convert the time expressed by 'seconds' since the epoch to string"""
     import time
     return time.ctime(seconds)
 

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Maraschino module"""
+
 import sys
 import os
 import subprocess
@@ -39,7 +42,7 @@ COMMITS_COMPARE_URL = ''
 
 
 def initialize():
-
+    """Init function for this module"""
     with INIT_LOCK:
 
         global __INITIALIZED__, app, FULL_PATH, RUNDIR, ARGS, DAEMON, PIDFILE, VERBOSE, LOG_FILE, LOG_DIR, logger, PORT, SERVER, DATABASE, AUTH, \
@@ -156,12 +159,15 @@ def initialize():
 
 
 def start_schedules():
+    """Add all periodic jobs to the scheduler"""
+    # check every 6 hours for a new version
     from maraschino.updater import checkGithub
     SCHEDULE.add_interval_job(checkGithub, hours=6)
     SCHEDULE.start()
 
 
 def start():
+    """Start the actual server"""
     if __INITIALIZED__:
 
         start_schedules()
@@ -181,6 +187,7 @@ def start():
 
 
 def stop():
+    """Shutdown Maraschino"""
     logger.log('Shutting down Maraschino...', 'INFO')
 
     if not DEVELOPMENT:
@@ -200,6 +207,7 @@ def stop():
 
 
 def restart():
+    """Restart Maraschino"""
     SERVER.stop()
     popen_list = [sys.executable, FULL_PATH]
     popen_list += ARGS
@@ -209,6 +217,7 @@ def restart():
 
 
 def daemonize():
+    """Start Maraschino as a daemon"""
     if threading.activeCount() != 1:
         logger.log('There are %r active threads. Daemonizing may cause strange behavior.' % threading.enumerate(), 'WARNING')
 
