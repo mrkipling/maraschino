@@ -394,6 +394,44 @@ AVAILABLE_MODULES = [
                 'value': '',
                 'description': 'Trakt Password',
             },
+            {
+                'key': 'trakt_default_view',
+                'value': 'trending',
+                'description': 'Default view',
+                'type': 'select',
+                'options': [
+                    {'value': 'trending_shows', 'label': 'Trending (TV Shows)'},
+                    {'value': 'trending_movies', 'label': 'Trending (Movies)'},
+                    {'value': 'activity_friends', 'label': 'Activity (Friends)'},
+                    {'value': 'activity_community', 'label': 'Activity (Community)'},
+                    {'value': 'friends', 'label': 'Friends'},
+                    {'value': 'calendar' , 'label': 'Calendar'},
+                    {'value': 'recommendations_shows' , 'label': 'Recommendations (TV Shows)'},
+                    {'value': 'recommendations_movies' , 'label': 'Recommendations (Movies)'},
+                    {'value': 'profile' , 'label': 'My profile'},
+                ]
+            },
+            {
+                'key': 'trakt_default_media',
+                'value': 'shows',
+                'description': 'Default media type',
+                'type': 'select',
+                'options': [
+                    {'value': 'shows', 'label': 'Shows'},
+                    {'value': 'movies', 'label': 'Movies'},
+                ]
+            },
+            {
+                'key': 'trakt_trending_limit',
+                'value': '20',
+                'description': 'How many trending items to display',
+                'type': 'select',
+                'options': [
+                    {'value': '20', 'label': '20'},
+                    {'value': '40', 'label': '40'},
+                    {'value': '60', 'label': '60'},
+                ]
+            },
         ]
     },
     {

@@ -1,0 +1,71 @@
+{% extends "traktplus/trakt-base.html" %}
+{% block trakt_title %}{{ title }}{% endblock %}
+{% block trakt_content %}
+{% if activity %}
+
+<div class="trakt_choices">
+  <b>{{ type }}</b>
+  {% if type == 'Friends' %}
+    <a class="button addloading" data-xhr_url="activity/community">Community</a>
+  {% else %}
+    <a class="button addloading" data-xhr_url="activity/friends">Friends</a>
+  {% endif %}
+</div>
+
+<div class="activity">
+  <ul>
+    {% for item in activity.activity %}
+      <li class="trakt_user addloading" data-username="{{ item.user.username }}">
+        {% if item.user.avatar %}
+          <img src="{{ item.user.avatar }}">
+        {% endif %}
+        <span class="user_name"><b>{{ item.user.username }}</b></span>
+
+        {% if item.action == 'watching' %}
+          <b>Watching:</b>
+        {% elif item.action == 'rating' %}
+          <b>{{ item.rating|title }}d:</b>
+        {% elif item.action == 'scrobble' %}
+          <b>Watched:</b>
+        {% elif item.action == 'checkin' %}
+          <b>Checkin:</b>
+        {% elif item.action == 'seen' %}
+          <b>Marked as Watched:</b>
+        {% elif item.action == 'collection' %}
+          <b>Added to collection:</b>
+        {% elif item.action == 'watchlist' %}
+          <b>Added to watch list:</b>
+        {% elif item.action == 'shout' %}
+          <b>Shouted about:</b>
+        {% elif item.action == 'created' %}
+          <b>Created:</b>
+        {% elif item.action == 'item_added' %}
+          <b>Added item:</b>
+        {% endif %}
+
+        {% if item.type == 'episode' %}
+          <span>
+            <span class="goto_show list_link addloading" data-id="{{ item.show.imdb_id }}">
+              {{ item.show.title }}
+            </span>
+              <span
+                class="goto_episode list_link addloading" 
+                data-id="{{ item.show.imdb_id }}" 
+                data-season="{{ item.episode.season }}"
+                data-episode="{{ item.episode.number }}"
+              >
+                {{ item.episode.season }}x{{ item.episode.number }} - {{ item.episode.title }}
+              </span>
+          </span>
+        {% elif item.type == 'movie' %}
+            <span class="list_link goto_movie addloading" data-id="{{ item.movie.imdb_id }}">
+              {{ item.movie.title }} ({{ item.movie.year }})
+            </span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endif %}
+{% endblock %}
