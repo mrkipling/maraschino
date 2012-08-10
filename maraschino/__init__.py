@@ -99,13 +99,34 @@ def initialize():
         # Web server settings
         from tools import get_setting_value
 
-        if get_setting_value('maraschino_port') != None or '':
-            port_arg = False
-            for arg in ARGS:
-                if arg == '--port' or '-p':
-                    port_arg = True
-            if not port_arg:
+        # get port value from UI or command line
+        # if a port is specified as a command line option (PORT contains unvalidated data for now)...
+        if PORT != None:
+            # ...try to parse it...
+            try:
+                PORT = int(PORT)
+                if PORT < 0 or PORT > 65535:
+                    raise ValueError
+            # ...or fallback to default.
+            except ValueError:
+                PORT = 7000
+                logger.log('The specified port via --port is not valid! Must be integer between 0 and 65535. Falling back to default port 7000.', 'CRITICAL')
+        # ...else look if a port is set in the UI...
+        elif get_setting_value('maraschino_port') != None or '':
+            # ...and try to parse it...
+            try:
                 PORT = int(get_setting_value('maraschino_port'))
+                if PORT < 0 or PORT > 65535:
+                    raise ValueError
+            # ...or fallback to default.
+            except ValueError:
+                PORT = 7000
+                logger.log('The specified port via UI is not valid! Must be integer between 0 and 65535. Falling back to default port 7000.', 'CRITICAL')
+        # if everything fails, use default.
+        else:
+            PORT = 7000
+            logger.log('No Port specified. Falling back to default port 7000.', 'INFO')
+        
 
         # Set up AUTH
         username = get_setting_value('maraschino_username')

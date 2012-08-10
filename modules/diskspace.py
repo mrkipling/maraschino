@@ -113,8 +113,8 @@ def disk_usage(path):
         used = float((st.f_blocks - st.f_bfree) * st.f_frsize)
 
     return {
-        'total': format_number(total),
-        'used': format_number(used),
-        'free': format_number(free),
+        'total': convert_bytes(total),
+        'used': convert_bytes(used),
+        'free': convert_bytes(free),
         'percentage_used': int((float(used)/float(total))*100),
     }

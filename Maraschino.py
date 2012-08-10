@@ -117,10 +117,9 @@ def main():
         maraschino.PIDFILE = options.pidfile
         maraschino.VERBOSE = False
 
+    PORT = None
     if options.port:
-        PORT = int(options.port)
-    else:
-        PORT = 7000
+        PORT = options.port
 
     if options.log:
         maraschino.LOG_FILE = options.log

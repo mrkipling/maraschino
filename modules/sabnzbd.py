@@ -70,7 +70,7 @@ def xhr_sabnzbd(queue_status='hide'):
         sabnzbd = json.JSONDecoder().decode(result)
         sabnzbd = sabnzbd['queue']
 
-        download_speed = format_number(int((sabnzbd['kbpersec'])[:-3]) * 1024) + '/s'
+        download_speed = convert_bytes(int((sabnzbd['kbpersec'])[:-3]) * 1024) + '/s'
 
         if sabnzbd['slots']:
             for item in sabnzbd['slots']:

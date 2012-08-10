@@ -54,7 +54,12 @@ def server_address():
     if not server['hostname'] and not server['port']:
         return None
 
-    return 'http://%s%s:%s' % (server_username_password(), server['hostname'], server['port'])
+    # if auth is used, build the correct path including username and password
+    username_password = ''
+    if using_auth():
+        username_password = server_username_password()
+
+    return 'http://%s%s:%s' % (username_password, server['hostname'], server['port'])
 
 def server_api_address():
     address = server_address()
@@ -63,14 +68,3 @@ def server_api_address():
         return None
 
     return '%s/jsonrpc' % (address)
-
-def safe_server_address():
-    if using_auth():
-        return server_address()
-
-    server = server_settings()
-
-    if not server['hostname'] and not server['port']:
-        return None
-
-    return 'http://%s:%s' % (server['hostname'], server['port'])
