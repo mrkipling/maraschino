@@ -60,7 +60,7 @@ def xhr_start_script(script_id):
     script = Script.query.filter(Script.id == script_id).first()
     now = datetime.datetime.now()
 
-    command = os.path.join(script_dir(),script.script)
+    command = os.path.join(maraschino.SCRIPT_DIR,script.script)
     
     if (script.parameters):
         command = ''.join([command, ' ', script.parameters])
@@ -70,16 +70,17 @@ def xhr_start_script(script_id):
     port = maraschino.PORT
     webroot = maraschino.WEBROOT
     
+    if not webroot:
+        webroot = '/'
+    
     file_ext = os.path.splitext(script.script)[1]
     
     if (file_ext == '.py'):
         if (script.updates == 1):        
             #these are extra parameters to be passed to any scripts ran, so they 
             #can update the status if necessary
-            if webroot:
-                extras = '--i "%s" --p "%s" --s "%s" --w "%s"' % (host, port, script.id, webroot)
-            else:
-                extras = '--i "%s" --p "%s" --s "%s"' % (host, port, script.id)
+            extras = '--i "%s" --p "%s" --s "%s" --w "%s"' % (host, port, script.id, webroot)
+            
             #the command in all its glory
             command = ''.join([command, ' ', extras])
             script.status="Script Started at: %s" % now.strftime("%m-%d-%Y %H:%M")
@@ -89,11 +90,8 @@ def xhr_start_script(script_id):
         command =  ''.join(['python ', command])
         
     elif (file_ext in ['.sh', '.pl']):
-        if (script.updates == 1):   
-            if webroot:
-                extras = '%s %s %s %s' % (host, port, script.id, webroot)
-            else:
-                extras = '%s %s %s' % (host, port, script.id)
+        if (script.updates == 1):
+            extras = '%s %s %s %s' % (host, port, script.id, webroot)
             #the command in all its glory
             command = ''.join([command, ' ', extras])
             script.status="Script Started at: %s" % now.strftime("%m-%d-%Y %H:%M")
@@ -125,7 +123,7 @@ def edit_script_dialog(script_id):
 def add_edit_script_dialog(script_id=None):
     script = None
     script_files = get_file_list(
-        folder = script_dir(),
+        folder = maraschino.SCRIPT_DIR,
         extensions = ['.py', '.sh', '.pl'],
         prepend_path = False,
         prepend_path_minus_root = True
@@ -196,9 +194,6 @@ def delete_script(script_id):
         return jsonify({ 'status': 'Delete Failed' })
     
     return xhr_script_launcher()
-
-def script_dir():
-    return get_setting('script_dir').value
 
     
     

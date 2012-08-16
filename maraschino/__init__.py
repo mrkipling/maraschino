@@ -26,6 +26,7 @@ SERVER = None
 HOST = '0.0.0.0'
 KIOSK = False
 DATA_DIR = None
+SCRIPT_DIR = None
 
 AUTH = {
     'username': None,
@@ -43,7 +44,7 @@ def initialize():
     with INIT_LOCK:
 
         global __INITIALIZED__, app, FULL_PATH, RUNDIR, ARGS, DAEMON, PIDFILE, VERBOSE, LOG_FILE, LOG_DIR, logger, PORT, SERVER, DATABASE, AUTH, \
-                CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT, HOST, KIOSK, DATA_DIR
+                CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT, HOST, KIOSK, DATA_DIR, SCRIPT_DIR
 
         if __INITIALIZED__:
             return False
@@ -63,6 +64,17 @@ def initialize():
                     print 'Unable to create the log directory.'
 
         logger = maraschinoLogger(LOG_FILE, VERBOSE)
+        
+        #set up script dir
+        if not SCRIPT_DIR:
+            SCRIPT_DIR = os.path.join(RUNDIR, 'scripts')
+
+        if not os.path.exists(SCRIPT_DIR):
+            try:
+                os.makedirs(SCRIPT_DIR)
+            except OSError:
+                if VERBOSE:
+                    print 'Unable to create the scripts directory.'
 
         # check if database exists or create it
         from database import init_db

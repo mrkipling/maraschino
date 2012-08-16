@@ -343,13 +343,6 @@ AVAILABLE_MODULES = [
         'static': False,
         'poll': 350,
         'delay': 0,
-        'settings': [
-            {
-                'key': 'script_dir',
-                'value': '',
-                'description': 'Script Directory',
-            },
-        ]
     },
     {
         'name': 'synopsis',
