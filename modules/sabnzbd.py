@@ -21,9 +21,13 @@ def sab_http():
 def sabnzbd_url_no_api():
     url_base = get_setting_value('sabnzbd_host')
     port = get_setting_value('sabnzbd_port')
+    webroot = get_setting_value('sabnzbd_webroot')
 
     if port:
         url_base = '%s:%s' % (url_base, port)
+
+    if webroot:
+       url_base = '%s/%s' % (url_base, webroot)
 
     return sab_http() + url_base
 
