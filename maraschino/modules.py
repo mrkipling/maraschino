@@ -73,6 +73,11 @@ AVAILABLE_MODULES = [
                 'description': 'CouchPotato Port',
             },
             {
+                'key': 'couchpotato_webroot',
+                'value': '',
+                'description': 'CouchPotato Webroot',
+            },
+            {
                 'key': 'couchpotato_https',
                 'value': '0',
                 'description': 'Use HTTPS',
@@ -111,6 +116,11 @@ AVAILABLE_MODULES = [
                 'key': 'headphones_port',
                 'value': '',
                 'description': 'Headphones Port',
+            },
+            {
+                'key': 'headphones_webroot',
+                'value': '',
+                'description': 'Headphones Webroot',
             },
             {
                 'key': 'headphones_user',
@@ -324,6 +334,11 @@ AVAILABLE_MODULES = [
                 'description': 'Port',
             },
             {
+                'key': 'sabnzbd_webroot',
+                'value': '',
+                'description': 'Webroot',
+            },
+            {
                 'key': 'sabnzbd_api',
                 'value': '',
                 'description': 'API Key',
@@ -488,6 +503,11 @@ AVAILABLE_MODULES = [
                 'key': 'sickbeard_port',
                 'value': '',
                 'description': 'Sickbeard Port',
+            },
+            {
+                'key': 'sickbeard_webroot',
+                'value': '',
+                'description': 'Sickbeard Webroot',
             },
             {
                 'key': 'sickbeard_https',

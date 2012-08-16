@@ -16,9 +16,13 @@ def headphones_http():
 def headphones_url():
     port = get_setting_value('headphones_port')
     url_base = get_setting_value('headphones_host')
+    webroot = get_setting_value('headphones_webroot')
 
     if port:
         url_base = '%s:%s' % (url_base, port)
+
+    if webroot:
+        url_base = '%s/%s' % (url_base, webroot)
 
     return headphones_http() + url_base
 
