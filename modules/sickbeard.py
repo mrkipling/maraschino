@@ -26,9 +26,13 @@ def login_string():
 def sickbeard_url():
     port = get_setting_value('sickbeard_port')
     url_base = get_setting_value('sickbeard_ip')
+    webroot = get_setting_value('sickbeard_webroot')
 
     if port:
         url_base = '%s:%s' % (url_base, port)
+
+    if webroot:
+        url_base = '%s/%s' % (url_base, webroot)
 
     url = '%s/api/%s' % (url_base, get_setting_value('sickbeard_api'))
 
