@@ -40,8 +40,12 @@ def sab_link():
     SABNZBD_HOST = get_setting_value('sabnzbd_host')
     SABNZBD_PORT = get_setting_value('sabnzbd_port')
     SABNZBD_API = get_setting_value('sabnzbd_api')
+    SABNZBD_WEBROOT = get_setting_value('sabnzbd_webroot')
 
     SABNZBD_URL = '%s%s:%s' % (sab_http(), SABNZBD_HOST, SABNZBD_PORT)
+
+    if SABNZBD_WEBROOT:
+        SABNZBD_URL = '%s/%s' % (SABNZBD_URL, SABNZBD_WEBROOT)
 
     return '%s/api?apikey=%s' % (SABNZBD_URL, SABNZBD_API)
 

@@ -45,11 +45,15 @@ def sickbeard_url():
 def sickbeard_url_no_api():
     port = get_setting_value('sickbeard_port')
     url_base = get_setting_value('sickbeard_ip')
+    webroot = get_setting_value('sickbeard_webroot')
 
     if port:
         url_base = '%s:%s' % (url_base, port)
 
-    if using_auth():
+    if webroot:
+        url_base = '%s/%s' % (url_base, webroot)
+
+    if login_string():
         return sickbeard_http() + login_string() + url_base
 
     return sickbeard_http() + url_base

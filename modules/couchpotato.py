@@ -27,12 +27,12 @@ def couchpotato_url():
     webroot = get_setting_value('couchpotato_webroot')
     
     if port:
-        url_base = '%s:%s' % ( url_base, port )
+        url_base = '%s:%s' % (url_base, port)
 
     if webroot:
-        url_base = '%s/%s' % ( url_base, webroot )
+        url_base = '%s/%s' % (url_base, webroot)
     
-    url = '%s/api/%s' % ( url_base, get_setting_value('couchpotato_api') )
+    url = '%s/api/%s' % (url_base, get_setting_value('couchpotato_api'))
     
     if login_string():
         return couchpotato_http() + login_string() + url
@@ -43,9 +43,13 @@ def couchpotato_url():
 def couchpotato_url_no_api():
     port = get_setting_value('couchpotato_port')
     url_base = get_setting_value('couchpotato_ip')
-    
+    webroot = get_setting_value('couchpotato_webroot')
+
     if port:
-        url_base = '%s:%s' % ( url_base, port )
+        url_base = '%s:%s' % (url_base, port)
+
+    if webroot:
+        url_base = '%s/%s' % (url_base, webroot)
     
     if login_string():
         return couchpotato_http() + login_string() + url_base
