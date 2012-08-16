@@ -46,6 +46,8 @@ def index():
 
     except:
         pass
+    
+    new_tab = get_setting_value('app_new_tab') == '1'
 
     # display random background when not watching media (if setting enabled)
     # only changes on page refresh
@@ -129,7 +131,8 @@ def index():
         library_show_power_buttons = library_show_power_buttons,
         show_tutorial = unorganised_modules.count() == 0,
         webroot = maraschino.WEBROOT,
-        kiosk = maraschino.KIOSK
+        kiosk = maraschino.KIOSK,
+        new_tab = new_tab
     )
 
 @app.route('/xhr/shutdown')

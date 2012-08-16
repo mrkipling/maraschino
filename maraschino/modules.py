@@ -27,7 +27,7 @@ AVAILABLE_MODULES = [
         'name': 'applications',
         'label': 'Applications',
         'description': 'Allows you to link to whatever applications you want (SabNZBd, SickBeard, etc.)',
-        'static': False,
+        'static': True,
         'poll': 0,
         'delay': 0,
         'settings': [
