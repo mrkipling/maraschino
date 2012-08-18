@@ -320,6 +320,8 @@ def render_library(library=None, title="Media Library", file_type=None, previous
         file_type=file_type,
         previous_dir=previous_dir,
         show_info=get_setting_value('library_show_info') == '1',
+        show_music=get_setting_value('library_show_music') == '1',
+        show_files=get_setting_value('library_show_files') == '1',
         library_show_power_buttons=get_setting_value('library_show_power_buttons', '1') == '1',
         bannerart=get_setting_value('library_use_bannerart') == '1',
     )

@@ -179,6 +179,18 @@ AVAILABLE_MODULES = [
                 'description': 'Show Power Controls',
                 'type': 'bool',
             },
+            {
+                'key': 'library_show_music',
+                'value': '1',
+                'description': 'Show music',
+                'type': 'bool',
+            },
+            {
+                'key': 'library_show_files',
+                'value': '1',
+                'description': 'Show files',
+                'type': 'bool',
+            },
         ]
     },
     {

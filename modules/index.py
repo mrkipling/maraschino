@@ -127,6 +127,8 @@ def index():
         fanart_backgrounds = fanart_backgrounds,
         applications = applications,
         library_show_power_buttons = library_show_power_buttons,
+        show_music=get_setting_value('library_show_music') == '1',
+        show_files=get_setting_value('library_show_files') == '1',
         show_tutorial = unorganised_modules.count() == 0,
         webroot = maraschino.WEBROOT,
         kiosk = maraschino.KIOSK
