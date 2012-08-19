@@ -99,10 +99,10 @@ def initialize():
         # Web server settings
         from tools import get_setting_value
 
-        if get_setting_value('maraschino_port') != None or '':
+        if get_setting_value('maraschino_port'):
             port_arg = False
             for arg in ARGS:
-                if arg == '--port' or '-p':
+                if arg == '--port' or arg == '-p':
                     port_arg = True
             if not port_arg:
                 PORT = int(get_setting_value('maraschino_port'))
