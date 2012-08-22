@@ -11,7 +11,7 @@
       {% elif album %}
         <span class="head_item get back" data-url="/artist/{{ album.album.0.ArtistID }}"><span>&laquo;</span></span>
       {% else %}
-        <a class="head_item get {{ 'highlight' if artists }}" data-url="/artists" title="Artits">
+        <a class="head_item get {{ 'highlight' if artists }}" data-url="/artists" title="Artists">
           <img src="{{ url_for('static', filename='images/music_note.png') }}" width="14" height="14"/>
         </a>
       {% endif %}
