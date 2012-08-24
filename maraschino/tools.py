@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Util functions for different things. For example: format time or bytesize correct."""
+
 from flask import request, Response
 from functools import wraps
 from jinja2.filters import FILTERS
@@ -14,7 +17,6 @@ def check_auth(username, password):
     password combination is valid.
     """
     return username == maraschino.AUTH['username'] and password == maraschino.AUTH['password']
-
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
@@ -40,6 +42,7 @@ def requires_auth(f):
     return decorated
 
 def using_auth():
+    """Check if authentication is necessary"""
     if maraschino.AUTH['username'] != None and maraschino.AUTH['password'] != None:
         return True
 
@@ -47,6 +50,7 @@ def using_auth():
         return False
 
 def format_time(time):
+    """Format the time for the player info"""
     formatted_time = ''
 
     if time['hours'] > 0:
@@ -71,6 +75,7 @@ def format_number(num):
     return str(num) + ' bytes'
 
 def get_setting(key):
+    """Get setting 'key' from db"""
     try:
         return Setting.query.filter(Setting.key == key).first()
 
@@ -78,6 +83,7 @@ def get_setting(key):
         return None
 
 def get_setting_value(key, default=None):
+    """Get value for setting 'key' from db"""
     try:
         value = Setting.query.filter(Setting.key == key).first().value
 
@@ -90,6 +96,7 @@ def get_setting_value(key, default=None):
         return default
 
 def get_file_list(folder, extensions, prepend_path=True):
+    """Get list of all files in folder that match an extension. This walks the folder recursively"""
     filelist = []
 
     for root, subFolders, files in os.walk(folder):
@@ -133,6 +140,7 @@ def convert_bytes(bytes, with_extension=True):
 FILTERS['convert_bytes'] = convert_bytes
 
 def xbmc_image(url):
+    """Build xbmc image url"""
     if url.startswith('special://'): #eden
         return '%s/xhr/xbmc_image/eden/%s' % (maraschino.WEBROOT, url[len('special://'):])
     elif url.startswith('image://'): #frodo
@@ -143,16 +151,16 @@ def xbmc_image(url):
 
 FILTERS['xbmc_image'] = xbmc_image
 
-
 def epochTime(seconds):
+    """Convert the time expressed by 'seconds' since the epoch to string"""
     import time
     return time.ctime(seconds)
 
 FILTERS['time'] = epochTime
 
-
 @app.route('/xhr/xbmc_image/<version>/<path:url>')
 def xbmc_proxy(version, url):
+    """Proxy XBMC image to make it accessible from external networks."""
     from maraschino.noneditable import server_address
 
     if version == 'eden':

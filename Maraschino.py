@@ -1,11 +1,16 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""This is the main executable of Maraschino. It parses the command line arguments, does init and calls the start function of Maraschino."""
+
 import sys
 import os
 
+# Determine Maraschino run dir
 rundir = os.path.dirname(os.path.abspath(__file__))
 
+# Var sys.frozen is set by py2exe and is needed to define the rundir
 try:
     frozen = sys.frozen
-
 except AttributeError:
     frozen = False
 
@@ -13,7 +18,6 @@ except AttributeError:
 if frozen:
     path_base = os.environ['_MEIPASS2']
     rundir = os.path.dirname(sys.executable)
-
 else:
     path_base = rundir
 
@@ -21,11 +25,13 @@ else:
 sys.path.insert(0, path_base)
 sys.path.insert(0, os.path.join(path_base, 'lib'))
 
+# Create Flask instance
 from flask import Flask
 app = Flask(__name__)
 
 
 def import_modules():
+    """All modules that are available in Maraschino are at this point imported."""
     import modules.applications
     import modules.controls
     import modules.couchpotato
@@ -53,16 +59,19 @@ def import_modules():
 
 @app.teardown_request
 def shutdown_session(exception=None):
+    """This function is called as soon as a session is shutdown and makes sure, that the db session is also removed."""
     from maraschino.database import db_session
     db_session.remove()
 
 import maraschino
 
-
 def main():
+    """Main function that is called at the startup of Maraschino."""
     from optparse import OptionParser
+
     p = OptionParser()
 
+    # define command line options
     p.add_option('-p', '--port',
                  dest='port',
                  default=None,
@@ -90,10 +99,10 @@ def main():
                  help='Custom database file location')
     p.add_option('--webroot',
                  dest='webroot',
-                 help='web root for Maraschino')
+                 help='Web root for Maraschino')
     p.add_option('--host',
                  dest='host',
-                 help='web host for Maraschino')
+                 help='Web host for Maraschino')
     p.add_option('--kiosk',
                  dest='kiosk',
                  action='store_true',
@@ -102,6 +111,7 @@ def main():
                  dest='datadir',
                  help='Write program data to custom location')
 
+    # parse command line for defined options
     options, args = p.parse_args()
 
     if options.datadir:
