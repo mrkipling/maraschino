@@ -1,35 +1,45 @@
+# -*- coding: utf-8 -*-
+"""Maraschino auto updater."""
+
 # Original code by Mikie (https://github.com/Mikie-Ghost/)
 import maraschino
 from maraschino import RUNDIR, logger, DATA_DIR
 import urllib2, tarfile, os, shutil, platform, subprocess, re
 from flask import json
 
+# define master repo as user and branch in github repo
 user = 'mrkipling'
 branch = 'master'
 
 def joinRundir(path):
+    """Join rundir with 'path'"""
     return os.path.join(RUNDIR, path)
 
+# file containg currently installed version hash
 version_file = os.path.join(DATA_DIR, 'Version.txt')
 
 def writeVersion(hash):
+    """Write hash to version file"""
     f = open(version_file, 'w')
     f.write(hash)
     f.close()
 
 def latestCommit():
+    """Get SHA hash from latest commit"""
     url = 'https://api.github.com/repos/%s/maraschino/commits/%s' % (user, branch)
     result = urllib2.urlopen(url).read()
     git = json.JSONDecoder().decode(result)
     return git['sha']
 
 def commitsBehind():
+    """Calculate how many commits are missing"""
     url = 'https://api.github.com/repos/%s/maraschino/compare/%s...%s' % (user, maraschino.CURRENT_COMMIT, maraschino.LATEST_COMMIT)
     result = urllib2.urlopen(url).read()
     git = json.JSONDecoder().decode(result)
     return git['total_commits']
 
 def checkGithub():
+    """Check github repo for updates"""
     logger.log('UPDATER :: Checking for updates', 'INFO')
 
     try:
@@ -52,15 +62,16 @@ def checkGithub():
             logger.log('UPDATER :: Up to date', 'INFO')
 
         elif maraschino.COMMITS_BEHIND == -1:
-            logger.log('UPDATER :: Uknown version. Please run the updater', 'INFO')
+            logger.log('UPDATER :: Unknown version. Please run the updater', 'INFO')
 
     else:
-        logger.log('UPDATER :: Uknown version. Please run the updater', 'INFO')
+        logger.log('UPDATER :: Unknown version. Please run the updater', 'INFO')
 
     return maraschino.COMMITS_BEHIND
 
 def RemoveUpdateFiles():
-    logger.log('UPDATER :: Removing upodate files', 'INFO')
+    """Remove the downloaded new version"""
+    logger.log('UPDATER :: Removing update files', 'INFO')
     tar_file = joinRundir('maraschino.tar.gz')
     update_folder = joinRundir('maraschino-update')
 
@@ -81,6 +92,7 @@ def RemoveUpdateFiles():
     return
 
 def Update():
+    """Update maraschino installation"""
     if maraschino.USE_GIT:
         update = gitUpdate()
         if update == 'complete':
@@ -151,6 +163,7 @@ def Update():
     return True
 
 def runGit(args):
+    """Run git command with args as arguments"""
     git_locations = ['git']
 
     if platform.system().lower() == 'darwin':
@@ -182,6 +195,7 @@ def runGit(args):
     return (output, err)
 
 def gitCurrentVersion():
+    """Get version hash for local installation"""
     output, err = runGit('rev-parse HEAD')
 
     if not output:
@@ -200,6 +214,7 @@ def gitCurrentVersion():
     return
 
 def gitUpdate():
+    """Update Maraschino using git"""
     output, err = runGit('pull origin %s' % branch)
 
     if not output:
