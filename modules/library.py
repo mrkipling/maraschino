@@ -308,7 +308,10 @@ def xhr_library_files_directory(file_type):
     else:
         windows = False
 
-    previous_dir = path[0:-1]
+    if path.endswith('\\') or path.endswith('/'):
+        previous_dir = path[:-1]
+    else:
+        previous_dir = path
 
     if windows:
         x = previous_dir.rfind("\\")
@@ -316,12 +319,16 @@ def xhr_library_files_directory(file_type):
         x = previous_dir.rfind("/")
 
     current_dir = previous_dir[x + 1:]
-    previous_dir = previous_dir[0:x + 1]
+    previous_dir = previous_dir[:x + 1]
 
     for source in sources['sources']:
         if source['file'] in path:
             current_source = source['file']
             source_label = source['label']
+            break
+        else:
+            current_source = 'special://userdata/playlists/%s/' % file_type
+            source_label = 'Playlists'
 
     if not current_source in previous_dir:
         previous_dir = "sources"

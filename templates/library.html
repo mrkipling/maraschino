@@ -269,6 +269,9 @@
             {{ item.label }}
           </li>
         {% endfor %}
+        <li class="dir" data-file_type="video" data-command="files/video/playlists" data-path="special://userdata/playlists/video/">
+          Playlists
+        </li>
       {% endif %}
 
       {% if file_type == "music" %}
@@ -279,6 +282,9 @@
             </li>
           {% endif %}
         {% endfor %}
+        <li class="dir" data-file_type="music" data-command="files/music/playlists" data-path="special://userdata/playlists/music/">
+          Playlists
+        </li>
       {% endif %}
 
       {% if file_type == "video_directory" %}
