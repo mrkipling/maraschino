@@ -72,14 +72,6 @@ def xhr_library_root(item_type):
             library = xbmc.AudioLibrary.GetArtists(sort={'method': 'label', 'ignorearticle': True})
             logger.log('LIBRARY :: Finished retrieveing music', 'DEBUG')
 
-            for artist in library['artists']:
-                artistid = artist['artistid']
-                try:
-                    xbmc.AudioLibrary.GetArtistDetails(artistid=artistid, properties=['description', 'thumbnail', 'genre'])
-                    artist['details'] = "True"
-                except:
-                    None
-
         if item_type == 'files':
             logger.log('LIBRARY :: Retrieving files', 'INFO')
             title = "Files"
