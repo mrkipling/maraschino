@@ -214,8 +214,9 @@ def xhr_library_info(type, id):
             title = library['albumdetails']['title']
 
     except:
-        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
-        return render_library(message=xbmc_error)
+        message = 'Could not retrieve %s details' % type
+        logger.log('LIBRARY :: %s' % message, 'ERROR')
+        return render_library(message=message)
 
     return render_library(library, title)
 
