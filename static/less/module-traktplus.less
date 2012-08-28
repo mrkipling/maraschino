@@ -23,6 +23,21 @@
     color: red;
   }
 
+  .bar {
+    border: 1px solid #777;
+    height: 5px;
+    margin-top: 8px;
+    width: 100%;
+    max-width: 100%;
+    .border-radius(3px);
+
+    .inner {
+      background-color: #eee;
+      max-width: inherit;
+      height: 5px;
+    }
+  }
+
   .button,
   .media_btn,
   .req_btn {
@@ -102,7 +117,8 @@
   .watchlist,
   .rated,
   .custom_lists,
-  .profile_custom_lists {
+  .profile_custom_lists,
+  .progress {
     ul {
       max-height: 225px;
       overflow-y: auto;
@@ -252,21 +268,6 @@
         float: right;
         padding-left: 5px;
         padding-right: 5px;
-      }
-
-      .bar {
-        border: 1px solid #777;
-        height: 5px;
-        margin-top: 8px;
-        width: 100%;
-        max-width: 100%;
-        .border-radius(3px);
-
-        .inner {
-          background-color: #eee;
-          max-width: inherit;
-          height: 5px;
-        }
       }
     }
 
@@ -554,6 +555,16 @@
     }
   }
 
+  .progress {
+    .pullright {
+      float: right;
+    }
+
+    .season .bar {
+      width: 80%;
+      display: inline-block;
+    }
+  }
 }
 
 .f_settings_mode #traktplus .loading {

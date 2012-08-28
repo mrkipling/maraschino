@@ -7,7 +7,7 @@ from maraschino import logger, app, WEBROOT, DATA_DIR
 threads = []
 
 
-def trak_api(url, params={}):
+def trak_api(url, params={}, dev=False):
     username = get_setting_value('trakt_username')
     password = hashlib.sha1(get_setting_value('trakt_password')).hexdigest()
 
@@ -18,8 +18,13 @@ def trak_api(url, params={}):
 
     response = urllib2.urlopen(request)
     response = response.read()
+    response = json.JSONDecoder().decode(response)
 
-    return json.JSONDecoder().decode(response)
+    if dev:
+        print url
+        print json.dumps(response, sort_keys=True, indent=4)
+
+    return response
 
 
 def trakt_apikey():
@@ -308,6 +313,29 @@ def xhr_trakt_profile(user=None):
         movies_progress=int(movies_progress),
         episodes_progress=int(episodes_progress),
         title='Profile',
+    )
+
+
+@app.route('/xhr/trakt/progress/<user>')
+@app.route('/xhr/trakt/progress/<user>/<type>')
+@requires_auth
+def xhr_trakt_progress(user, type=None):
+    if not type:
+        type = 'watched'
+
+    logger.log('TRAKT :: Fetching %s\'s %s progress' % (user, type), 'INFO')
+    url = 'http://api.trakt.tv/user/progress/%s.json/%s/%s' % (type, trakt_apikey(), user)
+
+    try:
+        trakt = trak_api(url)
+    except Exception as e:
+        trakt_exception(e)
+        return render_template('traktplus/trakt-base.html', message=e)
+
+    return render_template('traktplus/trakt-progress.html',
+        progress=trakt,
+        user=user,
+        type=type,
     )
 
 

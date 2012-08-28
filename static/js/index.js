@@ -1806,6 +1806,10 @@ $(document).ready(function() {
     e.stopPropagation();
   });
 
+  $(document).on('click', '#traktplus .toggle_hidden', function(e) {
+    e.stopPropagation();
+  });
+
   $(document).on('click', '#traktplus .toggle_hidden', function() {
     var arrow = $(this).children('img');
     var div = $(this).next('.hidden');
