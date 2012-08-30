@@ -593,7 +593,8 @@ AVAILABLE_MODULES = [
             {
                 'key': 'weather_location',
                 'value': '',
-                'description': 'Location - can be a U.S. zip code or city name, state or city name, country',
+                'description': 'weather.com area ID',
+                'link': 'http://edg3.co.uk/snippets/weather-location-codes/',
             },
             {
                 'key': 'weather_use_celcius',

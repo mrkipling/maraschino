@@ -3,88 +3,112 @@
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
 
-  <h2>Weather in {{ title }}</h2>
-{% if compact_view %}
-<table>
-  <tr>
-    <td><strong>Current</strong></td>
-    <td><img class="compactforecastimg" src="{{ currentimage }}"/></td>
-    <td>{{ current_conditions.condition }}</td>
-    <td class="high">{{ current_temp }}</td>  
-    <td><strong>{{ wind[6:25] }}</strong></td>
-  </tr>
-  <tr>
-    <td><strong>Today</strong></td>
-    <td><img class="compactforecastimg" src="{{ day1image }}"/></td>
-    <td>{{ day1.condition }}</td>
-    <td class="high">{{ day1.high }}</td>  
-    <td class="low">{{ day1.low }}</td>
-  </tr>
-  <tr>
-    <td><strong>Tomorrow</strong></td>
-    <td><img class="compactforecastimg" src="{{ day2image }}"/></td>
-    <td>{{ day2.condition }}</td>
-    <td class="high">{{ day2.high }}</td>  
-    <td class="low">{{ day2.low }}</td>
-  </tr>
-</table>
-{% else %}
-<table>
-  <tr>
-    <td colspan="5">
-      <div class="container" id="time_banner">
-        <b>
-          <div class="clock">
-            <span class="date">{{ date }}</span>
-            <span class="{% if meridian %}12{% endif %}hours"></span>
-            <span>:</span>
-            <span class="min"></span>
-            <span>:</span>
-            <span class="sec"></span>
-            <span class="meridian"></span>
-          </div>
-          <div class="current">Current as of {{ time }} <span class="meridian"></span></div>
-        </b>
-      </div>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2"><center class="currentcond"><img class="currentimage" src="{{ currentimage }}"/><br />{{ current_conditions.condition }}<br /><br /></center></td>
-    <td colspan="1" class="currenttemp">{{ current_temp }}</td>
-    <td colspan="2"><center class="currentcond"><img src="{{ wind_image }}" /><br>{{ wind[11:25] }}<br /><br /></center></td>
-  </tr>
-  <tr class="forecast_title">
-    <td colspan="5"><div class="container"><b>Forecast</b></div></u></td>
-  </td>
-  <tr class="forecast">
-    <td><strong>Today</strong></td>
-    <td><img class="forecastimg" src="{{ day1image }}"/></td>
-    <td>{{ day1.condition }}</td>
-    <td class="high">{{ day1.high }}</td>  
-    <td class="low">{{ day1.low }}</td>
-  </tr>
-  <tr class="forecast">
-    <td><strong>{{ day2.day_of_week }}</strong></td>
-    <td><img class="forecastimg" src="{{ day2image }}"/></td>
-    <td>{{ day2.condition }}</td>
-    <td class="high">{{ day2.high }}</td>  
-    <td class="low">{{ day2.low }}</td>
-  </tr>
-  <tr class="forecast">
-    <td><strong>{{ day3.day_of_week }}</strong></td>
-    <td><img class="forecastimg" src="{{ day3image }}"/></td>
-    <td>{{ day3.condition }}</td>
-    <td class="high">{{ day3.high }}</td>  
-    <td class="low">{{ day3.low }}</td>
-  </tr>
-  <tr class="forecast">
-    <td><strong>{{ day4.day_of_week }}</strong></td>
-    <td><img class="forecastimg" src="{{ day4image }}"/></td>
-    <td>{{ day4.condition }}</td>
-    <td class="high">{{ day4.high }}</td>  
-    <td class="low">{{ day4.low }}</td>
-  </tr>
- </table>
-{% endif %}
+  {% if weather %}
+    <h2>Weather in {{ weather.current.cityname }}</h2>
+    <table>
+    {% if compact_view %}
+
+        <tr>
+          <td><strong>Current</strong></td>
+          <td><img class="compactforecastimg" src="{{ weather.current.image }}"/></td>
+          <td>{{ weather.current.type }}</td>
+          <td class="high">{{ weather.current.temperature|weather_temp }}</td>
+          <td><strong>{{ weather.current.wind.speed|weather_speed }}</strong></td>
+        </tr>
+        {% if weather.forecast.0 %}
+          <tr>
+            <td><strong>Today</strong></td>
+            <td><img class="compactforecastimg" src="{{ weather.forecast.0.image }}"/></td>
+            <td>{{ weather.forecast.0.day.type }}</td>
+            <td class="high">{{ weather.forecast.0.high|weather_temp }}</td>
+            <td class="low">{{ weather.forecast.0.low|weather_temp }}</td>
+          </tr>
+        {% endif %}
+
+        {% if weather.forecast.1 %}
+          <tr>
+            <td><strong>Tomorrow</strong></td>
+            <td><img class="compactforecastimg" src="{{ weather.forecast.1.image }}"/></td>
+            <td>{{ weather.forecast.1.day.type }}</td>
+            <td class="high">{{ weather.forecast.1.high|weather_temp }}</td>
+            <td class="low">{{ weather.forecast.1.low|weather_temp }}</td>
+          </tr>
+        {% endif %}
+
+      {% else %}
+
+        <tr>
+          <td colspan="5">
+            <div class="container" id="time_banner">
+              <b>
+                <div class="clock">
+                  <span class="date">{{ date }}</span>
+                  <span class="{% if meridian %}12{% endif %}hours"></span>
+                  <span>:</span>
+                  <span class="min"></span>
+                  <span>:</span>
+                  <span class="sec"></span>
+                  <span class="meridian"></span>
+                </div>
+                <div class="current">Current as of {{ time }} <span class="meridian"></span></div>
+              </b>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <center class="currentcond">
+              <img class="currentimage" src="{{ weather.current.image }}"/>
+              <br />
+              {{ weather.current.type }}
+              <br />
+              <br />
+            </center>
+          </td>
+          <td colspan="1" class="currenttemp">{{ weather.current.temperature|weather_temp }}</td>
+          <td colspan="2">
+            <center class="currentcond">
+              <img src="{{ wind_image }}" /><br>{{ weather.current.wind.speed|weather_speed }}
+              <br />
+              <br />
+            </center>
+          </td>
+        </tr>
+        <tr class="forecast_title">
+          <td colspan="5"><div class="container"><b>Forecast</b></div></u></td>
+        </td>
+        <tr class="forecast">
+          <td><strong>Today</strong></td>
+          <td><img class="forecastimg" src="{{ weather.forecast.0.image }}"/></td>
+          <td>{{ weather.forecast.0.day.type }}</td>
+          <td class="high">{{ weather.forecast.0.high|weather_temp }}</td>
+          <td class="low">{{ weather.forecast.0.low|weather_temp }}</td>
+        </tr>
+        <tr class="forecast">
+          <td><strong>{{ weather.forecast.1.Day }}</strong></td>
+          <td><img class="forecastimg" src="{{ weather.forecast.1.image }}"/></td>
+          <td>{{ weather.forecast.1.day.type }}</td>
+          <td class="high">{{ weather.forecast.1.high|weather_temp }}</td>
+          <td class="low">{{ weather.forecast.1.low|weather_temp }}</td>
+        </tr>
+        <tr class="forecast">
+          <td><strong>{{ weather.forecast.2.Day }}</strong></td>
+          <td><img class="forecastimg" src="{{ weather.forecast.2.image }}"/></td>
+          <td>{{ weather.forecast.2.day.type }}</td>
+          <td class="high">{{ weather.forecast.2.high|weather_temp }}</td>
+          <td class="low">{{ weather.forecast.2.low|weather_temp }}</td>
+        </tr>
+        <tr class="forecast">
+          <td><strong>{{ weather.forecast.3.Day }}</strong></td>
+          <td><img class="forecastimg" src="{{ weather.forecast.3.image }}"/></td>
+          <td>{{ weather.forecast.3.day.type }}</td>
+          <td class="high">{{ weather.forecast.3.high|weather_temp }}</td>
+          <td class="low">{{ weather.forecast.3.low|weather_temp }}</td>
+        </tr>
+
+      {% endif %}
+
+    </table>
+  {% endif %}
 
 </div>
