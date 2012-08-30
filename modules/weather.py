@@ -1,15 +1,15 @@
-from flask import Flask, jsonify, render_template
-from pywapi.pywapi import get_weather_from_google
-import re
+from flask import render_template
+from maraschino import app, WEBROOT
+from maraschino.tools import requires_auth, get_setting_value
+from weatherfeed.weatherfeed import Weather
+from jinja2.filters import FILTERS
 import datetime
 
-from maraschino import app
-from maraschino.tools import *
-import maraschino
 
 def meridian():
     meridian = get_setting_value('weather_time') == '0'
     return meridian
+
 
 def get_time():
     now = datetime.datetime.now()
@@ -18,214 +18,126 @@ def get_time():
     else:
         return now.strftime('%H:%M')
 
+
 def get_date():
     now = datetime.datetime.now()
     return now.strftime('%A %d %B')
+
+
+def weather_temp(temp):
+    if not temp.isdigit():
+        return temp
+
+    temp = int(temp)
+    degrees = unichr(176)
+
+    if get_setting_value('weather_use_celcius') == '1':
+        temp = temp - 32
+        temp = temp * 5
+        temp = temp / 9
+        return str(int(temp)) + degrees + 'C'
+    else:
+        return str(int(temp)) + degrees + 'F'
+
+FILTERS['weather_temp'] = weather_temp
+
+
+def weather_speed(speed):
+    if not speed.isdigit():
+        return speed
+
+    speed = int(speed)
+
+    if get_setting_value('weather_use_kilometers') == '1':
+        speed = speed * 1.609
+        return str(int(speed)) + 'kph'
+    else:
+        return str(int(speed)) + 'mph'
+
+FILTERS['weather_speed'] = weather_speed
+
 
 @app.route('/xhr/weather/')
 @requires_auth
 def xhr_weather():
     
     location = get_setting_value('weather_location')
-    use_celcius = get_setting_value('weather_use_celcius') == '1'
     use_kilometers = get_setting_value('weather_use_kilometers') == '1'
     compact_view = get_setting_value('weather_compact') == '1'
-    weather = get_weather_from_google(location)
 
-    current_conditions = weather['current_conditions']
-    forcast_info = weather['forecast_information']
+    w = Weather(location, metric=False)
 
-    wind = current_conditions['wind_condition']
-    windspeed_mph = re.findall("\d+", wind)
-    windspeed_mph = int(windspeed_mph[0])
+    weather = {
+        'current': w.currentConditions,
+        'forecast': w.forecast
+    }
 
-    imagepath = maraschino.WEBROOT + "/static/images/weather/"
+    wind = int(weather['current']['wind']['degrees'])
 
-    if ": N" in wind:
-        wind_image = imagepath + "N.png"
-    elif ": E" in wind:
-        wind_image = imagepath + "E.png"
-    elif ": S" in wind:
-        wind_image = imagepath + "S.png"
-    elif ": W" in wind:
-        wind_image = imagepath + "W.png"
-    elif ": NE" in wind:
-        wind_image = imagepath + "NE.png"
-    elif ": SE" in wind:
-        wind_image = imagepath + "SE.png"
-    elif ": SW" in wind:
-        wind_image = imagepath + "SW.png"
-    elif ": NW" in wind:
-        wind_image = imagepath + "NW.png"
+    if wind in range(0, 22) or wind in range(338, 360):
+        img = 'N'
+    elif wind in range(68, 112):
+        img = 'E'
+    elif wind in range(158, 202):
+        img = 'S'
+    elif wind in range(248, 292):
+        img = 'W'
+    elif wind in range(22, 68):
+        img = 'NE'
+    elif wind in range(112, 158):
+        img = 'SE'
+    elif wind in range(202, 248):
+        img = 'SW'
+    elif wind in range(292, 338):
+        img = 'NW'
 
-    conditions = (
+    wind_image = '%s/static/images/weather/%s.png' % (WEBROOT, img)
+
+    conditions = [
         {
-            'image': 'Rain',
-            'conditions':[
-
-                'Chance of Rain',
-                'Chance of Showers',
-                'Light rain',
-                'Freezing Drizzle',
-                'Drizzle',
-                'Scattered Showers',
-                'Showers',
-                'Rain Showers',
-                'Rain',
-                'Heavy Rain'
-            ]
+            'image': 'Rain', 
+            'conditions': ['rain', 'shower', 'drizzle']
         },
         {
             'image': 'Thunderstorm',
-            'conditions': [
-
-                'Thunderstorm',
-                'Scattered Thunderstorms',
-                'Chance of TStorm'
-            ]
+            'conditions': ['thunder']
         },
         {
             'image': 'Sunny',
-            'conditions': [
-
-                'Clear',
-                'Sunny',
-                'Mostly Sunny'
-            ]
+            'conditions': ['sunny', 'clear']
         },
         {
             'image': 'Overcast',
-            'conditions': [
-
-                'Overcast',
-                'Mostly Cloudy',
-                'Cloudy'
-            ]
+            'conditions': ['overcast', 'cloudy']
         },
         {
             'image': 'Snow',
-            'conditions': [
-
-                'Light Snow',
-                'Chance of Snow',
-                'Snow',
-                'Icy',
-                'Dust',
-                'Flurries'
-            ]
-        },
-        {
-            'image': 'Partly Sunny',
-            'conditions': [
-
-                'Partly Cloudy',
-                'Partly Sunny'
-            ]
-        },
-        {
-            'image': 'Overcast',
-            'conditions': [
-
-                'Overcast',
-                'Mostly Cloudy',
-                'Cloudy'
-            ]
-        },
-        {
-            'image': 'Rain and Snow',
-            'conditions': [
-
-                'Rain and Snow',
-                'Sleet',
-                'Snow Showers'
-            ]
+            'conditions': ['snow']
         },
         {
             'image': 'Storm',
-            'conditions': [
-
-                'Chance of Storm',
-                'Storm',
-                'Hail'
-            ]
+            'conditions': ['storm', 'hail']
         },
         {
             'image': 'Fog',
-            'conditions': [
+            'conditions': ['mist', 'fog', 'smoke', 'haze']
+        }
+    ]
 
-                'Mist',
-                'Fog',
-                'Smoke',
-                'Haze'
-            ]
-        },
-    )
+    for a in conditions:
+        for cond in a['conditions']:
+            if cond in weather['current']['type'].lower():
+                weather['current']['image'] = '%s/static/images/weather/%s.png' % (WEBROOT, a['image'])
 
-    for condition in conditions:
-        if current_conditions['condition'] in condition['conditions']:
-            current_conditions['icon'] = condition['image']
-
-        for day in weather['forecasts']:
-            if day['condition'] in condition['conditions']:
-                day['icon'] = condition['image']
-
-    day1 = weather['forecasts'][0]
-    day2 = weather['forecasts'][1]
-    day3 = weather['forecasts'][2]
-    day4 = weather['forecasts'][3]
-
-    currentimage = imagepath + current_conditions['icon'] + ".png"
-    day1image = imagepath + day1['icon'] + ".png"
-    day2image = imagepath + day2['icon'] + ".png"
-    day3image = imagepath + day3['icon'] + ".png"
-    day4image = imagepath + day4['icon'] + ".png"
-
-    title = forcast_info['city']
-    degrees = unichr(176)
-
-    if use_celcius:
-        current_temp = current_conditions['temp_c'] + degrees + "C"
-
-        for temp in weather['forecasts']:
-            temp['low'] = int(temp['low']) - 32
-            temp['low'] = int(temp['low']) * 5
-            temp['low'] = int(temp['low']) / 9
-            temp['low'] = str(temp['low']) + degrees + "C"
-            temp['high'] = int(temp['high']) - 32
-            temp['high'] = int(temp['high']) * 5
-            temp['high'] = int(temp['high']) / 9
-            temp['high'] = str(temp['high']) + degrees + "C"
-
-    else:
-        current_temp = current_conditions['temp_f'] + degrees + "F"
-        for temp in weather['forecasts']:
-            temp['low'] = temp['low'] + degrees + "F"
-            temp['high'] = temp['high'] + degrees + "F"
-
-    if use_kilometers:
-        windspeed_kph = windspeed_mph * 1.609
-        windspeed_kph = int(windspeed_kph)
-        windspeed_mph = str(windspeed_mph)
-        windspeed_kph = str(windspeed_kph)
-        wind = wind.replace(windspeed_mph, windspeed_kph)
-        wind = wind.replace("mph", "kph")
+            for day in weather['forecast']:
+                if day:
+                    if cond in day['day']['type'].lower():
+                        day['image'] = '%s/static/images/weather/%s.png' % (WEBROOT, a['image'])
 
     return render_template('weather.html',
-        current_conditions = current_conditions,
-        compact_view = compact_view,
-        current_temp = current_temp,
-        currentimage = currentimage,
-		wind_image = wind_image,
-        day1image = day1image,
-        day2image = day2image,
-        day3image = day3image,
-        day4image = day4image,
-        title = title,
-        wind = wind,
-        day1 = day1,
-        day2 = day2,
-        day3 = day3,
-        day4 = day4,
+        compact_view=compact_view,
+        weather=weather,
+        wind_image=wind_image,
         time = get_time(),
         date = get_date(),
         meridian = meridian()
