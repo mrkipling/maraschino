@@ -115,6 +115,11 @@ def xhr_couchpotato(status=False):
         couchpotato = None
 
     logger.log('CouchPotato :: Fetching "%s movies" list (DONE)' % status, 'INFO')
+
+    if status == 'wanted' and not type(couchpotato) is list:
+        logger.log('CouchPotato :: Wanted movies list is empty', 'INFO')
+        return cp_search('There are no movies is your wanted list.')
+
     return render_template(template,
         url=couchpotato_url(),
         couchpotato=couchpotato,
@@ -123,7 +128,7 @@ def xhr_couchpotato(status=False):
 
 
 @app.route('/xhr/couchpotato/search/')
-def cp_search():
+def cp_search(message=None):
     couchpotato = {}
     params = False
     profiles = {}
@@ -161,6 +166,7 @@ def cp_search():
         data=couchpotato,
         couchpotato='results',
         profiles=profiles,
+        error=message
     )
 
 
