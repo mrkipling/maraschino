@@ -90,6 +90,12 @@ def get_setting_value(key, default=None):
         if value == '':
             return None
 
+        #Strip http/https from hostnames
+        if key.endswith('_host') or key.endswith('_ip'):
+            if value.startswith('http://'):
+                return value[7:]
+            elif value.startswith('https://'):
+                return value[8:]
         return value
 
     except:
