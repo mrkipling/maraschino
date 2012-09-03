@@ -5,29 +5,41 @@
 import sys
 import os
 
-# Determine Maraschino run dir
-rundir = os.path.dirname(os.path.abspath(__file__))
 
-# Var sys.frozen is set by py2exe and is needed to define the rundir
-try:
-    frozen = sys.frozen
-except AttributeError:
-    frozen = False
+# Check if frozen by py2exe
+def check_frozen():
+    return hasattr(sys, 'frozen')
 
-# Define path based on frozen state
-if frozen:
-    path_base = os.environ['_MEIPASS2']
-    rundir = os.path.dirname(sys.executable)
-else:
-    path_base = rundir
+
+def get_rundir():
+    if check_frozen():
+        return os.path.dirname(unicode(sys.executable, sys.getfilesystemencoding( )))
+
+    return os.path.dirname(unicode(__file__, sys.getfilesystemencoding( )))
+
+# Set the rundir
+rundir = get_rundir()
 
 # Include paths
-sys.path.insert(0, path_base)
-sys.path.insert(0, os.path.join(path_base, 'lib'))
+sys.path.insert(0, rundir)
+sys.path.insert(0, os.path.join(rundir, 'lib'))
 
 # Create Flask instance
 from flask import Flask
 app = Flask(__name__)
+
+# If frozen, we need define static and template paths
+if check_frozen():
+    app.root_path = rundir
+    app.static_path = '/static'
+    app.add_url_rule(
+        app.static_path + '/<path:filename>',
+        endpoint='static',
+        view_func=app.send_static_file
+    )
+
+    from jinja2 import FileSystemLoader
+    app.jinja_loader = FileSystemLoader(os.path.join(rundir, 'templates'))
 
 
 def import_modules():
