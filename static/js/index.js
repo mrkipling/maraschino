@@ -2358,6 +2358,20 @@ $(document).ready(function() {
     });
   });
 
+  // diskspace
+  $(document).on('click', '#diskspace .group', function() {
+    var ul = $(this).next('.group_disks');
+
+    if (ul.hasClass('active')) {
+      ul.removeClass('active');
+      ul.slideUp(200);
+    }
+    else {
+      ul.addClass('active');
+      ul.slideDown(200);
+    }
+  });
+
   // add/edit disk
 
   $(document).on('click', '#add_disk', function() {
@@ -2368,7 +2382,7 @@ $(document).ready(function() {
     });
   });
 
-  $(document).on('click', '.f_settings_mode #diskspace li', function() {
+  $(document).on('click', '.f_settings_mode #diskspace .disk', function() {
     $.get(WEBROOT + '/xhr/edit_disk_dialog/' + $(this).data('id'), function(data) {
       var popup = $(data);
       $('body').append(popup);

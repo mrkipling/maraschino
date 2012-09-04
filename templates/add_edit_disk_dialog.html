@@ -15,6 +15,16 @@
       <input id="id_disk_path" class="required" name="path" type="text"{% if disk %} value="{{ disk.path }}"{% endif %}>
     </div>
 
+	<div class="formrow">
+      <label for="id_disk_name">Name</label>
+      <input id="id_disk_name" class="name" name="name" type="text"{% if disk %} value="{{ disk.name }}"{% endif %}>
+    </div>
+
+	<div class="formrow">
+      <label for="id_disk_group">Group</label>
+      <input id="id_disk_group" class="group" name="group" type="text"{% if disk %} value="{{ disk.group }}"{% endif %}>
+    </div>
+
     <div class="formrow">
       <label for="id_disk_position">Position</label>
       <input id="id_disk_position" name="position" type="text"{% if disk %} value="{{ disk.position }}"{% endif %}>
