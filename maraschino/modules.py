@@ -364,6 +364,12 @@ AVAILABLE_MODULES = [
                 'description': 'Use HTTPS',
                 'type': 'bool',
             },
+            {
+                'key': 'sabnzbd_show_empty',
+                'value': '1',
+                'description': 'Show module when queue is empty',
+                'type': 'bool',
+            },
         ]
     },
     {

@@ -1,21 +1,25 @@
-{% if sabnzbd.slots|length %}
-<div id="sabnzbd" class="module" data-module="sabnzbd">
+{% if sabnzbd.slots or show_empty or message %}
+  <div id="sabnzbd" class="module" data-module="sabnzbd">
 
-  <div class="module_settings"><span>Settings</span></div>
-  <div class="module_remove"><span>Remove</span></div>
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
 
-  <h2>SABnzbd+</h2>
+    <h2>SABnzbd+</h2>
 
-  <div class="inner">
-    {% block sabnzbd_content %}{% endblock %}
+    <div class="inner">
+        {% if sabnzbd %}
+          {% block sabnzbd_content %}{% endblock %}
+        {% elif message %}
+          There was a problem reaching SabNZBd.
+        {% endif %}
+    </div>
   </div>
-</div>
 
 {% else %}
-<div class="placeholder" data-module="sabnzbd">
-  <div class="module_settings"><span>Settings</span></div>
-  <div class="module_remove"><span>Remove</span></div>
-  <h2>SABnzbd+</h2>
-  {% if old_config %}<p style="margin: 0 15px 15px;"><strong>Warning:</strong> the configuration for this module has changed, please edit its settings.</p>{% endif %}
-</div>
+  <div class="placeholder" data-module="sabnzbd">
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
+    <h2>SABnzbd+</h2>
+    {% if old_config %}<p style="margin: 0 15px 15px;"><strong>Warning:</strong> the configuration for this module has changed, please edit its settings.</p>{% endif %}
+  </div>
 {% endif %}
