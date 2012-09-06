@@ -219,7 +219,7 @@ def restart():
 def daemonize():
     """Start Maraschino as a daemon"""
     if threading.activeCount() != 1:
-        logger.log('There are %r active threads. Daemonizing may cause strange behavior.' % threading.enumerate(), 'WARNING')
+        logger.log('There are %s active threads. Daemonizing may cause strange behavior.' % threading.activeCount(), 'WARNING')
 
     sys.stdout.flush()
     sys.stderr.flush()
