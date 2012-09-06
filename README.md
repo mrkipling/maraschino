@@ -2,7 +2,7 @@
 
 * **Author**: [Bradley Abrahams](https://github.com/mrkipling)
 
-* **Main collaborator**: [Gustavo Hoirisch](https://github.com/gugahoi)
+* **Main collaborators**: [Gustavo Hoirisch](https://github.com/gugahoi) and [David Gray](https://github.com/N3MIS15)
 
 ##What is Maraschino?
 
