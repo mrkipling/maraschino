@@ -13,9 +13,9 @@ def check_frozen():
 
 def get_rundir():
     if check_frozen():
-        return os.path.dirname(unicode(sys.executable, sys.getfilesystemencoding( )))
+        return os.path.abspath(unicode(sys.executable, sys.getfilesystemencoding( )))
 
-    return os.path.dirname(unicode(__file__, sys.getfilesystemencoding( )))
+    return os.path.abspath(__file__)[:-13]
 
 # Set the rundir
 rundir = get_rundir()
@@ -176,10 +176,11 @@ def main():
 
     maraschino.initialize()
 
-    import_modules()
-
     if maraschino.PIDFILE or maraschino.DAEMON:
         maraschino.daemonize()
+
+    import_modules()
+    maraschino.init_updater()
 
     maraschino.start()
 
