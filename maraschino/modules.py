@@ -268,6 +268,14 @@ AVAILABLE_MODULES = [
                 'description': 'View information when selecting episode',
                 'type': 'bool',
             },
+            {
+                'key': 'recently_added_server',
+                'value': '',
+                'description': 'XBMC server',
+                'type': 'select',
+                'options': None,
+                'xbmc_servers': True
+            },
         ]
     },
     {
@@ -301,6 +309,14 @@ AVAILABLE_MODULES = [
                 'description': 'View information when selecting movie',
                 'type': 'bool',
             },
+            {
+                'key': 'recently_added_movies_server',
+                'value': '',
+                'description': 'XBMC server',
+                'type': 'select',
+                'options': None,
+                'xbmc_servers': True
+            },
         ]
     },
     {
@@ -327,6 +343,14 @@ AVAILABLE_MODULES = [
                 'value': '0',
                 'description': 'View information when selecting album',
                 'type': 'bool',
+            },
+            {
+                'key': 'recently_added_albums_server',
+                'value': '',
+                'description': 'XBMC server',
+                'type': 'select',
+                'options': None,
+                'xbmc_servers': True
             },
         ]
     },
@@ -832,6 +856,9 @@ def module_settings_dialog(name):
                 if setting:
                     s['value'] = setting.value
 
+                if 'xbmc_servers' in s:
+                    s['options'] = module_get_xbmc_servers()
+
         return render_template('module_settings_dialog.html',
             module = module,
         )
@@ -1066,3 +1093,32 @@ def get_module_info(name):
             return available_module
 
     return None
+
+def module_get_xbmc_servers():
+    servers = XbmcServer.query.order_by(XbmcServer.position)
+    options = [{'value': '', 'label': 'Default'}]
+
+    for server in servers:
+        server = {
+            'label': server.label,
+            'hostname': server.hostname,
+            'port': server.port,
+            'username': server.username,
+            'password': server.password,
+            'mac_address': server.mac_address,
+        }
+        if server['hostname'] and server['port']:
+            url = 'http://'
+
+            if server['username'] and server['password']:
+                url += '%s:%s@' % (server['username'], server['password'])
+
+            url += '%s:%s/jsonrpc' % (server['hostname'], server['port'])
+            server['api'] = url
+
+        else:
+            server['api'] = ''
+
+        options.append({'value': str(server), 'label': server['label']})
+
+    return options

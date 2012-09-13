@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-import jsonrpclib
+import jsonrpclib, ast
 
 from maraschino import app
 from maraschino.noneditable import *
@@ -40,13 +40,19 @@ def xhr_recently_added_movies_offset(movie_offset):
 def xhr_recently_added_albums_offset(album_offset):
     return render_recently_added_albums(album_offset)
 
+
+def get_xbmc_server(setting):
+    if get_setting_value(setting):
+        return ast.literal_eval(get_setting_value(setting))['api']
+    else:
+        return server_api_address()
+
 def render_recently_added_episodes(episode_offset=0):
     compact_view = get_setting_value('recently_added_compact') == '1'
     show_watched = get_setting_value('recently_added_watched_episodes') == '1'
     view_info = get_setting_value('recently_added_info') == '1'
-
     try:
-        xbmc = jsonrpclib.Server(server_api_address())
+        xbmc = jsonrpclib.Server(get_xbmc_server('recently_added_server'))
         recently_added_episodes = get_recently_added_episodes(xbmc, episode_offset)
 
     except:
@@ -67,7 +73,7 @@ def render_recently_added_movies(movie_offset=0):
     view_info = get_setting_value('recently_added_movies_info') == '1'
 
     try:
-        xbmc = jsonrpclib.Server(server_api_address())
+        xbmc = jsonrpclib.Server(get_xbmc_server('recently_added_movies_server'))
         recently_added_movies = get_recently_added_movies(xbmc, movie_offset)
 
     except:
@@ -87,7 +93,7 @@ def render_recently_added_albums(album_offset=0):
     view_info = get_setting_value('recently_added_albums_info') == '1'
 
     try:
-        xbmc = jsonrpclib.Server(server_api_address())
+        xbmc = jsonrpclib.Server(get_xbmc_server('recently_added_albums_server'))
         recently_added_albums = get_recently_added_albums(xbmc, album_offset)
 
     except:
