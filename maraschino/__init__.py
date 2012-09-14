@@ -141,6 +141,7 @@ def initialize():
 
 def init_updater():
     from maraschino.updater import checkGithub, gitCurrentVersion
+    global USE_GIT, CURRENT_COMMIT, COMMITS_BEHIND
 
     if os.name == 'nt':
         USE_GIT = False
