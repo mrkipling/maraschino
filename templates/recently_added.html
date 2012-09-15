@@ -6,6 +6,10 @@
   <h2>Recently Added Episodes</h2>
 
   {% if recently_added_episodes %}
+    {% if using_db %}
+      <p class="problem">There was a problem connecting to the XBMC server. Showing last known results.</p>
+    {% endif %}
+
     {% if compact_view %}
     <div class="compact">
     {% endif %}
@@ -19,7 +23,7 @@
 
             {% if episode.thumbnail %}
               <div class="thumbnail">
-                <img src="{{ episode.thumbnail|xbmc_image }}" alt="">
+                <img src="{{ episode.thumbnail }}" alt="">
               </div>
             {% endif %}
 

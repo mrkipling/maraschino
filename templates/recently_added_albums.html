@@ -6,6 +6,10 @@
   <h2>Recently Added Albums</h2>
 
   {% if recently_added_albums %}
+    {% if using_db %}
+      <p class="problem">There was a problem connecting to the XBMC server. Showing last known results.</p>
+    {% endif %}
+
     {% if compact_view %}
     <div class="compact">
     {% endif %}
@@ -19,7 +23,7 @@
 
             {% if album.thumbnail %}
               <div class="thumbnail">
-                <img src="{{ album.thumbnail|xbmc_image }}" alt="">
+                <img src="{{ album.thumbnail }}" alt="">
               </div>
             {% endif %}
 
