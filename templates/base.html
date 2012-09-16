@@ -18,6 +18,13 @@
     <script>var LESS_WEBROOT = "{% if webroot %}{{ webroot[1:] }}/{% endif %}static";</script>
     <link rel="stylesheet/less" href="{{ url_for('static', filename='less/base.less') }}">
     <link rel="stylesheet/less" href="{{ url_for('static', filename='less/site.less') }}">
+    <style>
+      .module h2:first-of-type,
+      .dialog h2:first-of-type,
+      .placeholder h2:first-of-type {
+        color: #{{ title_color }}
+      }
+    </style>
 
     <!-- LESS client-side script -->
     <script src="{{ url_for('static', filename='js/lib/less.js') }}" type="text/javascript"></script>
