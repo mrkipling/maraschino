@@ -2,23 +2,15 @@ from flask import render_template, request, jsonify, json, send_file
 from jinja2.filters import FILTERS
 from maraschino.tools import get_setting_value, requires_auth
 from maraschino import logger, app, WEBROOT
-import urllib
+import urllib2
 import StringIO
+import base64
 
 def couchpotato_http():
     if get_setting_value('couchpotato_https') == '1':
         return 'https://'
     else:
         return 'http://'
-
-def login_string():
-    try:
-        login = '%s:%s@' % (get_setting_value('couchpotato_user'), get_setting_value('couchpotato_password'))
-
-    except:
-        login = ''
-
-    return login
 
 
 def couchpotato_url():
@@ -34,9 +26,6 @@ def couchpotato_url():
     
     url = '%s/api/%s' % (url_base, get_setting_value('couchpotato_api'))
     
-    if login_string():
-        return couchpotato_http() + login_string() + url
-    
     return couchpotato_http() + url
 
 
@@ -50,21 +39,27 @@ def couchpotato_url_no_api():
 
     if webroot:
         url_base = '%s/%s' % (url_base, webroot)
-    
-    if login_string():
-        return couchpotato_http() + login_string() + url_base
         
     return couchpotato_http() + url_base
 
 
 def couchpotato_api(method, params=None, use_json=True, dev=False):
+    username = get_setting_value('couchpotato_user')
+    password = get_setting_value('couchpotato_password')
+
     if params:
         params = '/?%s' % params
     else:
         params = '/'
 
     url = '%s/%s%s' % (couchpotato_url(), method, params)
-    data = urllib.urlopen(url).read()
+    request = urllib2.Request(url)
+
+    if username and password:
+        base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
+        request.add_header("Authorization", "Basic %s" % base64string)
+
+    data = urllib2.urlopen(request).read()
     if dev:
         print url
         print data
@@ -88,8 +83,17 @@ FILTERS['cp_img'] = couchpotato_image
 
 @app.route('/xhr/couchpotato/image/<path:url>')
 def couchpotato_proxy(url):
+    username = get_setting_value('couchpotato_user')
+    password = get_setting_value('couchpotato_password')
+
     url = '%s/file.cache/%s' % (couchpotato_url(), url)
-    img = StringIO.StringIO(urllib.urlopen(url).read())
+    request = urllib2.Request(url)
+
+    if username and password:
+        base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
+        request.add_header("Authorization", "Basic %s" % base64string)
+
+    img = StringIO.StringIO(urllib2.urlopen(request).read())
     logger.log('CouchPotato :: Fetching image from %s' % (url), 'DEBUG')
     return send_file(img, mimetype='image/jpeg')
 
