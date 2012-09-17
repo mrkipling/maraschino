@@ -672,6 +672,11 @@ MISC_SETTINGS = [
             {'value': '5', 'label': '5'},
         ]
     },
+    {
+        'key': 'title_color',
+        'value': 'EEE',
+        'description': 'Module title color (hexidecimal)',
+    },
 ]
 
 SERVER_SETTINGS = [

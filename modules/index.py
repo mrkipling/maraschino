@@ -134,7 +134,8 @@ def index():
         show_tutorial = unorganised_modules.count() == 0,
         webroot = maraschino.WEBROOT,
         kiosk = maraschino.KIOSK,
-        new_tab = new_tab
+        new_tab = new_tab,
+        title_color=get_setting_value('title_color')
     )
 
 @app.route('/xhr/shutdown')
