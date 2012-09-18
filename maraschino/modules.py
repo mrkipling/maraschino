@@ -18,7 +18,7 @@ from Maraschino import app
 from maraschino.tools import *
 
 from maraschino.database import *
-from maraschino.models import Module, XbmcServer
+from maraschino.models import Module, XbmcServer, RecentlyAdded
 
 # name, label, description, and static are not user-editable and are taken from here
 # poll and delay are user-editable and saved in the database - the values here are the defaults
@@ -1058,6 +1058,29 @@ def delete_server(server_id=None):
         xbmc_server = XbmcServer.query.get(server_id)
         db_session.delete(xbmc_server)
         db_session.commit()
+
+        # Remove the server's cache
+        label = xbmc_server.label
+        recent_cache = [label + '_episodes', label + '_movies', label + '_albums']
+
+        try:
+            for entry in recent_cache:
+                recent_db = RecentlyAdded.query.filter(RecentlyAdded.name == entry).first()
+
+                if recent_db:
+                        db_session.delete(recent_db)
+                        db_session.commit()
+        except:
+            logger.log('Failed to remove servers database cache' , 'WARNING')
+
+        image_dir = os.path.join(maraschino.DATA_DIR, 'cache', 'xbmc', xbmc_server.label)
+        if os.path.isdir(image_dir):
+            import shutil
+
+            try:
+                shutil.rmtree(image_dir)
+            except:
+                logger.log('Failed to remove servers image cache' , 'WARNING')
 
         return render_template('includes/servers.html',
             servers = XbmcServer.query.order_by(XbmcServer.position),
