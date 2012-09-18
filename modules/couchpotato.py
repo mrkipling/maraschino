@@ -6,6 +6,7 @@ import urllib2
 import StringIO
 import base64
 
+
 def couchpotato_http():
     if get_setting_value('couchpotato_https') == '1':
         return 'https://'
@@ -17,15 +18,15 @@ def couchpotato_url():
     port = get_setting_value('couchpotato_port')
     url_base = get_setting_value('couchpotato_ip')
     webroot = get_setting_value('couchpotato_webroot')
-    
+
     if port:
         url_base = '%s:%s' % (url_base, port)
 
     if webroot:
         url_base = '%s/%s' % (url_base, webroot)
-    
+
     url = '%s/api/%s' % (url_base, get_setting_value('couchpotato_api'))
-    
+
     return couchpotato_http() + url
 
 
@@ -39,7 +40,7 @@ def couchpotato_url_no_api():
 
     if webroot:
         url_base = '%s/%s' % (url_base, webroot)
-        
+
     return couchpotato_http() + url_base
 
 
@@ -52,6 +53,7 @@ def couchpotato_api(method, params=None, use_json=True, dev=False):
     else:
         params = '/'
 
+    params = (params).replace(' ', '%20')
     url = '%s/%s%s' % (couchpotato_url(), method, params)
     request = urllib2.Request(url)
 
@@ -138,25 +140,26 @@ def cp_search(message=None):
     profiles = {}
 
     try:
-        params = 'q=' + request.args['name']
+        query = request.args['name']
+        params = 'q=' + query
     except:
         pass
 
     if params:
         try:
-            logger.log('CouchPotato :: Searching for movie: %s' % (params), 'INFO')
-            couchpotato = couchpotato_api('movie.search', params=params)
+            logger.log('CouchPotato :: Searching for movie: %s' % (query), 'INFO')
+            couchpotato = couchpotato_api('movie.search', params=params, dev=True)
             amount = len(couchpotato['movies'])
-            logger.log('CouchPotato :: found %i movies for %s' % (amount, params), 'INFO')
+            logger.log('CouchPotato :: found %i movies for %s' % (amount, query), 'INFO')
             if couchpotato['success'] and amount != 0:
                 couchpotato = couchpotato['movies']
                 try:
-                    logger.log('CouchPotato :: Getting quality profiles', 'INFO')
+                    # logger.log('CouchPotato :: Getting quality profiles', 'INFO')
                     profiles = couchpotato_api('profile.list')
                 except Exception as e:
                     log_exception(e)
             else:
-                return render_template('couchpotato-search.html', error='No movies with "%s" were found' % (params[2:]), couchpotato='results')
+                return render_template('couchpotato-search.html', error='No movies with "%s" were found' % (query), couchpotato='results')
 
         except Exception as e:
             log_exception(e)
