@@ -6,12 +6,18 @@
   <h2>Recently Added Albums</h2>
 
   {% if recently_added_albums %}
+    {% if using_db %}
+      <p class="problem">There was a problem connecting to the XBMC server. Showing last known results.</p>
+    {% endif %}
+
     {% if compact_view %}
     <div class="compact">
     {% endif %}
       <ul class="albums listfix">
         {% for album in recently_added_albums %}
-          {% if view_info %}
+          {% if using_db %}
+            <li title="{{ album.title }} ({{ album.year }})">
+          {% elif view_info %}
             <li id="info_album" data-albumid="{{ album.albumid }}" title="Information for {{ album.title }} ({{ album.year }})">
           {% else %}
             <li id="play_album" data-albumid="{{ album.albumid }}" title="Play {{ album.title }} ({{ album.year }})">
@@ -19,7 +25,7 @@
 
             {% if album.thumbnail %}
               <div class="thumbnail">
-                <img src="{{ album.thumbnail|xbmc_image }}" alt="">
+                <img src="{{ album.thumbnail }}" alt="">
               </div>
             {% endif %}
 

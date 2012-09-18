@@ -29,7 +29,7 @@ SERVER = None
 HOST = '0.0.0.0'
 KIOSK = False
 DATA_DIR = None
-THREADS = 0
+THREADS = []
 
 AUTH = {
     'username': None,
