@@ -72,6 +72,7 @@ def xhr_sabnzbd(queue_status='hide'):
     sabnzbd = None
     download_speed = None
     downloading = None
+    message = None
 
     try:
         result = urllib.urlopen(sabnzbd_url('queue')).read()
@@ -89,12 +90,17 @@ def xhr_sabnzbd(queue_status='hide'):
     except:
         pass
 
+    if not sabnzbd:
+        message = 'There was a problem reaching SabNZBd.'
+
     return render_template('sabnzbd-queue.html',
         sabnzbd=sabnzbd,
         item=downloading,
         download_speed=download_speed,
         old_config=old_config,
         queue_status=queue_status,
+        show_empty=get_setting_value('sabnzbd_show_empty') == '1',
+        message=message
     )
 
 
