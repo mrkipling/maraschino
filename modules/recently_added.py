@@ -312,8 +312,8 @@ def cache_recent_image(label, type, id, image):
     file_path = os.path.join(file_dir, '%s.jpg' % id)
 
     if not os.path.exists(file_path):
-        image = maraschino_path() + xbmc_image(image, label)
-        Thread(target=download_image, args=(image, file_path)).start()
+        image_path = maraschino_path() + xbmc_image(image, label)
+        Thread(target=download_image, args=(image_path, file_path)).start()
         THREADS.append(len(THREADS) + 1)
 
     return xbmc_image(image, label)
@@ -341,6 +341,6 @@ def remove_recent_images(cache_dir, thumbs):
 
 def maraschino_path():
     if HOST == '0.0.0.0':
-        return 'http://127.0.0.1:' + str(PORT) + WEBROOT
+        return 'http://127.0.0.1:' + str(PORT)
     else:
-        return 'http://' + HOST + ':' + str(PORT) + WEBROOT
+        return 'http://' + HOST + ':' + str(PORT)
