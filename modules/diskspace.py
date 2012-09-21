@@ -22,10 +22,10 @@ def xhr_diskspace():
 
     if disks_db.count() > 0:
         for disk_db in disks_db:
-            disk = disk_usage(disk_db.path)
-            disk['path'] = disk_db.path
-            disk['name'] = disk_db.name
-            disk['group'] = disk_db.group
+            disk = disk_usage(disk_db.data['path'])
+            disk['path'] = disk_db.data['path']
+            disk['name'] = disk_db.data['name']
+            disk['group'] = disk_db.data['group']
             disk['id'] = disk_db.id
 
             if disk['group'] and disk['group'] not in [g['name'] for g in disks['groups']]:
@@ -107,17 +107,13 @@ def add_edit_disk():
 
     if 'disk_id' in request.form:
         disk = Disk2.query.filter(Disk2.id == request.form['disk_id']).first()
-        disk.path = path
-        disk.name = name
-        disk.group = group
+        disk.data = {'path': path, 'name': name, 'group': group}
         disk.position = position
 
     else:
         disk = Disk2(
-            path,
-            name,
-            group,
-            position,
+            data={'path': path, 'name': name, 'group': group},
+            position=position,
         )
 
     try:
@@ -173,9 +169,11 @@ def legacy_disk_migrate():
     for disk_old in disks_db_old:
 
         disk = Disk2(
-            path=disk_old.path,
-            name=disk_old.path,
-            group='',
+            data={
+                'path': disk_old.path,
+                'name': disk_old.path,
+                'group': '',
+            },
             position=disk_old.position
         )
 

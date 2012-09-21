@@ -88,24 +88,20 @@ class Disk2(Base):
     """Table for one disk in the diskspace module"""
     __tablename__ = 'disks2'
     id = Column(Integer, primary_key=True)
-    path = Column(String(500))
-    name = Column(String(100))
-    group = Column(String(100))
+    data = Column(PickleType)
     position = Column(Integer)
 
-    def __init__(self, path, name, group, position=None):
-        self.path = path
-        self.name = name
-        self.group = group
+
+    def __init__(self, data={}, position=None):
+        self.data = data
 
         if position == None:
             self.position = highest_position(Disk2)
-
         else:
             self.position = position
 
     def __repr__(self):
-        return '<Disk2 %r>' % (self.path)
+        return '<Disk2 %r>' % (self.position)
 
 
 class XbmcServer(Base):
