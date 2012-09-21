@@ -146,7 +146,7 @@ $(document).ready(function() {
 
   var currently_playing_id = null;
 
-  function get_currently_playing() {
+  function get_currently_playing(visibility) {
     $.get(WEBROOT + '/xhr/currently_playing', function(data) {
       var module;
       if (data.playing === false) {
@@ -180,6 +180,9 @@ $(document).ready(function() {
           $('#currently_playing').slideDown(200);
         }
 
+        if(visibility == 'minimize'){
+          $('#currently_playing').addClass('minimize');
+        }
         // use fanart of currently playing item as background if enabled in settings
 
         if ($('body').data('fanart_backgrounds') === 'True') {
@@ -241,12 +244,18 @@ $(document).ready(function() {
             placeholder: $('#trakt_inactive')
           });
         }
-
         currently_playing_id = $(data).data('id');
       }
     });
-
-    setTimeout(get_currently_playing, 5000);
+    if (visibility == 'minimize') {
+      window['currently_playing'] = setTimeout(function() {
+        get_currently_playing('minimize');
+      }, 5000);
+    } else {
+      window['currently_playing'] = setTimeout(function() {
+        get_currently_playing();
+      }, 5000);
+    }
   }
 
   // Currently playing playlist
@@ -297,10 +306,17 @@ $(document).ready(function() {
   $(document).on('click', '#currently_playing .progress', function(e){
     var x = e.pageX - $(this).offset().left;
     var percent = Math.round((x / $(this).width())*100);
+    var minimized = false;
+    if($('#currently_playing').hasClass('minimize')){
+      minimized = true;
+    }
     $.get(WEBROOT + '/xhr/controls/seek_'+percent);
     $.get(WEBROOT + '/xhr/currently_playing', function(data){
       $('#currently_playing').replaceWith(data);
     });
+    if(minimized){
+      $('#currently_playing').addClass('minimize');
+    }
   });
 
   $(document).on('mouseenter', '#currently_playing .progress', function(e){
@@ -368,6 +384,10 @@ $(document).ready(function() {
 
   $(document).on('click', '#currently_playing .controls > div', function() {
     var command = $(this).data('command');
+    var minimized = false;
+    if($('#currently_playing').hasClass('minimize')){
+      minimized = true;
+    }
     $.get(WEBROOT + '/xhr/controls/' + command);
     $.get(WEBROOT + '/xhr/currently_playing', function(data) {
       if (data.playing === false) {
@@ -377,6 +397,7 @@ $(document).ready(function() {
       } else {
         $('#currently_playing').replaceWith(data);
       }
+      if(minimized){$('#currently_playing').addClass('minimize');}
     });
   });
 
@@ -434,6 +455,21 @@ $(document).ready(function() {
       }
     });
   }
+
+  // currently playing close
+  $(document).on('click', '#currently_playing .visibility .close', function() {
+    $('#currently_playing').slideUp(200, function() {
+      $(this).remove();
+      clearTimeout(window['currently_playing']);
+    });
+  });
+
+  // currently playing minimize
+  $(document).on('click', '#currently_playing .visibility .minimize', function() {
+    $('#currently_playing').toggleClass('minimize');
+    clearTimeout(window['currently_playing']);
+    get_currently_playing('minimize');
+  });
 
   // Filter function
 
