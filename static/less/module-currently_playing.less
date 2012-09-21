@@ -12,7 +12,7 @@
   .box-shadow(#222, 0, 0, 10px);
 
   &.minimize {
-    height: 15px;
+    height: 10px;
     padding: 10px;
     .thumb {
       img {
@@ -38,11 +38,18 @@
     span.playlist {
       display: none;
     }
-    .progress{
+    .progress {
       margin-top: -10px;
     }
-    .visibility{
-      top:-29px;
+    .visibility {
+      top: -29px;
+      ul li.minimize {
+        background: url('/@{webroot}/images/arrow_up.png') no-repeat center;
+        &:hover {
+          background-color: #333;
+          cursor: pointer;
+        }
+      }
     }
   }
 
@@ -338,7 +345,7 @@
         float: right;
       }
       &.minimize {
-        background: url('/@{webroot}/images/dropdown.png') no-repeat center;
+        background: url('/@{webroot}/images/arrow_down.png') no-repeat center;
         height: 15px;
         width: 15px;
         float: right;

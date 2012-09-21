@@ -313,10 +313,10 @@ $(document).ready(function() {
     $.get(WEBROOT + '/xhr/controls/seek_'+percent);
     $.get(WEBROOT + '/xhr/currently_playing', function(data){
       $('#currently_playing').replaceWith(data);
+      if(minimized){
+        $('#currently_playing').addClass('minimize');
+      }
     });
-    if(minimized){
-      $('#currently_playing').addClass('minimize');
-    }
   });
 
   $(document).on('mouseenter', '#currently_playing .progress', function(e){
@@ -468,7 +468,11 @@ $(document).ready(function() {
   $(document).on('click', '#currently_playing .visibility .minimize', function() {
     $('#currently_playing').toggleClass('minimize');
     clearTimeout(window['currently_playing']);
-    get_currently_playing('minimize');
+    if($('#currently_playing').hasClass('minimize')){
+      get_currently_playing('minimize');
+    } else {
+      get_currently_playing();
+    }
   });
 
   // Filter function
