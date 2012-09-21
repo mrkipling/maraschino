@@ -18,7 +18,7 @@ from Maraschino import app
 from maraschino.tools import *
 
 from maraschino.database import *
-from maraschino.models import Module, XbmcServer
+from maraschino.models import Module, XbmcServer, RecentlyAdded
 
 # name, label, description, and static are not user-editable and are taken from here
 # poll and delay are user-editable and saved in the database - the values here are the defaults
@@ -276,6 +276,14 @@ AVAILABLE_MODULES = [
                 'description': 'View information when selecting episode',
                 'type': 'bool',
             },
+            {
+                'key': 'recently_added_server',
+                'value': '',
+                'description': 'XBMC server',
+                'type': 'select',
+                'options': None,
+                'xbmc_servers': True
+            },
         ]
     },
     {
@@ -309,6 +317,14 @@ AVAILABLE_MODULES = [
                 'description': 'View information when selecting movie',
                 'type': 'bool',
             },
+            {
+                'key': 'recently_added_movies_server',
+                'value': '',
+                'description': 'XBMC server',
+                'type': 'select',
+                'options': None,
+                'xbmc_servers': True
+            },
         ]
     },
     {
@@ -335,6 +351,14 @@ AVAILABLE_MODULES = [
                 'value': '0',
                 'description': 'View information when selecting album',
                 'type': 'bool',
+            },
+            {
+                'key': 'recently_added_albums_server',
+                'value': '',
+                'description': 'XBMC server',
+                'type': 'select',
+                'options': None,
+                'xbmc_servers': True
             },
         ]
     },
@@ -370,6 +394,12 @@ AVAILABLE_MODULES = [
                 'key': 'sabnzbd_https',
                 'value': '0',
                 'description': 'Use HTTPS',
+                'type': 'bool',
+            },
+            {
+                'key': 'sabnzbd_show_empty',
+                'value': '1',
+                'description': 'Show module when queue is empty',
                 'type': 'bool',
             },
         ]
@@ -656,6 +686,11 @@ MISC_SETTINGS = [
             {'value': '5', 'label': '5'},
         ]
     },
+    {
+        'key': 'title_color',
+        'value': 'EEE',
+        'description': 'Module title color (hexidecimal)',
+    },
 ]
 
 SERVER_SETTINGS = [
@@ -839,6 +874,9 @@ def module_settings_dialog(name):
 
                 if setting:
                     s['value'] = setting.value
+
+                if 'xbmc_servers' in s:
+                    s['options'] = module_get_xbmc_servers()
 
         return render_template('module_settings_dialog.html',
             module = module,
@@ -1029,6 +1067,29 @@ def delete_server(server_id=None):
         db_session.delete(xbmc_server)
         db_session.commit()
 
+        # Remove the server's cache
+        label = xbmc_server.label
+        recent_cache = [label + '_episodes', label + '_movies', label + '_albums']
+
+        try:
+            for entry in recent_cache:
+                recent_db = RecentlyAdded.query.filter(RecentlyAdded.name == entry).first()
+
+                if recent_db:
+                        db_session.delete(recent_db)
+                        db_session.commit()
+        except:
+            logger.log('Failed to remove servers database cache' , 'WARNING')
+
+        image_dir = os.path.join(maraschino.DATA_DIR, 'cache', 'xbmc', xbmc_server.label)
+        if os.path.isdir(image_dir):
+            import shutil
+
+            try:
+                shutil.rmtree(image_dir)
+            except:
+                logger.log('Failed to remove servers image cache' , 'WARNING')
+
         return render_template('includes/servers.html',
             servers = XbmcServer.query.order_by(XbmcServer.position),
         )
@@ -1074,3 +1135,32 @@ def get_module_info(name):
             return available_module
 
     return None
+
+def module_get_xbmc_servers():
+    servers = XbmcServer.query.order_by(XbmcServer.position)
+    options = [{'value': '', 'label': 'Default'}]
+
+    for server in servers:
+        server = {
+            'label': server.label,
+            'hostname': server.hostname,
+            'port': server.port,
+            'username': server.username,
+            'password': server.password,
+            'mac_address': server.mac_address,
+        }
+        if server['hostname'] and server['port']:
+            url = 'http://'
+
+            if server['username'] and server['password']:
+                url += '%s:%s@' % (server['username'], server['password'])
+
+            url += '%s:%s/jsonrpc' % (server['hostname'], server['port'])
+            server['api'] = url
+
+        else:
+            server['api'] = ''
+
+        options.append({'value': str(server), 'label': server['label']})
+
+    return options

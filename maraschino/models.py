@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Class that represent the database structure"""
 
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, PickleType
 from maraschino.database import Base
 
 class Module(Base):
@@ -136,6 +136,21 @@ class XbmcServer(Base):
 
     def __repr__(self):
         return '<XbmcServer %r>' % (self.label)
+
+
+class RecentlyAdded(Base):
+    __tablename__ = 'recently_added'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100))
+    data = Column(PickleType)
+
+
+    def __init__(self, name, data=[]):
+        self.name = name
+        self.data = data
+
+    def __repr__(self):
+        return '<RecentlyAdded %r>' % (self.name)
 
 
 def highest_position(model):

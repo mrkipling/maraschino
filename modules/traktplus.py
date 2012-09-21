@@ -1,10 +1,8 @@
 from flask import jsonify, render_template, request, json, send_file
 import hashlib, urllib2, base64, random, time, datetime, os
 from threading import Thread
-from maraschino.tools import get_setting_value, requires_auth
-from maraschino import logger, app, WEBROOT, DATA_DIR
-
-threads = []
+from maraschino.tools import get_setting_value, requires_auth, create_dir, download_image
+from maraschino import logger, app, WEBROOT, DATA_DIR, THREADS
 
 
 def trak_api(url, params={}, dev=False):
@@ -35,17 +33,8 @@ def trakt_exception(e):
     logger.log('TRAKT :: EXCEPTION -- %s' % e, 'DEBUG')
     return e
 
-
-def create_dir(dir):
-    if not os.path.exists(dir):
-        try:
-            logger.log('TRAKT :: Creating dir %s' % dir, 'INFO')
-            os.makedirs(dir)
-        except:
-            logger.log('TRAKT :: Problem creating dir %s' % dir, 'ERROR')
-
-create_dir('%s/cache/trakt/shows' % DATA_DIR)
-create_dir('%s/cache/trakt/movies' % DATA_DIR)
+create_dir(os.path.join(DATA_DIR, 'cache', 'trakt', 'shows'))
+create_dir(os.path.join(DATA_DIR, 'cache', 'trakt', 'movies'))
 
 
 def small_poster(image):
@@ -53,35 +42,6 @@ def small_poster(image):
         x = image.rfind('.')
         image = image[:x] + '-138' + image[x:]
     return image
-
-
-def download_image(image, file_path):
-    try:
-        logger.log('TRAKT :: Creating file %s' % file_path, 'INFO')
-        downloaded_image = file(file_path, 'wb')
-    except:
-        logger.log('TRAKT :: Failed to create file %s' % file_path, 'ERROR')
-        logger.log('TRAKT :: Using remote image', 'INFO')
-        threads.pop()
-        return image
-
-    try:
-        logger.log('TRAKT :: Downloading %s' % image, 'INFO')
-        image_on_web = urllib2.urlopen(image)
-        while True:
-            buf = image_on_web.read(65536)
-            if len(buf) == 0:
-                break
-            downloaded_image.write(buf)
-        downloaded_image.close()
-        image_on_web.close()
-        logger.log('TRAKT :: Image cached successfully: %s' % image, 'DEBUG')
-    except:
-        logger.log('TRAKT :: Failed to download %s' % image, 'ERROR')
-
-    threads.pop()
-
-    return
 
 
 def cache_image(image, type):
@@ -98,7 +58,7 @@ def cache_image(image, type):
 
     if not os.path.exists(file_path):
         Thread(target=download_image, args=(image, file_path)).start()
-        threads.append(len(threads) + 1)
+        THREADS.append(len(THREADS) + 1)
 
     return '%s/cache/trakt/%s/%s' % (WEBROOT, type, filename[1:])
 
@@ -159,7 +119,7 @@ def xhr_trakt_recommendations(type=None):
     for item in recommendations:
         item['poster'] = cache_image(item['images']['poster'], type)
 
-    while threads:
+    while THREADS:
         time.sleep(1)
 
     return render_template('traktplus/trakt-recommendations.html',
@@ -192,7 +152,7 @@ def xhr_trakt_trending(type=None):
     for item in trakt:
         item['images']['poster'] = cache_image(item['images']['poster'], type)
 
-    while threads:
+    while THREADS:
         time.sleep(1)
 
     return render_template('traktplus/trakt-trending.html',
@@ -480,7 +440,7 @@ def xhr_trakt_summary(type, id, season=None, episode=None):
     else:
         trakt['episode']['first_aired'] = datetime.datetime.fromtimestamp(int(trakt['episode']['first_aired'])).strftime('%B %d, %Y')
 
-    while threads:
+    while THREADS:
         time.sleep(1)
 
     if type == 'episode':

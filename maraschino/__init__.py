@@ -29,6 +29,7 @@ SERVER = None
 HOST = '0.0.0.0'
 KIOSK = False
 DATA_DIR = None
+THREADS = []
 
 AUTH = {
     'username': None,
@@ -46,7 +47,7 @@ def initialize():
     with INIT_LOCK:
 
         global __INITIALIZED__, app, FULL_PATH, RUNDIR, ARGS, DAEMON, PIDFILE, VERBOSE, LOG_FILE, LOG_DIR, logger, PORT, SERVER, DATABASE, AUTH, \
-                CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT, HOST, KIOSK, DATA_DIR
+                CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT, HOST, KIOSK, DATA_DIR, THREADS
 
         if __INITIALIZED__:
             return False
@@ -134,28 +135,30 @@ def initialize():
             d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
         SERVER = wsgiserver.CherryPyWSGIServer((HOST, PORT), d)
 
-        # Set up the updater
-        from maraschino.updater import checkGithub, gitCurrentVersion
-
-        if os.name == 'nt':
-            USE_GIT = False
-        else:
-            USE_GIT = os.path.isdir(os.path.join(RUNDIR, '.git'))
-            if USE_GIT:
-                gitCurrentVersion()
-
-        version_file = os.path.join(DATA_DIR, 'Version.txt')
-        if os.path.isfile(version_file):
-            f = open(version_file, 'r')
-            CURRENT_COMMIT = f.read()
-            f.close()
-        else:
-            COMMITS_BEHIND = -1
-
-        threading.Thread(target=checkGithub).start()
-
         __INITIALIZED__ = True
         return True
+
+
+def init_updater():
+    from maraschino.updater import checkGithub, gitCurrentVersion
+    global USE_GIT, CURRENT_COMMIT, COMMITS_BEHIND
+
+    if os.name == 'nt':
+        USE_GIT = False
+    else:
+        USE_GIT = os.path.isdir(os.path.join(RUNDIR, '.git'))
+        if USE_GIT:
+            gitCurrentVersion()
+
+    version_file = os.path.join(DATA_DIR, 'Version.txt')
+    if os.path.isfile(version_file):
+        f = open(version_file, 'r')
+        CURRENT_COMMIT = f.read()
+        f.close()
+    else:
+        COMMITS_BEHIND = -1
+
+    threading.Thread(target=checkGithub).start()
 
 
 def start_schedules():
@@ -219,7 +222,7 @@ def restart():
 def daemonize():
     """Start Maraschino as a daemon"""
     if threading.activeCount() != 1:
-        logger.log('There are %r active threads. Daemonizing may cause strange behavior.' % threading.enumerate(), 'WARNING')
+        logger.log('There are %s active threads. Daemonizing may cause strange behavior.' % threading.activeCount(), 'WARNING')
 
     sys.stdout.flush()
     sys.stderr.flush()
@@ -234,6 +237,8 @@ def daemonize():
     except OSError, e:
         sys.exit('1st fork failed: %s [%d]' % (e.strerror, e.errno))
 
+    os.chdir('/')
+    os.umask(0)
     os.setsid()
 
     try:
@@ -244,8 +249,6 @@ def daemonize():
     except OSError, e:
         sys.exit('2nd fork failed: %s [%d]' % (e.strerror, e.errno))
 
-    os.chdir('/')
-    os.umask(0)
     pid = os.getpid()
 
     logger.log('Daemonized to PID: %s' % pid, 'INFO')

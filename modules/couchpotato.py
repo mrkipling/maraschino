@@ -2,8 +2,10 @@ from flask import render_template, request, jsonify, json, send_file
 from jinja2.filters import FILTERS
 from maraschino.tools import get_setting_value, requires_auth
 from maraschino import logger, app, WEBROOT
-import urllib
+import urllib2
 import StringIO
+import base64
+
 
 def couchpotato_http():
     if get_setting_value('couchpotato_https') == '1':
@@ -11,32 +13,20 @@ def couchpotato_http():
     else:
         return 'http://'
 
-def login_string():
-    try:
-        login = '%s:%s@' % (get_setting_value('couchpotato_user'), get_setting_value('couchpotato_password'))
-
-    except:
-        login = ''
-
-    return login
-
 
 def couchpotato_url():
     port = get_setting_value('couchpotato_port')
     url_base = get_setting_value('couchpotato_ip')
     webroot = get_setting_value('couchpotato_webroot')
-    
+
     if port:
         url_base = '%s:%s' % (url_base, port)
 
     if webroot:
         url_base = '%s/%s' % (url_base, webroot)
-    
+
     url = '%s/api/%s' % (url_base, get_setting_value('couchpotato_api'))
-    
-    if login_string():
-        return couchpotato_http() + login_string() + url
-    
+
     return couchpotato_http() + url
 
 
@@ -50,21 +40,28 @@ def couchpotato_url_no_api():
 
     if webroot:
         url_base = '%s/%s' % (url_base, webroot)
-    
-    if login_string():
-        return couchpotato_http() + login_string() + url_base
-        
+
     return couchpotato_http() + url_base
 
 
 def couchpotato_api(method, params=None, use_json=True, dev=False):
+    username = get_setting_value('couchpotato_user')
+    password = get_setting_value('couchpotato_password')
+
     if params:
         params = '/?%s' % params
     else:
         params = '/'
 
+    params = (params).replace(' ', '%20')
     url = '%s/%s%s' % (couchpotato_url(), method, params)
-    data = urllib.urlopen(url).read()
+    request = urllib2.Request(url)
+
+    if username and password:
+        base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
+        request.add_header("Authorization", "Basic %s" % base64string)
+
+    data = urllib2.urlopen(request).read()
     if dev:
         print url
         print data
@@ -88,8 +85,17 @@ FILTERS['cp_img'] = couchpotato_image
 
 @app.route('/xhr/couchpotato/image/<path:url>')
 def couchpotato_proxy(url):
+    username = get_setting_value('couchpotato_user')
+    password = get_setting_value('couchpotato_password')
+
     url = '%s/file.cache/%s' % (couchpotato_url(), url)
-    img = StringIO.StringIO(urllib.urlopen(url).read())
+    request = urllib2.Request(url)
+
+    if username and password:
+        base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
+        request.add_header("Authorization", "Basic %s" % base64string)
+
+    img = StringIO.StringIO(urllib2.urlopen(request).read())
     logger.log('CouchPotato :: Fetching image from %s' % (url), 'DEBUG')
     return send_file(img, mimetype='image/jpeg')
 
@@ -134,25 +140,26 @@ def cp_search(message=None):
     profiles = {}
 
     try:
-        params = 'q=' + request.args['name']
+        query = request.args['name']
+        params = 'q=' + query
     except:
         pass
 
     if params:
         try:
-            logger.log('CouchPotato :: Searching for movie: %s' % (params), 'INFO')
-            couchpotato = couchpotato_api('movie.search', params=params)
+            logger.log('CouchPotato :: Searching for movie: %s' % (query), 'INFO')
+            couchpotato = couchpotato_api('movie.search', params=params, dev=True)
             amount = len(couchpotato['movies'])
-            logger.log('CouchPotato :: found %i movies for %s' % (amount, params), 'INFO')
+            logger.log('CouchPotato :: found %i movies for %s' % (amount, query), 'INFO')
             if couchpotato['success'] and amount != 0:
                 couchpotato = couchpotato['movies']
                 try:
-                    logger.log('CouchPotato :: Getting quality profiles', 'INFO')
+                    # logger.log('CouchPotato :: Getting quality profiles', 'INFO')
                     profiles = couchpotato_api('profile.list')
                 except Exception as e:
                     log_exception(e)
             else:
-                return render_template('couchpotato-search.html', error='No movies with "%s" were found' % (params[2:]), couchpotato='results')
+                return render_template('couchpotato-search.html', error='No movies with "%s" were found' % (query), couchpotato='results')
 
         except Exception as e:
             log_exception(e)

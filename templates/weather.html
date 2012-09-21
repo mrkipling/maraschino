@@ -10,7 +10,7 @@
 
         <tr>
           <td><strong>Current</strong></td>
-          <td><img class="compactforecastimg" src="{{ weather.current.image }}"/></td>
+          <td>{% if weather.current.image %}<img class="compactforecastimg" src="{{ weather.current.image }}"/>{% else %}&nbsp;{% endif %}</td>
           <td>{{ weather.current.type }}</td>
           <td class="high">{{ weather.current.temperature|weather_temp }}</td>
           <td><strong>{{ weather.current.wind.speed|weather_speed }}</strong></td>
@@ -18,7 +18,7 @@
         {% if weather.forecast.0 %}
           <tr>
             <td><strong>Today</strong></td>
-            <td><img class="compactforecastimg" src="{{ weather.forecast.0.image }}"/></td>
+            <td>{% if weather.forecast.0.image %}<img class="compactforecastimg" src="{{ weather.forecast.0.image }}"/>{% else %}&nbsp;{% endif %}</td>
             <td>{{ weather.forecast.0.day.type }}</td>
             <td class="high">{{ weather.forecast.0.high|weather_temp }}</td>
             <td class="low">{{ weather.forecast.0.low|weather_temp }}</td>
@@ -28,7 +28,7 @@
         {% if weather.forecast.1 %}
           <tr>
             <td><strong>Tomorrow</strong></td>
-            <td><img class="compactforecastimg" src="{{ weather.forecast.1.image }}"/></td>
+            <td>{% if weather.forecast.1.image %}<img class="compactforecastimg" src="{{ weather.forecast.1.image }}"/>{% else %}&nbsp;{% endif %}</td>
             <td>{{ weather.forecast.1.day.type }}</td>
             <td class="high">{{ weather.forecast.1.high|weather_temp }}</td>
             <td class="low">{{ weather.forecast.1.low|weather_temp }}</td>
@@ -58,7 +58,7 @@
         <tr>
           <td colspan="2">
             <center class="currentcond">
-              <img class="currentimage" src="{{ weather.current.image }}"/>
+              {% if weather.current.image %}<img class="currentimage" src="{{ weather.current.image }}"/>{% endif %}
               <br />
               {{ weather.current.type }}
               <br />
@@ -68,7 +68,7 @@
           <td colspan="1" class="currenttemp">{{ weather.current.temperature|weather_temp }}</td>
           <td colspan="2">
             <center class="currentcond">
-              <img src="{{ wind_image }}" /><br>{{ weather.current.wind.speed|weather_speed }}
+              {% if wind_image %}<img src="{{ wind_image }}" />{% endif %}<br>{{ weather.current.wind.speed|weather_speed }}
               <br />
               <br />
             </center>
@@ -79,28 +79,28 @@
         </td>
         <tr class="forecast">
           <td><strong>Today</strong></td>
-          <td><img class="forecastimg" src="{{ weather.forecast.0.image }}"/></td>
+          <td>{% if weather.forecast.0.image %}<img class="forecastimg" src="{{ weather.forecast.0.image }}"/>{% else %}&nbsp;{% endif %}</td>
           <td>{{ weather.forecast.0.day.type }}</td>
           <td class="high">{{ weather.forecast.0.high|weather_temp }}</td>
           <td class="low">{{ weather.forecast.0.low|weather_temp }}</td>
         </tr>
         <tr class="forecast">
           <td><strong>{{ weather.forecast.1.Day }}</strong></td>
-          <td><img class="forecastimg" src="{{ weather.forecast.1.image }}"/></td>
+          <td>{% if weather.forecast.1.image %}<img class="forecastimg" src="{{ weather.forecast.1.image }}"/>{% else %}&nbsp;{% endif %}</td>
           <td>{{ weather.forecast.1.day.type }}</td>
           <td class="high">{{ weather.forecast.1.high|weather_temp }}</td>
           <td class="low">{{ weather.forecast.1.low|weather_temp }}</td>
         </tr>
         <tr class="forecast">
           <td><strong>{{ weather.forecast.2.Day }}</strong></td>
-          <td><img class="forecastimg" src="{{ weather.forecast.2.image }}"/></td>
+          <td>{% if weather.forecast.2.image %}<img class="forecastimg" src="{{ weather.forecast.2.image }}"/>{% else %}&nbsp;{% endif %}</td>
           <td>{{ weather.forecast.2.day.type }}</td>
           <td class="high">{{ weather.forecast.2.high|weather_temp }}</td>
           <td class="low">{{ weather.forecast.2.low|weather_temp }}</td>
         </tr>
         <tr class="forecast">
           <td><strong>{{ weather.forecast.3.Day }}</strong></td>
-          <td><img class="forecastimg" src="{{ weather.forecast.3.image }}"/></td>
+          <td>{% if weather.forecast.3.image %}<img class="forecastimg" src="{{ weather.forecast.3.image }}"/>{% else %}&nbsp;{% endif %}</td>
           <td>{{ weather.forecast.3.day.type }}</td>
           <td class="high">{{ weather.forecast.3.high|weather_temp }}</td>
           <td class="low">{{ weather.forecast.3.low|weather_temp }}</td>
