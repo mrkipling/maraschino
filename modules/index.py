@@ -118,12 +118,18 @@ def index():
     # show power buttons in library?
     library_show_power_buttons = get_setting_value('library_show_power_buttons', '1') == '1'
 
+    # show currently playing bar?
+    if get_setting_value('show_currently_playing') == None:
+        show_currently_playing = True
+    else:
+        show_currently_playing = get_setting_value('show_currently_playing') == '1'
+
     return render_template('index.html',
         modules = modules,
         num_columns = num_columns,
         servers = servers,
         active_server = active_server,
-        show_currently_playing = True,
+        show_currently_playing=show_currently_playing,
         search_enabled = get_setting_value('search') == '1',
         background = background,
         fanart_backgrounds = fanart_backgrounds,
