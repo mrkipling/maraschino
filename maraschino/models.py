@@ -84,7 +84,7 @@ class Disk(Base):
         return '<Disk %r>' % (self.path)
 
 
-class Disk2(Base):
+class HardDisk(Base):
     """Table for one disk in the diskspace module"""
     __tablename__ = 'disks2'
     id = Column(Integer, primary_key=True)
@@ -96,12 +96,12 @@ class Disk2(Base):
         self.data = data
 
         if position == None:
-            self.position = highest_position(Disk2)
+            self.position = highest_position(HardDisk)
         else:
             self.position = position
 
     def __repr__(self):
-        return '<Disk2 %r>' % (self.position)
+        return '<HardDisk %r>' % (self.position)
 
 
 class XbmcServer(Base):

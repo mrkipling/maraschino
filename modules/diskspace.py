@@ -5,7 +5,7 @@ from maraschino import app, logger
 from maraschino.tools import requires_auth, format_number, get_setting_value
 from maraschino.database import db_session
 
-from maraschino.models import Disk, Disk2
+from maraschino.models import Disk, HardDisk
 
 @app.route('/xhr/diskspace/')
 @requires_auth
@@ -18,7 +18,7 @@ def xhr_diskspace():
     disks = {'groups':[], 'disks':[]}
 
     # Get list of disks from database
-    disks_db = Disk2.query.order_by(Disk2.position)
+    disks_db = HardDisk.query.order_by(HardDisk.position)
 
     if disks_db.count() > 0:
         for disk_db in disks_db:
@@ -82,7 +82,7 @@ def add_edit_disk_dialog(disk_id=None):
 
     if disk_id:
         try:
-            disk = Disk2.query.filter(Disk2.id == disk_id).first()
+            disk = HardDisk.query.filter(HardDisk.id == disk_id).first()
 
         except:
             pass
@@ -106,12 +106,12 @@ def add_edit_disk():
         position = None
 
     if 'disk_id' in request.form:
-        disk = Disk2.query.filter(Disk2.id == request.form['disk_id']).first()
+        disk = HardDisk.query.filter(HardDisk.id == request.form['disk_id']).first()
         disk.data = {'path': path, 'name': name, 'group': group}
         disk.position = position
 
     else:
-        disk = Disk2(
+        disk = HardDisk(
             data={'path': path, 'name': name, 'group': group},
             position=position,
         )
@@ -129,7 +129,7 @@ def add_edit_disk():
 @requires_auth
 def delete_disk(disk_id):
     try:
-        disk = Disk2.query.filter(Disk2.id == disk_id).first()
+        disk = HardDisk.query.filter(HardDisk.id == disk_id).first()
         db_session.delete(disk)
         db_session.commit()
 
@@ -168,7 +168,7 @@ def legacy_disk_migrate():
     disks_db_old = Disk.query.order_by(Disk.position)
     for disk_old in disks_db_old:
 
-        disk = Disk2(
+        disk = HardDisk(
             data={
                 'path': disk_old.path,
                 'name': disk_old.path,
