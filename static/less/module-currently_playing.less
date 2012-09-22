@@ -11,99 +11,143 @@
 
   .box-shadow(#222, 0, 0, 10px);
 
-  .albumart  {
-    position: fixed;
-    bottom: 10px;
-    left: 10px;
-    height: auto;
-    max-width: 130px;
-    .box-shadow(#000, 0, 0, 15px);
-  }
-
-  .episodeart  {
-    float: left;
-    position: fixed;
-    bottom: 10px;
-    left: 10px;
-    max-width: 200px;
-    height: auto;
-    .box-shadow(#000, 0, 0, 15px);
-  }
-
-  .posterart  {
-    position: fixed;
-    bottom: 10px;
-    left: 10px;
-    max-width: 100px;
-    height: auto;
-    .box-shadow(#000, 0, 0, 15px);
-  }
-
-  .item_info {
-    float: left;
-    line-height: 1.5em;
-    width: 400px;
-
-    .show:hover,
-    .season:hover,
-    .episode:hover,
-    .movie:hover {
-      border-bottom: 1px solid #555;
-      cursor: pointer;
+  &.minimize {
+    height: 10px;
+    padding: 10px;
+    .thumb {
+      img {
+        display: none;
+      }
+      p {
+        margin-left: 20px;
+        margin-top: -20px;
+        width: 500px;
+      }
     }
-
-    .separator {
-      margin: 0 3px;
+    .volume {
+      display: none;
+    }
+    .controls {
+      div{
+        margin-top: -15px;
+        height: 20px;
+        width: 20px;
+        background-size: 20px;
+      }
+    }
+    span.playlist {
+      display: none;
+    }
+    .progress {
+      margin-top: -10px;
+    }
+    .visibility {
+      top: -29px;
+      ul li.minimize {
+        background: url('/@{webroot}/images/arrow_up.png') no-repeat center;
+        &:hover {
+          background-color: #333;
+          cursor: pointer;
+        }
+      }
     }
   }
 
-  .item_info_artist  {
-    float: left;
-    position: relative;
-    margin-left: 132px;
-    line-height: 1.5em;
-    width: 400px;
-
-    .artist:hover,
-    .album:hover  {
-      border-bottom: 1px solid #555;
-      cursor: pointer;
+  .thumb {
+    .albumart  {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      height: auto;
+      max-width: 130px;
+      .box-shadow(#000, 0, 0, 15px);
     }
 
-    .separator {
-      margin: 0 3px;
-    }
-  }
-
-  .item_info_show  {
-    float: left;
-    position: relative;
-    margin-left: 202px;
-    line-height: 1.5em;
-    width: 400px;
-
-    .show:hover,
-    .season:hover,
-    .episode:hover {
-      border-bottom: 1px solid #555;
-      cursor: pointer;
+    .episodeart  {
+      float: left;
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      max-width: 200px;
+      height: auto;
+      .box-shadow(#000, 0, 0, 15px);
     }
 
-    .separator {
-      margin: 0 3px;
+    .posterart  {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      max-width: 100px;
+      height: auto;
+      .box-shadow(#000, 0, 0, 15px);
     }
-  }
 
-  .item_info_movie  {
-    float: left;
-    position: relative;
-    margin-left: 102px;
-    line-height: 1.5em;
-    width: 400px;
+    .item_info {
+      float: left;
+      line-height: 1.5em;
+      width: 400px;
 
-    .movie:hover {
-      border-bottom: 1px solid #555;
-      cursor: pointer;
+      .show:hover,
+      .season:hover,
+      .episode:hover,
+      .movie:hover {
+        border-bottom: 1px solid #555;
+        cursor: pointer;
+      }
+
+      .separator {
+        margin: 0 3px;
+      }
+    }
+  
+    .item_info_artist  {
+      float: left;
+      position: relative;
+      margin-left: 132px;
+      line-height: 1.5em;
+      width: 400px;
+
+      .artist:hover,
+      .album:hover  {
+        border-bottom: 1px solid #555;
+        cursor: pointer;
+      }
+
+      .separator {
+        margin: 0 3px;
+      }
+    }
+
+    .item_info_show  {
+      float: left;
+      position: relative;
+      margin-left: 202px;
+      line-height: 1.5em;
+      width: 400px;
+
+      .show:hover,
+      .season:hover,
+      .episode:hover {
+        border-bottom: 1px solid #555;
+        cursor: pointer;
+      }
+
+      .separator {
+        margin: 0 3px;
+      }
+    }
+
+    .item_info_movie  {
+      float: left;
+      position: relative;
+      margin-left: 102px;
+      line-height: 1.5em;
+      width: 400px;
+
+      .movie:hover {
+        border-bottom: 1px solid #555;
+        cursor: pointer;
+      }
     }
   }
   .controls {
@@ -281,5 +325,35 @@
 
   .synopsis {
     display: none;
+  }
+
+  .visibility {
+    position: relative;
+    top: -39px;
+    float: right;
+    z-index: 9999999;
+    background: url('/@{webroot}/images/alpha/000_80.png');
+    border-radius: 5px 5px 0px 0px;
+    padding: 2px;
+
+    ul li {
+
+      &.close {
+        background: url('/@{webroot}/images/remove_icon.png') no-repeat center;
+        height: 15px;
+        width: 15px;
+        float: right;
+      }
+      &.minimize {
+        background: url('/@{webroot}/images/arrow_down.png') no-repeat center;
+        height: 15px;
+        width: 15px;
+        float: right;
+      }
+      &:hover {
+        background-color: #333;
+        cursor: pointer;
+      }
+    }
   }
 }
