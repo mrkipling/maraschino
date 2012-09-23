@@ -656,6 +656,12 @@ AVAILABLE_MODULES = [
 
 MISC_SETTINGS = [
     {
+        'key': 'show_currently_playing',
+        'value': '1',
+        'description': 'Show currently playing bar',
+        'type': 'bool',
+    },
+    {
         'key': 'fanart_backgrounds',
         'value': '0',
         'description': 'Show fanart backgrounds when watching media',
