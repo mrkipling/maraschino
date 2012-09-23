@@ -147,21 +147,25 @@ def index():
 @app.route('/xhr/shutdown')
 @requires_auth
 def maraschino_shutdown():
-    maraschino.stop()
-    return jsonify(shutdown_complete=True)
+    return maraschino.stop()
 
 @app.route('/xhr/restart')
 @requires_auth
 def xhr_restart():
-    maraschino.restart()
-    return jsonify(restart_complete=True)
+    return maraschino.restart()
 
 @app.route('/shutdown')
 @requires_auth
 def shutdown_url():
-    return render_template('power.html', shutdown=True)
+    return render_template('power.html',
+        shutdown=True,
+        webroot=maraschino.WEBROOT
+    )
 
 @app.route('/restart')
 @requires_auth
 def restart_url():
-    return render_template('power.html', restart=True)
+    return render_template('power.html',
+        restart=True,
+        webroot=maraschino.WEBROOT
+        )

@@ -20,7 +20,7 @@
     <div>
         <img src="{{ url_for('static', filename='images/maraschino_logo.png') }}" />
     </div>
-    <script src="{{ url_for('static', filename='js/webroot.js') }}"></script>
+    <script>var WEBROOT = "{{ webroot }}";</script>
     <script src="{{ url_for('static', filename='js/lib/jquery.js') }}"></script>
 
     {% if shutdown %}
@@ -29,11 +29,13 @@
       </h2>
 
       <script>
-        $.get(WEBROOT + '/xhr/shutdown', function(data){
-          if(data['shutdown_complete']){
-            $('body h2').replaceWith('<h2 style="color: #eee;">Shutdown Complete.</h2>');
-          }
-        });
+        $.get(WEBROOT + '/xhr/shutdown');
+        setTimeout(
+          function() {
+            window.open('', '_self', '');
+            window.close();
+          }, 2000
+        );
       </script>
     {% endif %}
 
@@ -43,15 +45,12 @@
       </h2>
 
       <script>
-        $.get(WEBROOT + '/xhr/restart', function(data){
-          if(data['restart_complete']){
-            setTimeout(
-              function() {
-                location.replace(WEBROOT + '/');
-              }, 2000
-            );
-          }
-        });
+        $.get(WEBROOT + '/xhr/restart');
+        setTimeout(
+          function() {
+            location.replace(WEBROOT + '/');
+          }, 30000
+        );
       </script>
     {% endif %}
 
