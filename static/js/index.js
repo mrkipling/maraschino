@@ -1,6 +1,8 @@
 $(document).ready(function() {
   // helper functions
   var settings_buttons = '<div class="module_settings"><span>Settings</span></div><div class="module_remove"><span>Remove</span></div>';
+  // where all polls will reside
+  var timeOuts = new Array([]);
 
   function construct_inactive_module(name, title) {
     return '<div id="' + name + '_inactive" class="inactive_module" data-module="' + name + '">' + settings_buttons + '<h2>' + title + '</h2></div></div>';
@@ -107,8 +109,8 @@ $(document).ready(function() {
     if (settings.poll !== 0) {
       var timer = module+'_timer';
       if(timer){
-        clearTimeout(window[timer]);
-        window[timer] = setTimeout(function() {
+        clearTimeout(timeOuts[timer]);
+        timeOuts[timer] = setTimeout(function() {
           get_module(module, {
             poll: settings.poll,
             params: [settings.params]
@@ -248,11 +250,11 @@ $(document).ready(function() {
       }
     });
     if (visibility == 'minimize') {
-      window['currently_playing'] = setTimeout(function() {
+      timeOuts['currently_playing'] = setTimeout(function() {
         get_currently_playing('minimize');
       }, 5000);
     } else {
-      window['currently_playing'] = setTimeout(function() {
+      timeOuts['currently_playing'] = setTimeout(function() {
         get_currently_playing();
       }, 5000);
     }
@@ -460,14 +462,14 @@ $(document).ready(function() {
   $(document).on('click', '#currently_playing .visibility .close', function() {
     $('#currently_playing').slideUp(200, function() {
       $(this).remove();
-      clearTimeout(window['currently_playing']);
+      clearTimeout(timeOuts['currently_playing']);
     });
   });
 
   // currently playing minimize
   $(document).on('click', '#currently_playing .visibility .minimize', function() {
     $('#currently_playing').toggleClass('minimize');
-    clearTimeout(window['currently_playing']);
+    clearTimeout(timeOuts['currently_playing']);
     if($('#currently_playing').hasClass('minimize')){
       get_currently_playing('minimize');
     } else {
@@ -2643,7 +2645,7 @@ $(document).ready(function() {
     var popup = $('<div id="updater" class="dialog" align="center"><div class="close" style="display:none;"></div><p>Restarting  <img src="' + WEBROOT + '/static/images/xhrloading.gif"/></p></div>');
     $('body').append(popup);
     popup.showPopup({ dispose: true });
-
+    stop_polling();
     $.get(WEBROOT + '/xhr/restart', function(data){
       if(data['restart_complete']){
         setTimeout(
@@ -2660,6 +2662,7 @@ $(document).ready(function() {
     var popup = $('<div id="updater" class="dialog" align="center"><div class="close" style="display:none;"></div><p>Maraschino is shutting down...</p></div>');
     $('body').append(popup);
     popup.showPopup({ dispose: true });
+    stop_polling();
     $.get(WEBROOT + '/xhr/shutdown', function(data){
       if(data['shutdown_complete']){
         window.open('', '_self', '');
@@ -2859,11 +2862,8 @@ $(document).ready(function() {
 
   // Quit module polling
   function stop_polling(){
-    for (var i = window.length - 1; i >= 0; i--) {
-      if (i.indexOf('_timer') != -1) {
-        clearTimeout(window[i]);
-      }
-      clearTimeout(window['currently_playing']);
+    for (var key in timeOuts) {
+      clearTimeout(timeOuts[key]);
     }
   }
 });
