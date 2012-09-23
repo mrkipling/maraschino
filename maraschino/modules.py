@@ -681,7 +681,7 @@ MISC_SETTINGS = [
     {
         'key': 'title_color',
         'value': 'EEE',
-        'description': 'Module title color (hexidecimal)',
+        'description': 'Module title color (hexadecimal)',
     },
 ]
 
