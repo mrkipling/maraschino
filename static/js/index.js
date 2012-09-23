@@ -2857,4 +2857,13 @@ $(document).ready(function() {
     $(this).children().replaceWith('<img src="' + WEBROOT + '/static/images/xhrloading.gif" width="14" height="14">');
   });
 
+  // Quit module polling
+  function stop_polling(){
+    for (var i = window.length - 1; i >= 0; i--) {
+      if (i.indexOf('_timer') != -1) {
+        clearTimeout(window[i]);
+      }
+      clearTimeout(window['currently_playing']);
+    }
+  }
 });
