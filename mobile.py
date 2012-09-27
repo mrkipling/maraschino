@@ -40,7 +40,6 @@ def recently_added_movies():
     try:
         xbmc = jsonrpclib.Server(server_api_address())
         recently_added_movies = xbmc.VideoLibrary.GetRecentlyAddedMovies(properties=['title', 'rating', 'year', 'thumbnail', 'tagline', 'playcount'])['movies']
-        print recently_added_movies
 
     except:
         logger.log('Could not retrieve recently added movies', 'WARNING')
