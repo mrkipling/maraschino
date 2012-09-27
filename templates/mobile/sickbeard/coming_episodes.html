@@ -22,7 +22,7 @@
         	<p>{{episode.ep_name}}</p>
         	<p>{{episode.airdate}}</p>
         </a>
-        <a href="#" data-theme="a">Options</a>
+        <a href="{{webroot}}/mobile/sickbeard/episode-options/" data-theme="a" data-rel="dialog">Options</a>
       </li>
   {% endfor %}
   <li data-role="list-devider" data-theme="a"><span class="ui-li-count">{{coming_episodes.soon|length}}</span>Soon</li>
@@ -33,7 +33,6 @@
         	<p>{{episode.ep_name}}</p>
         	<p>{{episode.airdate}}</p>
         </a>
-        <a href="#" data-theme="a">Options</a>
       </li>
   {% endfor %}
   <li data-role="list-devider" data-theme="a"><span class="ui-li-count">{{coming_episodes.later|length}}</span>Later</li>
@@ -44,7 +43,6 @@
         	<p>{{episode.ep_name}}</p>
         	<p>{{episode.airdate}}</p>
         </a>
-        <a href="#" data-theme="a">Options</a>
       </li>
   {% endfor %}
 </ul>

@@ -13,10 +13,12 @@
 {% endblock %}
 
 {% block content %}
-  <ul data-role="listview" data-split-icon="gear">
+  <ul data-role="listview">
     {%for show in shows|sort %}
       <li>
-        <h2>{{ show }}</h2>
+        <a href="{{webroot}}/mobile/sickbeard/show/{{shows[show].tvdbid}}/">
+          <h2>{{ show }}</h2>
+        </a>
       </li>
     {% endfor %}
   </ul>

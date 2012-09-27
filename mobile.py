@@ -210,3 +210,72 @@ def sickbeard_history():
         history=sickbeard,
         webroot=maraschino.WEBROOT,
     )
+
+
+@app.route('/mobile/sickbeard/show/<int:id>/')
+@requires_auth
+def sickbeard_show(id):
+    params = '/?cmd=show&tvdbid=%s' % id
+
+    try:
+        sickbeard = sickbeard_api(params)
+
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+            sickbeard['tvdbid'] = id
+
+    except Exception as e:
+        logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
+        sickbeard = None
+
+    return render_template('mobile/sickbeard/show.html',
+        show=sickbeard,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+@app.route('/mobile/sickbeard/show/<int:id>/<int:season>/')
+@requires_auth
+def sickbeard_season(id, season):
+    params = '/?cmd=show.seasons&tvdbid=%s&season=%s' % (id, season)
+
+    try:
+        sickbeard = sickbeard_api(params)
+
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+
+    except Exception as e:
+        logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
+        sickbeard = None
+
+    return render_template('mobile/sickbeard/season.html',
+        season_number=season,
+        season=sickbeard,
+        id=id,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+@app.route('/mobile/sickbeard/show/<int:id>/<int:season>/<int:episode>/')
+@requires_auth
+def sickbeard_episode(id, season, episode):
+    params = '/?cmd=episode&tvdbid=%s&season=%s&episode=%s&full_path=1' % (id, season, episode)
+
+    try:
+        sickbeard = sickbeard_api(params)
+
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+
+    except Exception as e:
+        logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
+        sickbeard = None
+
+    return render_template('mobile/sickbeard/episode.html',
+        season_number=season,
+        episode_number=episode,
+        episode=sickbeard,
+        id=id,
+        webroot=maraschino.WEBROOT,
+    )
