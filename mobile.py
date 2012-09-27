@@ -125,3 +125,28 @@ def season(id, season):
         episodes=episodes,
         webroot=maraschino.WEBROOT,
     )
+
+from modules.sickbeard import sickbeard_api, get_pic
+
+
+@app.route('/mobile/sickbeard/')
+@requires_auth
+def sickbeard():
+
+    try:
+        sickbeard = sickbeard_api('/?cmd=future&sort=date', dev=True)
+
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+            for time in sickbeard:
+                for episode in sickbeard[time]:
+                    episode['image'] = get_pic(episode['tvdbid'], 'banner')
+
+    except Exception as e:
+        logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
+        sickbeard = None
+
+    return render_template('mobile/sickbeard.html',
+        coming_episodes=sickbeard,
+        webroot=maraschino.WEBROOT,
+    )

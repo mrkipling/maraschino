@@ -1,0 +1,36 @@
+{% extends "mobile/base.html" %}
+
+{% block header %}<h1>Sickbeard</h1>{% endblock %}
+
+{% block content %}
+<ul id="coming_episodes" data-role="listview">
+  {% for episode in coming_episodes.missed %}
+      <li class="missed" data-theme="e">
+        <a class="inner">
+        	<h2>{{episode.show_name}}</h2>
+        	<p>{{episode.ep_name}}</p>
+        	<p>{{episode.airdate}}</p>
+        </a>
+      </li>
+  {% endfor %}
+  {% for episode in coming_episodes.soon %}
+      <li>
+        <a class="inner">
+        	<h2>{{episode.show_name}}</h2>
+        	<p>{{episode.ep_name}}</p>
+        	<p>{{episode.airdate}}</p>
+        </a>
+      </li>
+  {% endfor %}
+  {% for episode in coming_episodes.later %}
+      <li>
+        <a class="inner">
+        	<h2>{{episode.show_name}}</h2>
+        	<p>{{episode.ep_name}}</p>
+        	<p>{{episode.airdate}}</p>
+        </a>
+      </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
