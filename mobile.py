@@ -279,3 +279,15 @@ def sickbeard_episode(id, season, episode):
         id=id,
         webroot=maraschino.WEBROOT,
     )
+
+
+@app.route('/mobile/sickbeard/episode_options/<int:id>/<int:season>/<int:episode>/')
+@requires_auth
+def sickbeard_episode_options(id, season, episode):
+
+    return render_template('mobile/sickbeard/episode_options.html',
+        season_number=season,
+        episode_number=episode,
+        show_number=id,
+        webroot=maraschino.WEBROOT,
+    )
