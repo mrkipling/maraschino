@@ -95,7 +95,6 @@ def tvshow(id):
     try:
         xbmc = jsonrpclib.Server(server_api_address())
         show = xbmc.VideoLibrary.GetSeasons(tvshowid=id, properties=['tvshowid', 'season', 'showtitle', 'playcount'])['seasons']
-        print show
 
     except Exception as e:
         logger.log('Could not retrieve TV Show [id: %i -  %s]' % (id, e), 'WARNING')
