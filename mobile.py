@@ -14,7 +14,7 @@ import maraschino
 @app.route('/mobile/')
 @requires_auth
 def mobile_index():
-    return render_template('mobile/index.html')
+    return render_template('mobile/index.html', webroot=maraschino.WEBROOT)
 
 
 @app.route('/mobile/recent_episodes/')
