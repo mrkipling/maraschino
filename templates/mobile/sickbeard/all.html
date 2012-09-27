@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-  <ul data-role="listview">
+  <ul data-role="listview" data-filter="true">
     {%for show in shows|sort %}
       <li>
         <a href="{{webroot}}/mobile/sickbeard/show/{{shows[show].tvdbid}}/">
