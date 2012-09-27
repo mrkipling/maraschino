@@ -1,0 +1,19 @@
+{% extends "mobile/base.html" %}
+
+{% block header %}<h1>Recently Added Albums</h1>{% endblock %}
+
+{% block content %}
+
+<ul id="recent_albums" data-role="listview">
+  {% for album in recently_added_albums %}
+      <li data-icon="false">
+        <a class="inner play" href="#" data-albumid="{{ album.albumid }}">
+          <div class="thumb"><img src="{{ album.thumbnail|xbmc_image }}" alt=""></div>
+          <span class="title">{{album.label}} - {{album.artist}}</span>
+          <span class="rating">{{album.rating|float|round(1, 'common')}}</span>
+        </a>
+      </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

@@ -29,9 +29,9 @@ def recently_added_episodes():
     except:
         logger.log('Could not retrieve recently added episodes', 'WARNING')
 
-    return render_template('mobile/recent_episodes.html',
+    return render_template('mobile/xbmc/recent_episodes.html',
         recently_added_episodes=recently_added_episodes,
-        webroot=maraschino.WEBROOT,
+        webroot=maraschino.WEBROOT
     )
 
 
@@ -48,16 +48,33 @@ def recently_added_movies():
     except:
         logger.log('Could not retrieve recently added movies', 'WARNING')
 
-    return render_template('mobile/recent_movies.html',
+    return render_template('mobile/xbmc/recent_movies.html',
         recently_added_movies=recently_added_movies,
-        webroot=maraschino.WEBROOT,
+        webroot=maraschino.WEBROOT
+    )
+
+
+@app.route('/mobile/recent_albums/')
+@requires_auth
+def recently_added_albums():
+
+    try:
+        xbmc = jsonrpclib.Server(server_api_address())
+        recently_added_albums = xbmc.AudioLibrary.GetRecentlyAddedAlbums(properties=['title', 'rating', 'thumbnail', 'artist'])['albums']
+
+    except:
+        logger.log('Could not retrieve recently added albums', 'WARNING')
+
+    return render_template('mobile/xbmc/recent_albums.html',
+        recently_added_albums=recently_added_albums,
+        webroot=maraschino.WEBROOT
     )
 
 
 @app.route('/mobile/xbmc/')
 @requires_auth
 def xbmc():
-    return render_template('mobile/xbmc.html',
+    return render_template('mobile/xbmc/xbmc.html',
         webroot=maraschino.WEBROOT,
     )
 
@@ -72,7 +89,7 @@ def movie_library():
     except:
         logger.log('Could not retrieve movie library', 'WARNING')
 
-    return render_template('mobile/movie_library.html',
+    return render_template('mobile/xbmc/movie_library.html',
         movies=movies,
         webroot=maraschino.WEBROOT,
     )
@@ -88,7 +105,7 @@ def tv_library():
     except Exception as e:
         logger.log('Could not retrieve TV Shows: %s' % e, 'WARNING')
 
-    return render_template('mobile/tv_library.html',
+    return render_template('mobile/xbmc/tv_library.html',
         TV=TV,
         webroot=maraschino.WEBROOT,
     )
@@ -104,7 +121,7 @@ def tvshow(id):
     except Exception as e:
         logger.log('Could not retrieve TV Show [id: %i -  %s]' % (id, e), 'WARNING')
 
-    return render_template('mobile/tvshow.html',
+    return render_template('mobile/xbmc/tvshow.html',
         show=show,
         webroot=maraschino.WEBROOT,
     )
@@ -120,7 +137,7 @@ def season(id, season):
     except Exception as e:
         logger.log('Could not retrieve TV Show [id: %i, season: %i -  %s]' % (id, season, e), 'WARNING')
 
-    return render_template('mobile/season.html',
+    return render_template('mobile/xbmc/season.html',
         season=season,
         episodes=episodes,
         webroot=maraschino.WEBROOT,
