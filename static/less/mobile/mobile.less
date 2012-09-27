@@ -72,9 +72,9 @@
     }
 }
 
-/*--- recently added movies ---*/
+/*--- recently added movies and movie library---*/
 
-#recent_movies {
+#recent_movies, #movie_library {
     li {
         height: 75px;
     }
@@ -95,8 +95,32 @@
             }
         }
 
+        span.title{
+            width: 80%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         span.rating {
             float: right;
         }
+    }
+}
+
+/*--- tv shows library---*/
+
+#tv_library {
+    li {
+        width: 100%;
+        padding: 0px;
+        a.inner {
+            width: 100%;
+            padding: 0px;
+            img {
+                width: 100%;
+            }
+        }
+
     }
 }
