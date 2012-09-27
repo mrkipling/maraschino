@@ -20,6 +20,16 @@ $(document).ready(function () {
         });
     });
 
+    // click to play a recently added albums
+
+    $(document).on('click', '#recent_albums .play', function(e) {
+        e.preventDefault();
+        $.mobile.showPageLoadingMsg();
+        $.get(WEBROOT + '/xhr/play/audio/album/' + $(this).data('albumid'), function () {
+            $.mobile.hidePageLoadingMsg();
+        });
+    });
+
     // playback controls
 
     $(document).on('click', '#header_controls .control', function(e) {
