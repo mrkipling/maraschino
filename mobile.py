@@ -23,6 +23,8 @@ def recently_added_episodes():
     try:
         xbmc = jsonrpclib.Server(server_api_address())
         recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties=['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail', 'firstaired'])['episodes']
+        if get_setting_value('recently_added_watched_episodes') == '0':
+            recently_added_episodes = [x for x in recently_added_episodes if not x['playcount']]
 
     except:
         logger.log('Could not retrieve recently added episodes', 'WARNING')
@@ -36,9 +38,12 @@ def recently_added_episodes():
 @app.route('/mobile/recent_movies/')
 @requires_auth
 def recently_added_movies():
+
     try:
         xbmc = jsonrpclib.Server(server_api_address())
         recently_added_movies = xbmc.VideoLibrary.GetRecentlyAddedMovies(properties=['title', 'rating', 'year', 'thumbnail', 'tagline', 'playcount'])['movies']
+        if get_setting_value('recently_added_watched_movies') == '0':
+            recently_added_movies = [x for x in recently_added_movies if not x['playcount']]
 
     except:
         logger.log('Could not retrieve recently added movies', 'WARNING')
