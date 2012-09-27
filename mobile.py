@@ -163,3 +163,21 @@ def couchpotato():
         wanted=couchpotato,
         webroot=maraschino.WEBROOT,
     )
+
+
+@app.route('/mobile/couchpotato/all/')
+@requires_auth
+def couchpotato_all():
+    try:
+        couchpotato = couchpotato_api('movie.list', params='status=done')
+        if couchpotato['success'] and not couchpotato['empty']:
+            couchpotato = couchpotato['movies']
+
+    except Exception as e:
+        logger.log('Could not retrieve Couchpotato - %s]' % (e), 'WARNING')
+        couchpotato = None
+
+    return render_template('mobile/couchpotato/all.html',
+        all=couchpotato,
+        webroot=maraschino.WEBROOT,
+    )

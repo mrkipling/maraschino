@@ -5,8 +5,8 @@
 {% block navbar %}
 <div data-role="navbar">
     <ul>
-        <li><a href="#" class="ui-btn-active ui-state-persist">Wanted</a></li>
-        <li><a href="{{ webroot }}/mobile/couchpotato/all/">All</a></li>
+        <li><a href="{{ webroot }}/mobile/couchpotato/">Wanted</a></li>
+        <li><a href="#" class="ui-btn-active ui-state-persist">All</a></li>
         <li><a href="{{ webroot }}/mobile/couchpotato/history/">History</a></li>
     </ul>
 </div>
@@ -14,7 +14,7 @@
 
 {% block content %}
 <ul id="couchpotato" data-role="listview" data-filter="true">
-  {% for movie in wanted %}
+  {% for movie in all %}
       <li data-icon="{{ 'check' if movie.playcount else 'false' }}">
         <a class="inner" href="#">
             <img src="{{movie.library.info.images.poster.0}}" alt="">
