@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<ul id="movie_library" data-role="listview">
+<ul id="movie_library" data-role="listview" data-filter="true">
   {% for movie in movies %}
       <li data-icon="{{ 'check' if movie.playcount else 'false' }}">
         <a class="inner play" href="#" data-movieid="{{ movie.movieid }}">

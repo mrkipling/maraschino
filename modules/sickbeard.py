@@ -176,7 +176,7 @@ def get_season(tvdbid, season):
         sickbeard = sickbeard['data']
 
     return render_template('sickbeard-season.html',
-       sickbeard=sickbeard,
+        sickbeard=sickbeard,
         id=tvdbid,
         season=season,
     )

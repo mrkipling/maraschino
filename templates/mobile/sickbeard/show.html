@@ -1,0 +1,30 @@
+{% extends "mobile/base.html" %}
+
+{% block header %}<h1>{{show.show_name}}</h1>{% endblock %}
+
+{% block navbar %}
+<div data-role="navbar">
+	<ul>
+		<li><a href="{{ webroot }}/mobile/sickbeard/">Coming Episodes</a></li>
+    <li><a href="{{ webroot }}/mobile/sickbeard/all">All</a></li>
+		<li><a href="{{ webroot }}/mobile/sickbeard/history/">History</a></li>
+	</ul>
+</div><!-- /navbar -->
+{% endblock %}
+
+{% block content %}
+  <h2>{{show.show_name}}</h2>
+  <p><b>Airs:</b> {{show.airs}} <i>({{show.status}})</i></p>
+  <p><b>Location:</b> {{show.location}}</p>
+  <p><b>Quality:</b> {{show.quality}}</p>
+  <br>
+  <ul data-role="listview">
+    {%for season in show.season_list|sort %}
+      <li>
+        <a href="{{webroot}}/mobile/sickbeard/show/{{show.tvdbid}}/{{season}}/">
+          <h2>Season {{ season }}</h2>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

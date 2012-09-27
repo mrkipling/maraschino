@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<ul id="tv_library" data-role="listview">
+<ul id="tv_library" data-role="listview" data-filter="true">
   {% for show in TV %}
       <li data-icon="{{ 'check' if show.tvshowcount else 'false' }}" >
         <a class="inner banner" href="{{ webroot }}/mobile/tvshow/{{show.tvshowid}}" data-tvshowid="{{ show.tvshowid }}">
