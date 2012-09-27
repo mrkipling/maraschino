@@ -8,7 +8,7 @@
   {% for movie in movies %}
       <li data-icon="{{ 'check' if movie.playcount else 'false' }}">
         <a class="inner play" href="#" data-movieid="{{ movie.movieid }}">
-          <div class="thumb"><img src="{{ movie.thumbnail|xbmc_image }}" alt=""></div>
+          <!-- <div class="thumb"><img src="{{ movie.thumbnail|xbmc_image }}" alt=""></div> -->
           <span class="title">{{movie.title}} ({{movie.year}})</span>
           <span class="rating">{{movie.rating|float|round(1, 'common')}}</span>
         </a>
