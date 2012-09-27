@@ -71,3 +71,62 @@
         }
     }
 }
+
+/*--- recently added movies and movie library---*/
+
+#recent_movies, #movie_library {
+    li {
+        height: 75px;
+    }
+    .inner {
+        line-height: 60px;
+        padding-left: 70px;
+
+        .thumb {
+            height: 75px;
+            left: 1px;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            width: 150px;
+
+            img {
+                height: 75px;
+            }
+        }
+
+        span.title{
+            width: 80%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        span.rating {
+            float: right;
+        }
+    }
+}
+
+#movie_library {
+    .inner {
+        padding-left: 10px;
+    }
+}
+
+/*--- tv shows library---*/
+
+#tv_library {
+    li {
+        width: 100%;
+        // padding: 0px;
+        // a.inner {
+        //     width: 100%;
+        //     padding: 0px;
+        //     img {
+        //         width: 100%;
+        //     }
+        // }
+
+    }
+}
