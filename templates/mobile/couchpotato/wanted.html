@@ -15,7 +15,7 @@
 {% block content %}
 <ul id="couchpotato" data-role="listview" data-filter="true">
   {% for movie in wanted %}
-      <li data-icon="{{ 'check' if movie.playcount else 'false' }}">
+      <li id="wanted">
         <a class="inner" href="#">
             <img src="{{movie.library.info.images.poster.0}}" alt="">
             <h2>{{movie.library.info.original_title}} ({{movie.library.info.year}})</h2>
