@@ -2,6 +2,16 @@
 
 {% block header %}<h1>Sickbeard</h1>{% endblock %}
 
+{% block navbar %}
+<div data-role="navbar">
+	<ul>
+		<li><a href="#" class="ui-btn-active ui-state-persist">Coming Episodes</a></li>
+		<li><a href="{{ webroot }}/mobile/sickbeard/all/">All</a></li>
+		<li><a href="{{ webroot }}/mobile/sickbeard/history/">History</a></li>
+	</ul>
+</div><!-- /navbar -->
+{% endblock %}
+
 {% block content %}
 <ul id="coming_episodes" data-role="listview">
   {% for episode in coming_episodes.missed %}

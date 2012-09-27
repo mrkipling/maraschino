@@ -48,12 +48,14 @@
 
         {% block header %}<h1>Maraschino</h1>{% endblock %}
 
-        <div data-role="navbar">
-          <ul id="header_controls">
-            <li><a class="control stop" data-command="stop" href="#"><span class="icon">Stop</span></a></li>
-            <li><a class="control play_pause" data-command="play_pause" href="#"><span class="icon">Play / Pause</span></a></li>
-          </ul>
-        </div>
+        {% block navbar %}
+          <div data-role="navbar">
+            <ul id="header_controls">
+              <li><a class="control stop" data-command="stop" href="#"><span class="icon">Stop</span></a></li>
+              <li><a class="control play_pause" data-command="play_pause" href="#"><span class="icon">Play / Pause</span></a></li>
+            </ul>
+          </div>
+        {% endblock %}
 
       </div>
 

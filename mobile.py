@@ -134,7 +134,7 @@ from modules.sickbeard import sickbeard_api, get_pic
 def sickbeard():
 
     try:
-        sickbeard = sickbeard_api('/?cmd=future&sort=date', dev=True)
+        sickbeard = sickbeard_api('/?cmd=future&sort=date')
 
         if sickbeard['result'].rfind('success') >= 0:
             sickbeard = sickbeard['data']
@@ -146,7 +146,50 @@ def sickbeard():
         logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
         sickbeard = None
 
-    return render_template('mobile/sickbeard.html',
+    return render_template('mobile/sickbeard/coming_episodes.html',
         coming_episodes=sickbeard,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+@app.route('/mobile/sickbeard/all/')
+@requires_auth
+def sickbeard_all():
+
+    try:
+        sickbeard = sickbeard_api('/?cmd=shows&sort=name')
+
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+
+            for show in sickbeard:
+                sickbeard[show]['url'] = get_pic(sickbeard[show]['tvdbid'], 'banner')
+
+    except Exception as e:
+        logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
+        sickbeard = None
+
+    return render_template('mobile/sickbeard/all.html',
+        shows=sickbeard,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+@app.route('/mobile/sickbeard/history/')
+@requires_auth
+def sickbeard_history():
+
+    try:
+        sickbeard = sickbeard_api('/?cmd=history&limit=30')
+
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+
+    except Exception as e:
+        logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
+        sickbeard = None
+
+    return render_template('mobile/sickbeard/history.html',
+        history=sickbeard,
         webroot=maraschino.WEBROOT,
     )
