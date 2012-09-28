@@ -1,13 +1,17 @@
 {% extends "mobile/base.html" %}
 
+{% block left_button %}
+  <a class="search" href="#">+</a>
+{% endblock %}
+
 {% block header %}<h1>CouchPotato</h1>{% endblock %}
 
 {% block navbar %}
 <div data-role="navbar">
     <ul>
         <li><a href="#" class="ui-btn-active ui-state-persist">Wanted</a></li>
-        <li><a href="{{ webroot }}/mobile/couchpotato/all/">All</a></li>
-        <li><a href="{{ webroot }}/mobile/couchpotato/history/">History</a></li>
+        <li><a href="{{ url_for('couchpotato_all') }}">All</a></li>
+        <li><a href="{{ url_for('couchpotato_history') }}">History</a></li>
     </ul>
 </div>
 {% endblock %}
