@@ -44,6 +44,8 @@
 
       <div id="site_header" data-role="header" data-position="fixed">
 
+        {% block left_button %}{% endblock %}
+
         <a class="logo" href="{{ url_for('mobile_index') }}" data-ajax="false"><img src="{{ url_for('static', filename='images/mobile/maraschino_logo.png') }}" alt="Maraschino logo"></a>
 
         {% block header %}<h1>Maraschino</h1>{% endblock %}

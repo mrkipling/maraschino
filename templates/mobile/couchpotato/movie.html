@@ -1,0 +1,44 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a class="search" href="{{ url_for('couchpotato_search') }}">+</a>
+{% endblock %}
+
+{% block header %}<h1>CouchPotato</h1>{% endblock %}
+
+{% block navbar %}
+<div data-role="navbar">
+    <ul>
+        <li><a href="{{ url_for('couchpotato') }}">Wanted</a></li>
+        <li><a href="{{ url_for('couchpotato_all') }}">All</a></li>
+        <li><a href="{{ url_for('couchpotato_history') }}">History</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div>
+  <h2> {{ movie.library.titles.0.title }}</h2>
+  <small>
+    <b>Year:</b> {{movie.library.year}} <br>
+    <b>Runtime:</b> {{movie.library.info.runtime}} minutes<br>
+    <b>Genres:</b> {% for genre in movie.library.info.genres %} {{genre}} | {% endfor %} <br>
+    {%if movie.library.info.rating%}
+      {% if movie.library.info.rating.rotten %}
+        <b>Rotten Tomatoe:</b> {{ movie.library.info.rating.rotten.0 }} ({{movie.library.info.rating.rotten.1}} votes) <br> 
+      {%endif%}
+      <b>IMDB:</b> {{ movie.library.info.rating.imdb.0 }} ({{movie.library.info.rating.imdb.1}} votes) <br>
+    {%endif%}
+    {% if movie.library.info.actors %}
+      <b>Actors:</b> {% for actor in movie.library.info.actors %} {{actor}} | {% endfor %} <br> 
+    {% endif %}
+    {% if movie.library.info.writers %}
+      <b>Writers:</b> {% for writer in movie.library.info.writers %} {{writer}} | {% endfor %} <br>
+    {% endif %}
+    {% if movie.library.info.directors %}<b>Director:</b> {{movie.library.info.directors.0 }} <br>{% endif %}
+  </small>
+  <p> {{movie.library.info.plot}} </p>
+  {% if movie.profile.label %}<a data-role="button" data-theme="d" data-corners="false">{{movie.profile.label}}</a>{% endif %}
+  <a data-role="button" data-theme="{% if movie.status.identifier == 'active' %}e{% else %}d{% endif %}" data-corners="false">{{movie.status.label}}</a>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a class="search" href="{{ url_for('couchpotato_search') }}">+</a>
+{% endblock %}
+
+{% block header %}<h1>CouchPotato</h1>{% endblock %}
+
+{% block navbar %}
+<div data-role="navbar">
+    <ul>
+        <li><a href="{{ url_for('couchpotato') }}">Wanted</a></li>
+        <li><a href="#" class="ui-btn-active ui-state-persist">All</a></li>
+        <li><a href="{{ url_for('couchpotato_history') }}">History</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<ul id="couchpotato" data-role="listview" data-filter="true">
+  {% for movie in all %}
+      <li id="all">
+        <a class="inner" href="{{webroot}}/mobile/couchpotato/movie/{{movie.id}}">
+            <h2>{{movie.library.info.original_title}} ({{movie.library.info.year}})</h2>
+            <p>{{movie.library.info.plot}}</p>
+        </a>
+      </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

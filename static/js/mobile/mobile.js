@@ -30,6 +30,39 @@ $(document).ready(function () {
         });
     });
 
+    // notification read click
+
+    $(document).on('click', '#couchpotato li#notification.new', function() {
+        $.get(WEBROOT + '/xhr/couchpotato/notification/read/' + $(this).data('id'), function(data) {
+            if(data.success){
+                $(this).attr('data-theme', 'c').removeClass('ui-body-e').addClass('ui-body-c');
+                $('#unread').text($('#unread').text()-1);
+            } else {
+                alert('Failed to mark notification as read');
+            }
+        });
+    });
+
+    // search movies
+
+    $(document).on('keypress', '#couchpotato input#search', function(e) {
+        if (e.which == 13) {
+            document.location.href = WEBROOT + '/mobile/couchpotato/search/' + $(this).val();
+        }
+    });
+
+    // add movies
+
+    $(document).on('click', '#couchpotato #results li', function() {
+        $.get(WEBROOT + '/xhr/couchpotato/add_movie/' + $(this).data('id') + '/' +  $(this).data('title'), function(data) {
+            if(data.success){
+                alert('Movie successfully added to CouchPotato');
+            } else {
+                alert('Failed to add movie');
+            }
+        });
+    });
+
     // playback controls
 
     $(document).on('click', '#header_controls .control', function(e) {

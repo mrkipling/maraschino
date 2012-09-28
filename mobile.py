@@ -27,7 +27,7 @@ def recently_added_episodes():
             recently_added_episodes = [x for x in recently_added_episodes if not x['playcount']]
 
     except:
-        logger.log('Could not retrieve recently added episodes', 'WARNING')
+        logger.log('Mobile :: XBMC :: Could not retrieve recently added episodes', 'WARNING')
 
     return render_template('mobile/xbmc/recent_episodes.html',
         recently_added_episodes=recently_added_episodes,
@@ -46,7 +46,7 @@ def recently_added_movies():
             recently_added_movies = [x for x in recently_added_movies if not x['playcount']]
 
     except:
-        logger.log('Could not retrieve recently added movies', 'WARNING')
+        logger.log('Mobile :: XBMC :: Could not retrieve recently added movies', 'WARNING')
 
     return render_template('mobile/xbmc/recent_movies.html',
         recently_added_movies=recently_added_movies,
@@ -63,7 +63,7 @@ def recently_added_albums():
         recently_added_albums = xbmc.AudioLibrary.GetRecentlyAddedAlbums(properties=['title', 'rating', 'thumbnail', 'artist'])['albums']
 
     except:
-        logger.log('Could not retrieve recently added albums', 'WARNING')
+        logger.log('Mobile :: XBMC :: Could not retrieve recently added albums', 'WARNING')
 
     return render_template('mobile/xbmc/recent_albums.html',
         recently_added_albums=recently_added_albums,
@@ -87,7 +87,7 @@ def movie_library():
         movies = xbmc.VideoLibrary.GetMovies(properties=['title', 'rating', 'year', 'thumbnail', 'tagline', 'playcount'])['movies']
 
     except:
-        logger.log('Could not retrieve movie library', 'WARNING')
+        logger.log('Mobile :: XBMC :: Could not retrieve movie library', 'WARNING')
 
     return render_template('mobile/xbmc/movie_library.html',
         movies=movies,
@@ -103,7 +103,7 @@ def tv_library():
         TV = xbmc.VideoLibrary.GetTVShows(properties=['thumbnail'])['tvshows']
 
     except Exception as e:
-        logger.log('Could not retrieve TV Shows: %s' % e, 'WARNING')
+        logger.log('Mobile :: XBMC :: Could not retrieve TV Shows: %s' % e, 'WARNING')
 
     return render_template('mobile/xbmc/tv_library.html',
         TV=TV,
@@ -119,7 +119,7 @@ def tvshow(id):
         show = xbmc.VideoLibrary.GetSeasons(tvshowid=id, properties=['tvshowid', 'season', 'showtitle', 'playcount'])['seasons']
 
     except Exception as e:
-        logger.log('Could not retrieve TV Show [id: %i -  %s]' % (id, e), 'WARNING')
+        logger.log('Mobile :: SickBeard :: Could not retrieve TV Show [id: %i -  %s]' % (id, e), 'WARNING')
 
     return render_template('mobile/xbmc/tvshow.html',
         show=show,
@@ -135,7 +135,7 @@ def season(id, season):
         episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=id, season=season, sort={'method': 'episode'}, properties=['tvshowid', 'season', 'showtitle', 'playcount'])['episodes']
 
     except Exception as e:
-        logger.log('Could not retrieve TV Show [id: %i, season: %i -  %s]' % (id, season, e), 'WARNING')
+        logger.log('Mobile :: SickBeard :: Could not retrieve TV Show [id: %i, season: %i -  %s]' % (id, season, e), 'WARNING')
 
     return render_template('mobile/xbmc/season.html',
         season=season,
@@ -289,5 +289,102 @@ def sickbeard_episode_options(id, season, episode):
         season_number=season,
         episode_number=episode,
         show_number=id,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+from modules.couchpotato import couchpotato_api
+
+
+@app.route('/mobile/couchpotato/')
+@requires_auth
+def couchpotato():
+    try:
+        couchpotato = couchpotato_api('movie.list', params=False)
+        if couchpotato['success'] and not couchpotato['empty']:
+            couchpotato = couchpotato['movies']
+
+    except Exception as e:
+        logger.log('Mobile :: CouchPotato :: Could not retrieve Couchpotato - %s]' % (e), 'WARNING')
+        couchpotato = None
+
+    return render_template('mobile/couchpotato/wanted.html',
+        wanted=couchpotato,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+@app.route('/mobile/couchpotato/all/')
+@requires_auth
+def couchpotato_all():
+    try:
+        couchpotato = couchpotato_api('movie.list', params='status=done')
+        if couchpotato['success'] and not couchpotato['empty']:
+            couchpotato = couchpotato['movies']
+
+    except Exception as e:
+        logger.log('Mobile :: CouchPotato :: Could not retrieve Couchpotato - %s]' % (e), 'WARNING')
+        couchpotato = None
+
+    return render_template('mobile/couchpotato/all.html',
+        all=couchpotato,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+@app.route('/mobile/couchpotato/history/')
+@requires_auth
+def couchpotato_history():
+    unread = 0
+    try:
+        couchpotato = couchpotato_api('notification.list', params='limit_offset=50')
+        if couchpotato['success'] and not couchpotato['empty']:
+            couchpotato = couchpotato['notifications']
+            for notification in couchpotato:
+                if not notification['read']:
+                    unread = unread + 1
+
+    except Exception as e:
+        logger.log('Mobile :: CouchPotato :: Could not retrieve Couchpotato - %s]' % (e), 'WARNING')
+        couchpotato = None
+
+    return render_template('mobile/couchpotato/history.html',
+        history=couchpotato,
+        unread=unread,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+@app.route('/mobile/couchpotato/movie/<id>/')
+def couchpotato_movie(id):
+    try:
+        couchpotato = couchpotato_api('movie.get', 'id=%s' % id)
+        if couchpotato['success']:
+            couchpotato = couchpotato['movie']
+
+    except Exception as e:
+        logger.log('Mobile :: CouchPotato :: Could not retrieve movie - %s]' % (e), 'WARNING')
+
+    return render_template('mobile/couchpotato/movie.html',
+        movie=couchpotato,
+    )
+
+
+@app.route('/mobile/couchpotato/search/')
+@app.route('/mobile/couchpotato/search/<query>/')
+def couchpotato_search(query=None):
+    couchpotato = None
+    if query:
+        try:
+            couchpotato = couchpotato_api('movie.search', params='q=%s' % query)
+            if couchpotato['success']:
+                couchpotato = couchpotato['movie']
+
+        except Exception as e:
+            logger.log('Mobile :: CouchPotato :: Could not retrieve movie - %s]' % (e), 'WARNING')
+
+    return render_template('mobile/couchpotato/search.html',
+        results=couchpotato,
+        query=query,
         webroot=maraschino.WEBROOT,
     )
