@@ -409,3 +409,22 @@ def cp_log(type='all', lines=30):
         log_exception(e)
 
     return jsonify({'success': False})
+
+
+@app.route('/xhr/couchpotato/notification/read/<int:id>/')
+def cp_notification_read(id):
+    """
+    Mark notification as read in CP
+    ---- Params -----
+    ids <optional>      int         Notification id - if empty will mark all notifications
+    """
+    try:
+        logger.log('CouchPotato :: Marking notification "%i" as read' % id, 'INFO')
+        result = couchpotato_api('notification.markread', 'ids=%i' % id)
+        print result
+        return jsonify({'success': True})
+
+    except Exception as e:
+        log_exception(e)
+
+    return jsonify({'success': False})

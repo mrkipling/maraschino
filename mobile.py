@@ -181,3 +181,26 @@ def couchpotato_all():
         all=couchpotato,
         webroot=maraschino.WEBROOT,
     )
+
+
+@app.route('/mobile/couchpotato/history/')
+@requires_auth
+def couchpotato_history():
+    unread = 0
+    try:
+        couchpotato = couchpotato_api('notification.list', params='limit_offset=50')
+        if couchpotato['success'] and not couchpotato['empty']:
+            couchpotato = couchpotato['notifications']
+            for notification in couchpotato:
+                if not notification['read']:
+                    unread = unread + 1
+
+    except Exception as e:
+        logger.log('Could not retrieve Couchpotato - %s]' % (e), 'WARNING')
+        couchpotato = None
+
+    return render_template('mobile/couchpotato/history.html',
+        history=couchpotato,
+        unread=unread,
+        webroot=maraschino.WEBROOT,
+    )

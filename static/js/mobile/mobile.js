@@ -30,6 +30,20 @@ $(document).ready(function () {
         });
     });
 
+    // notification read click
+
+    $(document).on('click', '#couchpotato li#notification.new', function(e) {
+        $.get(WEBROOT + '/xhr/couchpotato/notification/read/' + $(this).data('id'), function(data) {
+            if(data.success){
+                $(this).attr('data-theme', 'c').removeClass('ui-body-e').addClass('ui-body-c');
+                $('#unread').text($('#unread').text()-1);
+            } else {
+                alert('Failed to mark notification as read');
+            }
+        });
+        
+    });
+
     // playback controls
 
     $(document).on('click', '#header_controls .control', function(e) {
