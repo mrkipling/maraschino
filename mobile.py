@@ -143,6 +143,155 @@ def season(id, season):
         webroot=maraschino.WEBROOT,
     )
 
+from modules.sickbeard import sickbeard_api, get_pic
+
+
+@app.route('/mobile/sickbeard/')
+@requires_auth
+def sickbeard():
+
+    try:
+        sickbeard = sickbeard_api('/?cmd=future&sort=date')
+
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+            for time in sickbeard:
+                for episode in sickbeard[time]:
+                    episode['image'] = get_pic(episode['tvdbid'], 'banner')
+
+    except Exception as e:
+        logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
+        sickbeard = None
+
+    return render_template('mobile/sickbeard/coming_episodes.html',
+        coming_episodes=sickbeard,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+@app.route('/mobile/sickbeard/all/')
+@requires_auth
+def sickbeard_all():
+
+    try:
+        sickbeard = sickbeard_api('/?cmd=shows&sort=name')
+
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+
+            for show in sickbeard:
+                sickbeard[show]['url'] = get_pic(sickbeard[show]['tvdbid'], 'banner')
+
+    except Exception as e:
+        logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
+        sickbeard = None
+
+    return render_template('mobile/sickbeard/all.html',
+        shows=sickbeard,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+@app.route('/mobile/sickbeard/history/')
+@requires_auth
+def sickbeard_history():
+
+    try:
+        sickbeard = sickbeard_api('/?cmd=history&limit=30')
+
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+
+    except Exception as e:
+        logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
+        sickbeard = None
+
+    return render_template('mobile/sickbeard/history.html',
+        history=sickbeard,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+@app.route('/mobile/sickbeard/show/<int:id>/')
+@requires_auth
+def sickbeard_show(id):
+    params = '/?cmd=show&tvdbid=%s' % id
+
+    try:
+        sickbeard = sickbeard_api(params)
+
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+            sickbeard['tvdbid'] = id
+
+    except Exception as e:
+        logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
+        sickbeard = None
+
+    return render_template('mobile/sickbeard/show.html',
+        show=sickbeard,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+@app.route('/mobile/sickbeard/show/<int:id>/<int:season>/')
+@requires_auth
+def sickbeard_season(id, season):
+    params = '/?cmd=show.seasons&tvdbid=%s&season=%s' % (id, season)
+
+    try:
+        sickbeard = sickbeard_api(params)
+
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+
+    except Exception as e:
+        logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
+        sickbeard = None
+
+    return render_template('mobile/sickbeard/season.html',
+        season_number=season,
+        season=sickbeard,
+        id=id,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+@app.route('/mobile/sickbeard/show/<int:id>/<int:season>/<int:episode>/')
+@requires_auth
+def sickbeard_episode(id, season, episode):
+    params = '/?cmd=episode&tvdbid=%s&season=%s&episode=%s&full_path=1' % (id, season, episode)
+
+    try:
+        sickbeard = sickbeard_api(params)
+
+        if sickbeard['result'].rfind('success') >= 0:
+            sickbeard = sickbeard['data']
+
+    except Exception as e:
+        logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
+        sickbeard = None
+
+    return render_template('mobile/sickbeard/episode.html',
+        season_number=season,
+        episode_number=episode,
+        episode=sickbeard,
+        id=id,
+        webroot=maraschino.WEBROOT,
+    )
+
+
+@app.route('/mobile/sickbeard/episode_options/<int:id>/<int:season>/<int:episode>/')
+@requires_auth
+def sickbeard_episode_options(id, season, episode):
+
+    return render_template('mobile/sickbeard/episode_options.html',
+        season_number=season,
+        episode_number=episode,
+        show_number=id,
+        webroot=maraschino.WEBROOT,
+    )
+
 
 from modules.couchpotato import couchpotato_api
 
