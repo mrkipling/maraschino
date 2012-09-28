@@ -1,7 +1,7 @@
 @import "../mixins.less";
 @import "../webroot.less";
 
-
+.ui-dialog.my-dialog .ui-dialog-contain { margin-top: 0 }
 
 /*--- header ---*/
 
@@ -149,3 +149,24 @@
 
     }
 }
+
+/*--- sickbeard coming_episodes ---*/
+
+#coming_episodes {
+    .inner {
+        .thumb {
+            height: 75px;
+            left: 1px;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            width: 75px;
+
+            img {
+                height: 75px;
+                margin-left: -50%;
+            }
+        }
+    }
+}
+
