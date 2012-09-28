@@ -16,7 +16,7 @@
 <ul id="couchpotato" data-role="listview" data-filter="true">
   {% for movie in all %}
       <li id="all">
-        <a class="inner" href="#">
+        <a class="inner" href="{{webroot}}/mobile/couchpotato/movie/{{movie.id}}">
             <h2>{{movie.library.info.original_title}} ({{movie.library.info.year}})</h2>
             <p>{{movie.library.info.plot}}</p>
         </a>
