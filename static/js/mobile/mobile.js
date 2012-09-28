@@ -41,8 +41,16 @@ $(document).ready(function () {
                 alert('Failed to mark notification as read');
             }
         });
-        
     });
+
+    // search movies
+
+    $(document).on('keypress', '#couchpotato input#search', function(e) {
+        if (e.which == 13) {
+            document.location.href = WEBROOT + '/mobile/couchpotato/search/' + $(this).val();
+        }
+    });
+
 
     // playback controls
 

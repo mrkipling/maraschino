@@ -1,7 +1,7 @@
 {% extends "mobile/base.html" %}
 
 {% block left_button %}
-  <a class="search" href="#">+</a>
+  <a class="search" href="{{ url_for('couchpotato_search') }}">+</a>
 {% endblock %}
 
 {% block header %}<h1>CouchPotato</h1>{% endblock %}

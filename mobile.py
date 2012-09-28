@@ -368,3 +368,23 @@ def couchpotato_movie(id):
     return render_template('mobile/couchpotato/movie.html',
         movie=couchpotato,
     )
+
+
+@app.route('/mobile/couchpotato/search/')
+@app.route('/mobile/couchpotato/search/<query>/')
+def couchpotato_search(query=None):
+    couchpotato = None
+    if query:
+        try:
+            couchpotato = couchpotato_api('movie.search', params='q=%s' % query)
+            if couchpotato['success']:
+                couchpotato = couchpotato['movie']
+
+        except Exception as e:
+            logger.log('Mobile :: CouchPotato :: Could not retrieve movie - %s]' % (e), 'WARNING')
+
+    return render_template('mobile/couchpotato/search.html',
+        results=couchpotato,
+        query=query,
+        webroot=maraschino.WEBROOT,
+    )
