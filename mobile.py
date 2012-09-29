@@ -293,6 +293,25 @@ def sickbeard_episode_options(id, season, episode):
     )
 
 
+@app.route('/mobile/sickbeard/search/')
+@app.route('/mobile/sickbeard/search/<query>/')
+def sickbeard_search(query=None):
+    sickbeard = None
+    if query:
+        try:
+            sickbeard = sickbeard_api('/?cmd=sb.searchtvdb&name=%s' % (query))
+            sickbeard = sickbeard['data']['results']
+
+        except Exception as e:
+            logger.log('Mobile :: SickBeard :: Could not retrieve shows - %s]' % (e), 'WARNING')
+
+    return render_template('mobile/sickbeard/search.html',
+        results=sickbeard,
+        query=query,
+        webroot=maraschino.WEBROOT,
+    )
+
+
 from modules.couchpotato import couchpotato_api
 
 

@@ -1,5 +1,9 @@
 {% extends "mobile/base.html" %}
 
+{% block left_button %}
+  <a class="search" href="{{ url_for('sickbeard_search') }}">+</a>
+{% endblock %}
+
 {% block header %}<h1>Sickbeard</h1>{% endblock %}
 
 {% block navbar %}

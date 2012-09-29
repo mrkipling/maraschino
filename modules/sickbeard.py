@@ -50,13 +50,13 @@ def sickbeard_api(params=None, use_json=True, dev=False):
     password = get_setting_value('sickbeard_password')
 
     url = sickbeard_url() + params
-    request = urllib2.Request(url)
+    r = urllib2.Request(url)
 
     if username and password:
         base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
-        request.add_header("Authorization", "Basic %s" % base64string)
+        r.add_header("Authorization", "Basic %s" % base64string)
 
-    data = urllib2.urlopen(request).read()
+    data = urllib2.urlopen(r).read()
     if dev:
         print url
         print data
@@ -65,7 +65,7 @@ def sickbeard_api(params=None, use_json=True, dev=False):
     return data
 
 
-@app.route('/xhr/sickbeard')
+@app.route('/xhr/sickbeard/')
 def xhr_sickbeard():
     params = '/?cmd=future&sort=date'
 
@@ -97,7 +97,7 @@ def xhr_sickbeard():
     )
 
 
-@app.route('/sickbeard/search_ep/<tvdbid>/<season>/<episode>')
+@app.route('/sickbeard/search_ep/<tvdbid>/<season>/<episode>/')
 @requires_auth
 def search_ep(tvdbid, season, episode):
     params = '/?cmd=episode.search&tvdbid=%s&season=%s&episode=%s' % (tvdbid, season, episode)
@@ -113,7 +113,7 @@ def search_ep(tvdbid, season, episode):
     return ''
 
 
-@app.route('/sickbeard/get_plot/<tvdbid>/<season>/<episode>')
+@app.route('/sickbeard/get_plot/<tvdbid>/<season>/<episode>/')
 def get_plot(tvdbid, season, episode):
     params = '/?cmd=episode&tvdbid=%s&season=%s&episode=%s' % (tvdbid, season, episode)
 
@@ -124,7 +124,7 @@ def get_plot(tvdbid, season, episode):
         return ''
 
 
-@app.route('/sickbeard/get_all')
+@app.route('/sickbeard/get_all/')
 def get_all():
     params = '/?cmd=shows&sort=name'
 
@@ -144,7 +144,7 @@ def get_all():
     )
 
 
-@app.route('/sickbeard/get_show_info/<tvdbid>')
+@app.route('/sickbeard/get_show_info/<tvdbid>/')
 def show_info(tvdbid):
     params = '/?cmd=show&tvdbid=%s' % tvdbid
 
@@ -163,7 +163,7 @@ def show_info(tvdbid):
     )
 
 
-@app.route('/sickbeard/get_season/<tvdbid>/<season>')
+@app.route('/sickbeard/get_season/<tvdbid>/<season>/')
 def get_season(tvdbid, season):
     params = '/?cmd=show.seasons&tvdbid=%s&season=%s' % (tvdbid, season)
 
@@ -182,7 +182,7 @@ def get_season(tvdbid, season):
     )
 
 
-@app.route('/sickbeard/history/<limit>')
+@app.route('/sickbeard/history/<limit>/')
 def history(limit):
     params = '/?cmd=history&limit=%s' % limit
     try:
@@ -206,7 +206,7 @@ def get_pic(tvdb, style='banner'):
     return '%s/sickbeard/get_%s/%s' % (maraschino.WEBROOT, style, tvdb)
 
 
-@app.route('/sickbeard/get_ep_info/<tvdbid>/<season>/<ep>')
+@app.route('/sickbeard/get_ep_info/<tvdbid>/<season>/<ep>/')
 def get_episode_info(tvdbid, season, ep):
     params = '/?cmd=episode&tvdbid=%s&season=%s&episode=%s&full_path=1' % (tvdbid, season, ep)
 
@@ -226,7 +226,7 @@ def get_episode_info(tvdbid, season, ep):
     )
 
 
-@app.route('/sickbeard/set_ep_status/<tvdbid>/<season>/<ep>/<st>')
+@app.route('/sickbeard/set_ep_status/<tvdbid>/<season>/<ep>/<st>/')
 def set_episode_status(tvdbid, season, ep, st):
     params = '/?cmd=episode.setstatus&tvdbid=%s&season=%s&episode=%s&status=%s' % (tvdbid, season, ep, st)
 
@@ -243,7 +243,7 @@ def set_episode_status(tvdbid, season, ep, st):
     return jsonify({'status': status})
 
 
-@app.route('/sickbeard/shutdown')
+@app.route('/sickbeard/shutdown/')
 def shutdown():
     params = '/?cmd=sb.shutdown'
 
@@ -255,7 +255,7 @@ def shutdown():
     return sickbeard['message']
 
 
-@app.route('/sickbeard/restart')
+@app.route('/sickbeard/restart/')
 def restart():
     params = '/?cmd=sb.restart'
     try:
@@ -304,7 +304,7 @@ def search():
     )
 
 
-@app.route('/sickbeard/add_show/<tvdbid>')
+@app.route('/sickbeard/add_show/<tvdbid>/')
 def add_show(tvdbid):
     params = '/?cmd=show.addnew&tvdbid=%s' % tvdbid
     try:
@@ -315,21 +315,21 @@ def add_show(tvdbid):
     return sickbeard['message']
 
 
-@app.route('/sickbeard/get_banner/<tvdbid>')
+@app.route('/sickbeard/get_banner/<tvdbid>/')
 def get_banner(tvdbid):
     params = '/?cmd=show.getbanner&tvdbid=%s' % tvdbid
     img = StringIO.StringIO(sickbeard_api(params, use_json=False))
     return send_file(img, mimetype='image/jpeg')
 
 
-@app.route('/sickbeard/get_poster/<tvdbid>')
+@app.route('/sickbeard/get_poster/<tvdbid>/')
 def get_poster(tvdbid):
     params = '/?cmd=show.getposter&tvdbid=%s' % tvdbid
     img = StringIO.StringIO(sickbeard_api(params, use_json=False))
     return send_file(img, mimetype='image/jpeg')
 
 
-@app.route('/sickbeard/log/<level>')
+@app.route('/sickbeard/log/<level>/')
 def log(level):
     params = '/?cmd=logs&min_level=%s' % level
     try:
@@ -346,7 +346,7 @@ def log(level):
     )
 
 
-@app.route('/sickbeard/delete_show/<tvdbid>')
+@app.route('/sickbeard/delete_show/<tvdbid>/')
 def delete_show(tvdbid):
     params = '/?cmd=show.delete&tvdbid=%s' % tvdbid
     try:
@@ -357,7 +357,7 @@ def delete_show(tvdbid):
     return sickbeard['message']
 
 
-@app.route('/sickbeard/refresh_show/<tvdbid>')
+@app.route('/sickbeard/refresh_show/<tvdbid>/')
 def refresh_show(tvdbid):
     params = '/?cmd=show.refresh&tvdbid=%s' % tvdbid
     try:
@@ -368,7 +368,7 @@ def refresh_show(tvdbid):
     return sickbeard['message']
 
 
-@app.route('/sickbeard/update_show/<tvdbid>')
+@app.route('/sickbeard/update_show/<tvdbid>/')
 def update_show(tvdbid):
     params = '/?cmd=show.update&tvdbid=%s' % tvdbid
     try:

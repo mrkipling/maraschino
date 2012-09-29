@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+      ////////////
+     //  XBMC  //
+    ////////////
+
     // click to play a recently added episode
 
     $(document).on('click', '#recent_episodes .play, #season .play', function(e) {
@@ -30,6 +34,21 @@ $(document).ready(function () {
         });
     });
 
+    // playback controls
+
+    $(document).on('click', '#header_controls .control', function(e) {
+        e.preventDefault();
+        $.mobile.showPageLoadingMsg();
+        $.get(WEBROOT + '/xhr/controls/' + $(this).data('command'), function () {
+            $.mobile.hidePageLoadingMsg();
+        });
+    });
+
+
+      ///////////////////
+     //  CouchPotato  //
+    ///////////////////
+
     // notification read click
 
     $(document).on('click', '#couchpotato li#notification.new', function() {
@@ -47,6 +66,7 @@ $(document).ready(function () {
 
     $(document).on('keypress', '#couchpotato input#search', function(e) {
         if (e.which == 13) {
+            $.mobile.showPageLoadingMsg();
             document.location.href = WEBROOT + '/mobile/couchpotato/search/' + $(this).val();
         }
     });
@@ -54,21 +74,40 @@ $(document).ready(function () {
     // add movies
 
     $(document).on('click', '#couchpotato #results li', function() {
+        $.mobile.showPageLoadingMsg();
         $.get(WEBROOT + '/xhr/couchpotato/add_movie/' + $(this).data('id') + '/' +  $(this).data('title'), function(data) {
             if(data.success){
                 alert('Movie successfully added to CouchPotato');
             } else {
                 alert('Failed to add movie');
             }
+            $.mobile.hidePageLoadingMsg();
         });
     });
 
-    // playback controls
+      /////////////////
+     //  SickBeard  //
+    /////////////////
 
-    $(document).on('click', '#header_controls .control', function(e) {
-        e.preventDefault();
+    // search shows
+
+    $(document).on('keypress', '#sickbeard input#search', function(e) {
+        if (e.which == 13) {
+            $.mobile.showPageLoadingMsg();
+            document.location.href = WEBROOT + '/mobile/sickbeard/search/' + $(this).val();
+        }
+    });
+
+    // add shows
+
+    $(document).on('click', '#sickbeard #results li', function() {
         $.mobile.showPageLoadingMsg();
-        $.get(WEBROOT + '/xhr/controls/' + $(this).data('command'), function () {
+        $.get(WEBROOT + '/sickbeard/add_show/' + $(this).data('id'), function(data) {
+            if(data.success){
+                alert('Show successfully added to SickBeard');
+            } else {
+                alert('Failed to add show');
+            }
             $.mobile.hidePageLoadingMsg();
         });
     });
