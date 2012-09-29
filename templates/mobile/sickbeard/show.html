@@ -32,10 +32,11 @@
       </li>
     {% endfor %}
   </ul>
+  <br><br>
   <div id="control">
-    <a href="#" data-role="button" data-theme="b" data-corners="false" id="update">UPDATE SHOW</a>
-    <a href="#" data-role="button" data-theme="a" data-corners="false" id="refresh">REFRESH SHOW</a>
-    <a href="#" data-role="button" data-theme="r" data-corners="false" id="delete">DELETE SHOW</a>
+    <a href="#" data-role="button" data-theme="b" data-id="{{ show.tvdbid }}"data-corners="false" id="update">UPDATE SHOW</a>
+    <a href="#" data-role="button" data-theme="a" data-id="{{ show.tvdbid }}"data-corners="false" id="refresh">REFRESH SHOW</a>
+    <a href="#" data-role="button" data-theme="r" data-id="{{ show.tvdbid }}"data-corners="false" id="delete">DELETE SHOW</a>
   </div>
 </div>
 {% endblock %}
