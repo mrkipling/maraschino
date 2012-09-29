@@ -20,7 +20,7 @@
   <ul data-role="listview" data-filter="true">
     {%for show in shows|sort %}
       <li>
-        <a href="{{webroot}}/mobile/sickbeard/show/{{shows[show].tvdbid}}/">
+        <a href="{{ url_for('sickbeard_show', id=(shows[show].tvdbid)) }}">
           <h2>{{ show }}</h2>
         </a>
       </li>

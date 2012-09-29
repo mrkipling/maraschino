@@ -9,9 +9,9 @@
 {% block navbar %}
 <div data-role="navbar">
 	<ul>
-		<li><a href="{{ webroot }}/mobile/sickbeard/">Coming Episodes</a></li>
-    <li><a href="{{ webroot }}/mobile/sickbeard/all">All</a></li>
-		<li><a href="{{ webroot }}/mobile/sickbeard/history/">History</a></li>
+    <li><a href="{{ url_for('sickbeard') }}">Wanted</a></li>
+    <li><a href="{{ url_for('sickbeard_all') }}">All</a></li>
+    <li><a href="{{ url_for('sickbeard_history') }}">History</a></li>
 	</ul>
 </div><!-- /navbar -->
 {% endblock %}
@@ -25,7 +25,7 @@
   <ul data-role="listview">
     {%for season in show.season_list|sort %}
       <li>
-        <a href="{{webroot}}/mobile/sickbeard/show/{{show.tvdbid}}/{{season}}/">
+        <a href="{{ url_for('sickbeard_season', id=show.tvdbid, season=season) }}">
           <h2>Season {{ season }}</h2>
         </a>
       </li>

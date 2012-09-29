@@ -10,8 +10,8 @@
 <div data-role="navbar">
 	<ul>
 		<li><a href="#" class="ui-btn-active ui-state-persist">Coming Episodes</a></li>
-		<li><a href="{{ webroot }}/mobile/sickbeard/all/">All</a></li>
-		<li><a href="{{ webroot }}/mobile/sickbeard/history/">History</a></li>
+    <li><a href="{{ url_for('sickbeard_all') }}">All</a></li>
+    <li><a href="{{ url_for('sickbeard_history') }}">History</a></li>
 	</ul>
 </div><!-- /navbar -->
 {% endblock %}
@@ -21,7 +21,7 @@
   <li data-role="list-devider" data-theme="a"><span class="ui-li-count">{{coming_episodes.missed|length}}</span>Missed</li>
   {% for episode in coming_episodes.missed %}
       <li class="missed" data-theme="e">
-        <a class="inner" href="{{webroot}}/mobile/sickbeard/show/{{episode.tvdbid}}/{{episode.season}}/{{episode.episode}}">
+        <a class="inner" href="{{ url_for('sickbeard_episode', id=episode.tvdbid, season=episode.season, episode=episode.episode) }}">
         	<h2>{{episode.show_name}}</h2>
         	<p>{{episode.ep_name}}</p>
         	<p>{{episode.airdate}}</p>
@@ -32,7 +32,7 @@
   <li data-role="list-devider" data-theme="a"><span class="ui-li-count">{{coming_episodes.soon|length}}</span>Soon</li>
   {% for episode in coming_episodes.soon %}
       <li>
-        <a class="inner" href="{{webroot}}/mobile/sickbeard/show/{{episode.tvdbid}}/{{episode.season}}/{{episode.episode}}">
+        <a class="inner" href="{{ url_for('sickbeard_episode', id=episode.tvdbid, season=episode.season, episode=episode.episode) }}">
         	<h2>{{episode.show_name}}</h2>
         	<p>{{episode.ep_name}}</p>
         	<p>{{episode.airdate}}</p>
@@ -42,7 +42,7 @@
   <li data-role="list-devider" data-theme="a"><span class="ui-li-count">{{coming_episodes.later|length}}</span>Later</li>
   {% for episode in coming_episodes.later %}
       <li>
-        <a class="inner" href="{{webroot}}/mobile/sickbeard/show/{{episode.tvdbid}}/{{episode.season}}/{{episode.episode}}">
+        <a class="inner" href="{{ url_for('sickbeard_episode', id=episode.tvdbid, season=episode.season, episode=episode.episode) }}">
         	<h2>{{episode.show_name}}</h2>
         	<p>{{episode.ep_name}}</p>
         	<p>{{episode.airdate}}</p>

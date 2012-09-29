@@ -9,9 +9,9 @@
 {% block navbar %}
 <div data-role="navbar">
 	<ul>
-		<li><a href="{{ webroot }}/mobile/sickbeard/">Coming Episodes</a></li>
-    <li><a href="{{ webroot }}/mobile/sickbeard/all">All</a></li>
-		<li><a href="{{ webroot }}/mobile/sickbeard/history/">History</a></li>
+    <li><a href="{{ url_for('sickbeard') }}">Wanted</a></li>
+    <li><a href="{{ url_for('sickbeard_all') }}">All</a></li>
+    <li><a href="{{ url_for('sickbeard_history') }}">History</a></li>
 	</ul>
 </div>
 {% endblock %}
