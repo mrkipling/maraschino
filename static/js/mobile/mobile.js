@@ -103,11 +103,18 @@ $(document).ready(function () {
     $(document).on('click', '#sickbeard #results li', function() {
         $.mobile.showPageLoadingMsg();
         $.get(WEBROOT + '/sickbeard/add_show/' + $(this).data('id'), function(data) {
-            if(data.success){
-                alert('Show successfully added to SickBeard');
-            } else {
-                alert('Failed to add show');
-            }
+            alert(data);
+            $.mobile.hidePageLoadingMsg();
+        });
+    });
+
+    // delete, update, refresh show
+
+    $(document).on('click', '#sickbeard #control a', function() {
+        $.mobile.showPageLoadingMsg();
+        action = $(this).attr('id');
+        $.get(WEBROOT + '/sickbeard/' + action + '_show/' + $(this).data('id'), function(data) {
+            alert(data);
             $.mobile.hidePageLoadingMsg();
         });
     });
