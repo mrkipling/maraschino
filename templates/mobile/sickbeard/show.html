@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="sickbeard">
+<div id="sickbeard" class="show">
   <h2>{{show.show_name}}</h2>
   <p><b>Airs:</b> {{show.airs}} <i>({{show.status}})</i></p>
   <p><b>Location:</b> {{show.location}}</p>
@@ -34,9 +34,9 @@
   </ul>
   <br><br>
   <div id="control">
-    <a href="#" data-role="button" data-theme="b" data-id="{{ show.tvdbid }}"data-corners="false" id="update">UPDATE SHOW</a>
-    <a href="#" data-role="button" data-theme="a" data-id="{{ show.tvdbid }}"data-corners="false" id="refresh">REFRESH SHOW</a>
-    <a href="#" data-role="button" data-theme="r" data-id="{{ show.tvdbid }}"data-corners="false" id="delete">DELETE SHOW</a>
+    <a href="#" data-role="button" data-theme="b" data-id="{{ show.tvdbid }}" data-corners="false" id="update">UPDATE SHOW</a>
+    <a href="#" data-role="button" data-theme="a" data-id="{{ show.tvdbid }}" data-corners="false" id="refresh">REFRESH SHOW</a>
+    <a href="#" data-role="button" data-theme="r" data-id="{{ show.tvdbid }}" data-corners="false" id="delete">DELETE SHOW</a>
   </div>
 </div>
 {% endblock %}

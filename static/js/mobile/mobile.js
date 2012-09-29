@@ -110,10 +110,18 @@ $(document).ready(function () {
 
     // delete, update, refresh show
 
-    $(document).on('click', '#sickbeard #control a', function() {
+    $(document).on('click', '#sickbeard.show #control a', function() {
         $.mobile.showPageLoadingMsg();
         action = $(this).attr('id');
         $.get(WEBROOT + '/sickbeard/' + action + '_show/' + $(this).data('id'), function(data) {
+            alert(data);
+            $.mobile.hidePageLoadingMsg();
+        });
+    });
+
+    $(document).on('click', '#sickbeard.episode #control a#search', function() {
+        $.mobile.showPageLoadingMsg();
+        $.get($(this).data('url'), function(data) {
             alert(data);
             $.mobile.hidePageLoadingMsg();
         });
