@@ -27,7 +27,7 @@ def sabnzbd_url_no_api():
         url_base = '%s:%s' % (url_base, port)
 
     if webroot:
-       url_base = '%s/%s' % (url_base, webroot)
+        url_base = '%s/%s' % (url_base, webroot)
 
     return sab_http() + url_base
 
@@ -58,9 +58,9 @@ def add_to_sab_link(nzb):
 FILTERS['add_to_sab'] = add_to_sab_link
 
 
-def sabnzbd_api(method='', use_json=True, dev=False):
+def sabnzbd_api(method='', params='', use_json=True, dev=False):
 
-    url = sabnzbd_url(method)
+    url = sabnzbd_url(method, extra=params)
     r = urllib2.Request(url)
     data = urllib2.urlopen(r).read()
 

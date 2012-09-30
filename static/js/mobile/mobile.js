@@ -127,4 +127,19 @@ $(document).ready(function () {
         });
     });
 
+      ////////////////
+     //  SabNZBd+  //
+    ////////////////
+
+    // resume/pause queue
+
+    $(document).on('click', '#sabnzbd_navbar #action', function(e) {
+        $.mobile.showPageLoadingMsg();
+        $.get($(this).data('url'), function(data) {
+            if(data.status){
+                $.get(window.location.reload());
+            }
+        });
+    });
+
 });
