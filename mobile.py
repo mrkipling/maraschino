@@ -413,6 +413,80 @@ def couchpotato_search(query=None):
         webroot=maraschino.WEBROOT,
     )
 
+from modules.headphones import *
+
+
+@app.route('/mobile/headphones/')
+@requires_auth
+def headphones_wanted():
+    albums = xhr_headphones_upcoming(mobile=True)
+    upcoming = albums[0]
+    wanted = albums[1]
+
+    if upcoming == 'empty':
+        upcoming = []
+
+    if wanted == 'empty':
+        wanted = []
+
+    return render_template('mobile/headphones/wanted.html',
+        upcoming=upcoming,
+        wanted=wanted
+    )
+
+
+@app.route('/mobile/headphones/history/')
+@requires_auth
+def headphones_history():
+    history = xhr_headphones_history(mobile=True)
+
+    return render_template('mobile/headphones/history.html',
+        history=history
+    )
+
+
+@app.route('/mobile/headphones/all/')
+@requires_auth
+def headphones_all():
+    artists = xhr_headphones_artists(mobile=True)
+
+    return render_template('mobile/headphones/all.html',
+        artists=artists
+    )
+
+
+@app.route('/mobile/headphones/album/<albumid>/')
+@requires_auth
+def headphones_album(albumid):
+    album = xhr_headphones_album(albumid, mobile=True)
+
+    return render_template('mobile/headphones/album.html',
+        album=album
+    )
+
+
+@app.route('/mobile/headphones/artist/<artistid>/')
+@requires_auth
+def headphones_artist(artistid):
+    artist = xhr_headphones_artist(artistid, mobile=True)
+
+    return render_template('mobile/headphones/artist.html',
+        artist=artist
+    )
+
+
+@app.route('/mobile/headphones/search/<type>/')
+@app.route('/mobile/headphones/search/<type>/<query>/')
+def headphones_search(type, query=None):
+    results = None
+    if query:
+        pass
+
+    return render_template('mobile/headphones/search.html',
+        type=type,
+        results=results,
+        query=query
+    )
 
 from modules.sabnzbd import sabnzbd_api
 

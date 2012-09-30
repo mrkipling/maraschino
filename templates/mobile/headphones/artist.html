@@ -1,0 +1,30 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a class="search" href="{{ url_for('headphones_search', type='artist') }}">+</a>
+{% endblock %}
+
+{% block header %}<h1>{{ artist.artist.0.ArtistName }}</h1>{% endblock %}
+
+{% block navbar %}
+<div data-role="navbar">
+  <ul>
+    <li><a href="{{ url_for('headphones_wanted') }}">Wanted</a></li>
+    <li><a href="{{ url_for('headphones_all') }}">All</a></li>
+    <li><a href="{{ url_for('headphones_history') }}">History</a></li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<ul id="headphones" data-role="listview" data-filter="true">
+  {% for album in artist.albums %}
+    <li>
+      <a class="inner" href="{{ url_for('headphones_album', albumid=album.AlbumID) }}">
+        <h2>{{ album.AlbumTitle }}</h2>
+        <p>{{album.Status}}</p>
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

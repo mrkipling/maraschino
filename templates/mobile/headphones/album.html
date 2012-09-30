@@ -1,0 +1,42 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a class="search" href="{{ url_for('headphones_search', type='artist') }}">+</a>
+{% endblock %}
+
+{% block header %}<h1>{{ album.album.0.ArtistName }}</h1>{% endblock %}
+
+{% block navbar %}
+<div data-role="navbar">
+  <ul>
+    <li><a href="{{ url_for('headphones_wanted') }}">Wanted</a></li>
+    <li><a href="{{ url_for('headphones_all') }}">All</a></li>
+    <li><a href="{{ url_for('headphones_history') }}">History</a></li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="headphones">
+  <div id="album">
+    <h2>{{ album.album.0.AlbumTitle }}</h2>
+    <img src="{{ album.album.0.ThumbURL }}">
+    <div id="info">
+      <small>
+        <b>Released:</b> {{ album.album.0.ReleaseDate }}<br>
+        <b>Type:</b> {{ album.album.0.Type }}<br>
+        <b>Duration:</b> {{ album.album.0.TotalDuration }}<br>
+        <b>Tracks:</b> {{ album.album.0.Tracks }}<br>
+      </small>
+    </div>
+
+    <ul id="tracks" data-role="listview">
+      {% for track in album.tracks %}
+        <li {% if track.Location %}data-icon="check"{% else %}data-icon="delete"{% endif %}>
+          <a href="#">{{ "%02d"|format(track.TrackNumber) }} - {{ track.TrackTitle }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
