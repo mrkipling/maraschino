@@ -1064,7 +1064,7 @@ $(document).ready(function() {
     $('#sickbeard #show .banner .manage').hide();
   });
 
-  //Delete show function
+  // Delete show function
 
   $(document).on('click', '#sickbeard #show .banner .manage .delete' , function(){
     var id = $('#sickbeard #show .banner .manage').attr('tvdbid');
@@ -1077,7 +1077,7 @@ $(document).ready(function() {
     });
   });
 
-  //Refresh show function
+  // Refresh show function
 
   $(document).on('click', '#sickbeard #show .banner .manage .refresh' , function(){
     var id = $('#sickbeard #show .banner .manage').attr('tvdbid');
@@ -1090,7 +1090,7 @@ $(document).ready(function() {
     });
   });
 
-  //Update show function
+  // Update show function
 
   $(document).on('click', '#sickbeard #show .banner .manage .update' , function(){
     var id = $('#sickbeard #show .banner .manage').attr('tvdbid');
