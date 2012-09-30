@@ -3,12 +3,14 @@ try:
 except ImportError:
     import simplejson as json
 
-from flask import Flask, jsonify, render_template, request
-import jsonrpclib, urllib, urllib2
+from flask import jsonify, render_template, request
+import urllib
+import urllib2
 from jinja2.filters import FILTERS
 
 from Maraschino import app
 from maraschino.tools import *
+from maraschino import logger
 
 
 def sab_http():
@@ -180,3 +182,33 @@ def add_to_sab():
         return urllib.urlopen(url).read()
     except:
         return jsonify({'error': 'Failed to open URL: %s' % (url)})
+
+
+@app.route('/xhr/sabnzbd/history/delete/<id>/')
+@requires_auth
+def sabnzb_history_delete(id):
+    try:
+        logger.log('SabNZBd :: Deleting item from history: %s' % id, 'INFO')
+        result = urllib.urlopen(sabnzbd_url('history', '&name=delete&value=%s' % (id))).read()
+        sabnzbd = json.JSONDecoder().decode(result)
+        if sabnzbd:
+            return jsonify({'status': sabnzbd['status']})
+    except:
+        pass
+
+    return jsonify({'status': False})
+
+
+@app.route('/xhr/sabnzbd/history/retry/<id>/')
+@requires_auth
+def sabnzb_history_retry(id):
+    try:
+        logger.log('SabNZBd :: Retrying item: %s' % id, 'INFO')
+        result = urllib.urlopen(sabnzbd_url('retry', '&value=%s' % (id))).read()
+        sabnzbd = json.JSONDecoder().decode(result)
+        if sabnzbd:
+            return jsonify({'status': sabnzbd['status']})
+    except:
+        pass
+
+    return jsonify({'status': False})

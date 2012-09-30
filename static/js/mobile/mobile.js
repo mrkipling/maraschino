@@ -131,9 +131,14 @@ $(document).ready(function () {
      //  SabNZBd+  //
     ////////////////
 
-    // resume/pause queue
+                                                    
 
-    $(document).on('click', '#sabnzbd_navbar #action', function(e) {
+    $(document).on('click', '#sabnzbd_navbar #action,' + // resume/pause queue
+        '#sabnzbd_item #sabnzbd_item_navbar #action,' + // resume/pause item
+        '#sabnzbd_item #delete,' + // delete item
+        '#sabnzbd_history #retry,' + //retry history item
+        '#sabnzbd_history #delete,', // delete history item
+        function() {
         $.mobile.showPageLoadingMsg();
         $.get($(this).data('url'), function(data) {
             if(data.status){
@@ -141,5 +146,4 @@ $(document).ready(function () {
             }
         });
     });
-
 });

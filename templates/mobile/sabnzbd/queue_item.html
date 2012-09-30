@@ -14,13 +14,20 @@
 
 
 {% block content %}
+{% if item.status == 'Paused' %}
+    {% set action = 'resume' %}
+{% else %}
+    {% set action = 'pause' %}
+{% endif %}
 <div id="sabnzbd_item">
-    <div data-role="navbar" id="sabnzbd_navbar">
+  <div data-role="listview">
+    <div data-role="navbar" id="sabnzbd_item_navbar" data-position="fixed">
         <ul>
-          <li><a href="#" id="action">{{item.status}}</a></li>
+          <li><a href="#" id="action" data-url="{{ url_for('sabnzb_individual_toggle', state=action, id=item.nzo_id) }}"  >{{item.status}}</a></li>
           <li><a href="#">{{item.timeleft}}</a></li>
         </ul>
     </div>
+  </div>
   <h2>{{ item.filename }}</h2>
   <div class="meter">
     <span style="width: {{item.percentage}}%">{{item.percentage}}%</span>
@@ -33,6 +40,6 @@
     <b>Age:</b> {{item.avg_age}} <br>
   </small>
   <br><br><br>
-  <a href="#" data-role="button" id="delete" data-theme="r" data-corners="false">DELETE</a>
+  <a href="#" data-role="button" id="delete" data-theme="r" data-corners="false" data-url="{{ url_for('sabnzb_individual_toggle', state='delete', id=item.nzo_id) }}">DELETE</a>
 </div>
 {% endblock %}

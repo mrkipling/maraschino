@@ -14,7 +14,7 @@
 
 
 {% block content %}
-<div id="sabnzbd_item">
+<div id="sabnzbd_history">
   <h2>{{ item.name }}</h2>
   <small>
     <b>Status:</b> {{ item.status }}<br>
@@ -33,7 +33,7 @@
     {% endfor %}
   </ul>
   <br><br><br>
-  <a href="#" data-role="button" id="retry" data-theme="b" data-corners="false">RETRY</a>
-  <a href="#" data-role="button" id="delete" data-theme="r" data-corners="false">DELETE</a>
+  <a data-role="button" id="retry" data-theme="b" data-corners="false" data-url="{{ url_for('sabnzb_history_retry', id=item.nzo_id) }}">RETRY</a>
+  <a data-role="button" id="delete" data-theme="r" data-corners="false" data-url="{{ url_for('sabnzb_history_delete', id=item.nzo_id) }}">DELETE</a>
 </div>
 {% endblock %}
