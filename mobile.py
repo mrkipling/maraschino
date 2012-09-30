@@ -10,6 +10,9 @@ from maraschino.tools import *
 from maraschino.noneditable import *
 import maraschino
 
+global sabnzbd_history_slots, sabnzbd_queue_slots
+sabnzbd_history_slots = sabnzbd_queue_slots = None
+
 
 @app.route('/mobile/')
 @requires_auth
@@ -409,3 +412,102 @@ def couchpotato_search(query=None):
         query=query,
         webroot=maraschino.WEBROOT,
     )
+
+
+from modules.sabnzbd import sabnzbd_api
+
+
+@app.route('/mobile/sabnzbd/')
+@requires_auth
+def sabnzbd():
+    global sabnzbd_queue_slots
+    try:
+        sabnzbd = sabnzbd_api(method='queue')
+        sabnzbd = sabnzbd_queue_slots = sabnzbd['queue']
+        download_speed = format_number(int((sabnzbd['kbpersec'])[:-3]) * 1024) + '/s'
+
+    except Exception as e:
+        logger.log('Mobile :: SabNZBd+ :: Could not retrieve SabNZBd - %s]' % (e), 'WARNING')
+        sabnzbd = None
+
+    return render_template('mobile/sabnzbd/sabnzbd.html',
+        queue=sabnzbd,
+        download_speed=download_speed,
+    )
+
+
+@app.route('/mobile/sabnzbd/history/')
+@requires_auth
+def sabnzbd_history():
+    global sabnzbd_history_slots
+    try:
+        sabnzbd = sabnzbd_api(method='history', params='&limit=50')
+        sabnzbd = sabnzbd_history_slots = sabnzbd['history']
+
+    except Exception as e:
+        logger.log('Mobile :: SabNZBd+ :: Could not retrieve SabNZBd - %s]' % (e), 'WARNING')
+        sabnzbd = None
+
+    return render_template('mobile/sabnzbd/history.html',
+        history=sabnzbd,
+    )
+
+
+@app.route('/mobile/sabnzbd/queue/<id>/')
+@requires_auth
+def sabnzbd_queue_item(id):
+    global sabnzbd_queue_slots
+    if sabnzbd_queue_slots:
+        for item in sabnzbd_queue_slots['slots']:
+            if item['nzo_id'] == id:
+                return render_template('mobile/sabnzbd/queue_item.html',
+                    item=item,
+                )
+
+        return sabnzbd()
+
+    else:
+        try:
+            sabnzbd = sabnzbd_api(method='queue')
+            sabnzbd = sabnzbd_queue_slots = sabnzbd['history']
+
+            for item in sabnzbd_queue_slots['slots']:
+                if item['nzo_id'] == id:
+                    return render_template('mobile/sabnzbd/queue_item.html',
+                        item=item,
+                    )
+        except Exception as e:
+            logger.log('Mobile :: SabNZBd+ :: Could not retrieve SabNZBd - %s]' % (e), 'WARNING')
+
+        return sabnzbd()
+
+
+@app.route('/mobile/sabnzbd/history/<id>/')
+@requires_auth
+def sabnzbd_history_item(id):
+    global sabnzbd_history_slots
+    if sabnzbd_history_slots:
+        for item in sabnzbd_history_slots['slots']:
+            if item['nzo_id'] == id:
+                return render_template('mobile/sabnzbd/history_item.html',
+                    item=item,
+                )
+
+        return sabnzbd_history()
+    else:
+        try:
+            sabnzbd = sabnzbd_api(method='history', params='&limit=50')
+            sabnzbd = sabnzbd_history_slots = sabnzbd['history']
+
+            for item in sabnzbd_history_slots['slots']:
+                if item['nzo_id'] == id:
+                    return render_template('mobile/sabnzbd/history_item.html',
+                        item=item,
+                    )
+        except Exception as e:
+            logger.log('Mobile :: SabNZBd+ :: Could not retrieve SabNZBd - %s]' % (e), 'WARNING')
+            sabnzbd = None
+
+        return render_template('mobile/sabnzbd/history.html',
+            history=sabnzbd,
+        )

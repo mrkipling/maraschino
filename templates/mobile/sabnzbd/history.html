@@ -1,0 +1,28 @@
+{% extends "mobile/base.html" %}
+
+{% block header %}<h1>SabNZBd+</h1>{% endblock %}
+
+{% block navbar%}
+
+<div data-role="navbar">
+    <ul>
+      <li><a href="{{ url_for('sabnzbd') }}">Queue</a></li>
+      <li><a href="#" class="ui-btn-active ui-state-persist">History</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<ul id="sabnzbd" data-role="listview" data-filter="true">
+  {% for item in history.slots %}
+      <li>
+        <a href="{{ url_for('sabnzbd_history_item', id=item.nzo_id) }}">
+          <h2>{{ item.name }}</h2>
+          <p>{{ item.status }}</p>
+          <p>{{ item.size }}</p>
+        </a>
+      </li>
+  {% endfor %}
+</ul>
+{% endblock %}

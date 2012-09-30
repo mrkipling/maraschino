@@ -1,0 +1,39 @@
+{% extends "mobile/base.html" %}
+
+{% block header %}<h1>SabNZBd+</h1>{% endblock %}
+
+{% block navbar%}
+
+<div data-role="navbar">
+    <ul>
+      <li><a href="{{ url_for('sabnzbd') }}">Queue</a></li>
+      <li><a href="{{url_for('sabnzbd_history')}}">History</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div id="sabnzbd_history">
+  <h2>{{ item.name }}</h2>
+  <small>
+    <b>Status:</b> {{ item.status }}<br>
+    <b>Size: </b> {{ item.size }}<br>
+    <b>Category:</b> {{item.category}} <br>
+    <b>Script:</b> {{item.script}} <br>
+    <b>Location:</b> {{item.storage}} <br>
+  </small>
+  <br><br><br><br>
+  <ul data-role="listview">
+    {% for action in item.stage_log %}
+      <li>
+        <h2>{{action.name}}</h2>
+        <p> {{action.actions.0}} </p>
+      </li>
+    {% endfor %}
+  </ul>
+  <br><br><br>
+  <a data-role="button" id="retry" data-theme="b" data-corners="false" data-url="{{ url_for('sabnzb_history_retry', id=item.nzo_id) }}">RETRY</a>
+  <a data-role="button" id="delete" data-theme="r" data-corners="false" data-url="{{ url_for('sabnzb_history_delete', id=item.nzo_id) }}">DELETE</a>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "mobile/base.html" %}
+
+{% block header %}<h1>SabNZBd+</h1>{% endblock %}
+
+{% block navbar%}
+
+<div data-role="navbar">
+    <ul>
+      <li><a href="{{ url_for('sabnzbd') }}">Queue</a></li>
+      <li><a href="{{url_for('sabnzbd_history')}}">History</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+
+{% block content %}
+{% if item.status == 'Paused' %}
+    {% set action = 'resume' %}
+{% else %}
+    {% set action = 'pause' %}
+{% endif %}
+<div id="sabnzbd_item">
+  <div data-role="listview">
+    <div data-role="navbar" id="sabnzbd_item_navbar" data-position="fixed">
+        <ul>
+          <li><a href="#" id="action" data-url="{{ url_for('sabnzb_individual_toggle', state=action, id=item.nzo_id) }}"  >{{item.status}}</a></li>
+          <li><a href="#">{{item.timeleft}}</a></li>
+        </ul>
+    </div>
+  </div>
+  <h2>{{ item.filename }}</h2>
+  <div class="meter">
+    <span style="width: {{item.percentage}}%">{{item.percentage}}%</span>
+  </div>
+  <br>
+  <small>
+    <b>Size: </b> {{item.sizeleft}}/{{ item.size }}<br>
+    <b>Category:</b> {{item.cat}} <br>
+    <b>Script:</b> {{item.script}} <br>
+    <b>Age:</b> {{item.avg_age}} <br>
+  </small>
+  <br><br><br>
+  <a href="#" data-role="button" id="delete" data-theme="r" data-corners="false" data-url="{{ url_for('sabnzb_individual_toggle', state='delete', id=item.nzo_id) }}">DELETE</a>
+</div>
+{% endblock %}
