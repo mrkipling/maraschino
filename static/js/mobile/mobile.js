@@ -170,4 +170,22 @@ $(document).ready(function () {
             });
         }
     });
+
+    $('#sabnzbd li').swipeDelete({
+        direction: 'swiperight', // standard jquery mobile event name
+        btnLabel: 'Delete',
+        btnTheme: 'r',
+        btnClass: 'aSwipeBtn',
+        click: function(e){
+            e.preventDefault();
+            $.mobile.showPageLoadingMsg();
+            var li = $(this).parents('li');
+            $.get(li.data('delete-url'), function(data) {
+                $.mobile.hidePageLoadingMsg();
+                if(data.status){
+                    li.remove();
+                }
+            });
+        }
+    });
 });

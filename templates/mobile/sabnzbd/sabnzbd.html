@@ -27,7 +27,7 @@
         </ul>
     </div>
     {% for item in queue.slots %}
-        <li>
+        <li id="{{item.nzo_id}}" data-delete-url="{{ url_for('sabnzb_individual_toggle', state='delete', id=item.nzo_id) }}">
             <a href="{{ url_for('sabnzbd_queue_item', id=item.nzo_id) }}">
                 <h2>{{ item.filename }}</h2>
                 <p>{{ item.status }}</p>
