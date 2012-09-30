@@ -272,17 +272,17 @@ def search():
     params = ''
 
     try:
-        params = '&name=%s' % (request.args['name'])
+        params = '&name=%s' % (urllib2.quote(request.args['name']))
     except:
         pass
 
     try:
-        params = '&tvdbid=%s' % (request.args['tvdbid'])
+        params = '&tvdbid=%s' % (urllib2.quote(request.args['tvdbid']))
     except:
         pass
 
     try:
-        params = '&lang=%s' % (request.args['lang'])
+        params = '&lang=%s' % (urllib2.quote(request.args['lang']))
     except:
         pass
 

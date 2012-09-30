@@ -296,10 +296,11 @@ def sickbeard_episode_options(id, season, episode):
 @app.route('/mobile/sickbeard/search/')
 @app.route('/mobile/sickbeard/search/<query>/')
 def sickbeard_search(query=None):
+    from urllib2 import quote
     sickbeard = None
     if query:
         try:
-            sickbeard = sickbeard_api('/?cmd=sb.searchtvdb&name=%s' % (query))
+            sickbeard = sickbeard_api('/?cmd=sb.searchtvdb&name=%s' % (quote(query)))
             sickbeard = sickbeard['data']['results']
 
         except Exception as e:
