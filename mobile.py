@@ -426,6 +426,8 @@ def sabnzbd():
         sabnzbd = sabnzbd_api(method='queue')
         sabnzbd = sabnzbd_queue_slots = sabnzbd['queue']
         download_speed = format_number(int((sabnzbd['kbpersec'])[:-3]) * 1024) + '/s'
+        if sabnzbd['speedlimit']:
+            sabnzbd['speedlimit'] = format_number(int((sabnzbd['speedlimit'])) * 1024) + '/s'
 
     except Exception as e:
         logger.log('Mobile :: SabNZBd+ :: Could not retrieve SabNZBd - %s]' % (e), 'WARNING')

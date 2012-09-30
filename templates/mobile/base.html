@@ -14,11 +14,13 @@
     <script>var LESS_WEBROOT = "{% if webroot %}{{ webroot[1:] }}/{% endif %}static";</script>
     <link rel="stylesheet/less" href="{{ url_for('static', filename='less/mobile/mobile.less') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='less/mobile/lib/jquery.mobile.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='less/mobile/lib/jquery.mobile.simpledialog.min.css') }}">
 
     <!-- JS frameworks -->
     <script src="{{ url_for('static', filename='js/lib/less.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/lib/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/lib/jquery.mobile.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/jquery.mobile.simpledialog2.min.js') }}"></script>
 
     <script>
       function destroyLessCache(pathToCss) {
