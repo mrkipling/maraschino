@@ -7,26 +7,64 @@
 
   {% if disks %}
 
-  <div class="inner">
+    <div class="inner">
 
-    <ul>
-      {% for disk in disks %}
-        <li data-id="{{ disk.id }}">
-          <div class="clearfix">
-            <div class="path">{{ disk.path }}</div>
-            <div class="stats">
-              {{ disk.used }} used,
-              {{ disk.free }} free
+      <ul class="disks">
+        {% for group in disks.groups %}
+          <li class="group">
+            <div class="clearfix">
+              <div class="name">{{ group.name }}</div>
+              <table class="stats">
+                <tr>
+                  <td>{{ group.used }} used,</td>
+                  <td>{{ group.free }} free</td>
+                </tr>
+              </table>
             </div>
-          </div>
-          <div class="bar" title="{{ disk.percentage_used }}%">
-            <div class="inner" style="width: {{ disk.percentage_used }}%;"></div>
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
+            <div class="bar" title="{{ group.percentage_used }}%">
+              <div class="inner" style="width: {{ group.percentage_used }}%;"></div>
+            </div>
+          </li>
+            <ul class="group_disks">
+              {% for disk in disks.disks %}
+                {% if disk.group and disk.group == group.name %}
+                  <li class="disk" data-id="{{ disk.id }}">
+                    <div class="clearfix">
+                      <div class="name">{% if disk.name %}{{ disk.name }}{% else %}{{ disk.path }}{% endif %}</div>
+                      <table class="stats">
+                        <tr>
+                          <td>{{ disk.used }} used,</td>
+                          <td>{{ disk.free }} free</td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="bar" title="{{ disk.percentage_used }}%">
+                      <div class="inner" style="width: {{ disk.percentage_used }}%;"></div>
+                    </div>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+        {% endfor %}
+        {% for disk in disks.disks %}
+          <li class="disk {{ 'hidden' if not show_grouped_disks and disk.group }}" data-id="{{ disk.id }}">
+            <div class="clearfix">
+              <div class="name">{% if disk.name == '' %}{{ disk.path }}{% else %}{{ disk.name }}{% endif %}</div>
+              <table class="stats">
+                <tr>
+                  <td>{{ disk.used }} used,</td>
+                  <td>{{ disk.free }} free</td>
+                </tr>
+              </table>
+            </div>
+            <div class="bar" title="{{ disk.percentage_used }}%">
+              <div class="inner" style="width: {{ disk.percentage_used }}%;"></div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
 
-  </div>
+    </div>
 
   {% endif %}
 

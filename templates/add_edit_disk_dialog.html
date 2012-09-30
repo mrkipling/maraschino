@@ -12,7 +12,17 @@
 
     <div class="formrow">
       <label for="id_disk_path">Path (required)</label>
-      <input id="id_disk_path" class="required" name="path" type="text"{% if disk %} value="{{ disk.path }}"{% endif %}>
+      <input id="id_disk_path" class="required" name="path" type="text"{% if disk %} value="{{ disk.data.path }}"{% endif %}>
+    </div>
+
+	<div class="formrow">
+      <label for="id_disk_name">Name</label>
+      <input id="id_disk_name" class="name" name="name" type="text"{% if disk %} value="{{ disk.data.name }}"{% endif %}>
+    </div>
+
+	<div class="formrow">
+      <label for="id_disk_group">Group</label>
+      <input id="id_disk_group" class="group" name="group" type="text"{% if disk %} value="{{ disk.data.group }}"{% endif %}>
     </div>
 
     <div class="formrow">

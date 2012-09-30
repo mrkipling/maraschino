@@ -101,6 +101,14 @@ AVAILABLE_MODULES = [
         'static': False,
         'poll': 350,
         'delay': 0,
+        'settings': [
+            {
+                'key': 'show_grouped_disks',
+                'value': '0',
+                'description': 'Show grouped disks outside of group.',
+                'type': 'bool',
+            },
+        ]
     },
     {
         'name': 'headphones',

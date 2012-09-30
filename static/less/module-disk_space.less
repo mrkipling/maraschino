@@ -7,12 +7,17 @@
       margin-top: 0;
     }
 
-    .path {
+    .name {
       float: left;
     }
 
     .stats {
       float: right;
+
+      td {
+        text-align: right;
+        width: 100px;
+      }
     }
 
     .bar {
@@ -23,6 +28,17 @@
   #add_disk {
     display: none;
   }
+
+  .group:hover {
+    background: url('/@{webroot}/images/alpha/fff_20.png');
+    cursor: pointer;
+  }
+
+  .group_disks,
+  .hidden {
+    display: none;
+  }
+
 }
 
 .f_settings_mode #diskspace
@@ -40,8 +56,9 @@
     .border-radius(2px);
   }
 
-  li:hover {
+  .disk:hover {
     background: url('/@{webroot}/images/alpha/fff_20.png');
     cursor: pointer;
   }
+
 }
