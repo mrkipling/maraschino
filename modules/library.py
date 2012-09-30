@@ -1,10 +1,9 @@
-from flask import render_template, jsonify
-import jsonrpclib
-import urllib
-
-from maraschino.noneditable import *
-from maraschino.tools import *
+from flask import render_template, jsonify, request
+from maraschino.tools import requires_auth, get_setting_value
 from maraschino import app, logger
+from maraschino.xbmc import lst2str
+import maraschino
+import urllib
 
 xbmc_error = 'There was a problem connecting to the XBMC server'
 
@@ -18,23 +17,16 @@ def xhr_library():
 @app.route('/xhr/library/<item_type>')
 @requires_auth
 def xhr_library_root(item_type):
-    api_address = server_api_address()
-
-    if not api_address:
-        logger.log('LIBRARY :: No XBMC server defined', 'ERROR')
-        return render_library(message="You need to configure XBMC server settings first.")
-
+    xbmc = maraschino.XBMC
+    library = []
+    title = "Movies"
+    sort = {'method': 'label', 'ignorearticle': True}
     try:
-        xbmc = jsonrpclib.Server(api_address)
-        library = []
-        title = "Movies"
-
         if item_type == 'movies':
             logger.log('LIBRARY :: Retrieving movies', 'INFO')
-            library = xbmc.VideoLibrary.GetMovies(sort={'method': 'label', 'ignorearticle': True}, properties=['playcount'])
-            logger.log('LIBRARY :: Finished retrieveing movies', 'DEBUG')
+            library = xbmc.VideoLibrary.GetMovies(sort=sort, properties=['playcount'])
 
-            if get_setting_value('library_watched_movies') == '0':
+            if library['movies'] and get_setting_value('library_watched_movies') == '0':
                 logger.log('LIBRARY :: Showing only unwatched movies', 'INFO')
                 unwatched = []
 
@@ -50,10 +42,9 @@ def xhr_library_root(item_type):
         if item_type == 'shows':
             logger.log('LIBRARY :: Retrieving TV shows', 'INFO')
             title = "TV Shows"
-            library = xbmc.VideoLibrary.GetTVShows(sort={'method': 'label', 'ignorearticle': True}, properties=['playcount'])
-            logger.log('LIBRARY :: Finished retrieveing TV Shows', 'DEBUG')
+            library = xbmc.VideoLibrary.GetTVShows(sort=sort, properties=['playcount'])
 
-            if get_setting_value('library_watched_tv') == '0':
+            if library['tvshows'] and get_setting_value('library_watched_tv') == '0':
                 logger.log('LIBRARY :: Showing only unwatched TV shows', 'INFO')
                 unwatched = []
 
@@ -69,7 +60,7 @@ def xhr_library_root(item_type):
         if item_type == 'artists':
             logger.log('LIBRARY :: Retrieving music', 'INFO')
             title = "Music"
-            library = xbmc.AudioLibrary.GetArtists(sort={'method': 'label', 'ignorearticle': True})
+            library = xbmc.AudioLibrary.GetArtists(sort=sort)
             logger.log('LIBRARY :: Finished retrieveing music', 'DEBUG')
 
         if item_type == 'files':
@@ -79,7 +70,6 @@ def xhr_library_root(item_type):
             xbmc.JSONRPC.Ping()
 
     except:
-        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
         return render_library(message=xbmc_error)
 
     return render_library(library, title)
@@ -89,12 +79,11 @@ def xhr_library_root(item_type):
 @requires_auth
 def xhr_library_show(show):
     logger.log('LIBRARY :: Retrieving seasons', 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     try:
         library = xbmc.VideoLibrary.GetSeasons(tvshowid=show, properties=['tvshowid', 'season', 'showtitle', 'playcount'])
     except:
-        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
         return render_library(message=xbmc_error)
 
     if get_setting_value('library_watched_tv') == '0':
@@ -120,13 +109,12 @@ def xhr_library_show(show):
 @requires_auth
 def xhr_library_season(show, season):
     logger.log('LIBRARY :: Retrieving episodes', 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
     sort = {'method': 'episode'}
 
     try:
         library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode', 'plot', 'playcount'])
     except:
-        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
         return render_library(message=xbmc_error)
 
     if get_setting_value('library_watched_tv') == '0':
@@ -152,17 +140,29 @@ def xhr_library_season(show, season):
 @requires_auth
 def xhr_library_artist(artist):
     logger.log('LIBRARY :: Retrieving albums', 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
-    sort = {'method': 'year'}
+    xbmc = maraschino.XBMC
+
+    params = {
+        'sort': {'method': 'year'},
+        'properties': ['title', 'artist', 'year']
+        }
+
+    if maraschino.XBMC_VERSION > 11:
+        params['filter'] = {'artistid':artist}
+    else:
+        params['artistid'] =  artist
+        properties.append('artistid')
 
     try:
-        library = xbmc.AudioLibrary.GetAlbums(artistid=artist, sort=sort, properties=['artistid', 'title', 'artist', 'year'])
+        library = xbmc.AudioLibrary.GetAlbums(**params)
+        library['artistid'] = artist
     except:
-        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
         return render_library(message=xbmc_error)
 
-    library['artistid'] = artist
-    title = library['albums'][0]['artist']
+    if maraschino.XBMC_VERSION > 11:
+        title = library['albums'][0]['artist'][0]
+    else:
+        library['albums'][0]['artist']
 
     return render_library(library, title)
 
@@ -171,17 +171,38 @@ def xhr_library_artist(artist):
 @requires_auth
 def xhr_library_album(artist, album):
     logger.log('LIBRARY :: Retrieving songs', 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
-    sort = {'method': 'track'}
+    xbmc = maraschino.XBMC
+
+    params = {
+        'sort': {'method': 'track'},
+        'properties': ['artist', 'album', 'track', 'playcount', 'year']
+    }
+
+    if maraschino.XBMC_VERSION > 11:
+        params['filter'] = {
+            'albumid': album
+        }
+
+    else:
+        params['artistid'] = artist
+        params['albumid'] = album
+        properties.append('artistid')
 
     try:
-        library = xbmc.AudioLibrary.GetSongs(artistid=artist, albumid=album, sort=sort, properties=['artistid', 'artist', 'album', 'track', 'playcount', 'year'])
+        library = xbmc.AudioLibrary.GetSongs(**params)
+        library['artistid'] = artist
+        library['albumid'] = album
     except:
-        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
         return render_library(message=xbmc_error)
 
     song = library['songs'][0]
-    title = '%s - %s (%s)' % (song['artist'], song['album'], song['year'])
+
+    if maraschino.XBMC_VERSION > 11:
+        artistname = song['artist'][0]
+    else:
+        artistname = song['artist']
+
+    title = '%s - %s (%s)' % (artistname, song['album'], song['year'])
 
     return render_library(library, title)
 
@@ -190,7 +211,7 @@ def xhr_library_album(artist, album):
 @requires_auth
 def xhr_library_info(type, id):
     logger.log('LIBRARY :: Retrieving %s details' % type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     try:
         if type == 'movie':
@@ -210,13 +231,18 @@ def xhr_library_info(type, id):
             title = library['artistdetails']['label']
 
         elif type == 'album':
-            library = xbmc.AudioLibrary.GetAlbumDetails(albumid=id, properties=['artistid', 'title', 'artist', 'year', 'genre', 'description', 'albumlabel', 'rating', 'thumbnail'])
+            properties = ['title', 'artist', 'year', 'genre', 'description', 'albumlabel', 'rating', 'thumbnail']
+            if maraschino.XBMC_VERSION < 12:
+                properties.append('artistid')
+
+            library = xbmc.AudioLibrary.GetAlbumDetails(albumid=id, properties=properties, dev=True)
             title = library['albumdetails']['title']
 
     except:
-        message = 'Could not retrieve %s details' % type
-        logger.log('LIBRARY :: %s' % message, 'ERROR')
-        return render_library(message=message)
+        return render_library(message=xbmc_error)
+
+    if maraschino.XBMC_VERSION > 11:
+        library[type + 'details'] = lst2str(library[type + 'details'])
 
     return render_library(library, title)
 
@@ -225,7 +251,7 @@ def xhr_library_info(type, id):
 @requires_auth
 def xhr_library_resume_check(type, id):
     logger.log('LIBRARY :: Checking if %s has resume position' % type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     try:
         if type == 'movie':
@@ -235,7 +261,6 @@ def xhr_library_resume_check(type, id):
             library = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=id, properties=['resume'])
 
     except:
-        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
         return render_library(message=xbmc_error)
 
     position = library[type + 'details']['resume']['position']
@@ -259,12 +284,11 @@ def xhr_library_resume_check(type, id):
 @requires_auth
 def xhr_library_files_file_type(file_type):
     logger.log('LIBRARY :: Retrieving %s sources' % file_type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     try:
         library = xbmc.Files.GetSources(media=file_type)
     except:
-        logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
         return render_library(message=xbmc_error)
 
     if file_type == "video":
@@ -282,7 +306,7 @@ def xhr_library_files_directory(file_type):
     path = urllib.unquote(path.encode('ascii')).decode('utf-8')
     logger.log('LIBRARY :: Retrieving %s path: %s' % (file_type, path), 'INFO')
 
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
     sort = {'method': 'file'}
 
     try:

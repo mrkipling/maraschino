@@ -1043,8 +1043,14 @@ def server_settings_dialog(server_id=None):
                 db_session.add(active_server)
                 db_session.commit()
 
+            active_server = int(get_setting_value('active_server'))
+
+            if active_server == server.id:
+                switch_server(server.id)
+
             return render_template('includes/servers.html',
-                servers = XbmcServer.query.order_by(XbmcServer.position),
+                servers=XbmcServer.query.order_by(XbmcServer.position),
+                active_server=active_server
             )
 
         except:
@@ -1102,6 +1108,7 @@ def switch_server(server_id=None):
     """
     Switches XBMC servers.
     """
+    from maraschino.xbmc import set_xbmc_server
 
     xbmc_server = XbmcServer.query.get(server_id)
 
@@ -1110,6 +1117,7 @@ def switch_server(server_id=None):
         active_server.value = server_id
         db_session.add(active_server)
         db_session.commit()
+        set_xbmc_server()
         logger.log('Switched active server to ID %s' % server_id , 'INFO')
 
     except:

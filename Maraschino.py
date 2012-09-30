@@ -182,6 +182,9 @@ def main():
     import_modules()
     maraschino.init_updater()
 
+    from maraschino.xbmc import init_xbmc_server
+    init_xbmc_server()
+
     maraschino.start()
 
 

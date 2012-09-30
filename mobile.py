@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 """Ressources to use Maraschino on mobile devices"""
 
-import jsonrpclib
-
 from flask import render_template
 from maraschino import app, logger
 
-from maraschino.tools import *
-from maraschino.noneditable import *
+from maraschino.tools import requires_auth, get_setting_value
 import maraschino
 
 global sabnzbd_history_slots, sabnzbd_queue_slots
@@ -24,7 +21,7 @@ def mobile_index():
 @requires_auth
 def recently_added_episodes():
     try:
-        xbmc = jsonrpclib.Server(server_api_address())
+        xbmc = maraschino.XBMC
         recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties=['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail', 'firstaired'])['episodes']
         if get_setting_value('recently_added_watched_episodes') == '0':
             recently_added_episodes = [x for x in recently_added_episodes if not x['playcount']]
@@ -43,7 +40,7 @@ def recently_added_episodes():
 def recently_added_movies():
 
     try:
-        xbmc = jsonrpclib.Server(server_api_address())
+        xbmc = maraschino.XBMC
         recently_added_movies = xbmc.VideoLibrary.GetRecentlyAddedMovies(properties=['title', 'rating', 'year', 'thumbnail', 'tagline', 'playcount'])['movies']
         if get_setting_value('recently_added_watched_movies') == '0':
             recently_added_movies = [x for x in recently_added_movies if not x['playcount']]
@@ -62,7 +59,7 @@ def recently_added_movies():
 def recently_added_albums():
 
     try:
-        xbmc = jsonrpclib.Server(server_api_address())
+        xbmc = maraschino.XBMC
         recently_added_albums = xbmc.AudioLibrary.GetRecentlyAddedAlbums(properties=['title', 'rating', 'thumbnail', 'artist'])['albums']
 
     except:
@@ -86,7 +83,7 @@ def xbmc():
 @requires_auth
 def movie_library():
     try:
-        xbmc = jsonrpclib.Server(server_api_address())
+        xbmc = maraschino.XBMC
         movies = xbmc.VideoLibrary.GetMovies(properties=['title', 'rating', 'year', 'thumbnail', 'tagline', 'playcount'])['movies']
 
     except:
@@ -102,7 +99,7 @@ def movie_library():
 @requires_auth
 def tv_library():
     try:
-        xbmc = jsonrpclib.Server(server_api_address())
+        xbmc = maraschino.XBMC
         TV = xbmc.VideoLibrary.GetTVShows(properties=['thumbnail'])['tvshows']
 
     except Exception as e:
@@ -118,7 +115,7 @@ def tv_library():
 @requires_auth
 def tvshow(id):
     try:
-        xbmc = jsonrpclib.Server(server_api_address())
+        xbmc = maraschino.XBMC
         show = xbmc.VideoLibrary.GetSeasons(tvshowid=id, properties=['tvshowid', 'season', 'showtitle', 'playcount'])['seasons']
 
     except Exception as e:
@@ -134,7 +131,7 @@ def tvshow(id):
 @requires_auth
 def season(id, season):
     try:
-        xbmc = jsonrpclib.Server(server_api_address())
+        xbmc = maraschino.XBMC
         episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=id, season=season, sort={'method': 'episode'}, properties=['tvshowid', 'season', 'showtitle', 'playcount'])['episodes']
 
     except Exception as e:

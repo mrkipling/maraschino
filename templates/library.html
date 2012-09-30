@@ -207,7 +207,7 @@
 
       {% if library.albums %}
         {% for item in library.albums %}
-          <li class="get"  file-type="audio" media-type="album" data-id="{{ item.albumid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}">
+          <li class="get" file-type="audio" media-type="album" data-id="{{ item.albumid }}" data-command="artists/{{ library.artistid }}/{{ item.albumid }}">
             {{ item.label }} ({{ item.year }})
             <span class="span">
               <a class="li_buttons" id="info">Info</a>
@@ -246,7 +246,7 @@
 
       {% if library.songs %}
         {% for item in library.songs %}
-          <li id="play" file-type="audio" media-type="song" data-id="{{ item.songid }}" data-command="artists/{{ item.artistid }}/{{ item.albumid }}/{{ item.songid }}">
+          <li id="play" file-type="audio" media-type="song" data-id="{{ item.songid }}" data-command="artists/{{ library.artistid }}/{{ library.albumid }}/{{ item.songid }}">
             {% if item.track < 10 %}0{% endif %}{{ item.track }} - {{ item.label }}
             <span class="span">
               <a class="li_buttons" id="queue">Queue</a>

@@ -2,7 +2,8 @@ from flask import jsonify, render_template, request, json, send_file
 import hashlib, urllib2, base64, random, time, datetime, os
 from threading import Thread
 from maraschino.tools import get_setting_value, requires_auth, create_dir, download_image
-from maraschino import logger, app, WEBROOT, DATA_DIR, THREADS
+from maraschino import logger, app, WEBROOT, DATA_DIR
+import maraschino
 
 
 def trak_api(url, params={}, dev=False):
@@ -58,7 +59,7 @@ def cache_image(image, type):
 
     if not os.path.exists(file_path):
         Thread(target=download_image, args=(image, file_path)).start()
-        THREADS.append(len(THREADS) + 1)
+        maraschino.THREADS.append(len(maraschino.THREADS) + 1)
 
     return '%s/cache/trakt/%s/%s' % (WEBROOT, type, filename[1:])
 
@@ -119,7 +120,7 @@ def xhr_trakt_recommendations(type=None):
     for item in recommendations:
         item['poster'] = cache_image(item['images']['poster'], type)
 
-    while THREADS:
+    while maraschino.THREADS:
         time.sleep(1)
 
     return render_template('traktplus/trakt-recommendations.html',
@@ -152,7 +153,7 @@ def xhr_trakt_trending(type=None):
     for item in trakt:
         item['images']['poster'] = cache_image(item['images']['poster'], type)
 
-    while THREADS:
+    while maraschino.THREADS:
         time.sleep(1)
 
     return render_template('traktplus/trakt-trending.html',
@@ -440,7 +441,7 @@ def xhr_trakt_summary(type, id, season=None, episode=None):
     else:
         trakt['episode']['first_aired'] = datetime.datetime.fromtimestamp(int(trakt['episode']['first_aired'])).strftime('%B %d, %Y')
 
-    while THREADS:
+    while maraschino.THREADS:
         time.sleep(1)
 
     if type == 'episode':

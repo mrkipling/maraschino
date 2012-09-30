@@ -1,41 +1,37 @@
 from flask import jsonify, render_template
-import jsonrpclib
 import maraschino
 from maraschino import app, logger
-from maraschino.noneditable import *
-from maraschino.tools import *
+from maraschino.tools import requires_auth, format_time
 
 @app.route('/xhr/currently_playing')
 @requires_auth
 def xhr_currently_playing():
+    xbmc = maraschino.XBMC
+
     try:
-        api_address = server_api_address()
-
-        if not api_address:
-            raise Exception
-
-        xbmc = jsonrpclib.Server(api_address)
-        active_player = xbmc.Player.GetActivePlayers()
+        active_player = xbmc.Player.GetActivePlayers(silent=True)
         playerid = active_player[0]['playerid']
-        player_info = xbmc.Player.GetProperties(playerid=playerid, properties=['time', 'totaltime', 'position', 'percentage', 'repeat', 'shuffled'])
-        volume = xbmc.Application.GetProperties(properties=['volume'])['volume']
+        player_info = xbmc.Player.GetProperties(playerid=playerid, properties=['time', 'totaltime', 'position', 'percentage', 'repeat', 'shuffled'], silent=True)
+        volume = xbmc.Application.GetProperties(properties=['volume'], silent=True)['volume']
 
-        if active_player[0]['type'] == 'video':
-            currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid', 'plot', 'thumbnail', 'year'])['item']
+        if playerid == 1:
+            properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid', 'plot', 'thumbnail', 'year']
+            currently_playing = xbmc.Player.GetItem(playerid=1, properties=properties, silent=True)['item']
 
-        if active_player[0]['type'] == 'audio':
-            currently_playing = xbmc.Player.GetItem(playerid = 0, properties = ['title', 'duration', 'fanart', 'artist', 'albumartist', 'album', 'track', 'artistid', 'albumid', 'thumbnail', 'year'])['item']
+        if playerid == 0:
+            properties=['title', 'duration', 'fanart', 'artist', 'albumartist', 'album', 'track', 'artistid', 'albumid', 'thumbnail', 'year']
+            currently_playing = xbmc.Player.GetItem(playerid=0, properties=properties, silent=True)['item']
 
-        fanart = currently_playing['fanart']
-        itemart = currently_playing['thumbnail']
+            if maraschino.XBMC_VERSION > 11:
+                currently_playing['artist'] = currently_playing['artist'][0]
 
     except:
-        return jsonify({ 'playing': False })
+        return jsonify(playing=False)
 	
     return render_template('currently_playing.html',
         currently_playing = currently_playing,
-        fanart = fanart,
-        itemart = itemart,
+        fanart = currently_playing['fanart'],
+        itemart = currently_playing['thumbnail'],
         shuffled = player_info['shuffled'],
         repeat = player_info['repeat'],
         volume = volume,
@@ -48,7 +44,7 @@ def xhr_currently_playing():
 @app.route('/xhr/currently_playing/playlist')
 @requires_auth
 def xhr_current_playlist():
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     active_player = xbmc.Player.GetActivePlayers()
     playerid = active_player[0]['playerid']

@@ -1,13 +1,9 @@
-try:
-    import json
-except ImportError:
-    import simplejson as json
-from flask import Flask, jsonify, render_template, request
-import hashlib, jsonrpclib, urllib
+from flask import jsonify, render_template, request, json
+import hashlib, urllib
 
-from Maraschino import app
-from maraschino.noneditable import *
-from maraschino.tools import *
+from maraschino import app
+from maraschino.tools import requires_auth, get_setting_value
+import maraschino
 
 @app.route('/xhr/trakt')
 @requires_auth
@@ -16,7 +12,7 @@ def xhr_trakt():
     TRAKT_API_KEY = None
 
     try:
-        xbmc = jsonrpclib.Server(server_api_address())
+        xbmc = maraschino.XBMC
         TRAKT_API_KEY = get_setting_value('trakt_api_key')
 
         if not TRAKT_API_KEY:
@@ -31,7 +27,7 @@ def xhr_trakt():
     TRAKT_PASSWORD = get_setting_value('trakt_password')
 
     try:
-        currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['tvshowid', 'season', 'episode', 'imdbnumber', 'title'])['item']
+        currently_playing = xbmc.Player.GetItem(playerid=1, properties=['tvshowid', 'season', 'episode', 'imdbnumber', 'title'])['item']
         trakt['itemid'] = currently_playing['imdbnumber']
 
         # if watching a TV show

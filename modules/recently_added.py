@@ -1,12 +1,12 @@
 from flask import render_template
-import jsonrpclib, ast, os
+import ast, os, maraschino
 
-from maraschino import app, logger, DATA_DIR, THREADS, HOST, PORT, WEBROOT
-from maraschino.noneditable import *
-from maraschino.tools import *
+from maraschino import app, logger, DATA_DIR, HOST, PORT, WEBROOT
+from maraschino.tools import requires_auth, get_setting_value, create_dir, download_image
 from threading import Thread
 from maraschino.models import RecentlyAdded, XbmcServer
 from maraschino.database import db_session
+from maraschino.xbmc import xbmc_image, XBMCJSON, server_api_address, server_settings
 
 
 @app.route('/xhr/recently_added/')
@@ -47,20 +47,19 @@ def xhr_recently_added_albums_offset(album_offset):
 
 def get_recent_xbmc_api_url(setting):
     if get_setting_value(setting):
-        return ast.literal_eval(get_setting_value(setting))['api']
+        server = ast.literal_eval(get_setting_value(setting))
+        return [server['api'], server['username'], server['password']]
     else:
-        return server_api_address()
+        server = server_settings()
+        return [server_api_address(), server['username'], server['password']]
 
 def get_recent_xbmc_label(setting):
     if get_setting_value(setting):
         return ast.literal_eval(get_setting_value(setting))['label']
     else:
-        active_server = get_setting_value('active_server')
-        if active_server:
-            active_server = int(active_server)
-
-            server = XbmcServer.query.filter(XbmcServer.id == active_server).first()
-            return server.label
+        server = server_settings()
+        if server['label']:
+            return server['label']
         else:
             return 'unknown'
 
@@ -69,8 +68,9 @@ def render_recently_added_episodes(episode_offset=0):
     compact_view = get_setting_value('recently_added_compact') == '1'
     show_watched = get_setting_value('recently_added_watched_episodes') == '1'
     view_info = get_setting_value('recently_added_info') == '1'
+    server = get_recent_xbmc_api_url('recently_added_server')
 
-    xbmc = jsonrpclib.Server(get_recent_xbmc_api_url('recently_added_server'))
+    xbmc = XBMCJSON(server[0], server[1], server[2])
     recently_added_episodes = get_recently_added_episodes(xbmc, episode_offset)
 
     return render_template('recently_added.html',
@@ -87,8 +87,9 @@ def render_recently_added_movies(movie_offset=0):
     compact_view = get_setting_value('recently_added_movies_compact') == '1'
     show_watched = get_setting_value('recently_added_watched_movies') == '1'
     view_info = get_setting_value('recently_added_movies_info') == '1'
+    server = get_recent_xbmc_api_url('recently_added_movies_server')
 
-    xbmc = jsonrpclib.Server(get_recent_xbmc_api_url('recently_added_movies_server'))
+    xbmc = XBMCJSON(server[0], server[1], server[2])
     recently_added_movies = get_recently_added_movies(xbmc, movie_offset)
 
     return render_template('recently_added_movies.html',
@@ -104,9 +105,9 @@ def render_recently_added_movies(movie_offset=0):
 def render_recently_added_albums(album_offset=0):
     compact_view = get_setting_value('recently_added_albums_compact') == '1'
     view_info = get_setting_value('recently_added_albums_info') == '1'
+    server = get_recent_xbmc_api_url('recently_added_albums_server')
 
-
-    xbmc = jsonrpclib.Server(get_recent_xbmc_api_url('recently_added_albums_server'))
+    xbmc = XBMCJSON(server[0], server[1], server[2])
     recently_added_albums = get_recently_added_albums(xbmc, album_offset)
 
 
@@ -275,6 +276,10 @@ def get_recently_added_albums(xbmc, album_offset=0):
             logger.log('Failed to get recently added albums from database', 'ERROR')
 
     if recently_added_albums:
+        if maraschino.XBMC_VERSION > 11:
+            for album in recently_added_albums:
+                album['artist'] = album['artist'][0]
+
         recently_added_albums = recently_added_albums[album_offset:num_recent_albums + album_offset]
 
     return [recently_added_albums, using_db]
@@ -314,7 +319,7 @@ def cache_recent_image(label, type, id, image):
     if not os.path.exists(file_path):
         image_path = maraschino_path() + xbmc_image(image, label)
         Thread(target=download_image, args=(image_path, file_path)).start()
-        THREADS.append(len(THREADS) + 1)
+        maraschino.THREADS.append(len(maraschino.THREADS) + 1)
 
     return xbmc_image(image, label)
 

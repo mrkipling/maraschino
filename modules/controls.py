@@ -1,21 +1,18 @@
-from flask import jsonify
-import jsonrpclib
+from flask import jsonify, request
 import socket
 import struct
 import urllib
 
-from Maraschino import app
-from maraschino.noneditable import *
-from maraschino.tools import *
-from maraschino import logger
-
-xbmc_error = 'There was a problem connecting to the XBMC server'
+from maraschino.tools import requires_auth
+from maraschino.xbmc import server_settings, youtube_to_xbmc
+from maraschino import app, logger
+import maraschino
 
 @app.route('/xhr/play/<file_type>/<media_type>/<int:media_id>')
 @requires_auth
 def xhr_play_media(file_type, media_type, media_id):
     logger.log('CONTROLS :: Playing %s' % media_type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     if file_type == 'video':
         id = 1
@@ -79,7 +76,7 @@ def xhr_play_media(file_type, media_type, media_id):
 
     try:
         item = { 'playlistid': playlistid }
-        xbmc.Player.Open(item)
+        xbmc.Player.Open(item=item)
     except:
         logger.log('CONTROLS :: Failed to open %s playlist' % file_type, 'DEBUG')
         return jsonify({ 'failed': True })
@@ -90,7 +87,7 @@ def xhr_play_media(file_type, media_type, media_id):
 @requires_auth
 def xhr_enqueue_media(file_type, media_type, media_id):
     logger.log('CONTROLS :: Queueing %s' % media_type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschin.XBMC
 
     if file_type == 'video':
 
@@ -143,7 +140,7 @@ def xhr_enqueue_media(file_type, media_type, media_id):
 @requires_auth
 def xhr_resume_video(video_type, video_id):
     logger.log('CONTROLS :: Resuming %s' % video_type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     try:
         xhr_clear_playlist(1)
@@ -179,7 +176,7 @@ def xhr_resume_video(video_type, video_id):
     item = { 'playlistid': 1 }
 
     try:
-        xbmc.Player.Open(item)
+        xbmc.Player.Open(item=item)
         xbmc.Player.Seek(playerid=1, value=position)
     except:
         logger.log('CONTROLS :: Failed to open %s at %s' % (video_type, position), 'DEBUG')
@@ -192,7 +189,7 @@ def xhr_resume_video(video_type, video_id):
 @requires_auth
 def xhr_play_trailer(movieid=None, trailer=None):
     logger.log('CONTROLS :: Playing trailer', 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     try:
         xhr_clear_playlist(1)
@@ -214,7 +211,7 @@ def xhr_play_trailer(movieid=None, trailer=None):
     try:
         xbmc.Playlist.Add(playlistid=1, item=item)
         item = { 'playlistid': 1 }
-        xbmc.Player.Open(item)
+        xbmc.Player.Open(item=item)
     except:
         logger.log('CONTROLS :: Failed to open trailer', 'DEBUG')
         return jsonify({ 'failed': True })
@@ -225,7 +222,7 @@ def xhr_play_trailer(movieid=None, trailer=None):
 @requires_auth
 def xhr_play_file(file_type):
     logger.log('CONTROLS :: Playing %s file' % file_type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
     if file_type == "music":
         file_type = "audio"
         id = 0
@@ -255,7 +252,7 @@ def xhr_play_file(file_type):
 
     try:
         item = { 'playlistid': player }
-        xbmc.Player.Open(item)
+        xbmc.Player.Open(item=item)
     except:
         logger.log('CONTROLS :: Failed to open %s' % file_type, 'DEBUG')
         return jsonify({ 'failed': True })
@@ -266,7 +263,7 @@ def xhr_play_file(file_type):
 @requires_auth
 def xhr_enqueue_file(file_type):
     logger.log('CONTROLS :: Queueing %s file' % file_type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     file = request.form['file']
     file = urllib.unquote(file.encode('ascii')).decode('utf-8')
@@ -289,35 +286,33 @@ def xhr_enqueue_file(file_type):
 @requires_auth
 def xhr_playlist_play(playerid, position):
     logger.log('CONTROLS :: playing playlist position %i' % position, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     try:
         xbmc.Player.GoTo(playerid=playerid, position=position)
         return jsonify({'success': True})
 
     except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
         return jsonify({'failed': True})
 
 @app.route('/xhr/playlist/<int:playlistid>/clear')
 @requires_auth
 def xhr_clear_playlist(playlistid):
     logger.log('CONTROLS :: Clearing playlist', 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     try:
         xbmc.Playlist.Clear(playlistid=playlistid)
         return jsonify({'success': True})
 
     except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
         return jsonify({'failed': True})
 
 @app.route('/xhr/playlist/<int:playlistid>/move_item/<int:position1>/<direction>')
 @requires_auth
 def xhr_move_playlist_item(playlistid, position1, direction):
     logger.log('CONTROLS :: Moving playlist item %s' % direction, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     if direction == 'up':
         if position1 != 0:
@@ -333,31 +328,29 @@ def xhr_move_playlist_item(playlistid, position1, direction):
         return jsonify({'success': True})
 
     except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
         return jsonify({'failed': True})
 
 @app.route('/xhr/playlist/<int:playlistid>/remove_item/<int:position>')
 @requires_auth
 def xhr_remove_playlist_item(playlistid, position):
     logger.log('CONTROLS :: Removing playlist item %s' % position, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     try:
         xbmc.Playlist.Remove(playlistid=playlistid, position=position)
         return jsonify({'success': True})
 
     except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
         return jsonify({'failed': True})
 
 @app.route('/xhr/controls/<command>')
 @requires_auth
 def xhr_controls(command):
     serversettings = server_settings()
-    xbmc = jsonrpclib.Server(server_api_address())
+    xbmc = maraschino.XBMC
 
     try:
-        active_player = xbmc.Player.GetActivePlayers()
+        active_player = xbmc.Player.GetActivePlayers(silent=True)
         if active_player[0]['type'] == 'video':
             playerid = 1
         elif active_player[0]['type'] == 'audio':
@@ -371,7 +364,6 @@ def xhr_controls(command):
             xbmc.Player.PlayPause(playerid=playerid)
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'stop':
@@ -380,7 +372,6 @@ def xhr_controls(command):
             xbmc.Player.Stop(playerid=playerid)
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif 'volume' in command:
@@ -391,7 +382,6 @@ def xhr_controls(command):
             xbmc.Application.SetVolume(volume=volume)
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'next':
@@ -400,7 +390,6 @@ def xhr_controls(command):
             xbmc.Player.GoNext(playerid=playerid)
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'previous':
@@ -409,7 +398,6 @@ def xhr_controls(command):
             xbmc.Player.GoPrevious(playerid=playerid)
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'fast_forward':
@@ -418,7 +406,6 @@ def xhr_controls(command):
             xbmc.Player.SetSpeed(playerid=playerid, speed='increment')
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'rewind':
@@ -427,7 +414,6 @@ def xhr_controls(command):
             xbmc.Player.SetSpeed(playerid=playerid, speed='decrement')
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif 'seek' in command:
@@ -438,7 +424,6 @@ def xhr_controls(command):
             xbmc.Player.Seek(playerid=playerid, value=percentage)
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'shuffle':
@@ -451,7 +436,6 @@ def xhr_controls(command):
                 xbmc.Player.Shuffle(playerid=playerid)
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'repeat':
@@ -469,7 +453,6 @@ def xhr_controls(command):
             xbmc.Player.Repeat(playerid=playerid, state=state)
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'update_video':
@@ -478,7 +461,6 @@ def xhr_controls(command):
             xbmc.VideoLibrary.Scan()
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'clean_video':
@@ -487,7 +469,6 @@ def xhr_controls(command):
             xbmc.VideoLibrary.Clean()
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'update_audio':
@@ -496,7 +477,6 @@ def xhr_controls(command):
             xbmc.AudioLibrary.Scan()
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'clean_audio':
@@ -505,7 +485,6 @@ def xhr_controls(command):
             xbmc.AudioLibrary.Clean()
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'poweroff':
@@ -514,7 +493,6 @@ def xhr_controls(command):
             xbmc.System.Shutdown()
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'suspend':
@@ -523,7 +501,6 @@ def xhr_controls(command):
             xbmc.System.Suspend()
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'reboot':
@@ -532,7 +509,6 @@ def xhr_controls(command):
             xbmc.System.Reboot()
             return_response = 'success'
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
             return_response = 'failed'
 
     elif command == 'poweron':
@@ -564,7 +540,4 @@ def xhr_controls(command):
                 logger.log('CONTROLS :: Failed to send WOL packet', 'ERROR')
                 return_response = 'failed'
 
-    if return_response == 'success':
-        return jsonify({ 'success': True })
-    else:
-        return jsonify({ 'failed': True })
+    return jsonify({return_response: True})
