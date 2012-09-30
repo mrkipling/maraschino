@@ -1,0 +1,16 @@
+{% extends "mobile/base.html" %}
+
+{% block header %}<h1>SabNZBd+</h1>{% endblock %}
+
+{% block content %}
+<div>{{queue.status}}</div><br>
+<ul id="sabnzbd" data-role="listview" data-filter="true">
+  {% for item in queue.slots %}
+      <li data-id="{{ item.nzo_id }}">
+          <h2>{{ item.filename }}</h2>
+          <p>{{ item.status }}</p>
+          <p>{{ item.size }}</p>
+      </li>
+  {% endfor %}
+</ul>
+{% endblock %}

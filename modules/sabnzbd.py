@@ -4,7 +4,7 @@ except ImportError:
     import simplejson as json
 
 from flask import Flask, jsonify, render_template, request
-import jsonrpclib, urllib
+import jsonrpclib, urllib, urllib2
 from jinja2.filters import FILTERS
 
 from Maraschino import app
@@ -56,6 +56,20 @@ def add_to_sab_link(nzb):
     return False
 
 FILTERS['add_to_sab'] = add_to_sab_link
+
+
+def sabnzbd_api(method='', use_json=True, dev=False):
+
+    url = sabnzbd_url(method)
+    r = urllib2.Request(url)
+    data = urllib2.urlopen(r).read()
+
+    if dev:
+        print url
+        print data
+    if use_json:
+        data = json.JSONDecoder().decode(data)
+    return data
 
 
 @app.route('/xhr/sabnzbd/')

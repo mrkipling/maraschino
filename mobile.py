@@ -388,3 +388,24 @@ def couchpotato_search(query=None):
         query=query,
         webroot=maraschino.WEBROOT,
     )
+
+
+from modules.sabnzbd import sabnzbd_api
+
+
+@app.route('/mobile/sabnzbd/')
+@requires_auth
+def sabnzbd():
+    try:
+        sabnzbd = sabnzbd_api(method='queue')
+        sabnzbd = sabnzbd['queue']
+        download_speed = format_number(int((sabnzbd['kbpersec'])[:-3]) * 1024) + '/s'
+
+    except Exception as e:
+        logger.log('Mobile :: SabNZBd+ :: Could not retrieve SabNZBd - %s]' % (e), 'WARNING')
+        sabnzbd = None
+
+    return render_template('mobile/sabnzbd/sabnzbd.html',
+        queue=sabnzbd,
+        download_speed=download_speed,
+    )
