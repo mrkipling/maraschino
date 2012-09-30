@@ -17,7 +17,8 @@ sabnzbd_history_slots = sabnzbd_queue_slots = None
 @app.route('/mobile/')
 @requires_auth
 def mobile_index():
-    return render_template('mobile/index.html', webroot=maraschino.WEBROOT)
+    available_modules = Module.query.order_by(Module.position)
+    return render_template('mobile/index.html', available_modules=available_modules)
 
 
 @app.route('/mobile/recent_episodes/')
@@ -425,6 +426,8 @@ def sabnzbd():
         sabnzbd = sabnzbd_api(method='queue')
         sabnzbd = sabnzbd_queue_slots = sabnzbd['queue']
         download_speed = format_number(int((sabnzbd['kbpersec'])[:-3]) * 1024) + '/s'
+        if sabnzbd['speedlimit']:
+            sabnzbd['speedlimit'] = format_number(int((sabnzbd['speedlimit'])) * 1024) + '/s'
 
     except Exception as e:
         logger.log('Mobile :: SabNZBd+ :: Could not retrieve SabNZBd - %s]' % (e), 'WARNING')
