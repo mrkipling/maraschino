@@ -111,14 +111,17 @@ def xhr_headphones():
 @requires_auth
 def xhr_headphones_artists(mobile=False):
     logger.log('HEADPHONES :: Fetching artists list', 'INFO')
+    artists = []
 
     try:
         headphones = headphones_api('getIndex')
         updates = headphones_api('getVersion')
     except Exception as e:
+        if mobile:
+            headphones_exception(e)
+            return artists
         return headphones_exception(e)
 
-    artists = []
 
     for artist in headphones:
         if not 'Fetch failed' in artist['ArtistName']:
@@ -358,7 +361,7 @@ def xhr_headphones_artist_action(artistid, action, mobile=False):
 
 @app.route('/xhr/headphones/album/<albumid>/<status>/')
 @requires_auth
-def xhr_headphones_album_status(albumid, status):
+def xhr_headphones_album_status(albumid, status, mobile=False):
     if status == 'wanted':
         logger.log('HEADPHONES :: Marking album as wanted', 'INFO')
         command = 'queueAlbum&id=%s' % albumid
@@ -372,6 +375,10 @@ def xhr_headphones_album_status(albumid, status):
     try:
         Thread(target=headphones_api, args=(command, False)).start()
     except Exception as e:
+        if mobile:
+            headphones_exception(e)
+            return jsonify(error='failed')
+
         return headphones_exception(e)
 
     return jsonify(status='successful')

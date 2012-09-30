@@ -144,12 +144,50 @@ $(document).ready(function () {
 
     $(document).on('click', '#headphones #results li', function() {
         $.mobile.showPageLoadingMsg();
-        $.get(WEBROOT + '/mobile/headphones/action/' + $(this).data('id') + '/add/', function(data) {
+        $.get(WEBROOT + '/mobile/headphones/artist/action/' + $(this).data('id') + '/add/', function(data) {
             if (data.status) {
                 alert('Artist is being added.');
             }
             else {
                 alert('Failed to add artist.');
+            }
+            $.mobile.hidePageLoadingMsg();
+        });
+    });
+
+    $(document).on('click', '#headphones #control a', function() {
+        var artistid = $('#headphones #control').data('id');
+        var action = $(this).data('action');
+        var button = $(this);
+
+        $.mobile.showPageLoadingMsg();
+        $.get(WEBROOT + '/mobile/headphones/artist/action/' + artistid + '/' + action, function(data) {
+            if (data.status) {
+                if (action == 'refresh') {
+                    alert('Refreshing artist.');
+                }
+                else if (action == 'remove') {
+                    document.location.href = WEBROOT + '/mobile/headphones/all/';
+                }
+                else {
+                    document.location.href = WEBROOT + '/mobile/headphones/artist/' + artistid;
+                }
+            }
+            else {
+                alert('Failed to '+ action +' artist.');
+            }
+            $.mobile.hidePageLoadingMsg();
+        });
+    });
+
+    $(document).on('change', '#headphones #album_status select', function() {
+        $.mobile.showPageLoadingMsg();
+        $.get(WEBROOT + '/mobile/headphones/album/' + $(this).data('id') + '/' + $(this).val(), function(data) {
+            if (data.status) {
+                alert('Album status changed.');
+            }
+            else {
+                alert('Failed to change album status.');
             }
             $.mobile.hidePageLoadingMsg();
         });

@@ -489,10 +489,17 @@ def headphones_search(type, query=None):
     )
 
 
-@app.route('/mobile/headphones/action/<artistid>/<action>/')
+@app.route('/mobile/headphones/artist/action/<artistid>/<action>/')
 def headphones_artist_action(artistid, action):
     result = xhr_headphones_artist_action(artistid, action, mobile=True)
     return result
+
+
+@app.route('/mobile/headphones/album/<albumid>/<status>/')
+def headphones_album_status(albumid, status):
+    result = xhr_headphones_album_status(albumid, status, mobile=True)
+    return result
+
 
 from modules.sabnzbd import sabnzbd_api
 
