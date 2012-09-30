@@ -127,6 +127,34 @@ $(document).ready(function () {
         });
     });
 
+      //////////////////
+     //  Headphones  //
+    //////////////////
+
+
+
+    $(document).on('keypress', '#headphones input#search', function(e) {
+        if (e.which == 13) {
+            $.mobile.showPageLoadingMsg();
+
+            var media = $(this).data('media');
+            document.location.href = WEBROOT + '/mobile/headphones/search/' + media + '/' + $(this).val();
+        }
+    });
+
+    $(document).on('click', '#headphones #results li', function() {
+        $.mobile.showPageLoadingMsg();
+        $.get(WEBROOT + '/mobile/headphones/action/' + $(this).data('id') + '/add/', function(data) {
+            if (data.status) {
+                alert('Artist is being added.');
+            }
+            else {
+                alert('Failed to add artist.');
+            }
+            $.mobile.hidePageLoadingMsg();
+        });
+    });
+
       ////////////////
      //  SabNZBd+  //
     ////////////////

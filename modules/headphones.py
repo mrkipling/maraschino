@@ -292,7 +292,7 @@ def xhr_headphones_history(mobile=False):
 
 @app.route('/xhr/headphones/search/<type>/<query>/')
 @requires_auth
-def xhr_headphones_search(type, query):
+def xhr_headphones_search(type, query, mobile=False):
     if type == 'artist':
         logger.log('HEADPHONES :: Searching for artist', 'INFO')
         command = 'findArtist&name=%s' % urllib.quote(query)
@@ -308,6 +308,9 @@ def xhr_headphones_search(type, query):
     for artist in headphones:
         artist['url'].replace('\/', '/')
 
+        if mobile:
+            return headphones
+
     return render_template('headphones-search_dialog.html',
         headphones=True,
         search=headphones,
@@ -317,7 +320,7 @@ def xhr_headphones_search(type, query):
 
 @app.route('/xhr/headphones/artist/<artistid>/<action>/')
 @requires_auth
-def xhr_headphones_artist_action(artistid, action):
+def xhr_headphones_artist_action(artistid, action, mobile=False):
     if action == 'pause':
         logger.log('HEADPHONES :: Pausing artist', 'INFO')
         command = 'pauseArtist&id=%s' % artistid
@@ -344,6 +347,10 @@ def xhr_headphones_artist_action(artistid, action):
         else:
             Thread(target=headphones_api, args=(command, False)).start()
     except Exception as e:
+        if mobile:
+            headphones_exception(e)
+            return jsonify(error='failed')
+
         return headphones_exception(e)
 
     return jsonify(status='successful')

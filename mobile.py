@@ -480,13 +480,19 @@ def headphones_artist(artistid):
 def headphones_search(type, query=None):
     results = None
     if query:
-        pass
+        results = xhr_headphones_search(type, query, mobile=True)
 
     return render_template('mobile/headphones/search.html',
         type=type,
         results=results,
         query=query
     )
+
+
+@app.route('/mobile/headphones/action/<artistid>/<action>/')
+def headphones_artist_action(artistid, action):
+    result = xhr_headphones_artist_action(artistid, action, mobile=True)
+    return result
 
 from modules.sabnzbd import sabnzbd_api
 
