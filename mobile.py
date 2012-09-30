@@ -17,7 +17,8 @@ sabnzbd_history_slots = sabnzbd_queue_slots = None
 @app.route('/mobile/')
 @requires_auth
 def mobile_index():
-    return render_template('mobile/index.html', webroot=maraschino.WEBROOT)
+    available_modules = Module.query.order_by(Module.position)
+    return render_template('mobile/index.html', available_modules=available_modules)
 
 
 @app.route('/mobile/recent_episodes/')
