@@ -244,6 +244,7 @@ def sickbeard_season(id, season):
 
         if sickbeard['result'].rfind('success') >= 0:
             sickbeard = sickbeard['data']
+            numbers = sorted(sickbeard, key=int)
 
     except Exception as e:
         logger.log('Could not retrieve sickbeard - %s]' % (e), 'WARNING')
@@ -253,7 +254,7 @@ def sickbeard_season(id, season):
         season_number=season,
         season=sickbeard,
         id=id,
-        webroot=maraschino.WEBROOT,
+        numbers=numbers,
     )
 
 

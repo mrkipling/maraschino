@@ -18,7 +18,7 @@
 
 {% block content %}
   <ul data-role="listview">
-    {%for episode in season|sort %}
+    {% for episode in numbers %}
       <li {% if season[episode].status == 'Downloaded' %}data-theme="b" data-icon="check" {% else %} data-icon="delete" {% endif %}>
         <a href="{{ url_for('sickbeard_episode', id=id, season=season_number, episode=episode) }}">
           <h2>{{episode}}. {{season[episode].name}}</h2>
