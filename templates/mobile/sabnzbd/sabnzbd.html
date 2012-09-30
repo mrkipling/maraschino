@@ -2,8 +2,22 @@
 
 {% block header %}<h1>SabNZBd+</h1>{% endblock %}
 
+{% block navbar%}
+{% if queue.status == 'Paused' %}
+    {% set action = 'resume' %}
+{% else %}
+    {% set action = 'pause' %}
+{% endif %}
+<div data-role="navbar">
+    <ul>
+      <li><a href="#" data-url="{{ url_for('sabnzb_queue', action=action)}}">{{queue.status}}</a></li>
+      <li><a href="#">{{download_speed}}</a></li>
+      <li><a>{{queue.timeleft}}</a></li>
+    </ul>
+</div>
+{% endblock %}
+
 {% block content %}
-<div>{{queue.status}}</div><br>
 <ul id="sabnzbd" data-role="listview" data-filter="true">
   {% for item in queue.slots %}
       <li data-id="{{ item.nzo_id }}">
