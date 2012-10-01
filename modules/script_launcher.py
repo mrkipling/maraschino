@@ -31,9 +31,9 @@ def xhr_script_launcher():
 
 @app.route('/xhr/script_launcher/script_status/<script_id>', methods=['GET', 'POST'])
 def xhr_script_status(script_id):
-    
+
     status = request.form['status']
-    
+
     if status == '':
         return jsonify({ 'status': 'error: there was no status passed in' })
 
@@ -47,7 +47,7 @@ def xhr_script_status(script_id):
     except:
         logger.log('SCRIPT_LAUNCHER :: Add Failed', 'ERROR')
         return jsonify({ 'status': 'error' })
-    
+
     return xhr_script_launcher()
 
 
@@ -61,35 +61,35 @@ def xhr_start_script(script_id):
     now = datetime.datetime.now()
 
     command = os.path.join(maraschino.SCRIPT_DIR,script.script)
-    
+
     if (script.parameters):
         command = ''.join([command, ' ', script.parameters])
-    
+
     #Parameters needed for scripts that update
     host = maraschino.HOST
     port = maraschino.PORT
     webroot = maraschino.WEBROOT
-    
+
     if not webroot:
         webroot = '/'
-    
+
     file_ext = os.path.splitext(script.script)[1]
-    
+
     if (file_ext == '.py'):
         if (script.updates == 1):        
             #these are extra parameters to be passed to any scripts ran, so they 
             #can update the status if necessary
             extras = '--i "%s" --p "%s" --s "%s" --w "%s"' % (host, port, script.id, webroot)
-            
+
             #the command in all its glory
             command = ''.join([command, ' ', extras])
             script.status="Script Started at: %s" % now.strftime("%m-%d-%Y %H:%M")
         else:
             script.status="Last Ran: %s" % now.strftime("%m-%d-%Y %H:%M")
-        
+
         command =  ''.join(['python ', command])
-        
-    elif (file_ext in ['.sh', '.pl']):
+
+    elif (file_ext in ['.sh', '.pl', '.cmd']):
         if (script.updates == 1):
             extras = '%s %s %s %s' % (host, port, script.id, webroot)
             #the command in all its glory
@@ -97,17 +97,21 @@ def xhr_start_script(script_id):
             script.status="Script Started at: %s" % now.strftime("%m-%d-%Y %H:%M")
         else:
             script.status="Last Ran: %s" % now.strftime("%m-%d-%Y %H:%M")
-        
+
         if(file_ext == '.pl'):
             command = ''.join(['perl ', command])
-        
+
+        if(file_ext == '.cmd'):
+            command = ''.join([command])
+
+
     logger.log('SCRIPT_LAUNCHER :: %s' % command, 'INFO')
     #now run the command
     subprocess.Popen(command, shell=True)
-    
+
     db_session.add(script)
     db_session.commit()
-    
+
     return xhr_script_launcher()    
 
 @app.route('/xhr/add_script_dialog')
@@ -124,7 +128,7 @@ def add_edit_script_dialog(script_id=None):
     script = None
     script_files = get_file_list(
         folder = maraschino.SCRIPT_DIR,
-        extensions = ['.py', '.sh', '.pl'],
+        extensions = ['.py', '.sh', '.pl', '.cmd'],
         prepend_path = False,
         prepend_path_minus_root = True
     )
@@ -146,8 +150,8 @@ def add_edit_script():
     label = request.form['label']
     parameters = request.form['parameters']
     updates = 0
-    
-    
+
+
     try:
         if (request.form['type']):
             updates = 1
@@ -158,7 +162,7 @@ def add_edit_script():
         return jsonify({ 'status': 'Command Required' })
     if label == '':
         return jsonify({ 'status': 'Label Required' })
-    
+
     #figure out if it is a new script or existing script
     if 'script_id' in request.form:
         db_script = Script.query.filter(Script.id == request.form['script_id']).first()
@@ -166,10 +170,10 @@ def add_edit_script():
         db_script.label = label
         db_script.parameters = parameters
         db_script.updates = updates
-        
+
     else:
         db_script = Script(label,script, parameters,updates)
-        
+
     #save it to the database
     try:
         db_session.add(db_script)
@@ -177,7 +181,7 @@ def add_edit_script():
     except Exception, e:
         logger.log('SCRIPT_LAUNCHER :: Add Failed', 'ERROR')
         return jsonify({ 'status': 'Add Failed' })
-    
+
     return xhr_script_launcher()
 
 
@@ -192,8 +196,5 @@ def delete_script(script_id):
     except:
         logger.log('SCRIPT_LAUNCHER :: Delete Failed', 'ERROR')
         return jsonify({ 'status': 'Delete Failed' })
-    
-    return xhr_script_launcher()
 
-    
-    
+    return xhr_script_launcher()
