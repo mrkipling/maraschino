@@ -78,8 +78,10 @@ def recently_added_albums():
 @app.route('/mobile/xbmc/')
 @requires_auth
 def xbmc():
+    available_modules = Module.query.order_by(Module.position)
     return render_template('mobile/xbmc/xbmc.html',
         webroot=maraschino.WEBROOT,
+        available_modules=available_modules
     )
 
 
