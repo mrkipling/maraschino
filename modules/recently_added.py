@@ -142,7 +142,7 @@ def get_num_recent_albums():
         return 3
 
 
-def get_recently_added_episodes(xbmc, episode_offset=0):
+def get_recently_added_episodes(xbmc, episode_offset=0, mobile=False):
     num_recent_videos = get_num_recent_episodes()
     xbmc_label = get_recent_xbmc_label('recently_added_server')
     total_episodes = 0
@@ -184,13 +184,17 @@ def get_recently_added_episodes(xbmc, episode_offset=0):
         if get_setting_value('recently_added_watched_episodes') == '0':
             recently_added_episodes = get_unwatched(recently_added_episodes)
 
+    if mobile:
+        return [recently_added_episodes, using_db]
+
+    if recently_added_episodes:
         total_episodes = len(recently_added_episodes)
         recently_added_episodes = recently_added_episodes[episode_offset:num_recent_videos + episode_offset]
 
     return [recently_added_episodes, total_episodes, using_db]
 
 
-def get_recently_added_movies(xbmc, movie_offset=0):
+def get_recently_added_movies(xbmc, movie_offset=0, mobile=False):
     num_recent_videos = get_num_recent_movies()
     xbmc_label = get_recent_xbmc_label('recently_added_movies_server')
     total_movies = 0
@@ -232,12 +236,16 @@ def get_recently_added_movies(xbmc, movie_offset=0):
         if get_setting_value('recently_added_watched_movies') == '0':
             recently_added_movies = get_unwatched(recently_added_movies)
 
+    if mobile:
+        return [recently_added_movies, using_db]
+
+    if recently_added_movies:
         total_movies = len(recently_added_movies)
         recently_added_movies = recently_added_movies[movie_offset:num_recent_videos + movie_offset]
 
     return [recently_added_movies, total_movies, using_db]
 
-def get_recently_added_albums(xbmc, album_offset=0):
+def get_recently_added_albums(xbmc, album_offset=0, mobile=False):
     num_recent_albums = get_num_recent_albums()
     xbmc_label = get_recent_xbmc_label('recently_added_albums_server')
     using_db = False
@@ -274,7 +282,7 @@ def get_recently_added_albums(xbmc, album_offset=0):
             recently_added_movies = []
             logger.log('Failed to get recently added albums from database', 'ERROR')
 
-    if recently_added_albums:
+    if not mobile and recently_added_albums:
         recently_added_albums = recently_added_albums[album_offset:num_recent_albums + album_offset]
 
     return [recently_added_albums, using_db]

@@ -30,20 +30,19 @@ def mobile_index():
     )
 
 
+from modules.recently_added import get_recently_added_episodes, get_recently_added_movies, \
+                                   get_recently_added_albums, get_recent_xbmc_api_url
+
+
 @app.route('/mobile/recent_episodes/')
 @requires_auth
 def recently_added_episodes():
-    try:
-        xbmc = jsonrpclib.Server(server_api_address())
-        recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties=['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail', 'firstaired'])['episodes']
-        if get_setting_value('recently_added_watched_episodes') == '0':
-            recently_added_episodes = [x for x in recently_added_episodes if not x['playcount']]
-
-    except:
-        logger.log('Mobile :: XBMC :: Could not retrieve recently added episodes', 'WARNING')
+    xbmc = jsonrpclib.Server(get_recent_xbmc_api_url('recently_added_server'))
+    recently_added_episodes = get_recently_added_episodes(xbmc, mobile=True)
 
     return render_template('mobile/xbmc/recent_episodes.html',
-        recently_added_episodes=recently_added_episodes,
+        recently_added_episodes=recently_added_episodes[0],
+        using_db=recently_added_episodes[1],
         webroot=maraschino.WEBROOT
     )
 
@@ -51,18 +50,12 @@ def recently_added_episodes():
 @app.route('/mobile/recent_movies/')
 @requires_auth
 def recently_added_movies():
-
-    try:
-        xbmc = jsonrpclib.Server(server_api_address())
-        recently_added_movies = xbmc.VideoLibrary.GetRecentlyAddedMovies(properties=['title', 'rating', 'year', 'thumbnail', 'tagline', 'playcount'])['movies']
-        if get_setting_value('recently_added_watched_movies') == '0':
-            recently_added_movies = [x for x in recently_added_movies if not x['playcount']]
-
-    except:
-        logger.log('Mobile :: XBMC :: Could not retrieve recently added movies', 'WARNING')
+    xbmc = jsonrpclib.Server(get_recent_xbmc_api_url('recently_added_movies_server'))
+    recently_added_movies = get_recently_added_movies(xbmc, mobile=True)
 
     return render_template('mobile/xbmc/recent_movies.html',
-        recently_added_movies=recently_added_movies,
+        recently_added_movies=recently_added_movies[0],
+        using_db=recently_added_movies[1],
         webroot=maraschino.WEBROOT
     )
 
@@ -70,16 +63,12 @@ def recently_added_movies():
 @app.route('/mobile/recent_albums/')
 @requires_auth
 def recently_added_albums():
-
-    try:
-        xbmc = jsonrpclib.Server(server_api_address())
-        recently_added_albums = xbmc.AudioLibrary.GetRecentlyAddedAlbums(properties=['title', 'rating', 'thumbnail', 'artist'])['albums']
-
-    except:
-        logger.log('Mobile :: XBMC :: Could not retrieve recently added albums', 'WARNING')
+    xbmc = jsonrpclib.Server(get_recent_xbmc_api_url('recently_added_albums_server'))
+    recently_added_albums = get_recently_added_albums(xbmc, mobile=True)
 
     return render_template('mobile/xbmc/recent_albums.html',
-        recently_added_albums=recently_added_albums,
+        recently_added_albums=recently_added_albums[0],
+        using_db=recently_added_albums[1],
         webroot=maraschino.WEBROOT
     )
 
