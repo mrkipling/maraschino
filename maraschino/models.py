@@ -66,7 +66,7 @@ class Application(Base):
 
 
 class Disk(Base):
-    """Table for one disk in the diskspace module"""
+    """Old diskspace module table. No longer in use."""
     __tablename__ = 'disks'
     id = Column(Integer, primary_key=True)
     path = Column(String(500))
@@ -82,6 +82,26 @@ class Disk(Base):
 
     def __repr__(self):
         return '<Disk %r>' % (self.path)
+
+
+class HardDisk(Base):
+    """Table for one disk in the diskspace module"""
+    __tablename__ = 'disks2'
+    id = Column(Integer, primary_key=True)
+    data = Column(PickleType)
+    position = Column(Integer)
+
+
+    def __init__(self, data={}, position=None):
+        self.data = data
+
+        if position == None:
+            self.position = highest_position(HardDisk)
+        else:
+            self.position = position
+
+    def __repr__(self):
+        return '<HardDisk %r>' % (self.position)
 
 
 class XbmcServer(Base):
