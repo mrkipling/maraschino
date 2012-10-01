@@ -131,8 +131,6 @@ $(document).ready(function () {
      //  Headphones  //
     //////////////////
 
-
-
     $(document).on('keypress', '#headphones input#search', function(e) {
         if (e.which == 13) {
             $.mobile.showPageLoadingMsg();
