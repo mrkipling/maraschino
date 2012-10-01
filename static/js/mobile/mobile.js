@@ -131,8 +131,6 @@ $(document).ready(function () {
      //  SabNZBd+  //
     ////////////////
 
-                                                    
-
     $(document).on('click', '#sabnzbd_navbar #action,' + // resume/pause queue
         '#sabnzbd_item #sabnzbd_item_navbar #action,' + // resume/pause item
         '#sabnzbd_item #delete,' + // delete item
@@ -145,5 +143,49 @@ $(document).ready(function () {
                 $.get(window.location.reload());
             }
         });
+    });
+
+    $(document).on('click', '#sabnzbd_navbar #speed', function() {
+          $('.speed_popup').simpledialog2();
+    });
+    
+    $(document).on('click', '#speed_popup li', function() {
+        $.mobile.showPageLoadingMsg();
+        $.get($(this).data('url'), function(data) {
+            if(data.status){
+                $.get(window.location.reload());
+            }
+        });
+    });
+
+    $(document).on('click keypress', '#speed_popup li input', function(e) {
+        e.stopPropagation();
+        if(e.which == 13){
+            $.mobile.showPageLoadingMsg();
+            var speed = $(this).val();
+            $.get(WEBROOT + '/xhr/sabnzbd/speedlimit/' + speed, function(data) {
+                if(data.status){
+                    $.get(window.location.reload());
+                }
+            });
+        }
+    });
+
+    $('#sabnzbd li').swipeDelete({
+        direction: 'swiperight', // standard jquery mobile event name
+        btnLabel: 'Delete',
+        btnTheme: 'r',
+        btnClass: 'aSwipeBtn',
+        click: function(e){
+            e.preventDefault();
+            $.mobile.showPageLoadingMsg();
+            var li = $(this).parents('li');
+            $.get(li.data('delete-url'), function(data) {
+                $.mobile.hidePageLoadingMsg();
+                if(data.status){
+                    li.remove();
+                }
+            });
+        }
     });
 });

@@ -1,0 +1,21 @@
+/*
+	Name: jquery.swipeButton.css
+	Author: Andy andyMatthews
+	Website: http://andyMatthews.net
+	Packed With: http://jsutility.pjoneil.net/
+	Version: 1.0.1
+*/
+li[data-delete-url] .aSwipeBtn {
+	float: right;
+	font-size: 12px;
+	margin: 10% 5% 0 0;
+	padding: 0;
+	z-index: 100;
+	border-radius: .5em;
+}
+	li[data-delete-url] .aSwipeBtn .ui-btn-inner {
+		padding: 0.6em .9em;
+	}
+	li[data-delete-url] .aSwipeBtn .ui-btn-corner-all {
+		border-radius: .5em;
+	}
