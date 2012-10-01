@@ -5,6 +5,10 @@
 {% block content %}
 
 <ul id="recent_episodes" data-role="listview">
+  {% if using_db %}
+    <li data-role="list-devider" data-theme="a">XBMC is offline.</li>
+  {% endif %}
+
   {% for episode in recently_added_episodes %}
       <li data-icon="{{ 'check' if episode.playcount else 'false' }}">
         <a class="inner play" href="#" data-episodeid="{{ episode.episodeid }}">
