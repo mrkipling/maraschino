@@ -14,21 +14,11 @@
 {% block content %}
 
 <ul data-role="listview">
-  {% for module in available_modules %}
-    {% if module.name == 'recently_added' %}
-      <li><a href="{{ webroot }}/mobile/recent_episodes/">Recently added episodes</a></li>
-    {% endif %}
-    {% if module.name == 'recently_added_movies' %}
-      <li><a href="{{ webroot }}/mobile/recent_movies/">Recently added movies</a></li>
-    {% endif %}
-    {% if module.name == 'recently_added_albums' %}
-      <li><a href="{{ webroot }}/mobile/recent_albums/">Recently added albums</a></li>
-    {% endif %}
-    {% if module.name == 'library' %}
-      <li><a href="{{ webroot }}/mobile/movie_library/">Movies</a></li>
-      <li><a href="{{ webroot }}/mobile/tv_library/">TV Shows</a></li>
-    {% endif %}
-  {% endfor %}
+    <li><a href="{{ webroot }}/mobile/recent_episodes/">Recently added episodes</a></li>
+    <li><a href="{{ webroot }}/mobile/recent_movies/">Recently added movies</a></li>
+    <li><a href="{{ webroot }}/mobile/recent_albums/">Recently added albums</a></li>
+    <li><a href="{{ webroot }}/mobile/movie_library/">Movies</a></li>
+    <li><a href="{{ webroot }}/mobile/tv_library/">TV Shows</a></li>
 </ul>
 
 {% endblock %}

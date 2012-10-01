@@ -17,8 +17,17 @@ sabnzbd_history_slots = sabnzbd_queue_slots = None
 @app.route('/mobile/')
 @requires_auth
 def mobile_index():
+    xbmc = True
     available_modules = Module.query.order_by(Module.position)
-    return render_template('mobile/index.html', available_modules=available_modules)
+
+    servers = XbmcServer.query.order_by(XbmcServer.position)
+    if servers.count() == 0:
+        xbmc = False
+
+    return render_template('mobile/index.html',
+        available_modules=available_modules,
+        xbmc=xbmc
+    )
 
 
 @app.route('/mobile/recent_episodes/')
@@ -78,10 +87,8 @@ def recently_added_albums():
 @app.route('/mobile/xbmc/')
 @requires_auth
 def xbmc():
-    available_modules = Module.query.order_by(Module.position)
     return render_template('mobile/xbmc/xbmc.html',
         webroot=maraschino.WEBROOT,
-        available_modules=available_modules
     )
 
 
