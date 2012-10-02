@@ -1,0 +1,57 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+{% endblock %}
+
+{% block header %}<h1>Search Music</h1>{% endblock %}
+
+{% block navbar %}
+<div data-role="navbar">
+  <ul>
+    <li><a href="{{ url_for('headphones_wanted') }}">Wanted</a></li>
+    <li><a href="{{ url_for('headphones_all') }}">All</a></li>
+    <li><a href="{{ url_for('headphones_history') }}">History</a></li>
+  </ul>
+  <ul>
+    <li>
+      {% if type == 'artist' %}
+        <a href="#" class="ui-btn-active ui-state-persist">Artist</a>
+      {% else %}
+        <a href="{{ url_for('headphones_search', type='artist') }}">Artist</a>
+      {% endif %}
+    </li>
+    <li>
+      {% if type == 'album' %}
+        <a href="#" class="ui-btn-active ui-state-persist">Album</a>
+      {% else %}
+        <a href="{{ url_for('headphones_search', type='album') }}">Album</a>
+      {% endif %}
+    </li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="headphones">
+    <input
+      type="search"
+      id="search"
+      placeholder="{{ type|title }}"
+      value="{% if not query == None %}{{ query }}{% endif %}"
+      data-media="{{ type }}"
+    />
+    <br><br>
+    {% if results %}
+      <ul id="results" data-role="listview">
+        {% for artist in results %}
+          <li data-id="{{ artist.id }}">
+            <a href="#">
+              <h2>{{ artist.uniquename }}</h2>
+              <p><b>Score:</b> {{ artist.score }}</p>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+</div>
+{% endblock %}

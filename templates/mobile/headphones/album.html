@@ -1,0 +1,58 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a class="search" href="{{ url_for('headphones_search', type='artist') }}">+</a>
+{% endblock %}
+
+{% block header %}<h1>{{ album.album.0.ArtistName }}</h1>{% endblock %}
+
+{% block navbar %}
+<div data-role="navbar">
+  <ul>
+    <li><a href="{{ url_for('headphones_wanted') }}">Wanted</a></li>
+    <li><a href="{{ url_for('headphones_all') }}">All</a></li>
+    <li><a href="{{ url_for('headphones_history') }}">History</a></li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="headphones">
+
+  <ul data-role="listview">
+
+    <li id="album_status">
+      <select data-native-menu="false" data-id="{{ album.album.0.AlbumID }}">
+        <option {% if album.album.0.Status == 'Wanted' %}selected{% endif %} value="wanted">Wanted</option>
+        <option value="wanted_new">Wanted (new)</option>
+        <option {% if album.album.0.Status == 'Skipped' %}selected{% endif %} value="skipped">Skipped</option>
+        {% if album.album.0.Status =='Downloaded' %}
+          <option value="" selected>Downloaded</option>
+        {% elif album.album.0.Status =='Snatched' %}
+          <option value="" selected>Snatched</option>
+        {% endif %}
+      </select>
+    </li>
+
+    <li id="album_info">
+      <h2>{{ album.album.0.AlbumTitle }}</h2>
+      <img src="{{ album.album.0.ThumbURL }}">
+      <div>
+        <small>
+          <b>Released:</b> {{ album.album.0.ReleaseDate }}<br>
+          <b>Type:</b> {{ album.album.0.Type }}<br>
+          <b>Duration:</b> {{ album.album.0.TotalDuration }}<br>
+          <b>Tracks:</b> {{ album.album.0.Tracks }}<br>
+        </small>
+      </div>
+    </li>
+
+    {% for track in album.tracks %}
+      <li {% if track.Location %}data-icon="check"{% else %}data-icon="delete"{% endif %}>
+        <a href="#">{{ "%02d"|format(track.TrackNumber) }} - {{ track.TrackTitle }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+</div>
+{% endblock %}

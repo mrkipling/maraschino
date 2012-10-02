@@ -1,5 +1,16 @@
 $(document).ready(function () {
     $.mobile.defaultPageTransition = 'slide';
+
+    function popup_message(message) {
+        $('<div>').simpledialog2({
+            mode: 'blank',
+            blankContent :
+                "<div style='text-align:center;padding:10px;'>"+message+"</div>"+
+                "<a rel='close' data-role='button' href='#'>OK</a>"
+        });
+    }
+
+
       ////////////
      //  XBMC  //
     ////////////
@@ -57,7 +68,7 @@ $(document).ready(function () {
                 $(this).attr('data-theme', 'c').removeClass('ui-body-e').addClass('ui-body-c');
                 $('#unread').text($('#unread').text()-1);
             } else {
-                alert('Failed to mark notification as read');
+                popup_message('Failed to mark notification as read');
             }
         });
     });
@@ -77,9 +88,9 @@ $(document).ready(function () {
         $.mobile.showPageLoadingMsg();
         $.get(WEBROOT + '/xhr/couchpotato/add_movie/' + $(this).data('id') + '/' +  $(this).data('title'), function(data) {
             if(data.success){
-                alert('Movie successfully added to CouchPotato');
+                popup_message('Movie successfully added to CouchPotato');
             } else {
-                alert('Failed to add movie');
+                popup_message('Failed to add movie');
             }
             $.mobile.hidePageLoadingMsg();
         });
@@ -103,7 +114,7 @@ $(document).ready(function () {
     $(document).on('click', '#sickbeard #results li', function() {
         $.mobile.showPageLoadingMsg();
         $.get(WEBROOT + '/sickbeard/add_show/' + $(this).data('id'), function(data) {
-            alert(data);
+            popup_message(data);
             $.mobile.hidePageLoadingMsg();
         });
     });
@@ -114,7 +125,7 @@ $(document).ready(function () {
         $.mobile.showPageLoadingMsg();
         action = $(this).attr('id');
         $.get(WEBROOT + '/sickbeard/' + action + '_show/' + $(this).data('id'), function(data) {
-            alert(data);
+            popup_message(data);
             $.mobile.hidePageLoadingMsg();
         });
     });
@@ -122,7 +133,71 @@ $(document).ready(function () {
     $(document).on('click', '#sickbeard.episode #control a#search', function() {
         $.mobile.showPageLoadingMsg();
         $.get($(this).data('url'), function(data) {
-            alert(data);
+           popup_message(data);
+           $.mobile.hidePageLoadingMsg();
+        });
+    });
+
+      //////////////////
+     //  Headphones  //
+    //////////////////
+
+    $(document).on('keypress', '#headphones input#search', function(e) {
+        if (e.which == 13) {
+            $.mobile.showPageLoadingMsg();
+
+            var media = $(this).data('media');
+            document.location.href = WEBROOT + '/mobile/headphones/search/' + media + '/' + $(this).val();
+        }
+    });
+
+    $(document).on('click', '#headphones #results li', function() {
+        $.mobile.showPageLoadingMsg();
+        $.get(WEBROOT + '/mobile/headphones/artist/action/' + $(this).data('id') + '/add/', function(data) {
+            if (data.status) {
+                popup_message('Artist is being added.');
+            }
+            else {
+                popup_message('Failed to add artist.');
+            }
+            $.mobile.hidePageLoadingMsg();
+        });
+    });
+
+    $(document).on('click', '#headphones #control a', function() {
+        var artistid = $('#headphones #control').data('id');
+        var action = $(this).data('action');
+        var button = $(this);
+
+        $.mobile.showPageLoadingMsg();
+        $.get(WEBROOT + '/mobile/headphones/artist/action/' + artistid + '/' + action, function(data) {
+            if (data.status) {
+                if (action == 'refresh') {
+                    popup_message('Refreshing artist.');
+                }
+                else if (action == 'remove') {
+                    document.location.href = WEBROOT + '/mobile/headphones/all/';
+                }
+                else {
+                    document.location.href = WEBROOT + '/mobile/headphones/artist/' + artistid;
+                }
+            }
+            else {
+                popup_message('Failed to '+ action +' artist.');
+            }
+            $.mobile.hidePageLoadingMsg();
+        });
+    });
+
+    $(document).on('change', '#headphones #album_status select', function() {
+        $.mobile.showPageLoadingMsg();
+        $.get(WEBROOT + '/mobile/headphones/album/' + $(this).data('id') + '/' + $(this).val(), function(data) {
+            if (data.status) {
+                popup_message('Album status changed.');
+            }
+            else {
+                popup_message('Failed to change album status.');
+            }
             $.mobile.hidePageLoadingMsg();
         });
     });
