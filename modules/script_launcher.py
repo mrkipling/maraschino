@@ -117,6 +117,7 @@ def xhr_start_script(script_id):
 @app.route('/xhr/add_script_dialog')
 @requires_auth
 def add_script_dialog():
+    logger.log('SCRIPT_LAUNCHER :: add_script_dialog', 'DEBUG')
     return add_edit_script_dialog()
 
 @app.route('/xhr/edit_script_dialog/<script_id>')
@@ -125,19 +126,23 @@ def edit_script_dialog(script_id):
     return add_edit_script_dialog(script_id)
 
 def add_edit_script_dialog(script_id=None):
+    logger.log('SCRIPT_LAUNCHER :: add_edit_script_dialog', 'DEBUG')
     script = None
+    logger.log('SCRIPT_LAUNCHER :: Getting file list', 'DEBUG')
     script_files = get_file_list(
         folder = maraschino.SCRIPT_DIR,
         extensions = ['.py', '.sh', '.pl', '.cmd'],
         prepend_path = False,
         prepend_path_minus_root = True
     )
+    logger.log('SCRIPT_LAUNCHER :: Have file list', 'DEBUG')
     if script_id:
         try:
             script = Script.query.filter(Script.id == script_id).first()
         except:
             pass
 
+    logger.log('SCRIPT_LAUNCHER :: Rendering remplate add_edit_script_dialog.html', 'DEBUG')
     return render_template('add_edit_script_dialog.html',
         script = script, script_files = script_files,
     )
