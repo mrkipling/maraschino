@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+    $.mobile.defaultPageTransition = 'slide';
       ////////////
      //  XBMC  //
     ////////////
