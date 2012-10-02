@@ -4,7 +4,11 @@
 
 {% block content %}
 
-<ul id="recent_movies" data-role="listview">
+<ul id="recent_movies" data-role="listview" data-divider-theme="e">
+  {% if using_db %}
+    <li data-role="list-divider" style="height: 20px;">XBMC is offline.</li>
+  {% endif %}
+
   {% for movie in recently_added_movies %}
       <li data-icon="{{ 'check' if movie.playcount else 'false' }}">
         <a class="inner play" href="#" data-movieid="{{ movie.movieid }}">

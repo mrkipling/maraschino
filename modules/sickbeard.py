@@ -104,13 +104,9 @@ def search_ep(tvdbid, season, episode):
 
     try:
         sickbeard = sickbeard_api(params)
+        return jsonify(sickbeard)
     except:
-        raise Exception
-
-    if sickbeard['result'].rfind('success') >= 0:
-        return sickbeard
-
-    return ''
+        return jsonify({'result': False})
 
 
 @app.route('/sickbeard/get_plot/<tvdbid>/<season>/<episode>/')

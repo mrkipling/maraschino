@@ -907,6 +907,11 @@ $(document).ready(function() {
 
   /*** SICKBEARD ***/
 
+  // Loading wheel on menu click
+  $(document).on('click', '#sickbeard .menu li', function() {
+    $(this).children().css('background', 'url('+WEBROOT+'/static/images/xhrloading.gif) no-repeat center').html('&nbsp;');
+  });
+
   // Search Episode Functionality on Magnifying Glass png
 
   $(document).on('click', '#sickbeard .coming_ep div.options img.search', function(){
@@ -916,14 +921,14 @@ $(document).ready(function() {
     var id = $(this).attr('id');
     $.get(WEBROOT + '/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
     .success(function(data){
-      if(data){
+      if(data.result === 'success'){
         $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src', WEBROOT + '/static/images/yes.png');
       } else {
         $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src', WEBROOT + '/static/images/no.png');
       }
     })
     .error(function(){
-      popup_message('Could not reach Sick-Beard.');
+      popup_message('Could not reach SickBeard.');
     });
   });
 
@@ -1213,7 +1218,7 @@ $(document).ready(function() {
       }
     })
     .error(function(){
-      popup_message('There was a problem with Sick-Beard.');
+      popup_message('There was a problem with SickBeard.');
     });
   });
 
@@ -1231,7 +1236,7 @@ $(document).ready(function() {
       }
     })
     .error(function(){
-      popup_message('There was a problem with Sick-Beard.');
+      popup_message('There was a problem with SickBeard.');
     });
   });
 
@@ -1372,9 +1377,65 @@ $(document).ready(function() {
     });
   });
 
+
+  $(document).on('mouseenter', '#sabnzbd .status img', function(){
+    $('#sabnzbd .pause_list').show();
+    });
+
+  $(document).on('mouseleave', '#sabnzbd .status', function(){
+    $('#sabnzbd .pause_list').hide();
+    });
+
+  $(document).on('click', '#sabnzbd .status .pause_time', function(e){
+    e.stopPropagation();
+    var time = $(this).data('time');
+    $.get(WEBROOT + '/xhr/sabnzbd/queue/pause/'+time)
+    .success(function(data){
+      $('#sabnzbd .pause_list').hide();
+      if(data.status == 'true'){
+        get_module('sabnzbd', { poll:10, params: [ 'show' ] });
+      }
+    })
+    .error(function(){
+      popup_message('Problem reaching Maraschino on /xhr/sabnzbd/queue/pause/'+time);
+    });
+  });
+
+  $(document).on('click', '#sabnzbd .status .pause_for', function(){
+    $.get(WEBROOT + '/xhr/sabnzbd/custom_pause/', function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
+  $(document).on('click', '#sabnzbd_pause_dialog .save_pause', function(){
+    var time = $('#sabnzbd_pause_dialog input').val();
+    if (time) {
+      $('#sabnzbd_pause_dialog .close').click();
+
+      $.get(WEBROOT + '/xhr/sabnzbd/queue/pause/'+time)
+      .success(function(data){
+        $('#sabnzbd .pause_list').hide();
+        if(data.status == 'true'){
+          get_module('sabnzbd', { poll:10, params: [ 'show' ] });
+        }
+      })
+      .error(function(){
+        popup_message('Problem reaching Maraschino on /xhr/sabnzbd/queue/pause/'+time);
+      });
+    }
+  });
+
   /********* END SABNZBD ***********/
 
   /********* CouchPotato **********/
+
+  // Loading wheel on menu click
+  $(document).on('click', '#couchpotato .menu li', function() {
+    $(this).children().css('background', 'url('+WEBROOT+'/static/images/xhrloading.gif) no-repeat center').html('&nbsp;');
+  });
+
   // menu wanted click
   $(document).on('click', '#couchpotato .menu .wanted', function(){
     $.get(WEBROOT + '/xhr/couchpotato/')
@@ -1923,14 +1984,14 @@ $(document).ready(function() {
     var type = poster.data('type');
     var rating = $(this).data('rating');
     var data = poster.dataset();
+    var unrate = false;
 
     if (button.hasClass('rated')) {
       data['rating'] = 'unrate';
-      var unrate = true;
+      unrate = true;
     }
     else {
       data['rating'] = rating;
-      var unrate = false;
     }
 
     button.css('background', 'url(' + WEBROOT + '/static/images/xhrloading.gif)');
@@ -1938,14 +1999,14 @@ $(document).ready(function() {
       if (data.status == 'successful') {
         if (unrate) {
           poster.find('.'+rating).remove();
-          button.removeClass('rated')
-          button.attr('title', title_str(rating) + 'd')
+          button.removeClass('rated');
+          button.attr('title', title_str(rating) + 'd');
           popup_message(type + ' successfully unrated');
         }
         else {
           poster.append('<div class="' + rating + '"></div>');
           button.addClass('rated');
-          button.attr('title', 'Unrate')
+          button.attr('title', 'Unrate');
           popup_message(type + ' successfully rated as ' + rating + 'd');
         }
       }
@@ -1991,17 +2052,18 @@ $(document).ready(function() {
     var media = $('#traktplus .list_media').dataset();
     var list_select = $('#traktplus .custom_lists .list').find(':selected');
     var form = $('#traktplus .custom_lists form').serializeArray();
+    var data = {};
 
     if (list_select.val() != 'none') {
       var list = list_select.dataset();
-      var data = {
+      data = {
         media: JSON.stringify(media),
         list: JSON.stringify(list),
         exist: true
       };
     }
     else {
-      var data = {
+      data = {
         media: JSON.stringify(media),
         list: JSON.stringify(form),
         exist: false

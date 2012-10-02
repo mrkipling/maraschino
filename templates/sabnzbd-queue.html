@@ -1,7 +1,19 @@
 {% extends "sabnzbd-base.html" %}
 
 {% block sabnzbd_content %}
-  <div class="status" id="status" status="{{ sabnzbd.paused }}" title="Toggle paused/downloading">{{ sabnzbd.status }}</div>
+  <div class="status" id="status" status="{{ sabnzbd.paused }}" title="Toggle paused/downloading">
+    {{ sabnzbd.status }}
+    <img class="pause_arrow" src="{{ url_for('static', filename='images/arrow_down.png') }}">
+    <ul class="pause_list">
+      <li class="pause_time" data-time="5">Pause for 5 minutes</li>
+      <li class="pause_time" data-time="15">Pause for 15 minutes</li>
+      <li class="pause_time" data-time="30">Pause for 30 minutes</li>
+      <li class="pause_time" data-time="60">Pause for 1 hour</li>
+      <li class="pause_time" data-time="180">Pause for 3 hours</li>
+      <li class="pause_time" data-time="360">Pause for 6 hours</li>
+      <li class="pause_for">Pause for...</li>
+    </ul>
+  </div>
   <div class="speed"><input type="text" value="{{ download_speed[:-4] }}" title="Adjust Speed" size="5"/>{{ download_speed[-4:] }}</div>
 
   {% if item %}

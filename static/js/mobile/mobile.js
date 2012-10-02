@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $.mobile.defaultPageTransition = 'slide';
 
     function popup_message(message) {
         $('<div>').simpledialog2({
@@ -8,6 +9,7 @@ $(document).ready(function () {
                 "<a rel='close' data-role='button' href='#'>OK</a>"
         });
     }
+
 
       ////////////
      //  XBMC  //
@@ -131,8 +133,8 @@ $(document).ready(function () {
     $(document).on('click', '#sickbeard.episode #control a#search', function() {
         $.mobile.showPageLoadingMsg();
         $.get($(this).data('url'), function(data) {
-            popup_message(data);
-            $.mobile.hidePageLoadingMsg();
+           popup_message(data);
+           $.mobile.hidePageLoadingMsg();
         });
     });
 
