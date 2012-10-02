@@ -6,12 +6,18 @@
   <h2>Recently Added Episodes</h2>
 
   {% if recently_added_episodes %}
+    {% if using_db %}
+      <p class="problem">There was a problem connecting to the XBMC server. Showing last known results.</p>
+    {% endif %}
+
     {% if compact_view %}
     <div class="compact">
     {% endif %}
       <ul class="episodes listfix">
         {% for episode in recently_added_episodes %}
-          {% if view_info %}
+          {% if using_db %}
+            <li title="{{ episode.showtitle }} - {{ episode.title }}" {% if episode.playcount %} class="watched"{% endif %}>
+          {% elif view_info %}
             <li id="info_episode" data-episodeid="{{ episode.episodeid }}" title="Information for {{ episode.showtitle }} - {{ episode.title }}" {% if episode.playcount %} class="watched"{% endif %}>
           {% else %}
             <li id="play_episode" data-episodeid="{{ episode.episodeid }}" title="Play {{ episode.showtitle }} - {{ episode.title }}" {% if episode.playcount %} class="watched"{% endif %}>
@@ -19,7 +25,7 @@
 
             {% if episode.thumbnail %}
               <div class="thumbnail">
-                <img src="{{ episode.thumbnail|xbmc_image }}" alt="">
+                <img src="{{ episode.thumbnail }}" alt="">
               </div>
             {% endif %}
 

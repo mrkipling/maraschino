@@ -1,0 +1,50 @@
+{% extends "mobile/base.html" %}
+
+{% block header %}<h1>SabNZBd+</h1>{% endblock %}
+
+{% block navbar%}
+<div data-role="navbar">
+    <ul>
+      <li><a href="#" class="ui-btn-active ui-state-persist">Queue</a></li>
+      <li><a href="{{url_for('sabnzbd_history')}}">History</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+
+{% block content %}
+{% if queue.status == 'Paused' %}
+    {% set action = 'resume' %}
+{% else %}
+    {% set action = 'pause' %}
+{% endif %}
+<ul id="sabnzbd" data-role="listview" data-filter="true">
+    <div data-role="navbar" id="sabnzbd_navbar">
+        <ul>
+          <li><a href="#" data-url="{{ url_for('sabnzb_queue', action=action) }}" id="action">{{queue.status}}</a></li>
+          <li><a href="#" id="speed">{{download_speed}}</a></li>
+          <li><a>{{queue.timeleft}}</a></li>
+        </ul>
+    </div>
+    {% for item in queue.slots %}
+        <li id="{{item.nzo_id}}" data-delete-url="{{ url_for('sabnzb_individual_toggle', state='delete', id=item.nzo_id) }}">
+            <a href="{{ url_for('sabnzbd_queue_item', id=item.nzo_id) }}">
+                <h2>{{ item.filename }}</h2>
+                <p>{{ item.status }}</p>
+                <p>{{item.sizeleft}} / {{ item.size }} - {{item.percentage}}% </p>
+            </a>      
+        </li>
+    {% endfor %}
+</ul>
+<div class="speed_popup" style="display:none" data-options='{"mode":"blank","headerText":"Speed","headerClose":true,"blankContent":true}'>
+    <ul data-role="listview" id="speed_popup">
+      <li data-url=" {{ url_for('sabnzb_speed_limit', speed=0 ) }} ">Unlimited</li>
+      <li data-url=" {{ url_for('sabnzb_speed_limit', speed=10 ) }} ">10 kB/s</li>
+      <li data-url=" {{ url_for('sabnzb_speed_limit', speed=100 ) }} ">100 kB/s</li>
+      <li data-url=" {{ url_for('sabnzb_speed_limit', speed=500 ) }} ">500 kB/s</li>
+      <li data-url=" {{ url_for('sabnzb_speed_limit', speed=1000 ) }} ">1000 kB/s</li>
+      <li data-url=" {{ url_for('sabnzb_speed_limit', speed=5000 ) }} ">5000 kB/s</li>
+      <li><input type="number" placeholder="{{ queue.speedlimit }}"/></li>
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "mobile/xbmc/xbmc.html" %}
+
+{% block header %}<h1>Season {{season}}</h1>{% endblock %}
+
+{% block content %}
+
+<ul id="season" data-role="listview">
+  {% for episode in episodes %}
+      <li data-icon="{{ 'check' if episode.playcount else 'false' }}" >
+        <a class="inner play" href="#" data-tvshowid="{{ episode.tvshowid }}" data-episodeid="{{ episode.episodeid }}">
+        	<h2>{{episode.label}}</h2>
+        </a>
+      </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "traktplus/trakt-base.html" %}
+{% block trakt_title %}{{ title }}{% endblock %}
+{% block trakt_content %}
+{% if recommendations %}
+
+  <div class="trakt_choices">
+    <b>{{ type }}</b>
+    {% if type == 'Movies' %}
+      <a class="button addloading" data-xhr_url="recommendations/shows">Shows</a>
+    {% else %}
+      <a class="button addloading" data-xhr_url="recommendations/movies">Movies</a>
+    {% endif %}
+  </div>
+
+  <div class="recommendations">
+    <ul class="listfix">
+      {% for item in recommendations %}
+        <li
+          class="goto_{{ type[:-1]|lower }} addloading"
+          data-type="{{ type[:-1]|lower }}"
+          data-title="{{ item.title }}"
+          data-year="{{ item.year }}"
+          data-imdb_id="{{ item.imdb_id }}"
+          {% if type == 'Movies' %}
+            data-id="{{ item.imdb_id }}"
+            data-tmdb_id="{{ item.tmdb_id }}"
+          {% else %}
+            data-id="{{ item.tvdb_id }}"
+            data-tvdb_id="{{ item.tvdb_id }}"
+          {% endif %}
+        >
+          <div class="inner">
+
+            <div class="options">
+              <a class="media_btn dismiss" title="Dismiss">
+                <img src="{{ url_for('static', filename='images/remove_icon.png') }}" width="10" height="10"/>
+              </a>
+            </div>
+
+            <h3>{{ item.title }}</h3>
+            <img class="artwork" src="{{ item.poster }}"/>
+            <p class="info">Year: {{ item.year }}, Rating: {{ item.ratings.percentage }}%</p>
+            <p class="overview">
+              <span class="truncated">{{ item.overview|truncate(400, false) }}</span>
+              <span class="expanded" style="display: none;">{{ item.overview }}</span>
+              {% if item.overview|count > 400 %}
+                <a class="expand" href="#" title="More">[+]</a>
+              {% endif %}
+            </p>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+{% endif %}
+{% endblock %}

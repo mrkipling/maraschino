@@ -1,0 +1,23 @@
+{% extends "mobile/xbmc/xbmc.html" %}
+
+{% block header %}<h1>Recently Added Episodes</h1>{% endblock %}
+
+{% block content %}
+
+<ul id="recent_episodes" data-role="listview" data-divider-theme="e">
+  {% if using_db %}
+    <li data-role="list-divider" style="height: 20px;">XBMC is offline.</li>
+  {% endif %}
+
+  {% for episode in recently_added_episodes %}
+      <li data-icon="{{ 'check' if episode.playcount else 'false' }}">
+        <a class="inner play" href="#" data-episodeid="{{ episode.episodeid }}">
+          <div class="thumb"><img src="{{ episode.thumbnail|xbmc_image }}" alt=""></div>
+          <h2>{{ episode.showtitle }}</h2>
+          <p>{{ episode.season }}x{{ "%02d"|format(episode.episode) }} - {{ episode.title }}</p>
+        </a>
+      </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

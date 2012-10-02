@@ -1,0 +1,49 @@
+{% extends "traktplus/trakt-base.html" %}
+{% block trakt_title %}{{ title }}{% endblock %}
+{% block trakt_content %}
+{% if calendar %}
+
+<div class="trakt_choices">
+  <b>{{ type }}</b>
+  {% if type == 'My Shows' %}
+    <a class="button addloading" data-xhr_url="calendar/premieres">Premieres</a>
+    <a class="button addloading" data-xhr_url="calendar/shows">Shows</a>
+  {% elif type == 'Shows' %}
+    <a class="button addloading" data-xhr_url="calendar/my shows">My Shows</a>
+    <a class="button addloading" data-xhr_url="calendar/premieres">Premieres</a>
+  {% else %}
+    <a class="button addloading" data-xhr_url="calendar/my shows">My Shows</a>
+    <a class="button addloading" data-xhr_url="calendar/shows">Shows</a>
+  {% endif %}
+</div>
+
+<div class="calendar">
+  <ul>
+    {% for day in calendar %}
+      <span class="date"><b>{{day.episodes.0.show.air_day }} {{ day.date }}</b></span>
+      {% for item in day.episodes %}
+        <li>
+          <span class="goto_show list_link addloading" data-id="{{ item.show.imdb_id }}">
+            {{ item.show.title }}
+          </span>
+          {% if type != 'Premieres'%}
+            <span
+              class="goto_episode list_link addloading" 
+              data-id="{{ item.show.imdb_id }}" 
+              data-season="{{ item.episode.season }}"
+              data-episode="{{ item.episode.number }}"
+            >
+              {{ item.episode.season }}x{{ item.episode.number }} - {{ item.episode.title }}
+            </span>
+          {% else %}
+            Season {{ item.episode.season }}
+          {% endif %}
+          <span class="time">{{ item.show.air_time }}</span>
+        </li>
+	    {% endfor %}
+    {% endfor %}
+  </ul>
+</div>
+
+{% endif %}
+{% endblock %}

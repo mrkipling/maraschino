@@ -1,0 +1,25 @@
+{% extends "mobile/xbmc/xbmc.html" %}
+
+{% block header %}<h1>Recently Added Albums</h1>{% endblock %}
+
+{% block content %}
+
+<ul id="recent_albums" data-role="listview" data-divider-theme="e">
+  {% if using_db %}
+    <li data-role="list-divider">XBMC is offline.</li>
+  {% endif %}
+
+  {% for album in recently_added_albums %}
+      <li data-icon="false">
+        <a class="inner play" href="#" data-albumid="{{ album.albumid }}">
+          <div class="thumb"><img src="{{ album.thumbnail|xbmc_image }}" alt=""></div>
+          <span>{{album.label}}</span><br>
+          <span>{{album.artist}}</span><br>
+          <span>{{album.year}}</span><br>
+          <span>{{album.rating|float|round(1, 'common')}}</span>
+        </a>
+      </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

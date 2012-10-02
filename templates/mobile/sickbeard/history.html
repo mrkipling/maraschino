@@ -1,0 +1,28 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a class="search" href="{{ url_for('sickbeard_search') }}">+</a>
+{% endblock %}
+
+{% block header %}<h1>Sickbeard</h1>{% endblock %}
+
+{% block navbar %}
+<div data-role="navbar">
+	<ul>
+    <li><a href="{{ url_for('sickbeard') }}">Wanted</a></li>
+    <li><a href="{{ url_for('sickbeard_all') }}">All</a></li>
+		<li><a href="#" class="ui-btn-active ui-state-persist">History</a></li>
+	</ul>
+</div><!-- /navbar -->
+{% endblock %}
+
+{% block content %}
+  <ul data-role="listview">
+    {%for item in history %}
+      <li {% if item.status == 'Snatched' %} data-theme="e" {% endif %}>
+        <h2>{{ item.show_name }}</h2>
+        <p>Season {{ item.season }} - Episode {{ item.episode }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

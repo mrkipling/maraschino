@@ -1,0 +1,36 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a class="search" href="{{ url_for('sickbeard_search') }}">+</a>
+{% endblock %}
+
+{% block header %}<h1>Season {{season_number}} Episode {{episode_number}}</h1>{% endblock %}
+
+{% block navbar %}
+<div data-role="navbar">
+	<ul>
+    <li><a href="{{ url_for('sickbeard') }}">Wanted</a></li>
+    <li><a href="{{ url_for('sickbeard_all') }}">All</a></li>
+    <li><a href="{{ url_for('sickbeard_history') }}">History</a></li>
+	</ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="sickbeard" class="episode">
+  <h2> {{episode.name}} </h2>
+  <small> {{episode.status}} {% if episode.status == 'Downloaded' %} - {{episode.quality}} {% endif %}</small><br>
+  <small> {{episode.airdate}} </small><br>
+  <small> {{episode.location}} </small>
+  <p> {{episode.description}} </p>
+  <br><br>
+  <div id="control" data-role="controlgroup">
+    <a href="#" data-role="button" data-url="{{ url_for('search_ep', tvdbid=id, season=season_number, episode=episode_number) }}" id="search">Search episode</a>
+    <a href="#" data-role="button" data-id="{{ id }}" id="quality">{{episode.quality}}</a>
+    <a href="http://www.thetvdb.com/?tab=series&amp;id={{id}}" data-role="button" target="_blank">
+      <img src=" {{url_for('static', filename='images/tvdb.png') }}" height="13px"> 
+      <span>View on TVDB</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

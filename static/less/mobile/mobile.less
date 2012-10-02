@@ -1,8 +1,7 @@
 @import "../mixins.less";
 @import "../webroot.less";
 
-
-
+.ui-dialog.my-dialog .ui-dialog-contain { margin-top: 0 }
 
 /*--- header ---*/
 
@@ -24,6 +23,20 @@
 
         img {
             margin: -1px 0 0 -4px;
+        }
+    }
+
+    .search {
+        display: block;
+        position: absolute;
+        left: auto;
+        left: 10px;
+        top: 5px;
+        width: 40px;
+        height: 40px;
+        line-height: 25px;
+        span span {
+            font-size: 20px;
         }
     }
 
@@ -70,4 +83,251 @@
             }
         }
     }
+}
+
+/*--- recently added movies and movie library---*/
+
+#recent_movies, #movie_library {
+    li {
+        height: 75px;
+    }
+    .inner {
+        line-height: 60px;
+        padding-left: 70px;
+
+        .thumb {
+            height: 75px;
+            left: 1px;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            width: 150px;
+
+            img {
+                height: 75px;
+            }
+        }
+
+        span.title{
+            width: 80%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        span.rating {
+            float: right;
+        }
+    }
+}
+
+/*--- recently added albums ---*/
+
+#recent_albums {
+    .inner {
+        padding-left: 95px;
+        height: 80px;
+        .thumb {
+            left: 1px;
+            overflow: hidden;
+            position: absolute;
+            width: 85px;
+            height: 85px;
+
+            img {
+                height: 85px;
+            }
+        }
+    }
+}
+
+#movie_library {
+    .inner {
+        padding-left: 10px;
+    }
+}
+
+/*--- tv shows library---*/
+
+#tv_library {
+    li {
+        width: 100%;
+        // padding: 0px;
+        // a.inner {
+        //     width: 100%;
+        //     padding: 0px;
+        //     img {
+        //         width: 100%;
+        //     }
+        // }
+
+    }
+}
+
+/*--- couchpotato---*/
+
+#couchpotato {
+    li#wanted {
+        a.inner {
+            padding-left: 70px;
+        }
+    }
+    ul#results li {
+        padding-left: 70px;
+    }
+}
+
+/*--- sickbeard coming_episodes ---*/
+
+#coming_episodes {
+    .inner {
+        .thumb {
+            height: 75px;
+            left: 1px;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            width: 75px;
+
+            img {
+                height: 75px;
+                margin-left: -50%;
+            }
+        }
+    }
+}
+
+ul li a.badge span.ui-li-count { 
+   // setup
+   color: #ffffff; 
+   font-size: 90%; 
+   text-shadow: none; 
+   font-weight: bold; 
+   font-family: arial; 
+   // shadow
+   -moz-box-shadow: 0 1px 2px #999;  
+   -webkit-box-shadow: 0 1px 2px #999; 
+   box-shadow: 0 1px 2px #999; 
+   padding-bottom: 1px;
+   // border
+   border: 1px solid #ffffff; 
+   .border-radius (5px); 
+   padding: 3px;
+   background-color: red;
+   margin-right: -15px;
+}
+
+
+/* Red button theme for JQuery Mobile
+ * - Use data-theme="r" for red versions of the default JQuery Mobile Buttons.
+ ******************************************************************************************/
+
+.ui-btn-up-r {
+    border: 1px solid #721414;
+    background: #AB2525;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 -1px 1px #000;
+    background-image: -moz-linear-gradient(top, #C54E4E, #AB2525);
+    background-image: -webkit-gradient(linear,left top,left bottom,
+        color-stop(0, #C54E4E),
+        color-stop(1, #AB2525));
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#C54E4E', EndColorStr='#AB2525')";
+}
+.ui-btn-up-r a.ui-link-inherit {
+    color: #fff;
+}
+.ui-btn-hover-r {
+    border: 1px solid #6E0000;
+    background: #B64B4B;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 -1px 1px #000;
+    background-image: -moz-linear-gradient(top, 
+        #D47272, 
+        #B64B4B);
+    background-image: -webkit-gradient(linear,left top,left bottom,
+        color-stop(0, #D47272),
+        color-stop(1, #B64B4B));
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#D47272', EndColorStr='#B64B4B')";
+}
+.ui-btn-hover-r a.ui-link-inherit {
+    color: #fff;
+}
+.ui-btn-down-r {
+    border: 1px solid #772222;
+    background: #C54E4E;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 -1px 1px #000;
+    background-image: -moz-linear-gradient(top, #9E3939, #C54E4E);
+    background-image: -webkit-gradient(linear,left top,left bottom,
+        color-stop(0, #9E3939),
+        color-stop(1, #C54E4E));
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#9E3939', EndColorStr='#C54E4E')";
+}
+.ui-btn-down-r a.ui-link-inherit {
+    color: #fff;
+}
+.ui-btn-up-r,
+.ui-btn-hover-r,
+.ui-btn-down-r {
+    font-family: Helvetica, Arial, sans-serif;
+    text-decoration: none;
+}
+
+/* END RED BUTTON THEME FOR JQUERY MOBILE */
+
+/* PROGRESS BARS */
+.meter { 
+    height: 30px;
+    position: relative;
+    background: #999;
+    padding: 2px;
+    margin: 5px;
+    .border-radius (5px);
+}
+
+.meter > span {
+    display: block;
+    height: 100%;
+    background-color: rgb(43,194,83);
+    background-image: -webkit-gradient(
+      linear,
+      left bottom,
+      left top,
+      color-stop(0, rgb(43,194,83)),
+      color-stop(1, rgb(84,240,84))
+     );
+    background-image: -webkit-linear-gradient(
+      center bottom,
+      rgb(43,194,83) 37%,
+      rgb(84,240,84) 69%
+     );
+    background-image: -moz-linear-gradient(
+      center bottom,
+      rgb(43,194,83) 37%,
+      rgb(84,240,84) 69%
+     );
+    background-image: -ms-linear-gradient(
+      center bottom,
+      rgb(43,194,83) 37%,
+      rgb(84,240,84) 69%
+     );
+    background-image: -o-linear-gradient(
+      center bottom,
+      rgb(43,194,83) 37%,
+      rgb(84,240,84) 69%
+     );
+    -webkit-box-shadow: 
+      inset 0 2px 9px  rgba(255,255,255,0.3),
+      inset 0 -2px 6px rgba(0,0,0,0.4);
+    -moz-box-shadow: 
+      inset 0 2px 9px  rgba(255,255,255,0.3),
+      inset 0 -2px 6px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+    color: white;
+    text-align: center;
+    line-height: 30px;
 }

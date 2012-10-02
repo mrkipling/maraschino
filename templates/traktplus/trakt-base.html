@@ -1,0 +1,24 @@
+<div id="traktplus" class="module" data-module="traktplus">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2>trakt.tv {% block trakt_title %}{% endblock %}</h2>
+
+  <div class="head">
+    <span class="loading"></span>
+    <a class="button addloading" data-xhr_url="trending">Trending</a>
+    <a class="button addloading" data-xhr_url="activity">Activity</a>
+    <a class="button addloading" data-xhr_url="friends">Friends</a>
+    <a class="button addloading" data-xhr_url="calendar/my shows">Calendar</a>
+    <a class="button addloading" data-xhr_url="recommendations">Recommendations</a>
+    <a class="button addloading" data-xhr_url="profile">My Profile</a>
+  </div>
+
+  {% block trakt_content %}
+    {% if message %}
+      <p class="message">{{ message }}</p>
+    {% endif %}
+  {% endblock %}
+
+</div>

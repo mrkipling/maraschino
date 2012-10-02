@@ -1,0 +1,53 @@
+{% extends "traktplus/trakt-base.html" %}
+{% block trakt_title %}
+  <a class="trakt_user link addloading" data-username="{{ user }}" title="Back to profile">{{ user }}</a>'s TV Show Progress
+{% endblock %}
+{% block trakt_content %}
+{% if progress %}
+
+<div class="trakt_choices">
+  <b>{{ type|title }}</b>
+  {% if type == 'watched' %}
+    <a class="button addloading" data-xhr_url="progress/{{ user }}/collected">Collected</a>
+  {% else %}
+    <a class="button addloading" data-xhr_url="progress/{{ user }}/watched">Watched</a>
+  {% endif %}
+</div>
+
+<div class="progress">
+  <ul>
+    {% for item in progress %}
+      <li class="goto_show addloading" data-id="{{ item.show.imdb_id }}">
+        <b>{{ item.show.title }}</b>
+        <span class="pullright">
+          {{ type|title }} {{ item.progress.completed }} out of {{ item.progress.aired }} episodes.
+        </span>
+        <div class="bar" title="{{ item.progress.percentage }}%">
+          <div class="inner" style="width: {{ item.progress.percentage }}%;"></div>
+        </div>
+        <span class="pullright">
+          {% if type == 'collected' %}
+            {{ item.progress.left }} episodes missing.
+          {% else %}
+            {{ item.progress.left }} episodes unwatched.
+          {% endif %}
+        </span>
+
+        <span class="toggle_hidden">Seasons</span>
+        <div class="hidden">
+          {% for season in item.seasons %}
+            <div class="season">
+              Season {{ season.season }}
+              <div class="bar pullright" title="{{ season.percentage }}%">
+                <div class="inner" style="width: {{ season.percentage }}%;"></div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endif %}
+{% endblock %}

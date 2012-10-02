@@ -1,59 +1,68 @@
 <div id="currently_playing" data-id="{{ currently_playing.id }}"{% if fanart %} data-fanart="{{ fanart|xbmc_image }}"{% endif %}>
 
-  {% if currently_playing.artist %}
-    {% if currently_playing.thumbnail%}
-      <img class="albumart" src="{{ itemart|xbmc_image }}">
-      <p class="item_info_artist">
+  <div class="visibility">
+    <ul>
+      <li class="close"></li>
+      <li class="minimize"></li>
+    </ul>
+  </div>
+
+  <div class="thumb">
+    {% if currently_playing.artist %}
+      {% if currently_playing.thumbnail%}
+        <img class="albumart" src="{{ itemart|xbmc_image }}">
+        <p class="item_info_artist">
+      {% else %}
+        <p class="item_info">
+      {% endif %}
+
+    {% elif currently_playing.showtitle %}
+      {% if currently_playing.thumbnail%}
+        <img class="episodeart" src="{{ itemart|xbmc_image }}">
+        <p class="item_info_show">
+      {% else %}
+        <p class="item_info">
+      {% endif %}
+
+    {% elif currently_playing.title == '' %}
+      {% if currently_playing.thumbnail%}
+        <img class="episodeart" src="{{ itemart|xbmc_image }}">
+        <p class="item_info_show">
+      {% else %}
+        <p class="item_info">
+      {% endif %}
+
     {% else %}
-      <p class="item_info">
+      {% if currently_playing.thumbnail%}
+        <img class="posterart" src="{{ itemart|xbmc_image }}">
+        <p class="item_info_movie">
+      {% else %}
+        <p class="item_info">
+      {% endif %}
     {% endif %}
 
-  {% elif currently_playing.showtitle %}
-    {% if currently_playing.thumbnail%}
-      <img class="episodeart" src="{{ itemart|xbmc_image }}">
-      <p class="item_info_show">
-    {% else %}
-      <p class="item_info">
-    {% endif %}
+      <span class="playlist" title="View playlist"><strong>Currently playing:</strong></span><br>
 
-  {% elif currently_playing.title == '' %}
-    {% if currently_playing.thumbnail%}
-      <img class="episodeart" src="{{ itemart|xbmc_image }}">
-      <p class="item_info_show">
-    {% else %}
-      <p class="item_info">
-    {% endif %}
-
-  {% else %}
-    {% if currently_playing.thumbnail%}
-      <img class="posterart" src="{{ itemart|xbmc_image }}">
-      <p class="item_info_movie">
-    {% else %}
-      <p class="item_info">
-    {% endif %}
-  {% endif %}
-
-    <span class="playlist" title="View playlist"><strong>Currently playing:</strong></span><br>
-
-    {% if currently_playing.showtitle %}
-      <span class="show" data-show="{{ currently_playing.tvshowid }}">{{ currently_playing.showtitle }}</span>
-      <span class="separator">-</span>
-      <span class="season" data-season="{{ currently_playing.season }}">Season {{ currently_playing.season }}</span>,
-      <span class="episode" data-episode="{{ currently_playing.id }}">Episode {{ currently_playing.episode }}
+      {% if currently_playing.showtitle %}
+        <span class="show" data-show="{{ currently_playing.tvshowid }}">{{ currently_playing.showtitle }}</span>
         <span class="separator">-</span>
-        "{{ currently_playing.label }}"
-      </span>
-    {% elif currently_playing.artist %}
-      <span class="artist" data-artist="{{ currently_playing.artistid }}">{{ currently_playing.artist }}</span>
-      <span class="separator">-</span>
-      <span class="album" data-album="{{ currently_playing.albumid }}">{{ currently_playing.album }} ({{ currently_playing.year }})</span>
-      <br>{% if currently_playing.track < 10 %}0{% endif %}{{ currently_playing.track }}. {{ currently_playing.label }}
-    {% elif currently_playing.type == 'movie' %}
-      <span class="movie" data-movie="{{ currently_playing.id }}">{{ currently_playing.label }} ({{ currently_playing.year }})</span>
-    {% else %}
-      {{ currently_playing.label }}
-    {% endif %}
-  </p>
+        <span class="season" data-season="{{ currently_playing.season }}">Season {{ currently_playing.season }}</span>,
+        <span class="episode" data-episode="{{ currently_playing.id }}">Episode {{ currently_playing.episode }}
+          <span class="separator">-</span>
+          "{{ currently_playing.label }}"
+        </span>
+      {% elif currently_playing.artist %}
+        <span class="artist" data-artist="{{ currently_playing.artistid }}">{{ currently_playing.artist }}</span>
+        <span class="separator">-</span>
+        <span class="album" data-album="{{ currently_playing.albumid }}">{{ currently_playing.album }} ({{ currently_playing.year }})</span>
+        <br>{% if currently_playing.track < 10 %}0{% endif %}{{ currently_playing.track }}. {{ currently_playing.label }}
+      {% elif currently_playing.type == 'movie' %}
+        <span class="movie" data-movie="{{ currently_playing.id }}">{{ currently_playing.label }} ({{ currently_playing.year }})</span>
+      {% else %}
+        {{ currently_playing.label }}
+      {% endif %}
+    </p>
+  </div>
 
   <div class="progress" data-progress="{{ percentage_progress }}%">
     <div class="bar">

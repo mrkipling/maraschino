@@ -1,0 +1,34 @@
+{% extends "traktplus/trakt-base.html" %}
+{% block trakt_title %}
+  <a class="trakt_user link addloading" data-username="{{ user }}" title="Back to profile">{{ user }}</a>'s {{ title }}
+{% endblock %}
+{% block trakt_content %}
+{% if library %}
+
+<div class="trakt_choices">
+  <b>{{ type }}</b>
+  {% if type == 'Movies' %}
+    <a class="button addloading" data-xhr_url="library/{{ user }}/shows">Shows</a>
+  {% else %}
+    <a class="button addloading" data-xhr_url="library/{{ user }}/movies">Movies</a>
+  {% endif %}
+</div>
+
+<div class="library">
+  <ul>
+    {% for item in library %}
+      {% if type == 'Movies' %}
+        <li class="goto_movie addloading" data-id="{{ item.imdb_id }}">
+          {{ item.title }} ({{ item.year }})
+        </li>
+      {% else %}
+        <li class="goto_show addloading" data-id="{{ item.imdb_id }}">
+          {{ item.title }}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+
+{% endif %}
+{% endblock %}

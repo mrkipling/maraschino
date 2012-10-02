@@ -85,12 +85,9 @@
 
       {% if library.episodes %}
         {% for item in library.episodes %}
-          <li {% if show_info %}id="info"{% else %}id="play"{% endif %} file-type="video" media-type="episode" data-id="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}">
+          <li {% if show_info %}id="info"{% else %}id="resume_check"{% endif %} file-type="video" media-type="episode" data-id="{{ item.episodeid }}" data-command="shows/{{ item.tvshowid }}/{{ item.season }}/{{ item.episodeid }}">
             {{ item.label }}
             <span class="span">
-              {% if item.resume.position >= 1 %}
-                <a class="li_buttons" id="resume">Resume</a>
-              {% endif %}
               {% if show_info %}
                 <a class="li_buttons" id="play">Play</a>
               {% else %}
@@ -130,12 +127,9 @@
 
       {% if library.movies %}
         {% for item in library.movies %}
-          <li {% if show_info %}id="info"{% else %}id="play"{% endif %} file-type="video" media-type="movie" data-id="{{ item.movieid }}">
+          <li {% if show_info %}id="info"{% else %}id="resume_check"{% endif %} file-type="video" media-type="movie" data-id="{{ item.movieid }}">
             {{ item.label }}
             <span class="span">
-              {% if item.resume.position >= 1 %}
-                <a class="li_buttons" id="resume">Resume</a>
-              {% endif %}
               {% if show_info %}
                 <a class="li_buttons" id="play">Play</a>
               {% else %}
@@ -147,7 +141,7 @@
               <img src="{{ url_for('static', filename='images/tick.png') }}" class="watched" width="16" height="16">
             {% endif %}
           </li>
-		  {% endfor %}
+        {% endfor %}
       {% endif %}
 
       {% if library.moviedetails %}
@@ -185,7 +179,7 @@
           <li class="get" file-type="audio" media-type="artist" data-id="{{ item.artistid }}" data-command="artists/{{ item.artistid }}">
             {{ item.label }}
             <span class="span">
-              {% if item.details %}<a class="li_buttons" id="info">Info</a>{% endif %}
+              <a class="li_buttons" id="info">Info</a>
               <a class="li_buttons" id="play">Play</a>
               <a class="li_buttons" id="queue">Queue</a>
             </span>
@@ -275,6 +269,9 @@
             {{ item.label }}
           </li>
         {% endfor %}
+        <li class="dir" data-file_type="video" data-command="files/video/playlists" data-path="special://userdata/playlists/video/">
+          Playlists
+        </li>
       {% endif %}
 
       {% if file_type == "music" %}
@@ -285,6 +282,9 @@
             </li>
           {% endif %}
         {% endfor %}
+        <li class="dir" data-file_type="music" data-command="files/music/playlists" data-path="special://userdata/playlists/music/">
+          Playlists
+        </li>
       {% endif %}
 
       {% if file_type == "video_directory" %}
@@ -329,20 +329,24 @@
     <ul>
       <li class="get" data-command="movies">Movies</li>
       <li class="get" data-command="shows">TV Shows</li>
-      <li class="get" data-command="artists">Music</li>
-      <li class="get" data-command="files">Files</li>
+      {% if show_music %}
+        <li class="get" data-command="artists">Music</li>
+      {% endif %}
+      {% if show_files %}
+        <li class="get" data-command="files">Files</li>
+      {% endif %}
     </ul>
 
   {% endif %}
 
     <div id="filter"><input type="search" name="input" class="filter" value="Filter" onclick="this.value='';" onfocus="this.select()" onblur="this.value=!this.value?'Filter':this.value;"></input></div>
-	{% if message %}
+  {% if message %}
       <div class="message">{{ message }}</div>
     {% endif %}
     <div class="powerholder" style="text-align:right" >
 
   {% if library %}
-	{% if library.moviedetails %}
+    {% if library.moviedetails %}
       {% if library.moviedetails.resume.position >= 1 %}
         <a class="info_buttons" id="resume" media-type="movie" data-id="{{ library.moviedetails.movieid }}" title="Resume Movie">Resume</a>
       {% endif %}
@@ -352,27 +356,27 @@
         <a class="info_buttons" id="trailer" data-id="{{ library.moviedetails.movieid }}" title="Play Trailer">Trailer</a>
       {% endif %}
 
-	{% elif library.tvshowdetails %}
+    {% elif library.tvshowdetails %}
       <a class="info_buttons" id="play" file-type="video" media-type="tvshow" data-id="{{ library.tvshowdetails.tvshowid }}" title="Play TV show">Play</a>
       <a class="info_buttons" id="queue" file-type="video" media-type="tvshow" data-id="{{ library.tvshowdetails.tvshowid }}" title="Add to Queue">Queue</a>
 
-	{% elif library.episodedetails %}
+    {% elif library.episodedetails %}
       {% if library.episodedetails.resume.position >= 1 %}
         <a class="info_buttons" id="resume" file-type="video" media-type="episode" data-id="{{ library.episodedetails.episodeid }}" title="Resume Episode">Resume</a>
       {% endif %}
       <a class="info_buttons" id="play" file-type="video" media-type="episode" data-id="{{ library.episodedetails.episodeid }}" title="Play Episode">Play</a>
       <a class="info_buttons" id="queue" file-type="video" media-type="episode" data-id="{{ library.episodedetails.episodeid }}" title="Add to Queue">Queue</a>
 
-	{% elif library.artistdetails %}
+    {% elif library.artistdetails %}
       <a class="info_buttons" id="play" file-type="audio" media-type="artist" data-id="{{ library.artistdetails.artistid }}" title="Play All Albums">Play</a>
       <a class="info_buttons" id="queue" file-type="audio" media-type="artist" data-id="{{ library.artistdetails.artistid }}" title="Add to Queue">Queue</a>
 
-	{% elif library.albumdetails %}
+    {% elif library.albumdetails %}
       <a class="info_buttons" id="play" file-type="audio" media-type="album" data-id="{{ library.albumdetails.albumid }}" title="Play Album">Play</a>
       <a class="info_buttons" id="queue" file-type="audio" media-type="album" data-id="{{ library.albumdetails.albumid }}" title="Add to Queue">Queue</a>
     {% endif %}
 
-	{% if library.tvshows or library.seasons or library.episodes or library.movies or library.moviedetails or library.tvshowdetails or library.episodedetails or file_type == "video_directory" %}
+    {% if library.tvshows or library.seasons or library.episodes or library.movies or library.moviedetails or library.tvshowdetails or library.episodedetails or file_type == "video_directory" %}
       <a class="power" title ="Update Video Library" id="video-update"><img src="{{ url_for('static', filename='images/refresh.png') }}" width="14" height="14"/></a>
       <a class="power" title ="Clean Video Library" id="video-clean"><img src="{{ url_for('static', filename='images/clean.png') }}" width="14" height="14"/></a>
 
@@ -385,10 +389,14 @@
   {% if message %}
       <a class="power" title="Try Wake On LAN" id="poweron"><img src="{{ url_for('static', filename='images/poweron.png') }}" width="14" height="14"/></a>
   {% endif %}
+  {% if not library and not show_music %}
+      <a class="power" title ="Update Video Library" id="video-update"><img src="{{ url_for('static', filename='images/refresh.png') }}" width="14" height="14"/></a>
+      <a class="power" title ="Clean Video Library" id="video-clean"><img src="{{ url_for('static', filename='images/clean.png') }}" width="14" height="14"/></a>
+  {% endif %}
   {% if library_show_power_buttons %}
-      <a class="power" title ="Suspend" id="suspend" ><img src="{{ url_for('static', filename='images/suspend.png') }}" width="14" height="14"/></a>
-      <a class="power" title ="Reboot" id="reboot" ><img src="{{ url_for('static', filename='images/reboot.png') }}" width="14" height="14"/></a>
-      <a class="power" title ="Shutdown" id="poweroff" ><img src="{{ url_for('static', filename='images/shutdown.png') }}" width="14" height="14"/></a>
+    <a class="power" title ="Suspend" id="suspend" ><img src="{{ url_for('static', filename='images/suspend.png') }}" width="14" height="14"/></a>
+    <a class="power" title ="Reboot" id="reboot" ><img src="{{ url_for('static', filename='images/reboot.png') }}" width="14" height="14"/></a>
+    <a class="power" title ="Shutdown" id="poweroff" ><img src="{{ url_for('static', filename='images/shutdown.png') }}" width="14" height="14"/></a>
   {% endif %}
 
     </div>

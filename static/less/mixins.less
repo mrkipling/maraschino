@@ -29,3 +29,11 @@
   -o-box-shadow: inset @color @x @y @radius;
   -webkit-box-shadow: inset @color @x @y @radius;
 }
+
+.transition (@property: width, @time: 2s)
+{
+  transition: @property @time;
+  -moz-transition: @property @time; /* Firefox 4 */
+  -webkit-transition: @property @time; /* Safari and Chrome */
+  -o-transition: @property @time; /* Opera */
+}

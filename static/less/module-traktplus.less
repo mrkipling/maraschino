@@ -23,7 +23,24 @@
     color: red;
   }
 
-  .button {
+  .bar {
+    border: 1px solid #777;
+    height: 5px;
+    margin-top: 8px;
+    width: 100%;
+    max-width: 100%;
+    .border-radius(3px);
+
+    .inner {
+      background-color: #eee;
+      max-width: inherit;
+      height: 5px;
+    }
+  }
+
+  .button,
+  .media_btn,
+  .req_btn {
     background: url('/@{webroot}/images/alpha/fff_10.png');
     border: 1px solid #222;
     cursor: pointer;
@@ -38,11 +55,46 @@
     }
   }
 
+  .req_buttons {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  .toggle_hidden {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: url('/@{webroot}/images/alpha/lightblue_30.png');
+    border: 1px solid #222;
+    cursor: pointer;
+    padding: 4px;
+    .border-radius(4px);
+
+    img {
+      float: right;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    &:hover {
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+    }
+  }
+  .hidden {
+    display: none;
+  }
+
+  .media_btn {
+    margin-left: 4px;
+  }
+
   a {
     color: #eee;
   }
 
-  .profile a.link, .friends a {
+  .link,
+  .list_link {
+    cursor: pointer;
     &:hover  {
       border-bottom: 1px dashed #bbb;
     }
@@ -58,18 +110,22 @@
     }
   }
 
+  .activity,
   .friends,
   .library,
   .calendar,
   .watchlist,
-  .loved,
-  .hated {
+  .rated,
+  .custom_lists,
+  .profile_custom_lists,
+  .progress {
     ul {
       max-height: 225px;
       overflow-y: auto;
       width: 100%;
 
       li {
+        position: relative;
         background: url('/@{webroot}/images/alpha/fff_10.png');
         margin: 2px;
         border: 1px solid #222;
@@ -90,9 +146,7 @@
 
   .trending {
     overflow-x: auto;
-    background: url('/@{webroot}/images/alpha/fff_10.png');
     padding: 7px;
-    .border-radius(5px);
 
     .ui-carousel {
       height: 100px;
@@ -126,9 +180,31 @@
         height: 141px;
       }
     }
+
+    #pages {
+      margin-top: 8px;
+      text-align: center;
+
+      .bullet {
+        display: inline-block;
+        height: 12px;
+        width: 12px;
+        margin: 2px;
+        text-indent: -9999px;
+        .border-radius(8px);
+        border: #333 2px solid;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.7;
+          background: url('/@{webroot}/images/alpha/fff_20.png');
+        }
+      }
+    }
   }
 
-  .friends {
+  .friends,
+  .activity {
     li {
       height: 60px;
       line-height: 1.5em;
@@ -140,7 +216,7 @@
         margin-right: 15px;
       }
 
-      .friend_name {
+      .user_name {
         display: block;
         padding: 5px;
         font-size: 120%;
@@ -148,15 +224,19 @@
     }
   }
 
-  .calendar {
-    .date {
-      display: block;
-      margin: 10px 0 10px 10px;
-    }
+  .friends .pending {
+    background: url('/@{webroot}/images/alpha/lightblue_30.png')
+  }
 
-    .time {
-      float: right;
-    }
+  .date,
+  .user_rated {
+    display: block;
+    margin: 10px 0 10px 10px;
+  }
+
+  .calendar .time,
+  .profile_custom_lists .type {
+    float: right;
   }
 
   .profile {
@@ -189,27 +269,17 @@
         padding-left: 5px;
         padding-right: 5px;
       }
-
-      .bar {
-        border: 1px solid #777;
-        height: 5px;
-        margin-top: 8px;
-        width: 100%;
-        max-width: 100%;
-        .border-radius(3px);
-
-        .inner {
-          background-color: #eee;
-          max-width: inherit;
-          height: 5px;
-        }
-      }
     }
 
-    .recently_watched td {
-      padding: 3px 0;
-      &:first-child {
-          padding-right: 25px;
+    .toggle_hidden img {
+      margin-left: 5px;
+    }
+    .hidden {
+      td {
+        padding: 3px 0;
+        &:first-child {
+            padding-right: 25px;
+        }
       }
 
       a:hover  {
@@ -218,33 +288,281 @@
     }
   }
 
-  .recommendations ul.recommendations li {
-    background: url('/@{webroot}/images/alpha/fff_10.png');
-    margin-top: 5px;
-    padding: 10px 5px 10px 15px;
-    .border-radius(5px);
+  .recommendations {
 
-    h3 {
-      font-size: 1.2em;
+    ul {
+      max-height: 350px;
+      overflow: auto;
+
+      li {
+        background: url('/@{webroot}/images/alpha/fff_10.png');
+        margin-top: 5px;
+        padding: 10px 5px 10px 15px;
+        .border-radius(5px);
+        position: relative;
+
+        h3 {
+          font-size: 1.2em;
+          margin-bottom: 10px;
+        }
+
+        .info {
+          margin: 7px 0;
+        }
+
+        .artwork {
+          float: left;
+          margin-right: 15px;
+          height: auto;
+          width: 80px;
+          border: #333 2px solid;
+        }
+
+        .overview {
+          color: #ccc;
+          font-size: 0.85em;
+          line-height: 1.4em;
+        }
+      }
+    }
+  }
+
+  .options {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
+  .goto_show,
+  .goto_movie,
+  .goto_episode {
+    cursor: pointer;
+  }
+
+  .poster {
+    position: relative;
+    height: 166px;
+    width: 95px;
+    background: url('/@{webroot}/images/alpha/fff_10.png');
+    .border-radius(8px);
+
+    .overlay_menu {
+      display: none;
+      position: absolute;
+      bottom: 30px;
+      left: 2px;
+      height: 25px;
+      width: 91px;
+      .border-radius(6px);
+      background: url('/@{webroot}/images/alpha/000_70.png');
+    }
+
+    .footer {
+      position: relative;
+      height: 25px;
+      line-height: 20px;
+
+      .percentage {
+        font-weight: bold;
+        padding-left: 5px;
+      }
+
+      .votes {
+        position: absolute;
+        right: 5px;
+        font-size: 0.8em;
+      }
+    }
+
+    .r_love,
+    .r_hate {
+      display: inline-block;
+      margin-top: 2px;
+      height: 16px;
+      width: 16px;
+      opacity: 0.4;
+      background-size: 16px 16px;
+      position: absolute;
+      &:hover {
+        cursor: pointer;
+        opacity: 1.0;
+      }
+    }
+
+    .item_rate {
+      display: none;
+    }
+
+    .add_watchlist {
+      background-image: url('/@{webroot}/images/trakt/watchlist.png');
+      &:hover {
+        background-image: url('/@{webroot}/images/trakt/watchlist-on.png');
+      }
+    }
+
+    .add_customlist {
+      background-image: url('/@{webroot}/images/trakt/list.png');
+      &:hover {
+        background-image: url('/@{webroot}/images/trakt/list-on.png');
+      }
+    }
+
+    .mark_watched {
+      background-image: url('/@{webroot}/images/trakt/seen.png');
+      &:hover {
+        background-image: url('/@{webroot}/images/trakt/seen-on.png');
+      }
+    }
+
+    .add_collection {
+      background-image: url('/@{webroot}/images/trakt/collection.png');
+      &:hover {
+        background-image: url('/@{webroot}/images/trakt/collection-on.png');
+      }
+    }
+
+    .r_love {
+      left: 30px;
+      background-image: url('/@{webroot}/images/trakt/heart-love.png');
+    }
+
+    .r_hate {
+      right: 30px;
+      background-image: url('/@{webroot}/images/trakt/heart-hate.png');
+    }
+
+    .rated {
+      opacity: 1.0;
+    }
+
+    .add_watchlist,
+    .add_customlist,
+    .mark_watched,
+    .add_collection {
+      display: inline-block;
+      opacity: 0.8;
+      margin-top: 5px;
+      height: 16px;
+      width: 16px;
+      cursor: pointer;
+      background-size: 14px;
+      background-repeat: no-repeat;
+    }
+  }
+
+  .poster,
+  .screenshot {
+    .watched,
+    .love,
+    .hate,
+    .collection,
+    .watchlist {
+      position: absolute;
+      top: 0;
+    }
+
+    .watched {
+      right: 0;
+      height: 45px;
+      width: 45px;
+      background: url('/@{webroot}/images/trakt/overlay-seen.png');
+    }
+
+    .love,
+    .hate {
+      right: 0;
+      height: 25px;
+      width: 25px;
+    }
+
+    .love {
+      background: url('/@{webroot}/images/trakt/overlay-love.png');
+    }
+
+    .hate {
+      background: url('/@{webroot}/images/trakt/overlay-hate.png');
+    }
+
+    .collection {
+      left: 20px;
+      height: 20px;
+      width: 13px;
+      background: url('/@{webroot}/images/trakt/overlay-collection.png');
+    }
+
+    .watchlist {
+      left: 25px;
+      height: 20px;
+      width: 13px;
+      background: url('/@{webroot}/images/trakt/overlay-watchlist.png');
+    }
+  }
+
+  .show,
+  .movie,
+  .episode {
+    .poster,
+    .screenshot {
+      position: relative;
+      float: left;
+      display: block;
+      margin-right: 10px;
+    }
+
+    .screenshot {
+      border: #333 2px solid;
+
+      img {
+        width: 175px;
+        height: auto;
+      }
+    }
+
+    table {
       margin-bottom: 10px;
+
+      td {
+        padding: 3px 0;
+        &:first-child {
+            padding-right: 25px;
+        }
+      }
     }
 
     .info {
-      margin: 7px 0;
+      padding-bottom: 10px;
     }
 
-    img {
-      float: left;
-      margin-right: 15px;
-      height: auto;
-      width: 80px;
-      border: #333 2px solid;
+    .stats table {
+      width: 45%;
+      display: inline-block;
+    }
+  }
+
+  .custom_lists {
+    .lists {
+      width: 100%;
+      margin-bottom: 10px;
+
+      select {
+        padding: 3px 6px;
+        background-color: #fff;
+        border: 1px solid #555;
+        padding: 4px 6px;
+        width: 100%;
+        .border-radius(3px);
+      }
+    }
+  }
+
+  .progress {
+    .pullright {
+      float: right;
     }
 
-    .overview {
-      color: #ccc;
-      font-size: 0.85em;
-      line-height: 1.4em;
+    .season .bar {
+      width: 80%;
+      display: inline-block;
     }
   }
 }

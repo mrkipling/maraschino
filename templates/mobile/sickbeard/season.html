@@ -1,0 +1,29 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a class="search" href="{{ url_for('sickbeard_search') }}">+</a>
+{% endblock %}
+
+{% block header %}<h1>Season {{season_number}}</h1>{% endblock %}
+
+{% block navbar %}
+<div data-role="navbar">
+	<ul>
+    <li><a href="{{ url_for('sickbeard') }}">Wanted</a></li>
+    <li><a href="{{ url_for('sickbeard_all') }}">All</a></li>
+    <li><a href="{{ url_for('sickbeard_history') }}">History</a></li>
+	</ul>
+</div>
+{% endblock %}
+
+{% block content %}
+  <ul data-role="listview">
+    {% for episode in numbers %}
+      <li {% if season[episode].status == 'Downloaded' %}data-theme="b" data-icon="check" {% else %} data-icon="delete" {% endif %}>
+        <a href="{{ url_for('sickbeard_episode', id=id, season=season_number, episode=episode) }}">
+          <h2>{{episode}}. {{season[episode].name}}</h2>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

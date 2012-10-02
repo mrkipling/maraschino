@@ -1,0 +1,29 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a class="search" href="{{ url_for('sickbeard_search') }}">+</a>
+{% endblock %}
+
+{% block header %}<h1>Sickbeard</h1>{% endblock %}
+
+{% block navbar %}
+<div data-role="navbar">
+  <ul>
+    <li><a href="{{ url_for('sickbeard') }}">Wanted</a></li>
+    <li><a href="#" class="ui-btn-active ui-state-persist">All</a></li>
+    <li><a href="{{ url_for('sickbeard_history') }}">History</a></li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+  <ul data-role="listview" data-filter="true">
+    {%for show in shows|sort %}
+      <li>
+        <a href="{{ url_for('sickbeard_show', id=(shows[show].tvdbid)) }}">
+          <h2>{{ show }}</h2>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

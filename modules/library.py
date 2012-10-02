@@ -1,11 +1,10 @@
-from flask import render_template
+from flask import render_template, jsonify
 import jsonrpclib
 import urllib
 
-from Maraschino import app
 from maraschino.noneditable import *
 from maraschino.tools import *
-from maraschino import logger
+from maraschino import app, logger
 
 xbmc_error = 'There was a problem connecting to the XBMC server'
 
@@ -32,7 +31,7 @@ def xhr_library_root(item_type):
 
         if item_type == 'movies':
             logger.log('LIBRARY :: Retrieving movies', 'INFO')
-            library = xbmc.VideoLibrary.GetMovies(sort={'method': 'label', 'ignorearticle': True}, properties=['playcount', 'resume'])
+            library = xbmc.VideoLibrary.GetMovies(sort={'method': 'label', 'ignorearticle': True}, properties=['playcount'])
             logger.log('LIBRARY :: Finished retrieveing movies', 'DEBUG')
 
             if get_setting_value('library_watched_movies') == '0':
@@ -72,14 +71,6 @@ def xhr_library_root(item_type):
             title = "Music"
             library = xbmc.AudioLibrary.GetArtists(sort={'method': 'label', 'ignorearticle': True})
             logger.log('LIBRARY :: Finished retrieveing music', 'DEBUG')
-
-            for artist in library['artists']:
-                artistid = artist['artistid']
-                try:
-                    xbmc.AudioLibrary.GetArtistDetails(artistid=artistid, properties=['description', 'thumbnail', 'genre'])
-                    artist['details'] = "True"
-                except:
-                    None
 
         if item_type == 'files':
             logger.log('LIBRARY :: Retrieving files', 'INFO')
@@ -133,7 +124,7 @@ def xhr_library_season(show, season):
     sort = {'method': 'episode'}
 
     try:
-        library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode', 'plot', 'playcount', 'resume'])
+        library = xbmc.VideoLibrary.GetEpisodes(tvshowid=show, season=season, sort=sort, properties=['tvshowid', 'season', 'showtitle', 'episode', 'plot', 'playcount'])
     except:
         logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
         return render_library(message=xbmc_error)
@@ -223,10 +214,45 @@ def xhr_library_info(type, id):
             title = library['albumdetails']['title']
 
     except:
+        message = 'Could not retrieve %s details' % type
+        logger.log('LIBRARY :: %s' % message, 'ERROR')
+        return render_library(message=message)
+
+    return render_library(library, title)
+
+
+@app.route('/xhr/library/<type>/resume_check/<int:id>/')
+@requires_auth
+def xhr_library_resume_check(type, id):
+    logger.log('LIBRARY :: Checking if %s has resume position' % type, 'INFO')
+    xbmc = jsonrpclib.Server(server_api_address())
+
+    try:
+        if type == 'movie':
+            library = xbmc.VideoLibrary.GetMovieDetails(movieid=id, properties=['resume'])
+
+        elif type == 'episode':
+            library = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=id, properties=['resume'])
+
+    except:
         logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
         return render_library(message=xbmc_error)
 
-    return render_library(library, title)
+    position = library[type + 'details']['resume']['position']
+
+    if position:
+        hours = position / 3600
+        minutes = position / 60
+        seconds = position % 60
+        if position < 3600:
+            position = '%02d:%02d' % (minutes, seconds)
+        else:
+            position = '%02d:%02d:%02d' % (hours, minutes, seconds)
+
+        template = render_template('library-resume_dialog.html', position=position, library=library)
+        return jsonify(resume=True, template=template)
+    else:
+        return jsonify(resume=False, template=None)
 
 
 @app.route('/xhr/library/files/<file_type>')
@@ -275,7 +301,10 @@ def xhr_library_files_directory(file_type):
     else:
         windows = False
 
-    previous_dir = path[0:-1]
+    if path.endswith('\\') or path.endswith('/'):
+        previous_dir = path[:-1]
+    else:
+        previous_dir = path
 
     if windows:
         x = previous_dir.rfind("\\")
@@ -283,12 +312,16 @@ def xhr_library_files_directory(file_type):
         x = previous_dir.rfind("/")
 
     current_dir = previous_dir[x + 1:]
-    previous_dir = previous_dir[0:x + 1]
+    previous_dir = previous_dir[:x + 1]
 
     for source in sources['sources']:
         if source['file'] in path:
             current_source = source['file']
             source_label = source['label']
+            break
+        else:
+            current_source = 'special://userdata/playlists/%s/' % file_type
+            source_label = 'Playlists'
 
     if not current_source in previous_dir:
         previous_dir = "sources"
@@ -320,6 +353,8 @@ def render_library(library=None, title="Media Library", file_type=None, previous
         file_type=file_type,
         previous_dir=previous_dir,
         show_info=get_setting_value('library_show_info') == '1',
+        show_music=get_setting_value('library_show_music') == '1',
+        show_files=get_setting_value('library_show_files') == '1',
         library_show_power_buttons=get_setting_value('library_show_power_buttons', '1') == '1',
         bannerart=get_setting_value('library_use_bannerart') == '1',
     )

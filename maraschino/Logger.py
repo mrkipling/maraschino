@@ -1,7 +1,12 @@
+# -*- coding: utf-8 -*-
+
 import logging, logging.handlers, sys, os
 
 class maraschinoLogger:
+    """Maraschino logger"""
+
     def __init__(self, LOG_FILE, VERBOSE):
+        """init the logger"""
 
         # set up formatting for console and the two log files
         confor = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s', '%H:%M:%S')
@@ -32,6 +37,7 @@ class maraschinoLogger:
             werkzeug_logger.addHandler(war)
 
     def log(self, toLog, logLevel):
+        """wrapper for logger output"""
         try:
             if logLevel == 'DEBUG':
                 self.mylogger.debug(toLog)

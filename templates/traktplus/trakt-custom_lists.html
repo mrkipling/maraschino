@@ -1,0 +1,69 @@
+{% extends "traktplus/trakt-base.html" %}
+{% block trakt_title %}
+  <a class="trakt_user link addloading" data-username="{{ user }}" title="Back to profile">{{ user }}</a>'s {{ title }}
+{% endblock %}
+{% block trakt_content %}
+{% if lists %}
+
+  <div class="profile_custom_lists">
+    <ul>
+      {% for item in lists %}
+        <li class="get_list addloading" data-xhr_url="list/{{ item.slug }}/{{ user }}">
+          {{ item.name }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+{% endif %}
+
+{% if list %}
+
+  <div class="profile_custom_lists">
+    <ul>
+      {% for item in list['items'] %}
+        {% if item.type == 'show' %}
+        <li class="goto_show addloading" data-id="{{ item.show.imdb_id }}">
+          {{ item.show.title }}
+          <span class="type">
+            {{ item.type }}
+          </span>
+        </li>
+        {% endif %}
+
+        {% if item.type == 'season' %}
+        <li class="goto_show addloading" data-id="{{ item.show.imdb_id }}">
+          {{ item.show.title }} season {{ item.season }}
+          <span class="type">
+            {{ item.type }}
+          </span>
+        </li>
+        {% endif %}
+
+        {% if item.type == 'episode' %}
+        <li class="goto_episode addloading" 
+          data-id="{{ item.show.imdb_id }}" 
+          data-season="{{ item.episode.season }}"
+          data-episode="{{ item.episode.episode }}"
+        >
+          {{ item.show.title }} {{ item.episode.season }}x{{ item.episode.episode }} - {{ item.episode.title }}
+          <span class="type">
+            {{ item.type }}
+          </span>
+        </li>
+        {% endif %}
+
+        {% if item.type == 'movie' %}
+        <li class="goto_movie addloading" data-id="{{ item.movie.imdb_id }}">
+          {{ item.movie.title }} ({{ item.movie.year }})
+          <span class="type">
+            {{ item.type }}
+          </span>
+        </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+
+{% endif %}
+{% endblock %}

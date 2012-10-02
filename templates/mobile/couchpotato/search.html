@@ -1,0 +1,37 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a class="search" href="{{ url_for('couchpotato_search') }}">+</a>
+{% endblock %}
+
+{% block header %}<h1>Search Movies</h1>{% endblock %}
+
+{% block navbar %}
+<div data-role="navbar">
+    <ul>
+        <li><a href="{{ url_for('couchpotato') }}">Wanted</a></li>
+        <li><a href="{{ url_for('couchpotato_all') }}">All</a></li>
+        <li><a href="{{ url_for('couchpotato_history') }}">History</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="couchpotato">
+    <input type="search" id="search" placeholder="Movie title" value="{% if not query == None %}{{ query }}{% endif %}"/>
+    <br><br>
+    {% if results %}
+        <ul id="results" data-role="listview">
+        {% for item in results.movies %}
+        <li data-id="{{item.imdb}}" data-title="{{item.original_title}}">
+            <img src="{{item.images.poster_original.0}}" alt="">
+            <h2>{{item.original_title}}</h2>
+            <small>
+                {{item.year}}
+            </small>
+        </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}

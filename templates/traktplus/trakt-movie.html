@@ -1,0 +1,168 @@
+{% extends "traktplus/trakt-base.html" %}
+
+{% block trakt_title %}{{ title }}{% endblock %}
+
+{% block trakt_content %}
+
+{% if movie %}
+
+  <div class="movie inner">
+    <div class="info">
+      <div
+        class="poster"
+        data-type="{{ type }}"
+        data-title="{{ movie.title }}"
+        data-year="{{ movie.year }}"
+        data-imdb_id="{{ movie.imdb_id }}"
+        {% if type == 'Movies' %}
+          data-tmdb_id="{{ movie.tmdb_id }}"
+        {% else %}
+          data-tvdb_id="{{ movie.tvdb_id }}"
+        {% endif %}
+      >
+        <div>
+          <img alt="" src="{{ movie.images.poster }}" height="141" width="95"/>
+
+          {% if movie.in_collection %}
+            <div class="collection"></div>
+          {% endif %}
+          {% if movie.in_watchlist %}
+            <div class="watchlist"></div>
+          {% endif %}
+          {% if movie.rating %}
+            {% if movie.rating == 'love' %}
+            <div class="love"></div>
+            {% elif movie.rating == 'hate' %}
+              <div class="hate"></div>
+            {% endif %}
+          {% endif %}
+          {% if movie.watched %}
+            <div class="watched"></div>
+          {% endif %}
+        </div>
+
+        <div class="overlay_menu" align="center">
+          {% if not movie.watched %}
+            <div class="mark_watched" title="Mark as watched"></div>
+          {% endif %}
+          {% if not movie.in_watchlist %}
+            <div class="add_watchlist" title="Add to watchlist"></div>
+          {% endif %}
+          <div class="add_customlist" title="Add to custom list"></div>
+          {% if not movie.in_collection %}
+            <div class="add_collection" title="Add to collection"></div>
+          {% endif %}
+        </div>
+        <div class="footer">
+          <div class="item_info">
+          <span class="percentage">{{ movie.ratings.percentage }}%</span>
+          <span class="votes">{{ movie.ratings.votes }} votes</span>
+          </div>
+          <div class="item_rate" align="center">
+            <div class="rate r_love {{ 'rated' if movie.rating == 'love' }}" data-rating="love" {% if movie.rating == 'love' %}title="Unrate"{% else %}title="Loved"{% endif %}></div>
+            <div class="rate r_hate {{ 'rated' if movie.rating == 'hate' }}" data-rating="hate" {% if movie.rating == 'hate' %}title="Unrate"{% else %}title="Hated"{% endif %}></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="options">
+        <a class="media_btn add_couchpotato" title="Add to Couch Potato" data-name="{{ movie.title }}">
+          <img src="{{ url_for('static', filename='images/applications/CouchPotato.png') }}" width="14" height="14"/>
+        </a>
+        <a class="media_btn" href="{{ movie.url }}" target="_blank" title="View on trakt.tv">
+          <img src="{{ url_for('static', filename='images/applications/Trakt.png') }}" width="14" height="14"/>
+        </a>
+        {% if movie.trailer %}
+          <a class="media_btn trailer" data-trailer="{{ movie.trailer }}" title="Play trailer on XBMC">
+            <img src="{{ url_for('static', filename='images/applications/XBMC.png') }}" width="14" height="14"/>
+          </a>
+        {% endif %}
+      </div>
+
+      <table>
+        <tr>
+          <td><b>Year:</b></td>
+          <td>{{ movie.year }}</td>
+        </tr>
+        <tr>
+          <td><b>Classification:</b></td>
+          <td>{{ movie.certification }}</td>
+        </tr>
+        <tr>
+          <td><b>Runtime:</b></td>
+          <td>{{ movie.runtime }}m</td>
+        </tr>
+        <tr>
+        <td><b>Genres:</b></td>
+          <td>{% for genre in movie.genres %}{{ genre }} {% endfor %}</td>
+        </tr>
+      </table>
+
+      <p class="overview">
+        <span class="truncated">{{ movie.overview|truncate(400, false) }}</span>
+        <span class="expanded" style="display: none;">{{ movie.overview }}</span>
+        {% if movie.overview|count > 400 %}
+          <a class="expand" href="#" title="More">[+]</a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div>
+      <div class="toggle_hidden">
+        <b>Stats</b>
+        <img class="movie_hidden" src="{{ url_for('static', filename='images/arrow_down.png') }}"/>
+      </div>
+
+      <div class="hidden">
+
+        <div class="stats" align="center">
+          <table>
+            <tr>
+              <td><b>Watchers:</b></td>
+              <td>{{ movie.stats.watchers }}</td>
+            </tr>
+            <tr>
+              <td><b>Plays:</b></td>
+              <td>{{ movie.stats.plays }}</td>
+            </tr>
+            <tr>
+              <td><b>Scrobbles:</b></td>
+              <td>{{ movie.stats.scrobbles }}</td>
+            </tr>
+            <tr>
+              <td><b>Checkins:</b></td>
+              <td>{{ movie.stats.checkins }}</td>
+            </tr>
+            <tr>
+              <td><b>In collection:</b></td>
+              <td>{{ movie.stats.collection }}</td>
+            </tr>
+          </table>
+
+          <table>
+            <tr>
+              <td><b>Votes:</b></td>
+              <td>{{ movie.ratings.votes }}</td>
+            </tr>
+            <tr>
+              <td><b>Percentage:</b></td>
+              <td>{{ movie.ratings.percentage }}</td>
+            </tr>
+            <tr>
+              <td><b>Loved:</b></td>
+              <td>{{ movie.ratings.loved }}</td>
+            </tr>
+            <tr>
+              <td><b>Hated:</b></td>
+              <td>{{ movie.ratings.hated }}</td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endif %}
+
+{% endblock %}

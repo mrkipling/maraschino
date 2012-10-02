@@ -1,0 +1,131 @@
+{% extends "traktplus/trakt-base.html" %}
+
+{% block trakt_title %}{{ user }}'s {{ title }}{% endblock %}
+
+{% block trakt_content %}
+
+<div class="inner">
+
+    {% if profile.status == 'error' %}
+
+      <p>{{ profile.message }}</p>
+
+    {% else %}
+
+        <div class="profile">
+          <div class="user_info">
+            <img src="{{ profile.avatar }}"/>
+            <h2>{{ profile.username }}</h2>
+
+            <table>
+              <tr>
+                <td><b>Full Name:</b></td>
+                <td>{{ profile.full_name }}</td>
+              </tr>
+              <tr>
+                <td><b>Location:</b></td>
+                <td>{{ profile.location }}</td>
+              </tr>
+              <tr>
+                <td><b>Age:</b></td>
+                <td>{{ profile.age }}</td>
+              </tr>
+              <tr>
+                <td><b>Gender:</b></td>
+                <td>{{ profile.gender }}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="menu">
+            <a class="button addloading" data-xhr_url="watchlist/{{ profile.username }}">Watchlist</a>
+            <a class="button addloading" data-xhr_url="library/{{ profile.username }}">Library</a>
+            <a class="button addloading" data-xhr_url="rated/{{ profile.username }}">Rated</a>
+            <a class="button addloading" data-xhr_url="get_lists/{{ profile.username }}">Lists</a>
+            <a class="button addloading" data-xhr_url="progress/{{ profile.username }}">Progress</a>
+          </div>
+
+          {% if profile.watching %}
+            <div class="watching">
+              <b>Currently watching:</b>
+              {% if profile.watching.type == 'movie' %}
+                <span class="link goto_movie addloading" data-id="{{ profile.watching.movie.imdb_id }}">
+                  {{ profile.watching.movie.title }} ({{ profile.watching.movie.year }})
+                </span>
+              {% else %}
+                <span class="link goto_show addloading" data-id="{{ profile.watching.show.imdb_id }}">
+                  {{ profile.watching.show.title }}
+                  </span>
+                  <span
+                    class="goto_episode list_link addloading" 
+                    data-id="{{ profile.watching.show.imdb_id }}" 
+                    data-season="{{ profile.watching.episode.season }}"
+                    data-episode="{{ profile.watching.episode.number }}"
+                  >
+                  {{ profile.watching.episode.season }}x{{ profile.watching.episode.number }} - {{ profile.watching.episode.title }}
+                </span>
+              {% endif %}
+              <br>
+            </div>
+          {% endif %}
+
+          <div class="watched">
+            <b>Movies:</b>
+            <span>Collection: {{ profile.stats.movies.collection }}</span>
+            <span>Watched: {{ profile.stats.movies.watched }}</span><br>
+
+            <div class="bar" title="{{ movies_progress }}%">
+              <div class="inner" style="width: {{ movies_progress }}%;"></div>
+            </div>
+            <br>
+            <b>Episodes:</b>
+            <span>Collection: {{ profile.stats.episodes.collection }}</span>
+            <span>Watched: {{ profile.stats.episodes.watched }}</span><br>
+
+            <div class="bar" title="{{ episodes_progress }}%">
+              <div class="inner" style="width: {{ episodes_progress }}%;"></div>
+            </div>
+          </div>
+
+          <div class="toggle_hidden">
+            <b>Recently watched</b>
+            <img src="{{ url_for('static', filename='images/arrow_down.png') }}"/>
+          </div>
+
+          <div class="recently_watched hidden">
+            <table width="100%">
+              {% for item in profile.watched %}
+                <tr>
+                  <td width="65%">
+                    {% if item.type == 'episode' %}
+                      <span>
+                        <span class="goto_show link addloading" data-id="{{ item.show.imdb_id }}">
+                          {{ item.show.title }}
+                        </span>
+                        <span
+                          class="goto_episode list_link addloading" 
+                          data-id="{{ item.show.imdb_id }}" 
+                          data-season="{{ item.episode.season }}"
+                          data-episode="{{ item.episode.number }}"
+                        >
+                          {{ item.episode.season }}x{{ item.episode.number }} - {{ item.episode.title }}
+                        </span>
+                      </span>
+                    {% else %}
+                      <span class="link goto_movie addloading" data-id="{{ item.movie.imdb_id }}">
+                        {{ item.movie.title }} ({{ item.movie.year }})
+                      </span>
+                    {% endif %}
+                  </td>
+                  <td width="35%" align="right">{{ item.watched }}</td>
+                </tr>
+              {% endfor %}
+          </ul>
+          </div>
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

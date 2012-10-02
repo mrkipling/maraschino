@@ -19,6 +19,8 @@ Version.txt
 ######################
 
 settings.py
+static/images/trakt/movies
+static/images/trakt/shows
 
 ######################
 # OS generated files #

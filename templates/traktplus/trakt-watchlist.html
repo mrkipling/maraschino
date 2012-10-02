@@ -1,0 +1,38 @@
+{% extends "traktplus/trakt-base.html" %}
+{% block trakt_title %}
+  <a class="trakt_user link addloading" data-username="{{ user }}" title="Back to profile">{{ user }}</a>'s {{ title }}
+{% endblock %}
+{% block trakt_content %}
+{% if watchlist %}
+
+<div class="trakt_choices">
+  <b>{{ type }}</b>
+  {% if type == 'Movies' %}
+    <a class="button addloading" data-xhr_url="watchlist/{{ user }}/shows">Shows</a>
+  {% else %}
+    <a class="button addloading" data-xhr_url="watchlist/{{ user }}/movies">Movies</a>
+  {% endif %}
+</div>
+
+<div class="watchlist">
+  {% if watchlist.0.empty %}
+    {{ user }} has not added any {{ type|lower }} into their watchlist
+  {% else %}
+    <ul>
+      {% for item in watchlist %}
+      {% if type == 'Movies' %}
+        <li class="goto_movie addloading" data-id="{{ item.imdb_id }}">
+          {{ item.title }} ({{ item.year }})
+        </li>
+      {% else %}
+        <li class="goto_show addloading" data-id="{{ item.imdb_id }}">
+          {{ item.title }}
+        </li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+
+{% endif %}
+{% endblock %}

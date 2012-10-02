@@ -1,0 +1,42 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a class="search" href="{{ url_for('sickbeard_search') }}">+</a>
+{% endblock %}
+
+{% block header %}<h1>{{show.show_name}}</h1>{% endblock %}
+
+{% block navbar %}
+<div data-role="navbar">
+	<ul>
+    <li><a href="{{ url_for('sickbeard') }}">Wanted</a></li>
+    <li><a href="{{ url_for('sickbeard_all') }}">All</a></li>
+    <li><a href="{{ url_for('sickbeard_history') }}">History</a></li>
+	</ul>
+</div><!-- /navbar -->
+{% endblock %}
+
+{% block content %}
+<div id="sickbeard" class="show">
+  <h2>{{show.show_name}}</h2>
+  <p><b>Airs:</b> {{show.airs}} <i>({{show.status}})</i></p>
+  <p><b>Location:</b> {{show.location}}</p>
+  <p><b>Quality:</b> {{show.quality}}</p>
+  <br>
+  <ul data-role="listview">
+    {%for season in show.season_list|sort %}
+      <li>
+        <a href="{{ url_for('sickbeard_season', id=show.tvdbid, season=season) }}">
+          <h2>Season {{ season }}</h2>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  <br><br>
+  <div id="control">
+    <a href="#" data-role="button" data-theme="b" data-id="{{ show.tvdbid }}" data-corners="false" id="update">UPDATE SHOW</a>
+    <a href="#" data-role="button" data-theme="a" data-id="{{ show.tvdbid }}" data-corners="false" id="refresh">REFRESH SHOW</a>
+    <a href="#" data-role="button" data-theme="r" data-id="{{ show.tvdbid }}" data-corners="false" id="delete">DELETE SHOW</a>
+  </div>
+</div>
+{% endblock %}

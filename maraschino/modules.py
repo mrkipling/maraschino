@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""This file contains the descriptions and settings for all modules. Also it contains functions to add modules and so on"""
+
 try:
     import json
 except ImportError:
@@ -15,7 +18,7 @@ from Maraschino import app
 from maraschino.tools import *
 
 from maraschino.database import *
-from maraschino.models import Module, XbmcServer
+from maraschino.models import Module, XbmcServer, RecentlyAdded
 
 # name, label, description, and static are not user-editable and are taken from here
 # poll and delay are user-editable and saved in the database - the values here are the defaults
@@ -73,6 +76,11 @@ AVAILABLE_MODULES = [
                 'description': 'CouchPotato Port',
             },
             {
+                'key': 'couchpotato_webroot',
+                'value': '',
+                'description': 'CouchPotato Webroot',
+            },
+            {
                 'key': 'couchpotato_https',
                 'value': '0',
                 'description': 'Use HTTPS',
@@ -93,6 +101,14 @@ AVAILABLE_MODULES = [
         'static': False,
         'poll': 350,
         'delay': 0,
+        'settings': [
+            {
+                'key': 'show_grouped_disks',
+                'value': '0',
+                'description': 'Show grouped disks outside of group.',
+                'type': 'bool',
+            },
+        ]
     },
     {
         'name': 'headphones',
@@ -111,6 +127,11 @@ AVAILABLE_MODULES = [
                 'key': 'headphones_port',
                 'value': '',
                 'description': 'Headphones Port',
+            },
+            {
+                'key': 'headphones_webroot',
+                'value': '',
+                'description': 'Headphones Webroot',
             },
             {
                 'key': 'headphones_user',
@@ -179,6 +200,18 @@ AVAILABLE_MODULES = [
                 'description': 'Show Power Controls',
                 'type': 'bool',
             },
+            {
+                'key': 'library_show_music',
+                'value': '1',
+                'description': 'Show music',
+                'type': 'bool',
+            },
+            {
+                'key': 'library_show_files',
+                'value': '1',
+                'description': 'Show files',
+                'type': 'bool',
+            },
         ]
     },
     {
@@ -243,6 +276,14 @@ AVAILABLE_MODULES = [
                 'description': 'View information when selecting episode',
                 'type': 'bool',
             },
+            {
+                'key': 'recently_added_server',
+                'value': '',
+                'description': 'XBMC server',
+                'type': 'select',
+                'options': None,
+                'xbmc_servers': True
+            },
         ]
     },
     {
@@ -276,6 +317,14 @@ AVAILABLE_MODULES = [
                 'description': 'View information when selecting movie',
                 'type': 'bool',
             },
+            {
+                'key': 'recently_added_movies_server',
+                'value': '',
+                'description': 'XBMC server',
+                'type': 'select',
+                'options': None,
+                'xbmc_servers': True
+            },
         ]
     },
     {
@@ -303,6 +352,14 @@ AVAILABLE_MODULES = [
                 'description': 'View information when selecting album',
                 'type': 'bool',
             },
+            {
+                'key': 'recently_added_albums_server',
+                'value': '',
+                'description': 'XBMC server',
+                'type': 'select',
+                'options': None,
+                'xbmc_servers': True
+            },
         ]
     },
     {
@@ -324,6 +381,11 @@ AVAILABLE_MODULES = [
                 'description': 'Port',
             },
             {
+                'key': 'sabnzbd_webroot',
+                'value': '',
+                'description': 'Webroot',
+            },
+            {
                 'key': 'sabnzbd_api',
                 'value': '',
                 'description': 'API Key',
@@ -332,6 +394,12 @@ AVAILABLE_MODULES = [
                 'key': 'sabnzbd_https',
                 'value': '0',
                 'description': 'Use HTTPS',
+                'type': 'bool',
+            },
+            {
+                'key': 'sabnzbd_show_empty',
+                'value': '1',
+                'description': 'Show module when queue is empty',
                 'type': 'bool',
             },
         ]
@@ -401,6 +469,44 @@ AVAILABLE_MODULES = [
                 'key': 'trakt_password',
                 'value': '',
                 'description': 'Trakt Password',
+            },
+            {
+                'key': 'trakt_default_view',
+                'value': 'trending',
+                'description': 'Default view',
+                'type': 'select',
+                'options': [
+                    {'value': 'trending_shows', 'label': 'Trending (TV Shows)'},
+                    {'value': 'trending_movies', 'label': 'Trending (Movies)'},
+                    {'value': 'activity_friends', 'label': 'Activity (Friends)'},
+                    {'value': 'activity_community', 'label': 'Activity (Community)'},
+                    {'value': 'friends', 'label': 'Friends'},
+                    {'value': 'calendar' , 'label': 'Calendar'},
+                    {'value': 'recommendations_shows' , 'label': 'Recommendations (TV Shows)'},
+                    {'value': 'recommendations_movies' , 'label': 'Recommendations (Movies)'},
+                    {'value': 'profile' , 'label': 'My profile'},
+                ]
+            },
+            {
+                'key': 'trakt_default_media',
+                'value': 'shows',
+                'description': 'Default media type',
+                'type': 'select',
+                'options': [
+                    {'value': 'shows', 'label': 'Shows'},
+                    {'value': 'movies', 'label': 'Movies'},
+                ]
+            },
+            {
+                'key': 'trakt_trending_limit',
+                'value': '20',
+                'description': 'How many trending items to display',
+                'type': 'select',
+                'options': [
+                    {'value': '20', 'label': '20'},
+                    {'value': '40', 'label': '40'},
+                    {'value': '60', 'label': '60'},
+                ]
             },
         ]
     },
@@ -498,6 +604,11 @@ AVAILABLE_MODULES = [
                 'description': 'Sickbeard Port',
             },
             {
+                'key': 'sickbeard_webroot',
+                'value': '',
+                'description': 'Sickbeard Webroot',
+            },
+            {
                 'key': 'sickbeard_https',
                 'value': '0',
                 'description': 'Use HTTPS',
@@ -528,7 +639,8 @@ AVAILABLE_MODULES = [
             {
                 'key': 'weather_location',
                 'value': '',
-                'description': 'Location - can be a U.S. zip code or city name, state or city name, country',
+                'description': 'weather.com area ID',
+                'link': 'http://edg3.co.uk/snippets/weather-location-codes/',
             },
             {
                 'key': 'weather_use_celcius',
@@ -560,6 +672,12 @@ AVAILABLE_MODULES = [
 
 MISC_SETTINGS = [
     {
+        'key': 'show_currently_playing',
+        'value': '1',
+        'description': 'Show currently playing bar',
+        'type': 'bool',
+    },
+    {
         'key': 'fanart_backgrounds',
         'value': '0',
         'description': 'Show fanart backgrounds when watching media',
@@ -581,6 +699,11 @@ MISC_SETTINGS = [
             {'value': '4', 'label': '4'},
             {'value': '5', 'label': '5'},
         ]
+    },
+    {
+        'key': 'title_color',
+        'value': 'EEE',
+        'description': 'Module title color (hexadecimal)',
     },
 ]
 
@@ -635,9 +758,11 @@ SEARCH_SETTINGS = [
 @app.route('/xhr/add_module_dialog')
 @requires_auth
 def add_module_dialog():
+    """Dialog to add a new module to Maraschino"""
     modules_on_page = Module.query.all()
     available_modules = copy.copy(AVAILABLE_MODULES)
 
+    # filter all available modules that are not currently on the page
     for module_on_page in modules_on_page:
         for available_module in available_modules:
             if module_on_page.name == available_module['name']:
@@ -651,6 +776,7 @@ def add_module_dialog():
 @app.route('/xhr/add_module', methods=['POST'])
 @requires_auth
 def add_module():
+    """Add a new module to Maraschino"""
     try:
         module_id = request.form['module_id']
         column = request.form['column']
@@ -707,9 +833,9 @@ def add_module():
 @app.route('/xhr/rearrange_modules', methods=['POST'])
 @requires_auth
 def rearrange_modules():
+    """Rearrange a module on the page"""
     try:
         modules = json.JSONDecoder().decode(request.form['modules'])
-
     except:
         return jsonify({ 'status': 'error' })
 
@@ -719,7 +845,6 @@ def rearrange_modules():
             m.column = module['column']
             m.position = module['position']
             db_session.add(m)
-
         except:
             pass
 
@@ -730,6 +855,7 @@ def rearrange_modules():
 @app.route('/xhr/remove_module/<name>', methods=['POST'])
 @requires_auth
 def remove_module(name):
+    """Remove module from the page"""
     module = Module.query.filter(Module.name == name).first()
     db_session.delete(module)
     db_session.commit()
@@ -739,6 +865,7 @@ def remove_module(name):
 @app.route('/xhr/module_settings_dialog/<name>')
 @requires_auth
 def module_settings_dialog(name):
+    """show settings dialog for module"""
     module_info = get_module_info(name)
     module_db = get_module(name)
 
@@ -762,6 +889,9 @@ def module_settings_dialog(name):
                 if setting:
                     s['value'] = setting.value
 
+                if 'xbmc_servers' in s:
+                    s['options'] = module_get_xbmc_servers()
+
         return render_template('module_settings_dialog.html',
             module = module,
         )
@@ -771,6 +901,7 @@ def module_settings_dialog(name):
 @app.route('/xhr/module_settings_cancel/<name>')
 @requires_auth
 def module_settings_cancel(name):
+    """Cancel the settings dialog"""
     module = get_module_info(name)
 
     if module:
@@ -785,9 +916,9 @@ def module_settings_cancel(name):
 @app.route('/xhr/module_settings_save/<name>', methods=['POST'])
 @requires_auth
 def module_settings_save(name):
+    """Save options in settings dialog"""
     try:
         settings = json.JSONDecoder().decode(request.form['settings'])
-
     except:
         return jsonify({ 'status': 'error' })
 
@@ -950,6 +1081,29 @@ def delete_server(server_id=None):
         db_session.delete(xbmc_server)
         db_session.commit()
 
+        # Remove the server's cache
+        label = xbmc_server.label
+        recent_cache = [label + '_episodes', label + '_movies', label + '_albums']
+
+        try:
+            for entry in recent_cache:
+                recent_db = RecentlyAdded.query.filter(RecentlyAdded.name == entry).first()
+
+                if recent_db:
+                        db_session.delete(recent_db)
+                        db_session.commit()
+        except:
+            logger.log('Failed to remove servers database cache' , 'WARNING')
+
+        image_dir = os.path.join(maraschino.DATA_DIR, 'cache', 'xbmc', xbmc_server.label)
+        if os.path.isdir(image_dir):
+            import shutil
+
+            try:
+                shutil.rmtree(image_dir)
+            except:
+                logger.log('Failed to remove servers image cache' , 'WARNING')
+
         return render_template('includes/servers.html',
             servers = XbmcServer.query.order_by(XbmcServer.position),
         )
@@ -980,20 +1134,47 @@ def switch_server(server_id=None):
 
     return jsonify({ 'status': 'success' })
 
-# helper method which returns a module record from the database
-
 def get_module(name):
+    """helper method which returns a module record from the database"""
     try:
         return Module.query.filter(Module.name == name).first()
 
     except:
         return None
 
-# helper method which returns a module template
-
 def get_module_info(name):
+    """helper method which returns a module template"""
     for available_module in AVAILABLE_MODULES:
         if name == available_module['name']:
             return available_module
 
     return None
+
+def module_get_xbmc_servers():
+    servers = XbmcServer.query.order_by(XbmcServer.position)
+    options = [{'value': '', 'label': 'Default'}]
+
+    for server in servers:
+        server = {
+            'label': server.label,
+            'hostname': server.hostname,
+            'port': server.port,
+            'username': server.username,
+            'password': server.password,
+            'mac_address': server.mac_address,
+        }
+        if server['hostname'] and server['port']:
+            url = 'http://'
+
+            if server['username'] and server['password']:
+                url += '%s:%s@' % (server['username'], server['password'])
+
+            url += '%s:%s/jsonrpc' % (server['hostname'], server['port'])
+            server['api'] = url
+
+        else:
+            server['api'] = ''
+
+        options.append({'value': str(server), 'label': server['label']})
+
+    return options
