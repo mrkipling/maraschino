@@ -23,6 +23,28 @@
 
       .border-radius(4px);
 
+      img {
+        position: absolute;
+        right: 5px;
+        top: 6px;
+        opacity: 0.7;
+      }
+
+      ul {
+        text-align: left;
+        display: none;
+
+        li {
+          padding-left: 5px;
+          padding-right: 5px;
+          .border-radius(3px);
+
+          &:hover {
+            background: url('/@{webroot}/images/alpha/fff_20.png');
+          }
+        }
+      }
+
       &:hover {
         background: url('/@{webroot}/images/alpha/fff_20.png');
       }
