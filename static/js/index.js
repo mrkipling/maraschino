@@ -916,14 +916,14 @@ $(document).ready(function() {
     var id = $(this).attr('id');
     $.get(WEBROOT + '/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
     .success(function(data){
-      if(data){
+      if(data.result){
         $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src', WEBROOT + '/static/images/yes.png');
       } else {
         $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src', WEBROOT + '/static/images/no.png');
       }
     })
     .error(function(){
-      popup_message('Could not reach Sick-Beard.');
+      popup_message('Could not reach SickBeard.');
     });
   });
 
@@ -1213,7 +1213,7 @@ $(document).ready(function() {
       }
     })
     .error(function(){
-      popup_message('There was a problem with Sick-Beard.');
+      popup_message('There was a problem with SickBeard.');
     });
   });
 
@@ -1231,7 +1231,7 @@ $(document).ready(function() {
       }
     })
     .error(function(){
-      popup_message('There was a problem with Sick-Beard.');
+      popup_message('There was a problem with SickBeard.');
     });
   });
 
