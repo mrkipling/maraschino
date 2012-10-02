@@ -1377,6 +1377,56 @@ $(document).ready(function() {
     });
   });
 
+
+  $(document).on('mouseenter', '#sabnzbd .status img', function(){
+    $('#sabnzbd .pause_list').show();
+    });
+
+  $(document).on('mouseleave', '#sabnzbd .status', function(){
+    $('#sabnzbd .pause_list').hide();
+    });
+
+  $(document).on('click', '#sabnzbd .status .pause_time', function(e){
+    e.stopPropagation();
+    var time = $(this).data('time');
+    $.get(WEBROOT + '/xhr/sabnzbd/queue/pause/'+time)
+    .success(function(data){
+      $('#sabnzbd .pause_list').hide();
+      if(data.status == 'true'){
+        get_module('sabnzbd', { poll:10, params: [ 'show' ] });
+      }
+    })
+    .error(function(){
+      popup_message('Problem reaching Maraschino on /xhr/sabnzbd/queue/pause/'+time);
+    });
+  });
+
+  $(document).on('click', '#sabnzbd .status .pause_for', function(){
+    $.get(WEBROOT + '/xhr/sabnzbd/custom_pause/', function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
+  $(document).on('click', '#sabnzbd_pause_dialog .save_pause', function(){
+    var time = $('#sabnzbd_pause_dialog input').val();
+    if (time) {
+      $('#sabnzbd_pause_dialog .close').click();
+
+      $.get(WEBROOT + '/xhr/sabnzbd/queue/pause/'+time)
+      .success(function(data){
+        $('#sabnzbd .pause_list').hide();
+        if(data.status == 'true'){
+          get_module('sabnzbd', { poll:10, params: [ 'show' ] });
+        }
+      })
+      .error(function(){
+        popup_message('Problem reaching Maraschino on /xhr/sabnzbd/queue/pause/'+time);
+      });
+    }
+  });
+
   /********* END SABNZBD ***********/
 
   /********* CouchPotato **********/
