@@ -19,7 +19,6 @@ sabnzbd_history_slots = None
 def mobile_index():
     xbmc = True
     available_modules = Module.query.order_by(Module.position)
-
     servers = XbmcServer.query.order_by(XbmcServer.position)
     if servers.count() == 0:
         xbmc = False
@@ -27,7 +26,6 @@ def mobile_index():
     return render_template('mobile/index.html',
         available_modules=available_modules,
         xbmc=xbmc,
-        webroot=maraschino.WEBROOT
     )
 
 
@@ -44,7 +42,6 @@ def recently_added_episodes():
     return render_template('mobile/xbmc/recent_episodes.html',
         recently_added_episodes=recently_added_episodes[0],
         using_db=recently_added_episodes[1],
-        webroot=maraschino.WEBROOT
     )
 
 
@@ -57,7 +54,6 @@ def recently_added_movies():
     return render_template('mobile/xbmc/recent_movies.html',
         recently_added_movies=recently_added_movies[0],
         using_db=recently_added_movies[1],
-        webroot=maraschino.WEBROOT
     )
 
 
@@ -70,7 +66,6 @@ def recently_added_albums():
     return render_template('mobile/xbmc/recent_albums.html',
         recently_added_albums=recently_added_albums[0],
         using_db=recently_added_albums[1],
-        webroot=maraschino.WEBROOT
     )
 
 

@@ -11,7 +11,7 @@
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
 
     <!-- CSS -->
-    <script>var LESS_WEBROOT = "{% if webroot %}{{ webroot[1:] }}/{% endif %}static";</script>
+    <script>var LESS_WEBROOT = "{{ webroot_url('/static')[1:] }}";</script>
     <link rel="stylesheet/less" href="{{ url_for('static', filename='less/mobile/mobile.less') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='less/mobile/lib/jquery.mobile.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='less/mobile/lib/jquery.mobile.simpledialog.min.css') }}">
@@ -50,9 +50,11 @@
 
         {% block left_button %}{% endblock %}
 
-        <a class="logo" href="{{ url_for('mobile_index') }}" data-ajax="false"><img src="{{ url_for('static', filename='images/mobile/maraschino_logo.png') }}" alt="Maraschino logo"></a>
-
         {% block header %}<h1>Maraschino</h1>{% endblock %}
+
+        <a class="logo" href="{{ url_for('mobile_index') }}" data-ajax="false">
+          <img src="{{ url_for('static', filename='images/mobile/maraschino_logo.png') }}" alt="Maraschino logo">
+        </a>
 
         {% block navbar %}{% endblock %}
 
@@ -63,7 +65,7 @@
       </div>
 
     </div>
-    <script>var WEBROOT = "{{ webroot }}";</script>
+    <script>var WEBROOT = "{{ webroot_url() }}";</script>
     <script src="{{ url_for('static', filename='js/mobile/mobile.js') }}"></script>
 
   </body>

@@ -255,3 +255,10 @@ def daemonize():
     if PIDFILE:
         logger.log('Writing PID %s to %s' % (pid, PIDFILE), 'INFO')
         file(PIDFILE, 'w').write("%s\n" % pid)
+
+
+@app.context_processor
+def utility_processor():
+    def webroot_url(url=''):
+        return WEBROOT + url
+    return dict(webroot_url=webroot_url)
