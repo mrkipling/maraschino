@@ -2,16 +2,23 @@
 
 {% block couchpotato_content %}
 
-<div id="cp_content" {%if compact_view %}class="compact"{%endif%}>
+<div id="cp_content" {% if compact_view %}class="compact"{%endif%}>
   {% for item in couchpotato %}
     <div class="movie" id="{{item.library.identifier}}" data-cpid="{{item.library_id}}">
       <div class="{{item.releases.status}}"></div>
+      {% if not compact_view %}
       <div class="image">
         <img class="poster" 
-        src="{% if item.library.files[1] %}{{item.library.files[1].path|cp_img}}{% else %}{{ url_for('static', filename='images/poster.png') }}{% endif %}"
+        src="
+          {% if item.library.files[0] %}
+            {{item.library.files[0].path|cp_img}}
+          {% else %}
+            {{ url_for('static', filename='images/poster.png') }}
+          {% endif %}"
         />
         <span class="profile" title="CouchPotato quality profile">{{item.profile.label}}</span>
       </div>
+      {%endif%}
       <span class="title">{{item.library.titles[0].title}} ({{item.library.year}})</span>
       {% if item.library.rating %}<span class="rating text"><h3>Rating: {{item.library.rating}}</h3></span>{% endif %}
       <span class="tagline">{% if item.library.tagline %}{{item.library.tagline}}{% else %}{{item.library.plot|truncate(150)}}{% endif %}</span>

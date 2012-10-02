@@ -907,6 +907,11 @@ $(document).ready(function() {
 
   /*** SICKBEARD ***/
 
+  // Loading wheel on menu click
+  $(document).on('click', '#sickbeard .menu li', function() {
+    $(this).children().css('background', 'url('+WEBROOT+'/static/images/xhrloading.gif) no-repeat center').html('&nbsp;');
+  });
+
   // Search Episode Functionality on Magnifying Glass png
 
   $(document).on('click', '#sickbeard .coming_ep div.options img.search', function(){
@@ -916,7 +921,7 @@ $(document).ready(function() {
     var id = $(this).attr('id');
     $.get(WEBROOT + '/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
     .success(function(data){
-      if(data.result){
+      if(data.result === 'success'){
         $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src', WEBROOT + '/static/images/yes.png');
       } else {
         $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src', WEBROOT + '/static/images/no.png');
@@ -1375,6 +1380,12 @@ $(document).ready(function() {
   /********* END SABNZBD ***********/
 
   /********* CouchPotato **********/
+
+  // Loading wheel on menu click
+  $(document).on('click', '#couchpotato .menu li', function() {
+    $(this).children().css('background', 'url('+WEBROOT+'/static/images/xhrloading.gif) no-repeat center').html('&nbsp;');
+  });
+
   // menu wanted click
   $(document).on('click', '#couchpotato .menu .wanted', function(){
     $.get(WEBROOT + '/xhr/couchpotato/')
@@ -1923,14 +1934,14 @@ $(document).ready(function() {
     var type = poster.data('type');
     var rating = $(this).data('rating');
     var data = poster.dataset();
+    var unrate = false;
 
     if (button.hasClass('rated')) {
       data['rating'] = 'unrate';
-      var unrate = true;
+      unrate = true;
     }
     else {
       data['rating'] = rating;
-      var unrate = false;
     }
 
     button.css('background', 'url(' + WEBROOT + '/static/images/xhrloading.gif)');
@@ -1938,14 +1949,14 @@ $(document).ready(function() {
       if (data.status == 'successful') {
         if (unrate) {
           poster.find('.'+rating).remove();
-          button.removeClass('rated')
-          button.attr('title', title_str(rating) + 'd')
+          button.removeClass('rated');
+          button.attr('title', title_str(rating) + 'd');
           popup_message(type + ' successfully unrated');
         }
         else {
           poster.append('<div class="' + rating + '"></div>');
           button.addClass('rated');
-          button.attr('title', 'Unrate')
+          button.attr('title', 'Unrate');
           popup_message(type + ' successfully rated as ' + rating + 'd');
         }
       }
@@ -1991,17 +2002,18 @@ $(document).ready(function() {
     var media = $('#traktplus .list_media').dataset();
     var list_select = $('#traktplus .custom_lists .list').find(':selected');
     var form = $('#traktplus .custom_lists form').serializeArray();
+    var data = {};
 
     if (list_select.val() != 'none') {
       var list = list_select.dataset();
-      var data = {
+      data = {
         media: JSON.stringify(media),
         list: JSON.stringify(list),
         exist: true
       };
     }
     else {
-      var data = {
+      data = {
         media: JSON.stringify(media),
         list: JSON.stringify(form),
         exist: false

@@ -21,7 +21,7 @@
   {% for movie in wanted %}
       <li id="wanted">
         <a class="inner" href="{{webroot}}/mobile/couchpotato/movie/{{movie.id}}">
-            <img src="{{movie.library.info.images.poster.0}}" alt="">
+            <img src="{% if movie.library.files[0] %}{{movie.library.files[0].path|cp_img}}{% else %}{{ url_for('static', filename='images/poster.png') }}{% endif %}" alt="">
             <h2>{{movie.library.info.original_title}} ({{movie.library.info.year}})</h2>
             <p>{{movie.library.info.plot}}</p>
         </a>
