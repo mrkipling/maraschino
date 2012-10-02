@@ -143,6 +143,12 @@ def sabnzb_queue(action="pause", time=None):
     return jsonify({'status': False})
 
 
+@app.route('/xhr/sabnzbd/custom_pause/')
+@requires_auth
+def sabnzbd_custom_pause():
+    return render_template('sabnzbd-pause.html')
+
+
 @app.route('/xhr/sabnzbd/speedlimit/<int:speed>/')
 @requires_auth
 def sabnzb_speed_limit(speed):
