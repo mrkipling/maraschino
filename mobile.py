@@ -26,7 +26,8 @@ def mobile_index():
 
     return render_template('mobile/index.html',
         available_modules=available_modules,
-        xbmc=xbmc
+        xbmc=xbmc,
+        webroot=maraschino.WEBROOT
     )
 
 
