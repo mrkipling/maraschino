@@ -22,7 +22,6 @@
   {% for album in upcoming %}
     <li id="wanted">
       <a class="inner" href="{{ url_for('headphones_album', albumid=album.AlbumID) }}">
-        <img src="{{ album.ThumbURL }}" alt="">
         <h2>{{ album.AlbumTitle }}</h2>
         <p>{{ album.ArtistName }}</p>
       </a>
