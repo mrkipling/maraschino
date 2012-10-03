@@ -18,6 +18,7 @@ def xhr_transmission():
     # initialize empty list, which will be later populated with listing
     # of active torrents [of transmissionrpc.Client().info()]
     transmission = list()
+    seeding = list()
 
     # initialize empty datetime, which will be later incremented
     # to hold the total time remaining for all active downloads
@@ -34,6 +35,8 @@ def xhr_transmission():
     try:
         client = transmissionrpc.Client(**params)
 
+        stats = client.session_stats()
+
         # return list of running jobs:
         # {1: <Torrent 1 "Hello">, 2: <Torrent 2 "World">}
         torrents = client.list()
@@ -45,16 +48,22 @@ def xhr_transmission():
                 transmission.append(torrent)
 
                 # take the ETA for the current torrent, add it to the total ETA remaining
-                eta = eta + torrent.eta
+                if eta is not None:
+                    eta = eta + torrent.eta
+            
+            # if torrent is seeding instead, note as such            
+            elif torrent.status == 'seeding':
+                seeding.append(torrent)
 
-        # unset transmission, if there are no torrents currently being downloaded/seeded
-        if not transmission.__len__():
-            transmission = None
-
-    except:
-        transmission = None
+    except Exception as e:
+        log_exception(e)
 
     return render_template('transmission.html',
         transmission = transmission,
-        eta = eta
+        seeding = seeding,
+        upload = "%.1f" % (stats.uploadSpeed / 1024.0),
+        download = "%.1f" % (stats.downloadSpeed / 1024.0),
+        etanum = eta.microseconds + 1000000 * (eta.seconds + 86400 * eta.days),
+        seeds = len(seeding),
+        down = len(transmission),
     )
