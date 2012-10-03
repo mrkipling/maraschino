@@ -4,8 +4,12 @@ from flask import Flask, jsonify, render_template
 import transmissionrpc
 
 from datetime import timedelta
-from Maraschino import app
 from maraschino.tools import *
+from maraschino import app, logger
+
+
+def log_exception(e):
+    logger.log('Transmission :: EXCEPTION -- %s' % e, 'DEBUG')
 
 @app.route('/xhr/transmission')
 @app.route('/xhr/transmission/')
