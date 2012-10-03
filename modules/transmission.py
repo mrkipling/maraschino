@@ -63,7 +63,7 @@ def xhr_transmission():
         seeding = seeding,
         upload = "%.1f" % (stats.uploadSpeed / 1024.0),
         download = "%.1f" % (stats.downloadSpeed / 1024.0),
-        etanum = eta.microseconds + 1000000 * (eta.seconds + 86400 * eta.days),
+        eta = eta,
         seeds = len(seeding),
         down = len(transmission),
     )
