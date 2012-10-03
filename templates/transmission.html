@@ -1,43 +1,45 @@
-{% if transmission %}
-
+{% if transmission or seeding %}
 <div id="transmission" class="module" data-module="transmission">
 
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
-
   <h2>Transmission</h2>
-    <div class="eta"> {{ eta }} </div>
-
-  {% for torrent in transmission%}
-
   <div class="inner">
-
-
-    <p>
+  {% if transmission %}
+  <div id="status">{{ download }}KB/s</div><div class="eta">{{ eta }}</div>
+  {% else %}
+  <div id="status">{{ upload }}KB/s</div><div class="eta"><div>Seeding: {{ seeds }}</div>
+  {% endif %}
+  </div>
+  {% if transmission %}
+  <div class="list">
       <strong>Currently downloading:</strong>
-      "{{ torrent.name }}"
-    </p>
+  {% for torrent in transmission %}
+      <div class="name">"{{ torrent.name }}"</div>
+ 
 
     <div class="bar">
       <div class="inner" style="width: {{ torrent.progress|int }}%;"></div>
     </div>
 
     <div class="clearfix">
-      <p class="remaining"><strong>Remaining:</strong> {{ torrent.eta }}</p>
+      <p class="remaining"><strong>Remaining:</strong> {{ torrent.leftUntilDone // 1024 // 1024 }}MB</p>
       <p class="percentage_complete">{{ torrent.progress|int }}% complete <!--/  {{ torrent.fields['trackerStats'][0]['seederCount'] }} seed(s) vs {{ torrent.fields['trackerStats'][0]['leecherCount'] }} peer(s) --></p>
     </div>
 
-  </div>
+ 
 
     {% endfor %}
+	<p class="alsoseeding"><i>{{ seeds }} additional torrents seeding</i></p>
+	</div>
+	{% endif %}
 
 </div>
-
 {% else %}
 <div class="placeholder" data-module="transmission">
     <div class="module_settings"><span>Settings</span></div>
     <div class="module_remove"><span>Remove</span></div>
     <h2>Transmission</h2>
+	<p style="margin: 0 15px 15px;"><strong>Warning:</strong> unable to connect to Transmission.</p>
 </div>
 {% endif %}
-

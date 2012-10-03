@@ -2,7 +2,7 @@
 <html>
 
   <head>
-    <title>{% block page_title %}Maraschino{% endblock %}</title>
+    <title>{% block page_title %}Holocron{% endblock %}</title>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -23,6 +23,12 @@
       .dialog h2:first-of-type,
       .placeholder h2:first-of-type {
         color: #{{ title_color }}
+      }
+      /* #### CSS for large screen high resolution devices such as iPad 3 #### */
+      @media screen and (-webkit-min-device-pixel-ratio: 2) and (min-device-width: 768px){
+      body {
+	min-width: 1024pt
+      }
       }
     </style>
 

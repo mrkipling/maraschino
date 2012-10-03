@@ -2,7 +2,7 @@
 {
   position: relative;
 
-  > .inner {
+  > .list {
     line-height: 1.3em;
     padding: 0 15px 15px;
   }
@@ -13,6 +13,22 @@
 		cursor: pointer;
 	}
 
+  .inner {
+    #status {
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      border: 1px solid #222;
+      padding: 4px 8px 2px;
+			left: 45%;
+      margin-left: auto;
+			margin-right: auto;
+      position: absolute;
+      text-align: center;
+      top: 14px;
+/*      width: 100px;*/
+
+      .border-radius(4px);
+      }
+    }
 
 	.menu{
 		background: white;
@@ -30,7 +46,6 @@
     position: absolute;
     right: 20px;
     top: 14px;
-
     .border-radius(4px);
   }
 
@@ -50,17 +65,6 @@
     	border:none;
 			cursor:pointer;
     }
-  }
-  
-  .inner #status {
-    padding: 4px 8px 2px;
-    position: absolute;
-    top: 14px;
-    left: 40%;
-  }
-
-  .status {
-	cursor: pointer;
   }
 
   img.remove {
@@ -112,6 +116,14 @@
     font-size: 0.9em;
     font-size: smaller;
   }
+	
+	.alsoseeding {
+    font-size: 0.9em;
+    font-size: smaller;
+		margin-bottom: -10px;
+		left: 50%;
+		text-align: center;
+	}
 
   .percentage_complete {
     float: right;
