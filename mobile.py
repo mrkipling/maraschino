@@ -8,7 +8,6 @@ from maraschino import app, logger
 
 from maraschino.tools import *
 from maraschino.noneditable import *
-import maraschino
 
 global sabnzbd_history_slots
 sabnzbd_history_slots = None
@@ -73,7 +72,6 @@ def recently_added_albums():
 @requires_auth
 def xbmc():
     return render_template('mobile/xbmc/xbmc.html',
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -89,7 +87,6 @@ def movie_library():
 
     return render_template('mobile/xbmc/movie_library.html',
         movies=movies,
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -105,7 +102,6 @@ def tv_library():
 
     return render_template('mobile/xbmc/tv_library.html',
         TV=TV,
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -121,7 +117,6 @@ def tvshow(id):
 
     return render_template('mobile/xbmc/tvshow.html',
         show=show,
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -138,7 +133,6 @@ def season(id, season):
     return render_template('mobile/xbmc/season.html',
         season=season,
         episodes=episodes,
-        webroot=maraschino.WEBROOT,
     )
 
 from modules.sickbeard import sickbeard_api, get_pic
@@ -163,7 +157,6 @@ def sickbeard():
 
     return render_template('mobile/sickbeard/coming_episodes.html',
         coming_episodes=sickbeard,
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -186,7 +179,6 @@ def sickbeard_all():
 
     return render_template('mobile/sickbeard/all.html',
         shows=sickbeard,
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -206,7 +198,6 @@ def sickbeard_history():
 
     return render_template('mobile/sickbeard/history.html',
         history=sickbeard,
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -228,7 +219,6 @@ def sickbeard_show(id):
 
     return render_template('mobile/sickbeard/show.html',
         show=sickbeard,
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -276,7 +266,6 @@ def sickbeard_episode(id, season, episode):
         episode_number=episode,
         episode=sickbeard,
         id=id,
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -288,7 +277,6 @@ def sickbeard_episode_options(id, season, episode):
         season_number=season,
         episode_number=episode,
         show_number=id,
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -308,7 +296,6 @@ def sickbeard_search(query=None):
     return render_template('mobile/sickbeard/search.html',
         results=sickbeard,
         query=query,
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -329,7 +316,6 @@ def couchpotato():
 
     return render_template('mobile/couchpotato/wanted.html',
         wanted=couchpotato,
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -347,7 +333,6 @@ def couchpotato_all():
 
     return render_template('mobile/couchpotato/all.html',
         all=couchpotato,
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -370,7 +355,6 @@ def couchpotato_history():
     return render_template('mobile/couchpotato/history.html',
         history=couchpotato,
         unread=unread,
-        webroot=maraschino.WEBROOT,
     )
 
 
@@ -405,7 +389,6 @@ def couchpotato_search(query=None):
     return render_template('mobile/couchpotato/search.html',
         results=couchpotato,
         query=query,
-        webroot=maraschino.WEBROOT,
     )
 
 from modules.headphones import *
