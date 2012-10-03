@@ -48,7 +48,7 @@ def xhr_transmission():
                 transmission.append(torrent)
 
                 # take the ETA for the current torrent, add it to the total ETA remaining
-                if eta is not None:
+                if torrent.eta is not None:
                     eta = eta + torrent.eta
             
             # if torrent is seeding instead, note as such            
