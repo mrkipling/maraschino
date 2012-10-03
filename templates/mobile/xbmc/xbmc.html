@@ -1,5 +1,13 @@
 {% extends "mobile/base.html" %}
 
+{% block left_button %}
+  {% for server in servers %}
+    {% if server.id == active_server %}
+      <a class="servers" href="#">{{ server.label }}</a>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
+
 {% block header %}<h1>XBMC</h1>{% endblock %}
 
 {% block navbar %}

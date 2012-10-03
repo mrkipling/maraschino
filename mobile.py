@@ -71,7 +71,11 @@ def recently_added_albums():
 @app.route('/mobile/xbmc/')
 @requires_auth
 def xbmc():
+    servers = XbmcServer.query.order_by(XbmcServer.position)
+    active_server = int(get_setting_value('active_server'))
     return render_template('mobile/xbmc/xbmc.html',
+        servers=servers,
+        active_server=active_server,
     )
 
 
