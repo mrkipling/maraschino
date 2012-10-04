@@ -55,6 +55,16 @@ $(document).ready(function () {
         });
     });
 
+    $(document).on('change', '#servers select', function() {
+        var selected = $('#'+ $(this).val() + '_server');
+        $.get(WEBROOT + '/xhr/switch_server/' + selected.data('id'), function(data) {
+            if (data.status === 'error') {
+                popup_message('There was an error switching XBMC servers.');
+                return;
+            }
+        });
+
+    });
 
       ///////////////////
      //  CouchPotato  //
