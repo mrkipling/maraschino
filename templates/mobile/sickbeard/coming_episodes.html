@@ -26,7 +26,7 @@
         	<p>{{episode.ep_name}}</p>
         	<p>{{episode.airdate}}</p>
         </a>
-        <a href="{{ url_for('sickbeard_episode_options', id=episode.tvdbid, season=episode.season, episode=episode.episode }}" data-theme="a" data-rel="dialog" data-transition="flip">Options</a>
+        <a href="{{ url_for('sickbeard_episode_options', id=episode.tvdbid, season=episode.season, episode=episode.episode) }}" data-theme="a" data-rel="dialog" data-transition="flip">Options</a>
       </li>
   {% endfor %}
   <li data-role="list-devider" data-theme="a"><span class="ui-li-count">{{coming_episodes.soon|length}}</span>Soon</li>
