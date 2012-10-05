@@ -20,7 +20,7 @@
 <ul id="couchpotato" data-role="listview" data-filter="true">
   {% for movie in all %}
       <li id="all">
-        <a class="inner" href="{{ url_for('couchpotato_movie', id=movie.id }}">
+        <a class="inner" href="{{ url_for('couchpotato_movie', id=movie.id) }}">
             <h2>{{movie.library.info.original_title}} ({{movie.library.info.year}})</h2>
             <p>{{movie.library.info.plot}}</p>
         </a>
