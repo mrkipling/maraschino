@@ -2,7 +2,7 @@ from flask import render_template, jsonify
 import jsonrpclib
 import urllib
 
-from maraschino.noneditable import *
+from maraschino.xbmc import server_api_address
 from maraschino.tools import *
 from maraschino import app, logger
 

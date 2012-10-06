@@ -1,8 +1,8 @@
 from flask import render_template
 import jsonrpclib, ast, os
 
-from maraschino import app, logger, DATA_DIR, THREADS, HOST, PORT, WEBROOT
-from maraschino.noneditable import *
+from maraschino import app, logger, DATA_DIR, HOST, PORT, WEBROOT
+from maraschino.xbmc import server_api_address
 from maraschino.tools import *
 from threading import Thread
 from maraschino.models import RecentlyAdded, XbmcServer
@@ -322,7 +322,7 @@ def cache_recent_image(label, type, id, image):
     if not os.path.exists(file_path):
         image_path = maraschino_path() + xbmc_image(image, label)
         Thread(target=download_image, args=(image_path, file_path)).start()
-        THREADS.append(len(THREADS) + 1)
+        maraschino.THREADS.append(len(maraschino.THREADS) + 1)
 
     return xbmc_image(image, label)
 

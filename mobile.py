@@ -6,8 +6,9 @@ import jsonrpclib
 from flask import render_template
 from maraschino import app, logger
 
-from maraschino.tools import *
-from maraschino.noneditable import *
+from maraschino.tools import requires_auth
+from maraschino.xbmc import server_api_address
+from maraschino.models import XbmcServer, Module
 import maraschino
 
 global sabnzbd_history_slots

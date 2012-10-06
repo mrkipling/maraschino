@@ -135,6 +135,11 @@ def initialize():
             d = wsgiserver.WSGIPathInfoDispatcher({'/': app})
         SERVER = wsgiserver.CherryPyWSGIServer((HOST, PORT), d)
 
+
+        # Check for legacy XBMC settings
+        from maraschino.xbmc import legacy_xbmc_check
+        legacy_xbmc_check()
+
         __INITIALIZED__ = True
         return True
 

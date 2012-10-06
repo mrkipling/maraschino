@@ -1052,7 +1052,8 @@ def server_settings_dialog(server_id=None):
                 db_session.commit()
 
             return render_template('includes/servers.html',
-                servers = XbmcServer.query.order_by(XbmcServer.position),
+                servers=XbmcServer.query.order_by(XbmcServer.position),
+                active_server=int(get_setting('active_server'))
             )
 
         except:

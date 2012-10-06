@@ -1,13 +1,9 @@
-try:
-    import json
-except ImportError:
-    import simplejson as json
-from flask import Flask, jsonify, render_template, request
+from flask import jsonify, render_template, request, json
 import hashlib, jsonrpclib, urllib
 
-from Maraschino import app
-from maraschino.noneditable import *
-from maraschino.tools import *
+from maraschino import app
+from maraschino.xbmc import server_api_address
+from maraschino.tools import requires_auth, get_setting_value
 
 @app.route('/xhr/trakt')
 @requires_auth

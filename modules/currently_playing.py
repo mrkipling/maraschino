@@ -2,8 +2,8 @@ from flask import jsonify, render_template
 import jsonrpclib
 import maraschino
 from maraschino import app, logger
-from maraschino.noneditable import *
-from maraschino.tools import *
+from maraschino.xbmc import server_api_address
+from maraschino.tools import requires_auth, format_time
 
 @app.route('/xhr/currently_playing')
 @requires_auth

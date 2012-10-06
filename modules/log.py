@@ -1,7 +1,5 @@
 from flask import render_template
-from maraschino import app, LOG_FILE
-from maraschino.noneditable import *
-from maraschino import logger
+from maraschino import app, logger, LOG_FILE
 from pastebin.pastebin import PastebinAPI
 from maraschino.tools import requires_auth
 

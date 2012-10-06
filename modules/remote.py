@@ -1,10 +1,9 @@
-from flask import Flask, jsonify, render_template
+from flask import jsonify
 
 from maraschino import app, RUNDIR
-from socket import *
 from xbmc.xbmcclient import XBMCClient
 from maraschino.tools import get_setting_value
-from maraschino.noneditable import *
+from maraschino.xbmc import server_settings
 
 import time, os
 

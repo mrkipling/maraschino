@@ -4,10 +4,9 @@ import socket
 import struct
 import urllib
 
-from Maraschino import app
-from maraschino.noneditable import *
-from maraschino.tools import *
-from maraschino import logger
+from maraschino.xbmc import server_api_address, server_settings, youtube_to_xbmc
+from maraschino.tools import requires_auth
+from maraschino import logger, app
 
 xbmc_error = 'There was a problem connecting to the XBMC server'
 

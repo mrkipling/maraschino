@@ -120,7 +120,7 @@ class XbmcServer(Base):
         self.label = label
 
         if position == None:
-            self.position = highest_position(Disk)
+            self.position = highest_position(XbmcServer)
         else:
             self.position = position
 
