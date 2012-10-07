@@ -530,6 +530,12 @@ AVAILABLE_MODULES = [
                 'value': '',
                 'description': 'Transmission Password',
                 },
+                {
+                'key': 'transmission_show_empty',
+                'value': '1',
+                'description': 'Show module with no active torrents',
+                'type': 'bool',
+                },
         ]
     },
     {

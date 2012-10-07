@@ -29,11 +29,25 @@
 
  
 
-    {% endfor %}
+  {% endfor %}
 	<p class="alsoseeding"><i>{{ seeds }} additional torrents seeding</i></p>
 	</div>
 	{% endif %}
 
+</div>
+{% elif connection and show_empty %}
+<div id="transmission" class="module" data-module="transmission">
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
+    <h2>Transmission</h2>
+		<p style="margin: 0 15px 15px;"><strong>No active torrents.</strong></p>
+</div>
+{% elif connection %}
+<div class="placeholder" data-module="transmission">
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
+    <h2>Transmission</h2>
+		<p style="margin: 0 15px 15px;"><strong>No active torrents.</strong></p>
 </div>
 {% else %}
 <div class="placeholder" data-module="transmission">

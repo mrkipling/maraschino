@@ -31,6 +31,8 @@ def xhr_transmission():
         'user' : get_setting_value('transmission_user') or None,
         'password' : get_setting_value('transmission_password') or None
     }
+    
+    connection = False
 
     try:
         client = transmissionrpc.Client(**params)
@@ -40,6 +42,9 @@ def xhr_transmission():
         # return list of running jobs:
         # {1: <Torrent 1 "Hello">, 2: <Torrent 2 "World">}
         torrents = client.list()
+        
+        if client is not None:
+            connection = True
 
         # loop through each job, add any active (downloading) torrents to the transmission list()
         for i in torrents:
@@ -59,6 +64,8 @@ def xhr_transmission():
         log_exception(e)
 
     return render_template('transmission.html',
+        connection = connection,
+        show_empty = get_setting_value('transmission_show_empty'),
         transmission = transmission,
         seeding = seeding,
         upload = "%.1f" % (stats.uploadSpeed / 1024.0),
