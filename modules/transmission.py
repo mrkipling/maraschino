@@ -65,7 +65,7 @@ def xhr_transmission():
 
     return render_template('transmission.html',
         connection = connection,
-        show_empty = get_setting_value('transmission_show_empty'),
+        show_empty = get_setting_value('transmission_show_empty') == '1',
         transmission = transmission,
         seeding = seeding,
         upload = "%.1f" % (stats.uploadSpeed / 1024.0),
