@@ -34,7 +34,11 @@
         <div class="release_list">
           <ul>
             {% for release in item.releases %}
-              <li data-id="{{ release.id }}" data-imdbid="{{item.library.identifier}}">
+              <li
+                data-id="{{ release.id }}"
+                data-imdbid="{{item.library.identifier}}"
+                title="Provider: {{ release.info.provider }}&#13;Size: {{ release.info.size }}MB"
+              >
                 <a href="{{ release.info.detail_url }}" target="_blank">
                   {{release.info.name}}
                 </a>
