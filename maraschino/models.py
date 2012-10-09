@@ -142,6 +142,7 @@ class Script(Base):
     parameters = Column(String(500))
     updates = Column(Integer)
     status = Column(String(500))
+    data = Column(PickleType)
 
     def __init__(self, label, script, parameters=None, updates=0, status=None):
         self.label = label
@@ -149,6 +150,7 @@ class Script(Base):
         self.parameters = parameters
         self.updates = updates
         self.status = status
+        self.data = data
 
     def __repr__(self):
         return '<Script %r>' % (self.label)
