@@ -2,9 +2,9 @@
     li {
     	background: url('/@{webroot}/images/alpha/fff_10.png');
     	border: 1px solid #222;
+    	height: 36px;
     	line-height: 1.3em;
     	margin-top: 5px;
-    	min-height: 40px;
     	padding: 0;
     	.border-radius(4px);
 
@@ -16,24 +16,26 @@
       	    margin-top: 0;
     	}
 
-    	a {
-      	    cursor: pointer;
-    	}
-
     	.script {
-    	    float: left;
+      	    cursor: pointer;
+            display: block;
+            position: relative;
+            width: 100%;
     	}
 
     	.label {
-      	    float: left;
-      	    padding: 10px 15px;
-    	}
+            left: 0;
+            padding: 10px 15px;
+            position: absolute;
+        }
 
-    	.path {
-      	    color: #ddd;
-      	    float: right;
-      	    font-size: 0.9em;
-      	    padding: 10px 15px;
+        .path {
+            color: #ddd;
+            float: right;
+            font-size: 0.9em;
+            padding: 10px 15px;
+            position: absolute;
+            right: 0;
     	}
     }
 
