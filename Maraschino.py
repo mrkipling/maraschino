@@ -57,6 +57,7 @@ def import_modules():
     import modules.recently_added
     import modules.remote
     import modules.sabnzbd
+    import modules.script_launcher
     import modules.search
     import modules.sickbeard
     import modules.trakt

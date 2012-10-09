@@ -12,6 +12,7 @@ static/images/backgrounds/custom
 /logs/
 cache
 Version.txt
+/scripts/
 
 ######################
 #       Legacy       #

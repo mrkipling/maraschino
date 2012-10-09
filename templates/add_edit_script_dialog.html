@@ -1,0 +1,52 @@
+<div id="add_edit_script_dialog" class="dialog">
+
+  <div class="close">x</div>
+
+  <h2>{% if script %}Edit{% else %}Add{% endif %} Script</h2>
+
+  <form method="" action="">
+
+    {% if script %}
+      <input type="hidden" name="script_id" value="{{ script.id }}">
+    {% endif %}
+
+    <div class="formrow">
+      <label for="id_script_label">Label (required)</label>
+      <input id="id_script_label" class="required" name="label" type="text"{% if script %} value="{{ script.label }}"{% endif %}>
+    </div>
+
+    <div class="formrow">
+      <label for="id_script_file">Script (required)</label>
+      {% if script_files %}
+        <select id="id_script_file" name="script_file">
+          <option value=""{% if script.script == '' %} selected="selected"{% endif %}></option>
+          {% for script_file in script_files %}
+            <option value="{{ script_file }}"{% if script.script == script_file %} selected="selected"{% endif %}>{{ script_file }}</option>
+          {% endfor %}
+        </select>
+
+      {% else %}
+        <label for="id_script_file">No Scripts where found in the script dir.</label>
+      {% endif %}
+    </div>
+
+    <div class="formrow">
+      <label for="id_script_parameters">Command Parameters</label>
+      <input id="id_script_parameters" name="parameters" type="text"{% if script %} value="{{ script.parameters }}"{% endif %}>
+    </div>
+
+    <div class="formrow">
+      <div class="spacer"/>
+      <input id="id_script_type" name="type" type="checkbox" {% if script.updates == 1 %} checked="{{ script.updates }}"{% endif %}>
+      <label for="id_script_type" class="checkboxlabel">Updates Status</label>
+    </div>
+
+    <div class="choices">
+      <div class="save add_script">{% if script %}Save{% else %}Add{% endif %} script</div>
+      {% if script %}<div class="delete">Delete</div>{% endif %}
+      <div class="cancel">Cancel</div>
+    </div>
+
+  </form>
+
+</div>

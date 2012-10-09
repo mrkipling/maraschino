@@ -1,0 +1,33 @@
+<div id="script_launcher" class="module generic" data-module="script_launcher">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2>Script Launcher</h2>
+  
+  {% if scripts %}
+
+  <div class="inner">
+
+    <ul>
+      {% for script in scripts %}
+      	<a class="script" data-id="{{ script.id }}" title="Launch {{ script.label }}" href="#">
+        	<li data-id="{{ script.id }}">
+        		<span class="label">
+        			{{ script.label }}
+            	</span>
+	            {% if script.status %}
+	            	<span class="path">{{script.status}}</span>
+	            {% endif %}
+        	</li>
+        </a>
+      {% endfor %}
+    </ul>
+
+  </div>
+
+  {% endif %}
+  
+  <div id="add_script">+ Add Script</div>
+  
+</div>

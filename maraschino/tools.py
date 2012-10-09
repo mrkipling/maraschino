@@ -101,8 +101,7 @@ def get_setting_value(key, default=None):
     except:
         return default
 
-def get_file_list(folder, extensions, prepend_path=True):
-    """Get list of all files in folder that match an extension. This walks the folder recursively"""
+def get_file_list(folder, extensions, prepend_path=True, prepend_path_minus_root=False):
     filelist = []
 
     for root, subFolders, files in os.walk(folder):
@@ -110,6 +109,15 @@ def get_file_list(folder, extensions, prepend_path=True):
             if os.path.splitext(file)[1] in extensions:
                 if prepend_path:
                     filelist.append(os.path.join(root,file))
+                elif prepend_path_minus_root:
+                    full = os.path.join(root, file)
+                    partial = full.replace(folder, '')
+                    if partial.startswith('/'):
+                        partial = partial.replace('/', '', 1)
+                    elif partial.startswith('\\'):
+                        partial = partial.replace('\\', '', 1)
+                        
+                    filelist.append(partial)
                 else:
                     filelist.append(file)
 
