@@ -223,7 +223,7 @@ $(document).ready(function () {
     $(document).on('click', '#sabnzbd_navbar #speed', function() {
           $('.speed_popup').simpledialog2();
     });
-    
+
     $(document).on('click', '#speed_popup li', function() {
         $.mobile.showPageLoadingMsg();
         $.get($(this).data('url'), function(data) {
@@ -262,5 +262,19 @@ $(document).ready(function () {
                 }
             });
         }
+    });
+
+      //////////////
+     //  Search  //
+    //////////////
+
+    $(document).on('keypress', 'input#search_field', function(e) {
+        if(e.which == 13){
+            document.location.href = WEBROOT + '/mobile/search/'+ $('#site').val() +'/' + $(this).val() + '/' + $('#category').val();
+        }
+    });
+
+    $(document).on('change', '#site', function() {
+        document.location.href = WEBROOT + '/mobile/search/' + $(this).val();
     });
 });
