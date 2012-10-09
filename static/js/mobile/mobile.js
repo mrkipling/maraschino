@@ -280,13 +280,26 @@ $(document).ready(function () {
      //  Search  //
     //////////////
 
-    $(document).on('keypress', 'input#search_field', function(e) {
+    $(document).on('keypress', '#search input#search_field', function(e) {
         if(e.which == 13){
+            $.mobile.showPageLoadingMsg();
             document.location.href = WEBROOT + '/mobile/search/'+ $('#site').val() +'/' + $(this).val() + '/' + $('#category').val();
         }
     });
 
-    $(document).on('change', '#site', function() {
+    $(document).on('change', '#search #site', function() {
+        $.mobile.showPageLoadingMsg();
         document.location.href = WEBROOT + '/mobile/search/' + $(this).val();
+    });
+
+    $(document).on('click', '#search #results li a.add_to_sab', function() {
+        $.post(WEBROOT + '/sabnzbd/add/',{url: encodeURI($(this).data('url'))}, function(data){
+            data = eval('(' + data + ')');
+            if(data['status']){
+                popup_message('Successfully added to SabNZBd');
+            } else {
+                popup_message(data['error']);
+            }
+        });
     });
 });

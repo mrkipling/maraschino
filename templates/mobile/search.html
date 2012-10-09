@@ -30,27 +30,33 @@
     <br><br>
 
     {% if results and categories.1.label %}
-        <ul id="results" data-role="listview">
+        <ul id="results" data-role="listview" data-split-theme="e" data-split-icon="sab">
         {% for x in results %}
         {% set item = results[x] %}
-            <li data-url={{ item.LINK }}>
-                <h2>{{item.NZBNAME}}</h2>
-                <p>
-                    {{ item.SIZE|convert_bytes }} |
-                    {{ item.CATEGORY }}
-                </p>
+            <li>
+                <a href="http://{{ item.LINK }}">
+                    <h2>{{item.NZBNAME}}</h2>
+                    <p>
+                        {{ item.SIZE|convert_bytes }} |
+                        {{ item.CATEGORY }}
+                    </p>
+                </a>
+                <a href="#" class="add_to_sab" data-url={{ item.LINK|add_to_sab }}>Add To SabNZBd</a>
             </li>
         {% endfor %}
         </ul>
     {% elif results %}
-        <ul id="results" data-role="listview">
+        <ul id="results" data-role="listview" data-split-theme="e" data-split-icon="sab">
         {% for item in results.channel.item %}
-            <li data-url={{ item.link[9:]|add_to_sab }}>
-                <h2>{{ item.title }}</h2>
-                <p>
-                    {{ item.enclosure['@attributes']['length']|convert_bytes }} |
-                    {{ item.category }}
-                </p>
+            <li>
+                <a href="{{ item.guid }}">
+                    <h2>{{ item.title }}</h2>
+                    <p>
+                        {{ item.enclosure['@attributes']['length']|convert_bytes }} |
+                        {{ item.category }}
+                    </p>
+                </a>
+                <a href="#" class="add_to_sab" data-url={{ item.link[9:]|add_to_sab }}>Add To SabNZBd</a>
             </li>
         {% endfor %}
         </ul>
