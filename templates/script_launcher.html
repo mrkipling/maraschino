@@ -11,16 +11,16 @@
 
     <ul>
       {% for script in scripts %}
-      	<a class="script" data-id="{{ script.id }}" title="Launch {{ script.label }}" href="#">
-          <li data-id="{{ script.id }}">
+        <li data-id="{{ script.id }}">
+      	  <a class="script" data-id="{{ script.id }}" title="Launch {{ script.label }}" href="#">
             <span class="label">
               {{ script.label }}
             </span>
-	    {% if script.status %}
-	    <span class="path">{{script.status}}</span>
-	    {% endif %}
-          </li>
-        </a>
+            {% if script.status %}
+            <span class="path">{{script.status}}</span>
+            {% endif %}
+          </a>
+        </li>
       {% endfor %}
     </ul>
 
