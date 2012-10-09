@@ -4,7 +4,7 @@
 
 <div id="cp_content" {% if compact_view %}class="compact"{%endif%}>
   {% for item in couchpotato %}
-    <div class="movie" id="{{item.library.identifier}}" data-cpid="{{item.id}}">
+    <div class="movie {{ 'releases' if item.releases }}" id="{{item.library.identifier}}" data-cpid="{{item.id}}">
       <div class="{{item.releases.status}}"></div>
       {% if not compact_view %}
       <div class="image">
@@ -25,11 +25,36 @@
       {%if compact_view %}<span class="quality">{{item.profile.label}}</span>{%endif%}
     </div>
     <div class="options {{item.library.identifier}}" data-imdbid="{{item.library.identifier}}" data-cpid="{{item.library_id}}">
-      <img class="delete" src="{{ url_for('static', filename='images/no.png')}}"/>
-      <img class="search" src="{{ url_for('static', filename='images/search.png')}}"/>
+      <img class="delete left_opt" src="{{ url_for('static', filename='images/no.png')}}"/>
+      <img class="search left_opt" src="{{ url_for('static', filename='images/search.png')}}"/>
       <a href="http://imdb.com/title/{{item.library.identifier}}" target="_blank">
-        <img src="{{ url_for('static', filename='images/imdb.png')}}" alt="" />
+        <img class="left_opt" src="{{ url_for('static', filename='images/imdb.png')}}" alt="" />
       </a>
+      {% if item.releases %}
+        <div class="release_list">
+          <ul>
+            {% for release in item.releases %}
+              <li data-id="{{ release.id }}" data-imdbid="{{item.library.identifier}}">
+                <a href="{{ release.info.detail_url }}" target="_blank">
+                  {{release.info.name}}
+                </a>
+                <img
+                  id="download"
+                  class="release_btn"
+                  src="{{ url_for('static', filename='images/download.png') }}"
+                  data-action="download"
+                />
+                <img
+                  id="delete"
+                  class="release_btn"
+                  src="{{ url_for('static', filename='images/no.png') }}"
+                  data-action="delete"
+                />
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
     </div>
   {% endfor %}
 </div>
