@@ -38,10 +38,12 @@
         li {
           padding-left: 5px;
           padding-right: 5px;
+          cursor: default;
           .border-radius(3px);
 
-          &:hover {
+          &.pause_time:hover,&.pause_for:hover {
             background: url('/@{webroot}/images/alpha/fff_20.png');
+            cursor: pointer;
           }
         }
       }

@@ -55,6 +55,16 @@ $(document).ready(function () {
         });
     });
 
+    $(document).on('change', '#servers select', function() {
+        var selected = $('#'+ $(this).val() + '_server');
+        $.get(WEBROOT + '/xhr/switch_server/' + selected.data('id'), function(data) {
+            if (data.status === 'error') {
+                popup_message('There was an error switching XBMC servers.');
+                return;
+            }
+        });
+
+    });
 
       ///////////////////
      //  CouchPotato  //
@@ -63,11 +73,13 @@ $(document).ready(function () {
     // notification read click
 
     $(document).on('click', '#couchpotato li#notification.new', function() {
+        $(this).removeClass('ui-body-e').removeClass('new').addClass('ui-body-c');
         $.get(WEBROOT + '/xhr/couchpotato/notification/read/' + $(this).data('id'), function(data) {
             if(data.success){
-                $(this).attr('data-theme', 'c').removeClass('ui-body-e').addClass('ui-body-c');
+                $(this).attr('data-theme', 'c');
                 $('#unread').text($('#unread').text()-1);
             } else {
+                $(this).addClass('ui-body-e').addClass('new').removeClass('ui-body-c');
                 popup_message('Failed to mark notification as read');
             }
         });
@@ -223,7 +235,7 @@ $(document).ready(function () {
     $(document).on('click', '#sabnzbd_navbar #speed', function() {
           $('.speed_popup').simpledialog2();
     });
-    
+
     $(document).on('click', '#speed_popup li', function() {
         $.mobile.showPageLoadingMsg();
         $.get($(this).data('url'), function(data) {

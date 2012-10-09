@@ -5,13 +5,14 @@
     {{ sabnzbd.status }}
     <img class="pause_arrow" src="{{ url_for('static', filename='images/arrow_down.png') }}">
     <ul class="pause_list">
-      <li class="pause_time" data-time="5">Pause for 5 minutes</li>
-      <li class="pause_time" data-time="15">Pause for 15 minutes</li>
-      <li class="pause_time" data-time="30">Pause for 30 minutes</li>
-      <li class="pause_time" data-time="60">Pause for 1 hour</li>
-      <li class="pause_time" data-time="180">Pause for 3 hours</li>
-      <li class="pause_time" data-time="360">Pause for 6 hours</li>
-      <li class="pause_for">Pause for...</li>
+      <li>Pause for: </li>
+      <li class="pause_time" data-time="5">5 minutes</li>
+      <li class="pause_time" data-time="15">15 minutes</li>
+      <li class="pause_time" data-time="30">30 minutes</li>
+      <li class="pause_time" data-time="60">1 hour</li>
+      <li class="pause_time" data-time="180">3 hours</li>
+      <li class="pause_time" data-time="360">6 hours</li>
+      <li class="pause_for">Other...</li>
     </ul>
   </div>
   <div class="speed"><input type="text" value="{{ download_speed[:-4] }}" title="Adjust Speed" size="5"/>{{ download_speed[-4:] }}</div>
@@ -33,7 +34,7 @@
 	<table width=100%>
 		<tr>
 			<td align=left><b>Total Remaining:</b> {{sabnzbd.timeleft}} / {{sabnzbd.sizeleft}}</td>
-			<td align=right><span> 
+			<td align=right><span>
 				{% if queue_status == 'hide' %} <img src="{{ url_for('static', filename='images/arrow_down.png')}}">More
 				{% else %} <img	src="{{ url_for('static', filename='images/arrow_up.png') }}">Less
 				{% endif %}

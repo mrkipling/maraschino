@@ -421,7 +421,6 @@ def cp_notification_read(id):
     try:
         logger.log('CouchPotato :: Marking notification "%i" as read' % id, 'INFO')
         result = couchpotato_api('notification.markread', 'ids=%i' % id)
-        print result
         return jsonify({'success': True})
 
     except Exception as e:
