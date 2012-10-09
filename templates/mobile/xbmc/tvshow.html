@@ -7,7 +7,7 @@
 <ul id="" data-role="listview">
   {% for season in show %}
       <li data-icon="{{ 'check' if season.playcount else 'false' }}" >
-        <a class="inner" href="{{ url_for('season', id=season.tvshowid, season=season.season }}">
+        <a class="inner" href="{{ url_for('season', id=season.tvshowid, season=season.season) }}">
         	<h2>{{season.label}}</h2>
         </a>
       </li>

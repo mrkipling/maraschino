@@ -427,3 +427,19 @@ def cp_notification_read(id):
         log_exception(e)
 
     return jsonify({'success': False})
+
+
+@app.route('/xhr/couchpotato/release/<action>/<id>/')
+@requires_auth
+def release_action(action, id):
+    if id.isdigit():
+        id = int(id)
+
+    try:
+        logger.log('CouchPotato :: %sing release %s' % (action.title()[:-1], id), 'INFO')
+        result = couchpotato_api('release.%s' % action, 'id=%s' % id)
+        return jsonify(result)
+    except Exception as e:
+        log_exception(e)
+
+    return jsonify({'success': False})

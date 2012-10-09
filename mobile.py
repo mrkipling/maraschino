@@ -345,7 +345,7 @@ def couchpotato_all():
 def couchpotato_history():
     unread = 0
     try:
-        couchpotato = couchpotato_api('notification.list', params='limit_offset=0,50')
+        couchpotato = couchpotato_api('notification.list')
         if couchpotato['success'] and not couchpotato['empty']:
             couchpotato = couchpotato['notifications']
             for notification in couchpotato:

@@ -18,7 +18,7 @@
 
 {% block content %}
 <ul id="couchpotato" data-role="listview" data-filter="true">
-  {% for notification in history %}
+  {% for notification in history|reverse %}
       <li id="notification" {% if not notification.read %}data-theme="e" class="new"{% endif %} data-id="{{notification.id}}">
           <h2>{{ notification.message }})</h2>
       </li>
