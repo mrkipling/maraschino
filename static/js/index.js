@@ -2972,6 +2972,63 @@ $(document).ready(function() {
   $(document).on('click', '#headphones .head_item', function() {
     $(this).children().replaceWith('<img src="' + WEBROOT + '/static/images/xhrloading.gif" width="14" height="14">');
   });
+//script launcher
+  
+  $(document).on('click', '#add_script', function() {
+    $.get(WEBROOT + '/xhr/add_script_dialog', function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
+  $(document).on('click', '.f_settings_mode #script_launcher li', function() {
+    $.get(WEBROOT + '/xhr/edit_script_dialog/' + $(this).data('id'), function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+    return false;
+  });
+
+  $(document).on('click', '#add_edit_script_dialog .choices .save', function() {
+    var form = $('#add_edit_script_dialog form');
+
+    if (!validate_form(form)) {
+      return false;
+    }
+
+    var settings = form.serialize();
+    $.post(WEBROOT + '/xhr/add_edit_script', settings, function(data) {
+      if (!data.status) {
+        $('#script_launcher').replaceWith(data);
+        $('#add_edit_script_dialog .close').click();
+      } else  if (data.status == 'Command Required') {
+        $('#add_edit_script_dialog label[for=id_script_command]').html('Command (required) <span class="invalid">(invalid)</span>');
+      } else if (data.status == 'Label Required'){
+      	$('#add_edit_script_dialog label[for=id_script_label]').html('Label (required) <span class="invalid">(invalid)</span>');
+      } else {
+        $('#add_edit_script_dialog label[for=id_script_command]').html('Command (required) <span class="invalid">(invalid)</span>');
+      	$('#add_edit_script_dialog label[for=id_script_label]').html('Label (required) <span class="invalid">(invalid)</span>');
+      }
+    });
+  });
+
+  $(document).on('click', '#add_edit_script_dialog .choices .delete', function() {
+    var script_id = $('#add_edit_script_dialog input[name=script_id]').val();
+    $.post(WEBROOT + '/xhr/delete_script/' + script_id, {}, function(data) {
+      if (!data.status) {
+        $('#script_launcher').replaceWith(data);
+        $('#add_edit_script_dialog .close').click();
+      }
+    });
+  });
+  
+  $(document).on('click', '#script_launcher .script', function() {
+    $.get('/xhr/script_launcher/start_script/' + $(this).data('id'), function(data) {
+    	$('#script_launcher').replaceWith(data);
+    });
+  });
 
   // Quit module polling
   function stop_polling(){
