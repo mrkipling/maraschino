@@ -1530,14 +1530,51 @@ $(document).ready(function() {
     var el = $('#'+id);
     el.toggleClass('selected');
     if(el.hasClass('selected')){
-      el.transition({x: '30px', opacity: 0.7}, function(){
-        $('#couchpotato #cp_content .options&.'+id).transition({opacity: 1});
-      });
+      if ($(this).parent().hasClass('releases')) {
+        var x_move = $('#couchpotato').width() - ($(this).width() * 1.55);
+        var ul_width = x_move - 40;
+        x_move = x_move + 'px';
+        ul_width = ul_width + 'px';
+        $('#couchpotato .release_list').css('width', ul_width);
+
+        el.transition({x: x_move, opacity: 0.7}, function(){
+          $('#couchpotato #cp_content .options&.'+id).transition({opacity: 1});
+        });
+      }
+      else {
+        el.transition({x: '30px', opacity: 0.7}, function(){
+          $('#couchpotato #cp_content .options&.'+id).transition({opacity: 1});
+        });
+      }
     } else {
       $('#couchpotato #cp_content .options&.'+id).transition({opacity: 0}, function(){
         el.transition({opacity: 1, x: '0px'});
       });
     }
+  });
+  // release action (download, remove, ignore)
+  $(document).on('click', '#couchpotato .release_list .release_btn', function() {
+    var id = $(this).parent().data('id');
+    var el = $(this);
+    var action = el.data('action');
+    el.attr('src', WEBROOT + '/static/images/xhrloading.gif');
+
+    $.get(WEBROOT+'/xhr/couchpotato/release/'+action+'/'+id, function(data) {
+      if(data.success) {
+        if(action === 'delete') {
+          el.parent().transition({opacity: 0, duration: 1000}, function(){
+            el.parent().remove();
+          });
+        } else {
+          popup_message('Successfully sent download request');
+          $.get(WEBROOT+'/xhr/couchpotato/', function(data) {
+            $('#couchpotato').replaceWith(data);
+          });
+        }
+      } else {
+        popup_message('Failed to '+action+' release, see log for more datials');
+      }
+    });
   });
   // wanted delete, info delete
   $(document).on('click', '#couchpotato #cp_content .options img.delete, #couchpotato #info .options img.delete', function(selector) {
