@@ -132,7 +132,8 @@ class XbmcServer(Base):
 
     def __repr__(self):
         return '<XbmcServer %r>' % (self.label)
-    
+
+
 class Script(Base):
     __tablename__ = 'scripts'
     id = Column(Integer, primary_key=True)
@@ -151,7 +152,8 @@ class Script(Base):
 
     def __repr__(self):
         return '<Script %r>' % (self.label)
-    
+
+
 class RecentlyAdded(Base):
     __tablename__ = 'recently_added'
     id = Column(Integer, primary_key=True)
