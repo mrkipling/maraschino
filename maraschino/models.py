@@ -144,7 +144,7 @@ class Script(Base):
     status = Column(String(500))
     data = Column(PickleType)
 
-    def __init__(self, label, script, parameters=None, updates=0, status=None):
+    def __init__(self, label, script, parameters=None, updates=0, status=None, data=None):
         self.label = label
         self.script = script
         self.parameters = parameters
