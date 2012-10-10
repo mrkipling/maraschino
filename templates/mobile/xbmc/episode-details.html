@@ -1,0 +1,23 @@
+<div id="xbmc_details" data-role="dialog">
+    <div data-role="content" data-theme="c" class="ui-corner-bottom ui-content ui-body-c" role="main">
+
+        <h1>{{episode.title}}</h1>
+        {% if episode.thumbnail %}
+            <img class="thumbnail" src="{{episode.thumbnail|xbmc_image}}" align="left"/>
+        {% endif %}
+        <div>
+            <table border="0">
+                <tr>
+                    <td><b>First Aired:</b></td>
+                    <td>{{episode.firstaired}}</td>
+                </tr>
+                <tr>
+                    <td><b>Rating:</b></td>
+                    <td>{{episode.rating|float|round(1, 'common')}} / 10</td>
+                </tr>
+            </table>
+        </div>
+        <p>{{episode.plot}}</p>
+
+    </div>
+</div>
