@@ -29,7 +29,6 @@ SERVER = None
 HOST = '0.0.0.0'
 KIOSK = False
 DATA_DIR = None
-SCRIPT_DIR = None
 THREADS = []
 
 AUTH = {
@@ -37,6 +36,7 @@ AUTH = {
     'password': None,
 }
 
+UPDATER = True
 CURRENT_COMMIT = None
 LATEST_COMMIT = None
 COMMITS_BEHIND = 0
@@ -48,7 +48,8 @@ def initialize():
     with INIT_LOCK:
 
         global __INITIALIZED__, app, FULL_PATH, RUNDIR, ARGS, DAEMON, PIDFILE, VERBOSE, LOG_FILE, LOG_DIR, logger, PORT, SERVER, DATABASE, AUTH, \
-                CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT, HOST, KIOSK, DATA_DIR, SCRIPT_DIR, THREADS
+                UPDATER, CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT, HOST, KIOSK, DATA_DIR, SCRIPT_DIR, \
+                THREADS
 
         if __INITIALIZED__:
             return False
@@ -69,10 +70,6 @@ def initialize():
 
         logger = maraschinoLogger(LOG_FILE, VERBOSE)
 
-        #set up script dir
-        if not SCRIPT_DIR:
-            SCRIPT_DIR = os.path.join(RUNDIR, 'scripts')
-        
         # check if database exists or create it
         from database import init_db
 
@@ -148,29 +145,31 @@ def init_updater():
     from maraschino.updater import checkGithub, gitCurrentVersion
     global USE_GIT, CURRENT_COMMIT, COMMITS_BEHIND
 
-    if os.name == 'nt':
-        USE_GIT = False
-    else:
-        USE_GIT = os.path.isdir(os.path.join(RUNDIR, '.git'))
-        if USE_GIT:
-            gitCurrentVersion()
+    if UPDATER:
+        if os.name == 'nt':
+            USE_GIT = False
+        else:
+            USE_GIT = os.path.isdir(os.path.join(RUNDIR, '.git'))
+            if USE_GIT:
+                gitCurrentVersion()
 
-    version_file = os.path.join(DATA_DIR, 'Version.txt')
-    if os.path.isfile(version_file):
-        f = open(version_file, 'r')
-        CURRENT_COMMIT = f.read()
-        f.close()
-    else:
-        COMMITS_BEHIND = -1
+        version_file = os.path.join(DATA_DIR, 'Version.txt')
+        if os.path.isfile(version_file):
+            f = open(version_file, 'r')
+            CURRENT_COMMIT = f.read()
+            f.close()
+        else:
+            COMMITS_BEHIND = -1
 
-    threading.Thread(target=checkGithub).start()
+        threading.Thread(target=checkGithub).start()
 
 
 def start_schedules():
     """Add all periodic jobs to the scheduler"""
-    # check every 6 hours for a new version
-    from maraschino.updater import checkGithub
-    SCHEDULE.add_interval_job(checkGithub, hours=6)
+    if UPDATER:
+        # check every 6 hours for a new version
+        from maraschino.updater import checkGithub
+        SCHEDULE.add_interval_job(checkGithub, hours=6)
     SCHEDULE.start()
 
 
