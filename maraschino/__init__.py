@@ -129,7 +129,7 @@ def initialize():
         # Set up web server
         if '--webroot' not in str(ARGS):
             WEBROOT = get_setting_value('maraschino_webroot')
-            if WEBROOT is None:
+            if WEBROOT is None or DEVELOPMENT:
                 WEBROOT = ''
 
         if WEBROOT:
