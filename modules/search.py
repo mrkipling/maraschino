@@ -156,8 +156,8 @@ def xhr_search(site=None):
 
 
 @app.route('/search/nzbmatrix/<item>/')
-@app.route('/search/nzbmatrix/<item>/<cat>')
-def nzb_matrix(item, cat=None):
+@app.route('/search/nzbmatrix/<item>/<cat>/')
+def nzb_matrix(item, cat=None, mobile=False):
     API = get_setting_value('nzb_matrix_API')
     USERNAME = get_setting_value('nzb_matrix_user')
 
@@ -178,6 +178,9 @@ def nzb_matrix(item, cat=None):
     if result.get('error'):
         result = None
 
+    if mobile:
+        return result
+
     return render_template('search-nzbmatrix.html',
         site='nzbmatrix',
         results=result,
@@ -187,8 +190,8 @@ def nzb_matrix(item, cat=None):
 
 
 @app.route('/search/nzb.su/<item>/')
-@app.route('/search/nzb.su/<item>/<cat>')
-def nzb_su(item, cat=None):
+@app.route('/search/nzb.su/<item>/<cat>/')
+def nzb_su(item, cat=None, mobile=False):
     API = get_setting_value('nzb_su_API')
 
     if not API:
@@ -212,6 +215,9 @@ def nzb_su(item, cat=None):
 
     else:
         result = ''
+
+    if mobile:
+        return result
 
     return render_template('search-nzbsu.html',
         site='nzb.su',

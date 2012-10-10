@@ -263,7 +263,7 @@ def restart():
 
 
 @app.route('/sickbeard/search/')
-def search():
+def sb_search():
     sickbeard = {}
     params = ''
 

@@ -1,0 +1,65 @@
+{% extends "mobile/base.html" %}
+
+{% block header %}<h1>Search</h1>{% endblock %}
+
+{% block content %}
+<div id="search">
+    <input type="search" id="search_field" placeholder="Usenet search" value="{% if not query == None %}{{ query }}{% endif %}"/>
+    <fieldset data-role="controlgroup">
+        <select name="site" id="site">
+            <option>Site</option>
+            <option value="nzbmatrix" {{ 'selected' if categories.1.label }}>NZBMatrix</option>
+            <option value="nzb.su" {{ 'selected' if not categories.1.label }}>nzb.su</option>}
+        </select>
+        {% if categories|length %}
+            <select id="category">
+            {% for cat in categories %}
+                {% if cat.label|length %}
+                    <optgroup label="{{cat.label}}">
+                    {% for subcat in cat.value %}
+                        <option value="{{subcat.id}}">{{subcat.name}}</option>
+                    {% endfor %}
+                    </optgroup>
+                {% else %}
+                    <option value="{{cat.id}}">{{cat.name}}</option>
+                {% endif %}
+            {% endfor %}
+            </select>
+        {% endif %}
+    </fieldset>
+    <br><br>
+
+    {% if results and categories.1.label %}
+        <ul id="results" data-role="listview" data-split-theme="e" data-split-icon="sab">
+        {% for x in results %}
+        {% set item = results[x] %}
+            <li>
+                <a href="http://{{ item.LINK }}">
+                    <h2>{{item.NZBNAME}}</h2>
+                    <p>
+                        {{ item.SIZE|convert_bytes }} |
+                        {{ item.CATEGORY }}
+                    </p>
+                </a>
+                <a href="#" class="add_to_sab" data-url={{ item.LINK|add_to_sab }}>Add To SabNZBd</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% elif results %}
+        <ul id="results" data-role="listview" data-split-theme="e" data-split-icon="sab">
+        {% for item in results.channel.item %}
+            <li>
+                <a href="{{ item.guid }}">
+                    <h2>{{ item.title }}</h2>
+                    <p>
+                        {{ item.enclosure['@attributes']['length']|convert_bytes }} |
+                        {{ item.category }}
+                    </p>
+                </a>
+                <a href="#" class="add_to_sab" data-url={{ item.link[9:]|add_to_sab }}>Add To SabNZBd</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}
