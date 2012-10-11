@@ -23,5 +23,10 @@
         </div>
         <p>{{show.plot}}</p>
 
+        <div id="controls" data-role="controlgroup" data-type="horizontal" align="center">
+            <a href="#" data-role="button" data-xhrurl="/xhr/play/video/tvshow/{{show.tvshowid}}">Play</a>
+            <a href="#" data-role="button" data-xhrurl="/xhr/enqueue/video/tvshow/{{show.tvshowid}}">Queue</a>
+        </div>
+
     </div>
 </div>

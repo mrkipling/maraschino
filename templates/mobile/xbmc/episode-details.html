@@ -19,5 +19,10 @@
         </div>
         <p>{{episode.plot}}</p>
 
+        <div id="controls" data-role="controlgroup" data-type="horizontal" align="center">
+            <a href="#" data-role="button" data-xhrurl="/xhr/play/video/episode/{{episode.episodeid}}">Play</a>
+            <a href="#" data-role="button" data-xhrurl="/xhr/enqueue/video/episode/{{episode.episodeid}}">Queue</a>
+        </div>
+
     </div>
 </div>

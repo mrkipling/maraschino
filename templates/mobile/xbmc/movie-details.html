@@ -27,5 +27,13 @@
         </div>
         <p>{{movie.plot}}</p>
 
+        <div id="controls" data-role="controlgroup" data-type="horizontal" align="center">
+            <a href="#" data-role="button" data-xhrurl="/xhr/play/video/movie/{{movie.movieid}}">Play</a>
+            <a href="#" data-role="button" data-xhrurl="/xhr/enqueue/video/movie/{{movie.movieid}}">Queue</a>
+            {% if movie.trailer %}
+                <a href="#" data-role="button" data-xhrurl="/xhr/play/trailer/{{movie.movieid}}">Trailer</a>
+            {% endif %}
+        </div>
+
     </div>
 </div>

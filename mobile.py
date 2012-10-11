@@ -149,7 +149,7 @@ def season(id, season):
 def movie_info(id):
     try:
         xbmc = jsonrpclib.Server(server_api_address())
-        properties = ['thumbnail', 'rating', 'director', 'genre', 'plot', 'year']
+        properties = ['thumbnail', 'rating', 'director', 'genre', 'plot', 'year', 'trailer']
         movie = xbmc.VideoLibrary.GetMovieDetails(movieid=id, properties=properties)['moviedetails']
 
     except Exception as e:

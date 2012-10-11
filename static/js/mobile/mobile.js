@@ -66,6 +66,16 @@ $(document).ready(function () {
 
     });
 
+    // media info controls
+
+    $(document).on('click', '#xbmc_details #controls a', function(e) {
+        e.preventDefault();
+        $.mobile.showPageLoadingMsg();
+        $.get(WEBROOT + $(this).data('xhrurl'), function () {
+            $.mobile.hidePageLoadingMsg();
+        });
+    });
+
       ///////////////////
      //  CouchPotato  //
     ///////////////////
