@@ -1,14 +1,11 @@
 from flask import Flask, jsonify, render_template, request
 import os, platform, ctypes, subprocess, datetime
 
-from Maraschino import app
-from maraschino.noneditable import *
 from maraschino.tools import *
-from maraschino import logger as logger
+from maraschino import app, logger
 from maraschino.database import db_session
-
 from maraschino.models import Script
-
+import maraschino
 
 
 @app.route('/xhr/script_launcher/') 

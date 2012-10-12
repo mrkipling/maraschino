@@ -3025,7 +3025,7 @@ $(document).ready(function() {
   });
   
   $(document).on('click', '#script_launcher .script', function() {
-    $.get('/xhr/script_launcher/start_script/' + $(this).data('id'), function(data) {
+    $.get(WEBROOT + '/xhr/script_launcher/start_script/' + $(this).data('id'), function(data) {
     	$('#script_launcher').replaceWith(data);
     });
   });
