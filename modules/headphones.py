@@ -80,9 +80,9 @@ def hp_albumart(id):
 @requires_auth
 def xhr_headphones_image(type, id):
     if type == 'artist':
-        cache_url = headphones_api('getArtistThumb&id=' + id)
+        cache_url = headphones_api('getArtistThumb&id=' + id, use_json=False)
     else:
-        cache_url = headphones_api('getAlbumThumb&id=' + id)
+        cache_url = headphones_api('getAlbumThumb&id=' + id, use_json=False)
 
     if cache_url:
         url = '%s/%s' % (headphones_url(), cache_url)
