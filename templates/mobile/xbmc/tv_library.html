@@ -11,6 +11,15 @@
             <!-- <div class="thumb"><img src="{{ show.thumbnail|xbmc_image }}"></div> -->
             <h2>{{show.label}}</h2>
         </a>
+        <a
+            href="{{ url_for('tvshow_info', id=show.tvshowid) }}"
+            data-rel="dialog"
+            data-transition="flip"
+            data-theme="a"
+            data-icon="info"
+        >
+            Info
+        </a>
       </li>
   {% endfor %}
 </ul>

@@ -86,7 +86,8 @@ def xbmc():
 def movie_library():
     try:
         xbmc = jsonrpclib.Server(server_api_address())
-        movies = xbmc.VideoLibrary.GetMovies(properties=['title', 'rating', 'year', 'thumbnail', 'tagline', 'playcount'])['movies']
+        sort = {'method': 'label', 'ignorearticle': True}
+        movies = xbmc.VideoLibrary.GetMovies(sort=sort, properties=['title', 'rating', 'year', 'thumbnail', 'tagline', 'playcount'])['movies']
 
     except:
         logger.log('Mobile :: XBMC :: Could not retrieve movie library', 'WARNING')
@@ -101,7 +102,8 @@ def movie_library():
 def tv_library():
     try:
         xbmc = jsonrpclib.Server(server_api_address())
-        TV = xbmc.VideoLibrary.GetTVShows(properties=['thumbnail'])['tvshows']
+        sort = {'method': 'label', 'ignorearticle': True}
+        TV = xbmc.VideoLibrary.GetTVShows(sort=sort, properties=['thumbnail'])['tvshows']
 
     except Exception as e:
         logger.log('Mobile :: XBMC :: Could not retrieve TV Shows: %s' % e, 'WARNING')
@@ -119,7 +121,7 @@ def tvshow(id):
         show = xbmc.VideoLibrary.GetSeasons(tvshowid=id, properties=['tvshowid', 'season', 'showtitle', 'playcount'])['seasons']
 
     except Exception as e:
-        logger.log('Mobile :: SickBeard :: Could not retrieve TV Show [id: %i -  %s]' % (id, e), 'WARNING')
+        logger.log('Mobile :: XBMC :: Could not retrieve TV Show [id: %i -  %s]' % (id, e), 'WARNING')
 
     return render_template('mobile/xbmc/tvshow.html',
         show=show,
@@ -134,11 +136,59 @@ def season(id, season):
         episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=id, season=season, sort={'method': 'episode'}, properties=['tvshowid', 'season', 'showtitle', 'playcount'])['episodes']
 
     except Exception as e:
-        logger.log('Mobile :: SickBeard :: Could not retrieve TV Show [id: %i, season: %i -  %s]' % (id, season, e), 'WARNING')
+        logger.log('Mobile :: XBMC :: Could not retrieve TV Show [id: %i, season: %i -  %s]' % (id, season, e), 'WARNING')
 
     return render_template('mobile/xbmc/season.html',
         season=season,
         episodes=episodes,
+    )
+
+
+@app.route('/mobile/movie/<int:id>/info/')
+@requires_auth
+def movie_info(id):
+    try:
+        xbmc = jsonrpclib.Server(server_api_address())
+        properties = ['thumbnail', 'rating', 'director', 'genre', 'plot', 'year', 'trailer']
+        movie = xbmc.VideoLibrary.GetMovieDetails(movieid=id, properties=properties)['moviedetails']
+
+    except Exception as e:
+        logger.log('Mobile :: XBMC :: Could not retrieve movie details [id: %i -  %s]' % (id, e), 'WARNING')
+
+    return render_template('mobile/xbmc/movie-details.html',
+        movie=movie
+    )
+
+
+@app.route('/mobile/tvshow/<int:id>/info/')
+@requires_auth
+def tvshow_info(id):
+    try:
+        xbmc = jsonrpclib.Server(server_api_address())
+        properties = ['thumbnail', 'rating', 'studio', 'genre', 'plot']
+        show = xbmc.VideoLibrary.GetTVShowDetails(tvshowid=id, properties=properties)['tvshowdetails']
+
+    except Exception as e:
+        logger.log('Mobile :: XBMC :: Could not retrieve TV Show details [id: %i -  %s]' % (id, e), 'WARNING')
+
+    return render_template('mobile/xbmc/tvshow-details.html',
+        show=show,
+        banners=get_setting_value('library_use_bannerart') == '1'
+    )
+
+@app.route('/mobile/episode/<int:id>/info/')
+@requires_auth
+def episode_info(id):
+    try:
+        xbmc = jsonrpclib.Server(server_api_address())
+        properties = ['thumbnail', 'firstaired', 'rating', 'plot', 'title']
+        episode = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=id, properties=properties)['episodedetails']
+
+    except Exception as e:
+        logger.log('Mobile :: XBMC :: Could not retrieve episode details [id: %i -  %s]' % (id, e), 'WARNING')
+
+    return render_template('mobile/xbmc/episode-details.html',
+        episode=episode
     )
 
 from modules.sickbeard import sickbeard_api, get_pic

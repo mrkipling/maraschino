@@ -1,0 +1,32 @@
+<div id="xbmc_details" data-role="dialog">
+    <div data-role="content" data-theme="c" class="ui-corner-bottom ui-content ui-body-c" role="main">
+
+        <h1>{{show.label}}</h1>
+        {% if show.thumbnail %}
+            <img class="{% if banners %}banner{% else %}poster{% endif %}" src="{{show.thumbnail|xbmc_image}}" align="left"/>
+        {% endif %}
+        <div>
+            <table border="0">
+                <tr>
+                    <td><b>Studio:</b></td>
+                    <td>{{show.studio}}</td>
+                </tr>
+                <tr>
+                    <td><b>Genre:</b></td>
+                    <td>{{show.genre}}</td>
+                </tr>
+                <tr>
+                    <td><b>Rating:</b></td>
+                    <td>{{show.rating|float|round(1, 'common')}} / 10</td>
+                </tr>
+            </table>
+        </div>
+        <p>{{show.plot}}</p>
+
+        <div id="controls" data-role="controlgroup" data-type="horizontal" align="center">
+            <a href="#" data-role="button" data-xhrurl="/xhr/play/video/tvshow/{{show.tvshowid}}">Play</a>
+            <a href="#" data-role="button" data-xhrurl="/xhr/enqueue/video/tvshow/{{show.tvshowid}}">Queue</a>
+        </div>
+
+    </div>
+</div>

@@ -16,6 +16,15 @@
           <h2>{{ episode.showtitle }}</h2>
           <p>{{ episode.season }}x{{ "%02d"|format(episode.episode) }} - {{ episode.title }}</p>
         </a>
+        <a
+          href="{{ url_for('episode_info', id=episode.episodeid) }}"
+          data-rel="dialog"
+          data-transition="flip"
+          data-theme="a"
+          data-icon="info"
+        >
+          Info
+        </a>
       </li>
   {% endfor %}
 </ul>
