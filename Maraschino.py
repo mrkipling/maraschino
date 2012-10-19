@@ -123,6 +123,10 @@ def main():
     p.add_option('--datadir',
                  dest='datadir',
                  help='Write program data to custom location')
+    p.add_option('--noupdate',
+                 action="store_true",
+                 dest='noupdate',
+                 help='Disable the internal updater')
 
     # parse command line for defined options
     options, args = p.parse_args()
@@ -167,6 +171,9 @@ def main():
 
     if options.kiosk:
         maraschino.KIOSK = True
+
+    if options.noupdate:
+        maraschino.UPDATER = False
 
     maraschino.RUNDIR = rundir
     maraschino.DATA_DIR = data_dir
