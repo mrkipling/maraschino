@@ -8,7 +8,16 @@
   {% for episode in episodes %}
       <li data-icon="{{ 'check' if episode.playcount else 'false' }}" >
         <a class="inner play" href="#" data-tvshowid="{{ episode.tvshowid }}" data-episodeid="{{ episode.episodeid }}">
-        	<h2>{{episode.label}}</h2>
+            <h2>{{episode.label}}</h2>
+        </a>
+        <a
+            href="{{ url_for('episode_info', id=episode.episodeid) }}"
+            data-rel="dialog"
+            data-transition="flip"
+            data-theme="a"
+            data-icon="info"
+        >
+            Info
         </a>
       </li>
   {% endfor %}

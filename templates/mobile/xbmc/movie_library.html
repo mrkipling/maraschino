@@ -12,6 +12,15 @@
           <span class="title">{{movie.title}} ({{movie.year}})</span>
           <span class="rating">{{movie.rating|float|round(1, 'common')}}</span>
         </a>
+        <a
+            href="{{ url_for('movie_info', id=movie.movieid) }}"
+            data-rel="dialog"
+            data-transition="flip"
+            data-theme="a"
+            data-icon="info"
+        >
+            Info
+        </a>
       </li>
   {% endfor %}
 </ul>

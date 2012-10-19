@@ -1,0 +1,39 @@
+<div id="xbmc_details" data-role="dialog">
+    <div data-role="content" data-theme="c" class="ui-corner-bottom ui-content ui-body-c" role="main">
+
+        <h1>{{movie.label}}</h1>
+        {% if movie.thumbnail %}
+            <img class="poster" src="{{movie.thumbnail|xbmc_image}}" align="left"/>
+        {% endif %}
+        <div>
+            <table border="0">
+                <tr>
+                    <td><b>Director:</b></td>
+                    <td>{{movie.director}}</td>
+                </tr>
+                <tr>
+                    <td><b>Year:</b></td>
+                    <td>{{movie.year}}</td>
+                </tr>
+                <tr>
+                    <td><b>Genre:</b></td>
+                    <td>{{movie.genre}}</td>
+                </tr>
+                <tr>
+                    <td><b>Rating:</b></td>
+                    <td>{{movie.rating|float|round(1, 'common')}} / 10</td>
+                </tr>
+            </table>
+        </div>
+        <p>{{movie.plot}}</p>
+
+        <div id="controls" data-role="controlgroup" data-type="horizontal" align="center">
+            <a href="#" data-role="button" data-xhrurl="/xhr/play/video/movie/{{movie.movieid}}">Play</a>
+            <a href="#" data-role="button" data-xhrurl="/xhr/enqueue/video/movie/{{movie.movieid}}">Queue</a>
+            {% if movie.trailer %}
+                <a href="#" data-role="button" data-xhrurl="/xhr/play/trailer/{{movie.movieid}}">Trailer</a>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
