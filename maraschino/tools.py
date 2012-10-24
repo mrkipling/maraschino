@@ -11,6 +11,7 @@ from maraschino.models import Setting, XbmcServer
 from flask import send_file
 import StringIO
 import urllib
+import re
 
 def check_auth(username, password):
     """This function is called to check if a username /
@@ -257,3 +258,15 @@ def create_dir(dir):
         except Exception as e:
             logger.log('Problem creating dir %s' % dir, 'ERROR')
             logger.log(e, 'DEBUG')
+
+
+def natural_sort(list, key=lambda s:s):
+    """
+    Sort a list into natural alphanumeric order.
+    """
+    def get_alphanum_key_func(key):
+        convert = lambda text: int(text) if text.isdigit() else text
+        return lambda s: [convert(c) for c in re.split('([0-9]+)', key(s))]
+
+    sort_key = get_alphanum_key_func(key)
+    return list.sort(key=sort_key)

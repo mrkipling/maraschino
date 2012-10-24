@@ -115,9 +115,6 @@ def index():
     if active_server:
         active_server = int(active_server)
 
-    # show power buttons in library?
-    library_show_power_buttons = get_setting_value('library_show_power_buttons', '1') == '1'
-
     # show currently playing bar?
     if get_setting_value('show_currently_playing') == None:
         show_currently_playing = True
@@ -125,22 +122,23 @@ def index():
         show_currently_playing = get_setting_value('show_currently_playing') == '1'
 
     return render_template('index.html',
-        modules = modules,
-        num_columns = num_columns,
-        servers = servers,
-        active_server = active_server,
+        modules=modules,
+        num_columns=num_columns,
+        servers=servers,
+        active_server=active_server,
         show_currently_playing=show_currently_playing,
-        search_enabled = get_setting_value('search') == '1',
-        background = background,
-        fanart_backgrounds = fanart_backgrounds,
-        applications = applications,
-        library_show_power_buttons = library_show_power_buttons,
+        search_enabled=get_setting_value('search') == '1',
+        background=background,
+        fanart_backgrounds=fanart_backgrounds,
+        applications=applications,
+        show_tutorial=unorganised_modules.count() == 0,
         show_music=get_setting_value('library_show_music') == '1',
+        show_pvr=get_setting_value('library_show_pvr') == '1',
         show_files=get_setting_value('library_show_files') == '1',
-        show_tutorial = unorganised_modules.count() == 0,
-        webroot = maraschino.WEBROOT,
-        kiosk = maraschino.KIOSK,
-        new_tab = new_tab,
+        show_power=get_setting_value('library_show_power_buttons') == '1',
+        webroot=maraschino.WEBROOT,
+        kiosk=maraschino.KIOSK,
+        new_tab=new_tab,
         title_color=get_setting_value('title_color')
     )
 
