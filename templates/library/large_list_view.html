@@ -3,7 +3,7 @@
     <li id="large" {% include "library/item_properties.html" %}{% include "library/control_paths.html" %}>
 
       {% if item.thumbnail %}
-        {% if media == 'artists' or media == 'albums' or media == 'episodes' %}
+        {% if media == 'artists' or media == 'albums' or media == 'episodes' or media == 'songs' %}
           <img class="{{ media }}" src="{{ item.thumbnail|xbmc_image }}">
         {% else %}
           <img class="poster" src="{{ item.thumbnail|xbmc_image }}">
@@ -11,7 +11,7 @@
       {% endif %}
 
       <div
-        {% if media == 'artists' or media == 'albums' or media == 'episodes' %}
+        {% if media == 'artists' or media == 'albums' or media == 'episodes' or media == 'songs' %}
           class="details {{ media }}"
         {% else %}
           class="details"
@@ -34,6 +34,9 @@
             Years Active: {{ item.yearsactive }}
           {% elif media == 'albums' %}
             Year: {{ item.year }}
+          {% elif media == 'songs' %}
+            {{ item.artist }}<br />
+            Duration: {{ item.duration|format_seconds }}
           {% endif %}
         </span><br />
 
@@ -43,7 +46,11 @@
           {% elif media == 'artists' %}
             Genre: {{ item.genre }}
           {% elif item.rating %}
-            Rating: {{ item.rating|float|round(1, 'common') }}
+            {% if media == 'songs' %}
+              {% include "library/star_ratings.html" %}
+            {% else %}
+              Rating: {{ item.rating|float|round(1, 'common') }}
+            {% endif %}
           {% endif %}
         </span>
       </div>

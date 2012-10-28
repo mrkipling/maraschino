@@ -65,6 +65,27 @@ def format_time(time):
 
     return formatted_time
 
+def format_seconds(time):
+    hours = time / 3600
+    minutes = time / 60
+    seconds = time % 60
+    if time < 3600:
+        time = '%02d:%02d' % (minutes, seconds)
+    else:
+        time = '%02d:%02d:%02d' % (hours, minutes, seconds)
+
+    return time
+
+FILTERS['format_seconds'] = format_seconds
+
+def round_number(num):
+    if (num > 0):
+        return int(num+.5)
+    else:
+        return int(num-.5)
+
+FILTERS['round_number'] = round_number
+
 def format_number(num):
     extension_list = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB']
 

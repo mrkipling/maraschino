@@ -64,7 +64,7 @@
         <span>
           {{ currently_playing.album }} ({{ currently_playing.year }})
         </span>
-        <br>{{ '0' if currently_playing.track < 10 }}{{ currently_playing.track }}. {{ currently_playing.label }}
+        <br>{{ '0' if currently_playing.track < 10 }}{{ currently_playing.track }}. {{ currently_playing.title }}
       {% elif currently_playing.type == 'movie' %}
         <span class="movie invoke_library" data-path="/movies?movieid={{ currently_playing.id }}">
           {{ currently_playing.label }} ({{ currently_playing.year }})

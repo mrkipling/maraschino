@@ -2,7 +2,7 @@ from flask import render_template, jsonify, request, json
 from maraschino.noneditable import server_api_address
 from maraschino.models import Setting
 from maraschino.database import db_session
-from maraschino.tools import requires_auth, get_setting, get_setting_value, natural_sort
+from maraschino.tools import requires_auth, get_setting, get_setting_value, natural_sort, format_seconds
 from maraschino import app, logger
 import jsonrpclib, random, os
 
@@ -267,6 +267,7 @@ library_settings = {
             'type': 'select',
             'options': [
                 {'value': 'list', 'label': 'List'},
+                {'value': 'large_list', 'label': 'Large List'},
             ]
         },
     ],
@@ -871,7 +872,8 @@ def xbmc_get_songs(xbmc, artistid, albumid):
     version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
     params = {}
 
-    params['properties'] = ['album', 'track', 'playcount', 'year', 'albumid']
+    params['properties'] = ['album', 'track', 'playcount', 'year', 'albumid', 'thumbnail',
+                            'rating', 'title', 'duration', 'artist']
 
     if version == 11: #Eden
         params['artistid'] = artistid
@@ -886,7 +888,10 @@ def xbmc_get_songs(xbmc, artistid, albumid):
 
     for song in songs:
         song['artistid'] = artistid
-        song['label'] = '%02d. %s' % (song['track'], song['label'])
+        song['label'] = '%02d. %s' % (song['track'], song['title'])
+
+        if isinstance(song['artist'], list): #Frodo
+            song['artist'] = " / ".join(song['artist'])
 
     #Sort broken on Eden, so doing it the manual way
     if xbmc_sort('songs')['order'] != 'ascending':
@@ -990,13 +995,7 @@ def xhr_library_resume_check(type, id):
     position = library[type + 'details']['resume']['position']
 
     if position:
-        hours = position / 3600
-        minutes = position / 60
-        seconds = position % 60
-        if position < 3600:
-            position = '%02d:%02d' % (minutes, seconds)
-        else:
-            position = '%02d:%02d:%02d' % (hours, minutes, seconds)
+        position = format_seconds(position)
 
         template = render_template('library-resume_dialog.html', position=position, library=library)
         return jsonify(resume=True, template=template)
