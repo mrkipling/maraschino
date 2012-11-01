@@ -123,6 +123,22 @@ library_settings = {
     ],
     'seasons': [
         {
+            'key': 'xbmc_seasons_sort',
+            'value': 'label',
+            'description': 'Sort seasons by',
+            'type': 'select',
+            'options': [
+                {'value': 'label', 'label': 'Season'},
+                {'value': 'year', 'label': 'Year'},
+                {'value': 'genre', 'label': 'Genre'},
+                {'value': 'date', 'label': 'Date'},
+                {'value': 'lastplayed', 'label': 'Last Played'},
+                {'value': 'rating', 'label': 'Rating (Frodo)'},
+                {'value': 'playcount', 'label': 'Play count (Frodo)'},
+                {'value': 'random', 'label': 'Random (Frodo)'},
+            ]
+        },
+        {
             'key': 'xbmc_seasons_view',
             'value': 'list',
             'description': 'Seasons view',
@@ -151,6 +167,23 @@ library_settings = {
         },
     ],
     'episodes': [
+        {
+            'key': 'xbmc_episodes_sort',
+            'value': 'episode',
+            'description': 'Sort episodes by',
+            'type': 'select',
+            'options': [
+                {'value': 'episode', 'label': 'Episode'},
+                {'value': 'sorttitle', 'label': 'Title'},
+                {'value': 'year', 'label': 'Year'},
+                {'value': 'genre', 'label': 'Genre'},
+                {'value': 'date', 'label': 'Date'},
+                {'value': 'lastplayed', 'label': 'Last Played'},
+                {'value': 'rating', 'label': 'Rating (Frodo)'},
+                {'value': 'playcount', 'label': 'Play count (Frodo)'},
+                {'value': 'random', 'label': 'Random (Frodo)'},
+            ]
+        },
         {
             'key': 'xbmc_episodes_sort_order',
             'value': 'ascending',
@@ -263,6 +296,7 @@ library_settings = {
                 {'value': 'year', 'label': 'Year'},
                 {'value': 'genre', 'label': 'Genre'},
                 {'value': 'date', 'label': 'Date'},
+                {'value': 'lastplayed', 'label': 'Last Played'},
                 {'value': 'rating', 'label': 'Rating (Frodo)'},
                 {'value': 'playcount', 'label': 'Play count (Frodo)'},
                 {'value': 'random', 'label': 'Random (Frodo)'},
@@ -798,9 +832,18 @@ def xbmc_get_tvshows(xbmc):
 
 def xbmc_get_seasons(xbmc, tvshowid):
     logger.log('LIBRARY :: Retrieving seasons for tvshowid: %s' % tvshowid, 'INFO')
-    properties = ['playcount', 'showtitle', 'tvshowid', 'season', 'thumbnail', 'episode']
+    version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
+    params = {'sort': xbmc_sort('seasons')}
 
-    seasons = xbmc.VideoLibrary.GetSeasons(tvshowid=tvshowid, properties=properties)['seasons']
+    if version < 12 and params['sort']['method'] in ['rating', 'playcount', 'random']: #Eden
+        logger.log('LIBRARY :: Sort method "%s" is not supported in XBMC Eden. Reverting to "label"' % params['sort']['method'], 'INFO')
+        change_sort('seasons', 'label')
+        params['sort'] = xbmc_sort('seasons')
+
+    params['tvshowid'] = tvshowid
+    params['properties'] = ['playcount', 'showtitle', 'tvshowid', 'season', 'thumbnail', 'episode']
+
+    seasons = xbmc.VideoLibrary.GetSeasons(**params)['seasons']
 
     if get_setting_value('xbmc_seasons_hide_watched') == '1':
         seasons = [x for x in seasons if not x['playcount']]
@@ -814,29 +857,27 @@ def xbmc_get_seasons(xbmc, tvshowid):
         )['episodes']
         season['unwatched'] = len([x for x in episodes if not x['playcount']])
 
-    #Sort broken on Eden, so doing it the manual way
-    if xbmc_sort('seasons')['order'] != 'ascending':
-        seasons = sorted(seasons, key=lambda k: k['season'], reverse=True)
     return seasons
 
 
 def xbmc_get_episodes(xbmc, tvshowid, season):
     logger.log('LIBRARY :: Retrieving episodes for tvshowid: %s season: %s' % (tvshowid, season), 'INFO')
+    version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
+    params = {'sort': xbmc_sort('episodes')}
 
-    properties = ['playcount', 'season', 'episode', 'tvshowid', 'showtitle', 'thumbnail', 'firstaired', 'rating']
+    if version < 12 and params['sort']['method'] in ['rating', 'playcount', 'random']: #Eden
+        logger.log('LIBRARY :: Sort method "%s" is not supported in XBMC Eden. Reverting to "episode"' % params['sort']['method'], 'INFO')
+        change_sort('episodes', 'episode')
+        params['sort'] = xbmc_sort('episodes')
 
-    episodes = xbmc.VideoLibrary.GetEpisodes(
-        tvshowid=tvshowid,
-        season=season,
-        properties=properties
-    )['episodes']
+    params['tvshowid'] = tvshowid
+    params['season'] = season
+    params['properties'] = ['playcount', 'season', 'episode', 'tvshowid', 'showtitle', 'thumbnail', 'firstaired', 'rating']
+
+    episodes = xbmc.VideoLibrary.GetEpisodes(**params)['episodes']
 
     if get_setting_value('xbmc_episodes_hide_watched') == '1':
         episodes = [x for x in episodes if not x['playcount']]
-
-    #Sort broken on Eden, so doing it the manual way
-    if xbmc_sort('episodes')['order'] != 'ascending':
-        episodes = sorted(episodes, key=lambda k: k['episode'], reverse=True)
 
     return episodes
 
