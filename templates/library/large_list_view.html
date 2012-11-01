@@ -46,7 +46,7 @@
           {% elif media == 'artists' %}
             Genre: {{ item.genre }}
           {% elif item.rating %}
-            {% if media == 'songs' %}
+            {% if media == 'songs' and item.rating < 6 %}
               {% include "library/star_ratings.html" %}
             {% else %}
               Rating: {{ item.rating|float|round(1, 'common') }}

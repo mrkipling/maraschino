@@ -251,6 +251,24 @@ library_settings = {
 
     'songs': [
         {
+            'key': 'xbmc_songs_sort',
+            'value': 'track',
+            'description': 'Sort songs by',
+            'type': 'select',
+            'options': [
+                {'value': 'track', 'label': 'Track'},
+                {'value': 'title', 'label': 'Title'},
+                {'value': 'artist', 'label': 'Artist'},
+                {'value': 'album', 'label': 'Album'},
+                {'value': 'year', 'label': 'Year'},
+                {'value': 'genre', 'label': 'Genre'},
+                {'value': 'date', 'label': 'Date'},
+                {'value': 'rating', 'label': 'Rating (Frodo)'},
+                {'value': 'playcount', 'label': 'Play count (Frodo)'},
+                {'value': 'random', 'label': 'Random (Frodo)'},
+            ]
+        },
+        {
             'key': 'xbmc_songs_sort_order',
             'value': 'ascending',
             'description': 'Sort direction',
@@ -373,6 +391,12 @@ def save_xbmc_settings(media_type):
 
     return jsonify(success=True)
 
+
+def change_sort(media, value):
+    setting = get_setting('xbmc_'+media+'_sort')
+    setting.value = value
+    db_session.add(setting)
+    db_session.commit()
 
 def xbmc_sort(media_type):
     '''
@@ -870,7 +894,12 @@ def xbmc_get_albums(xbmc, artistid):
 def xbmc_get_songs(xbmc, artistid, albumid):
     logger.log('LIBRARY :: Retrieving songs for albumid: %s' % albumid, 'INFO')
     version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
-    params = {}
+    params = {'sort': xbmc_sort('songs')}
+
+    if version < 12 and params['sort']['method'] in ['rating', 'playcount', 'random']: #Eden
+        logger.log('LIBRARY :: Sort method "%s" is not supported in XBMC Eden. Reverting to "track"' % params['sort']['method'], 'INFO')
+        change_sort('songs', 'track')
+        params['sort'] = xbmc_sort('songs')
 
     params['properties'] = ['album', 'track', 'playcount', 'year', 'albumid', 'thumbnail',
                             'rating', 'title', 'duration', 'artist']
@@ -892,10 +921,6 @@ def xbmc_get_songs(xbmc, artistid, albumid):
 
         if isinstance(song['artist'], list): #Frodo
             song['artist'] = " / ".join(song['artist'])
-
-    #Sort broken on Eden, so doing it the manual way
-    if xbmc_sort('songs')['order'] != 'ascending':
-        songs = sorted(songs, key=lambda k: k['track'], reverse=True)
 
     return songs
 
