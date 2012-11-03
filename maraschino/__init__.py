@@ -29,6 +29,7 @@ SERVER = None
 HOST = '0.0.0.0'
 KIOSK = False
 DATA_DIR = None
+SCRIPT_DIR = None
 THREADS = []
 
 AUTH = {
@@ -69,6 +70,10 @@ def initialize():
                     print 'Unable to create the log directory.'
 
         logger = maraschinoLogger(LOG_FILE, VERBOSE)
+
+        #set up script dir
+        if not SCRIPT_DIR:
+            SCRIPT_DIR = os.path.join(RUNDIR, 'scripts')
 
         # check if database exists or create it
         from database import init_db
