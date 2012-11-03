@@ -1,0 +1,14 @@
+{% extends "mobile/base.html" %}
+
+{% block header %}<h1>Trakt</h1>{% endblock %}
+
+{% block content %}
+  <ul data-role="listview">
+    <li><a href="{{ url_for('mobile_trakt_trending') }}">Trending</a></li>
+    <li><a href="{{ url_for('mobile_trakt_calendar', type='my shows') }}">Calendar</a></li>
+    <li><a href="{{ url_for('mobile_trakt_recommendations') }}">Recommendations</a></li>
+    <li><a href="{{ url_for('mobile_trakt_activity') }}">Activity</a></li>
+    <li><a href="{{ url_for('mobile_trakt_profile') }}">My Profile</a></li>
+    <li><a href="{{ url_for('mobile_trakt_friends') }}">Friends</a></li>
+  </ul>
+{% endblock %}

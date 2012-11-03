@@ -1,0 +1,77 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a id="trakt_home" href="{{ url_for('mobile_trakt') }}" data-direction="reverse" data-transition="slide">
+    <img src="{{ url_for('static', filename='images/applications/Trakt.png') }}" alt="trakt">
+  </a>
+{% endblock %}
+
+{% block header %}<h1>Activity</h1>{% endblock %}
+
+{% block navbar%}
+  {% macro nav_item(activity_type) %}
+    <li>
+      {% if type == activity_type %}
+        <a href="#" class="ui-btn-active ui-state-persist">
+      {% else %}
+        <a href="{{ url_for('mobile_trakt_activity', type=activity_type) }}">
+      {% endif %}
+        {{ activity_type|title }}
+      </a>
+    </li>
+  {% endmacro %}
+
+  <div data-role="navbar">
+    <ul>
+      {{ nav_item('friends') }}
+      {{ nav_item('community') }}
+    </ul>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <ul data-role="listview">
+    {% for item in activity.activity %}
+      <li>
+        <a href="{{ url_for('mobile_trakt_profile', user=item.user.username) }}">
+          <h2>{{ item.user.username }}</h2>
+
+          <p>
+            {% if item.action == 'watching' %}
+              <b>Watching:</b>
+            {% elif item.action == 'rating' %}
+              <b>{{ item.rating|title }}d:</b>
+            {% elif item.action == 'scrobble' %}
+              <b>Watched:</b>
+            {% elif item.action == 'checkin' %}
+              <b>Checkin:</b>
+            {% elif item.action == 'seen' %}
+              <b>Marked as Watched:</b>
+            {% elif item.action == 'collection' %}
+              <b>Added to collection:</b>
+            {% elif item.action == 'watchlist' %}
+              <b>Added to watch list:</b>
+            {% elif item.action == 'shout' %}
+              <b>Shouted about:</b>
+            {% elif item.action == 'created' %}
+              <b>Created:</b>
+            {% elif item.action == 'item_added' %}
+              <b>Added item:</b>
+            {% endif %}
+          </p>
+          <p style="white-space:normal;">
+            {% if item.type == 'show' %}
+              {{ item.show.title }}
+            {% elif item.type == 'episode' %}
+              {{ item.show.title }} {{ item.episode.season }}x{{ item.episode.number }} - {{ item.episode.title }}
+            {% elif item.type == 'movie' %}
+              {{ item.movie.title }} ({{ item.movie.year }})
+            {% else %}
+              {{ item.type }}
+            {% endif %}
+          </p>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
