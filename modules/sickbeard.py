@@ -2,11 +2,13 @@ from flask import jsonify, render_template, request, send_file, json
 import urllib2
 import base64
 import StringIO
+import os
+import time
 
 from maraschino import app
 from maraschino.tools import *
+from threading import Thread
 import maraschino
-
 
 def sickbeard_http():
     if get_setting_value('sickbeard_https') == '1':
@@ -199,7 +201,10 @@ def history(limit):
 
 # returns a link with the path to the required image from SB
 def get_pic(tvdb, style='banner'):
-    return '%s/sickbeard/get_%s/%s' % (maraschino.WEBROOT, style, tvdb)
+    if get_setting_value('sickbeard_cache_img') == '1':
+        return cache_sickbeard_image(tvdb, style)
+    else:
+        return '%s/sickbeard/get_%s/%s' % (maraschino.WEBROOT, style, tvdb)
 
 
 @app.route('/sickbeard/get_ep_info/<tvdbid>/<season>/<ep>/')
@@ -323,6 +328,36 @@ def get_poster(tvdbid):
     params = '/?cmd=show.getposter&tvdbid=%s' % tvdbid
     img = StringIO.StringIO(sickbeard_api(params, use_json=False))
     return send_file(img, mimetype='image/jpeg')
+
+
+def cache_sickbeard_image(tvdbid, img_type):
+    cache_dir = os.path.join(maraschino.DATA_DIR, 'cache', 'sickbeard')
+    create_dir(cache_dir)
+
+    file_path = os.path.join(cache_dir, '%s.%s.jpg' % (tvdbid, img_type))
+
+    if not os.path.exists(file_path):
+        image_path = '%s/?cmd=show.get%s&tvdbid=%s' % (sickbeard_url(), img_type, tvdbid)
+        Thread(target=download_image, args=(image_path, file_path)).start()
+        maraschino.THREADS.append(len(maraschino.THREADS) + 1)
+
+    while maraschino.THREADS:
+        time.sleep(1)
+
+    return sickbeard_image_file(tvdbid, img_type)
+
+
+def sickbeard_image_file(tvdbid, img_type):
+    cache_dir = os.path.join(maraschino.DATA_DIR, 'cache', 'sickbeard')
+
+    filepath = os.path.join(cache_dir, '%s.%s.jpg' % (tvdbid, img_type))
+    if os.name == 'nt':
+        system = 'win'
+    else:
+        system = 'unix'
+        filepath = filepath[1:]
+
+    return '%s/cache/image_file/%s/%s' % (maraschino.WEBROOT, system, filepath)
 
 
 @app.route('/sickbeard/log/<level>/')

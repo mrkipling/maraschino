@@ -631,7 +631,13 @@ AVAILABLE_MODULES = [
                 'value': '0',
                 'description': 'Show air date',
                 'type': 'bool',
-            },         
+            },
+            {
+                'key': 'sickbeard_cache_img',
+                'value': '0',
+                'description': 'Cache images',
+                'type': 'bool',
+            },
         ]
     },
     {
