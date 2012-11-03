@@ -1,9 +1,11 @@
-<div id="currently_playing" data-id="{{ currently_playing.id }}"{% if fanart %} data-fanart="{{ fanart|xbmc_image }}"{% endif %}>
+<div id="currently_playing" data-id="{{ currently_playing.id }}"{% if fanart %} data-fanart="{{ fanart|xbmc_image }}"{% endif %} {% if minimize %}class="minimize"{% endif %}>
 
   <div class="visibility">
     <ul>
       <li class="close"></li>
-      <li class="minimize"></li>
+      {% if not minimize %}
+        <li class="minimize"></li>
+      {% endif %}
     </ul>
   </div>
 
