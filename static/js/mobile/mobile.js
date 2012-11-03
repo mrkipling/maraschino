@@ -292,8 +292,12 @@ $(document).ready(function () {
 
     $(document).on('keypress', '#search input#search_field', function(e) {
         if(e.which == 13){
-            $.mobile.showPageLoadingMsg();
-            document.location.href = WEBROOT + '/mobile/search/'+ $('#site').val() +'/' + $(this).val() + '/' + $('#category').val();
+            if ($(this).val()) {
+                $.mobile.showPageLoadingMsg();
+                document.location.href = WEBROOT + '/mobile/search/'+ $('#site').val() +'/' + $(this).val() + '/' + $('#category').val();
+            } else {
+                popup_message('You need to enter something to search for.');
+            }
         }
     });
 
