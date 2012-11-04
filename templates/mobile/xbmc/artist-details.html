@@ -1,0 +1,24 @@
+<div id="xbmc_details" data-role="dialog">
+    <div data-role="content" data-theme="c" class="ui-corner-bottom ui-content ui-body-c" role="main">
+
+        <h1>{{artist.label}}</h1>
+        {% if artist.thumbnail %}
+            <img class="music" src="{{artist.thumbnail|xbmc_image}}" align="left"/>
+        {% endif %}
+        <div>
+            <table border="0">
+                <tr>
+                    <td><b>Genre:</b></td>
+                    <td>{{artist.genre}}</td>
+                </tr>
+            </table>
+        </div>
+        <p>{{artist.description}}</p>
+
+        <div id="controls" data-role="controlgroup" data-type="horizontal" align="center">
+            <a href="#" data-role="button" data-xhrurl="/xhr/play/audio/artist/{{artist.artistid}}">Play</a>
+            <a href="#" data-role="button" data-xhrurl="/xhr/enqueue/audio/artist/{{artist.artistid}}">Queue</a>
+        </div>
+
+    </div>
+</div>

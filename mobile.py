@@ -144,6 +144,81 @@ def season(id, season):
     )
 
 
+@app.route('/mobile/artist_library/')
+@requires_auth
+def artist_library():
+    try:
+        xbmc = jsonrpclib.Server(server_api_address())
+        sort = {'ignorearticle': True}
+        artists = xbmc.AudioLibrary.GetArtists(sort=sort)['artists']
+
+    except:
+        logger.log('Mobile :: XBMC :: Could not retrieve artists from audio library', 'WARNING')
+        artists = []
+
+    return render_template('mobile/xbmc/artists.html',
+        artists=artists,
+    )
+
+
+@app.route('/mobile/artist_library/<int:artistid>/')
+@requires_auth
+def album_library(artistid):
+    try:
+        xbmc = jsonrpclib.Server(server_api_address())
+        version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
+        params = {'sort': {'ignorearticle': True}, 'properties': ['year']}
+
+        if version < 12: #Eden
+            params['artistid'] =  artistid
+            params['properties'].extend(['artistid', 'artist'])
+        else: #Frodo
+            params['filter'] = {'artistid':artistid}
+
+        albums = xbmc.AudioLibrary.GetAlbums(**params)['albums']
+
+        if version > 11: #Frodo
+            artist = xbmc.AudioLibrary.GetArtistDetails(artistid=artistid)['artistdetails']['label']
+            for album in albums:
+                album['artistid'] = artistid
+                album['artist'] = artist
+    except:
+        logger.log('Mobile :: XBMC :: Could not retrieve albums from audio library', 'WARNING')
+        albums = []
+
+    return render_template('mobile/xbmc/albums.html',
+        albums=albums,
+    )
+
+
+@app.route('/mobile/artist_library/<int:artistid>/<int:albumid>/')
+@requires_auth
+def song_library(artistid, albumid):
+    try:
+        xbmc = jsonrpclib.Server(server_api_address())
+        version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
+        params = {'sort': {'ignorearticle': True}, 'properties': ['album', 'track', 'title']}
+
+        if version < 12: #Eden
+            params['artistid'] = artistid
+            params['albumid'] = albumid
+
+        else: #Frodo
+            params['filter'] = {
+                'albumid': albumid
+            }
+
+        songs = xbmc.AudioLibrary.GetSongs(**params)['songs']
+
+    except:
+        logger.log('Mobile :: XBMC :: Could not retrieve songs from audio library', 'WARNING')
+        aongs = []
+
+    return render_template('mobile/xbmc/songs.html',
+        songs=songs,
+    )
+
+
 @app.route('/mobile/movie/<int:id>/info/')
 @requires_auth
 def movie_info(id):
@@ -189,6 +264,45 @@ def episode_info(id):
 
     return render_template('mobile/xbmc/episode-details.html',
         episode=episode
+    )
+
+@app.route('/mobile/artist/<int:id>/info/')
+@requires_auth
+def artist_info(id):
+    try:
+        xbmc = jsonrpclib.Server(server_api_address())
+        properties = ['description', 'thumbnail', 'genre']
+        artist = xbmc.AudioLibrary.GetArtistDetails(artistid=id, properties=properties)['artistdetails']
+
+        for k in artist:
+            if isinstance(artist[k], list):
+                artist[k] = " / ".join(artist[k])
+
+    except Exception as e:
+        logger.log('Mobile :: XBMC :: Could not retrieve artist details [id: %i -  %s]' % (id, e), 'WARNING')
+
+    return render_template('mobile/xbmc/artist-details.html',
+        artist=artist
+    )
+
+
+@app.route('/mobile/album/<int:id>/info/')
+@requires_auth
+def album_info(id):
+    try:
+        xbmc = jsonrpclib.Server(server_api_address())
+        properties = ['title', 'artist', 'year', 'genre', 'description', 'rating', 'thumbnail']
+        album = xbmc.AudioLibrary.GetAlbumDetails(albumid=id, properties=properties)['albumdetails']
+
+        for k in album:
+            if isinstance(album[k], list):
+                album[k] = " / ".join(album[k])
+
+    except Exception as e:
+        logger.log('Mobile :: XBMC :: Could not retrieve album details [id: %i -  %s]' % (id, e), 'WARNING')
+
+    return render_template('mobile/xbmc/album-details.html',
+        album=album
     )
 
 from modules.sickbeard import sickbeard_api, get_pic
