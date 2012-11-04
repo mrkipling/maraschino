@@ -2435,9 +2435,7 @@ $(document).ready(function() {
         init_modules();
 
         if (module_name == 'server_settings') {
-          get_module('recently_added');
-          get_module('recently_added_movies');
-          get_module('recently_added_albums');
+          poll_modules(['recently_added', 'recently_added_movies', 'recently_added_albums']);
         }
       }
     );
@@ -2631,9 +2629,7 @@ $(document).ready(function() {
               $('#extra_settings #server_settings').replaceWith(servers_menu);
             }
 
-            get_module('recently_added');
-            get_module('recently_added_movies');
-            get_module('recently_added_albums');
+            poll_modules(['recently_added', 'recently_added_movies', 'recently_added_albums']);
           });
         }
       });
@@ -2674,9 +2670,7 @@ $(document).ready(function() {
         li.closest('ul').find('.active').removeClass('active');
         li.addClass('active');
 
-        get_module('recently_added');
-        get_module('recently_added_movies');
-        get_module('recently_added_albums');
+        poll_modules(['recently_added', 'recently_added_movies', 'recently_added_albums']);
       });
     }
   });
@@ -3036,4 +3030,14 @@ $(document).ready(function() {
       clearTimeout(timeOuts[key]);
     }
   }
+
+  // Poll list of modules
+  function poll_modules(list){
+    $.each(list, function(i){
+      if ($('#'+list[i]).hasClass('module')) {
+        get_module(list[i]);
+      }
+    });
+  }
+
 });
