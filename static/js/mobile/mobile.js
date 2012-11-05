@@ -45,6 +45,16 @@ $(document).ready(function () {
         });
     });
 
+    // click to play a songs
+
+    $(document).on('click', '#music_library .play', function(e) {
+        e.preventDefault();
+        $.mobile.showPageLoadingMsg();
+        $.get(WEBROOT + '/xhr/play/audio/song/' + $(this).data('songid'), function () {
+            $.mobile.hidePageLoadingMsg();
+        });
+    });
+
     // playback controls
 
     $(document).on('click', '#header_controls .control', function(e) {
