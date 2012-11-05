@@ -43,6 +43,7 @@ def xhr_currently_playing():
         total_time = format_time(player_info['totaltime']),
         percentage_progress = int(player_info['percentage']),
         total_time_seconds = player_info['totaltime']['hours']*3600+player_info['totaltime']['minutes']*60+player_info['totaltime']['seconds'],
+        minimize = get_setting_value('show_currently_playing') == '2'
     )
 
 @app.route('/xhr/currently_playing/playlist')
