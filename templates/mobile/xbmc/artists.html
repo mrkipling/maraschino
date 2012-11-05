@@ -1,0 +1,26 @@
+{% extends "mobile/xbmc/xbmc.html" %}
+
+{% block header %}<h1>Artists</h1>{% endblock %}
+
+{% block content %}
+
+<ul id="music_library" data-role="listview" data-filter="true">
+  {% for artist in artists %}
+      <li>
+        <a href="{{ url_for('album_library', artistid=artist.artistid) }}">
+          <span class="title">{{artist.label}}</span>
+        </a>
+        <a
+            href="{{ url_for('artist_info', id=artist.artistid) }}"
+            data-rel="dialog"
+            data-transition="flip"
+            data-theme="a"
+            data-icon="info"
+        >
+            Info
+        </a>
+      </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
