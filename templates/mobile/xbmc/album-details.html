@@ -1,0 +1,36 @@
+<div id="xbmc_details" data-role="dialog">
+    <div data-role="content" data-theme="c" class="ui-corner-bottom ui-content ui-body-c" role="main">
+
+        <h1>{{album.label}}</h1>
+        {% if album.thumbnail %}
+            <img class="music" src="{{album.thumbnail|xbmc_image}}" align="left"/>
+        {% endif %}
+        <div>
+            <table border="0">
+                <tr>
+                    <td><b>Atrist:</b></td>
+                    <td>{{album.artist}}</td>
+                </tr>
+                <tr>
+                    <td><b>Year:</b></td>
+                    <td>{{album.year}}</td>
+                </tr>
+                <tr>
+                    <td><b>Genre:</b></td>
+                    <td>{{album.genre}}</td>
+                </tr>
+                <tr>
+                    <td><b>Rating:</b></td>
+                    <td>{{album.rating|float|round(1, 'common')}} / 10</td>
+                </tr>
+            </table>
+        </div>
+        <p>{{album.description}}</p>
+
+        <div id="controls" data-role="controlgroup" data-type="horizontal" align="center">
+            <a href="#" data-role="button" data-xhrurl="/xhr/play/audio/album/{{album.albumid}}">Play</a>
+            <a href="#" data-role="button" data-xhrurl="/xhr/enqueue/audio/album/{{album.albumid}}">Queue</a>
+        </div>
+
+    </div>
+</div>

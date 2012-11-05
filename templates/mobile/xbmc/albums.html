@@ -1,0 +1,26 @@
+{% extends "mobile/xbmc/xbmc.html" %}
+
+{% block header %}<h1>{{'Albums' if not albums.0 else albums.0.artist}}</h1>{% endblock %}
+
+{% block content %}
+
+<ul id="music_library" data-role="listview" data-filter="true">
+  {% for album in albums %}
+      <li>
+        <a href="{{ url_for('song_library', artistid=album.artistid, albumid=album.albumid) }}">
+          <span class="title">{{album.label}} ({{ album.year }})</span>
+        </a>
+        <a
+            href="{{ url_for('album_info', id=album.albumid) }}"
+            data-rel="dialog"
+            data-transition="flip"
+            data-theme="a"
+            data-icon="info"
+        >
+            Info
+        </a>
+      </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

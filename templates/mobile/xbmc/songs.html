@@ -1,0 +1,17 @@
+{% extends "mobile/xbmc/xbmc.html" %}
+
+{% block header %}<h1>{{'Songs' if not songs.0 else songs.0.album}}</h1>{% endblock %}
+
+{% block content %}
+
+<ul id="music_library" data-role="listview" data-filter="true">
+  {% for song in songs %}
+      <li>
+        <a class="play" href="#" data-songid="{{ song.songid }}">
+          <span class="title">{{ "%02d"|format(song.track) }}. {{song.title}}</span>
+        </a>
+      </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
