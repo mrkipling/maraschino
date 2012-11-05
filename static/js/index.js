@@ -182,8 +182,8 @@ $(document).ready(function() {
           $('#currently_playing').slideDown(200);
         }
 
-        if(visibility == 'minimize'){
-          $('#currently_playing').addClass('minimize');
+        if(visibility) {
+          $('#currently_playing').attr('class', visibility);
         }
         // use fanart of currently playing item as background if enabled in settings
 
@@ -249,9 +249,9 @@ $(document).ready(function() {
         currently_playing_id = $(data).data('id');
       }
     });
-    if (visibility == 'minimize') {
+    if (visibility) {
       timeOuts['currently_playing'] = setTimeout(function() {
-        get_currently_playing('minimize');
+        get_currently_playing(visibility);
       }, 5000);
     } else {
       timeOuts['currently_playing'] = setTimeout(function() {
@@ -316,7 +316,9 @@ $(document).ready(function() {
     $.get(WEBROOT + '/xhr/currently_playing', function(data){
       $('#currently_playing').replaceWith(data);
       if(minimized){
-        $('#currently_playing').addClass('minimize');
+        $('#currently_playing').attr('class', 'minimize');
+      } else {
+        $('#currently_playing').attr('class', 'maximize');
       }
     });
   });
@@ -399,7 +401,11 @@ $(document).ready(function() {
       } else {
         $('#currently_playing').replaceWith(data);
       }
-      if(minimized){$('#currently_playing').addClass('minimize');}
+      if(minimized) {
+        $('#currently_playing').attr('class', 'minimize');
+      } else {
+        $('#currently_playing').attr('class', 'maximize');
+      }
     });
   });
 
@@ -468,12 +474,16 @@ $(document).ready(function() {
 
   // currently playing minimize
   $(document).on('click', '#currently_playing .visibility .minimize', function() {
-    $('#currently_playing').toggleClass('minimize');
+    if ($('#currently_playing').hasClass('minimize')) {
+      $('#currently_playing').attr('class', 'maximize');
+    } else {
+      $('#currently_playing').attr('class', 'minimize');
+    }
     clearTimeout(timeOuts['currently_playing']);
     if($('#currently_playing').hasClass('minimize')){
       get_currently_playing('minimize');
     } else {
-      get_currently_playing();
+      get_currently_playing('maximize');
     }
   });
 
