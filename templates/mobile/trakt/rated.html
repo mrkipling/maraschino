@@ -1,0 +1,55 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a id="trakt_home" href="{{ url_for('mobile_trakt') }}" data-direction="reverse" data-transition="slide">
+    <img src="{{ url_for('static', filename='images/applications/Trakt.png') }}" alt="trakt">
+  </a>
+{% endblock %}
+
+{% block header %}<h1>Rated</h1>{% endblock %}
+
+{% block navbar%}
+  {% macro nav_item(rate_type) %}
+    <li>
+      {% if media == media_type %}
+        <a href="#" class="ui-btn-active ui-state-persist">
+      {% else %}
+        <a href="{{ url_for('mobile_trakt_library', user=user, media=rate_type) }}">
+      {% endif %}
+        {{ rate_type|title }}
+      </a>
+    </li>
+  {% endmacro %}
+
+  <div data-role="navbar">
+    <ul>
+      <li><a href="{{ url_for('mobile_trakt_profile', user=user) }}">{{ user }}</a></li>
+    </ul>
+  </div>
+
+  <div data-role="navbar">
+    <ul>
+      {{ nav_item('shows') }}
+      {{ nav_item('movies') }}
+    </ul>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <ul data-role="listview">
+    {% for item in library %}
+
+      {% if item.tvdb_id %}
+        {% set id = item.tvdb_id %}
+      {% elif item.imdb_id %}
+        {% set id = item.imdb_id %}
+      {% else %}
+        {% set id = item.tmdb_id %}
+      {% endif %}
+
+      <li>
+        <a href="{{ url_for('mobile_trakt_summary', media=media[:-1], id=id) }}">{{ item.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a id="trakt_home" href="{{ url_for('mobile_trakt') }}" data-direction="reverse" data-transition="slide">
+    <img src="{{ url_for('static', filename='images/applications/Trakt.png') }}" alt="trakt">
+  </a>
+{% endblock %}
+
+{% block header %}<h1>Friends</h1>{% endblock %}
+
+{% block navbar%}
+  {% if user %}
+    <div data-role="navbar">
+      <ul>
+        <li><a href="{{ url_for('mobile_trakt_profile', user=user) }}" data-direction="reverse">{{ user }}</a></li>
+      </ul>
+    </div>
+  {% endif %}
+{% endblock %}
+
+
+{% block content %}
+  <ul data-role="listview">
+    {% for friend in friends %}
+      {% macro media(item) %}
+        <p style="white-space:normal">
+          {% if item.type == 'episode' %}
+            {{ item.show.title }} {{ item.episode.season }}x{{ item.episode.number }} - {{ item.episode.title }}
+          {% elif item.type == 'movie' %}
+            {{ item.movie.title }} ({{ item.movie.year }})
+          {% else %}
+            {{ item.type }}
+          {% endif %}
+        </p>
+      {% endmacro %}
+      <li>
+        <a href="{{ url_for('mobile_trakt_profile', user=friend.username) }}">
+          <h2>{{ friend.username }}</h2>
+          {% if friend.watching %}
+            <p><b>Watching:</b></p>
+            {{ media(friend.watching) }}
+          {% else %}
+            {% if friend.watched %}
+              <p><b>Recently Watched:</b></p>
+              {{ media(friend.watched.0) }}
+            {% endif %}
+          {% endif %}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

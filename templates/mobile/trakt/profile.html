@@ -1,0 +1,108 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a id="trakt_home" href="{{ url_for('mobile_trakt') }}" data-direction="reverse" data-transition="slide">
+    <img src="{{ url_for('static', filename='images/applications/Trakt.png') }}" alt="trakt">
+  </a>
+{% endblock %}
+{% block header %}<h1>{{ profile.username }}</h1>{% endblock %}
+
+{% block content %}
+  {% if profile.status == 'error' %}
+    <p>{{ profile.message }}</p>
+  {% else %}
+
+    <img src="{{ profile.avatar }}" align="left" height="64" width="64"/>
+
+    <div>
+      <table>
+        {% macro tr(a, b) %}
+          <tr>
+            <td><b>{{a}}:</b></td>
+            <td>{{b}}</td>
+          </tr>
+        {% endmacro %}
+
+        {{tr('Name', profile.full_name)}}
+        {{tr('Location', profile.location)}}
+        {{tr('Age', profile.age)}}
+      </table>
+    </div>
+
+  <ul data-role="listview" data-inset="true">
+    {% set movies = profile['stats']['movies'] %}
+    {% set movies_progress = 100 * movies.watched_unique / movies.collection %}
+    {% set episodes = profile.stats.episodes %}
+    {% set episodes_progress = 100 * episodes.watched_unique / episodes.collection %}
+
+    <li>
+      <h3>Movies</h3>
+      <p>
+        <span>{{ movies_progress|int }}%</span>
+        <span style="float:right;">{{ movies.watched_unique }} / {{ movies.collection }} watched</span>
+      </p>
+      <div id="trakt_progress">
+        <div data-role="button" data-mini="true"></div>
+        <div data-role="button" data-theme="a" style="width:{{movies_progress}}%;" data-mini="true"></div>
+      </div>
+    </li>
+
+    <li>
+      <h3>Episodes</h3>
+      <p>
+        <span>{{ episodes_progress|int }}%</span>
+        <span style="float:right;">{{ episodes.watched_unique }} / {{ episodes.collection }} watched</span>
+      </p>
+      <div id="trakt_progress">
+        <div data-role="button" data-mini="true"></div>
+        <div data-role="button" data-theme="a" style="width:{{episodes_progress}}%;" data-mini="true">
+        </div>
+      </div>
+    </li>
+  </ul>
+
+    <ul data-role="listview" data-inset="true">
+      {% macro li(item) %}
+        {% if item.type == 'episode' %}
+          <li>
+            <a href="{{ url_for('mobile_trakt_summary', media='episode', id=item.show.tvdb_id, season=item.episode.season, episode=item.episode.number) }}">
+              {{ item.show.title }} {{ item.episode.season }}x{{ item.episode.number }} - {{ item.episode.title }}
+            </a>
+          </li>
+        {% else %}
+          <li>
+            <a href="{{ url_for('mobile_trakt_summary', media='movie', id=item.movie.imdb_id) }}">
+              {{ item.movie.title }} ({{ item.movie.year }})
+            </a>
+          </li>
+        {% endif %}
+      {% endmacro %}
+
+      {% if profile.watching %}
+        <li data-role="list-divider">Currently Watching</li>
+        {{ li(profile.watching) }}
+      {% endif %}
+
+      <li data-role="list-divider">Recently Watched</li>
+      {% for item in profile.watched %}
+        {{ li(item) }}
+      {% endfor %}
+    </ul>
+
+    <div data-role="collapsible" data-theme="b" data-content-theme="c">
+      <h3>Extras</h3>
+      <ul data-role="listview" data-corners="false" data-shadow="false" data-inset="true">
+        {% macro li(a) %}
+          <li><a href="{{ url_for('mobile_trakt_'+a, user=profile.username)}}">{{ a|title }}</a></li>
+        {% endmacro %}
+
+        {{ li('friends') }}
+        {{ li('library') }}
+        {{ li('watchlist') }}
+        {{ li('rated') }}
+        {{ li('lists') }}
+        {{ li('progress') }}
+      </ul> 
+    </div>
+  {% endif %}
+{% endblock %}

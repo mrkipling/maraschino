@@ -96,7 +96,7 @@ def xhr_traktplus():
 
 @app.route('/xhr/trakt/recommendations')
 @app.route('/xhr/trakt/recommendations/<type>')
-def xhr_trakt_recommendations(type=None):
+def xhr_trakt_recommendations(type=None, mobile=False):
     if not type:
         type = get_setting_value('trakt_default_media')
 
@@ -122,6 +122,9 @@ def xhr_trakt_recommendations(type=None):
     while THREADS:
         time.sleep(1)
 
+    if mobile:
+        return recommendations
+
     return render_template('traktplus/trakt-recommendations.html',
         type=type.title(),
         recommendations=recommendations,
@@ -132,7 +135,7 @@ def xhr_trakt_recommendations(type=None):
 @app.route('/xhr/trakt/trending')
 @app.route('/xhr/trakt/trending/<type>')
 @requires_auth
-def xhr_trakt_trending(type=None):
+def xhr_trakt_trending(type=None, mobile=False):
     if not type:
         type = get_setting_value('trakt_default_media')
 
@@ -145,6 +148,9 @@ def xhr_trakt_trending(type=None):
     except Exception as e:
         trakt_exception(e)
         return render_template('traktplus/trakt-base.html', message=e)
+
+    if mobile:
+        return trakt
 
     if len(trakt) > limit:
         trakt = trakt[:limit]
@@ -165,7 +171,7 @@ def xhr_trakt_trending(type=None):
 @app.route('/xhr/trakt/activity')
 @app.route('/xhr/trakt/activity/<type>')
 @requires_auth
-def xhr_trakt_activity(type='friends'):
+def xhr_trakt_activity(type='friends', mobile=False):
     logger.log('TRAKT :: Fetching %s activity' % type, 'INFO')
 
     url = 'http://api.trakt.tv/activity/%s.json/%s' % (type, trakt_apikey())
@@ -174,6 +180,9 @@ def xhr_trakt_activity(type='friends'):
     except Exception as e:
         trakt_exception(e)
         return render_template('traktplus/trakt-base.html', message=e)
+
+    if mobile:
+        return trakt
 
     return render_template('traktplus/trakt-activity.html',
         activity=trakt,
@@ -185,7 +194,7 @@ def xhr_trakt_activity(type='friends'):
 @app.route('/xhr/trakt/friends')
 @app.route('/xhr/trakt/friends/<user>')
 @requires_auth
-def xhr_trakt_friends(user=None):
+def xhr_trakt_friends(user=None, mobile=False):
     logger.log('TRAKT :: Fetching friends list', 'INFO')
     pending = []
     if not user:
@@ -201,6 +210,9 @@ def xhr_trakt_friends(user=None):
     except Exception as e:
         trakt_exception(e)
         return render_template('traktplus/trakt-base.html', message=e)
+
+    if mobile:
+        return friends
 
     return render_template('traktplus/trakt-friends.html',
         friends=friends,
@@ -230,7 +242,7 @@ def xhr_trakt_friend_action(action, user):
 @app.route('/xhr/trakt/profile')
 @app.route('/xhr/trakt/profile/<user>')
 @requires_auth
-def xhr_trakt_profile(user=None):
+def xhr_trakt_profile(user=None, mobile=False):
     if not user:
         user = get_setting_value('trakt_username')
 
@@ -267,6 +279,9 @@ def xhr_trakt_profile(user=None):
         except:
             episodes_progress = 0
 
+    if mobile:
+        return trakt
+
     return render_template('traktplus/trakt-user_profile.html',
         profile=trakt,
         user=user,
@@ -279,7 +294,7 @@ def xhr_trakt_profile(user=None):
 @app.route('/xhr/trakt/progress/<user>')
 @app.route('/xhr/trakt/progress/<user>/<type>')
 @requires_auth
-def xhr_trakt_progress(user, type=None):
+def xhr_trakt_progress(user, type=None, mobile=False):
     if not type:
         type = 'watched'
 
@@ -292,6 +307,9 @@ def xhr_trakt_progress(user, type=None):
         trakt_exception(e)
         return render_template('traktplus/trakt-base.html', message=e)
 
+    if mobile:
+        return trakt
+
     return render_template('traktplus/trakt-progress.html',
         progress=trakt,
         user=user,
@@ -302,7 +320,7 @@ def xhr_trakt_progress(user, type=None):
 @app.route('/xhr/trakt/library/<user>')
 @app.route('/xhr/trakt/library/<user>/<type>')
 @requires_auth
-def xhr_trakt_library(user, type=None):
+def xhr_trakt_library(user, type=None, mobile=False):
     if not type:
         type = get_setting_value('trakt_default_media')
 
@@ -315,6 +333,9 @@ def xhr_trakt_library(user, type=None):
         trakt_exception(e)
         return render_template('traktplus/trakt-base.html', message=e)
 
+    if mobile:
+        return trakt
+
     return render_template('traktplus/trakt-library.html',
         library=trakt,
         user=user,
@@ -326,7 +347,7 @@ def xhr_trakt_library(user, type=None):
 @app.route('/xhr/trakt/watchlist/<user>')
 @app.route('/xhr/trakt/watchlist/<user>/<type>')
 @requires_auth
-def xhr_trakt_watchlist(user, type=None):
+def xhr_trakt_watchlist(user, type=None, mobile=False):
     if not type:
         type = get_setting_value('trakt_default_media')
 
@@ -338,6 +359,9 @@ def xhr_trakt_watchlist(user, type=None):
     except Exception as e:
         trakt_exception(e)
         return render_template('traktplus/trakt-base.html', message=e)
+
+    if mobile:
+        return trakt
 
     if trakt == []:
         trakt = [{'empty': True}]
@@ -353,7 +377,7 @@ def xhr_trakt_watchlist(user, type=None):
 @app.route('/xhr/trakt/rated/<user>/<type>')
 @app.route('/xhr/trakt/rated/<user>')
 @requires_auth
-def xhr_trakt_rated(user, type=None):
+def xhr_trakt_rated(user, type=None, mobile=False):
     if not type:
         type = get_setting_value('trakt_default_media')
     logger.log('TRAKT :: Fetching %s\'s rated %s' % (user, type), 'INFO')
@@ -364,6 +388,9 @@ def xhr_trakt_rated(user, type=None):
     except Exception as e:
         trakt_exception(e)
         return render_template('traktplus/trakt-base.html', message=e)
+
+    if mobile:
+        return trakt
 
     total = len(trakt)
     loved = 0
@@ -395,7 +422,7 @@ def xhr_trakt_rated(user, type=None):
 
 @app.route('/xhr/trakt/calendar/<type>')
 @requires_auth
-def xhr_trakt_calendar(type):
+def xhr_trakt_calendar(type, mobile=False):
     logger.log('TRAKT :: Fetching %s calendar' % type, 'INFO')
     username = get_setting_value('trakt_username')
 
@@ -410,6 +437,9 @@ def xhr_trakt_calendar(type):
         trakt_exception(e)
         return render_template('traktplus/trakt-base.html', message=e)
 
+    if mobile:
+        return trakt
+
     return render_template('traktplus/trakt-calendar.html',
         calendar=trakt,
         type=type.title(),
@@ -420,7 +450,7 @@ def xhr_trakt_calendar(type):
 @app.route('/xhr/trakt/summary/<type>/<id>')
 @app.route('/xhr/trakt/summary/<type>/<id>/<season>/<episode>')
 @requires_auth
-def xhr_trakt_summary(type, id, season=None, episode=None):
+def xhr_trakt_summary(type, id, season=None, episode=None, mobile=False):
 
     if type == 'episode':
         url = 'http://api.trakt.tv/show/%s/summary.json/%s/%s/%s/%s' % (type, trakt_apikey(), id, season, episode)
@@ -442,6 +472,9 @@ def xhr_trakt_summary(type, id, season=None, episode=None):
 
     while THREADS:
         time.sleep(1)
+
+    if mobile:
+        return trakt
 
     if type == 'episode':
         return render_template('traktplus/trakt-episode.html',
@@ -466,7 +499,7 @@ def xhr_trakt_summary(type, id, season=None, episode=None):
 @app.route('/xhr/trakt/get_lists/', methods=['POST'])
 @app.route('/xhr/trakt/get_lists/<user>', methods=['GET'])
 @requires_auth
-def xhr_trakt_get_lists(user=None):
+def xhr_trakt_get_lists(user=None, mobile=False):
     if not user:
         user = get_setting_value('trakt_username')
 
@@ -480,6 +513,9 @@ def xhr_trakt_get_lists(user=None):
         return render_template('traktplus/trakt-base.html', message=e)
 
     if request.method == 'GET':
+        if mobile:
+            return trakt
+
         return render_template('traktplus/trakt-custom_lists.html',
             lists=trakt,
             user=user,
@@ -496,7 +532,7 @@ def xhr_trakt_get_lists(user=None):
 
 @app.route('/xhr/trakt/list/<slug>/<user>')
 @requires_auth
-def xhr_trakt_custom_list(slug, user):
+def xhr_trakt_custom_list(slug, user, mobile=False):
 
     logger.log('TRAKT :: Fetching %s' % slug, 'INFO')
     url = 'http://api.trakt.tv/user/list.json/%s/%s/%s' % (trakt_apikey(), user, slug)
@@ -506,6 +542,9 @@ def xhr_trakt_custom_list(slug, user):
     except Exception as e:
         trakt_exception(e)
         return render_template('traktplus/trakt-base.html', message=e)
+
+    if mobile:
+        return trakt
 
     return render_template('traktplus/trakt-custom_lists.html',
         list=trakt,

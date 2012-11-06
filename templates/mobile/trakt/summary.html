@@ -1,0 +1,82 @@
+<div id="trakt_summary" data-role="dialog">
+  <div data-role="content" data-theme="c" class="ui-corner-bottom ui-content ui-body-c" role="main">
+
+    <h1>{{ summary.title if 'title' in summary else summary.episode.title }}</h1>
+    {% if 'episode' in summary %}
+      <img class="thumbnail" src="{{ summary.episode.images.screen }}" align="left"/>
+    {% else %}
+      <img class="poster" src="{{ summary.images.poster }}" align="left"/>
+    {% endif %}
+
+    <div>
+      <table>
+        {% macro tr(a, b) %}
+        <tr>
+          <td><b>{{a}}:</b></td>
+          <td>{{b}}</td>
+        </tr>
+        {% endmacro %}
+
+        {% if media == 'movie' %}
+          {{tr('Year', summary.year)}}
+          {{tr('Runtime', summary.runtime~' mins')}}
+          {{tr('MPAA', summary.certification)}}
+          {{tr('Genres', summary.genres)}}
+        {% elif media == 'show' %}
+          {{tr('Aired', summary.first_aired)}}
+          {{tr('Runtime', summary.runtime~' mins')}}
+          {{tr('MPAA', summary.certification)}}
+          {{tr('Genres', summary.genres)}}
+        {% elif media == 'episode' %}
+          {{tr('Show', summary.show.title)}}
+          {{tr('Aired', summary.episode.first_aired)}}
+          {{tr('Runtime', summary.show.runtime~' mins')}}
+        {% endif %}
+      </table>
+    </div>
+    <p>{{ summary.overview if 'overview' in summary else summary.episode.overview }}</p>
+
+    {% if not 'episode' in summary %}
+      <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">Stats</li>
+        <li>
+          Plays
+          <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">
+            {{ summary.stats.plays }}
+          </span>
+        </li>
+        <li>
+          Watchers
+          <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">
+            {{ summary.stats.watchers }}
+          </span>
+        </li>
+        <li>
+          Collection
+          <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">
+            {{ summary.stats.collection }}
+          </span>
+        </li>
+      </ul>
+    {% endif %}
+
+    {% if shouts %}
+      <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">Shouts</li>
+        {% for shout in shouts %}
+          <li>
+            <h3>{{ shout.user.username }}</h3>
+            {% if shout.spoiler %}
+            <div class="trakt_spoiler" data-role="button" data-theme="e">Show Spoiler</div>
+              <p style="white-space:normal">
+                <span class="spoiled" style="display:none;">{{ shout.shout }}</span>
+              </p>
+            {% else %}
+              <p style="white-space:normal;">{{ shout.shout }}</p>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</div>

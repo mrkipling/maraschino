@@ -1,0 +1,52 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a id="trakt_home" href="{{ url_for('mobile_trakt') }}" data-direction="reverse" data-transition="slide">
+    <img src="{{ url_for('static', filename='images/applications/Trakt.png') }}" alt="trakt">
+  </a>
+{% endblock %}
+
+{% block header %}<h1>{{ title }}</h1>{% endblock %}
+
+{% block navbar%}
+  <div data-role="navbar">
+    <ul>
+      <li><a href="{{ url_for('mobile_trakt_profile', user=user) }}" data-direction="reverse">{{ user }}</a></li>
+    </ul>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <ul data-role="listview">
+    {% if lists %}
+      {% for item in lists %}
+        <li>
+          <a href="{{ url_for('mobile_trakt_custom_list', slug=item.slug, user=user) }}">
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description }}</p>
+          </a>
+        </li>
+      {% endfor %}
+    {% else %}
+      {% for item in custom_list['items'] %}
+        <li>
+          {% if item.type == 'show' or item.type == 'season' %}
+            <a href="{{ url_for('mobile_trakt_summary', media='show', id=item.show.tvdb_id) }}">
+              {{ item.show.title }}{% if item.type == 'season' %} Season {{ item.season }}{% endif %}
+            </a>
+          {% elif item.type == 'episode' %}
+            <a href="{{ url_for('mobile_trakt_summary', media='episode', id=item.show.tvdb_id, season=item.season, episode=item.episode_num) }}">
+              {{ item.show.title }} {{ item.season }}x{{ item.episode_num }} - {{ item.episode.title }}
+            </a>
+          {% elif item.type == 'movie' %}
+            <a href="{{ url_for('mobile_trakt_summary', media='movie', id=item.movie.imdb_id) }}">
+              {{ item.movie.title }} ({{ item.movie.year }})
+            </a>
+          {% else %}
+          {{item}}
+          {% endif %}
+        </li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+{% endblock %}
