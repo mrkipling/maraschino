@@ -124,7 +124,7 @@ def xhr_couchpotato(status=False):
 
     if status == 'wanted' and not type(couchpotato) is list:
         logger.log('CouchPotato :: Wanted movies list is empty', 'INFO')
-        return cp_search('There are no movies is your wanted list.')
+        return cp_search('There are no movies in your wanted list.')
 
     return render_template(template,
         url=couchpotato_url(),
