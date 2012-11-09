@@ -322,6 +322,12 @@ library_settings = {
                 {'value': 'large_list', 'label': 'Large List'},
             ]
         },
+        {
+            'key': 'xbmc_songs_play_album',
+            'value': '1',
+            'description': 'Continue playing album after song',
+            'type': 'bool',
+        },
     ],
     'files': [
         {
