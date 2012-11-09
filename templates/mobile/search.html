@@ -35,7 +35,7 @@
         {% set item = results[x] %}
             <li>
                 <a href="http://{{ item.LINK }}">
-                    <h2>{{item.NZBNAME}}</h2>
+                    <h2>{{item.NZBNAME.decode('utf-8')}}</h2>
                     <p>
                         {{ item.SIZE|convert_bytes }} |
                         {{ item.CATEGORY }}

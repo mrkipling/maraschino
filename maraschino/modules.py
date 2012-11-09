@@ -675,7 +675,12 @@ MISC_SETTINGS = [
         'key': 'show_currently_playing',
         'value': '1',
         'description': 'Show currently playing bar',
-        'type': 'bool',
+        'type': 'select',
+        'options': [
+            {'value': '1', 'label': 'Yes'},
+            {'value': '2', 'label': 'Minimized'},
+            {'value': '0', 'label': 'No'},
+        ]
     },
     {
         'key': 'fanart_backgrounds',

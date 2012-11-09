@@ -119,7 +119,7 @@ def index():
     if get_setting_value('show_currently_playing') == None:
         show_currently_playing = True
     else:
-        show_currently_playing = get_setting_value('show_currently_playing') == '1'
+        show_currently_playing = int(get_setting_value('show_currently_playing')) > 0
 
     return render_template('index.html',
         modules=modules,
