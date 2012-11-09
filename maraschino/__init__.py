@@ -42,6 +42,7 @@ CURRENT_COMMIT = None
 LATEST_COMMIT = None
 COMMITS_BEHIND = 0
 COMMITS_COMPARE_URL = ''
+FIRST_RUN = 0
 
 
 def initialize():
@@ -50,7 +51,7 @@ def initialize():
 
         global __INITIALIZED__, app, FULL_PATH, RUNDIR, ARGS, DAEMON, PIDFILE, VERBOSE, LOG_FILE, LOG_DIR, logger, PORT, SERVER, DATABASE, AUTH, \
                 UPDATER, CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT, HOST, KIOSK, DATA_DIR, SCRIPT_DIR, \
-                THREADS
+                THREADS, FIRST_RUN
 
         if __INITIALIZED__:
             return False
@@ -84,9 +85,14 @@ def initialize():
         try:
             logger.log('Opening database at: %s' % (DATABASE), 'INFO')
             open(DATABASE)
-
         except IOError:
-            logger.log('Opening database failed', 'CRITICAL')
+            logger.log('Opening database failed', 'WARNING')
+
+            #Check if a version file exists. If not assume latest revision.
+            version_file = os.path.join(DATA_DIR, 'Version.txt')
+            if not os.path.exists(version_file):
+                FIRST_RUN = 1
+
             try:
                 logger.log('Checking if PATH exists: %s' % (DATABASE), 'WARNING')
                 dbpath = os.path.dirname(DATABASE)
