@@ -38,7 +38,12 @@
               <p class="second">Season {{ episode.season }}, Episode {{ episode.episode }}</p>
               <p class="third">"{{ episode.title }}"</p>
               {% endif %}
+
+              {% if episode.playcount %}
+                  <span class="watched"></span>
+              {% endif %}
             </div>
+
           </li>
         {% endfor %}
       </ul>

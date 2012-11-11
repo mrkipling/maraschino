@@ -38,7 +38,12 @@
               <p class="second">Year: {{ movie.year }}</p>
               <p class="third">Rating: {{ movie.rating|float|round(1, 'common') }}</p>
               {% endif %}
+
+              {% if movie.playcount %}
+                  <span class="watched"></span>
+              {% endif %}
             </div>
+
           </li>
         {% endfor %}
       </ul>

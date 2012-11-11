@@ -22,14 +22,20 @@
       }
     }
 
-    li.watched .inner {
-      border-left: 3px solid #ccc;
-      padding-left: 12px;
+    .inner {
+      padding: 5px 132px 5px 20px;
+      position: relative;
+      .border-radius(4px);
     }
 
-    .inner {
-      padding: 5px 110px 5px 20px;
-      .border-radius(4px);
+    li.watched .inner .watched {
+      background: url('/@{webroot}/images/tick.png');
+      display: block;
+      height: 16px;
+      top: 25px;
+      position: absolute;
+      right: 110px;
+      width: 16px;
     }
 
     h3 {
@@ -77,9 +83,11 @@
   }
 
   div.compact {
-    ul{
+    ul {
       li {
         max-height: 25px;
+
+        .inner { padding-right: 155px; }
 
         .thumbnail {
           display: none;
@@ -135,4 +143,18 @@
 #recently_added_albums .thumbnail img {
     height: 56px;
     width: 56px !important;
+}
+
+#recently_added .compact li .inner .watched {
+    right: 133px !important;
+    top: 3px !important;
+}
+
+#recently_added_movies .compact li .inner {
+    padding-right: 90px !important;
+
+    .watched {
+        right: 67px !important;
+        top: 3px !important;
+    }
 }
