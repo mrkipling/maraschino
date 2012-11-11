@@ -15,12 +15,13 @@
     {% endif %}
       <ul class="movies listfix">
         {% for movie in recently_added_movies %}
+
           {% if using_db %}
             <li title="{{ movie.title }} ({{ movie.year }})"{% if movie.playcount %} class="watched"{% endif %}>
           {% elif view_info %}
-            <li id="info_movie" data-movieid="{{ movie.movieid }}" title="Information for {{ movie.title }} ({{ movie.year }})"{% if movie.playcount %} class="watched"{% endif %}>
+            <li class="info_movie{{ ' watched' if movie.playcount }}" data-movieid="{{ movie.movieid }}" title="Information for {{ movie.title }} ({{ movie.year }})">
           {% else %}
-            <li id="play_movie" data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})"{% if movie.playcount %} class="watched"{% endif %}>
+            <li class="play_movie{{ ' watched' if movie.playcount }}" data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})">
           {% endif %}
 
             {% if movie.thumbnail and not compact_view %}

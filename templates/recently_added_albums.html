@@ -15,12 +15,13 @@
     {% endif %}
       <ul class="albums listfix">
         {% for album in recently_added_albums %}
+
           {% if using_db %}
             <li title="{{ album.title }} ({{ album.year }})">
           {% elif view_info %}
-            <li id="info_album" data-albumid="{{ album.albumid }}" title="Information for {{ album.title }} ({{ album.year }})">
+            <li class="info_album" data-albumid="{{ album.albumid }}" title="Information for {{ album.title }} ({{ album.year }})">
           {% else %}
-            <li id="play_album" data-albumid="{{ album.albumid }}" title="Play {{ album.title }} ({{ album.year }})">
+            <li class="play_album" data-albumid="{{ album.albumid }}" title="Play {{ album.title }} ({{ album.year }})">
           {% endif %}
 
             {% if album.thumbnail %}
