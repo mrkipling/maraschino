@@ -7,7 +7,7 @@
       <input id="value" type="search" {% if term %}value="{{term}}"{% endif %}>
       <select id="site">
         <optgroup label="Sites">
-          <option value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%} >nzbMatrix</option>
+          <option value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%}>nzbMatrix</option>
           {% for newznab in newznab_sites %}
             <option value="{{newznab.id}}" {% if site == newznab.id %}selected{%endif%}>{{newznab.name}}</option>
           {% endfor %}

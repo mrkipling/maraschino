@@ -239,9 +239,11 @@ def newznab(site, category, maxage, term, mobile=False):
     categories = cat_newznab(url)
 
     try:
-        url += '/api?t=search&o=json&apikey=%s&q=%s&maxage=%s' % (apikey, urllib.quote(term), maxage)
+        url += '/api?t=search&o=json&apikey=%s&maxage=%s' % (apikey, maxage)
         if category != '0':
             url += '&cat=%s' % category
+        if term:
+            url += '&q=%s' % urllib.quote(term)
 
         logger.log('SEARCH :: %s :: Searching for "%s" in category: %s' % (site, term, category), 'INFO')
         result = json.loads(urllib.urlopen(url).read())['channel']
@@ -256,20 +258,26 @@ def newznab(site, category, maxage, term, mobile=False):
         logger.log(e, 'DEBUG')
         result = []
 
-    results = []
-    for item in result:
-        for attr in item['attr']:
-            if attr['@attributes']['name'] == 'size':
-                size = convert_bytes(attr['@attributes']['value'])
+    def parse_item(item):
+        if isinstance(item, dict):
+            for attr in item['attr']:
+                if attr['@attributes']['name'] == 'size':
+                    size = convert_bytes(attr['@attributes']['value'])
 
-        a = {
-            'nzblink': item['link'],
-            'details': item['guid'],
-            'title': item['title'].decode('utf-8'),
-            'category': item['category'],
-            'size': size
-        }
-        results.append(a)
+            a = {
+                'nzblink': item['link'],
+                'details': item['guid'],
+                'title': item['title'].decode('utf-8'),
+                'category': item['category'],
+                'size': size
+            }
+
+        return a
+
+    if isinstance(result, dict):
+        results = [parse_item(result)]
+    else:
+        results = [parse_item(x) for x in result]
 
     if mobile:
         return results
