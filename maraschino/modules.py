@@ -18,7 +18,7 @@ from Maraschino import app
 from maraschino.tools import *
 
 from maraschino.database import *
-from maraschino.models import Module, XbmcServer, RecentlyAdded
+from maraschino.models import Module, XbmcServer, RecentlyAdded, NewznabSite
 
 # name, label, description, and static are not user-editable and are taken from here
 # poll and delay are user-editable and saved in the database - the values here are the defaults
@@ -760,9 +760,21 @@ SEARCH_SETTINGS = [
         'description': 'NZBMatrix Username',
     },
     {
-        'key': 'nzb_su_API',
+        'key': 'search_retention',
         'value': '',
-        'description': 'nzb.su API',
+        'description': 'Usenet retention',
+    },
+    {
+        'key': 'search_ssl',
+        'value': '0',
+        'description': 'Prefer SSL',
+        'type': 'bool',
+    },
+    {
+        'key': 'search_english',
+        'value': '0',
+        'description': 'Prefer English only',
+        'type': 'bool',
     },
 ]
 
@@ -985,11 +997,13 @@ def extra_settings_dialog(dialog_type, updated=False):
     """
 
     dialog_text = None
+    dialog_extra = None
 
     if dialog_type == 'search_settings':
         settings = copy.copy(SEARCH_SETTINGS)
         dialog_title = 'Search settings'
         dialog_text = 'N.B. With search enabled, you can press \'ALT-s\' to display the search module.'
+        dialog_extra = NewznabSite.query.order_by(NewznabSite.id)
 
     elif dialog_type == 'misc_settings':
         settings = copy.copy(MISC_SETTINGS)
@@ -1009,11 +1023,12 @@ def extra_settings_dialog(dialog_type, updated=False):
              s['value'] = setting.value
 
     return render_template('extra_settings_dialog.html',
-        dialog_title = dialog_title,
-        dialog_text = dialog_text,
-        dialog_type = dialog_type,
-        settings = settings,
-        updated = updated,
+        dialog_title=dialog_title,
+        dialog_text=dialog_text,
+        dialog_type=dialog_type,
+        dialog_extra=dialog_extra,
+        settings=settings,
+        updated=updated,
     )
 
 @app.route('/xhr/server_settings_dialog/', methods=['GET', 'POST'])

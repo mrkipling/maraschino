@@ -738,37 +738,48 @@ def sabnzbd_history_item(id):
         )
 
 
-from modules.search import cat_newznab, cat_nzbmatrix, nzb_matrix, nzb_su
+from modules.search import cat_newznab, cat_nzbmatrix, nzb_matrix, newznab, get_newznab_sites
+from maraschino.models import NewznabSite
 
 
 @app.route('/mobile/search/')
 @app.route('/mobile/search/<site>/')
-def search(site="nzbmatrix"):
-    if site == 'nzb.su':
-        categories = cat_newznab
-    else:
+def search(site='nzbmatrix'):
+    if site == 'nzbmatrix':
         categories = cat_nzbmatrix
+    else:
+        site = int(site)
+        newznab = NewznabSite.query.filter(NewznabSite.id == site).first()
+        categories = cat_newznab(newznab.url)
 
     return render_template('mobile/search.html',
+        query=None,
+        site=site,
         categories=categories,
+        newznab_sites=get_newznab_sites(),
+        category=0
     )
 
 
-@app.route('/mobile/search/nzbmatrix/<query>/')
-@app.route('/mobile/search/nzbmatrix/<query>/<cat>/')
-def mobile_nzbmatrix(query, cat=None):
+@app.route('/mobile/search/<site>/<category>/<maxage>/')
+@app.route('/mobile/search/<site>/<category>/<maxage>/<term>/')
+@requires_auth
+def mobile_search_results(site, category='0', maxage='0', term=''):
+    if site == 'nzbmatrix':
+        categories = cat_nzbmatrix
+        results = nzb_matrix(category=category, maxage=maxage, term=term, mobile=True)
+    else:
+        site = int(site)
+        url = NewznabSite.query.filter(NewznabSite.id == site).first().url
+        categories = cat_newznab(url)
+        results = newznab(site=site, category=category, maxage=maxage, term=term, mobile=True)
+
 
     return render_template('mobile/search.html',
-        categories=cat_nzbmatrix,
-        results=nzb_matrix(item=query, cat=cat, mobile=True)
-    )
-
-
-@app.route('/mobile/search/nzb.su/<query>/')
-@app.route('/mobile/search/nzb.su/<query>/<cat>/')
-def mobile_nzbsu(query, cat=None):
-
-    return render_template('mobile/search.html',
-        categories=cat_newznab,
-        results=nzb_su(item=query, cat=cat, mobile=True)
+        query=term,
+        site=site,
+        categories=categories,
+        newznab_sites=get_newznab_sites(),
+        category=category,
+        results=results
     )

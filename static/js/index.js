@@ -1749,16 +1749,23 @@ $(document).ready(function() {
       var query = $('#search form #value').val();
       var site = $('#search form #site').val();
       var cat = $('#search form #category').val();
+      var maxage = $('#search form #maxage').val();
+
       if(site === ''){
         popup_message('You must pick a website');
         return false;
       }
-      if(query === ''){
-        popup_message('Must search something!');
-        return false;
+      if(!maxage) {
+        maxage = '0';
       }
+
+      var url = '/search/'+site+'/'+cat+'/'+maxage+'/';
+      if(query != ''){
+        url = url + query;
+      }
+
       $('#search .searching').show();
-      $.get(WEBROOT + '/search/'+site+'/'+query+'/'+cat, function(data){
+      $.get(WEBROOT + url, function(data){
         $('#search .searching').hide();
         if(data['error']){
           popup_message(data['error']);
@@ -1766,6 +1773,7 @@ $(document).ready(function() {
         } else {
           $('#search').replaceWith(data);
           byteSizeOrdering();
+          $('#search form #value').val(query);
           $('#search #results .tablesorter').tablesorter({headers: { 2: { sorter: 'filesize'}}});
         }
       });
@@ -1775,6 +1783,9 @@ $(document).ready(function() {
   $(document).on('change', '#search form #site', function(){
     var value = $(this).val();
     var query = $('#search form #value').val();
+    $('#search form #category').remove();
+    $('#search .searching').show();
+
     $.get(WEBROOT + '/xhr/search/'+value)
     .success( function(data){
       $('#search').replaceWith(data);
@@ -1796,6 +1807,48 @@ $(document).ready(function() {
 
   $(document).on('click', '#search #close', function() {
     $(search).slideUp(300);
+  });
+
+  $(document).on('click', '#add_newznab', function() {
+    var url = WEBROOT + '/search/newznab_dialog';
+    if ($(this).hasClass('edit')){
+      url = url + '/' + $(this).data('id');
+    }
+
+    $('#search_settings_dialog .save').click();
+    $.get(url, function(data) {
+      var popup = $(data);
+      $('body').append(popup);
+      popup.showPopup({ dispose: true });
+    });
+  });
+
+  $(document).on('click', '#add_edit_newznab_dialog .choices .save', function() {
+    var form = $('#add_edit_newznab_dialog form');
+
+    if (!validate_form(form)) {
+      return false;
+    }
+
+    var settings = form.serialize();
+    $.post(WEBROOT + '/search/add_edit_newznab/', settings, function(data) {
+      if (!data.error) {
+        $('#add_edit_newznab_dialog .close').click();
+        $('#search_settings').click();
+        $('#search').replaceWith(data);
+      }
+    });
+  });
+
+  $(document).on('click', '#add_edit_newznab_dialog .choices .delete', function() {
+    var newznab_id = $('#add_edit_newznab_dialog input[name=newznab_id]').val();
+    $.get(WEBROOT + '/search/delete_newznab/' + newznab_id, function(data) {
+      if (!data.status) {
+        $('#search').replaceWith(data);
+        $('#add_edit_newznab_dialog .close').click();
+        $('#search_settings').click();
+      }
+    });
   });
 
   /********* END SEARCH ***********/

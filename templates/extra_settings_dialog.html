@@ -32,7 +32,18 @@
 
       </div>
     {% endfor %}
+
   </form>
+
+  {% if dialog_type == 'search_settings' %}
+    {% if dialog_extra %}
+      {% for site in dialog_extra %}
+        <div id="add_newznab" class="edit" data-id="{{ site.id }}">Edit {{site.name}}</div>
+      {% endfor %}
+    {% endif %}
+
+    <div id="add_newznab">+ Add Newznab Server</div>
+  {% endif %}
 
   {% if dialog_type == 'misc_settings' %}
     <p style="margin-top: 20px; text-align: center;"><strong>Please note:</strong> The browser window will reload after you click save.</p>
