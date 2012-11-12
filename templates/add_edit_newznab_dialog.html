@@ -1,0 +1,36 @@
+<div id="add_edit_newznab_dialog" class="dialog">
+
+  <div class="close">x</div>
+
+  <h2>{{ 'Edit' if newznab else 'Add' }} Newznab Site</h2>
+
+  <form method="" action="">
+
+    {% if newznab %}
+      <input type="hidden" name="newznab_id" value="{{ newznab.id }}">
+    {% endif %}
+
+    <div class="formrow">
+      <label for="id_newznab_name">Name</label>
+      <input id="id_newznab_name" class="name" name="name" type="text" value="{{ newznab.name if newznab }}">
+    </div>
+
+    <div class="formrow">
+      <label for="id_newznab_url">URL</label>
+      <input id="id_newznab_url" name="url" type="text" value="{{ newznab.url if newznab }}">
+    </div>
+
+    <div class="formrow">
+      <label for="id_newznab_apikey">API Key</label>
+      <input id="id_newznab_apikey" name="apikey" type="text" value="{{ newznab.apikey if newznab }}">
+    </div>
+
+    <div class="choices">
+      <div class="save add_newznab">{{ 'Save' if newznab else 'Add' }} Site</div>
+      {% if newznab %}<div class="delete">Delete</div>{% endif %}
+      <div class="cancel">Cancel</div>
+    </div>
+
+  </form>
+
+</div>
