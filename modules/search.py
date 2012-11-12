@@ -7,9 +7,6 @@ from maraschino.models import NewznabSite
 from maraschino.database import db_session
 import urllib, re
 
-def nzb_su():
-    pass
-
 # NZBMatrix Category List:
 cat_nzbmatrix = [
         {'id': 0, 'name': 'Everything'},
@@ -121,15 +118,6 @@ def get_newznab_sites():
     return newznab_sites
 
 
-def strip_http(url):
-    if url.startswith('https://'):
-        url = url[8:]
-    elif url.startswith('http://'):
-        url = url[7:]
-
-    return url
-
-
 @app.route('/xhr/search/')
 @app.route('/xhr/search/<site>')
 @requires_auth
@@ -212,7 +200,7 @@ def nzb_matrix(category, maxage, term, mobile=False):
         print item
         a = {
             'nzblink': item['link'],
-            'title': item['title'],
+            'title': item['title'].decode('utf-8'),
             'category': item['category'],
         }
 
@@ -277,12 +265,14 @@ def newznab(site, category, maxage, term, mobile=False):
         a = {
             'nzblink': item['link'],
             'details': item['guid'],
-            'title': item['title'],
+            'title': item['title'].decode('utf-8'),
             'category': item['category'],
             'size': size
         }
         results.append(a)
 
+    if mobile:
+        return results
 
     return render_template('search-results.html',
         site=site,

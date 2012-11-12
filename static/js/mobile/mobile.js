@@ -304,7 +304,7 @@ $(document).ready(function () {
         if(e.which == 13){
             if ($(this).val()) {
                 $.mobile.showPageLoadingMsg();
-                document.location.href = WEBROOT + '/mobile/search/'+ $('#site').val() +'/' + $(this).val() + '/' + $('#category').val();
+                document.location.href = WEBROOT + '/mobile/search/'+ $('#site').val() +'/' + $('#category').val() + '/0/' + $(this).val();
             } else {
                 popup_message('You need to enter something to search for.');
             }
