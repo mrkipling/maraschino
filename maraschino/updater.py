@@ -44,6 +44,9 @@ def checkGithub():
 
     try:
         maraschino.LATEST_COMMIT = latestCommit()
+        if maraschino.FIRST_RUN:
+            maraschino.CURRENT_COMMIT = maraschino.LATEST_COMMIT
+            writeVersion(maraschino.CURRENT_COMMIT)
     except:
         logger.log('UPDATER :: Could not get latest commit from github', 'WARNING')
 
