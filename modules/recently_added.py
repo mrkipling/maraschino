@@ -252,6 +252,10 @@ def get_recently_added_albums(xbmc, album_offset=0, mobile=False):
 
     try:
         recently_added_albums = xbmc.AudioLibrary.GetRecentlyAddedAlbums(properties = ['title', 'year', 'rating', 'artist', 'thumbnail'])['albums']
+        for album in recently_added_albums:
+            if 'artist' in album and isinstance(album['artist'], list): #Frodo
+                album['artist'] = " / ".join(album['artist'])
+
         recently_added_db_add(xbmc_label, 'albums', recently_added_albums)
 
         thumbs = [recent_image_file(xbmc_label, 'albums', x['albumid'])[1] for x in recently_added_albums]

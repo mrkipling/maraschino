@@ -164,8 +164,8 @@ AVAILABLE_MODULES = [
     },
     {
         'name': 'library',
-        'label': 'Media Library',
-        'description': 'Allows you to browse your media library and select items to play in XBMC.',
+        'label': 'XBMC Library',
+        'description': 'Allows you to browse your XBMC library and select items to play in XBMC.',
         'static': True,
         'poll': 0,
         'delay': 0,
@@ -177,21 +177,9 @@ AVAILABLE_MODULES = [
                 'type': 'bool',
             },
             {
-                'key': 'library_use_bannerart',
-                'value': '0',
-                'description': 'Use Bannerart for TV shows',
-                'type': 'bool',
-            },
-            {
-                'key': 'library_watched_movies',
+                'key': 'library_ignore_the',
                 'value': '1',
-                'description': 'Show Watched Movies',
-                'type': 'bool',
-            },
-            {
-                'key': 'library_watched_tv',
-                'value': '1',
-                'description': 'Show Watched TV/Episodes',
+                'description': 'Ignore "The" in titles',
                 'type': 'bool',
             },
             {
@@ -204,6 +192,12 @@ AVAILABLE_MODULES = [
                 'key': 'library_show_music',
                 'value': '1',
                 'description': 'Show music',
+                'type': 'bool',
+            },
+            {
+                'key': 'library_show_pvr',
+                'value': '0',
+                'description': 'Show PVR (XBMC 12+ only)',
                 'type': 'bool',
             },
             {

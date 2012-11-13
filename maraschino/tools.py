@@ -11,6 +11,7 @@ from maraschino.models import Setting, XbmcServer
 from flask import send_file
 import StringIO
 import urllib
+import re
 
 def check_auth(username, password):
     """This function is called to check if a username /
@@ -63,6 +64,27 @@ def format_time(time):
     formatted_time += '%0*d' % (2, time['seconds'])
 
     return formatted_time
+
+def format_seconds(time):
+    hours = time / 3600
+    minutes = time / 60
+    seconds = time % 60
+    if time < 3600:
+        time = '%02d:%02d' % (minutes, seconds)
+    else:
+        time = '%02d:%02d:%02d' % (hours, minutes, seconds)
+
+    return time
+
+FILTERS['format_seconds'] = format_seconds
+
+def round_number(num):
+    if (num > 0):
+        return int(num+.5)
+    else:
+        return int(num-.5)
+
+FILTERS['round_number'] = round_number
 
 def format_number(num):
     extension_list = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB']
@@ -257,3 +279,15 @@ def create_dir(dir):
         except Exception as e:
             logger.log('Problem creating dir %s' % dir, 'ERROR')
             logger.log(e, 'DEBUG')
+
+
+def natural_sort(list, key=lambda s:s):
+    """
+    Sort a list into natural alphanumeric order.
+    """
+    def get_alphanum_key_func(key):
+        convert = lambda text: int(text) if text.isdigit() else text
+        return lambda s: [convert(c) for c in re.split('([0-9]+)', key(s))]
+
+    sort_key = get_alphanum_key_func(key)
+    return list.sort(key=sort_key)
