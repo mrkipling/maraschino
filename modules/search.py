@@ -161,7 +161,7 @@ def nzb_matrix(category, maxage, term, mobile=False):
     ssl = get_setting_value('search_ssl')
     retention = get_setting_value('search_retention')
 
-    if not category.isdigit(): #Category group
+    if not category.isdigit():  # Category group
         for i in range(len(cat_nzbmatrix)):
             if 'label' in cat_nzbmatrix[i] and cat_nzbmatrix[i]['id'] == category:
                 cats = [str(x['id']) for x in cat_nzbmatrix[i]['value']]
@@ -197,7 +197,6 @@ def nzb_matrix(category, maxage, term, mobile=False):
     result = feed['entries']
     results = []
     for item in result:
-        print item
         a = {
             'nzblink': item['link'],
             'title': item['title'].decode('utf-8'),
@@ -245,7 +244,7 @@ def newznab(site, category, maxage, term, mobile=False):
         if term:
             url += '&q=%s' % urllib.quote(term)
 
-        logger.log('SEARCH :: %s :: Searching for "%s" in category: %s' % (site, term, category), 'INFO')
+        logger.log('SEARCH :: %s :: Searching for "%s" in category: %s' % (newznab.name, term, category), 'INFO')
         result = json.loads(urllib.urlopen(url).read())['channel']
 
         if 'item' in result:
@@ -292,6 +291,7 @@ def newznab(site, category, maxage, term, mobile=False):
         newznab_sites=get_newznab_sites()
     )
 
+
 @app.route('/search/newznab_dialog/')
 @app.route('/search/newznab_dialog/<newznab_id>')
 @requires_auth
@@ -332,7 +332,6 @@ def add_edit_newznab():
         newznab.url = url
         newznab.apikey = apikey
 
-
     else:
         logger.log('SEARCH :: Adding new Newznab site', 'INFO')
         newznab = NewznabSite(
@@ -364,5 +363,3 @@ def delete_newznab(newznab_id):
         return jsonify(error=True)
 
     return xhr_search()
-
-
