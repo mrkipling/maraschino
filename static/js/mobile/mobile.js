@@ -326,4 +326,14 @@ $(document).ready(function () {
             }
         });
     });
+
+
+      ///////////////
+     //   Trakt   //
+    ///////////////
+
+    $(document).on('click', '.trakt_spoiler', function() {
+        $(this).parent().find('.spoiled').show();
+        $(this).remove();
+    });
 });

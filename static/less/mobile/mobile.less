@@ -171,9 +171,9 @@
     }
 }
 
-/*--- XBMC media details ---*/
+/*--- XBMC/trakt media details ---*/
 
-#xbmc_details {
+#xbmc_details, #trakt_summary {
     img {
         border: 2px;
         margin-right: 10px;
@@ -243,6 +243,35 @@
                 margin-left: -50%;
             }
         }
+    }
+}
+
+/*--- trakt home button ---*/
+#trakt_home {
+    display: block;
+    position: absolute;
+    left: 10px;
+    right: auto;
+    top: 5px;
+    width: 40px;
+    height: 40px;
+
+    img {
+        margin-left: -4px;
+        height: 26px;
+        width: 26px;
+    }
+}
+
+/*--- trakt progress bar ---*/
+#trakt_progress {
+    position: relative;
+    height: 20px;
+    width: 100%;
+
+    div {
+        position: absolute;
+        width: 100%;
     }
 }
 

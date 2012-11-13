@@ -1,0 +1,59 @@
+{% extends "mobile/base.html" %}
+
+{% block left_button %}
+  <a id="trakt_home" href="{{ url_for('mobile_trakt') }}" data-direction="reverse" data-transition="slide">
+    <img src="{{ url_for('static', filename='images/applications/Trakt.png') }}" alt="trakt">
+  </a>
+{% endblock %}
+
+{% block header %}<h1>Calendar</h1>{% endblock %}
+
+{% block navbar%}
+  {% macro nav_item(calendar_type) %}
+    <li>
+      {% if type == calendar_type %}
+        <a href="#" class="ui-btn-active ui-state-persist">
+      {% else %}
+        <a href="{{ url_for('mobile_trakt_calendar', type=calendar_type) }}">
+      {% endif %}
+        {{ calendar_type|title }}
+      </a>
+    </li>
+  {% endmacro %}
+
+  <div data-role="navbar">
+    <ul>
+      {{ nav_item('my shows') }}
+      {{ nav_item('premieres') }}
+      {{ nav_item('shows') }}
+    </ul>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <ul data-role="listview">
+    {% for day in calendar %}
+
+      <li data-role="list-divider">
+        {{ day.episodes.0.show.air_day }} {{ day.date }}
+      </li>
+
+      {% for item in day.episodes %}
+        {% if type == 'premieres'%}
+          <li>
+            <a href="{{ url_for('mobile_trakt_summary', media='show', id=item.show.tvdb_id) }}">
+              {{ item.show.title }} Season {{ item.episode.season }}
+            </a>
+          </li>
+        {% else %}
+          <li>
+            <a href="{{ url_for('mobile_trakt_summary', media='episode', id=item.show.tvdb_id, season=item.episode.season, episode=item.episode.number) }}">
+              {{ item.show.title }} {{ item.episode.season }}x{{ item.episode.number }} - {{ item.episode.title }}
+            </a>
+          </li>
+        {% endif %}
+
+      {% endfor %}
+    {% endfor %}
+  </ul>
+{% endblock %}
