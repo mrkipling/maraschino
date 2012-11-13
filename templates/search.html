@@ -4,28 +4,30 @@
   <div class="inner">
     <form>
       <div class="searching" style="display: none;"></div>
-      <input id="value" type="search" {% if item %}value="{{item}}"{% endif %}>
+      <input id="value" type="search" {% if term %}value="{{term}}"{% endif %}>
       <select id="site">
         <optgroup label="Sites">
-          <option value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%} >nzbMatrix</option>
-          <option value="nzb.su" {% if site == 'nzb.su' %}selected{%endif%}>nzb.su</option>
+          <option value="nzbmatrix" {% if site == 'nzbmatrix' %}selected{%endif%}>nzbMatrix</option>
+          {% for newznab in newznab_sites %}
+            <option value="{{newznab.id}}" {% if site == newznab.id %}selected{%endif%}>{{newznab.name}}</option>
+          {% endfor %}
       	</optgroup >
       </select>
       {% if categories|length %}
         <select id="category">
           {% for cat in categories %}
-            {% if cat.label|length %}
-              <optgroup label="{{cat.label}}">
-                {% for subcat in cat.value %}
-                  <option value="{{subcat.id}}">{{subcat.name}}</option>
-                {% endfor %}
-              </optgroup>
+            {% if cat.label %}
+              <option {% if "%s"|format(cat.id) == category %}selected{% endif %} value="{{cat.id}}">{{cat.label}}</option>
+              {% for subcat in cat.value %}
+                <option {% if "%s"|format(subcat.id) == category %}selected{% endif %} value="{{subcat.id}}">- {{subcat.name}}</option>
+              {% endfor %}
             {% else %}
               <option value="{{cat.id}}">{{cat.name}}</option>
             {% endif %}
           {% endfor %}
         </select>
       {% endif %}
+      <input id="maxage" type="number" placeholder="Max Age (Days)" {% if maxage > 1 %}value="{{maxage}}"{% endif %}>
     </form>
 
     {% block results %}{% endblock %}

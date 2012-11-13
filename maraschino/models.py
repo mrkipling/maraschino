@@ -171,6 +171,23 @@ class RecentlyAdded(Base):
         return '<RecentlyAdded %r>' % (self.name)
 
 
+class NewznabSite(Base):
+    __tablename__ = 'newznab'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100))
+    url = Column(String(100))
+    apikey = Column(String(100))
+
+
+    def __init__(self, name, url, apikey):
+        self.name = name
+        self.url = url
+        self.apikey = apikey
+
+    def __repr__(self):
+        return '<NewznabSite %r>' % (self.name)
+
+
 def highest_position(model):
     highest_position = 0
 
