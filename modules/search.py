@@ -5,6 +5,7 @@ from maraschino import app, logger
 from feedparser import feedparser
 from maraschino.models import NewznabSite
 from maraschino.database import db_session
+from xmltodict import xmltodict
 import urllib, re
 
 # NZBMatrix Category List:
@@ -92,13 +93,13 @@ cat_nzbmatrix = [
 def cat_newznab(url):
     categories = [{'id': '0', 'name': 'Everything'}]
     try:
-        result = json.loads(urllib.urlopen(url + '/api?t=caps&o=json').read())
+        result = xmltodict.parse(urllib.urlopen(url + '/api?t=caps&o=xml').read())
     except:
         return []
 
-    for cat in result['categories']['category']:
-        category = {'label': cat['@attributes']['name'], 'id': cat['@attributes']['id']}
-        category['value'] = [x['@attributes'] for x in cat['subcat']]
+    for cat in result['caps']['categories']['category']:
+        category = {'label': cat['@name'], 'id': cat['@id']}
+        category['value'] = [{'name': x['@name'], 'id': x['@id']} for x in cat['subcat']]
 
         for subcat in category['value']:
             subcat['name'] = '%s: %s' % (category['label'], subcat['name'])
@@ -161,7 +162,7 @@ def nzb_matrix(category, maxage, term, mobile=False):
     ssl = get_setting_value('search_ssl')
     retention = get_setting_value('search_retention')
 
-    if not category.isdigit():  # Category group
+    if not category.isdigit(): #Category group
         for i in range(len(cat_nzbmatrix)):
             if 'label' in cat_nzbmatrix[i] and cat_nzbmatrix[i]['id'] == category:
                 cats = [str(x['id']) for x in cat_nzbmatrix[i]['value']]
@@ -238,14 +239,14 @@ def newznab(site, category, maxage, term, mobile=False):
     categories = cat_newznab(url)
 
     try:
-        url += '/api?t=search&o=json&apikey=%s&maxage=%s' % (apikey, maxage)
+        url += '/api?t=search&o=xml&apikey=%s&maxage=%s' % (apikey, maxage)
         if category != '0':
             url += '&cat=%s' % category
         if term:
             url += '&q=%s' % urllib.quote(term)
 
-        logger.log('SEARCH :: %s :: Searching for "%s" in category: %s' % (newznab.name, term, category), 'INFO')
-        result = json.loads(urllib.urlopen(url).read())['channel']
+        logger.log('SEARCH :: %s :: Searching for "%s" in category: %s' % (site, term, category), 'INFO')
+        result = xmltodict.parse(urllib.urlopen(url).read())['rss']['channel']
 
         if 'item' in result:
             result = result['item']
@@ -259,13 +260,13 @@ def newznab(site, category, maxage, term, mobile=False):
 
     def parse_item(item):
         if isinstance(item, dict):
-            for attr in item['attr']:
-                if attr['@attributes']['name'] == 'size':
-                    size = convert_bytes(attr['@attributes']['value'])
+            for attr in item['newznab:attr']:
+                if attr['@name'] == 'size':
+                    size = convert_bytes(attr['@value'])
 
             a = {
                 'nzblink': item['link'],
-                'details': item['guid'],
+                'details': item['guid']['#text'],
                 'title': item['title'].decode('utf-8'),
                 'category': item['category'],
                 'size': size
@@ -290,7 +291,6 @@ def newznab(site, category, maxage, term, mobile=False):
         maxage=int(maxage),
         newznab_sites=get_newznab_sites()
     )
-
 
 @app.route('/search/newznab_dialog/')
 @app.route('/search/newznab_dialog/<newznab_id>')
@@ -331,6 +331,7 @@ def add_edit_newznab():
         newznab.name = name
         newznab.url = url
         newznab.apikey = apikey
+
 
     else:
         logger.log('SEARCH :: Adding new Newznab site', 'INFO')
