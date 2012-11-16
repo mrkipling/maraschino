@@ -198,21 +198,25 @@ def nzb_matrix(category, maxage, term, mobile=False):
     result = feed['entries']
     results = []
     for item in result:
+        try:
+            size = re.compile('<b>Size:</b> (.*?)<').search(item['summary']).group(1)
+        except:
+            size = 'Unknown'
+
+        nzbid = None
+        try:
+            nzbid = re.compile('id=(.*?)&').search(item['link']).group(1)
+        except:
+            logger.log('SEARCH :: NZBMatrix :: Failed to find nzb id for: %s' % item['title'].decode('utf-8'), 'WARNING')
+            pass
+
         a = {
-            'nzblink': item['link'],
+            'nzblink': 'http://api.nzbmatrix.com/v1.1/download.php?id=%s' % nzbid,
             'title': item['title'].decode('utf-8'),
             'category': item['category'],
+            'size': size,
+            'details': 'http://nzbmatrix.com/nzb-details.php?id=%s&hit=1' % nzbid
         }
-
-        try:
-            a['size'] = re.compile('<b>Size:</b> (.*?)<').search(item['summary']).group(1)
-        except:
-            a['size'] = 'Unknown'
-
-        try:
-            a['details'] = re.compile('View NZB:</b> <a href="(.*?)"').search(item['summary']).group(1)
-        except:
-            a['details'] = item['link']
 
         results.append(a)
 
