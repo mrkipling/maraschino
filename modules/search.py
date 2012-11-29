@@ -1,4 +1,4 @@
-from flask import render_template, jsonify, json, request
+from flask import render_template, jsonify, request
 
 from maraschino.tools import requires_auth, get_setting_value, convert_bytes
 from maraschino import app, logger
@@ -6,7 +6,8 @@ from feedparser import feedparser
 from maraschino.models import NewznabSite
 from maraschino.database import db_session
 from xmltodict import xmltodict
-import urllib, re
+import urllib
+import re
 
 # NZBMatrix Category List:
 cat_nzbmatrix = [
@@ -162,7 +163,7 @@ def nzb_matrix(category, maxage, term, mobile=False):
     ssl = get_setting_value('search_ssl')
     retention = get_setting_value('search_retention')
 
-    if not category.isdigit(): #Category group
+    if not category.isdigit():  # Category group
         for i in range(len(cat_nzbmatrix)):
             if 'label' in cat_nzbmatrix[i] and cat_nzbmatrix[i]['id'] == category:
                 cats = [str(x['id']) for x in cat_nzbmatrix[i]['value']]
@@ -296,6 +297,7 @@ def newznab(site, category, maxage, term, mobile=False):
         newznab_sites=get_newznab_sites()
     )
 
+
 @app.route('/search/newznab_dialog/')
 @app.route('/search/newznab_dialog/<newznab_id>')
 @requires_auth
@@ -335,7 +337,6 @@ def add_edit_newznab():
         newznab.name = name
         newznab.url = url
         newznab.apikey = apikey
-
 
     else:
         logger.log('SEARCH :: Adding new Newznab site', 'INFO')
