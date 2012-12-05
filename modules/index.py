@@ -112,8 +112,10 @@ def index():
 
     active_server = get_setting_value('active_server')
 
-    if active_server:
+    if active_server != 'undefined':
         active_server = int(active_server)
+    else:
+        active_server = 1
 
     # show power buttons in library?
     library_show_power_buttons = get_setting_value('library_show_power_buttons', '1') == '1'
