@@ -1,0 +1,36 @@
+<ul class="list_view compact">
+  {% for item in library %}
+    <li {% include "library/item_properties.html" %}{% include "library/control_paths.html" %}>
+
+      {{ item.label }}
+
+      {% if buttons and not 'movieset' in item %}
+        <span class="list_buttons">
+          {% if 'play' in buttons %}
+            <a class="button play">Play</a>
+          {% endif %}
+
+          {% if 'info' in buttons %}
+            <a class="button info">Info</a>
+          {% endif %}
+
+          {% if 'queue' in buttons %}
+            {% if media == 'files' %}
+              {% if item.filetype == 'file' %}
+                <a class="button queue_file">Queue</a>
+              {% endif %}
+
+            {% else %}
+              <a class="button queue">Queue</a>
+            {% endif %}
+          {% endif %}
+        </span>
+      {% endif %}
+
+      {% if item.playcount %}
+        <img class="watched" src="{{ url_for('static', filename='images/tick.png') }}">
+      {% endif %}
+
+    </li>
+  {% endfor %}
+</ul>

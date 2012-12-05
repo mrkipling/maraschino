@@ -1,0 +1,37 @@
+{% if item %}
+
+  {% if media == 'seasons' %}
+    data-xhr_play="/xhr/play/{{ file }}/{{ media[:-1] }}_{{ item.season }}/{{ item.tvshowid }}"
+    data-xhr_queue="/xhr/enqueue/{{ file }}/{{ media[:-1] }}_{{ item.season }}/{{ item.tvshowid }}"
+
+  {% elif media == 'files' %}
+    data-xhr_play="/xhr/play_file/{{ file }}/"
+    data-xhr_queue="/xhr/enqueue_file/{{ file }}/"
+    data-path="{{ item.file }}"
+
+  {% elif media == 'channels' %}
+    data-xhr_play="/xhr/controls/change_channel/{{ item.channelid }}"
+
+  {% else %}
+    data-xhr_play="/xhr/play/{{ file }}/{{ media[:-1] }}/{{ item[media[:-1]+'id'] }}"
+    data-xhr_queue="/xhr/enqueue/{{ file }}/{{ media[:-1] }}/{{ item[media[:-1]+'id'] }}"
+    data-xhr_info="/xhr/library{{path}}{{'?' if not '?' in path else '&'}}{{media[:-1]}}id={{item[media[:-1]+'id']}}"
+
+  {% endif %}
+
+  {% if media == 'movies' or media == 'episodes' %}
+    data-xhr_resume_check="/xhr/library/{{ media[:-1] }}/resume_check/{{ item[media[:-1]+'id'] }}"
+  {% endif %}
+
+{% else %}
+  data-xhr_play="/xhr/play/{{ file }}/{{ media[:-1] }}/{{ library[media[:-1]+'id'] }}"
+  data-xhr_queue="/xhr/enqueue/{{ file }}/{{ media[:-1] }}/{{ library[media[:-1]+'id'] }}"
+
+  {% if 'resume' in library %}
+    data-xhr_resume="/xhr/resume/video/{{ media[:-1] }}/{{ library[media[:-1]+'id'] }}"
+  {% endif %}
+
+  {% if 'trailer' in library %}
+    data-xhr_trailer="/xhr/play/trailer/{{ library[media[:-1]+'id'] }}"
+  {% endif %}
+{% endif %}
