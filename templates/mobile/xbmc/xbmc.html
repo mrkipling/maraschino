@@ -5,14 +5,13 @@
 <div id="servers">
   <select data-native-menu="false" data-theme="c">
       <option>Servers</option>
-    {% for server in servers %}
-      <option id="{{ server.label }}_server" data-id="{{ server.id }}" {{ 'selected' if server.id == active_server }}>{{ server.label }}</option>
-    {% endfor %}
+      {% for server in servers %}
+        <option id="{{ server.label }}_server" data-id="{{ server.id }}" {{ 'selected' if server.id == active_server }}>{{ server.label }}</option>
+      {% endfor %}
   </select>
 </div>
 {% endif %}
 {% endblock %}
-
 
 {% block header %}<h1>XBMC</h1>{% endblock %}
 
