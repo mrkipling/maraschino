@@ -6,7 +6,7 @@
   <select data-native-menu="false" data-theme="c">
       <option>Servers</option>
       {% for server in servers %}
-        <option id="server_{{ server.id }}" data-id="{{ server.id }}" {{ 'selected' if server.id == active_server }} value="{{ server.id }}">{{ server.label }}</option>
+        <option id="{{ server.label }}_server" data-id="{{ server.id }}" {{ 'selected' if server.id == active_server }}>{{ server.label }}</option>
       {% endfor %}
   </select>
 </div>
