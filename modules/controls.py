@@ -16,6 +16,7 @@ xbmc_error = 'There was a problem connecting to the XBMC server'
 def xhr_play_media(file_type, media_type, media_id):
     logger.log('CONTROLS :: Playing %s' % media_type, 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
+    position = 0
 
     if file_type == 'video':
         id = 1
@@ -35,12 +36,12 @@ def xhr_play_media(file_type, media_type, media_id):
                 tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=media_id, sort={ 'method': 'episode' })['episodes']
                 for episode in tvshow_episodes:
                     episodeid = episode['episodeid']
-                    item = { 'episodeid': episodeid }
+                    item = {'episodeid': episodeid}
                     xbmc.Playlist.Add(playlistid=1, item=item)
 
             except:
                 logger.log('CONTROLS :: Failed to retrieve episodes', 'DEBUG')
-                return jsonify({ 'failed': True })
+                return jsonify({'failed': True})
 
         elif 'season' in media_type:
             media_type = media_type.split('_')
@@ -50,12 +51,12 @@ def xhr_play_media(file_type, media_type, media_id):
                 tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=media_id, season=season, sort={ 'method': 'episode' })['episodes']
                 for episode in tvshow_episodes:
                     episodeid = episode['episodeid']
-                    item = { 'episodeid': episodeid }
+                    item = {'episodeid': episodeid}
                     xbmc.Playlist.Add(playlistid=1, item=item)
 
             except:
                 logger.log('CONTROLS :: Failed to retrieve episodes', 'DEBUG')
-                return jsonify({ 'failed': True })
+                return jsonify({'failed': True})
 
         else:
             try:
@@ -63,28 +64,30 @@ def xhr_play_media(file_type, media_type, media_id):
                 xbmc.Playlist.Add(playlistid=1, item=item)
             except:
                 logger.log('CONTROLS :: Failed to add %s to playlist' % media_type, 'DEBUG')
-                return jsonify({ 'failed': True })
-
-        playlistid = 1
+                return jsonify({'failed': True})
 
     else:
+
         try:
-            item = { media_type + 'id': media_id }
+            if media_type == 'song' and get_setting_value('xbmc_songs_play_album') == '1':
+                song = xbmc.AudioLibrary.GetSongDetails(songid=media_id, properties=['albumid', 'track'])['songdetails']
+                item = {'albumid': song['albumid']}
+                position = song['track'] -1
+            else:
+                item = {media_type+'id': media_id}
             xbmc.Playlist.Add(playlistid=0, item=item)
         except:
             logger.log('CONTROLS :: Failed to add %s to playlist' % media_type, 'DEBUG')
-            return jsonify({ 'failed': True })
-
-        playlistid = 0
+            return jsonify({'failed': True})
 
     try:
-        item = { 'playlistid': playlistid }
+        item = {'playlistid': id, 'position': position}
         xbmc.Player.Open(item)
     except:
         logger.log('CONTROLS :: Failed to open %s playlist' % file_type, 'DEBUG')
-        return jsonify({ 'failed': True })
+        return jsonify({'failed': True})
 
-    return jsonify({ 'success': True })
+    return jsonify({'success': True})
 
 @app.route('/xhr/enqueue/<file_type>/<media_type>/<int:media_id>')
 @requires_auth
@@ -350,6 +353,20 @@ def xhr_remove_playlist_item(playlistid, position):
         logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
         return jsonify({'failed': True})
 
+@app.route('/xhr/controls/change_channel/<int:channelid>')
+@requires_auth
+def xhr_change_channel(channelid):
+    logger.log('CONTROLS :: Changing channel %s' % channelid, 'INFO')
+    xbmc = jsonrpclib.Server(server_api_address())
+
+    try:
+        xbmc.Player.Open(item={'channelid': channelid})
+        return jsonify({'success': True})
+
+    except:
+        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+        return jsonify({'failed': True})
+
 @app.route('/xhr/controls/<command>')
 @requires_auth
 def xhr_controls(command):
@@ -530,6 +547,15 @@ def xhr_controls(command):
         logger.log('CONTROLS :: Rebooting XBMC machine', 'INFO')
         try:
             xbmc.System.Reboot()
+            return_response = 'success'
+        except:
+            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+            return_response = 'failed'
+
+    elif command == 'pvr-scan':
+        logger.log('CONTROLS :: Scanning PVR EPG', 'INFO')
+        try:
+            xbmc.PVR.Scan()
             return_response = 'success'
         except:
             logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')

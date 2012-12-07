@@ -1,0 +1,87 @@
+<ul class="list_view">
+  {% for item in library %}
+    <li id="large" {% include "library/item_properties.html" %}{% include "library/control_paths.html" %}>
+
+      {% if item.thumbnail %}
+        {% if media == 'artists' or media == 'albums' or media == 'episodes' or media == 'songs' %}
+          <img class="{{ media }}" src="{{ item.thumbnail|xbmc_image }}">
+        {% else %}
+          <img class="poster" src="{{ item.thumbnail|xbmc_image }}">
+        {% endif %}
+      {% endif %}
+
+      <div
+        {% if media == 'artists' or media == 'albums' or media == 'episodes' or media == 'songs' %}
+          class="details {{ media }}"
+        {% else %}
+          class="details"
+        {% endif %}
+      >
+        <span class="title">
+          {{ item.label }}
+        </span><br />
+
+        <span>
+          {% if media == 'movies' %}
+            Year: {{ item.year }}
+          {% elif media == 'tvshows' %}
+            Premiered: {{ item.premiered }}
+          {% elif media == 'seasons' %}
+            {{ item.episode }} Episodes
+          {% elif media == 'episodes' %}
+            First Aired: {{ item.firstaired }}
+          {% elif media == 'artists' %}
+            Years Active: {{ item.yearsactive }}
+          {% elif media == 'albums' %}
+            Year: {{ item.year }}
+          {% elif media == 'songs' %}
+            {{ item.artist }}<br />
+            Duration: {{ item.duration|format_seconds }}
+          {% endif %}
+        </span><br />
+
+        <span>
+          {% if media == 'seasons' %}
+            {{ item.unwatched }} Unwatched
+          {% elif media == 'artists' %}
+            Genre: {{ item.genre }}
+          {% elif item.rating %}
+            {% if media == 'songs' and item.rating < 6 %}
+              {% include "library/star_ratings.html" %}
+            {% else %}
+              Rating: {{ item.rating|float|round(1, 'common') }}
+            {% endif %}
+          {% endif %}
+        </span>
+      </div>
+
+      {% if item.playcount %}
+        <img class="large_watched" src="{{ url_for('static', filename='images/tick.png') }}">
+      {% endif %}
+
+      {% if buttons and not 'movieset' in item %}
+        <span class="list_buttons large">
+          {% if 'play' in buttons %}
+            <a class="button play">Play</a>
+          {% endif %}
+
+          {% if 'info' in buttons %}
+            <a class="button info">Info</a>
+          {% endif %}
+
+          {% if 'queue' in buttons %}
+            {% if media == 'files' %}
+              {% if item.filetype == 'file' %}
+                <a class="button queue_file">Queue</a>
+              {% endif %}
+
+            {% else %}
+              <a class="button queue">Queue</a>
+            {% endif %}
+          {% endif %}
+        </span>
+      {% endif %}
+
+    </li>
+  {% endfor %}
+</ul>

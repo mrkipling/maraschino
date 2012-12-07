@@ -26,12 +26,15 @@ def xhr_currently_playing():
         if active_player[0]['type'] == 'audio':
             currently_playing = xbmc.Player.GetItem(playerid = 0, properties = ['title', 'duration', 'fanart', 'artist', 'albumartist', 'album', 'track', 'artistid', 'albumid', 'thumbnail', 'year'])['item']
 
+            if 'artist' in currently_playing and isinstance(currently_playing['artist'], list): #Frodo
+                currently_playing['artist'] = " / ".join(currently_playing['artist'])
+
         fanart = currently_playing['fanart']
         itemart = currently_playing['thumbnail']
 
     except:
         return jsonify({ 'playing': False })
-	
+
     return render_template('currently_playing.html',
         currently_playing = currently_playing,
         fanart = fanart,

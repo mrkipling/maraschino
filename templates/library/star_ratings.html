@@ -1,0 +1,13 @@
+<div class="stars">
+
+  {% if not item %}
+    {% set item = library %}
+  {% endif %}
+
+  {% if item.rating %}
+    {% set star_file = 'images/star_ratings/'~ item.rating|round_number ~'stars.png' %}
+    <img src="{{ url_for('static', filename=star_file) }}" height="20"/>
+  {% else %}
+    <img src="{{ url_for('static', filename='images/star_ratings/0stars.png') }}" />
+  {% endif %}
+</div>

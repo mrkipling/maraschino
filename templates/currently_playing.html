@@ -44,20 +44,34 @@
       <span class="playlist" title="View playlist"><strong>Currently playing:</strong></span><br>
 
       {% if currently_playing.showtitle %}
-        <span class="show" data-show="{{ currently_playing.tvshowid }}">{{ currently_playing.showtitle }}</span>
+        <span class="show invoke_library" data-path="/seasons?tvshowid={{ currently_playing.tvshowid }}">
+          {{ currently_playing.showtitle }}
+        </span>
         <span class="separator">-</span>
-        <span class="season" data-season="{{ currently_playing.season }}">Season {{ currently_playing.season }}</span>,
-        <span class="episode" data-episode="{{ currently_playing.id }}">Episode {{ currently_playing.episode }}
+        <span class="season invoke_library" data-path="/episodes?tvshowid={{ currently_playing.tvshowid }}&season={{ currently_playing.season }}">
+          Season {{ currently_playing.season }}
+        </span>,
+        <span class="episode invoke_library" data-path="/episodes?tvshowid={{ currently_playing.tvshowid }}&season={{ currently_playing.season }}&episodeid={{ currently_playing.id }}">
+          Episode {{ currently_playing.episode }}
           <span class="separator">-</span>
           "{{ currently_playing.label }}"
         </span>
       {% elif currently_playing.artist %}
-        <span class="artist" data-artist="{{ currently_playing.artistid }}">{{ currently_playing.artist }}</span>
+        <span>
+          {{ currently_playing.artist }}
+        </span>
         <span class="separator">-</span>
-        <span class="album" data-album="{{ currently_playing.albumid }}">{{ currently_playing.album }} ({{ currently_playing.year }})</span>
-        <br>{% if currently_playing.track < 10 %}0{% endif %}{{ currently_playing.track }}. {{ currently_playing.label }}
+        <span>
+          {{ currently_playing.album }} ({{ currently_playing.year }})
+        </span>
+        <br>{{ '0' if currently_playing.track < 10 }}{{ currently_playing.track }}. {{ currently_playing.title }}
       {% elif currently_playing.type == 'movie' %}
-        <span class="movie" data-movie="{{ currently_playing.id }}">{{ currently_playing.label }} ({{ currently_playing.year }})</span>
+        <span class="movie invoke_library" data-path="/movies?movieid={{ currently_playing.id }}">
+          {{ currently_playing.label }} ({{ currently_playing.year }})
+        </span>
+      {% elif currently_playing.type == 'channel' %}
+        {{ currently_playing.label }}<br>{{ currently_playing.title }}
+
       {% else %}
         {{ currently_playing.label }}
       {% endif %}

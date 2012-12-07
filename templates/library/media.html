@@ -1,0 +1,74 @@
+{% extends "library/base.html" %}
+{% block xbmc_library_title %}{{ title }}{% endblock %}
+{% block xbmc_library_content %}
+
+  <!-- SET UP BUTTONS -->
+  {% if media == 'movies' or media == 'episodes' %}
+    {% if show_info %}
+      {% set buttons = ['play', 'queue'] %}
+    {% else %}
+      {% set buttons = ['info', 'queue'] %}
+    {% endif %}
+
+  {% elif media == 'tvshows' or media == 'artists' or media == 'albums' %}
+      {% set buttons = ['info', 'play', 'queue'] %}
+
+  {% elif media == 'seasons' %}
+      {% set buttons = ['play', 'queue'] %}
+
+  {% elif media == 'songs' %}
+      {% set buttons = ['queue'] %}
+
+  {% elif media == 'files' %}
+    {% set buttons = ['queue'] %}
+
+  {% else %}
+    {% set buttons = [] %}
+  {% endif %}
+
+  <div class="get back" data-url="{{ back_path }}">&laquo;</div>
+
+  <div id="content" data-media="{{ media }}" data-url="{{ path }}">
+    {% include "library/"+view+"_view.html" %}
+  </div>
+
+  {% if settings %}
+    {% include "library/settings.html" %}
+  {% endif %}
+
+  <div id="filter_holder">
+    <div id="filter">
+      <input
+        type="search"
+        name="input"
+        class="filter"
+        value="Filter"
+        onclick="this.value='';"
+        onfocus="this.select()"
+        onblur="this.value=!this.value?'Filter':this.value;"
+      >
+      </input>
+    </div>
+  </div>
+
+  {% if back_pos %}
+    <script>$('#library #content .media[data-id="{{ back_pos }}"]').ScrollTo({duration: 0});</script>
+  {% endif %}
+
+{% endblock %}
+
+{% block power_holder %}
+  {% if path != '/files' and media != 'channels' and media != 'channelgroups' %}
+    <div class="power" title="Update {{ file|title }} Library" id="{{ file }}-update">
+      <img src="{{ url_for('static', filename='images/refresh.png') }}"/>
+    </div>
+    <div class="power" title="Clean {{ file|title }} Library" id="{{ file }}-clean">
+      <img src="{{ url_for('static', filename='images/clean.png') }}"/>
+    </div>
+
+  {% elif media == 'channels' or media =='channelgroups' %}
+    <div class="power" title="Scan PVR EPG" id="pvr-scan">
+      <img src="{{ url_for('static', filename='images/refresh.png') }}"/>
+    </div>
+  {% endif %}
+{% endblock %}

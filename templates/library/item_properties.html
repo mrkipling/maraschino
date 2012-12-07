@@ -1,0 +1,63 @@
+{% if media == 'movies' or media == 'episodes' %}
+
+  {% if 'movieset' in item %}
+    class="get movieset media"
+  {% elif show_info %}
+    class="info media"
+  {% else %}
+    class="resume_check media"
+  {% endif %}
+
+{% elif media == 'songs' or media == 'channels' %}
+  class="play media"
+
+{% elif media == 'files' and item.filetype == 'file' %}
+  class="play_file media"
+
+{% else %}
+  class="get media"
+{% endif %}
+
+{% if item %}
+  {% if media == 'seasons' %}
+    data-id="{{ item.seasons }}"
+
+  {% elif media == 'movies' and 'setid' in item %}
+    data-id="set{{ item.setid }}"
+
+  {% else %}
+    data-id="{{ item[media[:-1]+'id'] }}"
+
+  {% endif %}
+{% endif %}
+
+filter="{{ item.label }}"
+
+{% if media == 'movies' and 'movieset' in item %}
+  data-url="/movies?setid={{ item.setid }}"
+
+{% elif media == 'tvshows' %}
+	data-url="/seasons?tvshowid={{ item.tvshowid }}"
+
+{% elif media == 'seasons' %}
+	data-url="/episodes?tvshowid={{ item.tvshowid }}&season={{ item.season }}"
+
+{% elif media == 'artists' %}
+  data-url="/albums?artistid={{ item.artistid }}"
+
+{% elif media == 'albums' %}
+  data-url="/songs?artistid={{ item.artistid }}&albumid={{ item.albumid }}"
+
+{% elif media == 'files' and not file %}
+  data-url="/files?files={{ item.filetype }}"
+
+{% elif media == 'files' and item.file %}
+  data-url="/files?files={{ file }}&path={{ item.file }}"
+
+{% elif media == 'pvr' %}
+  data-url="/channelgroups?type={{ item.channeltype }}"
+
+{% elif media == 'channelgroups' %}
+  data-url="/channels?type={{ item.channeltype }}&channelgroupid={{ item.channelgroupid }}"
+
+{% endif %}

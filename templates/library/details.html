@@ -1,0 +1,99 @@
+{% extends "library/base.html" %}
+{% block xbmc_library_title %}{{ title }}{% endblock %}
+{% block xbmc_library_content %}
+{% macro row(k) %}
+  <tr>
+    <td>
+      {% if k == 'firstaired' %}
+        First Aired:
+      {% else %}
+        {{ k|title }}:
+      {% endif %}
+    </td>
+    <td>
+      {% if k == 'genre' %}
+        {{ library[k]|truncate(30, 'false') }}
+      {% elif k == 'rating' %}
+        {{ library[k]|float|round(1, 'common') }}
+      {% else %}
+        {{ library[k] }}
+      {% endif %}
+    </td>
+  </tr>
+{% endmacro %}
+
+
+<div class="get back" data-url="{{ back_path }}">&laquo;</div>
+
+  <div class="media_details">
+
+    {% if library.thumbnail %}
+      <img
+        {% if media == 'episodes' %}
+          class="episodeart"
+        {% elif media == 'artists' %}
+          class="artistart"
+        {% elif media == 'albums' %}
+          class="albumart"
+        {% elif media == 'tvshows' and 'banner' in library %}
+          class="bannerart"
+        {% else %}
+          class="posterart"
+        {% endif %}
+          src="{{ library.thumbnail|xbmc_image }}"
+      >
+    {% endif %}
+
+      <table>
+        {% if media == 'movies' %}
+          {{ row('director') }}
+          {{ row('year') }}
+          {{ row('genre') }}
+          {{ row('rating') }}
+        {% elif media == 'tvshows' %}
+          {{ row('studio') }}
+          {{ row('premiered') }}
+          {{ row('genre') }}
+          {{ row('rating') }}
+        {% elif media == 'episodes' %}
+          {{ row('firstaired') }}
+          {{ row('rating') }}
+        {% elif media == 'artists' %}
+          {{ row('genre') }}
+        {% elif media == 'albums' %}
+          {{ row('year') }}
+          {{ row('genre') }}
+          {{ row('rating') }}
+        {% endif %}
+      </table>
+      <br /><span><b>{{ 'Information' if file != 'video' else 'Plot' }}:</b></span>
+      <br /><p align="left">{{ library.plot }}</p>
+
+  </div>
+
+{% endblock %}
+
+{% block power_holder %}
+  <div class="power" title="Update {{ file|title }} Library" id="{{ file }}-update">
+    <img src="{{ url_for('static', filename='images/refresh.png') }}"/>
+  </div>
+  <div class="power" title="Clean {{ file|title }} Library" id="{{ file }}-clean">
+    <img src="{{ url_for('static', filename='images/clean.png') }}"/>
+  </div>
+
+  <div class="info_buttons media" {% include "library/control_paths.html" %}>
+    {% if 'resume' in library and library.resume.position >= 1 %}
+      <a class="resume button">Resume</a>
+    {% endif %}
+
+    <a class="play button">Play</a>
+    <a class="queue button">Queue</a>
+
+    {% if 'trailer' in library and library.trailer %}
+      <a class="trailer button" data-id="{{ library[media[:-1]+'id'] }}">
+        Trailer
+      </a>
+    {% endif %}
+  </div>
+
+{% endblock %}

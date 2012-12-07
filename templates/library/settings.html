@@ -1,0 +1,36 @@
+<div id="settings">
+  <form id="settings" class="inner" method="post" action="">
+    {% for setting in settings %}
+      <div class="formrow">
+        <label for="id_{{ setting.key }}">{{ setting.description }}</label>
+
+        {% if setting.type == 'bool' %}
+          <select id="id_{{ setting.key }}" name="{{ setting.key }}">
+            <option value="0"{% if setting.value == "0" %} selected="selected"{% endif %}>No</option>
+            <option value="1"{% if setting.value == "1" %} selected="selected"{% endif %}>Yes</option>
+          </select>
+
+        {% elif setting.type == 'select' %}
+          <select id="id_{{ setting.key }}" name="{{ setting.key }}">
+            {% for option in setting.options %}
+              <option 
+                value="{{ option.value }}"
+                {% if setting.value == option.value %}
+                  selected="selected"
+                {% endif %}
+              >
+                {{ option.label }}
+              </option>
+            {% endfor %}
+          </select>
+
+        {% endif %}
+      </div>
+    {% endfor %}
+  </form>
+
+  <div class="choices">
+    <div class="save">Save</div>
+    <div class="cancel">Cancel</div>
+  </div>
+</div>

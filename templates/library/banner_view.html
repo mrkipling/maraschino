@@ -1,0 +1,50 @@
+<ul class="banner_view">
+  {% for item in library %}
+    <li {% include "library/item_properties.html" %}{% include "library/control_paths.html" %}>
+
+      {% if 'art' in item and 'banner' in item.art %} <!-- FRODO ONLY -->
+        <img class="banner" src="{{ item.art.banner|xbmc_image }}">
+      {% elif item.thumbnail %}
+        <img class="banner" src="{{ item.thumbnail|xbmc_image }}">
+      {% endif %}
+
+      <div class="banner_title">
+        {{ item.label }}
+      </div>
+
+      {% if buttons and not 'movieset' in item %}
+        <div class="banner_buttons">
+          {% if 'info' in buttons %}
+            <span
+            class="banner_button info"
+            title="Details"
+            >
+              <img src="{{ url_for('static', filename='images/info.png') }}"/>
+            </span>
+          {% endif %}
+
+          {% if 'play' in buttons %}
+            <span class="banner_button play" title="Play {{ media[:-1] }}">
+              <img src="{{ url_for('static', filename='images/play.png') }}"/>
+            </span>
+          {% endif %}
+
+          {% if 'queue' in buttons %}
+            <span
+              {% if media == 'files' %}
+                {% if item.filetype == 'file' %}
+                  class="banner_button queue_file"
+                {% endif %}
+              {% else %}
+                class="banner_button queue"
+              {% endif %}
+              title="Queue {{ media[:-1] }}"
+            >+</span>
+          {% endif %}
+
+        </div>
+      {% endif %}
+
+    </li>
+  {% endfor %}
+</ul>

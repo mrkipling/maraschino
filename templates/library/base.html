@@ -1,0 +1,39 @@
+<div id="library" class="module" data-module="library">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2 class="module_title">
+    {% block xbmc_library_title %}{{ title }}{% endblock %}
+  </h2>
+
+  <img class="xhrloading" src="{{ url_for('static', filename='images/xhrloading.gif') }}" />
+
+  {% block xbmc_library_content %}{% endblock %}
+
+  {% if message %}
+    <div class="message">{{ message }}</div>
+  {% endif %}
+
+    <div class="powerholder">
+      {% block power_holder %}{% endblock %}
+
+      {% if show_power %}
+        {% if message %}
+          <div class="power" title="Try Wake On LAN" id="poweron">
+            <img src="{{ url_for('static', filename='images/poweron.png') }}"/>
+          </div>
+        {% endif %}
+        <div class="power" title="Suspend" id="suspend">
+          <img src="{{ url_for('static', filename='images/suspend.png') }}"/>
+        </div>
+        <div class="power" title="Reboot" id="reboot">
+          <img src="{{ url_for('static', filename='images/reboot.png') }}"/>
+        </div>
+        <div class="power" title="Shutdown" id="poweroff">
+          <img src="{{ url_for('static', filename='images/shutdown.png') }}"/>
+        </div>
+      {% endif %}
+
+    </div>
+</div>
