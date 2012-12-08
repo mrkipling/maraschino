@@ -332,6 +332,8 @@ def log(level):
         sickbeard = sickbeard_api(params)
         if sickbeard['result'].rfind('success') >= 0:
             sickbeard = sickbeard['data']
+            if not sickbeard:
+                sickbeard = ['The %s log is empty' % level]
 
     except:
         sickbeard = None
