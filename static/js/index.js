@@ -1008,6 +1008,7 @@ $(document).ready(function() {
   $(document).on('click', '#sickbeard .menu li.snatched', function(){
     $('#sickbeard .history .Snatched').toggle();
     $(this).toggleClass('active');
+    $(this).children().css('background', 'url('+WEBROOT+'/static/images/snatched.png) no-repeat center').html('Snatched');
   });
 
   // Show Menu
