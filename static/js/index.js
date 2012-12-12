@@ -274,13 +274,8 @@ $(document).ready(function() {
     e.stopPropagation();
   });
 
-  $(document).on('click', '#playlist_dialog .clear', function() {
-    $.get(WEBROOT + '/xhr/playlist/' + $(this).data('command'));
-    $('#playlist_dialog .close').click();
-  });
-
   $(document).on('click', '#playlist_dialog .control', function() {
-    $.get(WEBROOT + '/xhr/playlist/' + $(this).data('command'));
+    $.get(WEBROOT + $(this).data('command'));
     $.get(WEBROOT + '/xhr/currently_playing/playlist', function(data){
       $('#playlist_dialog .close').click();
       var popup = $(data);
