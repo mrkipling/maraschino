@@ -53,7 +53,7 @@ def xhr_current_playlist():
 
     active_player = xbmc.Player.GetActivePlayers()
     playerid = active_player[0]['playerid']
-    player_info = xbmc.Player.GetProperties(playerid=playerid, properties=['position'])
+    player_info = xbmc.Player.GetProperties(playerid=playerid, properties=['position', 'shuffled', 'repeat'])
     currently_playing = xbmc.Player.GetItem(playerid = playerid)['item']
     playlist = xbmc.Playlist.GetItems(playlistid = playerid)
 
@@ -69,7 +69,11 @@ def xhr_current_playlist():
 
     playlist['id'] = playerid
 
-    return render_template('playlist_dialog.html', playlist=playlist)
+    return render_template('playlist_dialog.html',
+        playlist=playlist,
+        shuffled=player_info['shuffled'],
+        repeat=player_info['repeat']
+    )
 
 @app.route('/xhr/synopsis')
 @requires_auth

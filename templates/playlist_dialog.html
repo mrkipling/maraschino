@@ -5,21 +5,32 @@
   <h2>Currently Playing</h2>
 
   {% if playlist %}
+    <div class="buttons top_buttons">
+      <div class="btn control {{ 'active' if shuffled }}" data-command="/xhr/controls/shuffle" title="Toggle Shuffle">
+        <img src="{{ url_for('static', filename='images/player_buttons/shuffle.png') }}" />
+      </div>
+      <div class="btn control {{ 'active' if repeat != 'off' }}" data-command="/xhr/controls/repeat" title="Toggle Reapeat">
+        <img src="{{ url_for('static', filename='images/player_buttons/repeat_'+repeat+'.png') }}" />
+      </div>
+      <div class="btn control" data-command="/xhr/playlist/{{ playlist.id }}/clear" title="Clear">
+        <img src="{{ url_for('static', filename='images/clean.png') }}" />
+      </div>
+    </div>
+
     {% if playlist.limits.total >= 1  %}
       <div class="current_playlist">
-        <span class="clear buttons btn" data-command="{{ playlist.id }}/clear"><b>CLEAR</b></span>
         <ul>
           {% for item in playlist['items'] %}
             <li class="play{{ ' playing' if item.playing }}" data-playlistid="{{ playlist.id }}" data-position="{{ item.position }}">
               {{ item.label }}
               <span class="buttons">
-                <span class="control btn" data-command="{{ playlist.id }}/move_item/{{ item.position }}/up" title="Move up">
+                <span class="control btn" data-command="/xhr/playlist/{{ playlist.id }}/move_item/{{ item.position }}/up" title="Move up">
                   <img src="{{ url_for('static', filename='images/arrow_up.png') }}" />
                 </span>
-                <span class="control btn" data-command="{{ playlist.id }}/move_item/{{ item.position }}/down" title="Move down">
+                <span class="control btn" data-command="/xhr/playlist/{{ playlist.id }}/move_item/{{ item.position }}/down" title="Move down">
                   <img src="{{ url_for('static', filename='images/arrow_down.png') }}" />
                 </span>
-                <span class="control btn" data-command="{{ playlist.id }}/remove_item/{{ item.position }}" title="Remove">
+                <span class="control btn" data-command="/xhr/playlist/{{ playlist.id }}/remove_item/{{ item.position }}" title="Remove">
                   <img src="{{ url_for('static', filename='images/remove_icon.png') }}" height="10" />
                 </span>
               </span>
