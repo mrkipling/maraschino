@@ -54,14 +54,23 @@
     .border-radius(4px);
     cursor: pointer;
 
-    &:hover {
+    &:hover, &.active {
       background: url('/@{webroot}/images/alpha/fff_20.png');
     }
   }
 
-  .clear {
+  .top_buttons {
+    position: absolute;
     top: 15px;
     right: 25px;
+    div {
+      display: inline-block;
+
+      img {
+        height: 16px;
+        width: 16px;
+      }
+    }
   }
 
   .empty {

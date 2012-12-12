@@ -444,11 +444,18 @@ def xhr_controls(command):
     elif command == 'shuffle':
         logger.log('CONTROLS :: Shuffle', 'INFO')
         try:
-            shuffled = xbmc.Player.GetProperties(playerid=playerid, properties=['shuffled'])['shuffled']
-            if shuffled == True:
-                xbmc.Player.UnShuffle(playerid=playerid)
+            version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
+            if version > 11:
+                xbmc.Player.SetShuffle(playerid=playerid, shuffle='toggle')
+
             else:
-                xbmc.Player.Shuffle(playerid=playerid)
+                shuffled = xbmc.Player.GetProperties(playerid=playerid, properties=['shuffled'])['shuffled']
+                if shuffled == True:
+                    xbmc.Player.UnShuffle(playerid=playerid)
+
+                else:
+                    xbmc.Player.Shuffle(playerid=playerid)
+
             return_response = 'success'
         except:
             logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
@@ -457,16 +464,23 @@ def xhr_controls(command):
     elif command == 'repeat':
         logger.log('CONTROLS :: Repeat', 'INFO')
         try:
-            states = ['off', 'one', 'all']
-            repeat = xbmc.Player.GetProperties(playerid=playerid, properties=['repeat'])['repeat']
-            state = states.index(repeat)
-            if state <= 1:
-                state = state + 1
-            else:
-                state = 0
+            version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
+            if version > 11:
+                xbmc.Player.SetRepeat(playerid=playerid, repeat='cycle')
 
-            state = states[state]
-            xbmc.Player.Repeat(playerid=playerid, state=state)
+            else:
+                states = ['off', 'one', 'all']
+                repeat = xbmc.Player.GetProperties(playerid=playerid, properties=['repeat'])['repeat']
+                state = states.index(repeat)
+
+                if state <= 1:
+                    state = state + 1
+                else:
+                    state = 0
+
+                state = states[state]
+                xbmc.Player.Repeat(playerid=playerid, state=state)
+
             return_response = 'success'
         except:
             logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
