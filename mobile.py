@@ -118,7 +118,7 @@ def tv_library():
 def tvshow(id):
     try:
         xbmc = jsonrpclib.Server(server_api_address())
-        show = xbmc.VideoLibrary.GetSeasons(tvshowid=id, properties=['tvshowid', 'season', 'showtitle', 'playcount'])['seasons']
+        show = xbmc.VideoLibrary.GetSeasons(tvshowid=id, properties=['tvshowid', 'season', 'showtitle', 'playcount'], sort={'method': 'label'})['seasons']
 
     except Exception as e:
         logger.log('Mobile :: XBMC :: Could not retrieve TV Show [id: %i -  %s]' % (id, e), 'WARNING')
