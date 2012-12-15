@@ -92,7 +92,7 @@ def xhr_library_show(show):
     xbmc = jsonrpclib.Server(server_api_address())
 
     try:
-        library = xbmc.VideoLibrary.GetSeasons(tvshowid=show, properties=['tvshowid', 'season', 'showtitle', 'playcount'])
+        library = xbmc.VideoLibrary.GetSeasons(tvshowid=show, properties=['tvshowid', 'season', 'showtitle', 'playcount'], sort={'method': 'label'})
     except:
         logger.log('LIBRARY :: %s' % xbmc_error, 'ERROR')
         return render_library(message=xbmc_error)
