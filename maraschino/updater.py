@@ -218,7 +218,12 @@ def gitCurrentVersion():
 
 def gitUpdate():
     """Update Maraschino using git"""
-    output, err = runGit('pull origin %s' % branch)
+
+    remote = gitGetRemote()
+    if 'failed' in remote:
+        return 'failed'
+
+    output, err = runGit('pull %s %s' % (remote, branch))
 
     if not output:
         logger.log('Couldn\'t download latest version', 'ERROR')
@@ -242,3 +247,29 @@ def gitUpdate():
     maraschino.COMMITS_BEHIND = 0
 
     return 'complete'
+
+
+def gitGetRemote():
+    """Get Maraschino remote from git"""
+    output, err = runGit('remote -v')
+
+    if not output:
+        logger.log('Couldn\'t get remote\'s from GIT', 'ERROR')
+        maraschino.USE_GIT = False
+        return 'failed'
+
+    for line in output.split('\n'):
+        giturl = 'github.com/%s' % (user)
+        if giturl in line:
+            words = line.split()
+            remote = words[0]
+            pprint.pprint(words)
+            logger.log('UPDATER :: Found remote: '+remote, 'INFO')
+            logger.log('UPDATER :: Git output: ' + str(output), 'DEBUG')
+            return remote
+
+    logger.log('UPDATER :: Unable to find a remote containing: '+giturl, 'ERROR')
+    logger.log('UPDATER :: GIT Output: ' + str(output), 'DEBUG')
+    maraschino.USE_GIT = False
+    return 'failed'
+
