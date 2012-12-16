@@ -220,7 +220,7 @@ def gitUpdate():
     """Update Maraschino using git"""
 
     remote = gitGetRemote()
-    if 'failed' in remote:
+    if 'failed' == remote:
         return 'failed'
 
     output, err = runGit('pull %s %s' % (remote, branch))
