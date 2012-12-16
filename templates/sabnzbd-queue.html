@@ -15,7 +15,7 @@
       <li class="pause_for">Other...</li>
     </ul>
   </div>
-  <div class="speed"><input type="text" value="{{ download_speed[:-4] }}" title="Adjust Speed" size="5"/>{{ download_speed[-4:] }}</div>
+  <div class="speed"><input type="text" value="{{ download_speed[:-7] }}" title="Adjust Speed in KB/s" size="6"/>{{ download_speed[-7:] }}</div>
 
   {% if item %}
     <p>{{ item.filename }}</p>
