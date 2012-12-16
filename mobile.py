@@ -740,19 +740,16 @@ def sabnzbd_history_item(id):
         )
 
 
-from modules.search import cat_newznab, cat_nzbmatrix, nzb_matrix, newznab, get_newznab_sites
+from modules.search import cat_newznab, newznab, get_newznab_sites
 from maraschino.models import NewznabSite
 
 
 @app.route('/mobile/search/')
 @app.route('/mobile/search/<site>/')
-def search(site='nzbmatrix'):
-    if site == 'nzbmatrix':
-        categories = cat_nzbmatrix
-    else:
-        site = int(site)
-        newznab = NewznabSite.query.filter(NewznabSite.id == site).first()
-        categories = cat_newznab(newznab.url)
+def search(site=1):
+    site = int(site)
+    newznab = NewznabSite.query.filter(NewznabSite.id == site).first()
+    categories = cat_newznab(newznab.url)
 
     return render_template('mobile/search.html',
         query=None,
@@ -767,10 +764,7 @@ def search(site='nzbmatrix'):
 @app.route('/mobile/search/<site>/<category>/<maxage>/<term>/')
 @requires_auth
 def mobile_search_results(site, category='0', maxage='0', term=''):
-    if site == 'nzbmatrix':
-        categories = cat_nzbmatrix
-        results = nzb_matrix(category=category, maxage=maxage, term=term, mobile=True)
-    else:
+    if site:
         site = int(site)
         url = NewznabSite.query.filter(NewznabSite.id == site).first().url
         categories = cat_newznab(url)

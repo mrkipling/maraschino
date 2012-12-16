@@ -9,86 +9,6 @@ from xmltodict import xmltodict
 import urllib
 import re
 
-# NZBMatrix Category List:
-cat_nzbmatrix = [
-        {'id': 0, 'name': 'Everything'},
-        {'label': 'Movies', 'id': 'movies', 'value':[
-            {'id': 1, 'name': 'Movies: DVD'},
-            {'id': 2, 'name': 'Movies: Divx/Xvid'},
-            {'id': 54, 'name': 'Movies: BRRip'},
-            {'id': 42, 'name': 'Movies: HD (x264)'},
-            {'id': 50, 'name': 'Movies: HD (Image)'},
-            {'id': 48, 'name': 'Movies: WMV-HD'},
-            {'id': 3, 'name': 'Movies: SVCD/VCD'},
-            {'id': 4, 'name': 'Movies: Other'},
-          ]
-        },
-        {'label': 'TV', 'id': 'tv', 'value': [
-            {'id': 5, 'name': 'TV: DVD'},
-            {'id': 6, 'name': 'TV: Divx/Xvid'},
-            {'id': 41, 'name': 'TV: HD'},
-            {'id': 7, 'name': 'TV: Sport/Ent'},
-            {'id': 8, 'name': 'TV: Other'},
-          ]
-        },
-        {'label': 'Documentaries', 'id': 'doco', 'value': [
-            {'id': 9, 'name': 'Documentaries: STD'},
-            {'id': 53, 'name': 'Documentaries: HD'},
-          ]
-        },
-        {'label': 'Games', 'id': 'games', 'value': [
-            {'id': 10, 'name': 'Games: PC'},
-            {'id': 11, 'name': 'Games: PS2'},
-            {'id': 43, 'name': 'Games: PS3'},
-            {'id': 12, 'name': 'Games: PSP'},
-            {'id': 13, 'name': 'Games: Xbox'},
-            {'id': 14, 'name': 'Games: Xbox360'},
-            {'id': 56, 'name': 'Games: Xbox360 (Other)'},
-            {'id': 15, 'name': 'Games: PS1'},
-            {'id': 16, 'name': 'Games: Dreamcast'},
-            {'id': 44, 'name': 'Games: Wii'},
-            {'id': 51, 'name': 'Games: Wii VC'},
-            {'id': 45, 'name': 'Games: DS'},
-            {'id': 46, 'name': 'Games: GameCube'},
-            {'id': 17, 'name': 'Games: Other'},
-          ]
-        },
-        {'label': 'Apps', 'id': 'apps', 'value': [
-            {'id': 18, 'name': 'Apps: PC'},
-            {'id': 19, 'name': 'Apps: Mac'},
-            {'id': 52, 'name': 'Apps: Portable'},
-            {'id': 20, 'name': 'Apps: Linux'},
-            {'id': 55, 'name': 'Apps: Phone'},
-            {'id': 21, 'name': 'Apps: Other'},
-          ]
-        },
-        {'label': 'Music', 'id': 'music', 'value': [
-            {'id': 22, 'name': 'Music: MP3 Albums'},
-            {'id': 47, 'name': 'Music: MP3 Singles'},
-            {'id': 23, 'name': 'Music: Lossless'},
-            {'id': 24, 'name': 'Music: DVD'},
-            {'id': 25, 'name': 'Music: Video'},
-            {'id': 27, 'name': 'Music: Other'},
-          ]
-        },
-        {'label': 'Anime', 'id': 'anime', 'value': [
-            {'id': 28, 'name': 'Anime: ALL'},
-          ]
-        },
-        {'label': 'Other', 'id': 'other', 'value': [
-            {'id': 49, 'name': 'Other: Audio Books'},
-            {'id': 33, 'name': 'Other: Emulation'},
-            {'id': 34, 'name': 'Other: PPC/PDA'},
-            {'id': 26, 'name': 'Other: Radio'},
-            {'id': 36, 'name': 'Other: E-Books'},
-            {'id': 37, 'name': 'Other: Images'},
-            {'id': 38, 'name': 'Other: Mobile Phone'},
-            {'id': 39, 'name': 'Other: Extra Pars/Fills'},
-            {'id': 40, 'name': 'Other: Other'},
-          ]
-        },
-    ]
-
 
 # Newznab Category List:
 def cat_newznab(url):
@@ -123,17 +43,14 @@ def get_newznab_sites():
 @app.route('/xhr/search/')
 @app.route('/xhr/search/<site>')
 @requires_auth
-def xhr_search(site='nzbmatrix'):
+def xhr_search(site=1):
     if get_setting_value('search') == '0':
         logger.log('SEARCH :: Search fature not enabled, please enable it on the top right corner menu', 'INFO')
         return ''
 
-    if site == 'nzbmatrix':
-        categories = cat_nzbmatrix
-    else:
-        site = int(site)
-        newznab = NewznabSite.query.filter(NewznabSite.id == site).first()
-        categories = cat_newznab(newznab.url)
+    site = int(site)
+    newznab = NewznabSite.query.filter(NewznabSite.id == site).first()
+    categories = cat_newznab(newznab.url)
 
     return render_template('search.html',
         site=site,
@@ -148,91 +65,7 @@ def xhr_search(site='nzbmatrix'):
 @app.route('/search/<site>/<category>/<maxage>/<term>/')
 @requires_auth
 def get_search_results(site, category='0', maxage='0', term=''):
-    if site == 'nzbmatrix':
-        return nzb_matrix(category=category, maxage=maxage, term=term)
-    else:
         return newznab(site=site, category=category, maxage=maxage, term=term)
-
-
-def nzb_matrix(category, maxage, term, mobile=False):
-    catid = category
-    apikey = get_setting_value('nzb_matrix_API')
-    username = get_setting_value('nzb_matrix_user')
-
-    english = get_setting_value('search_english')
-    ssl = get_setting_value('search_ssl')
-    retention = get_setting_value('search_retention')
-
-    if not category.isdigit():  # Category group
-        for i in range(len(cat_nzbmatrix)):
-            if 'label' in cat_nzbmatrix[i] and cat_nzbmatrix[i]['id'] == category:
-                cats = [str(x['id']) for x in cat_nzbmatrix[i]['value']]
-                category = ','.join(cats)
-                break
-
-    url = 'http://rss.nzbmatrix.com/rss.php?scenename=1&searchin=name&subcat=%s&term=%s&maxage=%s' % (category, term, maxage)
-
-    if username and apikey:
-        url += '&page=download&username=%s&apikey=%s' % (username, apikey)
-    else:
-        logger.log('SEARCH :: NZBMatrix apikey or username missing', 'WARNING')
-
-    if english:
-        url += '&english=%s' % english
-    if ssl:
-        url += '&ssl=%s' % ssl
-    if retention:
-        if retention.isdigit():
-            url += '&age=%s' % retention
-        else:
-            logger.log('SEARCH :: Retention must be a number.', 'ERROR')
-
-    logger.log('SEARCH :: NZBMatrix :: Searching for "%s" in category: %s' % (term, category), 'INFO')
-
-    try:
-        feed = feedparser.parse(url)
-    except Exception as e:
-        logger.log('SEARCH :: NZBMatrix :: Failed  to parse feed', 'ERROR')
-        logger.log(e, 'DEBUG')
-        return jsonify(error='Failed to parse feed')
-
-    result = feed['entries']
-    results = []
-    for item in result:
-        try:
-            size = re.compile('<b>Size:</b> (.*?)<').search(item['summary']).group(1)
-        except:
-            size = 'Unknown'
-
-        nzbid = None
-        try:
-            nzbid = re.compile('id=(.*?)&').search(item['link']).group(1)
-        except:
-            logger.log('SEARCH :: NZBMatrix :: Failed to find nzb id for: %s' % item['title'].decode('utf-8'), 'WARNING')
-            pass
-
-        a = {
-            'nzblink': 'http://api.nzbmatrix.com/v1.1/download.php?id=%s' % nzbid,
-            'title': item['title'].decode('utf-8'),
-            'category': item['category'],
-            'size': size,
-            'details': 'http://nzbmatrix.com/nzb-details.php?id=%s&hit=1' % nzbid
-        }
-
-        results.append(a)
-
-    if mobile:
-        return results
-
-    return render_template('search-results.html',
-        site='nzbmatrix',
-        results=results,
-        term=term,
-        categories=cat_nzbmatrix,
-        category=catid,
-        maxage=int(maxage),
-        newznab_sites=get_newznab_sites()
-    )
 
 
 def newznab(site, category, maxage, term, mobile=False):
