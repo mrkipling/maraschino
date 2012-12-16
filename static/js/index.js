@@ -716,6 +716,9 @@ $(document).ready(function() {
     $.get(url, function(data) {
       $('#library').replaceWith(data);
     });
+
+    // focus on Filter textbox
+    $('input[name=input]').focus();
   });
 
   $(document).on('click', '#library #play', function() {
