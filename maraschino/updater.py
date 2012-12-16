@@ -263,7 +263,6 @@ def gitGetRemote():
         if giturl in line:
             words = line.split()
             remote = words[0]
-            pprint.pprint(words)
             logger.log('UPDATER :: Found remote: '+remote, 'INFO')
             logger.log('UPDATER :: Git output: ' + str(output), 'DEBUG')
             return remote
