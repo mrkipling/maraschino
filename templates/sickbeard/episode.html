@@ -1,4 +1,4 @@
-{% extends "sickbeard-base.html" %}
+{% extends "sickbeard/base.html" %}
 
 {% block sickbeard_content %}
 
@@ -22,7 +22,7 @@
         <option {% if (sickbeard.status == 'Ignored') %}SELECTED{% endif %}>ignored</option>
       </select>
       <img class="search" height="15px" src="{{ url_for('static', filename='images/search.png') }}" id="{{ id }}" episode="{{ ep }}" season="{{ season }}" title="Search for episode"/>
-    </p>  
+    </p>
     {% endif %}
   </div>
 

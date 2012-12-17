@@ -1,9 +1,9 @@
-{% extends "sickbeard-base.html" %}
+{% extends "sickbeard/base.html" %}
 
 {% block sickbeard_content %}
 
 <div id="log">
-  <h3> Log level: 
+  <h3> Log level:
     <select class="level">
       <option value="debug" {% if level == 'debug' %} selected {% endif%}>Debug</option>
       <option value="info" {% if level == 'info' %} selected {% endif%}>Info</option>
