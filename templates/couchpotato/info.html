@@ -1,4 +1,4 @@
-{% extends "couchpotato-base.html" %}
+{% extends "couchpotato/base.html" %}
 {% block couchpotato_title %}{% if couchpotato['success'] %}{{ couchpotato['movie']['library']['info']['original_title'] }}{% endif %}{% endblock %}
 
 {% block couchpotato_content %}
@@ -95,7 +95,7 @@
       </table>
     </p>
     {% if info['plot'] %}
-    <p style="clear: left;"> 
+    <p style="clear: left;">
       <br /><span style="font-weight:bold;">Plot:</span>
       <br /><span style="font-size: 0.950em;">{{info['plot']}}</span>
     </p>

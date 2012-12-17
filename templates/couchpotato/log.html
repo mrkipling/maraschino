@@ -1,10 +1,10 @@
-{% extends "couchpotato-base.html" %}
+{% extends "couchpotato/base.html" %}
 {% block couchpotato_title %}{% if couchpotato['success'] %}CouchPotato Log{% endif %}{% endblock %}
 
 {% block couchpotato_content %}
 {% if couchpotato['success'] %}
 <div id="cp_log">
-  <h3> Log level: 
+  <h3> Log level:
     <select class="level">
       <option value="all" {% if level == 'all' %} selected {% endif%}>All</option>
       <option value="debug" {% if level == 'debug' %} selected {% endif%}>Debug</option>
@@ -13,7 +13,7 @@
     </select>
   </h3>
   <div class="log">
-    <pre>{{couchpotato.log|e}}</pre>    
+    <pre>{{couchpotato.log|e}}</pre>
   </div>
 </div>
 {%endif%}

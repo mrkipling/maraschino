@@ -1,4 +1,4 @@
-{% extends "couchpotato-base.html" %}
+{% extends "couchpotato/base.html" %}
 
 {% block couchpotato_content %}
 
@@ -8,7 +8,7 @@
       <div class="{{item.releases.status}}"></div>
       {% if not compact_view %}
       <div class="image">
-        <img class="poster" 
+        <img class="poster"
         src="
           {% if item.library.files[0] %}
             {{item.library.files[0].path|cp_img}}
