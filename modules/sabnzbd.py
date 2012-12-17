@@ -109,7 +109,7 @@ def xhr_sabnzbd(queue_status='hide'):
     if not sabnzbd:
         message = 'There was a problem reaching SabNZBd.'
 
-    return render_template('sabnzbd-queue.html',
+    return render_template('sabnzbd/queue.html',
         sabnzbd=sabnzbd,
         item=downloading,
         download_speed=download_speed,
@@ -146,7 +146,7 @@ def sabnzb_queue(action="pause", time=None):
 @app.route('/xhr/sabnzbd/custom_pause/')
 @requires_auth
 def sabnzbd_custom_pause():
-    return render_template('sabnzbd-pause.html')
+    return render_template('sabnzbd/pause.html')
 
 
 @app.route('/xhr/sabnzbd/speedlimit/<int:speed>/')
