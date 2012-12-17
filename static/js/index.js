@@ -412,40 +412,10 @@ $(document).ready(function() {
     });
   });
 
-  // click show name to view in media library module
+  // invoke XBMC library
 
-  $(document).on('click', '#currently_playing .item_info_show .show', function() {
-    invoke_library(WEBROOT + '/xhr/library/shows/' + $(this).data('show'));
-  });
-
-  // click show season to view in media library module
-
-  $(document).on('click', '#currently_playing .item_info_show .season', function() {
-    invoke_library(WEBROOT + '/xhr/library/shows/' + $(this).parent().find('.show').data('show') + '/' + $(this).data('season'));
-  });
-
-  // click episode to view in media library module
-
-  $(document).on('click', '#currently_playing .item_info_show .episode', function() {
-    invoke_library(WEBROOT + '/xhr/library/episode/info/' + $(this).data('episode'));
-  });
-
-  // click movie to view in media library module
-
-  $(document).on('click', '#currently_playing .item_info_movie .movie', function() {
-    invoke_library(WEBROOT + '/xhr/library/movie/info/' + $(this).data('movie'));
-  });
-
-  // click artist name to view in media library module
-
-  $(document).on('click', '#currently_playing .item_info_artist .artist', function() {
-    invoke_library(WEBROOT + '/xhr/library/artists/' + $(this).data('artist'));
-  });
-
-  // click show album to view in media library module
-
-  $(document).on('click', '#currently_playing .item_info_artist .album', function() {
-    invoke_library(WEBROOT + '/xhr/library/artists/' + $(this).parent().find('.artist').data('artist') + '/' + $(this).data('album'));
+  $(document).on('click', '.invoke_library', function() {
+    invoke_library(WEBROOT + '/xhr/library' + $(this).data('path'));
   });
 
   function invoke_library(url) {
@@ -483,17 +453,16 @@ $(document).ready(function() {
   });
 
   // Filter function
-
   $(document).on('change keydown keyup search', '#library .filter', function(e){
     var filter = $(this).val().toLowerCase();
-    $('#library ul li').filter(function(index) {
-      return $(this).text().toLowerCase().indexOf(filter) < 0;
+    $('#library .media').filter(function(index) {
+      return $(this).attr('filter').toLowerCase().indexOf(filter) < 0;
     }).css('display', 'none');
-    $('#library ul li').filter(function(index) {
-      return $(this).text().toLowerCase().indexOf(filter) >= 0;
+    $('#library .media').filter(function(index) {
+      return $(this).attr('filter').toLowerCase().indexOf(filter) >= 0;
     }).css('display', '');
     if(e.which == 13){
-      $('#library ul li:visible:first').click();
+      $('#library .media:visible:first').click();
     }
   });
 
@@ -506,49 +475,41 @@ $(document).ready(function() {
 
 
   // update video library control
-
   $(document).on('click', '#library #video-update', function() {
     $.get(WEBROOT + '/xhr/controls/update_video');
   });
 
   // clean video library control
-
   $(document).on('click', '#library #video-clean', function() {
     $.get(WEBROOT + '/xhr/controls/clean_video');
   });
 
   // update music library control
-
   $(document).on('click', '#library #audio-update', function() {
     $.get(WEBROOT + '/xhr/controls/update_audio');
   });
 
   // clean music library control
-
   $(document).on('click', '#library #audio-clean', function() {
     $.get(WEBROOT + '/xhr/controls/clean_audio');
   });
 
   // xbmc poweron
-
   $(document).on('click', '#library #poweron', function() {
     $.get(WEBROOT + '/xhr/controls/poweron');
   });
 
   // xbmc poweroff
-
   $(document).on('click', '#library #poweroff', function() {
     $.get(WEBROOT + '/xhr/controls/poweroff');
   });
 
   // xbmc reboot
-
   $(document).on('click', '#library #reboot', function() {
     $.get(WEBROOT + '/xhr/controls/reboot');
   });
 
   // xbmc suspend
-
   $(document).on('click', '#library #suspend', function() {
     $.get(WEBROOT + '/xhr/controls/suspend');
   });
@@ -701,212 +662,180 @@ $(document).ready(function() {
     invoke_library(WEBROOT + '/xhr/library/album/info/' + $(this).data('albumid'));
   });
 
+  /*** XBMC LIBRARY ***/
+
+  // show xhrloading
+  function show_library_loading() {
+    $('#library .back').hide();
+    $('#library .xhrloading').show();
+  }
+
+  // hide xhrloading
+  function hide_library_loading() {
+    $('#library .xhrloading').hide();
+    $('#library .back').show();
+  }
+
   // browse library
+  $(document).on('click', '#library .get', function() {
+    var url = $(this).data('url');
+    url = WEBROOT + '/xhr/library' + url;
 
-  $(document).on('click', '#library li.get', function() {
-    var url = WEBROOT + '/xhr/library';
-    var commands = $(this).data('command').split('/');
-
-    for (var i=0; i < commands.length; i++) {
-      url += '/' + commands[i];
-    }
-
-    add_loading_gif(this);
+    show_library_loading();
 
     $.get(url, function(data) {
       $('#library').replaceWith(data);
     });
   });
 
-  $(document).on('click', '#library #play', function() {
-    var li;
-    if ($(this).hasClass('li_buttons')) {
-      li = $(this).parent().parent();
-    }
-    else {
-      li = this;
-    }
+  // play button
+  $(document).on('click', '#library .play', function() {
+    show_library_loading();
 
-    var file_type = $(li).attr('file-type');
-    var media_type = $(li).attr('media-type');
-    var id = $(li).data('id');
-    add_loading_gif(li);
-
-    $.get(WEBROOT + '/xhr/play/' + file_type + '/' + media_type + '/' + id, function() {
-      remove_loading_gif(li);
+    $.get(WEBROOT + $(this).closest('.media').data('xhr_play'), function() {
+      hide_library_loading();
     });
   });
 
-  $(document).on('click', '#library #queue', function() {
-    var li;
-    if ($(this).hasClass('li_buttons')) {
-      li = $(this).parent().parent();
-    }
-    else {
-      li = this;
-    }
+  // queue button
+  $(document).on('click', '#library .queue', function() {
+    show_library_loading();
 
-    var file_type = $(li).attr('file-type');
-    var media_type = $(li).attr('media-type');
-    var id = $(li).data('id');
-    add_loading_gif(li);
-
-    $.get(WEBROOT + '/xhr/enqueue/' + file_type + '/' + media_type + '/' + id, function() {
-      remove_loading_gif(li);
+    $.get(WEBROOT + $(this).closest('.media').data('xhr_queue'), function() {
+      hide_library_loading();
     });
   });
 
-  $(document).on('click', '#library #info', function() {
-    var li;
-    if ($(this).hasClass('li_buttons')) {
-      li = $(this).parent().parent();
-    }
-    else {
-      li = this;
-    }
+  // play file button
+  $(document).on('click', '#library .play_file', function() {
+    var file = $(this).closest('.media').data('path');
 
-    var id = $(li).data('id');
-    var media_type = $(li).attr('media-type');
-    add_loading_gif(li);
+    show_library_loading();
+    $.post(WEBROOT + $(this).closest('.media').data('xhr_play'),{file: encodeURI(file)}, function(data){
+      hide_library_loading();
+    });
+  });
 
-    $.get(WEBROOT + '/xhr/library/' + media_type + '/info/' + id, function(data) {
+  // queue file button
+  $(document).on('click', '#library .queue_file', function() {
+    var file = $(this).closest('.media').data('path');
+
+    show_library_loading();
+    $.post(WEBROOT + $(this).closest('.media').data('xhr_queue'),{file: encodeURI(file)}, function(data){
+      hide_library_loading();
+    });
+  });
+
+  // info button
+  $(document).on('click', '#library .info', function() {
+    show_library_loading();
+
+    $.get(WEBROOT + $(this).closest('.media').data('xhr_info'), function(data) {
       $('#library').replaceWith(data);
     });
   });
 
-  $(document).on('click', '#library #resume_check', function() {
-    var li;
-    if ($(this).hasClass('li_buttons')) {
-      li = $(this).parent().parent();
-    }
-    else {
-      li = this;
-    }
+  //Check for resume position when clicking video
+  $(document).on('click', '#library .resume_check', function() {
+    var xhr_play = $(this).closest('.media').data('xhr_play');
 
-    var file_type = $(li).attr('file-type');
-    var media_type = $(li).attr('media-type');
-    var id = $(li).data('id');
-    add_loading_gif(li);
+    show_library_loading();
 
-    $.get(WEBROOT + '/xhr/library/' + media_type + '/resume_check/' + id, function(data) {
-      remove_loading_gif(li);
+    $.get(WEBROOT + $(this).closest('.media').data('xhr_resume_check'), function(data) {
+      hide_library_loading();
       if (data.resume) {
         var popup = $(data.template);
         $('body').append(popup);
         popup.showPopup({ dispose: true });
       }
       else {
-        $.get(WEBROOT + '/xhr/play/' + file_type + '/' + media_type + '/' + id);
+        $.get(xhr_play);
       }
     });
   });
 
+  // Play/Resume from dialog
   $(document).on('click', '#resume_dialog .action', function() {
     $.get(WEBROOT + $(this).data('url'), function() {
       $('#resume_dialog .close').click();
     });
   });
 
-  $(document).on('click', '#library #trailer', function() {
-    $.get(WEBROOT + '/xhr/play/trailer/' + $(this).data('id'));
-  });
+  // Play trailer
+  $(document).on('click', '#library .trailer', function() {
+    show_library_loading();
 
-  $(document).on('click', '#library #resume', function() {
-    var li;
-    if ($(this).hasClass('li_buttons')) {
-      li = $(this).parent().parent();
-    }
-    else {
-      li = this;
-    }
-
-    var media_type = $(li).attr('media-type');
-    var id = $(li).data('id');
-    add_loading_gif(li);
-
-    $.get(WEBROOT + '/xhr/resume/video/' + media_type + '/' + id, function() {
-      remove_loading_gif(li);
+    $.get(WEBROOT + $(this).closest('.media').data('xhr_trailer'), function() {
+      hide_library_loading();
     });
   });
 
-  $(document).on('click', '#library li.dir', function() {
-    var path = $(this).data('path');
+  // Resume
+  $(document).on('click', '#library .resume', function() {
+    show_library_loading();
 
-    add_loading_gif(this);
-    $.post(WEBROOT + '/xhr/library/files/' + $(this).data('file_type') + '/dir/',{path: encodeURI(path)}, function(data){
-      $('#library').replaceWith(data);
+    $.get(WEBROOT + $(this).closest('.media').data('xhr_resume'), function() {
+      hide_library_loading();
     });
   });
 
-  $(document).on('click', '#library li.play_file', function() {
-    var li = this;
-    var file = $(this).data('path');
-
-    add_loading_gif(li);
-    $.post(WEBROOT + '/xhr/play_file/' + $(this).data('file_type') + '/',{file: encodeURI(file)}, function(data){
-      remove_loading_gif(li);
+  // PVR scan
+  $(document).on('click', '#library #pvr-scan', function() {
+    show_library_loading();
+    $.get(WEBROOT + '/xhr/controls/pvr-scan', function(data){
+      hide_library_loading();
     });
   });
 
-  $(document).on('click', '#library #queue_file', function() {
-    var li = this;
-    var file = $(this).data('path');
-
-    add_loading_gif(li);
-    $.post(WEBROOT + '/xhr/enqueue_file/' + $(this).data('file_type') + '/',{file: encodeURI(file)}, function(data){
-      remove_loading_gif(li);
-    });
-  });
-
-  $(document).on('click', '#library .li_buttons', function(e) {
+  // control buttons
+  $(document).on('click', '#library .list_buttons .button, #library .banner_button, #library .poster_button', function(e) {
     e.stopPropagation();
   });
 
-  $(document).on('mouseenter', '#library li', function() {
+  $(document).on('mouseenter', '#library ul.list_view li', function() {
     $('.watched', this).hide();
-    $('.li_buttons', this).show();
+    $('.list_buttons .button', this).show();
   });
 
-  $(document).on('mouseleave', '#library li', function() {
-    $('.li_buttons', this).hide();
+  $(document).on('mouseleave', '#library ul.list_view li', function() {
+    $('.list_buttons .button', this).hide();
     $('.watched', this).show();
   });
 
-  $(document).on('click', '#library #back', function() {
-    var url = WEBROOT + '/xhr/library';
-    var command = $('#library li:first-child').eq(0).data('command');
+  $(document).on('mouseenter', '#library .poster_view #poster', function() {
+    $('.poster_buttons', this).show();
+  });
 
-    if (command) {
-      var commands = command.split('/');
-      commands.pop();
-      commands.pop();
+  $(document).on('mouseleave', '#library .poster_view #poster', function() {
+    $('.poster_buttons', this).hide();
+  });
 
-      for (var i=0; i < commands.length; i++) {
-        url += '/' + commands[i];
+  // Save media settings
+  $(document).on('click', '#library #settings .choices .save', function() {
+    var settings = $('#library #settings').find('form').serializeArray();
+    var media = $('#library #content').data('media');
+    var url = $('#library #content').data('url');
+    url = WEBROOT + '/xhr/library' + url;
+    button = $(this);
+
+    show_library_loading();
+
+    $.post(
+      WEBROOT + '/xhr/library/save/'+media+'/',
+      {settings: JSON.stringify(settings)},
+      function(data) {
+        if (data.success) {
+          $.get(url, function(data) {
+            $('#library').replaceWith(data);
+            toggle_settings_mode();
+          });
+        }
+        else {
+          popup_message('Failed to save '+media+' settings');
+          hide_library_loading();
+        }
       }
-    }
-
-    $(this).addClass('xhrloading');
-
-    $.get(url, function(data) {
-      $('#library').replaceWith(data);
-    });
-  });
-
-  $(document).on('click', '#library #back_dir', function() {
-    var path = $(this).data('back');
-
-    $(this).addClass('xhrloading');
-    $.post(WEBROOT + '/xhr/library/files/' + $(this).data('file_type') + '/dir/',{path: encodeURI(path)}, function(data){
-    $('#library').replaceWith(data);
-    });
-  });
-
-  $(document).on('click', '#library #back_sources', function() {
-    $(this).addClass('xhrloading');
-    $.get(WEBROOT + '/xhr/library/files/' + $(this).data('file_type'), function(data) {
-    $('#library').replaceWith(data);
-    });
+    );
   });
 
 

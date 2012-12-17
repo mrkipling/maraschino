@@ -1,0 +1,53 @@
+<div class="poster_view" align="center">
+  {% for item in library %}
+    <div id="poster" {% include "library/item_properties.html" %}{% include "library/control_paths.html" %}>
+
+      {% if 'art' in item and 'poster' in item.art %} <!-- FRODO ONLY -->
+        <img class="poster" src="{{ item.art.poster|xbmc_image }}">
+      {% elif item.thumbnail %}
+        <img class="poster" src="{{ item.thumbnail|xbmc_image }}">
+      {% else %}
+        <img class="poster" src="{{ url_for('static', filename='images/poster.png') }}">
+      {% endif %}
+
+      {% if buttons and not 'movieset' in item %}
+        <div class="poster_buttons" align="center">
+          {% if 'info' in buttons %}
+            <div
+            class="poster_button info"
+            title="Details"
+            >
+              <img src="{{ url_for('static', filename='images/info.png') }}" height="14" width="14"/>
+            </div>
+          {% endif %}
+
+          {% if 'play' in buttons %}
+            <div class="poster_button play" title="Play {{ media[:-1] }}">
+              <img src="{{ url_for('static', filename='images/play.png') }}"/>
+            </div>
+          {% endif %}
+
+          {% if 'queue' in buttons %}
+            <div
+              {% if media == 'files' %}
+                {% if item.filetype == 'file' %}
+                  class="poster_button queue_file"
+                {% endif %}
+              {% else %}
+                class="poster_button queue"
+              {% endif %}
+              title="Queue {{ media[:-1] }}"
+            >+</div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if item.playcount %}
+        <div class="watched">
+          <img src="{{ url_for('static', filename='images/tick.png') }}">
+        </div>
+      {% endif %}
+
+    </div>
+  {% endfor %}
+</div>
