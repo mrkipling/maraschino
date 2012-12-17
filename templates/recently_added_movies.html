@@ -19,7 +19,7 @@
           {% if using_db %}
             <li title="{{ movie.title }} ({{ movie.year }})"{% if movie.playcount %} class="watched"{% endif %}>
           {% elif view_info %}
-            <li class="info_movie{{ ' watched' if movie.playcount }}" data-movieid="{{ movie.movieid }}" title="Information for {{ movie.title }} ({{ movie.year }})">
+            <li class="invoke_library{{ ' watched' if movie.playcount }}" data-path="/movies?movieid={{ movie.movieid }}" title="Information for {{ movie.title }} ({{ movie.year }})">
           {% else %}
             <li class="play_movie{{ ' watched' if movie.playcount }}" data-movieid="{{ movie.movieid }}" title="Play {{ movie.title }} ({{ movie.year }})">
           {% endif %}

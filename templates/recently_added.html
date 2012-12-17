@@ -19,7 +19,7 @@
           {% if using_db %}
             <li title="{{ episode.showtitle }} - {{ episode.title }}" {% if episode.playcount %} class="watched"{% endif %}>
           {% elif view_info %}
-            <li class="info_episode{{ ' watched' if episode.playcount }}" data-episodeid="{{ episode.episodeid }}" title="Information for {{ episode.showtitle }} - {{ episode.title }}">
+            <li class="invoke_library{{ ' watched' if episode.playcount }}" data-path="/episodes?tvshowid={{ episode.tvshowid }}&season={{ episode.season }}&episodeid={{ episode.episodeid }}" title="Information for {{ episode.showtitle }} - {{ episode.title }}">
           {% else %}
             <li class="play_episode{{ ' watched' if episode.playcount }}" data-episodeid="{{ episode.episodeid }}" title="Play {{ episode.showtitle }} - {{ episode.title }}">
           {% endif %}

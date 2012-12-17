@@ -19,7 +19,7 @@
           {% if using_db %}
             <li title="{{ album.title }} ({{ album.year }})">
           {% elif view_info %}
-            <li class="info_album" data-albumid="{{ album.albumid }}" title="Information for {{ album.title }} ({{ album.year }})">
+            <li class="invoke_library" data-path="/albums?artistid=0&albumid={{ album.albumid }}" title="Information for {{ album.title }} ({{ album.year }})">
           {% else %}
             <li class="play_album" data-albumid="{{ album.albumid }}" title="Play {{ album.title }} ({{ album.year }})">
           {% endif %}
