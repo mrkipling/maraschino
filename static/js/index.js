@@ -749,7 +749,7 @@ $(document).ready(function() {
         popup.showPopup({ dispose: true });
       }
       else {
-        $.get(xhr_play);
+        $.get(WEBROOT+xhr_play);
       }
     });
   });
