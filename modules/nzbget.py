@@ -42,7 +42,7 @@ def xhr_nzbget():
         nzbget_exception(e)
 
     logger.log('NZBGet :: Getting download list (DONE)', 'INFO')
-    return render_template('nzbget-queue.html',
+    return render_template('nzbget/queue.html',
         nzbget=status,
         downloads=downloads,
     )
