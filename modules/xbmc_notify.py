@@ -19,7 +19,7 @@ def xhr_notify():
         prepend_path = False,
     )
 
-    return render_template('xbmc_notify_dialog.html',
+    return render_template('dialogs/xbmc_notify_dialog.html',
     label = label,
     hostname = hostname,
     icons = icons,

@@ -17,7 +17,7 @@ def xhr_log():
 
     file.close()
 
-    return render_template('log_dialog.html',
+    return render_template('dialogs/log_dialog.html',
         log=log,
     )
 
@@ -42,7 +42,7 @@ def xhr_log_pastebin():
     except Exception as e:
         logger.log('LOG :: Log failed to upload - %s' % e, 'INFO')
 
-    return render_template('log_dialog.html',
+    return render_template('dialogs/log_dialog.html',
         log=log,
         url=url,
     )

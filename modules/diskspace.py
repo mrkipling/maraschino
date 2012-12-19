@@ -87,7 +87,7 @@ def add_edit_disk_dialog(disk_id=None):
         except:
             pass
 
-    return render_template('add_edit_disk_dialog.html',
+    return render_template('dialogs/add_edit_disk_dialog.html',
         disk=disk,
     )
 

@@ -72,7 +72,7 @@ def xhr_current_playlist():
 
     playlist['id'] = playerid
 
-    return render_template('playlist_dialog.html',
+    return render_template('dialogs/playlist_dialog.html',
         playlist=playlist,
         shuffled=player_info['shuffled'],
         repeat=player_info['repeat']

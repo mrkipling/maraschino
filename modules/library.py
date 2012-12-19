@@ -1069,7 +1069,7 @@ def xhr_library_resume_check(type, id):
     if position:
         position = format_seconds(position)
 
-        template = render_template('library-resume_dialog.html', position=position, library=library)
+        template = render_template('dialogs/library-resume_dialog.html', position=position, library=library)
         return jsonify(resume=True, template=template)
     else:
         return jsonify(resume=False, template=None)
