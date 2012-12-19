@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import logging, logging.handlers, sys, os
+import logging
+import logging.handlers
+import maraschino
+import datetime
+import sys
+import os
 
 class maraschinoLogger:
     """Maraschino logger"""
@@ -49,5 +54,8 @@ class maraschinoLogger:
                 self.mylogger.error(toLog)
             elif logLevel == 'CRITICAL':
                 self.mylogger.critical(toLog)
+
+            time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            maraschino.LOG_LIST.append({'level': logLevel, 'message': toLog, 'time': time})
         except ValueError:
             pass 

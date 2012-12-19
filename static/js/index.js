@@ -2645,6 +2645,7 @@ $(document).ready(function() {
     }
   });
 
+  // Log Dialog
   $(document).on('click', '#log_dialog .pastebin', function(){
     $(this).text('');
     add_loading_gif(this);
@@ -2654,6 +2655,27 @@ $(document).ready(function() {
       $('body').append(popup);
       popup.showPopup({ dispose: true });
     });
+  });
+
+  $(document).on('change', '#log_dialog .level_select', function(){
+    var level = $('#log_dialog .level_select').val();
+
+    if (level === 'all') {
+      $('#log_dialog .log_body').each(function() {
+        $(this).removeClass('disabled');
+      });
+    }
+
+    else {
+      $('#log_dialog .log_body').each(function() {
+        if (!$(this).hasClass(level)) {
+          $(this).addClass('disabled');
+        }
+        else {
+          $(this).removeClass('disabled');
+        }
+      });
+    }
   });
 
   // Send XBMC notification
