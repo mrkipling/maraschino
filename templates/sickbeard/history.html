@@ -1,5 +1,13 @@
 {% extends "sickbeard/base.html" %}
 
+{% block sickbeard_menu %}
+<ul class="menu">
+  <li class="history active" title="View History"><span>History</span></li>
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="upcoming" title="View upcoming"><span>Upcoming</span></li>
+</ul>
+{% endblock %}
+
 {% block sickbeard_content %}
 
 <div id="sb_content">

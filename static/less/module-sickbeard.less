@@ -18,6 +18,9 @@
         background-image: url('/@{webroot}/images/snatched.png');
       }
     }
+    li.active {
+      background-image: url('/@{webroot}/images/alpha/fff_20.png');
+    }
   }
 
   div.back,
@@ -79,6 +82,27 @@
 
     .log {
       font-size: 0.8em;
+    }
+
+    input[type="search"] {
+      vertical-align: bottom;
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      border: 1px solid #222;
+      cursor: pointer;
+      color: #ccc;
+      height: 30px;
+      line-height: 30px;
+      padding: 2px;
+      .border-radius(4px);
+      -webkit-appearance: none;
+
+      &:hover {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
+
+      &:focus {
+        background: url('/@{webroot}/images/alpha/fff_40.png');
+      }
     }
   }
 

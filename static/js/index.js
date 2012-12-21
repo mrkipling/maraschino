@@ -1081,22 +1081,14 @@ $(document).ready(function() {
 
   // Load search results
 
-  $(document).on('keypress', '#sickbeard #sb_search #value', function(e){
+  $(document).on('keypress', '#sickbeard .powerholder input', function(e){
     if(e.which == 13){
       e.preventDefault();
-      var name = $('#sickbeard #sb_search #value').attr('value');
-      var type = $('#sickbeard #sb_search #tvdbid').attr('value');
-      var lang = $('#sickbeard #sb_search #lang').attr('value');
+      add_loading_gif($('#sickbeard .powerholder .log'));
+      var name = $(this).attr('value');
       params = '';
       if(name !== ''){
-        if(type == 'name'){
-          params = 'name='+name;
-        } else {
-          params = 'tvdbid='+name;
-        }
-        if(lang !== ''){
-          params = params + '&lang='+lang;
-        }
+        params = 'name='+name;
       }
       $.get(WEBROOT + '/sickbeard/search/?'+params)
       .success(function(data){
