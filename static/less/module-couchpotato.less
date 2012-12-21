@@ -117,7 +117,7 @@
       &.releases {
         background: url('/@{webroot}/images/alpha/lightblue_30.png');
       }
-      
+
       div.active {
         background: url('/@{webroot}/images/snatched-banner.png') no-repeat;
         width: 55px;
@@ -440,6 +440,36 @@
       overflow: auto;
       height: 211px;
       margin-left: 15px;
+    }
+  }
+
+  .search_div {
+    height: 40px;
+    margin-top: 10px;
+
+    input[type="search"] {
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      border: 1px solid #222;
+      cursor: pointer;
+      color: #ccc;
+      height: 28px;
+      line-height: 28px;
+      padding: 2px 2px;
+      .border-radius(4px);
+      -webkit-appearance: none;
+      float: right;
+
+      &:hover {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
+
+      &:focus {
+        background: url('/@{webroot}/images/alpha/fff_40.png');
+      }
+    }
+
+    .loading {
+      float: right;
     }
   }
 }

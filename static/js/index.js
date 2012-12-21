@@ -1411,22 +1411,22 @@ $(document).ready(function() {
     }
   });
   // Load search results
-  // on button click
-  $(document).on('click', '#couchpotato .search span.search', function() {
-    var name = $('#couchpotato .search .value').attr('value');
-    params = '';
-    if(name !== ''){
-        params = 'name='+encodeURIComponent(name);
+  $(document).on('keydown', '#couchpotato .search_div input', function(e) {
+    if(e.which == 13){
+      var name = $(this).attr('value');
+      params = '';
+      if(name !== ''){
+          params = 'name='+encodeURIComponent(name);
+      }
+      add_loading_gif($('#couchpotato .search_div .loading'));
+      $.get(WEBROOT + '/xhr/couchpotato/search/?'+params)
+      .success(function(data){
+        $('#couchpotato').replaceWith(data);
+      })
+      .error(function(){
+        popup_message('Could not reach Maraschino.');
+      });
     }
-    $(this).text('');
-    add_loading_gif($(this));
-    $.get(WEBROOT + '/xhr/couchpotato/search/?'+params)
-    .success(function(data){
-      $('#couchpotato').replaceWith(data);
-    })
-    .error(function(){
-      popup_message('Could not reach Maraschino.');
-    });
   });
   // Search add movie click
   $(document).on('click', '#couchpotato .search ul li .choices .add', function() {
