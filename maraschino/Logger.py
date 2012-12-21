@@ -23,7 +23,7 @@ class maraschinoLogger:
         con.setFormatter(confor)
 
         # set up logging to a file for all levels DEBUG and higher
-        war = logging.handlers.RotatingFileHandler(LOG_FILE, maxBytes=10000000, backupCount=3)
+        war = logging.handlers.RotatingFileHandler(LOG_FILE, maxBytes=500000, backupCount=3)
         war.setLevel(logging.DEBUG)
         war.setFormatter(warfor)
 
