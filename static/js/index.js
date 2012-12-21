@@ -1370,28 +1370,15 @@ $(document).ready(function() {
     });
   });
 
-  // Load search results
-  // on enter
-  $(document).on('keypress', '#couchpotato .search .value', function(e){
-    if(e.which == 13){
-      e.preventDefault();
-      var name = $('#couchpotato .search .value').attr('value');
-      params = '';
-      if(name !== ''){
-          params = 'name='+encodeURIComponent(name);
-      }
-      $('#couchpotato .search span.search').text('');
-      add_loading_gif($('#couchpotato .search span.search'));
-      $.get(WEBROOT + '/xhr/couchpotato/search/?'+params)
-      .success(function(data){
-        $('#couchpotato').replaceWith(data);
-      })
-      .error(function(){
-        popup_message('Could not reach Maraschino.');
-      });
-    }
+  // menu history click
+  $(document).on('click', '#couchpotato .menu .history', function(){
+    $.get(WEBROOT + '/xhr/couchpotato/history/')
+    .success(function(data){
+      $('#couchpotato').replaceWith(data);
+    });
   });
   // Load search results
+  // on enter
   $(document).on('keydown', '#couchpotato .search_div input', function(e) {
     if(e.which == 13){
       var name = $(this).attr('value');
@@ -1590,8 +1577,20 @@ $(document).ready(function() {
     $.get(WEBROOT + '/xhr/couchpotato/log/' + $(this).find(':selected').val() + '/30/', function(data) {
       $('#couchpotato').replaceWith(data);
     });
-
   });
+  // notification read click
+  $(document).on('click', '#couchpotato #history ul li.new', function() {
+    var el = $(this);
+      $.get(WEBROOT + '/xhr/couchpotato/notification/read/' + $(this).data('id'), function(data) {
+          if(data.success){
+              el.removeClass('new');
+              $('#unread').text($('#unread').text()-1);
+          } else {
+              popup_message('Failed to mark notification as read, check logs for details');
+          }
+      });
+  });
+
   /********* END CouchPotato ***********/
 
   /********* SEARCH ***********/

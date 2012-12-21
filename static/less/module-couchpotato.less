@@ -9,8 +9,8 @@
     .all {
       text-indent: 0;
     }
-    .add {
-      text-indent: 0;
+    .history span {
+      background: url('/@{webroot}/images/history.png') center no-repeat;
     }
     .wanted span  {
       background: url('/@{webroot}/images/coming.png') center no-repeat;
@@ -473,6 +473,33 @@
 
     .loading {
       float: right;
+    }
+  }
+
+  #history {
+    max-height: 264px;
+    overflow-x: hidden;
+
+    ul li{
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      display: inline-block;
+      margin: 5px;
+      height: 30px;
+      width: 96%;
+      padding: 5px;
+      overflow: hidden;
+      position: relative;
+      .border-radius(4px);
+      line-height: 30px;
+
+      &.new {
+        background: url('/@{webroot}/images/alpha/lightblue_30.png');
+        cursor: pointer;
+      }
+
+      &:hover {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
     }
   }
 }

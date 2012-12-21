@@ -133,6 +133,26 @@ def xhr_couchpotato(status=False):
     )
 
 
+@app.route('/xhr/couchpotato/history/')
+def xhr_couchpotato_history():
+    unread = 0
+    try:
+        couchpotato = couchpotato_api('notification.list')
+        couchpotato = couchpotato['notifications']
+        for notification in couchpotato:
+            if not notification['read']:
+                unread = unread + 1
+
+    except Exception as e:
+        logger.log('CouchPotato :: Could not retrieve Couchpotato - %s' % (e), 'WARNING')
+        couchpotato = None
+
+    return render_template('couchpotato/history.html',
+        couchpotato=couchpotato,
+        unread=unread,
+    )
+
+
 @app.route('/xhr/couchpotato/search/')
 def cp_search(message=None):
     couchpotato = {}
