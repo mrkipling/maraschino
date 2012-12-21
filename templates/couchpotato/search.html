@@ -1,4 +1,4 @@
-{% extends "couchpotato-base.html" %}
+{% extends "couchpotato/base.html" %}
 
 {% block couchpotato_content %}
 
@@ -17,7 +17,7 @@
             <img src="{{ item.images.poster.0 }}" />
           {% else %}
             <img src="{{ url_for('static', filename='images/poster.png')}}" />
-          {% endif %}          
+          {% endif %}
           <span class="name">{{ item.original_title }}</span><br>
           <span class="year">{{ item.released }}</span>
           <br>

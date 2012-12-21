@@ -135,7 +135,7 @@ def get_all():
         for show in sickbeard:
             sickbeard[show]['url'] = get_pic(sickbeard[show]['tvdbid'], 'banner')
 
-    return render_template('sickbeard-all.html',
+    return render_template('sickbeard/all.html',
         sickbeard=sickbeard,
     )
 
@@ -154,7 +154,7 @@ def show_info(tvdbid):
         sickbeard['url'] = get_pic(tvdbid, 'banner')
         sickbeard['tvdb'] = tvdbid
 
-    return render_template('sickbeard-show.html',
+    return render_template('sickbeard/show.html',
         sickbeard=sickbeard,
     )
 
@@ -171,7 +171,7 @@ def get_season(tvdbid, season):
     if sickbeard['result'].rfind('success') >= 0:
         sickbeard = sickbeard['data']
 
-    return render_template('sickbeard-season.html',
+    return render_template('sickbeard/season.html',
         sickbeard=sickbeard,
         id=tvdbid,
         season=season,
@@ -192,7 +192,7 @@ def history(limit):
         for show in sickbeard:
             show['image'] = get_pic(show['tvdbid'])
 
-    return render_template('sickbeard-history.html',
+    return render_template('sickbeard/history.html',
         sickbeard=sickbeard,
     )
 
@@ -214,7 +214,7 @@ def get_episode_info(tvdbid, season, ep):
     if sickbeard['result'].rfind('success') >= 0:
         sickbeard = sickbeard['data']
 
-    return render_template('sickbeard-episode.html',
+    return render_template('sickbeard/episode.html',
         sickbeard=sickbeard,
         id=tvdbid,
         season=season,
@@ -294,7 +294,7 @@ def sb_search():
     else:
         sickbeard = None
 
-    return render_template('sickbeard-search.html',
+    return render_template('sickbeard/search.html',
         data=sickbeard,
         sickbeard='results',
     )
@@ -338,7 +338,7 @@ def log(level):
     except:
         sickbeard = None
 
-    return render_template('sickbeard-log.html',
+    return render_template('sickbeard/log.html',
         sickbeard=sickbeard,
         level=level,
     )

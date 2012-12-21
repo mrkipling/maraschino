@@ -45,7 +45,7 @@ def add_edit_application_dialog(application_id=None):
         except:
             pass
 
-    return render_template('add_edit_application_dialog.html',
+    return render_template('dialogs/add_edit_application_dialog.html',
         application = application,
         icons = icons,
     )

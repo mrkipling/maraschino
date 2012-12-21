@@ -1,4 +1,4 @@
-{% extends "couchpotato-base.html" %}
+{% extends "couchpotato/base.html" %}
 
 {% block couchpotato_content %}
 
@@ -6,7 +6,7 @@
   {% for item in couchpotato %}
     <div class="movie" id="{{item.library.identifier}}" data-cpid="{{item.library_id}}">
       <div class="{{item.releases.status}}"></div>
-      <img class="poster" 
+      <img class="poster"
       src="{% if item.library.files[1] %}{{item.library.files[1].path|cp_img}} {% else %}{{ url_for('static', filename='images/poster.png') }}{% endif %}"
       />
       <span class="title text">{{item.library.titles[0].title}} ({{item.library.year}})</span>

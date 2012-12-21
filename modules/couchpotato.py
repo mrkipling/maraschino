@@ -55,13 +55,13 @@ def couchpotato_api(method, params=None, use_json=True, dev=False):
 
     params = (params).replace(' ', '%20')
     url = '%s/%s%s' % (couchpotato_url(), method, params)
-    request = urllib2.Request(url)
+    req = urllib2.Request(url)
 
     if username and password:
         base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
-        request.add_header("Authorization", "Basic %s" % base64string)
+        req.add_header("Authorization", "Basic %s" % base64string)
 
-    data = urllib2.urlopen(request).read()
+    data = urllib2.urlopen(req).read()
     if dev:
         print url
         print data
@@ -89,13 +89,13 @@ def couchpotato_proxy(url):
     password = get_setting_value('couchpotato_password')
 
     url = '%s/file.cache/%s' % (couchpotato_url(), url)
-    request = urllib2.Request(url)
+    req = urllib2.Request(url)
 
     if username and password:
         base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
-        request.add_header("Authorization", "Basic %s" % base64string)
+        req.add_header("Authorization", "Basic %s" % base64string)
 
-    img = StringIO.StringIO(urllib2.urlopen(request).read())
+    img = StringIO.StringIO(urllib2.urlopen(req).read())
     logger.log('CouchPotato :: Fetching image from %s' % (url), 'DEBUG')
     return send_file(img, mimetype='image/jpeg')
 
@@ -105,7 +105,7 @@ def couchpotato_proxy(url):
 def xhr_couchpotato(status=False):
     if status:
         status_string = 'status=%s' % status
-        template = 'couchpotato-all.html'
+        template = 'couchpotato/all.html'
     else:
         status = 'wanted'
         status_string = False
@@ -159,7 +159,7 @@ def cp_search(message=None):
                 except Exception as e:
                     log_exception(e)
             else:
-                return render_template('couchpotato-search.html', error='No movies with "%s" were found' % (query), couchpotato='results')
+                return render_template('couchpotato/search.html', error='No movies with "%s" were found' % (query), couchpotato='results')
 
         except Exception as e:
             log_exception(e)
@@ -169,7 +169,7 @@ def cp_search(message=None):
         logger.log('CouchPotato :: Loading search template', 'DEBUG')
         couchpotato = None
 
-    return render_template('couchpotato-search.html',
+    return render_template('couchpotato/search.html',
         data=couchpotato,
         couchpotato='results',
         profiles=profiles,
@@ -332,7 +332,7 @@ def cp_settings():
         logger.log('CouchPotato :: Retrieving settings', 'INFO')
         result = couchpotato_api('settings')
         logger.log('CouchPotato :: Retrieving settings (DONE)', 'INFO')
-        return render_template('couchpotato-settings.html',
+        return render_template('couchpotato/settings.html',
             couchpotato=result,
         )
     except Exception as e:
@@ -357,7 +357,7 @@ def cp_get_movie(id):
         except Exception as e:
             log_exception(e)
         logger.log('CouchPotato :: Retrieving movie info (DONE)', 'INFO')
-        return render_template('couchpotato-info.html',
+        return render_template('couchpotato/info.html',
             couchpotato=result,
             profiles=profiles,
         )
@@ -401,7 +401,7 @@ def cp_log(type='all', lines=30):
         result = couchpotato_api('logging.partial', 'type=%s&lines=%s' % (type, lines))
         if result['success']:
             logger.log('CouchPotato :: Retrieving "%s" log (DONE)' % type, 'INFO')
-            return render_template('couchpotato-log.html',
+            return render_template('couchpotato/log.html',
                 couchpotato=result,
                 level=type,
             )
@@ -420,7 +420,7 @@ def cp_notification_read(id):
     """
     try:
         logger.log('CouchPotato :: Marking notification "%i" as read' % id, 'INFO')
-        result = couchpotato_api('notification.markread', 'ids=%i' % id)
+        couchpotato_api('notification.markread', 'ids=%i' % id)
         return jsonify({'success': True})
 
     except Exception as e:

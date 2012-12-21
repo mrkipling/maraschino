@@ -142,7 +142,7 @@ def newznab_dialog(newznab_id=None, newznab=None):
             logger.log('SEARCH :: Could not find Newznab site id: %s' % newznab_id, 'ERROR')
             logger.log(e, 'DEBUG')
 
-    return render_template('add_edit_newznab_dialog.html',
+    return render_template('dialogs/add_edit_newznab_dialog.html',
         newznab=newznab,
     )
 

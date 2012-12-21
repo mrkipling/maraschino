@@ -140,7 +140,7 @@ def add_edit_script_dialog(script_id=None):
             pass
 
     logger.log('SCRIPT_LAUNCHER :: Rendering remplate add_edit_script_dialog.html', 'DEBUG')
-    return render_template('add_edit_script_dialog.html',
+    return render_template('dialogs/add_edit_script_dialog.html',
         script = script, script_files = script_files,
     )
 

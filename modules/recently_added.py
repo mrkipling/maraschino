@@ -73,7 +73,7 @@ def render_recently_added_episodes(episode_offset=0):
     xbmc = jsonrpclib.Server(get_recent_xbmc_api_url('recently_added_server'))
     recently_added_episodes = get_recently_added_episodes(xbmc, episode_offset)
 
-    return render_template('recently_added.html',
+    return render_template('recently_added/tv.html',
         recently_added_episodes = recently_added_episodes[0],
         episode_offset = episode_offset,
         compact_view = compact_view,
@@ -91,7 +91,7 @@ def render_recently_added_movies(movie_offset=0):
     xbmc = jsonrpclib.Server(get_recent_xbmc_api_url('recently_added_movies_server'))
     recently_added_movies = get_recently_added_movies(xbmc, movie_offset)
 
-    return render_template('recently_added_movies.html',
+    return render_template('recently_added/movies.html',
         recently_added_movies = recently_added_movies[0],
         movie_offset = movie_offset,
         compact_view = compact_view,
@@ -110,7 +110,7 @@ def render_recently_added_albums(album_offset=0):
     recently_added_albums = get_recently_added_albums(xbmc, album_offset)
 
 
-    return render_template('recently_added_albums.html',
+    return render_template('recently_added/albums.html',
         recently_added_albums = recently_added_albums[0],
         album_offset = album_offset,
         compact_view = compact_view,
