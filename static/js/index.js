@@ -1084,7 +1084,7 @@ $(document).ready(function() {
   $(document).on('keypress', '#sickbeard .powerholder input', function(e){
     if(e.which == 13){
       e.preventDefault();
-      add_loading_gif($('#sickbeard .powerholder .log'));
+      add_loading_gif($('#sickbeard .powerholder .loading'));
       var name = $(this).attr('value');
       params = '';
       if(name !== ''){

@@ -17,10 +17,15 @@
   {% block sickbeard_content %}{% endblock %}
 
   <div class="powerholder">
-    <input class="query" type="search" placeholder="Search TV Shows"></input>
-    <a class="button log" title ="Sickbeard logs">Log</a>
-    <a class="button restart" title ="Restart Sickbeard"><img src="{{ url_for('static', filename='images/reboot.png') }}" /></a>
-    <a class="button power" title ="Shutdown Sickbeard"><img src="{{ url_for('static', filename='images/shutdown.png') }}" /></a>
+    <span class="operation_only">
+      <input class="query" type="search" placeholder="Search TV Shows"></input>
+      <span class="loading"></span>
+    </span>
+    <span class="settings_only">
+      <a class="button log" title ="Sickbeard logs">Log</a>
+      <a class="button restart" title ="Restart Sickbeard"><img src="{{ url_for('static', filename='images/reboot.png') }}" /></a>
+      <a class="button power" title ="Shutdown Sickbeard"><img src="{{ url_for('static', filename='images/shutdown.png') }}" /></a>
+    </span>
   </div>
 </div>
 
