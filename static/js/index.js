@@ -1370,25 +1370,6 @@ $(document).ready(function() {
     });
   });
 
-  // menu settings click
-  $(document).on('click', '#couchpotato .menu .settings', function(){
-    $.get(WEBROOT + '/xhr/couchpotato/settings/')
-    .success(function(data){
-      $('#couchpotato').replaceWith(data);
-    });
-  });
-
-  // Load search template
-  $(document).on('click', '#couchpotato .menu .add', function(){
-    $.get(WEBROOT + '/xhr/couchpotato/search/')
-    .success(function(data){
-      $('#couchpotato').replaceWith(data);
-    })
-    .error(function(){
-      popup_message('Could not reach Maraschino.');
-    });
-  });
-
   // Load search results
   // on enter
   $(document).on('keypress', '#couchpotato .search .value', function(e){

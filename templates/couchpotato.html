@@ -1,5 +1,12 @@
 {% extends "couchpotato/base.html" %}
 
+{% block couchpotato_menu %}
+<ul class="menu">
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="wanted active" title="View wanted"><span>Wanted</span></li>
+</ul>
+{% endblock %}
+
 {% block couchpotato_content %}
 
 <div id="cp_content" {% if compact_view %}class="compact"{%endif%}>
