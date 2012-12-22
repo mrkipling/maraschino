@@ -369,6 +369,7 @@
       width: 100%;
       position: relative;
       overflow: hidden;
+      z-index: 5;
 
       img{
         width: 100%;
@@ -413,34 +414,37 @@
         left: 50%;
         bottom: 0;
         cursor: pointer;
-      }
-      p.manage {
-        width: 100%;
-        height: 100%;
-        top: 0;
-        right: 0;
-        display: none;
-        background: rgb(0, 0, 0);
-        span {
-          cursor: pointer;
-          background: url('/@{webroot}/images/alpha/fff_20.png');
-          display: inline-block;
-          height: 15px;
-          line-height: 15px;
-          margin-left: 4px;
-          text-align: center;
-          padding: 4px;
+        .border-radius(4px);
 
-          .border-radius(4px);
-
-          &:hover {
-            background: url('/@{webroot}/images/alpha/fff_40.png');
-          }
+        &:hover{
+          background: url('/@{webroot}/images/alpha/fff_40.png');
+          color: black;
         }
-        span.close {
-          top: 0;
-          right: 10px;
-          position: absolute;
+      }
+    }
+    div.manage {
+      z-index: 4;
+      height: 40px;
+      width: 100%;
+      position: relative;
+      margin-top: -35px;
+
+      div {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+        padding: 4px;
+        width: 30%;
+        height: 15px;
+        margin: 2px;
+        float: left;
+        .border-radius(4px);
+        &:hover {
+          background: url('/@{webroot}/images/alpha/fff_40.png');
+          cursor: pointer;
+          color: black;
+        }
+        img {
+          vertical-align: -3px;
+          padding-right: 4px;
         }
       }
     }

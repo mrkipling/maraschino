@@ -978,19 +978,18 @@ $(document).ready(function() {
   // Show Banner manager display
 
   $(document).on('click', '#sickbeard #show .banner .options' , function(){
-    $('#sickbeard #show .banner .manage').show();
-  });
-
-  // Hide Banner manager display
-
-  $(document).on('click', '#sickbeard #show .banner .manage .close' , function(){
-    $('#sickbeard #show .banner .manage').hide();
+    if($(this).hasClass('open')){  // closing
+      $('#sickbeard #show .banner').transition({ y: '0px' });
+    } else { // opening
+      $('#sickbeard #show .banner').transition({ y: '-40px' });
+    }
+    $(this).toggleClass('open');
   });
 
   // Delete show function
 
-  $(document).on('click', '#sickbeard #show .banner .manage .delete' , function(){
-    var id = $('#sickbeard #show .banner .manage').attr('tvdbid');
+  $(document).on('click', '#sickbeard #show .manage .delete' , function(){
+    var id = $('#sickbeard #show .manage').attr('tvdbid');
     $.get(WEBROOT + '/sickbeard/delete_show/'+id)
     .success(function(data){
       popup_message(data);
@@ -1002,8 +1001,8 @@ $(document).ready(function() {
 
   // Refresh show function
 
-  $(document).on('click', '#sickbeard #show .banner .manage .refresh' , function(){
-    var id = $('#sickbeard #show .banner .manage').attr('tvdbid');
+  $(document).on('click', '#sickbeard #show .manage .refresh' , function(){
+    var id = $('#sickbeard #show .manage').attr('tvdbid');
     $.get(WEBROOT + '/sickbeard/refresh_show/'+id)
     .success(function(data){
       popup_message(data);
@@ -1015,8 +1014,8 @@ $(document).ready(function() {
 
   // Update show function
 
-  $(document).on('click', '#sickbeard #show .banner .manage .update' , function(){
-    var id = $('#sickbeard #show .banner .manage').attr('tvdbid');
+  $(document).on('click', '#sickbeard #show .manage .update' , function(){
+    var id = $('#sickbeard #show .manage').attr('tvdbid');
     $.get(WEBROOT + '/sickbeard/update_show/'+id)
     .success(function(data){
       popup_message(data);
