@@ -1035,7 +1035,7 @@ def server_settings_dialog(server_id=None):
     # GET
 
     if request.method == 'GET':
-        return render_template('server_settings_dialog.html',
+        return render_template('dialogs/server_settings_dialog.html',
             server = server,
         )
 
