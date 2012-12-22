@@ -339,6 +339,26 @@ library_settings = {
                 {'value': 'list', 'label': 'List'},
             ]
         },
+        {
+            'key': 'xbmc_files_sort',
+            'value': 'file',
+            'description': 'Sort songs by',
+            'type': 'select',
+            'options': [
+                {'value': 'file', 'label': 'Name'},
+                {'value': 'date', 'label': 'Date'},
+            ]
+        },
+        {
+            'key': 'xbmc_files_sort_order',
+            'value': 'ascending',
+            'description': 'Sort direction',
+            'type': 'select',
+            'options': [
+                {'value': 'ascending', 'label': 'Ascending'},
+                {'value': 'descending', 'label': 'Descending'},
+            ]
+        },
     ],
     'channelgroups': [
         {
@@ -655,6 +675,7 @@ def xhr_xbmc_library_media(media_type=None):
 
                 if 'path' in request.args: #Path
                     title = request.args['path']
+                    path = '/files?files=%s&path=%s' % (file_type, request.args['path'])
                     if title in file_sources[file_type]:
                         back_path = '/files?files=%s' % file_type
                     else:
@@ -989,7 +1010,8 @@ def xbmc_get_sources(xbmc, file_type):
 
 def xbmc_get_file_path(xbmc, file_type, path):
     logger.log('LIBRARY :: Retrieving %s path: %s' % (file_type, path), 'INFO')
-    files = xbmc.Files.GetDirectory(media=file_type, directory=path)['files']
+    sort = xbmc_sort('files')
+    files = xbmc.Files.GetDirectory(media=file_type, directory=path, sort=sort)['files']
 
     if not files:
         files = [{'label': 'Directory is empty', 'file': path}]
