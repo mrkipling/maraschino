@@ -1188,6 +1188,7 @@ $(document).ready(function() {
 
   $(document).on('click', '#remote_icon', function() {
     $(this).toggleClass('on');
+    $('#remote_bar').toggleClass('on');
     if(remote){
       remote = false;
       remote_connected = false;
