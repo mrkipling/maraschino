@@ -667,6 +667,7 @@ $(document).ready(function() {
 
     $.get(url, function(data) {
       $('#library').replaceWith(data);
+      $('#library #filter input').focus();
     });
   });
 
