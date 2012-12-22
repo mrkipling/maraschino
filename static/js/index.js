@@ -1375,6 +1375,7 @@ $(document).ready(function() {
     $.get(WEBROOT + '/xhr/couchpotato/history/')
     .success(function(data){
       $('#couchpotato').replaceWith(data);
+      $('#couchpotato .menu').prepend('<li class="mark_read" title="Mark all notifications as read"><span>Mark All as Read</span></li>');
     });
   });
   // Load search results
@@ -1581,14 +1582,27 @@ $(document).ready(function() {
   // notification read click
   $(document).on('click', '#couchpotato #history ul li.new', function() {
     var el = $(this);
-      $.get(WEBROOT + '/xhr/couchpotato/notification/read/' + $(this).data('id'), function(data) {
-          if(data.success){
-              el.removeClass('new');
-              $('#unread').text($('#unread').text()-1);
-          } else {
-              popup_message('Failed to mark notification as read, check logs for details');
-          }
-      });
+    $.get(WEBROOT + '/xhr/couchpotato/notification/read/' + $(this).data('id'), function(data) {
+        if(data.success){
+            el.removeClass('new');
+            $('#unread').text($('#unread').text()-1);
+        } else {
+            popup_message('Failed to mark notification as read, check logs for details');
+        }
+    });
+  });
+
+  // notification read click
+  $(document).on('click', '#couchpotato .menu .mark_read', function(e) {
+    var el = $(this);
+    $.get(WEBROOT + '/xhr/couchpotato/notification/read/', function(data) {
+        if(data.success){
+            $('#unread').text('0');
+            el.hide();
+        } else {
+            popup_message('Failed to mark notifications as read, check logs for details');
+        }
+    });
   });
 
   /********* END CouchPotato ***********/
