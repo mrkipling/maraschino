@@ -1370,37 +1370,24 @@ $(document).ready(function() {
     });
   });
 
-  // menu settings click
-  $(document).on('click', '#couchpotato .menu .settings', function(){
-    $.get(WEBROOT + '/xhr/couchpotato/settings/')
+  // menu history click
+  $(document).on('click', '#couchpotato .menu .history', function(){
+    $.get(WEBROOT + '/xhr/couchpotato/history/')
     .success(function(data){
       $('#couchpotato').replaceWith(data);
+      $('#couchpotato .menu').prepend('<li class="mark_read" title="Mark all notifications as read"><span>Mark All as Read</span></li>');
     });
   });
-
-  // Load search template
-  $(document).on('click', '#couchpotato .menu .add', function(){
-    $.get(WEBROOT + '/xhr/couchpotato/search/')
-    .success(function(data){
-      $('#couchpotato').replaceWith(data);
-    })
-    .error(function(){
-      popup_message('Could not reach Maraschino.');
-    });
-  });
-
   // Load search results
   // on enter
-  $(document).on('keypress', '#couchpotato .search .value', function(e){
+  $(document).on('keydown', '#couchpotato .search_div input', function(e) {
     if(e.which == 13){
-      e.preventDefault();
-      var name = $('#couchpotato .search .value').attr('value');
+      var name = $(this).attr('value');
       params = '';
       if(name !== ''){
           params = 'name='+encodeURIComponent(name);
       }
-      $('#couchpotato .search span.search').text('');
-      add_loading_gif($('#couchpotato .search span.search'));
+      add_loading_gif($('#couchpotato .search_div .loading'));
       $.get(WEBROOT + '/xhr/couchpotato/search/?'+params)
       .success(function(data){
         $('#couchpotato').replaceWith(data);
@@ -1409,24 +1396,6 @@ $(document).ready(function() {
         popup_message('Could not reach Maraschino.');
       });
     }
-  });
-  // Load search results
-  // on button click
-  $(document).on('click', '#couchpotato .search span.search', function() {
-    var name = $('#couchpotato .search .value').attr('value');
-    params = '';
-    if(name !== ''){
-        params = 'name='+encodeURIComponent(name);
-    }
-    $(this).text('');
-    add_loading_gif($(this));
-    $.get(WEBROOT + '/xhr/couchpotato/search/?'+params)
-    .success(function(data){
-      $('#couchpotato').replaceWith(data);
-    })
-    .error(function(){
-      popup_message('Could not reach Maraschino.');
-    });
   });
   // Search add movie click
   $(document).on('click', '#couchpotato .search ul li .choices .add', function() {
@@ -1609,8 +1578,33 @@ $(document).ready(function() {
     $.get(WEBROOT + '/xhr/couchpotato/log/' + $(this).find(':selected').val() + '/30/', function(data) {
       $('#couchpotato').replaceWith(data);
     });
-
   });
+  // notification read click
+  $(document).on('click', '#couchpotato #history ul li.new', function() {
+    var el = $(this);
+    $.get(WEBROOT + '/xhr/couchpotato/notification/read/' + $(this).data('id'), function(data) {
+        if(data.success){
+            el.removeClass('new');
+            $('#unread').text($('#unread').text()-1);
+        } else {
+            popup_message('Failed to mark notification as read, check logs for details');
+        }
+    });
+  });
+
+  // notification read click
+  $(document).on('click', '#couchpotato .menu .mark_read', function(e) {
+    var el = $(this);
+    $.get(WEBROOT + '/xhr/couchpotato/notification/read/', function(data) {
+        if(data.success){
+            $('#unread').text('0');
+            el.hide();
+        } else {
+            popup_message('Failed to mark notifications as read, check logs for details');
+        }
+    });
+  });
+
   /********* END CouchPotato ***********/
 
   /********* SEARCH ***********/
