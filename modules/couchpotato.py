@@ -133,6 +133,26 @@ def xhr_couchpotato(status=False):
     )
 
 
+@app.route('/xhr/couchpotato/history/')
+def xhr_couchpotato_history():
+    unread = 0
+    try:
+        couchpotato = couchpotato_api('notification.list')
+        couchpotato = couchpotato['notifications']
+        for notification in couchpotato:
+            if not notification['read']:
+                unread = unread + 1
+
+    except Exception as e:
+        logger.log('CouchPotato :: Could not retrieve Couchpotato - %s' % (e), 'WARNING')
+        couchpotato = None
+
+    return render_template('couchpotato/history.html',
+        couchpotato=couchpotato,
+        unread=unread,
+    )
+
+
 @app.route('/xhr/couchpotato/search/')
 def cp_search(message=None):
     couchpotato = {}
@@ -411,8 +431,9 @@ def cp_log(type='all', lines=30):
     return jsonify({'success': False})
 
 
+@app.route('/xhr/couchpotato/notification/read/')
 @app.route('/xhr/couchpotato/notification/read/<int:id>/')
-def cp_notification_read(id):
+def cp_notification_read(id=False):
     """
     Mark notification as read in CP
     ---- Params -----
@@ -420,7 +441,10 @@ def cp_notification_read(id):
     """
     try:
         logger.log('CouchPotato :: Marking notification "%i" as read' % id, 'INFO')
-        couchpotato_api('notification.markread', 'ids=%i' % id)
+        if id:
+            couchpotato_api('notification.markread', 'ids=%i' % id)
+        else:
+            couchpotato_api('notification.markread')
         return jsonify({'success': True})
 
     except Exception as e:
