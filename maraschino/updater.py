@@ -259,7 +259,7 @@ def gitGetRemote():
         return 'failed'
 
     for line in output.split('\n'):
-        giturl = 'github.com/%s' % (user)
+        giturl = 'github.com/%s/maraschino' % (user)
         if giturl in line:
             words = line.split()
             remote = words[0]
