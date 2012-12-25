@@ -38,11 +38,11 @@
   </form>
   <div id="result">
     {% if data %}
-      <table class="tablesorter">
+      <ul class="tablesorter">
       {% for item in data %}
-        <tr tvdbid="{{item.tvdbid}}"><td>{{ item.name }} - {{item.first_aired}}</td></tr>
+        <li tvdbid="{{item.tvdbid}}">{{ item.name }} <span>{{item.first_aired}}</span></li>
       {% endfor %}
-      </table>
+      </ul>
     {% endif %}
   </div>
 </div>
