@@ -9,11 +9,23 @@
     .all {
       text-indent: 0;
     }
-    .add {
-      text-indent: 0;
+    .history span {
+      background: url('/@{webroot}/images/history.png') center no-repeat;
     }
     .wanted span  {
       background: url('/@{webroot}/images/coming.png') center no-repeat;
+    }
+    .active {
+      background: url('/@{webroot}/images/alpha/fff_20.png');
+    }
+    .mark_read {
+      font-size: 8px;
+      width: 80px;
+      text-indent: 5px;
+      span {
+        width: 80px;
+        margin-top: 2px;
+      }
     }
   }
 
@@ -117,7 +129,7 @@
       &.releases {
         background: url('/@{webroot}/images/alpha/lightblue_30.png');
       }
-      
+
       div.active {
         background: url('/@{webroot}/images/snatched-banner.png') no-repeat;
         width: 55px;
@@ -311,7 +323,7 @@
       }
     }
     .result{
-      max-height: 200px;
+      max-height: 264px;
       overflow: auto;
       .error{
         padding: 10px;
@@ -324,7 +336,6 @@
           height: 115px;
           margin: 8px;
           padding: 10px;
-          width: 90%;
           overflow: hidden;
           .border-radius(6px);
 
@@ -440,6 +451,63 @@
       overflow: auto;
       height: 211px;
       margin-left: 15px;
+    }
+  }
+
+  .search_div {
+    height: 25px;
+    margin-top: 10px;
+
+    input[type="search"] {
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      border: 1px solid #222;
+      cursor: pointer;
+      color: #ccc;
+      height: 28px;
+      line-height: 28px;
+      padding: 2px 2px;
+      .border-radius(4px);
+      -webkit-appearance: none;
+      float: right;
+
+      &:hover {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
+
+      &:focus {
+        background: url('/@{webroot}/images/alpha/fff_40.png');
+      }
+    }
+
+    .loading {
+      float: right;
+    }
+  }
+
+  #history {
+    max-height: 264px;
+    overflow-x: hidden;
+
+    ul li{
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      display: inline-block;
+      margin: 5px;
+      height: 30px;
+      width: 96%;
+      padding: 5px;
+      overflow: hidden;
+      position: relative;
+      .border-radius(4px);
+      line-height: 30px;
+
+      &.new {
+        background: url('/@{webroot}/images/alpha/lightblue_30.png');
+        cursor: pointer;
+      }
+
+      &:hover {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
     }
   }
 }

@@ -6,15 +6,20 @@
 
   <h2 class="title">{% block couchpotato_title %}CouchPotato{% endblock %}</h2>
 
+  {% block couchpotato_menu %}
   <ul class="menu">
-    <li class="settings" title="View Settings"><span>Settings</span></li>
-    <li class="add" title ="Add new movies to CouchPotato"><span>+</span></li>
+    <li class="history" title="View History"><span>History</span></li>
     <li class="all" title="View all"><span>All</span></li>
     <li class="wanted" title="View wanted"><span>Wanted</span></li>
   </ul>
+  {% endblock %}
 
   {% block couchpotato_content %}{% endblock %}
 
+  <div class="search_div">
+    <span class="loading"></span>
+    <input class="query" type="search" placeholder="Search Movies"></input>
+  </div>
 </div>
 
 {% else %}
