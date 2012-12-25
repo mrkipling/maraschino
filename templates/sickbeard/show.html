@@ -4,7 +4,7 @@
 
 <div id="sb_content">
   <div id='show'>
-    <p class="sb-back">&laquo;</p>
+    <p class="sb-back operation_only">&laquo;</p>
     <div class="banner">
       <h2 class="show-name">{{sickbeard.show_name}}</h2>
       <img src="{{sickbeard.url}}" />
@@ -12,10 +12,11 @@
       <p class="quality">{{sickbeard.quality}}</p>
       <p class="genre">{{ sickbeard.genre[0] }}</p>
       <p class="options">Options</p>
-      <p class="manage" tvdbid="{{sickbeard.tvdb}}">
-        <span class="delete">Delete Show</span><span class="refresh">Refresh Show</span><span class="update">Update Show</span>
-        <span class="close">X</span>
-      </p>
+    </div>
+    <div class="manage" tvdbid="{{sickbeard.tvdb}}">
+      <div class="delete"><img src="{{ url_for('static', filename='images/no.png' )}}">Delete Show</div>
+      <div class="refresh"><img src="{{ url_for('static', filename='images/refresh.png' )}}">Refresh Show</div>
+      <div class="update"><img src="{{ url_for('static', filename='images/update.png' )}}">Update Show</div>
     </div>
     <ul class="seasons">
       {% for season in sickbeard.season_list|sort %}
