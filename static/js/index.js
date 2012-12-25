@@ -1101,7 +1101,7 @@ $(document).ready(function() {
 
   // Add show function
 
-  $(document).on('click', '#sickbeard #sb_search #result tr', function(){
+  $(document).on('click', '#sickbeard #sb_search #result li', function(){
     $.get(WEBROOT + '/sickbeard/add_show/'+$(this).attr('tvdbid'))
     .success(function(data){
       popup_message(data);
