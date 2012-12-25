@@ -648,15 +648,19 @@
       max-height: 200px;
       margin: 10px 15px 0;
       overflow: auto;
-
-      table {
-        tr {
+      position: relative;
+      ul{
+        li{
+          padding: 10px;
+          margin: 5px;
+          background: url('/@{webroot}/images/alpha/fff_10.png');
+          .border-radius(4px);
           &:hover{
             background: url('/@{webroot}/images/alpha/fff_20.png');
             cursor: pointer;
           }
-          th, td {
-            padding: 3px 0;
+          span {
+            float: right;
           }
         }
       }
