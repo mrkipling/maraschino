@@ -1196,6 +1196,10 @@ $(document).ready(function() {
     });
   }
 
+  $(document).on('click', '#remote_bar.on', function(){
+    toggleRemoteControl();
+  });
+
   $(document).on('click', '#remote_icon', function(){
     toggleRemoteControl();
   });
