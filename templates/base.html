@@ -47,7 +47,7 @@
     </script>
   </head>
 
-  <body data-show_currently_playing="{{ show_currently_playing }}" data-fanart_backgrounds="{{ fanart_backgrounds }}"{% if background %} style="background-image: url({{ background }});"{% endif %} data-search_enabled="{{ search_enabled }}" class="f_operation_mode num_columns_{{ num_columns }}">
+  <body data-show_currently_playing="{{ show_currently_playing }}" data-remote_inactivity_enable="{{ remote_inactivity_enable }}" data-fanart_backgrounds="{{ fanart_backgrounds }}"{% if background %} style="background-image: url({{ background }});"{% endif %} data-search_enabled="{{ search_enabled }}" class="f_operation_mode num_columns_{{ num_columns }}">
 
     {% if not kiosk %}
       <!-- settings mode icon -->

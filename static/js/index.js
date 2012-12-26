@@ -1173,6 +1173,16 @@ $(document).ready(function() {
   var remote = false;
   var remote_connected = false;
   var remote_connection;
+  var remote_inac_timeout;
+  var remote_inac_msec;
+  var remote_inac_enable = true;
+
+  if ($('body').data('remote_inactivity_enable') > 0){
+    remote_inac_msec = $('body').data('remote_inactivity_enable') * 1000;
+  } else {
+    remote_inac_enable = false;
+  }
+
   // Activates remote functions
   function send_key(key){
     $.get(WEBROOT + '/remote/'+key)
@@ -1186,8 +1196,12 @@ $(document).ready(function() {
     });
   }
 
-  $(document).on('click', '#remote_icon', function() {
-    $(this).toggleClass('on');
+  $(document).on('click', '#remote_icon', function(){
+    toggleRemoteControl();
+  });
+
+  function toggleRemoteControl(){
+    $('#remote_icon').toggleClass('on');
     $('#remote_bar').toggleClass('on');
     if(remote){
       remote = false;
@@ -1218,11 +1232,23 @@ $(document).ready(function() {
           char = keyCodeMap[e.which];
         }
         send_key(char);
+        //reset inactivity counter after keypress
+        clearTimeout(remote_inac_timeout);
+        if (remote_inac_enable){
+          remote_inac_timeout = setTimeout( function(){ toggleRemoteControl(); }, remote_inac_msec);
+        }
       });
+      //initialize inactivity timer
+      clearTimeout(remote_inac_timeout);
+      if (remote_inac_enable){
+        remote_inac_timeout = setTimeout( function(){ toggleRemoteControl(); }, remote_inac_msec);
+      }
     } else {
       $(document).off('keydown', 'body');
+      //clear inactivity timer
+      clearTimeout(remote_inac_timeout);
     }
-  });
+  }
   /********* END REMOTE ***********/
 
   /********* START SABNZBD ***********/

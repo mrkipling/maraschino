@@ -695,6 +695,11 @@ MISC_SETTINGS = [
         'type': 'bool',
     },
     {
+        'key': 'remote_inactivity_enable',
+        'value': '60',
+        'description': 'Disable remote control after x seconds of inactivity (0 to disable)',
+    },
+    {
         'key': 'num_columns',
         'value': '3',
         'description': 'Number of columns',
