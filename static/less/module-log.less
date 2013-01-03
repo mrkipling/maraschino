@@ -10,14 +10,36 @@
     margin-bottom: 10px;
   }
 
+  select {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+
   .log {
     height: 85%;
     overflow: auto;
     padding: 0px 10px;
     .border-radius(4px);
+    background: url('/@{webroot}/images/alpha/fff_10.png');
 
-    li {
-      padding: 5px 20px 5px 20px;
+    table {
+      width: 100%;
+
+      tr {
+        &.disabled {
+          display: none;
+        }
+
+        td {
+          text-align: center;
+          padding: 10px;
+
+          &:last-child {
+            text-align: left;
+          }
+        }
+      }
     }
   }
 
