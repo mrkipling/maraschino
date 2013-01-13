@@ -3,3 +3,82 @@ body {
     background-image: none;
     color: #fff;
 }
+
+.column {
+    border-left: 1px solid #333;
+    float: left;
+    width: 33%;
+
+    &.one { border-left: none; }
+}
+
+h2 {
+    border-bottom: 1px solid #333;
+    font-size: 26px;
+    font-weight: normal;
+    padding: 20px 25px;
+}
+
+ul.episodes {
+    height: 808px; /* temp */
+    overflow: auto;
+
+    li {
+        border-bottom: 1px solid #333;
+        height: 100px;
+        position: relative;
+
+        &:hover {
+            background-color: #222;
+            cursor: pointer;
+        }
+
+        .thumbnail {
+            height: 100px;
+            overflow: hidden;
+            width: 175px;
+
+            img {
+                height: 100px;
+                width: 175px;
+            }
+        }
+
+        .inner {
+            bottom: 10px;
+            left: 185px;
+            overflow: hidden;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+
+            h3 {
+                font-size: 20px;
+                font-weight: normal;
+                white-space: nowrap;
+            }
+
+            .details {
+                color: #ddd;
+                margin: 4px 0;
+                white-space: nowrap;
+
+                .watched {
+                    background: url('/static/images/tick2.png') no-repeat;
+                    display: inline-block;
+                    height: 10px;
+                    margin: 0 1px 0 3px;
+                    width: 11px;
+                }
+
+                .separator { margin: 0 2px; }
+            }
+
+            .description {
+                color: #888;
+                font-size: 11px;
+                line-height: 13px;
+            }
+        }
+    }
+}

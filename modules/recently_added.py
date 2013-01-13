@@ -142,14 +142,19 @@ def get_num_recent_albums():
         return 3
 
 
-def get_recently_added_episodes(xbmc, episode_offset=0, mobile=False):
+def get_recently_added_episodes(xbmc, episode_offset=0, mobile=False, extra_info=False, get_all=False):
     num_recent_videos = get_num_recent_episodes()
     xbmc_label = get_recent_xbmc_label('recently_added_server')
     total_episodes = 0
     using_db = False
 
     try:
-        recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail'])['episodes']
+        properties = ['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail']
+
+        if extra_info:
+            properties.extend(['plot', 'firstaired'])
+
+        recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties=properties)['episodes']
         recently_added_db_add(xbmc_label, 'episodes', recently_added_episodes)
 
         thumbs = [recent_image_file(xbmc_label, 'episodes', x['episodeid'])[1] for x in recently_added_episodes]
@@ -189,7 +194,9 @@ def get_recently_added_episodes(xbmc, episode_offset=0, mobile=False):
 
     if recently_added_episodes:
         total_episodes = len(recently_added_episodes)
-        recently_added_episodes = recently_added_episodes[episode_offset:num_recent_videos + episode_offset]
+
+        if not get_all:
+            recently_added_episodes = recently_added_episodes[episode_offset:num_recent_videos + episode_offset]
 
     return [recently_added_episodes, total_episodes, using_db]
 

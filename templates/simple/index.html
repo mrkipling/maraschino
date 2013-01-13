@@ -41,7 +41,61 @@
   </head>
 
   <body>
-    <h1>Simple mode template placeholder</h1>
+
+    <div class="clearfix">
+
+      {# recent episodes #}
+
+      <div class="column one">
+
+        <h2>Recent Episodes</h2>
+
+        <ul class="episodes">
+
+          {% for episode in recently_added_episodes %}
+            <li{% if using_db_episodes %} class="play_episode" data-episodeid="{{ episode.episodeid }}"{% endif %}>
+
+            {% if episode.thumbnail %}
+              <div class="thumbnail">
+                <img src="{{ episode.thumbnail }}" alt="">
+              </div>
+            {% endif %}
+
+            <div class="inner">
+              <h3>{{ episode.showtitle }}</h3>
+
+              <div class="details">
+                {% if episode.playcount %}
+                  <span class="watched"></span>
+                {% endif %}
+                <span class="episode_num">{{ "%2d"|format(episode.season) }}x{{ "%02d"|format(episode.episode) }}</span>
+                <span class="separator">-</span>
+                <span class="episode_title">{{ episode.title }}</span>
+                <span class="separator">-</span>
+                <span class="first_aired">{{ episode.firstaired }}</span>
+              </div>
+
+              <p class="description">
+                {{ episode.plot }}
+              </p>
+            </div>
+
+            </li>
+          {% endfor %}
+
+        </ul>
+      </div>
+
+      <div class="column two">
+        <h2>Recent Movies</h2>
+      </div>
+
+      <div class="column three">
+        <h2>Upcoming Episodes</h2>
+      </div>
+
+    </div>
+
   </body>
 
 </html>
