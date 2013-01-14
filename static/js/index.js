@@ -1688,7 +1688,7 @@ $(document).ready(function() {
 
   $(document).on('click', '#search #results table tbody tr td:first-child img', function(){
     var link = $(this).attr('nzb-link');
-    $.post(WEBROOT + '/sabnzbd/add/',{url: encodeURI(link)}, function(data){
+    $.post(WEBROOT + '/sabnzbd/add/',{url: link}, function(data){
       data = eval('(' + data + ')');
       if(data['status']){
         popup_message('Successfully added to SabNZBd');

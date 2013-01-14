@@ -54,7 +54,7 @@ def sab_link():
 
 def add_to_sab_link(nzb):
     if get_setting_value('sabnzbd_api') != None:
-        return '%s&mode=addurl&name=%s&output=json' % (sab_link(), nzb)
+        return '%s&mode=addurl&output=json&name=%s' % (sab_link(), urllib.quote_plus(nzb))
     return False
 
 FILTERS['add_to_sab'] = add_to_sab_link
