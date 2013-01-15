@@ -663,7 +663,9 @@ $(document).ready(function() {
 
     $.get(url, function(data) {
       $('#library').replaceWith(data);
+      var x = window.scrollX, y = window.scrollY;
       $('#library #filter input').focus();
+      window.scrollTo(x, y);
     });
   });
 
