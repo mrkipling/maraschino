@@ -14,7 +14,7 @@
 
 {% block couchpotato_content %}
 
-<div id="history">
+<div id="history" class="noscroll">
   <ul>
   {% for notification in couchpotato|reverse %}
     <li {{ "class=new" if not notification.read}} data-id="{{ notification.id }}">{{notification.message}}</li>

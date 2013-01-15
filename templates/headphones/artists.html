@@ -3,7 +3,7 @@
 {% block headphones_content %}
 {% if artists %}
 
-  <div class="artists">
+  <div class="artists noscroll">
     <ul>
       {% for artist in artists %}
         <li class="list_item get {{ 'compact' if compact }}" data-id="{{ artist.ArtistID }}" data-url="/artist/{{ artist.ArtistID }}" title="{{ artist.Percent }}% complete">

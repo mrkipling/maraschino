@@ -3,7 +3,7 @@
 
 {% block couchpotato_content %}
 {% if couchpotato['success'] %}
-<div id="cp_log">
+<div id="cp_log" class="noscroll">
   <h3> Log level:
     <select class="level">
       <option value="all" {% if level == 'all' %} selected {% endif%}>All</option>

@@ -10,7 +10,7 @@
 
 {% block couchpotato_content %}
 
-<div id="all">
+<div id="all" class="noscroll">
   {% for item in couchpotato %}
     <div class="movie" id="{{item.library.identifier}}" data-cpid="{{item.library_id}}">
       <div class="{{item.releases.status}}"></div>

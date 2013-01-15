@@ -3,7 +3,7 @@
 
 {% if albums %}
 
-  <div class="albums">
+  <div class="albums noscroll">
     {% if albums.artist.0.Status == 'Loading' %}
       <h1>
         {{ albums.artist.0.ArtistName }} is loading...

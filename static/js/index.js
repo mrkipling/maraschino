@@ -3014,4 +3014,13 @@ $(document).ready(function() {
     });
   }
 
-});
+  // Prevent body scrolling
+  $(document).on('mousewheel', 'div[class*=noscroll]', function (e, d) {
+    var height = $(this).height(),
+        scrollHeight = this.scrollHeight,
+        scrollTop = this.scrollTop;
+
+    if((scrollTop === (scrollHeight - height) && d < 0) || (scrollTop === 0 && d > 0)) {
+      e.preventDefault();
+    }
+  });});
