@@ -4,11 +4,36 @@
 
   <h2>Maraschino Log</h2>
 
-  <ul class="log">
-    {% for line in log %}
-      <li>{{ line }}</li>
-    {% endfor %}
-  </ul>
+  <select class="level_select">
+    <option value="all" selected>All log levels</option>
+    <option value="info">Info level</option>
+    <option value="warning">Warning level</option>
+    <option value="error">Error level</option>
+    <option value="critical">Critical level</option>
+    <option value="debug">Debug level</option>
+  </select>
+
+  <div class="log">
+    <table>
+      <thead>
+        <tr>
+          <th width="20%">Time</th>
+          <th width="20%">Level</th>
+          <th width="60%">Message</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for line in log|reverse %}
+        <tr class="log_body {{ line.level|lower }}">
+          <td>{{ line.time }}</td>
+          <td>{{ line.level }}</td>
+          <td>{{ line.message }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
   <div class="choices">
     <a class="pastebin button" {% if url %}style="display:none;"{% endif %}>Send to pastebin</a>

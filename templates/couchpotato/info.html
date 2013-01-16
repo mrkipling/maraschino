@@ -4,7 +4,7 @@
 {% block couchpotato_content %}
 {% if couchpotato['success'] %}
   {% set info = couchpotato['movie']['library'] %}
-  <div id="info" class="{{couchpotato['movie']['status']['identifier']}}">
+  <div id="info" class="{{couchpotato['movie']['status']['identifier']}} noscroll">
     <div class="options" data-imdbid="{{info.info.imdb}}" data-cpid="{{couchpotato.movie.library_id}}">
       <img class="delete" src="{{ url_for('static', filename='images/no.png')}}" title="Delete"/>
       <img class="search" src="{{ url_for('static', filename='images/search.png')}}" title="Refresh"/>

@@ -17,6 +17,7 @@ DAEMON = False
 PIDFILE = None
 VERBOSE = True
 LOG_FILE = None
+LOG_LIST = []
 PORT = None
 DATABASE = None
 INIT_LOCK = threading.Lock()

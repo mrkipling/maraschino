@@ -28,7 +28,7 @@
 
   <div class="get back" data-url="{{ back_path }}">&laquo;</div>
 
-  <div id="content" data-media="{{ media }}" data-url="{{ path }}">
+  <div id="content" data-media="{{ media }}" data-url="{{ path }}" class="noscroll">
     {% include "library/"+view+"_view.html" %}
   </div>
 
@@ -42,17 +42,16 @@
         type="search"
         name="input"
         class="filter"
-        value="Filter"
-        onclick="this.value='';"
-        onfocus="this.select()"
-        onblur="this.value=!this.value?'Filter':this.value;"
+        placeholder="Filter"
       >
       </input>
     </div>
   </div>
 
   {% if back_pos %}
-    <script>$('#library #content .media[data-id="{{ back_pos }}"]').ScrollTo({duration: 0});</script>
+    <script> $('#library #content').scrollTo( $('.media[data-id="{{ back_pos }}"]'), 0 ); </script>
+  {% else %}
+    <script> $('#library #content').scrollTo( 0, 0 ); </script>
   {% endif %}
 
 {% endblock %}

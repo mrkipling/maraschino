@@ -10,7 +10,7 @@
 
 {% block couchpotato_content %}
 
-<div id="cp_content" {% if compact_view %}class="compact"{%endif%}>
+<div id="cp_content" class="noscroll{% if compact_view %} compact{%endif%}">
   {% for item in couchpotato %}
     <div class="movie {{ 'releases' if item.releases }}" id="{{item.library.identifier}}" data-cpid="{{item.id}}">
       <div class="{{item.releases.status}}"></div>
