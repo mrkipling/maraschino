@@ -149,7 +149,7 @@ def get_recently_added_episodes(xbmc, episode_offset=0, mobile=False):
     using_db = False
 
     try:
-        recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail'])['episodes']
+        recently_added_episodes = xbmc.VideoLibrary.GetRecentlyAddedEpisodes(properties = ['title', 'season', 'episode', 'showtitle', 'playcount', 'thumbnail', 'tvshowid'])['episodes']
         recently_added_db_add(xbmc_label, 'episodes', recently_added_episodes)
 
         thumbs = [recent_image_file(xbmc_label, 'episodes', x['episodeid'])[1] for x in recently_added_episodes]
