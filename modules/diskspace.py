@@ -22,7 +22,17 @@ def xhr_diskspace():
 
     if disks_db.count() > 0:
         for disk_db in disks_db:
-            disk = disk_usage(disk_db.data['path'])
+            try:
+                disk = disk_usage(disk_db.data['path'])
+            except:
+                logger.log('DISKSPACE :: Failed to find path: %s' % disk_db.data['path'], 'WARNING')
+                disk = {
+                    'total': 0,
+                    'used': 0,
+                    'free': 0,
+                    'percentage_used': 0,
+                }
+
             disk['path'] = disk_db.data['path']
             disk['name'] = disk_db.data['name']
             disk['group'] = disk_db.data['group']

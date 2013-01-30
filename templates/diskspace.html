@@ -30,9 +30,11 @@
                 {% if disk.group and disk.group == group.name %}
                   <li class="disk" data-id="{{ disk.id }}">
                     <div class="clearfix">
-                      <div class="name">{% if disk.name %}{{ disk.name }}{% else %}{{ disk.path }}{% endif %}</div>
+                      <div class="name {{ 'failed' if disk.total == '0.00 bytes' }}">
+                        {% if disk.name %}{{ disk.name }}{% else %}{{ disk.path }}{% endif %}
+                      </div>
                       <table class="stats">
-                        <tr>
+                        <tr {% if disk.total == '0.00 bytes' %}class="failed"{% endif %}>
                           <td>{{ disk.used }} used,</td>
                           <td>{{ disk.free }} free</td>
                         </tr>
@@ -49,9 +51,11 @@
         {% for disk in disks.disks %}
           <li class="disk {{ 'hidden' if not show_grouped_disks and disk.group }}" data-id="{{ disk.id }}">
             <div class="clearfix">
-              <div class="name">{% if disk.name == '' %}{{ disk.path }}{% else %}{{ disk.name }}{% endif %}</div>
+              <div class="name {{ 'failed' if disk.total == '0.00 bytes' }}">
+                {% if disk.name %}{{ disk.name }}{% else %}{{ disk.path }}{% endif %}
+              </div>
               <table class="stats">
-                <tr>
+                <tr {% if disk.total == '0.00 bytes' %}class="failed"{% endif %}>
                   <td>{{ disk.used }} used,</td>
                   <td>{{ disk.free }} free</td>
                 </tr>
