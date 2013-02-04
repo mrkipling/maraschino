@@ -190,6 +190,8 @@ def main():
     import_modules()
     maraschino.init_updater()
 
+    maraschino.plex_database_upgrade_check()
+
     maraschino.start()
 
 

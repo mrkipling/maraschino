@@ -18,7 +18,7 @@ sabnzbd_history_slots = None
 def mobile_index():
     xbmc = True
     available_modules = Module.query.order_by(Module.position)
-    servers = XbmcServer.query.order_by(XbmcServer.position)
+    servers = MediaServer.query.order_by(MediaServer.position)
 
     if servers.count() == 0:
         xbmc = False
@@ -73,7 +73,7 @@ def recently_added_albums():
 @app.route('/mobile/xbmc/')
 @requires_auth
 def xbmc():
-    servers = XbmcServer.query.order_by(XbmcServer.position)
+    servers = MediaServer.query.order_by(MediaServer.position)
     active_server = int(get_setting_value('active_server'))
     return render_template('mobile/xbmc/xbmc.html',
         servers=servers,

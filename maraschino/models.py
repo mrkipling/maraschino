@@ -133,6 +133,40 @@ class XbmcServer(Base):
     def __repr__(self):
         return '<XbmcServer %r>' % (self.label)
 
+class MediaServer(Base):
+    """Table for the MediaServer server config"""
+    __tablename__ = 'media_servers'
+    id = Column(Integer, primary_key=True)
+    data = Column(PickleType)
+    type = Column(String(15))
+    label = Column(String(500))
+    position = Column(Integer)
+    #hostname = Column(String(500))
+    #port = Column(String(10))
+    #username = Column(String(100))
+    #password = Column(String(100))
+    #mac_address = Column(String(100))
+
+    def __init__(self, label, type, data={}, position=None):#(self, label, position, hostname, port='8080', username=None, password=None, mac_address=None):
+        self.type= type
+        self.label = label
+
+        self.data = data
+
+        if position == None:
+            self.position = highest_position(Disk)
+        else:
+            self.position = position
+
+        #self.hostname = hostname
+        #self.port = port
+        #self.username = username
+        #self.password = password
+        #self.mac_address = mac_address
+
+    def __repr__(self):
+        return '<MediaServer %r>' % (self.label)
+
 
 class Script(Base):
     __tablename__ = 'scripts'

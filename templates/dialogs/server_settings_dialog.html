@@ -3,7 +3,13 @@
   <h2>{{ 'Edit' if server else 'Add' }} server</h2>
 
   <form class="inner" method="post" action="">
-
+    <div class="formrow">
+      <label for="id_server_type">Server type</label>
+         <select id="id_server_type" name="type">
+                <option value="PLEX"{% if (server.type == "PLEX") %} selected="selected"{% endif %}>PLEX</option>
+                <option value="XBMC"{% if (server.type == "XBMC") %} selected="selected"{% endif %}>XBMC</option>
+              </select>
+    </div>
     <div class="formrow">
       <label for="id_server_label">Label</label>
       <input id="id_server_label" name="label" type="text" value="{{ server.label }}">
@@ -11,27 +17,27 @@
 
     <div class="formrow">
       <label for="id_server_hostname">Hostname / IP address</label>
-      <input id="id_server_hostname" name="hostname" type="text" value="{{ server.hostname }}">
+      <input id="id_server_hostname" name="hostname" type="text" value="{{ hostname }}">
     </div>
 
     <div class="formrow">
       <label for="id_server_port">Port</label>
-      <input id="id_server_port" name="port" type="text" value="{{ server.port }}">
+      <input id="id_server_port" name="port" type="text" value="{{ port }}">
     </div>
 
     <div class="formrow">
       <label for="id_server_username">Username (optional)</label>
-      <input id="id_server_username" name="username" type="text" value="{{ server.username }}">
+      <input id="id_server_username" name="username" type="text" value="{{ username }}">
     </div>
 
     <div class="formrow">
       <label for="id_server_password">Password (optional)</label>
-      <input id="id_server_password" name="password" type="password" value="{{ server.password }}">
+      <input id="id_server_password" name="password" type="password" value="{{ password }}">
     </div>
 
     <div class="formrow">
       <label for="id_server_mac_address">MAC Address (optional)</label>
-      <input id="id_server_mac_address" name="mac_address" type="text" value="{{ server.mac_address }}">
+      <input id="id_server_mac_address" name="mac_address" type="text" value="{{ mac_address }}">
     </div>
 
     <div class="formrow">

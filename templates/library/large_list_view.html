@@ -31,7 +31,9 @@
           {% elif media == 'episodes' %}
             First Aired: {{ item.firstaired }}
           {% elif media == 'artists' %}
-            Years Active: {{ item.yearsactive }}
+            {% if item.yearsactive > -1 %}
+              Years Active: {{ item.yearsactive }}
+            {% endif %}
           {% elif media == 'albums' %}
             Year: {{ item.year }}
           {% elif media == 'songs' %}

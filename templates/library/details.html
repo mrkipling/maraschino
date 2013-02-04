@@ -49,15 +49,23 @@
           {{ row('director') }}
           {{ row('year') }}
           {{ row('genre') }}
-          {{ row('rating') }}
+          {% if rating == -1 %}
+            {{ row('rating') }}
+          {% endif %}
         {% elif media == 'tvshows' %}
           {{ row('studio') }}
           {{ row('premiered') }}
-          {{ row('genre') }}
-          {{ row('rating') }}
+          {% if genre == -1 %}
+            {{ row('genre') }}
+          {% endif %}
+          {% if rating == -1 %}
+            {{ row('rating') }}
+          {% endif %}
         {% elif media == 'episodes' %}
           {{ row('firstaired') }}
-          {{ row('rating') }}
+          {% if rating == -1 %}
+            {{ row('rating') }}
+          {% endif %}
         {% elif media == 'artists' %}
           {{ row('genre') }}
         {% elif media == 'albums' %}

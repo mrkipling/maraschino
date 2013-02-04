@@ -2,13 +2,13 @@
 """Util funtions for XBMC server settings."""
 
 from maraschino.tools import using_auth, get_setting_value
-from maraschino.models import Module, Setting, XbmcServer
+from maraschino.models import Module, Setting, MediaServer
 
 def server_settings():
     """Get settings for active XBMC server instance"""
-
+    
     # query all configured XBMC servers from the db
-    servers = XbmcServer.query.order_by(XbmcServer.position)
+    servers = MediaServer.query.order_by(MediaServer.position)
 
     if servers.count() == 0:
         return {
@@ -35,11 +35,12 @@ def server_settings():
         server = servers.first()
 
     return {
-        'hostname': server.hostname,
-        'port': server.port,
-        'username': server.username,
-        'password': server.password,
-        'mac_address': server.mac_address,
+        'hostname': server.data['hostname'],
+        'port': server.data['port'],
+        'username': server.data['username'],
+        'password': server.data['password'],
+        'type': server.type,
+        'mac_address': server.data['mac_address'],
     }
 
 def server_username_password():
@@ -47,9 +48,9 @@ def server_username_password():
     username_password = ''
     server = server_settings()
 
-    if server['username'] != None:
+    if server['username']:
         username_password = server['username']
-        if server['password'] != None:
+        if server['password']:
             username_password += ':' + server['password']
         username_password += '@'
 
@@ -74,6 +75,12 @@ def server_api_address():
         return None
 
     return '%s/jsonrpc' % (address)
+
+def server_type():
+    server = server_settings()
+    if not server:
+        return None
+    return server['type']
 
 def safe_server_address():
     if using_auth():

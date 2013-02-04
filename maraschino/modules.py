@@ -18,7 +18,7 @@ from Maraschino import app
 from maraschino.tools import *
 
 from maraschino.database import *
-from maraschino.models import Module, XbmcServer, RecentlyAdded, NewznabSite
+from maraschino.models import Module, MediaServer, RecentlyAdded, NewznabSite
 
 # name, label, description, and static are not user-editable and are taken from here
 # poll and delay are user-editable and saved in the database - the values here are the defaults
@@ -164,8 +164,8 @@ AVAILABLE_MODULES = [
     },
     {
         'name': 'library',
-        'label': 'XBMC Library',
-        'description': 'Allows you to browse your XBMC library and select items to play in XBMC.',
+        'label': 'Media Library',
+        'description': 'Allows you to browse your media library and select items to play in your media center.',
         'static': True,
         'poll': 0,
         'delay': 0,
@@ -205,6 +205,21 @@ AVAILABLE_MODULES = [
                 'value': '1',
                 'description': 'Show files',
                 'type': 'bool',
+            },
+            {                    
+                'key': 'plex_movielib_id',
+                'value': 1,
+                'description': 'Library ID Movies (Plex only)',
+            },
+            {                    
+                'key': 'plex_tvlib_id',
+                'value': 2,
+                'description': 'Library ID TV Series (Plex only)',
+            },
+            {                    
+                'key': 'plex_musiclib_id',
+                'value': 3,
+                'description': 'Library ID Music (Plex only)',
             },
         ]
     },
@@ -253,6 +268,11 @@ AVAILABLE_MODULES = [
                 'description': 'Number of episodes to display',
             },
             {
+                'key': 'plex_tvlib_id',
+                'value': 2,
+                'description': 'Library ID TV Series (Plex only)',
+            },
+            {
                 'key': 'recently_added_compact',
                 'value': '0',
                 'description': 'Compact view',
@@ -292,6 +312,11 @@ AVAILABLE_MODULES = [
                 'key': 'num_recent_movies',
                 'value': 3,
                 'description': 'Number of movies to display',
+            },
+            {                    
+                'key': 'plex_movielib_id',
+                'value': 1,
+                'description': 'Library ID Movies (Plex only)',
             },
             {
                 'key': 'recently_added_movies_compact',
@@ -333,6 +358,11 @@ AVAILABLE_MODULES = [
                 'key': 'num_recent_albums',
                 'value': 3,
                 'description': 'Number of albums to display',
+            },
+            {
+                'key': 'plex_musiclib_id',
+                'value': 3,
+                'description': 'Library ID Music (Plex only)',
             },
             {
                 'key': 'recently_added_albums_compact',
@@ -1027,7 +1057,7 @@ def server_settings_dialog(server_id=None):
 
     if server_id:
         try:
-            server = XbmcServer.query.get(server_id)
+            server = MediaServer.query.get(server_id)
 
         except:
             logger.log('Error retrieving server details for server ID %s' % server_id , 'WARNING')
@@ -1035,29 +1065,50 @@ def server_settings_dialog(server_id=None):
     # GET
 
     if request.method == 'GET':
+        # This is a workaround to data not existing when we are creating a new server and in turn throwing errors at the template when trying to access the data
+        hostname = ''
+        port = ''
+        username = ''
+        password = ''
+        mac_address = ''
+
+        if server != None:
+            hostname = server.data['hostname']
+            port = server.data['port']
+            username = server.data['username']
+            password = server.data['password']
+            mac_address = server.data['mac_address']
+
         return render_template('dialogs/server_settings_dialog.html',
             server = server,
+            hostname = hostname,
+            port = port,
+            username = username,
+            password = password,
+            mac_address = mac_address
         )
 
     # POST
 
     else:
         if not server:
-            server = XbmcServer('', 1, '')
+            server = MediaServer('', '', {}, 1)
 
         label = request.form['label']
         if not label:
-            label = 'XBMC server'
+            label = 'Media server'
 
         try:
+            server.data = {'hostname': request.form['hostname'], 'port': request.form['port'], 
+                        'username': request.form['username'], 'password': request.form['password'], 'mac_address': request.form['mac_address']}
+            server.type = request.form['type']
             server.label = label
             server.position = request.form['position']
-            server.hostname = request.form['hostname']
-            server.port = request.form['port']
-            server.username = request.form['username']
-            server.password = request.form['password']
-            server.mac_address = request.form['mac_address']
-
+            #server.hostname = request.form['hostname']
+            #server.port = request.form['port']
+            #server.username = request.form['username']
+            #server.password = request.form['password']
+            #server.mac_address = request.form['mac_address']
             db_session.add(server)
             db_session.commit()
 
@@ -1069,11 +1120,11 @@ def server_settings_dialog(server_id=None):
                 db_session.commit()
 
             return render_template('includes/servers.html',
-                servers = XbmcServer.query.order_by(XbmcServer.position),
+                servers = MediaServer.query.order_by(MediaServer.position),
             )
 
         except:
-            logger.log('Error saving XBMC server to database', 'WARNING')
+            logger.log('Error saving Media server to database', 'WARNING')
             return jsonify({ 'status': 'error' })
 
     return jsonify({ 'status': 'error' })
@@ -1086,12 +1137,12 @@ def delete_server(server_id=None):
     """
 
     try:
-        xbmc_server = XbmcServer.query.get(server_id)
-        db_session.delete(xbmc_server)
+        mediaServer = MediaServer.query.get(server_id)
+        db_session.delete(mediaServer)
         db_session.commit()
 
         # Remove the server's cache
-        label = xbmc_server.label
+        label = mediaServer.label
         recent_cache = [label + '_episodes', label + '_movies', label + '_albums']
 
         try:
@@ -1104,7 +1155,7 @@ def delete_server(server_id=None):
         except:
             logger.log('Failed to remove servers database cache' , 'WARNING')
 
-        image_dir = os.path.join(maraschino.DATA_DIR, 'cache', 'xbmc', xbmc_server.label)
+        image_dir = os.path.join(maraschino.DATA_DIR, 'cache', 'xbmc', mediaServer.label)
         if os.path.isdir(image_dir):
             import shutil
 
@@ -1114,7 +1165,7 @@ def delete_server(server_id=None):
                 logger.log('Failed to remove servers image cache' , 'WARNING')
 
         return render_template('includes/servers.html',
-            servers = XbmcServer.query.order_by(XbmcServer.position),
+            servers = MediaServer.query.order_by(MediaServer.position),
         )
 
     except:
@@ -1128,7 +1179,7 @@ def switch_server(server_id=None):
     Switches XBMC servers.
     """
 
-    xbmc_server = XbmcServer.query.get(server_id)
+    mediaServer = MediaServer.query.get(server_id)
 
     try:
         active_server = get_setting('active_server')
@@ -1160,17 +1211,17 @@ def get_module_info(name):
     return None
 
 def module_get_xbmc_servers():
-    servers = XbmcServer.query.order_by(XbmcServer.position)
+    servers = MediaServer.query.order_by(MediaServer.position)
     options = [{'value': '', 'label': 'Default'}]
 
     for server in servers:
         server = {
             'label': server.label,
-            'hostname': server.hostname,
-            'port': server.port,
-            'username': server.username,
-            'password': server.password,
-            'mac_address': server.mac_address,
+            'hostname': server.data["hostname"],
+            'port': server.data["port"],
+            'username': server.data["username"],
+            'password': server.data["password"],
+            'mac_address': server.data["mac_address"],
         }
         if server['hostname'] and server['port']:
             url = 'http://'

@@ -4,6 +4,7 @@ import socket
 import struct
 import urllib
 
+from plex.plexclient import PLEXLibrary, PLEXClient
 from Maraschino import app
 from maraschino.noneditable import *
 from maraschino.tools import *
@@ -15,7 +16,6 @@ xbmc_error = 'There was a problem connecting to the XBMC server'
 @requires_auth
 def xhr_play_media(file_type, media_type, media_id):
     logger.log('CONTROLS :: Playing %s' % media_type, 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
     position = 0
 
     if file_type == 'video':
@@ -28,6 +28,11 @@ def xhr_play_media(file_type, media_type, media_id):
     except:
         logger.log('CONTROLS :: Failed to clear %s playlist' % file_type, 'DEBUG')
         return jsonify({ 'failed': True })
+
+    if server_type()=="XBMC":
+        xbmc = jsonrpclib.Server(server_api_address())
+    elif server_type()=="PLEX":
+        plexlibrary=PLEXLibrary(server_address(),TVLibID=get_setting_value('plex_tvlib_id'),MovieLibID=get_setting_value('plex_movielib_id'))
 
     if file_type == 'video':
 
@@ -44,24 +49,29 @@ def xhr_play_media(file_type, media_type, media_id):
                 return jsonify({'failed': True})
 
         elif 'season' in media_type:
-            media_type = media_type.split('_')
-            season = int(media_type[1])
+            if server_type()=="XBMC":
+                media_type = media_type.split('_')
+                season = int(media_type[1])
 
-            try:
-                tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=media_id, season=season, sort={ 'method': 'episode' })['episodes']
-                for episode in tvshow_episodes:
-                    episodeid = episode['episodeid']
-                    item = {'episodeid': episodeid}
-                    xbmc.Playlist.Add(playlistid=1, item=item)
+                try:
+                    tvshow_episodes = xbmc.VideoLibrary.GetEpisodes(tvshowid=media_id, season=season, sort={ 'method': 'episode' })['episodes']
+                    for episode in tvshow_episodes:
+                        episodeid = episode['episodeid']
+                        item = {'episodeid': episodeid}
+                        xbmc.Playlist.Add(playlistid=1, item=item)
 
-            except:
-                logger.log('CONTROLS :: Failed to retrieve episodes', 'DEBUG')
-                return jsonify({'failed': True})
-
+                except:
+                    logger.log('CONTROLS :: Failed to retrieve episodes', 'DEBUG')
+                    return jsonify({'failed': True})
+            elif server_type()=="PLEX":
+                pass   
         else:
             try:
-                item = { media_type + 'id': media_id }
-                xbmc.Playlist.Add(playlistid=1, item=item)
+                if server_type()=="XMBC":
+                    item = { media_type + 'id': media_id }
+                    xbmc.Playlist.Add(playlistid=1, item=item)
+                elif server_type()=="PLEX":
+                    item=str(media_id)
             except:
                 logger.log('CONTROLS :: Failed to add %s to playlist' % media_type, 'DEBUG')
                 return jsonify({'failed': True})
@@ -81,8 +91,11 @@ def xhr_play_media(file_type, media_type, media_id):
             return jsonify({'failed': True})
 
     try:
-        item = {'playlistid': id, 'position': position}
-        xbmc.Player.Open(item)
+        if server_type()=="XBMC":
+            item = {'playlistid': id, 'position': position}
+            xbmc.Player.Open(item)
+        elif server_type()=="PLEX":
+            plexlibrary.playFile (item,plexlibrary.getClients()[0]['host'])
     except:
         logger.log('CONTROLS :: Failed to open %s playlist' % file_type, 'DEBUG')
         return jsonify({'failed': True})
@@ -305,16 +318,20 @@ def xhr_playlist_play(playerid, position):
 @app.route('/xhr/playlist/<int:playlistid>/clear')
 @requires_auth
 def xhr_clear_playlist(playlistid):
-    logger.log('CONTROLS :: Clearing playlist', 'INFO')
-    xbmc = jsonrpclib.Server(server_api_address())
+    if server_type()=="XBMC":
+        logger.log('CONTROLS :: Clearing playlist', 'INFO')
+        xbmc = jsonrpclib.Server(server_api_address())
 
-    try:
-        xbmc.Playlist.Clear(playlistid=playlistid)
+        try:
+            xbmc.Playlist.Clear(playlistid=playlistid)
+            return jsonify({'success': True})
+
+        except:
+            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+            return jsonify({'failed': True})
+    elif server_type()=="PLEX":
+        # no support for playlist yet
         return jsonify({'success': True})
-
-    except:
-        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-        return jsonify({'failed': True})
 
 @app.route('/xhr/playlist/<int:playlistid>/move_item/<int:position1>/<direction>')
 @requires_auth
@@ -370,240 +387,324 @@ def xhr_change_channel(channelid):
 @app.route('/xhr/controls/<command>')
 @requires_auth
 def xhr_controls(command):
-    serversettings = server_settings()
-    xbmc = jsonrpclib.Server(server_api_address())
+    if server_type()=="XBMC":
+        serversettings = server_settings()
+        xbmc = jsonrpclib.Server(server_api_address())
 
-    try:
-        active_player = xbmc.Player.GetActivePlayers()
-        if active_player[0]['type'] == 'video':
-            playerid = 1
-        elif active_player[0]['type'] == 'audio':
-            playerid = 0
-    except:
-        active_player = None
-
-    if command == 'play_pause':
-        logger.log('CONTROLS :: Play/Pause', 'INFO')
         try:
-            xbmc.Player.PlayPause(playerid=playerid)
-            return_response = 'success'
+            active_player = xbmc.Player.GetActivePlayers()
+            if active_player[0]['type'] == 'video':
+                playerid = 1
+            elif active_player[0]['type'] == 'audio':
+                playerid = 0
         except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
+            active_player = None
 
-    elif command == 'stop':
-        logger.log('CONTROLS :: Stop', 'INFO')
-        try:
-            xbmc.Player.Stop(playerid=playerid)
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif 'volume' in command:
-        logger.log('CONTROLS :: Volume', 'INFO')
-        try:
-            volume = command.split('_')
-            volume = int(volume[1])
-            xbmc.Application.SetVolume(volume=volume)
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'next':
-        logger.log('CONTROLS :: Next', 'INFO')
-        try:
-            xbmc.Player.GoNext(playerid=playerid)
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'previous':
-        logger.log('CONTROLS :: Previous', 'INFO')
-        try:
-            xbmc.Player.GoPrevious(playerid=playerid)
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'fast_forward':
-        logger.log('CONTROLS :: Fast forward', 'INFO')
-        try:
-            xbmc.Player.SetSpeed(playerid=playerid, speed='increment')
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'rewind':
-        logger.log('CONTROLS :: Rewind', 'INFO')
-        try:
-            xbmc.Player.SetSpeed(playerid=playerid, speed='decrement')
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif 'seek' in command:
-        logger.log('CONTROLS :: Seek', 'INFO')
-        try:
-            percentage = command.split('_')
-            percentage = int(percentage[1])
-            xbmc.Player.Seek(playerid=playerid, value=percentage)
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'shuffle':
-        logger.log('CONTROLS :: Shuffle', 'INFO')
-        try:
-            version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
-            if version > 11:
-                xbmc.Player.SetShuffle(playerid=playerid, shuffle='toggle')
-
-            else:
-                shuffled = xbmc.Player.GetProperties(playerid=playerid, properties=['shuffled'])['shuffled']
-                if shuffled == True:
-                    xbmc.Player.UnShuffle(playerid=playerid)
-
-                else:
-                    xbmc.Player.Shuffle(playerid=playerid)
-
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'repeat':
-        logger.log('CONTROLS :: Repeat', 'INFO')
-        try:
-            version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
-            if version > 11:
-                xbmc.Player.SetRepeat(playerid=playerid, repeat='cycle')
-
-            else:
-                states = ['off', 'one', 'all']
-                repeat = xbmc.Player.GetProperties(playerid=playerid, properties=['repeat'])['repeat']
-                state = states.index(repeat)
-
-                if state <= 1:
-                    state = state + 1
-                else:
-                    state = 0
-
-                state = states[state]
-                xbmc.Player.Repeat(playerid=playerid, state=state)
-
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'update_video':
-        logger.log('CONTROLS :: Updating video library', 'INFO')
-        try:
-            xbmc.VideoLibrary.Scan()
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'clean_video':
-        logger.log('CONTROLS :: Cleaning video library', 'INFO')
-        try:
-            xbmc.VideoLibrary.Clean()
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'update_audio':
-        logger.log('CONTROLS :: Updating audio library', 'INFO')
-        try:
-            xbmc.AudioLibrary.Scan()
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'clean_audio':
-        logger.log('CONTROLS :: Cleaning audio library', 'INFO')
-        try:
-            xbmc.AudioLibrary.Clean()
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'poweroff':
-        logger.log('CONTROLS :: Shutting down XBMC machine', 'INFO')
-        try:
-            xbmc.System.Shutdown()
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'suspend':
-        logger.log('CONTROLS :: Suspending XBMC machine', 'INFO')
-        try:
-            xbmc.System.Suspend()
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'reboot':
-        logger.log('CONTROLS :: Rebooting XBMC machine', 'INFO')
-        try:
-            xbmc.System.Reboot()
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'pvr-scan':
-        logger.log('CONTROLS :: Scanning PVR EPG', 'INFO')
-        try:
-            xbmc.PVR.Scan()
-            return_response = 'success'
-        except:
-            logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
-            return_response = 'failed'
-
-    elif command == 'poweron':
-        logger.log('CONTROLS :: Powering on XBMC machine', 'INFO')
-        server_macaddress = serversettings['mac_address']
-
-        if not server_macaddress:
-            logger.log('CONTROLS :: No XBMC machine MAC address defined', 'ERROR')
-            return jsonify({ 'failed': True })
-
-        else:
+        if command == 'play_pause':
+            logger.log('CONTROLS :: Play/Pause', 'INFO')
             try:
-                addr_byte = server_macaddress.split(':')
-                hw_addr = struct.pack('BBBBBB',
-                int(addr_byte[0], 16),
-                int(addr_byte[1], 16),
-                int(addr_byte[2], 16),
-                int(addr_byte[3], 16),
-                int(addr_byte[4], 16),
-                int(addr_byte[5], 16))
-
-                msg = '\xff' * 6 + hw_addr * 16
-                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-                s.sendto(msg, ("255.255.255.255", 9))
+                xbmc.Player.PlayPause(playerid=playerid)
                 return_response = 'success'
-
             except:
-                logger.log('CONTROLS :: Failed to send WOL packet', 'ERROR')
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
                 return_response = 'failed'
 
+        elif command == 'stop':
+            logger.log('CONTROLS :: Stop', 'INFO')
+            try:
+                xbmc.Player.Stop(playerid=playerid)
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif 'volume' in command:
+            logger.log('CONTROLS :: Volume', 'INFO')
+            try:
+                volume = command.split('_')
+                volume = int(volume[1])
+                xbmc.Application.SetVolume(volume=volume)
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'next':
+            logger.log('CONTROLS :: Next', 'INFO')
+            try:
+                xbmc.Player.GoNext(playerid=playerid)
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'previous':
+            logger.log('CONTROLS :: Previous', 'INFO')
+            try:
+                xbmc.Player.GoPrevious(playerid=playerid)
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'fast_forward':
+            logger.log('CONTROLS :: Fast forward', 'INFO')
+            try:
+                xbmc.Player.SetSpeed(playerid=playerid, speed='increment')
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'rewind':
+            logger.log('CONTROLS :: Rewind', 'INFO')
+            try:
+                xbmc.Player.SetSpeed(playerid=playerid, speed='decrement')
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif 'seek' in command:
+            logger.log('CONTROLS :: Seek', 'INFO')
+            try:
+                percentage = command.split('_')
+                percentage = int(percentage[1])
+                xbmc.Player.Seek(playerid=playerid, value=percentage)
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'shuffle':
+            logger.log('CONTROLS :: Shuffle', 'INFO')
+            try:
+                version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
+                if version > 11:
+                    xbmc.Player.SetShuffle(playerid=playerid, shuffle='toggle')
+
+                else:
+                    shuffled = xbmc.Player.GetProperties(playerid=playerid, properties=['shuffled'])['shuffled']
+                    if shuffled == True:
+                        xbmc.Player.UnShuffle(playerid=playerid)
+
+                    else:
+                        xbmc.Player.Shuffle(playerid=playerid)
+
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'repeat':
+            logger.log('CONTROLS :: Repeat', 'INFO')
+            try:
+                version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
+                if version > 11:
+                    xbmc.Player.SetRepeat(playerid=playerid, repeat='cycle')
+
+                else:
+                    states = ['off', 'one', 'all']
+                    repeat = xbmc.Player.GetProperties(playerid=playerid, properties=['repeat'])['repeat']
+                    state = states.index(repeat)
+
+                    if state <= 1:
+                        state = state + 1
+                    else:
+                        state = 0
+
+                    state = states[state]
+                    xbmc.Player.Repeat(playerid=playerid, state=state)
+
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'update_video':
+            logger.log('CONTROLS :: Updating video library', 'INFO')
+            try:
+                xbmc.VideoLibrary.Scan()
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'clean_video':
+            logger.log('CONTROLS :: Cleaning video library', 'INFO')
+            try:
+                xbmc.VideoLibrary.Clean()
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'update_audio':
+            logger.log('CONTROLS :: Updating audio library', 'INFO')
+            try:
+                xbmc.AudioLibrary.Scan()
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'clean_audio':
+            logger.log('CONTROLS :: Cleaning audio library', 'INFO')
+            try:
+                xbmc.AudioLibrary.Clean()
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'poweroff':
+            logger.log('CONTROLS :: Shutting down XBMC machine', 'INFO')
+            try:
+                xbmc.System.Shutdown()
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'suspend':
+            logger.log('CONTROLS :: Suspending XBMC machine', 'INFO')
+            try:
+                xbmc.System.Suspend()
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'reboot':
+            logger.log('CONTROLS :: Rebooting XBMC machine', 'INFO')
+            try:
+                xbmc.System.Reboot()
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'pvr-scan':
+            logger.log('CONTROLS :: Scanning PVR EPG', 'INFO')
+            try:
+                xbmc.PVR.Scan()
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+
+        elif command == 'poweron':
+            logger.log('CONTROLS :: Powering on XBMC machine', 'INFO')
+            server_macaddress = serversettings['mac_address']
+
+            if not server_macaddress:
+                logger.log('CONTROLS :: No XBMC machine MAC address defined', 'ERROR')
+                return jsonify({ 'failed': True })
+
+            else:
+                try:
+                    addr_byte = server_macaddress.split(':')
+                    hw_addr = struct.pack('BBBBBB',
+                    int(addr_byte[0], 16),
+                    int(addr_byte[1], 16),
+                    int(addr_byte[2], 16),
+                    int(addr_byte[3], 16),
+                    int(addr_byte[4], 16),
+                    int(addr_byte[5], 16))
+
+                    msg = '\xff' * 6 + hw_addr * 16
+                    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                    s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+                    s.sendto(msg, ("255.255.255.255", 9))
+                    return_response = 'success'
+
+                except:
+                    logger.log('CONTROLS :: Failed to send WOL packet', 'ERROR')
+                    return_response = 'failed'
+
+    elif server_type()=="PLEX":
+        mediaplayer = PLEXLibrary(server_address())
+        active_players=mediaplayer.activePlayers()
+        active_player=active_players[0]
+        client=PLEXClient(active_player['host'])
+        
+        if command == 'play_pause':
+            logger.log('CONTROLS :: Play/Pause', 'INFO')
+            try:
+                mediaplayer.doAction (active_player['host'], 'playback/pause')
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+                
+        elif command == 'stop':
+            logger.log('CONTROLS :: Stop', 'INFO')
+            try:
+                mediaplayer.doAction (active_player['host'], 'playback/stop')
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+        elif command == 'fast_forward':
+            logger.log('CONTROLS :: Fast forward', 'INFO')
+            try:
+                mediaplayer.doAction (active_player['host'], 'playback/fastForward')
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+                
+        elif command == 'rewind':
+            logger.log('CONTROLS :: Rewind', 'INFO')
+            try:
+                mediaplayer.doAction (active_player['host'], 'playback/rewind')
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+                
+        elif command == 'next':
+            logger.log('CONTROLS :: Next', 'INFO')
+            try:
+                mediaplayer.doAction (active_player['host'], 'playback/skipNext')
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+    
+        elif command == 'previous':
+            logger.log('CONTROLS :: Previous', 'INFO')
+            try:
+                mediaplayer.doAction (active_player['host'], 'playback/skipPrevious')
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+                
+        elif 'volume' in command:
+            logger.log('CONTROLS :: Volume', 'INFO')
+            try:
+                volume = command.split('_')
+                volume = int(volume[1])
+                client.setVolume(volume)
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+            
+        elif 'seek' in command:
+            logger.log('CONTROLS :: Seek', 'INFO')
+            try:
+                percentage = command.split('_')
+                percentage = int(percentage[1])
+                client.seekPercentage(percentage)
+                return_response = 'success'
+            except:
+                logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+                return_response = 'failed'
+    
+        return_response="success"
+        
     if return_response == 'success':
         return jsonify({ 'success': True })
     else:

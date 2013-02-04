@@ -1,12 +1,13 @@
 <li id="server_settings">
-  XBMC servers
+  Media servers
   <div class="submenu">
     <ul>
       {% for server in servers %}
         <li class="switch_server{{ ' active' if server.id == active_server }}" data-server_id="{{ server.id }}">
-          {{ server.label }}
+          {{ server.label }}     
+          <div class="{{ server.type }}" title="{{ server.type }}">{{ server.type }}</div>
           <div class="edit" title="Edit">Edit</div>
-          <div class="message" data-label="{{ server.label }}" data-hostname="{{ server.hostname }}" title="Message">Message</div>
+          <div class="message" data-label="{{ server.label }}" data-hostname="{{ server.data.hostname }}" title="Message">Message</div>
         </li>
       {% endfor %}
       <li class="add_server">

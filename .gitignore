@@ -33,3 +33,5 @@ ehthumbs.db
 Thumbs.db
 .directory
 *~
+*.sublime-workspace
+*.sublime-project

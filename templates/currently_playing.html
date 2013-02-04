@@ -69,6 +69,10 @@
         <span class="movie invoke_library" data-path="/movies?movieid={{ currently_playing.id }}">
           {{ currently_playing.label }} ({{ currently_playing.year }})
         </span>
+      {% elif currently_playing.type == 'video' %} <!-- Hack for Plex -->
+        <span class="movie invoke_library" data-path="/movies?movieid={{ currently_playing.id }}">
+          {{ currently_playing.title }} ({{ currently_playing.year }})
+        </span>
       {% elif currently_playing.type == 'channel' %}
         {{ currently_playing.label }}<br>{{ currently_playing.title }}
 
@@ -107,7 +111,6 @@
       <div class="inner" style="height: {{ volume/2 }}px;"></div>
     </div>
   </div>
-
   {% if currently_playing.plot %}
     <div class="synopsis">
       <h2>

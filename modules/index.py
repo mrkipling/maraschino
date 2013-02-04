@@ -9,7 +9,7 @@ from maraschino import logger
 @app.route('/')
 @requires_auth
 def index():
-    from maraschino.models import Module, Setting, Application, XbmcServer
+    from maraschino.models import Module, Setting, Application, MediaServer
     from maraschino.database import db_session
 
     unorganised_modules = Module.query.order_by(Module.position)
@@ -84,31 +84,34 @@ def index():
 
     # get list of servers
 
-    servers = XbmcServer.query.order_by(XbmcServer.position)
+    servers = MediaServer.query.order_by(MediaServer.position)
 
     if servers.count() == 0:
         # check if old server settings value is set
         old_server_hostname = get_setting_value('server_hostname')
 
-        # create an XbmcServer entry using the legacy settings
+        # create an MediaServer entry using the legacy settings
         if old_server_hostname:
-            xbmc_server = XbmcServer(
+            mediaServer = MediaServer(
                 'XBMC server 1',
+                '',
+                {},
                 1,
-                old_server_hostname,
-                get_setting_value('server_port'),
-                get_setting_value('server_username'),
-                get_setting_value('server_password'),
-                get_setting_value('server_macaddress'),
             )
 
+            mediaServer.data = {'hostname': old_server_hostname,
+                'port': get_setting_value('server_port'),
+                'username': get_setting_value('server_username'),
+                'password': get_setting_value('server_password'),
+                'mac_address': get_setting_value('server_macaddress'),}
+
             try:
-                db_session.add(xbmc_server)
+                db_session.add(mediaServer)
                 db_session.commit()
-                servers = XbmcServer.query.order_by(XbmcServer.position)
+                servers = MediaServer.query.order_by(MediaServer.position)
 
             except:
-                logger.log('Could not create new XbmcServer based on legacy settings' , 'WARNING')
+                logger.log('Could not create new MediaServer based on legacy settings' , 'WARNING')
 
     active_server = get_setting_value('active_server')
 

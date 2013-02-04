@@ -7,7 +7,7 @@ from jinja2.filters import FILTERS
 import os
 import maraschino
 from maraschino import app, logger
-from maraschino.models import Setting, XbmcServer
+from maraschino.models import Setting, MediaServer
 from flask import send_file
 import StringIO
 import urllib
@@ -177,14 +177,19 @@ FILTERS['convert_bytes'] = convert_bytes
 
 def xbmc_image(url, label='default'):
     """Build xbmc image url"""
-    if url.startswith('special://'): #eden
-        return '%s/xhr/xbmc_image/%s/eden/?path=%s' % (maraschino.WEBROOT, label, url[len('special://'):])
+    if url != None: # Make sure we didn't just get handed a empty object
+        if url.startswith('special://'): #eden
+            return '%s/xhr/xbmc_image/%s/eden/?path=%s' % (maraschino.WEBROOT, label, url[len('special://'):])
 
-    elif url.startswith('image://'): #frodo
-        url = url[len('image://'):]
-        url = urllib.quote(url.encode('utf-8'), '')
+        elif url.startswith('image://'): #frodo
+            url = url[len('image://'):]
+            url = urllib.quote(url.encode('utf-8'), '')
 
-        return '%s/xhr/xbmc_image/%s/frodo/?path=%s' % (maraschino.WEBROOT, label, url)
+            return '%s/xhr/xbmc_image/%s/frodo/?path=%s' % (maraschino.WEBROOT, label, url)
+        elif url.startswith('/library/'): #plex
+            return '%s/xhr/xbmc_image/%s/plex/?path=%s' % (maraschino.WEBROOT, label, url)
+        else:
+            return url
     else:
         return url
 
@@ -204,13 +209,13 @@ def xbmc_proxy(version, label):
     url = request.args['path']
 
     if label != 'default':
-        server = XbmcServer.query.filter(XbmcServer.label == label).first()
+        server = MediaServer.query.filter(MediaServer.label == label).first()
         xbmc_url = 'http://'
 
-        if server.username and server.password:
-            xbmc_url += '%s:%s@' % (server.username, server.password)
+        if server.data["username"] and server.data["password"]:
+            xbmc_url += '%s:%s@' % (server.data["username"], server.data["password"])
 
-        xbmc_url += '%s:%s' % (server.hostname, server.port)
+        xbmc_url += '%s:%s' % (server.data["hostname"], server.data["port"])
 
     else:
         xbmc_url = server_address()
@@ -220,6 +225,8 @@ def xbmc_proxy(version, label):
         url = '%s/vfs/special://%s' % (xbmc_url, url)
     elif version == 'frodo':
         url = '%s/image/image://%s' % (xbmc_url, urllib.quote(url.encode('utf-8'), ''))
+    elif version == 'plex':
+        url = '%s%s' % (server_address(), url)
 
     img = StringIO.StringIO(urllib.urlopen(url).read())
     return send_file(img, mimetype='image/jpeg')

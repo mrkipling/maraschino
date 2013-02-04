@@ -278,3 +278,24 @@ def utility_processor():
     def webroot_url(url=''):
         return WEBROOT + url
     return dict(webroot_url=webroot_url)
+
+# For upgrading database from pre-Plex integration
+def plex_database_upgrade_check():
+    logger.log('Starting database upgrade check.', 'INFO')
+    from maraschino.models import XbmcServer, MediaServer
+    from maraschino.database import db_session
+    
+    # Check for any servers in the legacy 'XbmcServer' table. If found migrate over to the new tables
+    servers = XbmcServer.query.order_by(XbmcServer.position)
+    for server in servers:
+        # We have servers so migrate them
+        logger.log("The server named '" + server.label + "' is being upgraded!", 'INFO')
+        newServer = MediaServer(server.label, 'XBMC', {'hostname': server.hostname, 'port': server.port, 
+                    'username': server.username, 'password': server.password, 'mac_address': server.mac_address}, 
+                    server.position)
+        db_session.add(newServer)
+        db_session.delete(server)
+
+    db_session.commit()
+
+    logger.log('Finished database upgrade check', 'INFO')

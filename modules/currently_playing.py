@@ -4,6 +4,7 @@ import maraschino
 from maraschino import app, logger
 from maraschino.noneditable import *
 from maraschino.tools import *
+from plex.plexclient import PLEXLibrary, PLEXClient
 
 @app.route('/xhr/currently_playing')
 @requires_auth
@@ -13,29 +14,44 @@ def xhr_currently_playing():
 
         if not api_address:
             raise Exception
+        if server_type()=="XBMC":
+            xbmc = jsonrpclib.Server(api_address)
+            active_player = xbmc.Player.GetActivePlayers()
+            playerid = active_player[0]['playerid']
+            player_info = xbmc.Player.GetProperties(playerid=playerid, properties=['time', 'totaltime', 'position', 'percentage', 'repeat', 'shuffled'])
+            volume = xbmc.Application.GetProperties(properties=['volume'])['volume']
+    
+            if active_player[0]['type'] == 'video':
+                currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid', 'plot', 'thumbnail', 'year'])['item']
+    
+            if active_player[0]['type'] == 'audio':
+                currently_playing = xbmc.Player.GetItem(playerid = 0, properties = ['title', 'duration', 'fanart', 'artist', 'albumartist', 'album', 'track', 'artistid', 'albumid', 'thumbnail', 'year'])['item']
+    
+                if 'artist' in currently_playing and isinstance(currently_playing['artist'], list): #Frodo
+                    currently_playing['artist'] = " / ".join(currently_playing['artist'])
 
-        xbmc = jsonrpclib.Server(api_address)
-        active_player = xbmc.Player.GetActivePlayers()
-        playerid = active_player[0]['playerid']
-        player_info = xbmc.Player.GetProperties(playerid=playerid, properties=['time', 'totaltime', 'position', 'percentage', 'repeat', 'shuffled'])
-        volume = xbmc.Application.GetProperties(properties=['volume'])['volume']
-
-        if active_player[0]['type'] == 'video':
-            currently_playing = xbmc.Player.GetItem(playerid = 1, properties = ['title', 'season', 'episode', 'duration', 'showtitle', 'fanart', 'tvshowid', 'plot', 'thumbnail', 'year'])['item']
-
-        if active_player[0]['type'] == 'audio':
-            currently_playing = xbmc.Player.GetItem(playerid = 0, properties = ['title', 'duration', 'fanart', 'artist', 'albumartist', 'album', 'track', 'artistid', 'albumid', 'thumbnail', 'year'])['item']
-
-            if 'artist' in currently_playing and isinstance(currently_playing['artist'], list): #Frodo
-                currently_playing['artist'] = " / ".join(currently_playing['artist'])
-
-        fanart = currently_playing['fanart']
-        itemart = currently_playing['thumbnail']
-
+            fanart = currently_playing['fanart']
+            itemart = currently_playing['thumbnail']
+        elif server_type()=='PLEX':
+            plexlibrary=PLEXLibrary(server_address())
+            
+            currently_playing,player_info=plexlibrary.currentlyPlaying()
+            for currently_playingplayer in range (0,len(currently_playing)):
+                current=currently_playing[currently_playingplayer]
+                if current['playstatus'] in ['Playing','Paused']:
+                    currently_playing=current
+                    player_info=player_info[currently_playingplayer]
+                    fanart = currently_playing['fanart']
+                    itemart = currently_playing['thumbnail']
+                    volume=player_info['volume']
+                    break
+            if currently_playing['playstatus']=='Stopped':
+                raise Exception
     except:
         return jsonify({ 'playing': False })
-
+    
     return render_template('currently_playing.html',
+        servertype=server_type(),
         currently_playing = currently_playing,
         fanart = fanart,
         itemart = itemart,
