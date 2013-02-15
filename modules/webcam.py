@@ -9,7 +9,7 @@ from maraschino.tools import *
 
 # With foscam or clones this module should be plug and play. But commands like left, right, up and down might be reversed.
 # Based on Foscam sdk 
-
+#
 # Im sure there are better ways to make a module then this one, but was the best i could do with my google fu.
 # Thanks to N3MIS15 and gugahoi for all the help.
 #
