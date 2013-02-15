@@ -70,14 +70,13 @@ input_armed_no = "&input_armed=1"
 count = "1"
 # uses set_misc
 led_mode_always_off = "&led_mode=2"
-led_mode_blink = "&led_mode=1" # blinks while searching
-led_mode_blink_once = "&led_mode=0" # blink only once connected using set misc url
+led_mode_blink = "&led_mode=1"
+led_mode_blink_once = "&led_mode=0"
 
 ### End of control settings ##
 
 ### Url for http api webcam ###
 # Used for basic controls like up, down mirror etc
-# Edit the url with your settings if you cant move your camera.
 def control_base():
 	# Reading the ip address from the db.
 	ip = get_setting_value('webcam_ip')
@@ -94,13 +93,6 @@ def camera_settings():
 	password = get_setting_value('webcam_password')
 	return "http://%s:%s/camera_control.cgi?user=%s&pwd=%s&param=" % (ip, port, username, password)
 
-def stream_urls():
-	ip = get_setting_value('webcam_ip')
-	port = get_setting_value('webcam_port')
-	username = get_setting_value('webcam_username')
-	password = get_setting_value('webcam_password')
-	return "http://%s:%s@%s:%s/videostream.cgi" % (username, password, ip, port)
-	
 # Not in use atm
 def snap():
 	ip = get_setting_value('webcam_ip')
@@ -121,7 +113,6 @@ def set_misc():
 	port = get_setting_value('webcam_port')
 	username = get_setting_value('webcam_username')
 	password = get_setting_value('webcam_password')
-	#return "http://%s:%s@%s:%s/set_misc.cgi?" % (username, password, ip, port)
 	return "http://%s:%s/set_misc.cgi?user=%s&pwd=%s" % (ip, port, username, password)
 
 #Renders the webcam.html and the stream. 
@@ -354,7 +345,7 @@ def set_set_preset_4():
 	except:
 		logger.log('Webcam is setting current posision to SET PRESET 4 using function :: set_set_preset_4 :: Camera responded %s' % x, 'DEBUG')
 
-### Camera control
+### Camera control ###
 
 @app.route('/xhr/webcam/resolution_resolution_qvga')
 @requires_auth
@@ -447,7 +438,7 @@ def flippandmirror_fam():
 		logger.log('Webcam failed mirroring and flipping the feed using function :: flippandmirror_fam :: Camera responded %s' % x, 'DEBUG')
 
 @app.route('/xhr/webcam/motion_armed_yes')
-#@requires_auth
+@requires_auth
 def motion_armed_yes():
 	try:
 		r = urllib2.urlopen(set_alarm() + motion_armed_on)
@@ -457,7 +448,7 @@ def motion_armed_yes():
 		logger.log('Webcam failed activatin motion detection using function :: motion_armed_yes :: Camera responed %s' % x, 'DEBUG')
 
 @app.route('/xhr/webcam/motion_armed_no')
-#@requires_auth
+@requires_auth
 def motion_armed_no():
 	try:
 		r = urllib2.urlopen(set_alarm() + motion_armed_off)
@@ -467,7 +458,7 @@ def motion_armed_no():
 		logger.log('Webcam failed disabling motion detection using function :: motion_armed_no :: Camera responed %s' % x, 'DEBUG')
 	
 @app.route('/xhr/webcam/set_motion_sensitivity_high')
-#@requires_auth
+@requires_auth
 def set_motion_sensitivity_high():
 	try:
 		r = urllib2.urlopen(set_alarm() + motion_sensitivity_high)
@@ -477,7 +468,7 @@ def set_motion_sensitivity_high():
 		logger.log('Webcam failed setting MOTION DETECTION HIGH using function :: set_motion_sensitivity_high :: Camera responed %s' % x, 'DEBUG')
 
 @app.route('/xhr/webcam/set_motion_sensitivity_medium')
-#@requires_auth
+@requires_auth
 def set_motion_sensitivity_medium():
 	try:
 		r = urllib2.urlopen(set_alarm() + motion_sensitivity_medium)
@@ -487,7 +478,7 @@ def set_motion_sensitivity_medium():
 		logger.log('Webcam failed setting MOTION DETECTION MEDIUM using function :: set_motion_sensitivity_medium :: Camera responed %s' % x, 'DEBUG')
 
 @app.route('/xhr/webcam/set_motion_sensitivity_low')
-#@requires_auth
+@requires_auth
 def set_motion_sensitivity_low():
 	try:
 		r = urllib2.urlopen(set_alarm() + motion_sensitivity_low)
@@ -497,7 +488,7 @@ def set_motion_sensitivity_low():
 		logger.log('Webcam failed setting MOTION DETECTION LOW using function :: set_motion_sensitivity_low :: Camera responed %s' % x, 'DEBUG')
 
 @app.route('/xhr/webcam/set_motion_sensitivity_ultralow')
-#@requires_auth
+@requires_auth
 def set_motion_sensitivity_ultralow():
 	try:
 		r = urllib2.urlopen(set_alarm() + motion_sensitivity_ultralow)
@@ -507,7 +498,7 @@ def set_motion_sensitivity_ultralow():
 		logger.log('Webcam failed setting MOTION DETECTION ULTRALOW using function :: set_motion_sensitivity_ultralow :: Camera responed %s' % x, 'DEBUG')
 	
 @app.route('/xhr/webcam/set_input_armed_yes')
-#@requires_auth
+@requires_auth
 def set_input_armed_yes():
 	try:
 		r = urllib2.urlopen(set_alarm() + input_armed_yes)
@@ -517,7 +508,7 @@ def set_input_armed_yes():
 		logger.log('Webcam failed setting INPUT to ARMED using function :: input_armed_yes :: Camera responed %s' % x, 'DEBUG')
 
 @app.route('/xhr/webcam/set_input_armed_no')
-#@requires_auth
+@requires_auth
 def set_input_armed_no():
 	try:
 		r = urllib2.urlopen(set_alarm() + input_armed_no)
@@ -527,7 +518,7 @@ def set_input_armed_no():
 		logger.log('Webcam failed setting INPUT to DISARMED using function :: input_armed_no :: Camera responed %s' % x, 'DEBUG')
 
 @app.route('/xhr/webcam/set_ir_mode_always_off')
-#@requires_auth
+@requires_auth
 def set_led_mode_always_off():
 	try:
 		r = urllib2.urlopen(set_misc() + led_mode_always_off)
@@ -537,7 +528,7 @@ def set_led_mode_always_off():
 		logger.log('Ip Camera failed to turn off led using function :: set_led_mode_always_off :: Camera responed %s' % x, 'DEBUG')
 
 @app.route('/xhr/webcam/set_ir_mode_blink')
-#@requires_auth
+@requires_auth
 def set_led_mode_blink():
 	try:
 		r = urllib2.urlopen(set_misc() + led_mode_blink)
@@ -547,7 +538,7 @@ def set_led_mode_blink():
 		logger.log('Ip Camera failed to turn on led blink using function :: set_led_mode_mode_blink :: Camera responed %s' % x, 'DEBUG')
 
 @app.route('/xhr/webcam/set_ir_mode_blink_once')
-#@requires_auth
+@requires_auth
 def set_led_mode_blink_once():
 	try:
 		r = urllib2.urlopen(set_misc() + led_mode_blink_once)
