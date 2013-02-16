@@ -95,14 +95,14 @@ def camera_settings():
 
 # Not in use atm
 def snap():
-    ip = get_setting_value('webcam_ip')
+	ip = get_setting_value('webcam_ip')
 	port = get_setting_value('webcam_port')
 	username = get_setting_value('webcam_username')
 	password = get_setting_value('webcam_password')
 	return "http://%s:%s/snapshot.cgi?%s&user=%s&pwd=%s" % (ip, port, count, username, password)
 
 def set_alarm():
-    ip = get_setting_value('webcam_ip')
+	ip = get_setting_value('webcam_ip')
 	port = get_setting_value('webcam_port')
 	username = get_setting_value('webcam_username')
 	password = get_setting_value('webcam_password')
@@ -380,7 +380,7 @@ def mode_fifty():
 @app.route('/xhr/webcam/mode_sixty')
 @requires_auth
 def mode_sixty():
-    try:
+	try:
 		r = urllib2.urlopen(camera_settings() + mode + sixty)
 		x = r.read()
 		logger.log('Webcam is setting camera to 60 HZ', 'INFO')
