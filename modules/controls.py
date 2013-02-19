@@ -414,7 +414,12 @@ def xhr_controls(command):
     elif command == 'next':
         logger.log('CONTROLS :: Next', 'INFO')
         try:
-            xbmc.Player.GoNext(playerid=playerid)
+            version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
+            if version < 12:
+                xbmc.Player.GoNext(playerid=playerid)
+            else:
+                xbmc.Player.GoTo(playerid=playerid, to='next')
+
             return_response = 'success'
         except:
             logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
@@ -423,7 +428,12 @@ def xhr_controls(command):
     elif command == 'previous':
         logger.log('CONTROLS :: Previous', 'INFO')
         try:
-            xbmc.Player.GoPrevious(playerid=playerid)
+            version = xbmc.Application.GetProperties(properties=['version'])['version']['major']
+            if version < 12:
+                xbmc.Player.GoPrevious(playerid=playerid)
+            else:
+                xbmc.Player.GoTo(playerid=playerid, to='previous')
+
             return_response = 'success'
         except:
             logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
