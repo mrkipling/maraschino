@@ -71,6 +71,16 @@ $('#button_set_led_mode').toggle(function() {
       $('#webcam').replaceWith(data);
 });
 
+$('#button_ir_on_off').toggle(function() {
+  $(this).val("IR ON")
+    $.get('/xhr/webcam/turn_ir_off')
+      $('#webcam').replaceWith(data);
+}, function() {
+  $(this).val("IR OFF")
+    $.get('/xhr/webcam/turn_ir_on')
+      $('#webcam').replaceWith(data);
+});
+
 </script>
 </head>
 
@@ -120,6 +130,7 @@ $('#button_set_led_mode').toggle(function() {
 <input name="button_turn_vertical_patrol" type="button" id="button_turn_vertical_patrol" value="VP"/>
 <input name="button_turn_horizontal_patrol" type="button" id="button_turn_horizontal_patrol" value="HP"/>
 <input name="button_set_led_mode" type="button" id="button_set_led_mode" value="LED OFF"/>
+<input name="button_on_off" type="button" id="button_ir_on_off" value="IR OFF"/>
 </p>
 </div>
 <!--</body> -->
