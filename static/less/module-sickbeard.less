@@ -274,8 +274,7 @@
     }
   }
 
-  #sickbeard-list
-  {
+  #sickbeard-list {
     ul {
       overflow: auto;
       width: 100%;
@@ -288,16 +287,13 @@
       line-height: 1.5em;
       margin-top: 5px;
       padding: 5px 5px;
+      position: relative;
 
       .border-radius(4px);
 
       &:hover {
         background: url('/@{webroot}/images/alpha/fff_20.png');
       }
-    }
-
-    li {
-      position: relative;
 
       &:first-child {
         margin-top: 0;
@@ -319,13 +315,9 @@
       .show-name{
         display: block;
         padding-left: 121px;
-        padding-right: 100px;
-      }
-
-    .hd-image {
-        right: 10px;
-        position: absolute;
-        top: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }

@@ -18,12 +18,7 @@
     <ul id="{{show.tvdbid}}" class="sbshow">
       <li>
         <img src="{{show.url}}" class="show-image" />
-        <span class="show-name">{{ i }}</span>
-        {% if show.quality=='HD' %}
-        <img src="{{ url_for('static', filename='images/hd-icon.png') }}" class="hd-image"/>
-        {% else %}
-        <img src="{{ url_for('static', filename='images/sd-icon.png') }}" class="hd-image"/>
-        {% endif %}
+        <div class="show-name">{{ i }}</div>
       </li>
     </ul>
     {% endfor %}
