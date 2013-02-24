@@ -1,28 +1,21 @@
 {% extends "couchpotato/base.html" %}
-{% block couchpotato_title %}{% if couchpotato['success'] %}{{ couchpotato['movie']['library']['info']['original_title'] }}{% endif %}{% endblock %}
 
 {% block couchpotato_content %}
 {% if couchpotato['success'] %}
   {% set info = couchpotato['movie']['library'] %}
   <div id="info" class="{{couchpotato['movie']['status']['identifier']}} noscroll">
-    <div class="options" data-imdbid="{{info.info.imdb}}" data-cpid="{{couchpotato.movie.library_id}}">
-      <img class="delete" src="{{ url_for('static', filename='images/no.png')}}" title="Delete"/>
-      <img class="search" src="{{ url_for('static', filename='images/search.png')}}" title="Refresh"/>
-      <a href="http://imdb.com/title/{{info.info.imdb}}" target="_blank">
-        <img src="{{ url_for('static', filename='images/imdb.png')}}" title="IMDB" />
-      </a>
-    </div>
-    <img src="{{info['info']['images']['poster'][0]}}" alt="poster" style="float:left;" width="100px;">
-    <div style="height: 30px; width: 100px; overflow: hidden; float: left; clear: left;">
-      <div class="thumbs">
-        {%for image in info['info']['images']%}
-          {% for src in info['info']['images'][image] %}
-            <img src="{{src}}" alt="{{image}}" style="height: 28px; border: 1px white solid; cursor: pointer;">
-          {%endfor%}
-        {%endfor%}
+    <div class="left_content">
+      <div class="options" data-imdbid="{{info.info.imdb}}" data-cpid="{{couchpotato.movie.library_id}}">
+        <img class="delete" src="{{ url_for('static', filename='images/no.png')}}" title="Delete"/>
+        <img class="search" src="{{ url_for('static', filename='images/search.png')}}" title="Refresh"/>
+        <a href="http://imdb.com/title/{{info.info.imdb}}" target="_blank">
+          <img src="{{ url_for('static', filename='images/imdb.png')}}" title="IMDB" />
+        </a>
       </div>
+      <img src="{{info['info']['images']['poster'][0]}}" alt="poster">
     </div>
-    <p class="p_info">
+    <div class="right_content">
+      <h2>{{ couchpotato['movie']['library']['info']['original_title'] }}</h2>
       <table border="0">
         {% if info['info']['year'] %}
         <tr>
@@ -93,9 +86,9 @@
           </td>
         </tr>
       </table>
-    </p>
+    </div>
     {% if info['plot'] %}
-    <p style="clear: left;">
+    <p style="clear: both;">
       <br /><span style="font-weight:bold;">Plot:</span>
       <br /><span style="font-size: 0.950em;">{{info['plot']}}</span>
     </p>

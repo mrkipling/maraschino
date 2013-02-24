@@ -122,6 +122,7 @@
       overflow: hidden;
       position: relative;
       .border-radius(4px);
+      z-index: 10;
 
       &:hover {
         background: url('/@{webroot}/images/alpha/fff_20.png');
@@ -146,6 +147,7 @@
         padding-right: 5px;
         position: relative;
         cursor: pointer;
+        z-index: 1;
 
         img.poster {
           height: 100%;
@@ -393,31 +395,36 @@
     margin: 5px;
     width: 100%;
     overflow: hidden;
-    table {
-      width: 70%;
-    }
-    .thumbs{
-      width: 108px;
-      height:38px;
-      overflow: scroll;
-      white-space: nowrap;
-    }
 
-    .options{
-      margin: 5px;
-      float: right;
+    .left_content{
+      float: left;
+      width: 30%;
+
       img {
-        width: 15px;
-        height: 15px;
-        padding: 5px;
-        cursor: pointer;
-        .border-radius(4px);
-        background: url('/@{webroot}/images/alpha/fff_10.png');
+        width: 100%;
+      }
+      .options{
+        margin: 0 auto;
+        width: 100%;
+        text-align: center;
+        img {
+          width: 15px;
+          height: 15px;
+          padding: 5px;
+          cursor: pointer;
+          .border-radius(4px);
+          background: url('/@{webroot}/images/alpha/fff_10.png');
 
-        &:hover{
-          background: url('/@{webroot}/images/alpha/fff_20.png');
+          &:hover{
+            background: url('/@{webroot}/images/alpha/fff_20.png');
+          }
         }
       }
+    }
+
+    .right_content{
+      float: right;
+      width: 70%;
     }
   }
 
