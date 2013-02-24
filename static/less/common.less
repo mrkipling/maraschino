@@ -1,8 +1,9 @@
 ::-webkit-scrollbar {
-	width: 8px;
+	width: 3px;
+  z-index: 999;
 
     &:horizontal {
-      height: 8px
+      height: 1px
     }
 }
 
@@ -14,8 +15,8 @@
 
 ::-webkit-scrollbar-track {
     background: url('/@{webroot}/images/alpha/fff_20.png');
-    -webkit-border-radius: 5ex;
-    -webkit-border: 1px rgb(0, 0, 0);
+    border-radius: 5px;
+    border: 1px solid rgb(0, 0, 0);
 }
 
 ::-webkit-scrollbar-corner {
