@@ -1118,10 +1118,11 @@ $(document).ready(function() {
     var id = $(this).attr('id');
     $.get(WEBROOT + '/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
     .success(function(data){
-      if(data){
-        $('#sickbeard .episode-info .status .search').attr('src', WEBROOT + '/static/images/yes.png');
-      } else {
+      console.log(data.result);
+      if(data.result === "failure"){
         $('#sickbeard .episode-info .status .search').attr('src', WEBROOT + '/static/images/no.png');
+      } else {
+        $('#sickbeard .episode-info .status .search').attr('src', WEBROOT + '/static/images/yes.png');
       }
     })
     .error(function(){

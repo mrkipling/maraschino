@@ -415,6 +415,9 @@
         bottom: 0;
         cursor: pointer;
         .border-radius(4px);
+        border-top:1px dashed red;
+        border-right:1px dashed red;
+        border-left:1px dashed red;
 
         &:hover{
           background: url('/@{webroot}/images/alpha/fff_40.png');
@@ -428,14 +431,17 @@
       width: 100%;
       position: relative;
       margin-top: -35px;
+      text-align: center;
 
       div {
         background: url('/@{webroot}/images/alpha/fff_20.png');
         padding: 4px;
-        width: 30%;
+        width: 28%;
         height: 15px;
-        margin: 2px;
+        margin: 1%;
         float: left;
+        overflow: hidden;
+        line-height: 18px;
         .border-radius(4px);
         &:hover {
           background: url('/@{webroot}/images/alpha/fff_40.png');
