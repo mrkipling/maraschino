@@ -40,6 +40,9 @@ set_preset_1 = "30"
 set_preset_2 = "32"
 set_preset_3 = "34"
 set_preset_4 = "36"
+ir_off = "95"#
+ir_on = "94"#
+# decoder_control command 94 if turn off led/ 95 is turn on.
 # uses camera_settings
 io_output_high = "94"
 io_output_low = "95"
@@ -344,6 +347,26 @@ def set_set_preset_4():
         logger.log('Webcam is setting current posision to SET PRESET 4', 'INFO')
     except:
         logger.log('Webcam is setting current posision to SET PRESET 4 using function :: set_set_preset_4 :: Camera responded %s' % x, 'DEBUG')
+
+@app.route('/xhr/webcam/turn_ir_off')
+@requires_auth
+def turn_ir_off():
+    try:
+        r = urllib2.urlopen(control_base() + ir_off)
+        x = r.read()
+        logger.log('IR off', 'INFO')
+    except:
+        logger.log('Webcam ir setting ir off using funtion :: turn_ir_off :: Camera responded %s' % x, 'DEBUG')
+
+@app.route('/xhr/webcam/turn_ir_on')
+@requires_auth
+def turn_ir_on():
+    try:
+        r = urllib2.urlopen(control_base() + ir_on)
+        x = r.read()
+        logger.log('IR on', 'INFO')
+    except:
+        logger.log('Webcam ir setting ir off using funtion :: turn_ir_on :: Camera responded %s' % x, 'DEBUG')
 
 ### Camera control
 
