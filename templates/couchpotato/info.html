@@ -2,73 +2,73 @@
 
 {% block couchpotato_content %}
 {% if couchpotato['success'] %}
-  {% set info = couchpotato['movie']['library'] %}
+  {% set info = couchpotato['movie']['library']['info'] %}
   <div id="info" class="{{couchpotato['movie']['status']['identifier']}} noscroll">
     <div class="left_content">
-      <div class="options" data-imdbid="{{info.info.imdb}}" data-cpid="{{couchpotato.movie.library_id}}">
+      <div class="options" data-imdbid="{{info.imdb}}" data-cpid="{{couchpotato.movie.library_id}}">
         <img class="delete" src="{{ url_for('static', filename='images/no.png')}}" title="Delete"/>
         <img class="search" src="{{ url_for('static', filename='images/search.png')}}" title="Refresh"/>
-        <a href="http://imdb.com/title/{{info.info.imdb}}" target="_blank">
+        <a href="http://imdb.com/title/{{info.imdb}}" target="_blank">
           <img src="{{ url_for('static', filename='images/imdb.png')}}" title="IMDB" />
         </a>
       </div>
-      <img src="{{info['info']['images']['poster'][0]}}" alt="poster">
+      <img src="{{info['images']['poster'][0]}}" alt="poster">
     </div>
     <div class="right_content">
       <h2>{{ couchpotato['movie']['library']['info']['original_title'] }}</h2>
       <table border="0">
-        {% if info['info']['year'] %}
+        {% if info['year'] %}
         <tr>
           <td width="75" style="font-weight:bold;" align="right">Year:&nbsp;&nbsp;</td>
-          <td style="font-size: 0.95em;">{{info['info']['year']}}</td>
+          <td style="font-size: 0.95em;">{{info['year']}}</td>
         </tr>
         {% endif %}
-        {% if info['info']['rating']['imdb'] %}
+        {% if info['rating'] and info['rating']['imdb'] %}
         <tr>
           <td width="75" style="font-weight:bold;" align="right">Rating:&nbsp;&nbsp;</td>
-          <td style="font-size: 0.95em;">{{info['info']['rating']['imdb'][0]}}/10 ({{info['info']['rating']['imdb'][1]}} votes</td>
+          <td style="font-size: 0.95em;">{{info['rating']['imdb'][0]}}/10 ({{info['rating']['imdb'][1]}} votes)</td>
         </tr>
         {% endif %}
-        {% if info['info']['genres'] %}
+        {% if info['genres'] %}
         <tr>
           <td width="75" style="font-weight:bold;" align="right">Genres:&nbsp;&nbsp;</td>
-          <td style="font-size: 0.95em;">{% for genre in info['info']['genres'] %} {{genre}} {%if not loop.last%}|{%endif%} {% endfor %}</td>
+          <td style="font-size: 0.95em;">{% for genre in info['genres'] %} {{genre}} {%if not loop.last%}|{%endif%} {% endfor %}</td>
         </tr>
         {% endif %}
-        {% if info['info']['release_date']['dvd'] %}
+        {% if info['release_date']['dvd'] %}
         <tr>
           <td width="75" style="font-weight: bold;" align="right">DVD:&nbsp;&nbsp;</td>
-          <td style="font-size:0.95em;">{{info['info']['release_date']['dvd']|time}}</td>
+          <td style="font-size:0.95em;">{{info['release_date']['dvd']|time}}</td>
         </tr>
         {% endif %}
-        {% if info['info']['released'] %}
+        {% if info['released'] %}
         <tr>
           <td width="75" style="font-weight: bold;" align="right">Theater:&nbsp;&nbsp;</td>
-          <td style="font-size:0.95em;">{{info['info']['released']}}</td>
+          <td style="font-size:0.95em;">{{info['released']}}</td>
         </tr>
         {% endif %}
-        {% if info['info']['writers'] %}
+        {% if info['writers'] %}
         <tr>
           <td width="75" style="font-weight: bold;" align="right">Writers:&nbsp;&nbsp;</td>
-          <td style="font-size:0.95em;">{%for writer in info['info']['writers']%} {{writer}}{%if not loop.last%},{%endif%} {%endfor%}</td>
+          <td style="font-size:0.95em;">{%for writer in info['writers']%} {{writer}}{%if not loop.last%},{%endif%} {%endfor%}</td>
         </tr>
         {% endif %}
-        {% if info['info']['directors'] %}
+        {% if info['directors'] %}
         <tr>
           <td width="75" style="font-weight: bold;" align="right">Directors:&nbsp;&nbsp;</td>
-          <td style="font-size:0.95em;">{%for director in info['info']['directors']%} {{director}}{%if not loop.last%},{%endif%} {%endfor%}</td>
+          <td style="font-size:0.95em;">{%for director in info['directors']%} {{director}}{%if not loop.last%},{%endif%} {%endfor%}</td>
         </tr>
         {% endif %}
-        {% if info['info']['actors'] %}
+        {% if info['actors'] %}
         <tr>
           <td width="75" style="font-weight: bold;" align="right">Actors:&nbsp;&nbsp;</td>
-          <td style="font-size:0.95em;">{%for actor in info['info']['actors']%} {{actor}}{%if not loop.last%},{%endif%} {%endfor%}</td>
+          <td style="font-size:0.95em;">{%for actor in info['actors']%} {{actor}}{%if not loop.last%},{%endif%} {%endfor%}</td>
         </tr>
         {% endif %}
-        {% if info['info']['runtime'] %}
+        {% if info['runtime'] %}
         <tr>
           <td width="75" style="font-weight: bold;" align="right">Runtime:&nbsp;&nbsp;</td>
-          <td style="font-size:0.95em;">{{info['info']['runtime']}}</td>
+          <td style="font-size:0.95em;">{{info['runtime']}}</td>
         </tr>
         {% endif %}
         <tr>
