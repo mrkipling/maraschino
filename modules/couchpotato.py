@@ -103,13 +103,12 @@ def couchpotato_proxy(url):
 @app.route('/xhr/couchpotato/')
 @app.route('/xhr/couchpotato/<status>/')
 def xhr_couchpotato(status=False):
+    status_string = 'status=active'
+    template = 'couchpotato.html'
+
     if status:
         status_string = 'status=%s' % status
         template = 'couchpotato/all.html'
-    else:
-        status = 'wanted'
-        status_string = False
-        template = 'couchpotato.html'
     try:
         logger.log('CouchPotato :: Fetching "%s movies" list' % status, 'INFO')
         couchpotato = couchpotato_api('movie.list', params=status_string)
@@ -370,7 +369,7 @@ def cp_get_movie(id):
     """
     try:
         logger.log('CouchPotato :: Retrieving movie info', 'INFO')
-        result = couchpotato_api('movie.get', 'id=%s' % id)
+        result = couchpotato_api('movie.get', 'id=%s' % id, dev=True)
         try:
             logger.log('CouchPotato :: Getting quality profiles', 'INFO')
             profiles = couchpotato_api('profile.list')
