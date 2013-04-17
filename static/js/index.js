@@ -159,11 +159,6 @@ $(document).ready(function() {
           $(this).replaceWith(construct_inactive_module('synopsis', 'Synopsis'));
         });
 
-        // hide trakt module if visible
-        $('#trakt').fadeOut(200, function() {
-          $(this).replaceWith(construct_inactive_module('trakt', 'trakt.tv'));
-        });
-
         currently_playing_id = null;
 
       } else {
