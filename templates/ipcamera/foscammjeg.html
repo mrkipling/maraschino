@@ -1,0 +1,168 @@
+{% extends "ipcamera.html" %}
+
+{% block head %}
+{{ super() }}
+<script>
+$('#button_toggle_more').click(function () {
+    $(this).text($(this).text() == 'Less' ? 'More' : 'Less');
+    $('#more_buttons').toggle('slow', function () {
+        //animation complete
+});
+});
+
+$('#button_toggle_stream').click(function () {
+    $(this).text($(this).text() == 'Off' ? 'On' : 'Off');
+    $('#webstreamz').toggle('slow', function () {
+    $('#movement_buttons').toggle('slow', function () {
+        //animation complete
+});
+});
+});
+
+$('#btn_ipcamera_resolution').toggle(function() {
+  $(this).text('QVGA')
+  $.get('/xhr/ipcamera/camera_settings/resolution_vga')
+  $('#webcam').replaceWith(data); }, function() {
+    $(this).text('VGA')
+    $.get('/xhr/ipcamera/camera_settings/resolution_qvga')
+    $('#webcam').replaceWith(data);
+});
+
+$('#btn_ipcamera_vp').toggle(function () {
+    $(this).text('SVP')
+    $.get('/xhr/ipcamera/control/vertical_patrol')
+    $('#webcam').replaceWith(data); }, function() {
+    $(this).text('VP')
+    $.get('/xhr/ipcamera/control/stop_vertical_patrol')
+    $('#webcam').replaceWith(data); }, function() {
+        //animation complete
+});
+
+$('#btn_ipcamera_hp').toggle(function () {
+    $(this).text('SHP')
+    $.get('/xhr/ipcamera/control/horizontal_patrol')
+    $('#webcam').replaceWith(data); }, function() {
+    $(this).text('HP')
+    $.get('/xhr/ipcamera/control/stop_horizontal_patrol')
+    $('#webcam').replaceWith(data); }, function() {
+        //animation complete
+});
+
+$('#btn_ipcamera_ms').toggle(function () {
+    $(this).text('MS OFF')
+    $.get('/xhr/ipcamera/set_alarm/motion_armed_on')
+    $('#webcam').replaceWith(data); }, function() {
+    $(this).text('MS ON')
+    $.get('/xhr/ipcamera/set_alarm/motion_armed_off')
+    $('#webcam').replaceWith(data); }, function() {
+        //animation complete
+});
+
+$('#btn_ipcamera_ir').toggle(function () {
+    $(this).text('IR OFF')
+    $.get('/xhr/ipcamera/control/ir_on')
+    $('#webcam').replaceWith(data); }, function() {
+    $(this).text('IR ON')
+    $.get('/xhr/ipcamera/control/ir_off')
+    $('#webcam').replaceWith(data); }, function() {
+        //animation complete
+});
+
+$(document).on('mousedown', '#ipcamera #btn_ipcamera_left', function() {
+     $.get('/xhr/ipcamera/control/left', function(data) {
+     $('#ipcamera').replaceWith(data);
+     });
+});
+
+$(document).on('mouseup', '#ipcamera #btn_ipcamera_left', function() {
+     $.get('/xhr/ipcamera/control/left_stop', function(data) {
+     $('#ipcamera').replaceWith(data);
+     });
+});
+
+$(document).on('mousedown', '#ipcamera #btn_ipcamera_right', function() {
+     $.get('/xhr/ipcamera/control/right', function(data) {
+     $('#ipcamera').replaceWith(data);
+     });
+});
+
+$(document).on('mouseup', '#ipcamera #btn_ipcamera_right', function() {
+     $.get('/xhr/ipcamera/control/right_stop', function(data) {
+     $('#ipcamera').replaceWith(data);
+     });
+});
+
+$(document).on('mousedown', '#ipcamera #btn_ipcamera_up', function() {
+     $.get('/xhr/ipcamera/control/up', function(data) {
+     $('#ipcamera').replaceWith(data);
+     });
+});
+
+$(document).on('mouseup', '#ipcamera #btn_ipcamera_up', function() {
+     $.get('/xhr/ipcamera/control/up_stop', function(data) {
+     $('#ipcamera').replaceWith(data);
+     });
+});
+
+$(document).on('mousedown', '#ipcamera #btn_ipcamera_down', function() {
+     $.get('/xhr/ipcamera/control/down', function(data) {
+     $('#ipcamera').replaceWith(data);
+     });
+});
+
+$(document).on('mouseup', '#ipcamera #btn_ipcamera_down', function() {
+     $.get('/xhr/ipcamera/control/down_stop', function(data) {
+     $('#ipcamera').replaceWith(data);
+     });
+});
+
+</script>
+{% endblock %}
+
+
+<div id="content">{% block content %}
+
+<img src="{{ stream_url }}" id="webstreamz">
+
+
+<a class="button" id="button_toggle_stream" data-xhr_url="">Off</a>
+<a class="button" id="button_toggle_more" data-xhr_url="">More</a>
+
+<div class="movement" id="movement_buttons">
+    <a class="button control_base" id="btn_ipcamera_left" data-xhr_url="">Left</a>
+    <a class="button control_base" id="btn_ipcamera_right" data-xhr_url="">Right</a>
+    <a class="button control_base" id="btn_ipcamera_up" data-xhr_url="">Up</a>
+    <a class="button control_base" id="btn_ipcamera_down" data-xhr_url="">Down</a>
+
+
+<a class="button control_base" data-xhr_url="preset_1">1</a>
+<a class="button control_base" data-xhr_url="preset_2">2</a>
+<a class="button control_base" data-xhr_url="preset_3">3</a>
+<a class="button control_base" data-xhr_url="preset_4">4</a>
+<a class="button control_base" data-xhr_url="center">Center</a>
+
+<a class="button control_base" data-xhr_url="set_preset_1">Set 1</a>
+<a class="button control_base" data-xhr_url="set_preset_2">Set 2</a>
+<a class="button control_base" data-xhr_url="set_preset_3">Set 3</a>
+<a class="button control_base" data-xhr_url="set_preset_4">Set 4</a>
+<a class="button control_base" id="btn_ipcamera_vp" data-xhr_url="">VP</a>
+<a class="button control_base" id="btn_ipcamera_hp"data-xhr_url="">HP</a>
+
+<div id="more_buttons">
+    <a class="button camera_settings" data-xhr_url="fifty">50hz</a>
+    <a class="button camera_settings" data-xhr_url="sixty">60hz</a>
+    <a class="button camera_settings" data-xhr_url="outdoor">Outdoor</a>
+    <a class="button camera_settings" data-xhr_url="fam">Flip & mirror</a>
+    <a class="button camera_settings" data-xhr_url="default">Default</a>
+    <a class="button camera_settings" data-xhr_url="flip">Flip</a>
+    <a class="button camera_settings" data-xhr_url="mirror">Mirror</a>
+    <a class="button set_alarm" id="btn_ipcamera_ms" data-xhr_url="">MS ON</a>
+    <a class="button camera_settings" id="btn_ipcamera_resolution" data-xhr_url="">VGA</a>
+    <a class="button set_misc" data-xhr_url="led_mode_always_off">LED OFF</a>
+    <a class="button set_misc" data-xhr_url="led_mode_blink">LED blink</a>
+    <a class="button  set_misc" data-xhr_url="led_mode_blink_once">LED blink once</a>
+    <a class="button control_base" id="btn_ipcamera_ir" data-xhr_url="">IR ON</a>
+
+</div>
+{% endblock %}
+

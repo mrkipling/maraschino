@@ -2663,6 +2663,47 @@ $(document).ready(function() {
     }
   });
 
+  // Ip camera module
+//$('#button_toggle_more').click(function () {
+ //   $(this).text($(this).text() == 'More' ? 'Less' : 'More');
+ //   $('#shit').toggle('slow', function () {
+        //animation complete
+//});
+//});
+
+//$('#button_toggle_stream').click(function () {
+//    $(this).text($(this).text() == 'Off' ? 'On' : 'Off');
+//    $('#webstreamz').toggle('slow', function () {
+        //animation complete
+//});
+//});
+
+//$(document).on('click', '#ipcamera .control_base', function() {
+//    $.get(WEBROOT + '/xhr/ipcamera/control/' + $(this).data('xhr_url'), function(data){
+//      $('#ipcamera').replaceWith(data);
+//    });
+//  });
+
+// Start off IPCAMERA
+$(document).on('click', '#ipcamera .camera_settings', function() {
+    $.get(WEBROOT + '/xhr/ipcamera/camera_settings/' + $(this).data('xhr_url'), function(data){
+      $('#ipcamera').replaceWith(data);
+    });
+  });
+
+$(document).on('click', '#ipcamera .control_base', function() {
+    $.get(WEBROOT + '/xhr/ipcamera/control/' + $(this).data('xhr_url'), function(data){
+      $('#ipcamera').replaceWith(data);
+    });
+  });
+
+$(document).on('click', '#ipcamera .set_misc', function() {
+    $.get(WEBROOT + '/xhr/ipcamera/set_misc/' + $(this).data('xhr_url'), function(data){
+      $('#ipcamera').replaceWith(data);
+    });
+  });
+// End of IPCAMERA
+  
   // Send XBMC notification
 
   $(document).on('click', '.switch_server .message', function(){
@@ -3027,3 +3068,5 @@ $(document).ready(function() {
       e.preventDefault();
     }
   });});
+  
+  // Stared here, if its not working copy the shit higher.
