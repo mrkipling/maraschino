@@ -6,15 +6,23 @@ from feedparser import feedparser
 from maraschino.models import NewznabSite
 from maraschino.database import db_session
 from xmltodict import xmltodict
-import urllib
+
+import urllib2
 import re
+
+
+def xml_open(url):
+    headers = {'User-Agent' : 'Mozilla/5.0'}
+    req = urllib2.Request(url, None, headers)
+    response = urllib2.urlopen(req).read()
+    return xmltodict.parse(response)
 
 
 # Newznab Category List:
 def cat_newznab(url):
     categories = [{'id': '0', 'name': 'Everything'}]
     try:
-        result = xmltodict.parse(urllib.urlopen(url + '/api?t=caps&o=xml').read())
+        result = xml_open(url + '/api?t=caps&o=xml')
     except:
         return []
 
@@ -81,10 +89,10 @@ def newznab(site, category, maxage, term, mobile=False):
         if category != '0':
             url += '&cat=%s' % category
         if term:
-            url += '&q=%s' % urllib.quote(term)
+            url += '&q=%s' % urllib2.quote(term)
 
         logger.log('SEARCH :: %s :: Searching for "%s" in category: %s' % (site, term, category), 'INFO')
-        result = xmltodict.parse(urllib.urlopen(url).read())['rss']['channel']
+        result = xml_open(url)['rss']['channel']
 
         if 'item' in result:
             result = result['item']
