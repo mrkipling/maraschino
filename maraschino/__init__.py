@@ -75,7 +75,9 @@ def initialize():
 
         #set up script dir
         if not SCRIPT_DIR:
-            SCRIPT_DIR = os.path.join(RUNDIR, 'scripts')
+            SCRIPT_DIR = os.path.join(DATA_DIR, 'scripts')
+            if not os.path.exists(SCRIPT_DIR):
+                os.makedirs(SCRIPT_DIR)
 
         # check if database exists or create it
         from database import init_db
