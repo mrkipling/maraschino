@@ -1,0 +1,137 @@
+<html>
+<head>
+<script>
+$(document).ready(function() {
+    $("#button_toggle_more").toggle(function() {
+        $(this).val('Less');
+    }, function() {
+        $(this).val('More');
+    }).click(function(){
+        $("#advance").toggle("slow");
+    });
+});
+
+$(document).ready(function() {
+    $("#button_toggle_stream").toggle(function() {
+        $(this).val('ON');
+    }, function() {
+        $(this).val('OFF');
+    }).click(function(){
+        $("#webstreamz").toggle("slow");
+    });
+});
+
+$('#button_motion_armed').toggle(function() {
+  $(this).val("MS OFF")
+     $.get('/xhr/webcam/motion_armed_yes')
+        $('#webcam').replaceWith(data);
+}, function() {
+ $(this).val("MS ON")
+   $.get('/xhr/webcam/motion_armed_no')
+     $('#webcam').replaceWith(data);
+});
+
+$('#button_set_input_armed').toggle(function() {
+  $(this).val("Input OFF")
+    $.get('/xhr/webcam/set_input_armed_yes')
+      $('#webcam').replaceWith(data);
+}, function() {
+  $(this).val("Input ON")
+    $.get('/xhr/webcam/set_input_armed_no')
+      $('#webcam').replaceWith(data);
+});
+
+$('#button_turn_vertical_patrol').toggle(function() {
+  $(this).val("SVP")
+    $.get('/xhr/webcam/turn_vertical_patrol')
+      $('#webcam').replaceWith(data);
+}, function() {
+  $(this).val("VP")
+    $.get('/xhr/webcam/turn_stop_vertical_patrol')
+      $('#webcam').replaceWith(data);
+});
+
+$('#button_turn_horizontal_patrol').toggle(function() {
+  $(this).val("SHP")
+    $.get('/xhr/webcam/turn_horizontal_patrol')
+      $('#webcam').replaceWith(data);
+}, function() {
+  $(this).val("HP")
+    $.get('/xhr/webcam/turn_stop_horizontal_patrol')
+      $('#webcam').replaceWith(data);
+});
+
+$('#button_set_led_mode').toggle(function() {
+  $(this).val("LED ON")
+    $.get('/xhr/webcam/set_ir_mode_always_off')
+      $('#webcam').replaceWith(data);
+}, function() {
+  $(this).val("LED OFF")
+    $.get('/xhr/webcam/set_ir_mode_blink')
+      $('#webcam').replaceWith(data);
+});
+
+$('#button_ir_on_off').toggle(function() {
+  $(this).val("IR ON")
+    $.get('/xhr/webcam/turn_ir_off')
+      $('#webcam').replaceWith(data);
+}, function() {
+  $(this).val("IR OFF")
+    $.get('/xhr/webcam/turn_ir_on')
+      $('#webcam').replaceWith(data);
+});
+
+</script>
+</head>
+
+<!--<body>-->
+<div id="webcam" class="module" data-module="webcam">
+<div class="module_settings"><span>Settings</span></div>
+<div class="module_remove"><span>Remove</span></div>
+<h2>Ip Camera</h2>
+
+<img src="{{ stream_url }}" id="webstreamz">
+<br>
+
+<div id="webcam_buttonz">
+<input name="button_turn_down" type="button" id="button_turn_down" value="Down"/>
+<input name="button_turn_up" type="button" id="button_turn_up" value="Up"/>
+<input name="button_turn_left" type="button" id="button_turn_left" value="Left"/>
+<input name="button_turn_right" type="button" id="button_turn_right" value="Right"/>
+<input name="button_turn_center" type="button" id="button_turn_center" value="Center"/>
+<input name="button_resolution_resolution_qvga" type="button" id="button_resolution_resolution_qvga" value="QVGA"/>
+<input name="button_resolution_resolution_vga" type="button" id="button_resolution_resolution_vga" value="VGA"/>
+<input name="button_hide_streamz" type="button" id="button_toggle_stream" value="OFF"/>
+<input name="button_toggle_more"type="button" id="button_toggle_more" value="More"/>
+<br>
+<input name="button_turn_preset_1" type="button" id="button_turn_preset_1" value=" 1 "/>
+<input name="button_turn_preset_2" type="button" id="button_turn_preset_2" value=" 2 "/>
+<input name="button_turn_preset_3" type="button" id="button_turn_preset_3" value=" 3 "/>
+<input name="button_turn_preset_4" type="button" id="button_turn_preset_4" value=" 4 "/>
+<input name="button_set_preset_1" type="button" id="button_set_preset_1" value="Set 1"/>
+<input name="button_set_preset_2" type="button" id="button_set_preset_2" value="Set 2"/>
+<input name="button_set_preset_3" type="button" id="button_set_preset_3" value="Set 3"/>
+<input name="button_set_preset_4" type="button" id="button_set_preset_4" value="Set 4"/>
+</div>
+<p id="advance" class="advance">
+<input name="button_mode_fifty" type="button" id="button_mode_fifty" value="50HZ"/>
+<input name="button_mode_sixty" type="button" id="button_mode_sixty" value="60HZ"/>
+<input name="button_mode_outdoor" type="button" id="button_mode_outdoor" value="Outdoor"/>
+<input name="button_flippandmirror_default" type="button" id="button_flippandmirror_default" value="Flip & Mirror Default"/>
+<input name="button_flippandmirror_flip" type="button" id="button_flippandmirror_flip" value="Flip"/>
+<input name="button_flippandmirror_mirror" type="button" id="button_flippandmirror_mirror" value="Mirror"/>
+<input name="button_flippandmirror_fam" type="button" id="button_flippandmirror_fam" value="Flip & Mirror"/>
+<input name="button_motion_armed" type="button" id="button_motion_armed" value="MS ON"/>
+<input name="button_set_motion_sensitivity_high" type="button" id="button_set_motion_sensitivity_high" value="MS high"/>
+<input name="button_set_motion_sensitivity_medium" type="button" id="button_set_motion_sensitivity_medium" value="MS medium"/>
+<input name="button_set_motion_sensitivity_low" type="button" id="button_set_motion_sensitivity_low" value="MS low"/>
+<input name="button_set_motion_sensitivity_ultralow" type="button" id="button_set_motion_sensitivity_ultralow" value="MS ultralow"/>
+<input name="button_set_input_armed" type="button" id="button_set_input_armed" value="Input ON" />
+<input name="button_turn_vertical_patrol" type="button" id="button_turn_vertical_patrol" value="VP"/>
+<input name="button_turn_horizontal_patrol" type="button" id="button_turn_horizontal_patrol" value="HP"/>
+<input name="button_set_led_mode" type="button" id="button_set_led_mode" value="LED OFF"/>
+<input name="button_on_off" type="button" id="button_ir_on_off" value="IR OFF"/>
+</p>
+</div>
+<!--</body> -->
+</html> 

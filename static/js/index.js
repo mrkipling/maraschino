@@ -53,6 +53,10 @@ $(document).ready(function() {
     var popup = $('<div id="popup_message" class="dialog"><div class="close">x</div><p>' + message + '</p><div class="choices"><div class="cancel">OK</div></div></div>');
     $('body').append(popup);
     popup.showPopup({ dispose: true });
+    $(document).on('keydown', 'body', function() {
+      $('#popup_message .choices .cancel').click();
+      $(document).off('keydown', 'body');
+    });
   }
 
   // get/poll module
@@ -658,9 +662,7 @@ $(document).ready(function() {
 
     $.get(url, function(data) {
       $('#library').replaceWith(data);
-      var x = window.scrollX, y = window.scrollY;
       $('#library #filter input').focus();
-      window.scrollTo(x, y);
     });
   });
 
@@ -1682,7 +1684,7 @@ $(document).ready(function() {
 
   $(document).on('click', '#search #results table tbody tr td:first-child img', function(){
     var link = $(this).attr('nzb-link');
-    $.post(WEBROOT + '/sabnzbd/add/',{url: link}, function(data){
+    $.post(WEBROOT + '/sabnzbd/add/',{url: encodeURI(link)}, function(data){
       data = eval('(' + data + ')');
       if(data['status']){
         popup_message('Successfully added to SabNZBd');
@@ -3012,13 +3014,208 @@ $(document).ready(function() {
     });
   }
 
-  // Prevent body scrolling
-  $(document).on('mousewheel', 'div[class*=noscroll]', function (e, d) {
-    var height = $(this).height(),
-        scrollHeight = this.scrollHeight,
-        scrollTop = this.scrollTop;
+});
 
-    if((scrollTop === (scrollHeight - height) && d < 0) || (scrollTop === 0 && d > 0)) {
-      e.preventDefault();
-    }
-  });});
+// Web camera module
+
+// When user clicks down html element with id buttton_turn_left "call" python function 
+$(document).on('mousedown', '#webcam #button_turn_left', function() {
+     $.get('/xhr/webcam/turn_left', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+// When user releases the button with element id button_turn_left "call" python function
+$(document).on('mouseup', '#webcam #button_turn_left', function() {
+     $.get('/xhr/webcam/turn_left_stop', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('mousedown', '#webcam #button_turn_right', function() {
+     $.get('/xhr/webcam/turn_right', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('mouseup', '#webcam #button_turn_right', function() {
+     $.get('/xhr/webcam/turn_right_stop', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('mousedown', '#webcam #button_turn_up', function() {
+     $.get('/xhr/webcam/turn_up', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('mouseup', '#webcam #button_turn_up', function() {
+     $.get('/xhr/webcam/turn_up_stop', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('mousedown', '#webcam #button_turn_down', function() {
+     $.get('/xhr/webcam/turn_down', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('mouseup', '#webcam #button_turn_down', function() {
+     $.get('/xhr/webcam/turn_down_stop', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+// When button click (both down and up event) is registered on element with id button_set_preset_1. "Run" python function.
+$(document).on('click', '#webcam #button_set_preset_1', function() {
+     $.get('/xhr/webcam/set_set_preset_1', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_set_preset_2', function() {
+     $.get('/xhr/webcam/set_set_preset_2', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_set_preset_3', function() {
+     $.get('/xhr/webcam/set_set_preset_3', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_set_preset_4', function() {
+     $.get('/xhr/webcam/set_set_preset_4', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_turn_preset_1', function() {
+     $.get('/xhr/webcam/turn_preset_1', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_turn_preset_2', function() {
+     $.get('/xhr/webcam/turn_preset_2', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_turn_preset_3', function() {
+     $.get('/xhr/webcam/turn_preset_3', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_turn_preset_4', function() {
+     $.get('/xhr/webcam/turn_preset_4', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_turn_center', function() {
+     $.get('/xhr/webcam/turn_center', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_resolution_resolution_qvga', function() {
+     $.get('/xhr/webcam/resolution_resolution_qvga', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_resolution_resolution_vga', function() {
+     $.get('/xhr/webcam/resolution_resolution_vga', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_mode_fifty', function() {
+     $.get('/xhr/webcam/mode_fifty', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_mode_sixty', function() {
+     $.get('/xhr/webcam/mode_sixty', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_mode_outdoor', function() {
+     $.get('/xhr/webcam/mode_outdoor', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_flippandmirror_default', function() {
+     $.get('/xhr/webcam/flippandmirror_default', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_flippandmirror_flip', function() {
+     $.get('/xhr/webcam/flippandmirror_flip', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_flippandmirror_mirror', function() {
+     $.get('/xhr/webcam/flippandmirror_mirror', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_flippandmirror_fam', function() {
+     $.get('/xhr/webcam/flippandmirror_fam', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_set_motion_sensitivity_high', function() {
+     $.get('/xhr/webcam/set_motion_sensitivity_high', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_set_motion_sensitivity_medium', function() {
+     $.get('/xhr/webcam/set_motion_sensitivity_medium', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_set_motion_sensitivity_low', function() {
+     $.get('/xhr/webcam/set_motion_sensitivity_low', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+$(document).on('click', '#webcam #button_set_motion_sensitivity_ultralow', function() {
+     $.get('/xhr/webcam/set_motion_sensitivity_ultralow', function(data) {
+     $('#webcam').replaceWith(data);
+     });
+});
+
+//$(document).on('click', '#webcam #button_set_led_mode_always_off', function() {
+ //    $.get('/xhr/webcam/set_led_mode_always_off', function(data) {
+ //    $('#webcam').replaceWith(data);
+//     });
+//});
+
+//$(document).on('click', '#webcam #button_set_led_mode_blink', function() {
+//     $.get('/xhr/webcam/set_led_blink', function(data) {
+//     $('#webcam').replaceWith(data);
+//     });
+//});
+
+//$(document).on('click', '#webcam #button_set_led_mode_blink_once', function() {
+//     $.get('/xhr/webcam/set_led_blink_once', function(data) {
+//     $('#webcam').replaceWith(data);
+//     });
+//});
+
+// END OF WEBCAM CONTROLS
