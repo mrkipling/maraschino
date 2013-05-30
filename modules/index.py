@@ -141,7 +141,8 @@ def index():
         webroot=maraschino.WEBROOT,
         kiosk=maraschino.KIOSK,
         new_tab=new_tab,
-        title_color=get_setting_value('title_color')
+        title_color=get_setting_value('title_color'),
+        remote_inactivity_enable=get_setting_value('remote_inactivity_enable')
     )
 
 @app.route('/xhr/shutdown')
