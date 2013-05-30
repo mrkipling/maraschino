@@ -2183,7 +2183,7 @@ $(document).ready(function() {
 
   /********* END Trakt Plus *********/
 
-    /*****WEATHER CLOCK*****/
+  /*****WEATHER CLOCK*****/
   setInterval( function() {
     var seconds = new Date().getSeconds();
     $('#weather .sec').text(( seconds < 10 ? '0' : '' ) + seconds);
@@ -2227,6 +2227,90 @@ $(document).ready(function() {
     $('#weather tr.forecast').toggle();
   });
   /*****END WEATHER CLOCK*****/
+
+  /*****START IPCamera*****/
+  $(document).on('click', '#ipcamera .menu li', function () {
+    var text = $(this).text();
+    var alternate_text = $(this).data('alternate-text');
+    var id = $(this).attr('id');
+    if (id === 'more') {
+      $('#more_buttons').slideToggle('slow');
+    } else if (id === 'stream'){
+      $('#webstreamz').slideToggle('slow');
+      $('#movement_buttons').slideToggle('slow');
+    }
+    console.log($(this));
+    $(this).children("span").html(alternate_text);
+    $(this).data('alternate-text', text);
+  });
+
+  $(document).on('click', '#ipcamera .toggle', function () {
+    var text = $(this).text();
+    var alternate_text = $(this).data('alternate-text');
+    var command = false;
+    var id = $(this).attr('id');
+    if (id === 'resolution'){
+      command = 'camera_settings/resolution_' + alternate_text.toLowerCase();
+    } else if (id === 'vp') {
+      if (text === 'VP') {
+        command = 'control_base/vertical_patrol';
+      } else {
+        command = 'control_base/stop_vertical_patrol';
+      }
+    } else if (id === 'hp'){
+      if (text === 'HP') {
+        command = 'control_base/horizontal_patrol';
+      } else {
+        command = 'control_base/stop_horizontal_patrol';
+      }
+    } else if (id === 'ms') {
+      if(text === 'MS ON'){
+        command = 'set_alarm/motion_armed_on';
+      } else {
+        command = 'set_alarm/motion_armed_off';
+      }
+    } else if (id === 'ir'){
+      if(text === 'IR ON'){
+        command = 'control_base/ir_on';
+      } else {
+        command = 'control_base/ir_off';
+      }
+    }
+    $(this).text(alternate_text);
+    $(this).data('alternate-text', text);
+    if(command){
+      $.get('/xhr/ipcamera/' + command, function(data){
+        if(!data.status){
+          popup_message('Error connecting to camera. Check log for further details.');
+        }
+      });
+    }
+  });
+
+  $(document).on('mousedown', '#ipcamera .movement .direction', function() {
+      $.get('/xhr/ipcamera/control_base/'+$(this).attr('id'), function(data) {
+        if(!data.status){
+          popup_message('Error connecting to camera. Check log for further details.');
+        }
+      });
+  });
+
+  $(document).on('mouseup', '#ipcamera .movement .direction', function() {
+    $.get('/xhr/ipcamera/control_base/'+$(this).attr('id')+'_stop', function(data) {
+      if(!data.status){
+        popup_message('Error connecting to camera. Check log for further details.');
+      }
+    });
+  });
+
+  $(document).on('click', '#ipcamera .custom', function() {
+    $.get('/xhr/ipcamera/'+$(this).data('command'), function(data) {
+      if(!data.status){
+        popup_message('Error connecting to camera. Check log for further details.');
+      }
+    });
+  });
+  /*****END IPCamera*****/
 
   function add_loading_gif(element) {
     $(element).append('<img src="' + WEBROOT + '/static/images/xhrloading.gif" class="xhrloading" width="18" height="15" alt="Loading...">');
@@ -2545,10 +2629,6 @@ $(document).ready(function() {
   $(document).on('click', '.enter_server_settings', function() {
     $('li#server_settings .add_server').click();
   });
-
-
-
-
 
   /*--- server settings dialog ---*/
 
@@ -3026,3 +3106,5 @@ $(document).ready(function() {
       e.preventDefault();
     }
   });});
+
+  // Stared here, if its not working copy the shit higher.
