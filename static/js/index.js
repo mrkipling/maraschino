@@ -1095,7 +1095,11 @@ $(document).ready(function() {
   // Add show function
 
   $(document).on('click', '#sickbeard #sb_search #result li', function(){
-    $.get(WEBROOT + '/sickbeard/add_show/'+$(this).attr('tvdbid'))
+    var status = $('#sb_search #status').find(':selected').val();
+    var lang = $('#sb_search #lang').find(':selected').val();
+    var initial = $('#sb_search #quality').find(':selected').val();
+    var params = 'lang='+lang+'&status='+status+'&initial='+initial;
+    $.get(WEBROOT + '/sickbeard/add_show/'+$(this).attr('tvdbid')+'/?'+params)
     .success(function(data){
       popup_message(data);
     })

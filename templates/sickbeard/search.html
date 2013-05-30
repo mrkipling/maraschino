@@ -3,7 +3,50 @@
 {% block sickbeard_content %}
 
 <div id="sb_search">
-  <div id="result" class="noscroll">
+    <select name="quality" id="quality">
+        <option value="" disabled selected>Quality</option>
+        <option value="sdtv">SD</option>
+        <option value="sddvd">SD DVD</option>
+        <option value="hdtv">HD</option>
+        <option value="hdwebdl">HD WebDL</option>
+        <option value="hdbluray">BluRay</option>
+        <option value="fullhdbluray">FullHD BluRay</option>
+        <option value="unknown">Unknown</option>
+    </select>
+    <select name="status" id="status">
+        <option value="" disabled selected>Status</option>
+        <option value="wanted">Wanted</option>
+        <option value="skipped">Skipped</option>
+        <option value="archived">Archived</option>
+        <option value="ignored">Ignored</option>
+    </select>
+    <select name="lang" id="lang">
+        <option value="" disabled selected>Language</option>
+        <option value="en">en</option>
+        <option value="zh">zh</option>
+        <option value="hr">hr</option>
+        <option value="cs">cs</option>
+        <option value="da">da</option>
+        <option value="nl">nl</option>
+        <option value="fi">fi</option>
+        <option value="fr">fr</option>
+        <option value="de">de</option>
+        <option value="el">el</option>
+        <option value="he">he</option>
+        <option value="hu">hu</option>
+        <option value="it">it</option>
+        <option value="ja">ja</option>
+        <option value="ko">ko</option>
+        <option value="no">no</option>
+        <option value="pl">pl</option>
+        <option value="pt">pt</option>
+        <option value="ru">ru</option>
+        <option value="sl">sl</option>
+        <option value="es">es</option>
+        <option value="sv">sv</option>
+        <option value="tr">tr</option>
+    </select>
+    <div id="result" class="noscroll">
     {% if data %}
       <ul class="tablesorter">
       {% for item in data %}
@@ -11,7 +54,7 @@
       {% endfor %}
       </ul>
     {% endif %}
-  </div>
+    </div>
 </div>
 
 {% endblock %}

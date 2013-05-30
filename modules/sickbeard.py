@@ -303,6 +303,18 @@ def sb_search():
 @app.route('/sickbeard/add_show/<tvdbid>/')
 def add_show(tvdbid):
     params = '/?cmd=show.addnew&tvdbid=%s' % tvdbid
+    status = urllib2.quote(request.args['status'])
+    lang = urllib2.quote(request.args['lang'])
+    initial = urllib2.quote(request.args['initial'])
+    if status:
+        params += '&status=%s' % status
+
+    if lang:
+        params += '&lang=%s' % lang
+
+    if initial:
+        params += '&initial=%s' % initial
+
     try:
         sickbeard = sickbeard_api(params)
     except:
