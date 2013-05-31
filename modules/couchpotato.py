@@ -102,25 +102,21 @@ def couchpotato_proxy(url):
 
 @app.route('/xhr/couchpotato/')
 @app.route('/xhr/couchpotato/<status>/')
-def xhr_couchpotato(status=False):
-    status_string = 'status=active'
+def xhr_couchpotato(status='active'):
+    status_string = 'status=%s' % status
     template = 'couchpotato.html'
 
-    if status:
-        status_string = 'status=%s' % status
+    if status is not 'active':
         template = 'couchpotato/all.html'
     try:
         logger.log('CouchPotato :: Fetching "%s movies" list' % status, 'INFO')
         couchpotato = couchpotato_api('movie.list', params=status_string)
-        if couchpotato['success'] and not couchpotato['empty']:
-            couchpotato = couchpotato['movies']
 
     except Exception as e:
         log_exception(e)
         couchpotato = None
 
     logger.log('CouchPotato :: Fetching "%s movies" list (DONE)' % status, 'INFO')
-
     if status == 'wanted' and not type(couchpotato) is list:
         logger.log('CouchPotato :: Wanted movies list is empty', 'INFO')
         return cp_search('There are no movies in your wanted list.')

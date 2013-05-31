@@ -22,14 +22,18 @@
             <p>{{item.plot}}</p>
           </div>
           <div class="choices">
-            {% if profiles %}
-              <select class="profiles">
-                {% for profile in profiles.list %}
-                  <option value="{{profile.id}}">{{profile.label}}</option>
-                {% endfor %}
-              </select>
+            {% if item.in_library %}
+              <span>IN LIBRARY</span>
+            {% else %}
+              {% if profiles %}
+                <select class="profiles">
+                  {% for profile in profiles.list %}
+                    <option value="{{profile.id}}">{{profile.label}}</option>
+                  {% endfor %}
+                </select>
+              {% endif %}
+              <span class="add">Add</span>
             {% endif %}
-            <span class="add">Add</span>
           </div>
         </li>
       {% endfor %}

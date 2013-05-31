@@ -11,7 +11,7 @@
 {% block couchpotato_content %}
 
 <div id="cp_content" class="noscroll{% if compact_view %} compact{%endif%}">
-  {% for item in couchpotato %}
+  {% if not couchpotato.empty %}{% for item in couchpotato.movies %}
     <div class="movie {{ 'releases' if item.releases }}" id="{{item.library.identifier}}" data-cpid="{{item.id}}">
       <div class="{{item.releases.status}}"></div>
       {% if not compact_view %}
@@ -69,6 +69,9 @@
       {% endif %}
     </div>
   {% endfor %}
+  {% else %}
+    <center>No Movies To Show</center>
+  {% endif %}
 </div>
 
 {% endblock %}

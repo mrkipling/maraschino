@@ -11,7 +11,7 @@
 {% block couchpotato_content %}
 
 <div id="all" class="noscroll">
-  {% for item in couchpotato %}
+  {% for item in couchpotato.movies %}
     <div class="movie" id="{{item.library.identifier}}" data-cpid="{{item.library_id}}">
       <div class="{{item.releases.status}}"></div>
       <img class="poster"

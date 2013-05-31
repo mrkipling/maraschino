@@ -1395,7 +1395,9 @@ $(document).ready(function() {
     $.get(WEBROOT + '/xhr/couchpotato/history/')
     .success(function(data){
       $('#couchpotato').replaceWith(data);
-      $('#couchpotato .menu').prepend('<li class="mark_read" title="Mark all notifications as read"><span>Mark All as Read</span></li>');
+      if($('span#unread').text() != '0'){
+        $('#couchpotato .menu').prepend('<li class="mark_read" title="Mark all notifications as read"><span>Mark All as Read</span></li>');
+      }
     });
   });
   // Load search results
