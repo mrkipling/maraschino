@@ -1,0 +1,71 @@
+@import "mixins.less";
+#ipcamera {
+    .menu {
+        li {
+            text-indent: 0;
+        }
+    }
+
+    img#webstreamz {
+        display: block;
+        max-width: 98%;
+        height: auto;
+        margin: auto;
+    }
+
+    .button {
+        background: url('/@{webroot}/images/alpha/fff_10.png');
+        border: 1px solid #222;
+        color: white;
+        cursor: pointer;
+        padding: 4px;
+        margin: 6px;
+        line-height: 20px;
+        height: 20px;
+        white-space: nowrap;
+        display: block;
+        text-align: center;
+        .border-radius(4px);
+        &:hover {
+          background: url('/@{webroot}/images/alpha/fff_20.png');
+        }
+    }
+
+    #movement_buttons {
+        display: block;
+        .left {
+            float: left;
+            width: 25%;
+        }
+        .middle {
+            background: url('/static/images/alpha/fff_10.png');
+            float: left;
+            width: 40%;
+            text-align: center;
+            margin-top: 44px;
+            margin-left: 5%;
+            .border-radius(10px);
+            a {
+                padding: 4px;
+                overflow: hidden;
+                font-size: 8px;
+                width: 20%;
+                display: inline-block;
+                margin: 2px;
+            }
+        }
+        .right {
+            float: right;
+            width: 25%;
+        }
+    }
+    #more_buttons {
+        display: none;
+        clear: both;
+        .button {
+            display: inline-block;
+            width: 28%;
+            margin: 1%;
+        }
+    }
+}

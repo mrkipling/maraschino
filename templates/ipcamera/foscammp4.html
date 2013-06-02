@@ -1,0 +1,10 @@
+{% extends "ipcamera.html" %}
+
+{% block content %}
+  <video id="webstreamz" width="auto" height="auto" controls>
+    <source src="{{ stream_url }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <br>
+{% endblock %}
+

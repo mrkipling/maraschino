@@ -1,0 +1,56 @@
+<div id="ipcamera" class="module" data-module="ipcamera">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+  <h2>IP Camera</h2>
+  <ul class="menu">
+    <li id="more" data-alternate-text="-"><span>+</span></li>
+    <li id="stream" data-alternate-text="ON"><span>OFF</span></li>
+  </ul>
+  <div id="content">
+
+    {% block stream %}{% endblock %}
+
+    <div class="movement" id="movement_buttons">
+      <div class="left">
+        <a class="button custom" data-command="control_base/preset_1">Preset 1</a>
+        <a class="button custom" data-command="control_base/preset_2">Preset 2</a>
+        <a class="button custom" data-command="control_base/preset_3">Preset 3</a>
+        <a class="button custom" data-command="control_base/preset_4">Preset 4</a>
+        <a class="button toggle" id="vp" data-alternate-text="VP OFF">VP</a>
+      </div>
+      <div class="middle">
+        <a class="button direction" id="up">U</a><br>
+        <a class="button direction" id="left">L</a>
+        <a class="button custom" data-command="control_base/center">C</a>
+        <a class="button direction" id="right">R</a><br>
+        <a class="button direction" id="down">D</a>
+      </div>
+      <div class="right">
+        <a class="button custom" data-command="control_base/set_preset_1">Set 1</a>
+        <a class="button custom" data-command="control_base/set_preset_2">Set 2</a>
+        <a class="button custom" data-command="control_base/set_preset_3">Set 3</a>
+        <a class="button custom" data-command="control_base/set_preset_4">Set 4</a>
+        <a class="button toggle" id="hp" data-alternate-text="HP OFF">HP</a>
+      </div>
+      <br>
+    </div>
+
+    <div id="more_buttons">
+      <a class="button custom" data-command="camera_settings/fifty">50hz</a>
+      <a class="button custom" data-command="camera_settings/sixty">60hz</a>
+      <a class="button custom" data-command="camera_settings/outdoor">Outdoor</a>
+      <a class="button custom" data-command="camera_settings/fam">Flip &amp; mirror</a>
+      <a class="button custom" data-command="camera_settings/default">Default</a>
+      <a class="button custom" data-command="camera_settings/flip">Flip</a>
+      <a class="button custom" data-command="camera_settings/mirror">Mirror</a>
+      <a class="button toggle" id="ms" data-alternate-text="MS OFF">MS ON</a>
+      <a class="button toggle" id="resolution" data-alternate-text="QVGA">VGA</a>
+      <a class="button custom" data-command="set_misc/led_mode_always_off">LED OFF</a>
+      <a class="button custom" data-command="set_misc/led_mode_blink">LED blink</a>
+      <a class="button custom" data-command="set_misc/led_mode_blink_once">LED blink once</a>
+      <a class="button toggle" id="ir" data-alternate-text="IR OFF">IR ON</a>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
