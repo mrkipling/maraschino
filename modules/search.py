@@ -2,30 +2,31 @@ from flask import render_template, jsonify, request
 
 from maraschino.tools import requires_auth, get_setting_value, convert_bytes
 from maraschino import app, logger
-from feedparser import feedparser
 from maraschino.models import NewznabSite
 from maraschino.database import db_session
 from xmltodict import xmltodict
 import urllib
-import re
 
 
 # Newznab Category List:
 def cat_newznab(url):
     categories = [{'id': '0', 'name': 'Everything'}]
+
     try:
         result = xmltodict.parse(urllib.urlopen(url + '/api?t=caps&o=xml').read())
     except:
         return []
 
     for cat in result['caps']['categories']['category']:
-        category = {'label': cat['@name'], 'id': cat['@id']}
-        category['value'] = [{'name': x['@name'], 'id': x['@id']} for x in cat['subcat']]
-
-        for subcat in category['value']:
-            subcat['name'] = '%s: %s' % (category['label'], subcat['name'])
+        category = {'id': cat['@id'], 'label': cat['@name'], 'value': {}}
+        i = 0
+        for x in cat['subcat']:
+            try:
+                category['value'][i] = {'name': x['@name'], 'id': x['@id']}
+                i += 1
+            except Exception, e:
+                pass
         categories.append(category)
-
     return categories
 
 
@@ -78,12 +79,12 @@ def newznab(site, category, maxage, term, mobile=False):
 
     try:
         url += '/api?t=search&o=xml&apikey=%s&maxage=%s' % (apikey, maxage)
-        if category != '0':
+        if category != '0' and category != 'undefined':
             url += '&cat=%s' % category
         if term:
             url += '&q=%s' % urllib.quote(term)
 
-        logger.log('SEARCH :: %s :: Searching for "%s" in category: %s' % (site, term, category), 'INFO')
+        logger.log('SEARCH :: %s :: Searching for "%s" in category: %s, max age: %s' % (newznab.name, term, category, maxage), 'INFO')
         result = xmltodict.parse(urllib.urlopen(url).read())['rss']['channel']
 
         if 'item' in result:

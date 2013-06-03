@@ -17,8 +17,8 @@
           {% for cat in categories %}
             {% if cat.label %}
               <option {% if "%s"|format(cat.id) == category %}selected{% endif %} value="{{cat.id}}">{{cat.label}}</option>
-              {% for subcat in cat.value %}
-                <option {% if "%s"|format(subcat.id) == category %}selected{% endif %} value="{{subcat.id}}">- {{subcat.name}}</option>
+              {% for x in cat.value %}
+                <option {% if "%s"|format(cat.value[x].id) == category %}selected{% endif %} value="{{cat.value[x].id}}">- {{cat.value[x].name}}</option>
               {% endfor %}
             {% else %}
               <option value="{{cat.id}}">{{cat.name}}</option>
