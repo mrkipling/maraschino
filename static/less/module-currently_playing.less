@@ -20,26 +20,28 @@
       }
       p {
         margin-left: 20px;
-        margin-top: -20px;
-        width: 500px;
+        margin-top: -30px;
+        width: 25%;
       }
     }
-    .volume {
-      display: none;
-    }
     .controls {
+      margin-top: -5px;
+      width: 50%;
       div{
         margin-top: -15px;
         height: 20px;
         width: 20px;
         background-size: 20px;
       }
+      .volume {
+        display: none;
+      }
     }
     span.playlist {
       display: none;
     }
     .progress {
-      margin-top: -10px;
+      margin-top: -15px;
     }
     .visibility {
       top: -29px;
@@ -59,7 +61,7 @@
       bottom: 10px;
       left: 10px;
       height: auto;
-      max-width: 130px;
+      max-width: 8%;
       .box-shadow(#000, 0, 0, 15px);
     }
 
@@ -68,7 +70,7 @@
       position: fixed;
       bottom: 10px;
       left: 10px;
-      max-width: 200px;
+      max-width: 13.2%;
       height: auto;
       .box-shadow(#000, 0, 0, 15px);
     }
@@ -77,7 +79,7 @@
       position: fixed;
       bottom: 10px;
       left: 10px;
-      max-width: 100px;
+      max-width: 10%;
       height: auto;
       .box-shadow(#000, 0, 0, 15px);
     }
@@ -85,7 +87,7 @@
     .item_info {
       float: left;
       line-height: 1.5em;
-      width: 400px;
+      width: 25%;
 
       .show:hover,
       .season:hover,
@@ -99,13 +101,13 @@
         margin: 0 3px;
       }
     }
-  
+
     .item_info_artist  {
       float: left;
       position: relative;
-      margin-left: 132px;
+      margin-left: 8.2%;
       line-height: 1.5em;
-      width: 400px;
+      width: 25%;
 
       .artist:hover,
       .album:hover  {
@@ -121,9 +123,9 @@
     .item_info_show  {
       float: left;
       position: relative;
-      margin-left: 202px;
+      margin-left: 13.2%;
       line-height: 1.5em;
-      width: 400px;
+      width: 25%;
 
       .show:hover,
       .season:hover,
@@ -140,26 +142,30 @@
     .item_info_movie  {
       float: left;
       position: relative;
-      margin-left: 102px;
+      margin-left: 10.2%;
       line-height: 1.5em;
-      width: 400px;
+      width: 25%;
 
       .movie:hover {
         border-bottom: 1px solid #555;
         cursor: pointer;
       }
     }
+    img {
+      min-width: 120px;
+    }
   }
   .controls {
-    margin-left: 45%;
-    margin-top: 10px;
-    width: 260px;
+    margin-left: 25%;
+    margin-top: -10px;
+    width: 50%;
+    text-align: center;
 
-    div {
+    .div {
       margin: 2px;
       border: 2px solid #333;
       cursor: pointer;
-      float: left;
+      display:inline-block;
       height: 30px;
       text-indent: -9999px;
       width: 30px;
@@ -220,6 +226,49 @@
     #repeat_all {
       background: #444 url('/@{webroot}/images/player_buttons/repeat_all.png') no-repeat center;
     }
+    .volume {
+      margin-left:10px;
+      display: inline-block;
+      margin-bottom: -20px;
+      line-height: 50px;
+      width: 5px;
+      height: 50px;
+      position: relative;
+      cursor: pointer;
+      border: 1px solid #777;
+      .border-radius(3px);
+
+      .volume-icon{
+        background: url('/@{webroot}/images/player_buttons/volume.png') no-repeat center;
+        position: absolute;
+        left: -2px;
+        bottom: -20px;
+        height: 15px;
+        width: 15px;
+      }
+
+      .bar {
+        position: absolute;
+        left: 0;
+        background-color: white;
+        width: 100%;
+        bottom: 0;
+
+        .inner {
+          background-color: white;
+          margin: 0 auto;
+          text-align: center;
+        }
+      }
+      #tooltip {
+        display: none;
+        font-size: 80%;
+        margin-left: 10px;
+        height: 0px;
+        padding:2px;
+        text-align: center;
+      }
+    }
   }
 
   .progress {
@@ -227,34 +276,34 @@
     font-size: 0.9em;
     height: 40px;
     position: relative;
-    width: 400px;
+    width: 25%;
     cursor: pointer;
-    
+
     .current {
       bottom: 8px;
       left: 0;
       position: absolute;
     }
-    
+
     .total {
       bottom: 8px;
       right: 0;
       position: absolute;
     }
-    
+
     .bar {
       border: 1px solid #777;
       height: 5px;
       margin-top: 8px;
-      width: 398px;
+      width: 99%;
       .border-radius(3px);
-      
+
       .inner {
         background-color: #eee;
         height: 5px;
       }
     }
-    
+
     #tooltip {
       font-size: 80%;
       width:40px;
@@ -266,55 +315,13 @@
 
     #tooltip:after {
       display: block;
-      content: "";  
+      content: "";
       border-color: white transparent transparent transparent;
       border-style: solid;
       border-width: 5px;
       height:0;
       width:0;
       margin: 0 auto;
-    }
-  }
-  .volume {
-    margin-left:10px;
-    float: left;
-    margin-top: -10px;
-    line-height: 50px;
-    width: 5px;
-    height: 50px;
-    position: relative;
-    cursor: pointer;
-    border: 1px solid #777;
-    .border-radius(3px);
-    
-    .volume-icon{
-      background: url('/@{webroot}/images/player_buttons/volume.png') no-repeat center;
-      position: absolute;
-      left: -2px;
-      bottom: -20px;
-      height: 15px;
-      width: 15px;
-    }
-
-    .bar {
-      position: absolute;
-      left: 0; 
-      background-color: white;
-      width: 100%; 
-      bottom: 0;
-      
-      .inner {
-        background-color: white;
-        margin: 0 auto; 
-        text-align: center;
-      }
-    }
-    #tooltip {
-      font-size: 80%;
-      height: 50px;
-      margin-left: 10px;
-      padding:2px;
-      text-align: center;
     }
   }
 

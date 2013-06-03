@@ -333,7 +333,7 @@ $(document).ready(function() {
   });
 
   // Volume Function
-  $(document).on('click', '#currently_playing .volume', function(e){
+  $(document).on('click', '#currently_playing .controls .volume', function(e){
     var y = e.pageY - $(this).offset().top;
     var percent = Math.round((y / $(this).height())*100);
     if(percent < 0){percent = 0;}
@@ -344,7 +344,7 @@ $(document).ready(function() {
     });
   });
 
-  $(document).on('mouseenter', '#currently_playing .volume', function(e){
+  $(document).on('mouseenter', '#currently_playing .controls .volume', function(e){
     var y = e.pageY - $(this).offset().top;
     var percent = Math.round((y / $(this).height())*100);
     if(percent < 0){percent = 0;}
@@ -353,7 +353,7 @@ $(document).ready(function() {
     $(this).children('div#tooltip').css('margin-top', (10*(percent-50))+'%');
   });
 
-  $(document).on('mousemove', '#currently_playing .volume', function(e){
+  $(document).on('mousemove', '#currently_playing .controls .volume', function(e){
     var y = e.pageY - $(this).offset().top;
     var percent = Math.round((y / $(this).height())*100);
     if(percent < 0){percent = 0;}

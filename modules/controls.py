@@ -372,6 +372,7 @@ def xhr_change_channel(channelid):
 def xhr_controls(command):
     serversettings = server_settings()
     xbmc = jsonrpclib.Server(server_api_address())
+    return_response = 'failed'
 
     try:
         active_player = xbmc.Player.GetActivePlayers()
