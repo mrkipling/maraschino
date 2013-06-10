@@ -1,0 +1,106 @@
+{% extends "/xbmcmm/modals/template.html" %}
+{% block modal_title %}
+	{% if shows %}
+		Search results for: {{ show_name }}
+	{% endif %}
+
+  {% if show %}
+    <a href="http://thetvdb.com/?tab=series&id={{ show.id }}" target="_blank">{{ show_name }} on TVDB</a>
+  {% endif %}
+{% endblock %}
+{% block modal_content %}
+	{% if show %}
+    <span class="badge badge-info">Empty fields will be ignored</span>
+		<form class="form-horizontal span5 scrape_info_form">
+    	<fieldset>
+
+    		{% if show.seriesname %}
+					<div class="control-group">
+            <label class="control-label" for="title">Title</label>
+            <div class="controls">
+              <input id="title" type="text" value="{{ show.seriesname }}">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="originaltitle">Original Title</label>
+            <div class="controls">
+              <input id="originaltitle" type="text" value="{{ show.seriesname }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if show.overview %}
+          <div class="control-group">
+            <label class="control-label" for="plot">Plot</label>
+            <div class="controls">
+              <textarea type="text" id="plot">{{ show.overview }}</textarea>
+            </div>
+          </div>
+        {% endif %}
+
+        {% if show.genre %}
+          <div class="control-group">
+            <label class="control-label" for="genre">Genre</label>
+            <div class="controls">
+              <input id="genre" type="text" value="{{ show.genre }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if show.firstaired %}
+          <div class="control-group">
+            <label class="control-label" for="premiered">Premiered</label>
+            <div class="controls">
+              <input id="premiered" type="text" value="{{ show.firstaired }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if show.rating %}
+          <div class="control-group">
+            <label class="control-label" for="rating">Rating</label>
+            <div class="controls">
+              <input id="rating" type="text" value="{{ show.rating }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if show.contentrating %}
+          <div class="control-group">
+            <label class="control-label" for="mpaa">Certification</label>
+            <div class="controls">
+              <input id="mpaa" type="text" value="Rated {{ show.contentrating }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if show.network %}
+          <div class="control-group">
+            <label class="control-label" for="studio">Studio</label>
+            <div class="controls">
+              <input id="studio" type="text" value="{{ show.network }}">
+            </div>
+          </div>
+        {% endif %}
+
+    	<fieldset>
+	  </form>
+
+	{% elif shows %}
+		<ul class="nav nav-list tvdb_show_list">
+			{% for show in shows %}
+				<li data-id="{{ show.id }}" data-title="{{ show.seriesname }}"><a href="#">{{ show.seriesname }}</a></li>
+				<li class="divider"></li>
+			{% endfor %}
+		</ul>
+
+  {% else %}
+    <p>{{ message }}</p>
+	{% endif %}
+
+{% endblock %}
+{% block modal_footer %}
+  <a href="#" class="btn btn-primary scrape_info_save_btn">Apply changes</a>
+{% endblock %}
+

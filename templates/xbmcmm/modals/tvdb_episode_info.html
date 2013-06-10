@@ -1,0 +1,87 @@
+{% extends "/xbmcmm/modals/template.html" %}
+{% block modal_title %}
+{% if episode %}
+  <a 
+    href="http://www.thetvdb.com/?tab=episode&seriesid={{ episode.seriesid }}&seasonid={{ episode.seasonid }}&id={{ episode.id }}"
+    target="_blank"
+  >
+    {{ title }} on TVDB
+  </a>
+{% endif %}
+{% endblock %}
+{% block modal_content %}
+{% if episode %}
+  <span class="badge badge-info">Empty fields will be ignored</span>
+  <form class="form-horizontal span5 scrape_info_form">
+    <fieldset>
+      {% if episode.episodename %}
+        <div class="control-group">
+          <label class="control-label" for="title">Title</label>
+          <div class="controls">
+            <input id="title" name="title" type="text" value="{{ episode.episodename }}">
+          </div>
+        </div>
+      {% endif %}
+
+      {% if episode.overview %}
+        <div class="control-group">
+          <label class="control-label" for="plot">Plot</label>
+          <div class="controls">
+            <textarea type="text" id="plot" name="plot">{{ episode.overview }}</textarea>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if episode.firstaired %}
+        <div class="control-group">
+          <label class="control-label" for="firstaired">First Aired</label>
+          <div class="controls">
+            <input id="firstaired" name="firstaired" type="text" value="{{ episode.firstaired }}">
+          </div>
+        </div>
+      {% endif %}
+
+      {% if episode.rating %}
+        <div class="control-group">
+          <label class="control-label" for="rating">Rating</label>
+          <div class="controls">
+            <input id="rating" name="rating" type="text" value="{{ episode.rating|float|round(1, 'common') }}">
+          </div>
+        </div>
+      {% endif %}
+
+      {% if episode.director %}
+        <div class="control-group">
+          <label class="control-label" for="director">Director</label>
+          <div class="controls">
+            <input id="director" name="director" type="text" value="{{ episode.director }}">
+          </div>
+        </div>
+      {% endif %}
+
+      {% if episode.writer %}
+        <div class="control-group">
+          <label class="control-label" for="writer">Writer</label>
+          <div class="controls">
+            <input id="writer" name="writer" type="text" value="{{ episode.writer }}">
+          </div>
+        </div>
+      {% endif %}
+
+      {% if episode.filename %}
+        <div class="control-group">
+          <label class="control-label" for="thumbnail">Grab Thumbnail?</label>
+          <div class="controls">
+            <input id="thumbnail" name="thumbnail" type="checkbox" checked="yes" value="{{ episode.filename }}">
+          </div>
+        </div>
+      {% endif %}
+    </fieldset>
+
+  </form>
+{% endif %}
+{% endblock %}
+{% block modal_footer %}
+  <a href="#" class="btn btn-primary scrape_info_episode_save_btn">Apply changes</a>
+{% endblock %}
+

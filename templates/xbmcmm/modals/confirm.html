@@ -1,0 +1,25 @@
+{% extends "/xbmcmm/modals/template.html" %}
+{% block modal_title %}
+	{% if remove %}
+		Remove {{ media }}?
+	{% endif %}
+{% endblock %}
+
+{% block modal_content %}
+	{% if remove %}
+		This {{ media }} will be removed from the XBMC database only. No files will be removed.
+	{% endif %}
+{% endblock %}
+
+{% block modal_footer %}
+	{% if remove %}
+  	<button
+  		class="btn btn-danger pull-right confirm_remove"
+  		data-id="{{ id }}"
+  		data-media="{{ media }}"
+  	>
+  		Remove
+  	</button>
+  {% endif %}
+{% endblock %}
+

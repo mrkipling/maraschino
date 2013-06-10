@@ -1,0 +1,35 @@
+<div class="main">
+  {% if item.tvshowdetails %}
+    <div class="pull-right btn-group">
+      <button class="btn tvdb_info_btn" data-loading-text="Loading...">TVDB lookup</button>
+      <button class="btn btn-success xbmc_save">Apply Changes</button>
+      <button class="btn btn-danger remove_item">Remove Show</button>
+    </div>
+
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+      <li class="active tvshow_tab" data-id="{{ item.tvshowdetails.tvshowid }}">
+        <a href="#tvshow{{ item.tvshowdetails.tvshowid }}" data-toggle="tab"><b>{{ item.tvshowdetails.title }}</b></a>
+      </li>
+      {% if item.seasons %}
+        {% for season in item.seasons %}
+          <li class="season_tab" data-tvshowid="{{ item.seasons.0.tvshowid }}" data-season="{{ season.season }}">
+            <a href="#season{{ season.season }}" data-toggle="tab"><b>S{{ "%02d"|format(season.season) }}</b></a>
+          </li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+
+    <div class="tab-content">
+      {% if item.seasons %}
+        {% for season in item.seasons|reverse %}
+          <div class="tab-pane" id="season{{ season.season }}">
+            {% include '/xbmcmm/tvshow-season.html' %}
+          </div>
+        {% endfor %}
+      {% endif %}
+      <div class="tab-pane active" id="tvshow{{ item.tvshowdetails.tvshowid }}">
+        {% include '/xbmcmm/tvshow-show.html' %}
+      </div>
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,39 @@
+
+<input type="text" class="span12 filter" placeholder="Filter"/>
+<ul class="nav nav-list media_list well">
+
+  {% if media_list %}
+    {% if media_list.movies %}
+      {% for movie in media_list.movies %}
+        <li class="item" data-type="movie" id="{{ movie.movieid }}">
+          <a href="#">
+            {{ movie.label }}
+          </a>
+        </li>
+      {% endfor %}
+
+    {% elif media_list.sets %}
+      <li class="item" data-type="movieset" id="0">
+        <a href="#">
+          + Add New Set
+        </a>
+      </li>
+      {% for movieset in media_list.sets %}
+        <li class="item" data-type="movieset" id="{{ movieset.setid }}">
+          <a href="#">
+            {{ movieset.label }}
+          </a>
+        </li>
+      {% endfor %}
+
+    {% elif media_list.tvshows %}
+      {% for show in media_list.tvshows %}
+        <li class="item" data-type="tvshow" id="{{ show.tvshowid }}">
+          <a href="#">
+            {{ show.label }}
+          </a>
+        </li>
+      {% endfor %}
+    {% endif %}
+  {% endif %}
+</ul>

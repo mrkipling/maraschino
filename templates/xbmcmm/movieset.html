@@ -1,0 +1,69 @@
+<div class="main">
+  {% if movieset %}
+    <div
+      class="setid"
+      id="{{ movieset.setid }}"
+      data-label="{{ movieset.label }}"
+      data-length="{{ movieset.movies|length }}"
+    ></div>
+
+    <div class="span5 set_list">
+      {% if movieset.setid == 0 %}
+        <h4 class="span12">Set name:</h4>
+        <input id="setlabel" class=" span12" type="text" placeholder="New Set">
+      {% else %}
+        <h2>{{ movieset.label}}</h2>
+      {% endif %}
+      <ul class="nav nav-list well">
+        <li class="divider"></li>
+        {% for movie in movieset.movies %}
+          <li class="item remove_from_set" title="Remove from set" id="{{ movie.movieid }}">
+            <a href="#">
+              {{ movie.label }}
+              <i class="icon-remove pull-right"></i>
+            </a>
+          </li>
+          <li class="divider"></li>
+        {% endfor %}
+      </ul>
+      <br>
+      <div>
+        {% if movieset.setid != 0 %}
+          <button class="btn btn-danger pull-right modify_set" data-action="remove">
+            Remove
+          </button>
+          <button class="btn btn-success pull-right modify_set" style="margin-right: 10px;" data-action="rename">
+            Rename
+          </button>
+        {% endif %}
+      </div>
+
+    </div>
+
+    <div class="offset1 span5 movie_list">
+      <h2>Movies</h2>
+      <ul class="nav nav-list well">
+        <li class="divider"></li>
+        {% for movie in movies %}
+          {% if movie.set != movieset.label %}
+            <li class="add_to_set" title="Add to set" id="{{ movie.movieid }}">
+              <a href="#">
+                <i class="icon-plus pull-left"></i>
+                {{ movie.label }}
+                {% if movie.set %}
+                  <span class="badge badge-important pull-right setbadge" title="{{ movie.set }}">In Set</span>
+                {% endif %}
+              </a>
+            </li>
+            <li class="divider"></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</div>
+<script>
+  $('.remove_from_set').tooltip({'placement': 'right'});
+  $('.add_to_set').tooltip({'placement': 'left'});
+  $('.setbadge').tooltip({'placement': 'top'});
+</script>
