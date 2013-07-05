@@ -2766,10 +2766,10 @@ $(document).ready(function() {
 
   $(document).on('click', '#notify_dialog #sendmessage', function() {
     var image = $('#notify_dialog #image').val();
-    var label = $('#notify_dialog #sendmessage').data('label');
-    var hostname = $('#notify_dialog #sendmessage').data('hostname');
-    var title = $('#notify_dialog #title').val();
-    var message = $('#notify_dialog #message').val();
+    var label = escape($('#notify_dialog #sendmessage').data('label'));
+    var hostname = escape($('#notify_dialog #sendmessage').data('hostname'));
+    var title = escape($('#notify_dialog #title').val());
+    var message = escape($('#notify_dialog #message').val());
     var result = $('#notify_dialog .result');
 
     result.text('');

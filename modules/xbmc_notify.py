@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template, request
-import os
+import os, urllib
 
 from maraschino import app, RUNDIR, logger
 from socket import *
@@ -27,10 +27,10 @@ def xhr_notify():
 
 @app.route('/xhr/xbmc_notify/send', methods=['post'])
 def xhr_notify_message():
-    label = str(request.form['label'])
-    hostname = str(request.form['hostname'])
-    message = str(request.form['message'])
-    title = str(request.form['title'])
+    label = urllib.unquote(request.form['label']).encode('utf-8')
+    hostname = urllib.unquote(request.form['hostname']).encode('utf-8')
+    message = urllib.unquote(request.form['message']).encode('utf-8')
+    title = urllib.unquote(request.form['title']).encode('utf-8')
     port = 9777
     icon = os.path.join(RUNDIR, 'static', 'images', 'notifications', request.form['image'])
 
