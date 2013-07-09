@@ -108,6 +108,12 @@ AVAILABLE_MODULES = [
                 'description': 'Show grouped disks outside of group.',
                 'type': 'bool',
             },
+            {
+                'key': 'use_binary_units',
+                'value': '1',
+                'description': 'Use binary storage units (eg. GiB rather than GB)',
+                'type': 'bool',
+            },
         ]
     },
     {
