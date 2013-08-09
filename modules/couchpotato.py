@@ -5,6 +5,7 @@ from maraschino import logger, app, WEBROOT
 import urllib2
 import StringIO
 import base64
+import re
 
 
 def couchpotato_http():
@@ -75,9 +76,8 @@ def log_exception(e):
 
 
 def couchpotato_image(path):
-    if path.startswith('/'):
-        path = path[1:]
-    return '%s/xhr/couchpotato/image/%s' % (WEBROOT, path)
+    path_pieces = re.split('\\/', path)
+    return '%s/xhr/couchpotato/image/%s' % (WEBROOT, path_pieces[-1])
 
 
 FILTERS['cp_img'] = couchpotato_image
