@@ -90,7 +90,7 @@ def send_camera_request(cat, arg):
     if type == 'foscammjeg':
         url += foscammjeg_settings[cat] + foscammjeg_settings[arg]
     elif type == 'foscammp4':
-        url += foscammjeg_settings['control_base'] + foscammjeg_settings[arg]
+        url += foscammjeg_settings[cat] + foscammjeg_settings[arg]
     else:
         logger.log('IPCamera Error :: Missing camera type', 'INFO')
 
@@ -112,10 +112,11 @@ def send_camera_request(cat, arg):
 @requires_auth
 def rend_page():
     type = get_setting_value('ipcamera_type')
-    stream_url = '%s/videostream.cgi' % (camera_url())
     if type == 'foscammjeg':
+        stream_url = '%s' % (camera_url()) + foscammjeg_settings['videostream']
         return render_template('ipcamera/foscammjeg.html', stream_url=stream_url)
     elif type == 'foscammp4':
+        stream_url = '%s' % (camera_url()) + foscammjeg_settings['videostream']
         return render_template('ipcamera/foscammp4.html', stream_url=stream_url)
 
 
