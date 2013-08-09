@@ -21,6 +21,8 @@ def xhr_diskspace():
     disks_db = HardDisk.query.order_by(HardDisk.position)
 
     if disks_db.count() > 0:
+        use_binary_units = get_setting_value('use_binary_units') == '1'
+        
         for disk_db in disks_db:
             try:
                 disk = disk_usage(disk_db.data['path'])
@@ -62,15 +64,15 @@ def xhr_diskspace():
         if disks['groups']:
             for group in disks['groups']:
                 group['percentage_used'] = int((float(group['used'])/float(group['total']))*100)
-                group['total'] = format_number(group['total'])
-                group['used'] = format_number(group['used'])
-                group['free'] = format_number(group['free'])
+                group['total'] = format_number(group['total'], use_binary_units)
+                group['used'] = format_number(group['used'], use_binary_units)
+                group['free'] = format_number(group['free'], use_binary_units)
 
         # make the disk values readable data
         for disk in disks['disks']:
-            disk['total'] = format_number(disk['total'])
-            disk['used'] = format_number(disk['used'])
-            disk['free'] = format_number(disk['free'])
+            disk['total'] = format_number(disk['total'], use_binary_units)
+            disk['used'] = format_number(disk['used'], use_binary_units)
+            disk['free'] = format_number(disk['free'], use_binary_units)
 
     return render_template('diskspace.html',
         disks=disks,
