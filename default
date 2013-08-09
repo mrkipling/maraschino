@@ -14,11 +14,19 @@ APP_PATH=/opt/maraschino
 ENABLE_DAEMON=1
 
 # [required] user or uid of account to run the program as:
-RUN_AS=root
+RUN_AS=
+
+# [optional] change to 0 to disable updating from git/webinterface as $RUN_AS
+# this changes ownership of /opt/maraschino to user set @ RUN_AS
+WEB_UPDATE=1
+
+# [optional] full path to the folder to store database in;
+# otherwise, the default location (~/.maraschino/maraschino.db) is used:
+DATADIR=
+
+# [optional] Force port number to listen on, otherwise 7000 is used:
+PORT=
 
 # [optional] full path for the pidfile
 # otherwise, the default location /var/run/maraschino/maraschino.pid is used:
 PID_FILE=
-
-# [required] port to listen on (defaults to 7000)
-PORT=7000
