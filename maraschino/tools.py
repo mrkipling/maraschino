@@ -86,12 +86,17 @@ def round_number(num):
 
 FILTERS['round_number'] = round_number
 
-def format_number(num):
-    extension_list = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB']
+def format_number(num, binary=True):
+    if binary:
+        extension_list = ['bytes', 'kiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB']
+        number_base = 1024
+    else:
+        extension_list = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB']
+        number_base = 1000
 
     for i in range(len(extension_list)):
-        base = 1024**i
-        if num/base < 1024:
+        base = number_base**i
+        if num/base < number_base:
             return '%.2f' % (float(num)/base) + ' ' + extension_list[i]
 
     return str(num) + ' bytes'
