@@ -1,10 +1,11 @@
 import urllib2
 from flask import jsonify, render_template, request
 import base64
+from datetime import datetime
 
 from Maraschino import app
 from maraschino.tools import *
-from maraschino import logger
+from maraschino import logger, DATA_DIR
 
 foscammjeg_settings = {
     #uses base control
@@ -66,7 +67,9 @@ foscammjeg_settings = {
     'led_mode_blink' :'&led_mode=1' ,
     'led_mode_blink_once': '&led_mode=0',
     # stream urls
-    'videostream': '/videostream.cgi'
+    'videostream': '/videostream.cgi',
+    # img
+    'snapshot': '/snapshot.cgi'
     }
 
 def camera_url(login=True):
@@ -123,3 +126,37 @@ def rend_page():
 @requires_auth
 def camera(cat, arg):
     return send_camera_request(cat, arg)
+
+@app.route('/xhr/ipcamera/snapshot/')
+@requires_auth
+def take_picture():
+    username = get_setting_value('ipcamera_username')
+    password = get_setting_value('ipcamera_password')
+    url = '%s/snapshot.cgi' % (camera_url(login=False))
+    t = datetime.now().strftime('%d%m%y_%H.%M.%S')
+    filename ='snapshot_%s.jpg' % t
+    folder_path = os.path.join(DATA_DIR, 'cache', 'ipcamera')
+    f_path = os.path.join(DATA_DIR, 'cache', 'ipcamera', filename)
+    
+    try:
+        if not os.path.exists(folder_path):
+            os.mkdir(folder_path)
+            logger.log('Ipcamera created directory :: %s' % folder_path, 'INFO')
+            
+    except Exception as e:
+        logger.log('Ipcamera failed to create directory :: %s' % e, 'DEBUG')
+    
+    try:
+        r = urllib2.Request(url)
+        if username and password:
+            base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
+            r.add_header('Authorization', 'Basic %s' % base64string)
+        data = urllib2.urlopen(r).read()
+        
+        img = open(f_path, 'wb')
+        img.write(data)
+        img.close()
+        logger.log('Ipcamera :: snapshot taken :: %s'% filename, 'INFO')
+    
+    except Exception as e:
+        logger.log('Ipcamera :: %s'% e, 'DEBUG')

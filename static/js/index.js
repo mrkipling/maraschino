@@ -2314,6 +2314,11 @@ $(document).ready(function() {
       }
     });
   });
+  
+  $(document).on('click', '#ipcamera #snapshot', function() {
+      $.get('/xhr/ipcamera/snapshot/', function(data) {
+      });
+  });
   /*****END IPCamera*****/
 
   function add_loading_gif(element) {
