@@ -13,6 +13,7 @@
       line-height: 1.3em;
       margin-top: 5px;
       position: relative;
+      overflow: hidden;
 
       .border-radius(4px);
 
@@ -51,34 +52,21 @@
       margin-bottom: 6px;
     }
 
-    .thumbnail {
+    div.image {
       position: absolute;
       right: 5px;
       top: 5px;
-      width: 100px;
-      height: 56px;
+      width: 14%;
+      height: 85%;
       overflow: hidden;
 
       .box-shadow(#222, 0, 0, 2px);
 
-      img {
-        width: 100px;
+      img.poster {
+        height: 100%;
+        width: 100%;
       }
-    }
 
-    .poster {
-      position: absolute;
-      right: 5px;
-      top: 5px;
-      width: 37px;
-      height: 56px;
-      overflow: hidden;
-
-      .box-shadow(#222, 0, 0, 2px);
-
-      img {
-        width: 37px;
-      }
     }
   }
 
