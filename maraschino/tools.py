@@ -11,6 +11,7 @@ from maraschino.models import Setting, XbmcServer
 from flask import send_file
 import StringIO
 import urllib
+import urllib2
 import re
 
 def check_auth(username, password):
@@ -247,7 +248,10 @@ def download_image(image, file_path):
 
     try:
         logger.log('Downloading %s' % image, 'INFO')
-        image_on_web = urllib.urlopen(image)
+
+        headers = { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.65 Safari/537.36' }
+        request = urllib2.Request(image, None, headers)
+        image_on_web = urllib2.urlopen(request, None)
         while True:
             buf = image_on_web.read(65536)
             if len(buf) == 0:
