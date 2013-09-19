@@ -1345,7 +1345,7 @@ $(document).ready(function() {
     $(this).children().css('background', 'url('+WEBROOT+'/static/images/xhrloading.gif) no-repeat center').html('&nbsp;');
   });
 
-  // menu wanted click
+  // menu 'wanted' click
   $(document).on('click', '#couchpotato .menu .wanted', function(){
     $.get(WEBROOT + '/xhr/couchpotato/')
     .success(function(data){
@@ -1353,7 +1353,7 @@ $(document).ready(function() {
     });
   });
 
-  // menu '+'' click
+  // menu 'all' click
   $(document).on('click', '#couchpotato .menu .all', function(){
     $.get(WEBROOT + '/xhr/couchpotato/done/')
     .success(function(data){
@@ -1361,7 +1361,7 @@ $(document).ready(function() {
     });
   });
 
-  // menu history click
+  // menu 'history' click
   $(document).on('click', '#couchpotato .menu .history', function(){
     $.get(WEBROOT + '/xhr/couchpotato/history/')
     .success(function(data){
@@ -1464,8 +1464,12 @@ $(document).ready(function() {
     el.attr('src', WEBROOT + '/static/images/xhrloading.gif');
     $.get(WEBROOT+'/xhr/couchpotato/delete_movie/'+id, function(data) {
       if(data.success){
-        if(el.parent().parent().attr('id') === 'info'){
+        if(el.parent().parent().parent().attr('id') === 'info'){
           el.attr('src', WEBROOT + '/static/images/yes.png');
+          $.get(WEBROOT + '/xhr/couchpotato/done/')
+          .success(function(data){
+            $('#couchpotato').replaceWith(data);
+          });
         } else {
           $('#couchpotato #cp_content #'+imdbid).transition({opacity: 0, duration: 1000}, function(){
             $(this).remove();

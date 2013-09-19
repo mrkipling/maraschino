@@ -32,7 +32,7 @@
       <span class="tagline">{% if item.library.tagline %}{{item.library.tagline}}{% else %}{{item.library.plot|truncate(150)}}{% endif %}</span>
       {%if compact_view %}<span class="quality">{{item.profile_label}}</span>{%endif%}
     </div>
-    <div class="options {{item.library.identifier}}" data-imdbid="{{item.library.identifier}}" data-cpid="{{item.library_id}}">
+    <div class="options {{item.library.identifier}}" data-imdbid="{{item.library.identifier}}" data-cpid="{{item.id}}">
       <img class="delete left_opt" src="{{ url_for('static', filename='images/no.png')}}"/>
       <img class="search left_opt" src="{{ url_for('static', filename='images/search.png')}}"/>
       <a href="http://imdb.com/title/{{item.library.identifier}}" target="_blank">

@@ -12,7 +12,7 @@
 
 <div id="all" class="noscroll">
   {% for item in couchpotato.movies %}
-    <div class="movie" id="{{item.library.identifier}}" data-cpid="{{item.library_id}}">
+    <div class="movie" id="{{item.library.identifier}}" data-cpid="{{item.id}}">
       <div class="{{item.releases.status}}"></div>
       <img class="poster"
       src="{% if item.library.files[1] %}{{item.library.files[1].path|cp_img}} {% else %}{{ url_for('static', filename='images/poster.png') }}{% endif %}"

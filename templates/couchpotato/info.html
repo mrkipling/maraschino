@@ -5,7 +5,7 @@
   {% set info = couchpotato['movie']['library']['info'] %}
   <div id="info" class="{{couchpotato['movie']['status']['identifier']}} noscroll">
     <div class="left_content">
-      <div class="options" data-imdbid="{{info.imdb}}" data-cpid="{{couchpotato.movie.library_id}}">
+      <div class="options" data-imdbid="{{info.imdb}}" data-cpid="{{couchpotato.movie.id}}">
         <img class="delete" src="{{ url_for('static', filename='images/no.png')}}" title="Delete"/>
         <img class="search" src="{{ url_for('static', filename='images/search.png')}}" title="Refresh"/>
         <a href="http://imdb.com/title/{{info.imdb}}" target="_blank">
@@ -75,7 +75,7 @@
           <td width="75" style="font-weight: bold;" align="right">Profile:&nbsp;&nbsp;</td>
           <td style="font-size:0.95em;" class="profile">
             {% if profiles %}
-              <select class="profiles" data-id="{{couchpotato.movie.library_id}}">
+              <select class="profiles" data-id="{{couchpotato.movie.id}}">
                 {% for profile in profiles.list %}
                   <option value="{{profile.id}}" {% if couchpotato['movie']['profile']['label'] == profile.label %}selected="selected"{%endif%}>{{profile.label}}</option>
                 {% endfor %}
