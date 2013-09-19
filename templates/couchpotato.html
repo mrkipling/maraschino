@@ -38,6 +38,9 @@
       <a href="http://imdb.com/title/{{item.library.identifier}}" target="_blank">
         <img class="left_opt" src="{{ url_for('static', filename='images/imdb.png')}}" alt="" />
       </a>
+      {% if item.releases_count > 0 %}
+        <div class="release_list"><ul></ul></div>
+      {% endif %}
     </div>
     {% endfor %}
   {% else %}
