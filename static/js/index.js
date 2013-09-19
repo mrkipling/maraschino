@@ -2924,6 +2924,34 @@ $(document).ready(function() {
   });
 
   check_for_update();
+  
+  //sms module
+  
+// Catches the chars in sms_message and writes it to charcount
+$(document).on('keyup', '#telenor_sms #sms_message', function() {
+  var onemessage = 160;
+  var len = $(this).val().length;
+  var numberoftext = (len / onemessage);
+  var total = Math.ceil(numberoftext)
+    if (len == len) {
+    $('#charcount').text(len + '/' + total);
+  }
+});
+  
+// catch input of "form" sending dict to script, update page ard remove div.
+  $(document).on('click', '#telenor_sms #sendsms', function() {
+      var res = $('#telenor_sms #sms_res').val();
+      var mmsg = $('#telenor_sms #sms_message').val();
+      var s = res + '/' + mmsg;
+      var dict = {
+      res: res,
+      mmsg: mmsg
+        };
+        $.post(WEBROOT + '/xhr/telenor_sms/send/', dict, function(data){
+        $('#telenor_sms').replaceWith(data);
+        $('.notice').delay(5000).fadeOut();
+      });
+  });
 
   // Headphones
   $(document).on('click', '#headphones .get', function() {

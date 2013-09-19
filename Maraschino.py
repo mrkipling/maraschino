@@ -67,6 +67,7 @@ def import_modules():
     import modules.utorrent
     import modules.weather
     import modules.xbmc_notify
+    import modules.telenor_sms
     import mobile
     import modules.ipcamera
 

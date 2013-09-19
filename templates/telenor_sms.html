@@ -1,0 +1,18 @@
+
+<div id="telenor_sms" class="module" data-module="telenor_sms">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+<h2>Telenor SMS</h2>
+
+<input type="text" id="sms_res" name="sms_res" value="Phonenumber" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>
+<textarea rows="4" cols="90" id="sms_message" onkeyup=""onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Message..</textarea>
+<input type="submit" id="sendsms" class="submit_sendsms testz" value="Send">
+
+<br>
+<div id="charcount"></div>
+<br>
+<div class="notice" id="result">{{ result }}</div>
+<br>
+

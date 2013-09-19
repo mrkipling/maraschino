@@ -1,0 +1,76 @@
+@import "mixins.less";
+
+#telenor_sms {
+    .button {
+        background: url('/@{webroot}/images/alpha/fff_10.png');
+        border: 1px solid #222;
+        color: white;
+        cursor: pointer;
+        line-height: 20px;
+        height: 20px;
+        white-space: nowrap;
+        display: block;
+        text-align: center;
+        .border-radius(4px);
+        &:hover {
+          background: url('/@{webroot}/images/alpha/fff_20.png');
+        }
+    }
+    
+    #sms_res {
+        background: url('/@{webroot}/images/alpha/fff_10.png');
+        border: 1px solid #222;
+        color: white;
+        margin: 3px 3px 6px 3px;
+        padding: 2px 5px;
+        .border-radius(4px);
+         &:hover {
+          background: url('/@{webroot}/images/alpha/fff_20.png')
+          }
+    }
+    
+    #charcount {
+        float: left;
+        padding: 5px;
+    }
+    
+    #result {
+        float: right;
+        position: relative;
+        margin-top: -7px;
+        margin-right:10px;
+    }
+        
+    
+    .submit_sendsms {
+        background: url('/@{webroot}/images/alpha/fff_10.png');
+        border: 1px solid #222;
+        color: white;
+        cursor: pointer;
+        float: right;
+        padding: 5px;
+        margin: 0px 5px 5px 3px;
+        line-height: 13px;
+        white-space: nowrap;
+        text-align: center;
+        .border-radius(4px);
+        &:hover {
+          background: url('/@{webroot}/images/alpha/fff_20.png');
+        }
+    }}
+
+#sms_message {
+    background: url('/@{webroot}/images/alpha/fff_10.png');
+    border: 1px solid #222;
+    color: #fff;
+    width: 96%;
+    margin: 3px 3px 3px 3px;
+    padding: 2px 5px;
+    position: relative;
+    .border-radius(4px);
+    -webkit-appearance: none;
+ 
+      &:hover {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
+  }
