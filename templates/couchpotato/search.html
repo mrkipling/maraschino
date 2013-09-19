@@ -15,7 +15,7 @@
           {% else %}
             <img src="{{ url_for('static', filename='images/poster.png')}}" />
           {% endif %}
-          <span class="name">{{ item.original_title }}</span><br>
+          <span class="name">{{ item.original_title }}</span>
           <span class="year">{{ item.released }}</span>
           <br>
           <div class="extra {% if item.in_library%} library {% endif %} {% if item.in_wanted %} wanted {% endif %}">
