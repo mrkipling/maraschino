@@ -1416,7 +1416,7 @@ $(document).ready(function() {
         x_move = x_move + 'px';
         ul_width = ul_width + 'px';
         $('#couchpotato .release_list').css('width', ul_width);
-        var option = '#couchpotato #cp_content .options&.'+id;
+        var option = '#couchpotato #cp_content .options.'+id;
         if($(option + ' .release_list').text() === ''){
           $.get(WEBROOT + '/xhr/couchpotato/release/for_movie/'+$(option).data('cpid'), function(data) {
             if(data.success){
@@ -1436,16 +1436,16 @@ $(document).ready(function() {
           });
         }
         el.transition({x: x_move, opacity: 0.7}, function(){
-          $('#couchpotato #cp_content .options&.'+id).transition({opacity: 1});
+          $('#couchpotato #cp_content .options.'+id).transition({opacity: 1});
         });
       }
       else {
         el.transition({x: '30px', opacity: 0.7}, function(){
-          $('#couchpotato #cp_content .options&.'+id).transition({opacity: 1});
+          $('#couchpotato #cp_content .options.'+id).transition({opacity: 1});
         });
       }
     } else {
-      $('#couchpotato #cp_content .options&.'+id).transition({opacity: 0}, function(){
+      $('#couchpotato #cp_content .options.'+id).transition({opacity: 0}, function(){
         el.transition({opacity: 1, x: '0px'});
       });
     }
@@ -1500,7 +1500,7 @@ $(document).ready(function() {
     });
   });
   // wanted refresh, info refresh
-  $(document).on('click', '#couchpotato #cp_content .options img.search, , #couchpotato #info .options img.search', function() {
+  $(document).on('click', '#couchpotato #cp_content .options img.search, #couchpotato #info .options img.search', function() {
     var id = $(this).parent().data('cpid');
     var imdbid = $(this).parent().data('imdbid');
     var el = $(this);
@@ -1624,7 +1624,7 @@ $(document).ready(function() {
 
   /********* SEARCH ***********/
 
-  $('#activate_search').live('click', function (e) {
+  $(document).on('click', '#activate_search', function (e) {
     if ($(e.target).hasClass('edit')) {
       return;
     }
@@ -2660,7 +2660,7 @@ $(document).ready(function() {
 
   // edit server
 
-  $('#server_settings li.switch_server .edit, #server_settings li.add_server').live('click', function() {
+  $(document).on('click', '#server_settings li.switch_server .edit, #server_settings li.add_server', function() {
     var server_id = null;
 
     if ($(this).hasClass('edit')) {
@@ -2698,7 +2698,7 @@ $(document).ready(function() {
 
   // delete server
 
-  $('#server_settings_dialog .delete').live('click', function() {
+  $(document).on('click', '#server_settings_dialog .delete', function() {
     $.post(WEBROOT + '/xhr/delete_server/' + $(this).data('server_id'), {}, function(data) {
       if (data.status === 'error') {
         popup_message('There was an error deleting the XBMC server.');
@@ -2717,7 +2717,7 @@ $(document).ready(function() {
 
   // switch server
 
-  $('#server_settings li.switch_server').live('click', function(e) {
+  $(document).on('click', '#server_settings li.switch_server', function(e) {
     if ($(e.target).hasClass('switch_server')) {
       var li = $(this);
 
