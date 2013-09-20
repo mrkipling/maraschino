@@ -1491,6 +1491,7 @@ $(document).ready(function() {
         } else {
           $('#couchpotato #cp_content #'+imdbid).transition({opacity: 0, duration: 1000}, function(){
             $(this).remove();
+            $('#couchpotato #cp_content .options.'+imdbid).remove();
           });
         }
       } else {
