@@ -295,7 +295,7 @@ def xhr_playlist_play(playerid, position):
     xbmc = jsonrpclib.Server(server_api_address())
 
     try:
-        xbmc.Player.GoTo(playerid=playerid, position=position)
+        xbmc.Player.GoTo(playerid=playerid, to=position)
         return jsonify({'success': True})
 
     except:
