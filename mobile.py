@@ -478,7 +478,7 @@ from modules.couchpotato import couchpotato_api
 @requires_auth
 def couchpotato():
     try:
-        couchpotato = couchpotato_api('movie.list', params=False)
+        couchpotato = couchpotato_api('movie.list', params='status=active')
         if couchpotato['success'] and not couchpotato['empty']:
             couchpotato = couchpotato['movies']
 
