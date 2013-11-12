@@ -984,3 +984,110 @@ def mobile_trakt_progress(user, type=None):
         user=user,
         type=type
     )
+
+
+from maraschino.database import db_session
+from maraschino.models import Script
+import os, platform, ctypes, subprocess, datetime
+
+@app.route('/mobile/script_launcher/')
+@requires_auth
+def script_launcher():
+    scripts = []
+    scripts_db = Script.query.order_by(Script.id)
+
+    if scripts_db.count() > 0:
+        for script_db in scripts_db:
+            script = {}
+            script['script'] = script_db.script
+            script['label'] = script_db.label
+            script['status'] = script_db.status
+            script['id'] = script_db.id
+            scripts.append(script)
+
+    return render_template('mobile/script_launcher/script_launcher.html',
+        scripts = scripts,
+    )
+
+@app.route('/mobile/script_launcher/script_status/<script_id>', methods=['GET', 'POST'])
+def script_status(script_id):
+
+    status = request.form['status']
+
+    if status == '':
+        return jsonify({ 'status': 'error: there was no status passed in' })
+
+    script = Script.query.filter(Script.id == script_id).first()
+    script.status = status
+
+    try:
+        db_session.add(script)
+        db_session.commit()
+
+    except:
+        return jsonify({ 'status': 'error' })
+
+    return script_launcher()
+
+@app.route('/mobile/script_launcher/start_script/<int:script_id>')
+@requires_auth
+def start_script(script_id):
+    #first get the script we want
+    script = None
+    message = None
+    script = Script.query.filter(Script.id == script_id).first()
+    now = datetime.datetime.now()
+
+    command = os.path.join(maraschino.SCRIPT_DIR,script.script)
+
+    if (script.parameters):
+        command = ''.join([command, ' ', script.parameters])
+
+    #Parameters needed for scripts that update
+    host = maraschino.HOST
+    port = maraschino.PORT
+    webroot = maraschino.WEBROOT
+
+    if not webroot:
+        webroot = '/'
+
+    file_ext = os.path.splitext(script.script)[1]
+
+    if (file_ext == '.py'):
+        if (script.updates == 1):        
+            #these are extra parameters to be passed to any scripts ran, so they 
+            #can update the status if necessary
+            extras = '--i "%s" --p "%s" --s "%s" --w "%s"' % (host, port, script.id, webroot)
+
+            #the command in all its glory
+            command = ''.join([command, ' ', extras])
+            script.status="Script Started at: %s" % now.strftime("%m-%d-%Y %H:%M")
+        else:
+            script.status="Last Ran: %s" % now.strftime("%m-%d-%Y %H:%M")
+
+        command =  ''.join(['python ', command])
+
+    elif (file_ext in ['.sh', '.pl', '.cmd']):
+        if (script.updates == 1):
+            extras = '%s %s %s %s' % (host, port, script.id, webroot)
+            #the command in all its glory
+            command = ''.join([command, ' ', extras])
+            script.status="Script Started at: %s" % now.strftime("%m-%d-%Y %H:%M")
+        else:
+            script.status="Last Ran: %s" % now.strftime("%m-%d-%Y %H:%M")
+
+        if(file_ext == '.pl'):
+            command = ''.join(['perl ', command])
+
+        if(file_ext == '.cmd'):
+            command = ''.join([command])
+
+
+    logger.log('SCRIPT_LAUNCHER :: %s' % command, 'INFO')
+    #now run the command
+    subprocess.Popen(command, shell=True)
+
+    db_session.add(script)
+    db_session.commit()
+
+    return script_launcher()  
