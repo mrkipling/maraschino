@@ -1,0 +1,23 @@
+{% extends "mobile/base.html" %}
+
+
+{% block header %}<h1>Script Launcher</h1>{% endblock %}
+
+{% block content %}
+<ul id="scripts" data-role="listview">
+  {% if scripts %}
+      {% for script in scripts %}
+        <li data-id="{{ script.id }}">
+      	  
+            <a class="inner"  data-id="{{ script.id }}" title="Launch {{ script.label }}" href="{{ url_for('start_script', script_id= script.id) }}">
+              <h2>{{ script.label }}</h2>
+             {% if script.status %}
+             <p>{{script.status}}</p>
+             {% endif %}
+            </a>
+        </li>
+      {% endfor %}
+  {% endif %}
+</ul>
+{% endblock %}
+

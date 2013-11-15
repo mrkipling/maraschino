@@ -11,6 +11,7 @@
         {% if 'headphones' in module.name %}<li><a href="{{ url_for('headphones_wanted') }}">Headphones</a></li>{% endif %}
         {% if 'sabnzbd' in module.name %}<li><a href="{{ url_for('sabnzbd') }}">SabNZBd+</a></li>{% endif %}
         {% if 'traktplus' in module.name %}<li><a href="{{ url_for('mobile_trakt') }}">Trakt</a></li>{% endif %}
+        {% if 'script_launcher' in module.name %}<li><a href="{{ url_for('script_launcher') }}">Script Launcher</a></li>{% endif %}
     {% endfor %}
 
     {% if search %}<li><a href="{{ url_for('search') }}">Search</a></li>{% endif %}
