@@ -52,7 +52,7 @@ class Weather:
     return urlHandle.read()
 
   def _getWeather(self):
-    for node in self.dom.childNodes[3].childNodes:
+    for node in self.dom.childNodes[0].childNodes:
       if node.nodeName == 'cc':
         self._setCurrentConditions(node)
 
@@ -61,6 +61,9 @@ class Weather:
 
       if node.nodeName == 'loc':
         self._setCurrentConditions(node)
+
+    if 'day' not in self.forecast[0]:
+      self.forecast[0]["day"] = self.forecast[0]["night"]
 
     if self.forecast[0]["day"]["type"] == "N/A":
       self.forecast[0]["day"]["type"] = self.currentConditions["type"]
