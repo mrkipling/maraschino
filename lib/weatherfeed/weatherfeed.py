@@ -155,7 +155,7 @@ class Weather:
     self.forecast[index]["Date"] = date
     for elem in node.childNodes:
       if elem.nodeName == 'hi':
-        if elem.firstChild.data == "N/A":
+        if elem.firstChild is None or elem.firstChild.data == "N/A":
           self.forecast[index]["high"] = "NA"
         else:
           self.forecast[index]["high"] = elem.firstChild.data
@@ -186,7 +186,10 @@ class Weather:
           self.forecast[index]["day"] = {}
           for subelem in elem.childNodes:
             if subelem.nodeName == 't':
-              self.forecast[index]["day"]["type"] = subelem.firstChild.data
+              if subelem.firstChild is None:
+                self.forecast[index]["day"]["type"] = "N/A"
+              else:
+                self.forecast[index]["day"]["type"] = subelem.firstChild.data
 
             if subelem.nodeName == 'ppcp':
               self.forecast[index]["day"]["pop"] = subelem.firstChild.data
