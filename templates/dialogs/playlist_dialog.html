@@ -9,7 +9,7 @@
       <div class="btn control {{ 'active' if shuffled }}" data-command="/xhr/controls/shuffle" title="Toggle Shuffle">
         <img src="{{ url_for('static', filename='images/player_buttons/shuffle.png') }}" />
       </div>
-      <div class="btn control {{ 'active' if repeat != 'off' }}" data-command="/xhr/controls/repeat" title="Toggle Reapeat">
+      <div class="btn control {{ 'active' if repeat != 'off' }}" data-command="/xhr/controls/repeat" title="Toggle Repeat">
         <img src="{{ url_for('static', filename='images/player_buttons/repeat_'+repeat+'.png') }}" />
       </div>
       <div class="btn control" data-command="/xhr/playlist/{{ playlist.id }}/clear" title="Clear">
