@@ -5,9 +5,9 @@
   <!-- SET UP BUTTONS -->
   {% if media == 'movies' or media == 'episodes' %}
     {% if show_info %}
-      {% set buttons = ['play', 'queue'] %}
+      {% set buttons = ['play', 'queue', 'download'] %}
     {% else %}
-      {% set buttons = ['info', 'queue'] %}
+      {% set buttons = ['info', 'queue', 'download'] %}
     {% endif %}
 
   {% elif media == 'tvshows' or media == 'artists' or media == 'albums' %}
