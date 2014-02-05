@@ -145,7 +145,7 @@ $(document).ready(function () {
 
     $(document).on('click', '#sickbeard #results li', function() {
         $.mobile.showPageLoadingMsg();
-        $.get(WEBROOT + '/sickbeard/add_show/' + $(this).data('id'), function(data) {
+        $.get(WEBROOT + '/xhr/sickbeard/add_show/' + $(this).data('id'), function(data) {
             popup_message(data);
             $.mobile.hidePageLoadingMsg();
         });
@@ -156,7 +156,7 @@ $(document).ready(function () {
     $(document).on('click', '#sickbeard.show #control a', function() {
         $.mobile.showPageLoadingMsg();
         action = $(this).attr('id');
-        $.get(WEBROOT + '/sickbeard/' + action + '_show/' + $(this).data('id'), function(data) {
+        $.get(WEBROOT + '/xhr/sickbeard/' + action + '_show/' + $(this).data('id'), function(data) {
             popup_message(data);
             $.mobile.hidePageLoadingMsg();
         });
