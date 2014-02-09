@@ -30,7 +30,19 @@ def couchpotato_url():
 
     return couchpotato_http() + url
 
+def app_link():
+    port = get_setting_value('couchpotato_port')
+    url_base = get_setting_value('couchpotato_ip')
+    webroot = get_setting_value('couchpotato_webroot')
 
+    if port:
+        url_base = '%s:%s' % (url_base, port)
+
+    if webroot:
+        url_base = '%s/%s' % (url_base, webroot)
+
+    return couchpotato_http() + url_base
+    
 def couchpotato_url_no_api():
     port = get_setting_value('couchpotato_port')
     url_base = get_setting_value('couchpotato_ip')
@@ -131,6 +143,7 @@ def xhr_couchpotato(status='active'):
 
     return render_template(template,
         url=couchpotato_url(),
+        app_link=app_link(),
         couchpotato=couchpotato,
         profiles=profiles,
         compact_view=get_setting_value('couchpotato_compact') == '1',

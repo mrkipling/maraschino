@@ -30,6 +30,19 @@ def sickbeard_url():
 
     return sickbeard_http() + url
 
+def app_link():
+    port = get_setting_value('sickbeard_port')
+    url_base = get_setting_value('sickbeard_ip')
+    webroot = get_setting_value('sickbeard_webroot')
+
+    if port:
+        url_base = '%s:%s' % (url_base, port)
+
+    if webroot:
+        url_base = '%s/%s' % (url_base, webroot)
+
+    return sickbeard_http() + url_base
+
 
 def sickbeard_url_no_api():
     port = get_setting_value('sickbeard_port')
@@ -87,6 +100,7 @@ def xhr_sickbeard():
 
     return render_template('sickbeard.html',
         url=sickbeard_url_no_api(),
+        app_link=app_link(),
         sickbeard=sickbeard,
         missed=sickbeard['missed'],
         today=sickbeard['today'],

@@ -3,7 +3,7 @@
 
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
-  <h2>Transmission</h2>
+  <h2><a href="{{ app_link }}" class="app_link" target="_blank">Transmission</a></h2>
   <div class="inner">
   {% if transmission %}
   <div id="status">{{ download }}KB/s</div><div class="eta">{{ eta }}</div>
@@ -53,7 +53,7 @@
 <div class="placeholder" data-module="transmission">
     <div class="module_settings"><span>Settings</span></div>
     <div class="module_remove"><span>Remove</span></div>
-    <h2>Transmission</h2>
+    <h2><a href="{{ app_link }}" class="app_link" target="_blank">Transmission</a></h2>
 	<p style="margin: 0 15px 15px;"><strong>Warning:</strong> unable to connect to Transmission.</p>
 </div>
 {% endif %}

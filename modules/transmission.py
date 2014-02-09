@@ -7,6 +7,12 @@ from datetime import timedelta
 from maraschino.tools import *
 from maraschino import app, logger
 
+def app_link():
+    transmission_ip = get_setting_value('transmission_ip')
+    transmission_port = get_setting_value('transmission_ip')
+    
+    return 'http://%s:%s/' % (transmission_ip, transmission_port)
+
 
 def log_exception(e):
     logger.log('Transmission :: EXCEPTION -- %s' % e, 'DEBUG')
@@ -65,6 +71,7 @@ def xhr_transmission():
 
     return render_template('transmission.html',
         connection = connection,
+        applink=applink(),
         show_empty = get_setting_value('transmission_show_empty') == '1',
         transmission = transmission,
         seeding = seeding,
