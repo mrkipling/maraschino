@@ -1230,6 +1230,59 @@ $(document).ready(function() {
     }
   }
   /********* END REMOTE ***********/
+  
+  /********* Start of qbittorrent *************/
+  
+  // Pause/resume torrent
+ $(document).on('click', '#qbittorrent .inner .queue table tr td.pause', function(){
+    var id = $(this).parent('tr').attr('id');
+    var state = $(this).parent('tr').data('action');
+    var name = $(this).parent('tr').find('.name').text();
+    $.get(WEBROOT + '/xhr/qbittorrent/command/'+state+'/'+id+'/'+name + '/') 
+    .success(function(data){
+      if(data.status == 'true'){
+        get_module('qbittorrent');
+      }
+    })
+    .error(function(){
+      popup_message('Problem reaching Maraschino on /xhr/qbittorrent/command/<state>/<id>/<name>');
+    });
+  });
+  
+  // Delete torrent
+   $(document).on('click', '#qbittorrent .inner .queue table tr td.delete', function(){
+    var id = $(this).parent('tr').attr('id');
+    var state = $(this).data('action');
+    var name = $(this).parent('tr').find('.name').text();
+    $.get(WEBROOT + '/xhr/qbittorrent/command/'+state+'/'+id+'/'+name +'/')
+    .success(function(data){
+      if(data.status == 'true'){
+        get_module('qbittorrent');
+      }
+    })
+    .error(function(){
+        popup_message('Problem reaching Maraschino on /xhr/qbittorrent/command/<state>/<id>/<name>');
+    });
+  });
+
+ // Set global up and downspeed
+$(document).on('keypress', '#qbittorrent .inner .speed input', function(e){
+    if(e.which == 13){
+      var type = $(this).data('action');
+      $.get(WEBROOT + '/xhr/qbittorrent/speedlimit/'+type + '/' +$(this).attr('value'))
+      .success(function(data){
+        if(data.status == 'true'){
+          get_module('qbittorrent');
+        }
+      })
+      .error(function(){
+        popup_message('Problem reaching Maraschino on /xhr/qbittorrent/speedlimit/<var>/');
+      });
+    }
+  });
+  
+
+  /*************** END Qbittorrent *************/
 
   /********* START SABNZBD ***********/
 

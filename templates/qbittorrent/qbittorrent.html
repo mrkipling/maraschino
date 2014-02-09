@@ -1,0 +1,118 @@
+<script>
+$('#pause_arrow_big').toggle(
+
+function () {
+    var downloadstatus = $('#pause_arrow_big').attr('data-action');
+    //alert('changed to resume all');
+    $.get('/xhr/qbittorrent/command/' + downloadstatus)
+},
+
+function () {
+    var downloadstatus = $('#pause_arrow_big').attr('data-action')
+    //alert('pauseall');
+    $.get('/xhr/qbittorrent/command/' + downloadstatus)
+});
+</script>
+{% if result %}
+{% if result == '[]' %}
+  <div id="qbittorrent" class="module" data-module="qbittorrent">
+
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
+<h2>qBittorrent</h2>
+<div class="inner">
+
+<div class="pause_all"><img alt="pink" data-action="{{ downloadstatus }}" id="pause_arrow_big" src="{% if downloadstatus == 'resumeall' %}{{ url_for('static', filename='images/play.png') }}{% else %}{{ url_for('static', filename='images/pause.png') }}{% endif %}"></div>
+
+<div class="pause"</div>
+    <div class="speed speeddown"><input type="text" data-action="setGlobalDlLimit" value="{{ g_global_downspeed }}" title="Adjust DL Speed" size="5" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>KiB/s</div>
+    <div class="speed speedup"><input type="text" data-action="setGlobalUpLimit" value="{{ g_global_upspeed }}" title="Adjust UL Speed" size="5" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>KiB/s</div
+</div>
+<br><br><br>
+<p style="margin: 0 15px 15px;"><strong>No torrents in qBittorrent</p>
+<br>
+  </div>
+   <div class="transferinfo_down"> {{ speed.dl_info }} </div> <div class="transferinfo_up"> {{ speed.up_info}} </div>
+   {% endif %}
+{% if qbittorrent %}
+{% if show_que == 'all' %}
+  <div id="qbittorrent" class="module" data-module="qbittorrent">
+
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
+<h2>qBittorrent</h2>
+<div class="inner">
+
+<div class="pause_all"><img alt="pink" data-action="{{ downloadstatus }}" id="pause_arrow_big" src="{% if downloadstatus == 'resumeall' %}{{ url_for('static', filename='images/play.png') }}{% else %}{{ url_for('static', filename='images/pause.png') }}{% endif %}"></div>
+
+<div class="pause"</div>
+    <div class="speed speeddown"><input type="text" data-action="setGlobalDlLimit" value="{{ g_global_downspeed }}" title="Adjust DL Speed" size="5" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>KiB/s</div>
+    <div class="speed speedup"><input type="text" data-action="setGlobalUpLimit" value="{{ g_global_upspeed }}" title="Adjust UL Speed" size="5" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>KiB/s</div>
+  
+  <div class="queue queue-qbt">
+    <table>
+    {% for x in qbittorrent %}
+        <tr id="{{x.hash}}" data-action={% if x.state in q_in_pause %}resume{% else %}pause{% endif %}>
+            <td class="pause"><img src="{% if x.state in q_in_pause %}{{ url_for('static', filename='images/play.png') }}{% else %}{{ url_for('static', filename='images/pause.png') }}{% endif %}"></td>
+            <td class="name">{{x.name}}</td>
+            <td class="fix"><td>
+            <td class="size">{{x.size}}</td>
+            <td class="dlspeed">{{ x.dlspeed }}</td>
+            <td class="upspeed">{{ x.upspeed }}</td>
+            <td class="eta">{{ x.eta }}<td>
+            <td class="progress">{{ (x.progress * 100)|round|int }}%</td>
+            <td class="delete" data-action="delete"><img src="{{ url_for('static', filename='images/remove_icon.png') }}"></td>
+      </tr>
+    {% endfor %}
+    </table>
+  </div>
+  </div>
+   <div class="transferinfo_down"> {{ speed.dl_info }} </div> <div class="transferinfo_up"> {{ speed.up_info}} </div>
+   
+{% elif show_que == 'download' %}
+<div id="qbittorrent" class="module" data-module="qbittorrent">
+
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
+<h2>qBittorrent</h2>
+<div class="inner">
+
+<div class="pause_all"><img alt="pink" data-action="{{ downloadstatus }}" id="pause_arrow_big" src="{% if downloadstatus == 'resumeall' %}{{ url_for('static', filename='images/play.png') }}{% else %}{{ url_for('static', filename='images/pause.png') }}{% endif %}"></div>
+
+<div class="pause"</div>
+    <div class="speed speeddown"><input type="text" data-action="setGlobalDlLimit" value="{{ g_global_downspeed }}" title="Adjust DL Speed" size="5" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>KiB/s</div>
+    <div class="speed speedup"><input type="text" data-action="setGlobalUpLimit" value="{{ g_global_upspeed }}" title="Adjust UL Speed" size="5" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>KiB/s</div>
+  
+  <div class="queue queue-qbt">
+    <table>
+    {% for x in qbittorrent %}
+    {% if x.state == 'downloading' %}
+    
+        <tr id="{{x.hash}}" data-action={% if x.state in q_in_pause %}resume{% else %}pause{% endif %}>
+            <td class="pause"><img src="{% if x.state in q_in_pause %}{{ url_for('static', filename='images/play.png') }}{% else %}{{ url_for('static', filename='images/pause.png') }}{% endif %}" ></td>
+            <td class="name">{{x.name}}</td>
+            <td class="fix"><td>
+            <td class="size">{{x.size}}</td>
+            <td class="dlspeed">{{ x.dlspeed }}</td>
+            <td class="upspeed">{{ x.upspeed }}</td>
+            <td class="eta">{{ x.eta }}<td> 
+            <td class="progress">{{ (x.progress * 100)|round|int }}%</td>
+            <td class="delete" data-action="delete"><img src="{{ url_for('static', filename='images/remove_icon.png') }}" ></td>
+      </tr>
+    {% endif %}
+    {% endfor %}
+    </table>
+  </div>
+  </div>
+   <div class="transferinfo_down"> {{ speed.dl_info }} </div> <div class="transferinfo_up"> {{ speed.up_info}} </div>
+{% endif %}
+{% endif %}
+
+{% else %}
+<div id="qbittorrent" class="module" data-module="qbittorrent">
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
+    <h2>qBittorrent</h2>
+    <p style="margin: 0 15px 15px;"><strong>There was a problem reaching qBittorrent.<p>
+</div>
+{% endif %}

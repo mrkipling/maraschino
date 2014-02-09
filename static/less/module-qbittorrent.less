@@ -1,0 +1,122 @@
+@import "mixins.less";
+
+#pause_arrow_big {
+    position: absolute;
+    left: 50%;
+    width: 15px; 
+    height: 17px;
+    top: 54px;
+    }
+
+.speed {
+    background: url('/@{webroot}/images/alpha/fff_10.png');
+    border: 1px solid #222;
+    font-size: 10px;
+    padding: 4px 8px 2px;
+
+    .border-radius(4px);
+
+    input {
+      background-color:transparent;
+      color:white;
+      border:none;
+      text-align:center;
+
+      &:hover,
+      &:focus {
+       font-weight: bolder;
+      }
+    }
+  }
+
+.speedup {
+    float: right;
+    }
+
+.speeddown{
+    float: left;
+    }
+
+
+.queue-qbt{
+    font-size: 88%;
+    }
+    
+table{
+    table-layout: fixed;
+    width: 100%;
+    text-align: center;
+        
+        tr {
+            width: 100%;
+        
+            &:hover td {
+                background: url('/@{webroot}/images/alpha/fff_10.png');
+            }
+        }
+        
+        td {
+            padding: 4px 2px;
+        }
+    
+        
+        .pause {
+            width: 5%;
+            }
+    
+        
+        .name {
+            width: 25%;
+            overflow: hidden;
+                }
+        
+        .fix {
+            width: 1%;
+             }
+        
+        .size {
+            width: 15%;
+            overflow: hidden;
+                }
+            
+        .dlspeed{ 
+            width: 15%;
+            overflow: hidden;
+                }
+                
+        .upspeed {
+        width: 14%;
+        overflow: hidden;
+            }
+        
+        .eta{
+            width: 10%;
+            overflow: hidden;
+            }
+        
+        .progress {
+            width: 10%;
+            overflow: hidden;
+                }
+        
+        .delete{
+            width: 5%;
+                }
+    }
+
+    
+    
+.transferinfo_up{
+    float: right;
+    font-size: 10.6px;
+    margin-top: -19px;
+    padding: 4px 0px;
+    overflow: hidden;
+    }
+    
+    
+.transferinfo_down{
+    font-size: 10.6px;
+    padding: 4px 0px;
+    overflow: hidden;
+    }

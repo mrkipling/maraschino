@@ -54,6 +54,7 @@ def import_modules():
     import modules.library
     import modules.log
     import modules.nzbget
+    import modules.qbittorrent
     import modules.recently_added
     import modules.remote
     import modules.sabnzbd

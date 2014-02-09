@@ -511,6 +511,57 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name':'qbittorrent',
+        'label':'qBittorrent',
+        'description':'Shows you information about your qBittorrent downloads.',
+        'static': False,
+        'poll': 10,
+        'delay': 0,
+        'settings': [
+                {
+                'key':'qbittorrent_ip',
+                'value':'',
+                'description': 'qBittorent ip',
+                },
+                {
+                'key':'qbittorrent_port',
+                'value':'',
+                'description': 'qBittorent port',
+                },
+                {
+                'key':'qbittorrent_webroot',
+                'value':'',
+                'description': 'qBittorent webroot',
+                },
+                {
+                'key':'qbittorrent_username',
+                'value':'',
+                'description': 'qBittorent username',
+                },
+                {
+                'key':'qbittorrent_password',
+                'value':'',
+                'description': 'qBittorent password',
+                },
+                {
+                'key':'qbittorrent_https',
+                'value':'0',
+                'description': 'Use https',
+                'type': 'bool',
+                },
+                {
+                'key':'qbittorrent_show_que',
+                'value':'all',
+                'description': 'Show torrents',
+                'type': 'select',
+                'options': [
+                    {'value': 'all', 'label': 'all'},
+                    {'value': 'download', 'label': 'downloading'},
+                ]
+            },
+        ]
+    },
+    {
         'name':'ipcamera',
         'label':'Ip Camera',
         'description':'Show and control your ip camera',
