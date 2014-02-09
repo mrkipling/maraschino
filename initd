@@ -76,6 +76,12 @@ load_settings() {
 
         DAEMON_OPTS="Maraschino.py --port=$PORT"
 
+        [ -n "$HOST" ] && DAEMON_OPTS="$DAEMON_OPTS --host=$HOST"
+
+        [ -n "$WEBROOT" ] && DAEMON_OPTS="$DAEMON_OPTS --webroot=$WEBROOT"
+
+        [ $KIOSK -eq 1 ] && DAEMON_OPTS="$DAEMON_OPTS --kiosk"
+
         [ -n "$PID_FILE" ] && PID_FILE=$PID_FILE
         [ -n "$PID_FILE" ] || PID_FILE=/var/run/maraschino/maraschino.pid
 
@@ -88,7 +94,7 @@ load_settings || exit 0
 
 is_running () {
     # returns 1 when running, else 0.
-    PID=$(pgrep -f "$DAEMON_OPTS")
+    PID=$(pgrep -f "Maraschino.py --port=$PORT")
     RET=$?
     [ $RET -gt 1 ] && exit 1 || return $RET
 }

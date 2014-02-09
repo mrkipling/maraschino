@@ -22,3 +22,12 @@ PID_FILE=
 
 # [required] port to listen on (defaults to 7000)
 PORT=7000
+
+# [optional] Host to listen on
+#HOST=localhost
+
+# [optional] Webroot
+#WEBROOT=/maraschino
+
+# [optional] Kiosk mode
+#KIOSK=1
