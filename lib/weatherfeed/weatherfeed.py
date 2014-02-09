@@ -52,7 +52,7 @@ class Weather:
     return urlHandle.read()
 
   def _getWeather(self):
-    for node in self.dom.childNodes[3].childNodes:
+    for node in self.dom.childNodes[0].childNodes:
       if node.nodeName == 'cc':
         self._setCurrentConditions(node)
 
@@ -61,6 +61,9 @@ class Weather:
 
       if node.nodeName == 'loc':
         self._setCurrentConditions(node)
+
+    if 'day' not in self.forecast[0]:
+      self.forecast[0]["day"] = self.forecast[0]["night"]
 
     if self.forecast[0]["day"]["type"] == "N/A":
       self.forecast[0]["day"]["type"] = self.currentConditions["type"]
@@ -152,7 +155,7 @@ class Weather:
     self.forecast[index]["Date"] = date
     for elem in node.childNodes:
       if elem.nodeName == 'hi':
-        if elem.firstChild.data == "N/A":
+        if elem.firstChild is None or elem.firstChild.data == "N/A":
           self.forecast[index]["high"] = "NA"
         else:
           self.forecast[index]["high"] = elem.firstChild.data
@@ -183,7 +186,10 @@ class Weather:
           self.forecast[index]["day"] = {}
           for subelem in elem.childNodes:
             if subelem.nodeName == 't':
-              self.forecast[index]["day"]["type"] = subelem.firstChild.data
+              if subelem.firstChild is None:
+                self.forecast[index]["day"]["type"] = "N/A"
+              else:
+                self.forecast[index]["day"]["type"] = subelem.firstChild.data
 
             if subelem.nodeName == 'ppcp':
               self.forecast[index]["day"]["pop"] = subelem.firstChild.data
