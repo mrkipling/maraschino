@@ -1067,7 +1067,7 @@ $(document).ready(function() {
     if(e.which == 13){
       e.preventDefault();
       add_loading_gif($('#sickbeard .powerholder .loading'));
-      var name = $(this).attr('value');
+      var name = $(this).val();
       params = '';
       if(name !== ''){
         params = 'name='+name;
@@ -1391,7 +1391,7 @@ $(document).ready(function() {
   // on enter
   $(document).on('keydown', '#couchpotato .search_div input', function(e) {
     if(e.which == 13){
-      var name = $(this).attr('value');
+      var name = $(this).val();
       params = '';
       if(name !== ''){
           params = 'name='+encodeURIComponent(name);
