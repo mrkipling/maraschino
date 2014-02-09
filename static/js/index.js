@@ -1254,7 +1254,7 @@ $(document).ready(function() {
 
   $(document).on('keypress', '#sabnzbd .inner .speed input', function(e){
     if(e.which == 13){
-      $.get(WEBROOT + '/xhr/sabnzbd/speedlimit/'+$(this).attr('value'))
+      $.get(WEBROOT + '/xhr/sabnzbd/speedlimit/'+$(this).val())
       .success(function(data){
         if(data.status == 'true'){
           get_module('sabnzbd');
