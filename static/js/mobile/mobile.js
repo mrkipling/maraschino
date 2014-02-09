@@ -237,12 +237,12 @@ $(document).ready(function () {
       ////////////////
      //  SabNZBd+  //
     ////////////////
-
-    $(document).on('click', '#sabnzbd_navbar #action,' + // resume/pause queue
-        '#sabnzbd_item #sabnzbd_item_navbar #action,' + // resume/pause item
-        '#sabnzbd_item #delete,' + // delete item
-        '#sabnzbd_history #retry,' + //retry history item
-        '#sabnzbd_history #delete,', // delete history item
+    /*jshint multistr: true */
+    $(document).on('click', "#sabnzbd_navbar #action, \
+        #sabnzbd_item #sabnzbd_item_navbar #action, \
+        #sabnzbd_item #delete, \
+        #sabnzbd_history #retry, \
+        #sabnzbd_history #delete",
         function() {
         $.mobile.showPageLoadingMsg();
         $.get($(this).data('url'), function(data) {

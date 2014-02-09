@@ -2,10 +2,10 @@
 
 {% block couchpotato_content %}
 {% if couchpotato['success'] %}
-  {% set info = couchpotato['movie']['library']['info'] %}
-  <div id="info" class="{{couchpotato['movie']['status']['identifier']}} noscroll">
+  {% set info = couchpotato['media']['library']['info'] %}
+  <div id="info" class="{{couchpotato['media']['status']['identifier']}} noscroll">
     <div class="left_content">
-      <div class="options" data-imdbid="{{info.imdb}}" data-cpid="{{couchpotato.movie.id}}">
+      <div class="options" data-imdbid="{{info.imdb}}" data-cpid="{{couchpotato.media.id}}">
         <img class="delete" src="{{ url_for('static', filename='images/no.png')}}" title="Delete"/>
         <img class="search" src="{{ url_for('static', filename='images/search.png')}}" title="Refresh"/>
         <a href="http://imdb.com/title/{{info.imdb}}" target="_blank">
@@ -15,7 +15,7 @@
       <img src="{{info['images']['poster'][0]}}" alt="poster">
     </div>
     <div class="right_content">
-      <h2>{{ couchpotato['movie']['library']['info']['original_title'] }}</h2>
+      <h2>{{ couchpotato['media']['library']['info']['original_title'] }}</h2>
       <table border="0">
         {% if info['year'] %}
         <tr>
@@ -75,13 +75,13 @@
           <td width="75" style="font-weight: bold;" align="right">Profile:&nbsp;&nbsp;</td>
           <td style="font-size:0.95em;" class="profile">
             {% if profiles %}
-              <select class="profiles" data-id="{{couchpotato.movie.id}}">
+              <select class="profiles" data-id="{{couchpotato.media.id}}">
                 {% for profile in profiles.list %}
-                  <option value="{{profile.id}}" {% if couchpotato['movie']['profile']['label'] == profile.label %}selected="selected"{%endif%}>{{profile.label}}</option>
+                  <option value="{{profile.id}}" {% if couchpotato['media']['profile']['label'] == profile.label %}selected="selected"{%endif%}>{{profile.label}}</option>
                 {% endfor %}
               </select>
             {% else %}
-              {{couchpotato['movie']['profile']['label']}}
+              {{couchpotato['media']['profile']['label']}}
             {% endif %}
           </td>
         </tr>

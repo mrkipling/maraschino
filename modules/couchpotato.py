@@ -375,7 +375,7 @@ def cp_get_movie(id):
     """
     try:
         logger.log('CouchPotato :: Retrieving movie info', 'INFO')
-        result = couchpotato_api('movie.get', 'id=%s' % id)
+        result = couchpotato_api('media.get', 'id=%s' % id)
         try:
             logger.log('CouchPotato :: Getting quality profiles', 'INFO')
             profiles = couchpotato_api('profile.list')

@@ -533,9 +533,9 @@ def couchpotato_history():
 @app.route('/mobile/couchpotato/movie/<id>/')
 def couchpotato_movie(id):
     try:
-        couchpotato = couchpotato_api('movie.get', 'id=%s' % id)
+        couchpotato = couchpotato_api('media.get', 'id=%s' % id)
         if couchpotato['success']:
-            couchpotato = couchpotato['movie']
+            couchpotato = couchpotato['media']
 
     except Exception as e:
         logger.log('Mobile :: CouchPotato :: Could not retrieve movie - %s]' % (e), 'WARNING')

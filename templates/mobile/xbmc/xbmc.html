@@ -4,7 +4,7 @@
 {% if servers %}
 <div id="servers">
   <select data-native-menu="false" data-theme="c">
-      <option>Servers</option>
+    <option>Servers</option>
     {% for server in servers %}
       <option id="{{ server.label }}_server" data-id="{{ server.id }}" {{ 'selected' if server.id == active_server }}>{{ server.label }}</option>
     {% endfor %}
