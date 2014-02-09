@@ -828,7 +828,7 @@ $(document).ready(function() {
     var ep = $(this).attr('episode');
     var season = $(this).attr('season');
     var id = $(this).attr('id');
-    $.get(WEBROOT + '/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
+    $.get(WEBROOT + '/xhr/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
     .success(function(data){
       if(data.result === 'success'){
         $('#sickbeard #'+id+'_'+season+'_'+ep+' div.options img.search').attr('src', WEBROOT + '/static/images/yes.png');
@@ -850,7 +850,7 @@ $(document).ready(function() {
   // Load show info from banner display
   $(document).on('click', '#sickbeard .coming_ep .options img.banner', function(){
     var tvdb = $(this).attr('id');
-    $.get(WEBROOT + '/sickbeard/get_show_info/'+tvdb, function(data){
+    $.get(WEBROOT + '/xhr/sickbeard/get_show_info/'+tvdb, function(data){
       $('#sickbeard').replaceWith(data);
     });
   });
@@ -876,7 +876,7 @@ $(document).ready(function() {
 
   // All Shows menu
   $(document).on('click', '#sickbeard .menu .all', function(){
-    $.get(WEBROOT + '/sickbeard/get_all', function(data){
+    $.get(WEBROOT + '/xhr/sickbeard/get_all', function(data){
       $('#sickbeard').replaceWith(data);
     });
   });
@@ -890,7 +890,7 @@ $(document).ready(function() {
 
   // History menu
   $(document).on('click', '#sickbeard .menu .history', function(){
-    $.get(WEBROOT + '/sickbeard/history/30', function(data){
+    $.get(WEBROOT + '/xhr/sickbeard/history/30', function(data){
       $('#sickbeard').html($(data).html());
       $('#sickbeard .menu').prepend('<li class="snatched" title="View snatched"><span>Snatched</span></li>');
     });
@@ -910,21 +910,21 @@ $(document).ready(function() {
   // Show info
   $(document).on('click', '#sickbeard #sickbeard-list ul', function(){
     var id = $(this).attr('id');
-    $.get(WEBROOT + '/sickbeard/get_show_info/'+id, function(data){
+    $.get(WEBROOT + '/xhr/sickbeard/get_show_info/'+id, function(data){
       $('#sickbeard').replaceWith(data);
     });
   });
 
   // Episode list back button functionality
   $(document).on('click', '#sb_content > #show .sb-back', function(){
-    $.get(WEBROOT + '/sickbeard/get_all', function(data){
+    $.get(WEBROOT + '/xhr/sickbeard/get_all', function(data){
       $('#sickbeard').replaceWith(data);
     });
   });
 
   // Season info
   $(document).on('click', '#sb_content > #show ul.seasons li', function(){
-    $.get(WEBROOT + '/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
+    $.get(WEBROOT + '/xhr/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
       $('#sickbeard').replaceWith(data);
       $('#sickbeard .episode-list .tablesorter').tablesorter({sortList: [[0,0]]});
     });
@@ -932,14 +932,14 @@ $(document).ready(function() {
 
   // Going into episode info
   $(document).on('click', '#sickbeard .episode-list #season tbody tr', function(){
-    $.get(WEBROOT + '/sickbeard/get_ep_info/'+$(this).attr('link'), function(data){
+    $.get(WEBROOT + '/xhr/sickbeard/get_ep_info/'+$(this).attr('link'), function(data){
       $('#sickbeard').replaceWith(data);
     });
   });
 
   // Episode info back button functionality
   $(document).on('click', '#sickbeard .episode-info div.back', function(){
-    $.get(WEBROOT + '/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
+    $.get(WEBROOT + '/xhr/sickbeard/get_season/'+$(this).attr('tvdbid')+'/'+$(this).attr('season'), function(data){
       $('#sickbeard').replaceWith(data);
       $('#sickbeard .episode-list .tablesorter').tablesorter({sortList: [[0,0]]});
     });
@@ -947,7 +947,7 @@ $(document).ready(function() {
 
   // Back Button Episode List
   $(document).on('click', '#sickbeard .episode-list >.back', function(){
-    $.get(WEBROOT + '/sickbeard/get_show_info/'+$(this).attr('tvdbid'), function(data){
+    $.get(WEBROOT + '/xhr/sickbeard/get_show_info/'+$(this).attr('tvdbid'), function(data){
       $('#sickbeard').replaceWith(data);
     });
   });
@@ -965,7 +965,7 @@ $(document).ready(function() {
   // Delete show function
   $(document).on('click', '#sickbeard #show .manage .delete' , function(){
     var id = $('#sickbeard #show .manage').attr('tvdbid');
-    $.get(WEBROOT + '/sickbeard/delete_show/'+id)
+    $.get(WEBROOT + '/xhr/sickbeard/delete_show/'+id)
     .success(function(data){
       popup_message(data);
     })
@@ -977,7 +977,7 @@ $(document).ready(function() {
   // Refresh show function
   $(document).on('click', '#sickbeard #show .manage .refresh' , function(){
     var id = $('#sickbeard #show .manage').attr('tvdbid');
-    $.get(WEBROOT + '/sickbeard/refresh_show/'+id)
+    $.get(WEBROOT + '/xhr/sickbeard/refresh_show/'+id)
     .success(function(data){
       popup_message(data);
     })
@@ -989,7 +989,7 @@ $(document).ready(function() {
   // Update show function
   $(document).on('click', '#sickbeard #show .manage .update' , function(){
     var id = $('#sickbeard #show .manage').attr('tvdbid');
-    $.get(WEBROOT + '/sickbeard/update_show/'+id)
+    $.get(WEBROOT + '/xhr/sickbeard/update_show/'+id)
     .success(function(data){
       popup_message(data);
     })
@@ -1000,7 +1000,7 @@ $(document).ready(function() {
 
   // Shutoff function
   $(document).on('click', '#sickbeard div.powerholder .power', function(){
-    $.get(WEBROOT + '/sickbeard/shutdown')
+    $.get(WEBROOT + '/xhr/sickbeard/shutdown')
     .success(function(data){
       popup_message(data);
     })
@@ -1011,7 +1011,7 @@ $(document).ready(function() {
 
   // Restart Function
   $(document).on('click', '#sickbeard div.powerholder .restart', function(){
-    $.get(WEBROOT + '/sickbeard/restart')
+    $.get(WEBROOT + '/xhr/sickbeard/restart')
     .success(function(data){
       popup_message(data);
     })
@@ -1022,7 +1022,7 @@ $(document).ready(function() {
 
   // Log function
   $(document).on('click', '#sickbeard div.powerholder .log', function(){
-    $.get(WEBROOT + '/sickbeard/log/error', function(data){
+    $.get(WEBROOT + '/xhr/sickbeard/log/error', function(data){
       $('#sickbeard').replaceWith(data);
     });
   });
@@ -1030,14 +1030,14 @@ $(document).ready(function() {
   // Log info level change
   $(document).on('change', '#sickbeard #log .level', function(){
     var level = $('#sickbeard #log .level').attr('value');
-    $.get(WEBROOT + '/sickbeard/log/'+level, function(data){
+    $.get(WEBROOT + '/xhr/sickbeard/log/'+level, function(data){
       $('#sickbeard').replaceWith(data);
     });
   });
 
   // Load search template
   $(document).on('click', '#sickbeard div.powerholder .add', function(){
-    $.get(WEBROOT + '/sickbeard/search/')
+    $.get(WEBROOT + '/xhr/sickbeard/search/')
     .success(function(data){
       $('#sickbeard').replaceWith(data);
     })
@@ -1056,7 +1056,7 @@ $(document).ready(function() {
       if(name !== ''){
         params = 'name='+name;
       }
-      $.get(WEBROOT + '/sickbeard/search/?'+params)
+      $.get(WEBROOT + '/xhr/sickbeard/search/?'+params)
       .success(function(data){
         $('#sickbeard').replaceWith(data);
       })
@@ -1072,7 +1072,7 @@ $(document).ready(function() {
     var lang = $('#sb_search #lang').find(':selected').val();
     var initial = $('#sb_search #quality').find(':selected').val();
     var params = 'lang='+lang+'&status='+status+'&initial='+initial;
-    $.get(WEBROOT + '/sickbeard/add_show/'+$(this).attr('tvdbid')+'/?'+params)
+    $.get(WEBROOT + '/xhr/sickbeard/add_show/'+$(this).attr('tvdbid')+'/?'+params)
     .success(function(data){
       popup_message(data);
     })
@@ -1087,7 +1087,7 @@ $(document).ready(function() {
     var ep = $(this).attr('episode');
     var season = $(this).attr('season');
     var id = $(this).attr('id');
-    $.get(WEBROOT + '/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
+    $.get(WEBROOT + '/xhr/sickbeard/search_ep/'+id+'/'+season+'/'+ep)
     .success(function(data){
       console.log(data.result);
       if(data.result === "failure"){
@@ -1107,7 +1107,7 @@ $(document).ready(function() {
     var season = $(this).attr('season');
     var id = $(this).attr('id');
     var status = this.value;
-    $.get(WEBROOT + '/sickbeard/set_ep_status/'+id+'/'+season+'/'+ep+'/'+status)
+    $.get(WEBROOT + '/xhr/sickbeard/set_ep_status/'+id+'/'+season+'/'+ep+'/'+status)
     .success(function(data){
       if (data.status !== 'success') {
         popup_message('An error ocurred: '+data);
@@ -2173,7 +2173,7 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '#traktplus .add_sickbeard', function() {
-    $.get(WEBROOT + '/sickbeard/search/?tvdbid=' + $(this).data('tvdb_id'), function(data){
+    $.get(WEBROOT + '/xhr/sickbeard/search/?tvdbid=' + $(this).data('tvdb_id'), function(data){
       $('#sickbeard').replaceWith(data);
     });
   });
@@ -3083,10 +3083,10 @@ $(document).ready(function() {
       } else  if (data.status == 'Command Required') {
         $('#add_edit_script_dialog label[for=id_script_command]').html('Command (required) <span class="invalid">(invalid)</span>');
       } else if (data.status == 'Label Required'){
-      	$('#add_edit_script_dialog label[for=id_script_label]').html('Label (required) <span class="invalid">(invalid)</span>');
+        $('#add_edit_script_dialog label[for=id_script_label]').html('Label (required) <span class="invalid">(invalid)</span>');
       } else {
         $('#add_edit_script_dialog label[for=id_script_command]').html('Command (required) <span class="invalid">(invalid)</span>');
-      	$('#add_edit_script_dialog label[for=id_script_label]').html('Label (required) <span class="invalid">(invalid)</span>');
+        $('#add_edit_script_dialog label[for=id_script_label]').html('Label (required) <span class="invalid">(invalid)</span>');
       }
     });
   });
@@ -3103,7 +3103,7 @@ $(document).ready(function() {
 
   $(document).on('click', '#script_launcher .script', function() {
     $.get(WEBROOT + '/xhr/script_launcher/start_script/' + $(this).data('id'), function(data) {
-    	$('#script_launcher').replaceWith(data);
+        $('#script_launcher').replaceWith(data);
     });
   });
 
