@@ -106,7 +106,7 @@ def newznab(site, category, maxage, term, mobile=False):
             a = {
                 'nzblink': item['link'],
                 'details': item['guid']['#text'],
-                'title': item['title'].decode('utf-8'),
+                'title': item['title'],
                 'category': item['category'],
                 'size': size
             }
