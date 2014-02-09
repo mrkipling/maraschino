@@ -7,6 +7,12 @@ from maraschino import app
 from maraschino.tools import *
 import maraschino
 
+def m_name():
+    if get_setting_value('sickbeard_show_mname') == None:
+        m_name = 'Sickbeard'
+    else:
+        m_name = get_setting_value('sickbeard_show_mname')
+    return m_name
 
 def sickbeard_http():
     if get_setting_value('sickbeard_https') == '1':
@@ -86,6 +92,7 @@ def xhr_sickbeard():
         )
 
     return render_template('sickbeard.html',
+        m_name=m_name(),
         url=sickbeard_url_no_api(),
         sickbeard=sickbeard,
         missed=sickbeard['missed'],

@@ -7,6 +7,12 @@ import urllib
 import urllib2
 import base64
 
+def m_name():
+    if get_setting_value('headphones_show_mname') == None:
+        m_name = 'Headphones'
+    else:
+        m_name = get_setting_value('headphones_show_mname')
+    return m_name
 
 def headphones_http():
     if get_setting_value('headphones_https') == '1':
@@ -150,6 +156,7 @@ def xhr_headphones_artists(mobile=False):
         artists=artists,
         updates=updates,
         compact=hp_compact(),
+        m_name=m_name(),
     )
 
 

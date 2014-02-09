@@ -7,6 +7,12 @@ from datetime import timedelta
 from maraschino.tools import *
 from maraschino import app, logger
 
+def m_name():
+    if get_setting_value('transmission_show_mname') == None:
+        m_name = 'Sabnzbd+'
+    else:
+        m_name = get_setting_value('transmission_show_mname')
+    return m_name
 
 def log_exception(e):
     logger.log('Transmission :: EXCEPTION -- %s' % e, 'DEBUG')
@@ -64,6 +70,7 @@ def xhr_transmission():
         log_exception(e)
 
     return render_template('transmission.html',
+        m_name=m_name(),
         connection = connection,
         show_empty = get_setting_value('transmission_show_empty') == '1',
         transmission = transmission,

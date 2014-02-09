@@ -12,6 +12,12 @@ from Maraschino import app
 from maraschino.tools import *
 from maraschino import logger
 
+def m_name():
+    if get_setting_value('sabnzbd_show_mname') == None:
+        m_name = 'SaBnzbd+'
+    else:
+        m_name = get_setting_value('sabnzbd_show_mname')
+    return m_name
 
 def sab_http():
     if get_setting_value('sabnzbd_https') == '1':
@@ -110,6 +116,7 @@ def xhr_sabnzbd(queue_status='hide'):
         message = 'There was a problem reaching SabNZBd.'
 
     return render_template('sabnzbd/queue.html',
+        m_name=m_name(),
         sabnzbd=sabnzbd,
         item=downloading,
         download_speed=download_speed,

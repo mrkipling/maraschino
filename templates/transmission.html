@@ -3,7 +3,7 @@
 
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
-  <h2>Transmission</h2>
+  <h2>{{ m_name }}</h2>
   <div class="inner">
   {% if transmission %}
   <div id="status">{{ download }}KB/s</div><div class="eta">{{ eta }}</div>
@@ -39,21 +39,21 @@
 <div id="transmission" class="module" data-module="transmission">
     <div class="module_settings"><span>Settings</span></div>
     <div class="module_remove"><span>Remove</span></div>
-    <h2>Transmission</h2>
+    <h2>{{ m_name }}</h2>
 		<p style="margin: 0 15px 15px;"><strong>No active torrents.</strong></p>
 </div>
 {% elif connection %}
 <div class="placeholder" data-module="transmission">
     <div class="module_settings"><span>Settings</span></div>
     <div class="module_remove"><span>Remove</span></div>
-    <h2>Transmission</h2>
+    <h2> {{ m_name }}</h2>
 		<p style="margin: 0 15px 15px;"><strong>No active torrents.</strong></p>
 </div>
 {% else %}
 <div class="placeholder" data-module="transmission">
     <div class="module_settings"><span>Settings</span></div>
     <div class="module_remove"><span>Remove</span></div>
-    <h2>Transmission</h2>
+    <h2>{{ m_name }}</h2>
 	<p style="margin: 0 15px 15px;"><strong>Warning:</strong> unable to connect to Transmission.</p>
 </div>
 {% endif %}

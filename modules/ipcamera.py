@@ -114,7 +114,7 @@ def rend_page():
     type = get_setting_value('ipcamera_type')
     stream_url = '%s/videostream.cgi' % (camera_url())
     if type == 'foscammjeg':
-        return render_template('ipcamera/foscammjeg.html', stream_url=stream_url)
+        return render_template('ipcamera/foscammjeg.html', stream_url=stream_url, m_name=m_name())
     elif type == 'foscammp4':
         return render_template('ipcamera/foscammp4.html', stream_url=stream_url)
 
@@ -123,3 +123,10 @@ def rend_page():
 @requires_auth
 def camera(cat, arg):
     return send_camera_request(cat, arg)
+
+def m_name():
+    if get_setting_value('ipcamera_show_mname') == None:
+        m_name = 'Ipcamera'
+    else:
+        m_name = get_setting_value('ipcamera_show_mname')
+    return m_name

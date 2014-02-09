@@ -6,6 +6,12 @@ import urllib
 from maraschino import app, logger
 from maraschino.tools import *
 
+def m_name():
+    if get_setting_value('nzbget_show_mname') == None:
+        m_name = 'NZBget'
+    else:
+        m_name = get_setting_value('nzbget_show_mname')
+    return m_name
 
 def nzbget_http():
     if get_setting_value('nzbget_https') == '1':
@@ -45,6 +51,7 @@ def xhr_nzbget():
     return render_template('nzbget/queue.html',
         nzbget=status,
         downloads=downloads,
+        m_name=m_name(),
     )
 
 

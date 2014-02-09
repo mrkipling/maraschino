@@ -4,7 +4,7 @@
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
 
-  <h2 class="title">{% block sickbeard_title %}Sickbeard{% endblock %}</h2>
+  <h2 class="title">{% block sickbeard_title %}{{ m_name }}{% endblock %}</h2>
 
   {% block sickbeard_menu %}
   <ul class="menu">
@@ -34,7 +34,7 @@
 <div class="placeholder" data-module="sickbeard">
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
-  <h2>Sickbeard</h2>
+  <h2>{{ m_name }}</h2>
 </div>
 
 {% endif %}

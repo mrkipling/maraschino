@@ -7,6 +7,13 @@ from maraschino.database import db_session
 
 from maraschino.models import Disk, HardDisk
 
+def m_name():
+    if get_setting_value('diskspace_show_mname') == None:
+        m_name = 'Disk Space'
+    else:
+        m_name = get_setting_value('diskspace_show_mname')
+    return m_name
+
 @app.route('/xhr/diskspace/')
 @requires_auth
 def xhr_diskspace():
@@ -76,6 +83,7 @@ def xhr_diskspace():
 
     return render_template('diskspace.html',
         disks=disks,
+        m_name=m_name(),
         show_grouped_disks=get_setting_value('show_grouped_disks') == '1'
     )
 

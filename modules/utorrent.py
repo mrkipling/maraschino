@@ -9,6 +9,13 @@ from datetime import timedelta
 from Maraschino import app
 from maraschino.tools import *
 
+def m_name():
+    if get_setting_value('utorrent_show_mname') == None:
+        m_name = 'Sabnzbd+'
+    else:
+        m_name = get_setting_value('utorrent_show_mname')
+    return m_name
+
 @app.route('/xhr/utorrent/')
 @requires_auth
 def xhr_utorrent():
@@ -41,6 +48,7 @@ def xhr_utorrent():
 
 
     return render_template('utorrent.html',
-        torrents = utorrent
+        torrents = utorrent,
+        m_name=m_name(),
     )
 
