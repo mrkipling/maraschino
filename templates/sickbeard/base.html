@@ -4,7 +4,11 @@
   <div class="module_settings"><span>Settings</span></div>
   <div class="module_remove"><span>Remove</span></div>
 
-  <h2 class="title">{% block sickbeard_title %}Sickbeard{% endblock %}</h2>
+  <h2 class="title">
+    {% block sickbeard_title %}
+      <a href="{{ app_link }}" class="app_link" target="_blank">Sickbeard</a>
+    {% endblock %}
+  </h2>
 
   {% block sickbeard_menu %}
   <ul class="menu">

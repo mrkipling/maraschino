@@ -1,5 +1,5 @@
 from flask import render_template, jsonify, request, json
-from maraschino.noneditable import server_api_address
+from maraschino.noneditable import server_api_address, safe_server_address
 from maraschino.models import Setting
 from maraschino.database import db_session
 from maraschino.tools import requires_auth, get_setting, get_setting_value, natural_sort, format_seconds
@@ -478,7 +478,6 @@ def xhr_xbmc_library_media(media_type=None):
     path = None
     back_path = '/'
     library = None
-
     if not server_api_address():
         logger.log('LIBRARY :: No XBMC server defined', 'ERROR')
         return render_xbmc_library(message="You need to configure XBMC server settings first.")
@@ -1097,6 +1096,13 @@ def xhr_library_resume_check(type, id):
         return jsonify(resume=False, template=None)
 
 
+def app_link():
+    if safe_server_address() is None:
+        return "http://xbmc.org/"
+
+    return safe_server_address()
+
+
 def render_xbmc_library(template='library.html',
                         library=None,
                         title='XBMC Library',
@@ -1127,6 +1133,7 @@ def render_xbmc_library(template='library.html',
         library=library,
         title=title,
         message=message,
+        app_link=app_link(),
         settings=settings,
         view=view,
         media=media,

@@ -147,6 +147,7 @@ def xhr_headphones_artists(mobile=False):
 
     return render_template('headphones/artists.html',
         headphones=True,
+        app_link=headphones_url(),
         artists=artists,
         updates=updates,
         compact=hp_compact(),

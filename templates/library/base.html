@@ -4,7 +4,9 @@
   <div class="module_remove"><span>Remove</span></div>
 
   <h2 class="module_title">
-    {% block xbmc_library_title %}{{ title }}{% endblock %}
+    <a href="{{ app_link }}" class="app_link" target="_blank">
+      {% block xbmc_library_title %}{{ title }}{% endblock %}
+    </a>
   </h2>
 
   <img class="xhrloading" src="{{ url_for('static', filename='images/xhrloading.gif') }}" />

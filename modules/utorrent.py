@@ -9,6 +9,12 @@ from datetime import timedelta
 from Maraschino import app
 from maraschino.tools import *
 
+def app_link():
+    utorrent_ip = get_setting_value('utorrent_ip')
+    utorrent_port = get_setting_value('utorrent_port')
+    
+    return 'http://%s:%s/gui/' % (utorrent_ip, utorrent_port)
+
 @app.route('/xhr/utorrent/')
 @requires_auth
 def xhr_utorrent():
@@ -23,6 +29,7 @@ def xhr_utorrent():
 
     try:
         client = utorrentclient.uTorrent(get_setting_value('utorrent_ip'),get_setting_value('utorrent_port'),get_setting_value('utorrent_user'),get_setting_value('utorrent_password'))
+
 
         # return list of running jobs:
         # {1: <Torrent 1 "Hello">, 2: <Torrent 2 "World">}
@@ -41,6 +48,7 @@ def xhr_utorrent():
 
 
     return render_template('utorrent.html',
-        torrents = utorrent
+        torrents = utorrent,
+        app_link = app_link()
     )
 

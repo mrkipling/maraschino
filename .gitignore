@@ -27,7 +27,7 @@ static/images/trakt/shows
 ######################
 .Spotlight-V100
 .Trashes
-.DS_Store?
+*.DS_Store
 desktop.ini
 ehthumbs.db
 Thumbs.db

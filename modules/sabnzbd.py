@@ -111,6 +111,7 @@ def xhr_sabnzbd(queue_status='hide'):
 
     return render_template('sabnzbd/queue.html',
         sabnzbd=sabnzbd,
+        app_link=sabnzbd_url_no_api(),
         item=downloading,
         download_speed=download_speed,
         old_config=old_config,

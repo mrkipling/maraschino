@@ -87,6 +87,7 @@ def xhr_sickbeard():
 
     return render_template('sickbeard.html',
         url=sickbeard_url_no_api(),
+        app_link=sickbeard_url_no_api(),
         sickbeard=sickbeard,
         missed=sickbeard['missed'],
         today=sickbeard['today'],
