@@ -16,6 +16,7 @@
     data-xhr_play="/xhr/play/{{ file }}/{{ media[:-1] }}/{{ item[media[:-1]+'id'] }}"
     data-xhr_queue="/xhr/enqueue/{{ file }}/{{ media[:-1] }}/{{ item[media[:-1]+'id'] }}"
     data-xhr_info="/xhr/library{{path}}{{'?' if not '?' in path else '&'}}{{media[:-1]}}id={{item[media[:-1]+'id']}}"
+    data-xhr_download="/xhr/download/{{ file }}/{{ media[:-1] }}/{{ item[media[:-1]+'id'] }}"
 
   {% endif %}
 
@@ -34,4 +35,6 @@
   {% if 'trailer' in library %}
     data-xhr_trailer="/xhr/play/trailer/{{ library[media[:-1]+'id'] }}"
   {% endif %}
+
+  data-xhr_download="/xhr/download/{{ file }}/{{ media[:-1] }}/{{ library[media[:-1]+'id'] }}"
 {% endif %}

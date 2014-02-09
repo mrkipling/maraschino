@@ -711,6 +711,22 @@ $(document).ready(function() {
     });
   });
 
+  // download button
+  $(document).on('click', '#library .download', function() {
+    $.get(WEBROOT + $(this).closest('.media').data('xhr_download'), function(data) {
+        var link = document.createElement('a');
+        link.href = data;
+
+        var fileName = data.substring(data.lastIndexOf('%2f') + 3, data.length);
+        fileName = decodeURI(fileName);
+        link.download = fileName;
+
+        var e = document.createEvent('MouseEvents');
+        e.initEvent('click', true, true);
+        link.dispatchEvent(e);
+    });
+  });
+
   //Check for resume position when clicking video
   $(document).on('click', '#library .resume_check', function() {
     var xhr_play = $(this).closest('.media').data('xhr_play');

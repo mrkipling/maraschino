@@ -619,3 +619,25 @@ def xhr_controls(command):
         return jsonify({ 'success': True })
     else:
         return jsonify({ 'failed': True })
+
+@app.route('/xhr/download/<file_type>/<media_type>/<int:media_id>')
+@requires_auth
+def xhr_download_media(file_type, media_type, media_id):
+    logger.log('CONTROLS :: Downloading %s' % media_type, 'INFO')
+    xbmc = jsonrpclib.Server(server_api_address())
+    serversettings = server_settings()
+
+    try:
+        if media_type == 'episode':
+            video = xbmc.VideoLibrary.GetEpisodeDetails(episodeid=media_id, properties=['file'])['episodedetails']['file']
+        elif media_type == 'movie':
+            video = xbmc.VideoLibrary.GetMovieDetails(movieid=media_id, properties=['file'])['moviedetails']['file']
+    except:
+        logger.log('CONTROLS :: Failed to retrieve path to %s' % media_type, 'DEBUG')
+        return jsonify({ 'failed': True })
+
+    path = xbmc.Files.PrepareDownload(path=video)['details']['path']
+
+    url = 'http://'+serversettings['username']+':'+serversettings['password']+'@'+serversettings['hostname']+':'+serversettings['port']+'/'+path
+
+    return url
