@@ -617,6 +617,31 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'rtorrentdl',
+        'label': 'rtorrent',
+        'description': 'Shows information about rtorrent downloads',
+        'static': False,
+        'poll': 10,
+        'delay': 0,
+        'settings': [
+                {
+                'key': 'rtorrent_url',
+                'value': '',
+                'description': 'rtorrent url',
+                },
+                {
+                'key': 'rtorrent_user',
+                'value': '',
+                'description': 'rtorrent Username',
+                },
+                {
+                'key': 'rtorrent_password',
+                'value': '',
+                'description': 'rtorrent Password',
+                },
+        ]
+    },
+    {
         'name': 'sickbeard',
         'label': 'Sickbeard Manager',
         'description': 'Manage Sickbeard from within Maraschino',
