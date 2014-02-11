@@ -27,24 +27,8 @@ from maraschino.models import Module, XbmcServer, RecentlyAdded, NewznabSite
 
 AVAILABLE_MODULES = [
     {
-        'name': 'applications',
-        'label': 'Applications',
-        'description': 'Allows you to link to whatever applications you want (SabNZBd, SickBeard, etc.)',
-        'static': True,
-        'poll': 0,
-        'delay': 0,
-        'settings': [
-            {
-                'key': 'app_new_tab',
-                'value': '0',
-                'description': 'Open application in new tab.',
-                'type': 'bool',
-            },
-        ]
-    },
-    {
         'name': 'couchpotato',
-        'label': 'CouchPotato Manager',
+        'label': 'Manager - CouchPotato',
         'description': 'Manage CouchPotato from within Maraschino',
         'static': True,
         'poll': 0,
@@ -95,30 +79,8 @@ AVAILABLE_MODULES = [
         ]
     },
     {
-        'name': 'diskspace',
-        'label': 'Disk space',
-        'description': 'Shows you available disk space on your various drives.',
-        'static': False,
-        'poll': 350,
-        'delay': 0,
-        'settings': [
-            {
-                'key': 'show_grouped_disks',
-                'value': '0',
-                'description': 'Show grouped disks outside of group.',
-                'type': 'bool',
-            },
-            {
-                'key': 'use_binary_units',
-                'value': '1',
-                'description': 'Use binary storage units (eg. GiB rather than GB)',
-                'type': 'bool',
-            },
-        ]
-    },
-    {
         'name': 'headphones',
-        'label': 'Headphones Manager',
+        'label': 'Manager - Headphones',
         'description': 'Manage Headphones from within Maraschino',
         'static': True,
         'poll': 0,
@@ -169,8 +131,66 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'sickbeard',
+        'label': 'Manager - Sickbeard',
+        'description': 'Manage Sickbeard from within Maraschino',
+        'static': True,
+        'poll': 0,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'sickbeard_api',
+                'value': '',
+                'description': 'Sickbeard API Key',
+            },
+            {
+                'key': 'sickbeard_user',
+                'value': '',
+                'description': 'Sickbeard Username',
+            },
+            {
+                'key': 'sickbeard_password',
+                'value': '',
+                'description': 'Sickbeard Password',
+            },
+            {
+                'key': 'sickbeard_ip',
+                'value': '',
+                'description': 'Sickbeard Hostname',
+            },
+            {
+                'key': 'sickbeard_port',
+                'value': '',
+                'description': 'Sickbeard Port',
+            },
+            {
+                'key': 'sickbeard_webroot',
+                'value': '',
+                'description': 'Sickbeard Webroot',
+            },
+            {
+                'key': 'sickbeard_https',
+                'value': '0',
+                'description': 'Use HTTPS',
+                'type': 'bool',
+            },
+            {
+                'key': 'sickbeard_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
+            },
+            {
+                'key': 'sickbeard_airdate',
+                'value': '0',
+                'description': 'Show air date',
+                'type': 'bool',
+            },
+        ]
+    },
+    {
         'name': 'library',
-        'label': 'XBMC Library',
+        'label': 'XBMC - Library',
         'description': 'Allows you to browse your XBMC library and select items to play in XBMC.',
         'static': True,
         'poll': 0,
@@ -215,39 +235,43 @@ AVAILABLE_MODULES = [
         ]
     },
     {
-        'name': 'nzbget',
-        'label': 'NZBGet',
-        'description': 'Shows you information about your NZBGet downloads.',
+        'name': 'recently_added_albums',
+        'label': 'XBMC - Recent Albums',
+        'description': 'Shows you Albums recently added to your library.',
         'static': False,
-        'poll': 10,
+        'poll': 350,
         'delay': 0,
         'settings': [
             {
-                'key': 'nzbget_host',
-                'value': '',
-                'description': 'Hostname',
+                'key': 'num_recent_albums',
+                'value': 3,
+                'description': 'Number of albums to display',
             },
             {
-                'key': 'nzbget_port',
-                'value': '',
-                'description': 'Port',
-            },
-            {
-                'key': 'nzbget_password',
-                'value': '',
-                'description': 'Password',
-            },
-            {
-                'key': 'nzbget_https',
+                'key': 'recently_added_albums_compact',
                 'value': '0',
-                'description': 'Use HTTPS',
+                'description': 'Compact view',
                 'type': 'bool',
+            },
+            {
+                'key': 'recently_added_albums_info',
+                'value': '0',
+                'description': 'View information when selecting album',
+                'type': 'bool',
+            },
+            {
+                'key': 'recently_added_albums_server',
+                'value': '',
+                'description': 'XBMC server',
+                'type': 'select',
+                'options': None,
+                'xbmc_servers': True
             },
         ]
     },
     {
         'name': 'recently_added',
-        'label': 'Recently added episodes',
+        'label': 'XBMC - Recent Episodes',
         'description': 'Shows you TV Episodes recently added to your library.',
         'static': False,
         'poll': 350,
@@ -288,7 +312,7 @@ AVAILABLE_MODULES = [
     },
     {
         'name': 'recently_added_movies',
-        'label': 'Recently added movies',
+        'label': 'XBMC - Recent Movies',
         'description': 'Shows you Movies recently added to your library.',
         'static': False,
         'poll': 350,
@@ -328,43 +352,47 @@ AVAILABLE_MODULES = [
         ]
     },
     {
-        'name': 'recently_added_albums',
-        'label': 'Recently added albums',
-        'description': 'Shows you Albums recently added to your library.',
+        'name': 'synopsis',
+        'label': 'XBMC - Synopsis',
+        'description': 'Shows you a plot synopsis of what you are currently watching.',
+        'static': True,
+        'poll': 0,
+        'delay': 0,
+    },
+    {
+        'name': 'nzbget',
+        'label': 'Usenet - NZBGet',
+        'description': 'Shows you information about your NZBGet downloads.',
         'static': False,
-        'poll': 350,
+        'poll': 10,
         'delay': 0,
         'settings': [
             {
-                'key': 'num_recent_albums',
-                'value': 3,
-                'description': 'Number of albums to display',
-            },
-            {
-                'key': 'recently_added_albums_compact',
-                'value': '0',
-                'description': 'Compact view',
-                'type': 'bool',
-            },
-            {
-                'key': 'recently_added_albums_info',
-                'value': '0',
-                'description': 'View information when selecting album',
-                'type': 'bool',
-            },
-            {
-                'key': 'recently_added_albums_server',
+                'key': 'nzbget_host',
                 'value': '',
-                'description': 'XBMC server',
-                'type': 'select',
-                'options': None,
-                'xbmc_servers': True
+                'description': 'Hostname',
+            },
+            {
+                'key': 'nzbget_port',
+                'value': '',
+                'description': 'Port',
+            },
+            {
+                'key': 'nzbget_password',
+                'value': '',
+                'description': 'Password',
+            },
+            {
+                'key': 'nzbget_https',
+                'value': '0',
+                'description': 'Use HTTPS',
+                'type': 'bool',
             },
         ]
     },
     {
         'name': 'sabnzbd',
-        'label': 'SABnzbd+',
+        'label': 'Usenet - SABnzbd+',
         'description': 'Shows you information about your SABnzbd+ downloads.',
         'static': False,
         'poll': 10,
@@ -405,50 +433,74 @@ AVAILABLE_MODULES = [
         ]
     },
     {
-        'name': 'script_launcher',
-        'label': 'Script Launcher',
-        'description': 'Runs scripts on same system Maraschino is located.',
+        'name': 'transmission',
+        'label': 'Torrent - Transmission',
+        'description': 'Shows you information about your Transmission downloads.',
         'static': False,
-        'poll': 350,
-        'delay': 0,
-    },
-    {
-        'name': 'synopsis',
-        'label': 'Synopsis',
-        'description': 'Shows you a plot synopsis of what you are currently watching.',
-        'static': True,
-        'poll': 0,
-        'delay': 0,
-    },
-    {
-        'name': 'trakt',
-        'label': 'trakt.tv Shouts',
-        'description': 'Shows you what people are saying about what you are watching and allows you to add your own comments.',
-        'static': True,
-        'poll': 0,
+        'poll': 10,
         'delay': 0,
         'settings': [
-            {
-                'key': 'trakt_api_key',
+                {
+                'key': 'transmission_ip',
                 'value': '',
-                'description': 'Trakt API Key',
-                'link': 'http://trakt.tv/settings/api',
-            },
-            {
-                'key': 'trakt_username',
+                'description': 'Transmission Hostname',
+                },
+                {
+                'key': 'transmission_port',
+                'value': '9091',
+                'description': 'Transmission Port',
+                },
+                {
+                'key': 'transmission_user',
                 'value': '',
-                'description': 'Trakt Username',
-            },
-            {
-                'key': 'trakt_password',
+                'description': 'Transmission Username',
+                },
+                {
+                'key': 'transmission_password',
                 'value': '',
-                'description': 'Trakt Password',
-            },
+                'description': 'Transmission Password',
+                },
+                {
+                'key': 'transmission_show_empty',
+                'value': '1',
+                'description': 'Show module with no active torrents',
+                'type': 'bool',
+                },
+        ]
+    },
+    {
+        'name': 'utorrent',
+        'label': 'Torrent - uTorrent',
+        'description': 'Shows information about uTorrent downloads',
+        'static': False,
+        'poll': 10,
+        'delay': 0,
+        'settings': [
+                {
+                'key': 'utorrent_ip',
+                'value': '',
+                'description': 'uTorrent Hostname',
+                },
+                {
+                'key': 'utorrent_port',
+                'value': '8080',
+                'description': 'uTorrent Port',
+                },
+                {
+                'key': 'utorrent_user',
+                'value': '',
+                'description': 'uTorrent Username',
+                },
+                {
+                'key': 'utorrent_password',
+                'value': '',
+                'description': 'uTorrent Password',
+                },
         ]
     },
     {
         'name': 'traktplus',
-        'label': 'trakt.tv',
+        'label': 'Trakt.TV',
         'description': 'trakt.tv module',
         'static': False,
         'poll': 0,
@@ -511,8 +563,72 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'trakt',
+        'label': 'Trakt.TV - Shouts',
+        'description': 'Shows you what people are saying about what you are watching and allows you to add your own comments.',
+        'static': True,
+        'poll': 0,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'trakt_api_key',
+                'value': '',
+                'description': 'Trakt API Key',
+                'link': 'http://trakt.tv/settings/api',
+            },
+            {
+                'key': 'trakt_username',
+                'value': '',
+                'description': 'Trakt Username',
+            },
+            {
+                'key': 'trakt_password',
+                'value': '',
+                'description': 'Trakt Password',
+            },
+        ]
+    },
+    {
+        'name': 'applications',
+        'label': 'Utility - Applications',
+        'description': 'Allows you to link to whatever applications you want (SabNZBd, SickBeard, etc.)',
+        'static': True,
+        'poll': 0,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'app_new_tab',
+                'value': '0',
+                'description': 'Open application in new tab.',
+                'type': 'bool',
+            },
+        ]
+    },
+    {
+        'name': 'diskspace',
+        'label': 'Utility - Disk space',
+        'description': 'Shows you available disk space on your various drives.',
+        'static': False,
+        'poll': 350,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'show_grouped_disks',
+                'value': '0',
+                'description': 'Show grouped disks outside of group.',
+                'type': 'bool',
+            },
+            {
+                'key': 'use_binary_units',
+                'value': '1',
+                'description': 'Use binary storage units (eg. GiB rather than GB)',
+                'type': 'bool',
+            },
+        ]
+    },
+    {
         'name':'ipcamera',
-        'label':'Ip Camera',
+        'label':'Utility - IP Camera',
         'description':'Show and control your ip camera',
         'static': False,
         'poll': 0,
@@ -551,132 +667,16 @@ AVAILABLE_MODULES = [
         ]
     },
     {
-        'name': 'transmission',
-        'label': 'Transmission',
-        'description': 'Shows you information about your Transmission downloads.',
+        'name': 'script_launcher',
+        'label': 'Utility - Script Launcher',
+        'description': 'Runs scripts on same system Maraschino is located.',
         'static': False,
-        'poll': 10,
+        'poll': 350,
         'delay': 0,
-        'settings': [
-                {
-                'key': 'transmission_ip',
-                'value': '',
-                'description': 'Transmission Hostname',
-                },
-                {
-                'key': 'transmission_port',
-                'value': '9091',
-                'description': 'Transmission Port',
-                },
-                {
-                'key': 'transmission_user',
-                'value': '',
-                'description': 'Transmission Username',
-                },
-                {
-                'key': 'transmission_password',
-                'value': '',
-                'description': 'Transmission Password',
-                },
-                {
-                'key': 'transmission_show_empty',
-                'value': '1',
-                'description': 'Show module with no active torrents',
-                'type': 'bool',
-                },
-        ]
-    },
-    {
-        'name': 'utorrent',
-        'label': 'uTorrent',
-        'description': 'Shows information about uTorrent downloads',
-        'static': False,
-        'poll': 10,
-        'delay': 0,
-        'settings': [
-                {
-                'key': 'utorrent_ip',
-                'value': '',
-                'description': 'uTorrent Hostname',
-                },
-                {
-                'key': 'utorrent_port',
-                'value': '8080',
-                'description': 'uTorrent Port',
-                },
-                {
-                'key': 'utorrent_user',
-                'value': '',
-                'description': 'uTorrent Username',
-                },
-                {
-                'key': 'utorrent_password',
-                'value': '',
-                'description': 'uTorrent Password',
-                },
-        ]
-    },
-    {
-        'name': 'sickbeard',
-        'label': 'Sickbeard Manager',
-        'description': 'Manage Sickbeard from within Maraschino',
-        'static': True,
-        'poll': 0,
-        'delay': 0,
-        'settings': [
-            {
-                'key': 'sickbeard_api',
-                'value': '',
-                'description': 'Sickbeard API Key',
-            },
-            {
-                'key': 'sickbeard_user',
-                'value': '',
-                'description': 'Sickbeard Username',
-            },
-            {
-                'key': 'sickbeard_password',
-                'value': '',
-                'description': 'Sickbeard Password',
-            },
-            {
-                'key': 'sickbeard_ip',
-                'value': '',
-                'description': 'Sickbeard Hostname',
-            },
-            {
-                'key': 'sickbeard_port',
-                'value': '',
-                'description': 'Sickbeard Port',
-            },
-            {
-                'key': 'sickbeard_webroot',
-                'value': '',
-                'description': 'Sickbeard Webroot',
-            },
-            {
-                'key': 'sickbeard_https',
-                'value': '0',
-                'description': 'Use HTTPS',
-                'type': 'bool',
-            },
-            {
-                'key': 'sickbeard_compact',
-                'value': '0',
-                'description': 'Compact view',
-                'type': 'bool',
-            },
-            {
-                'key': 'sickbeard_airdate',
-                'value': '0',
-                'description': 'Show air date',
-                'type': 'bool',
-            },
-        ]
     },
     {
         'name': 'weather',
-        'label': 'Weather',
+        'label': 'Utility - Weather',
         'description': 'Weather details.',
         'static': False,
         'poll': 350,
