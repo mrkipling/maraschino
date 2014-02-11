@@ -138,6 +138,7 @@ def index():
         show_pvr=get_setting_value('library_show_pvr') == '1',
         show_files=get_setting_value('library_show_files') == '1',
         show_power=get_setting_value('library_show_power_buttons') == '1',
+        library_app_link="http://xbmc.org/" if safe_server_address() is None else safe_server_address(),
         webroot=maraschino.WEBROOT,
         kiosk=maraschino.KIOSK,
         new_tab=new_tab,

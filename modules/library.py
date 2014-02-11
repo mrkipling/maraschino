@@ -704,7 +704,6 @@ def xhr_xbmc_library_media(media_type=None):
         logger.log('LIBRARY :: Problem fetching %s' % media_type, 'ERROR')
         logger.log('EXCEPTION :: %s' % e, 'DEBUG')
         return render_xbmc_library(message='There was a problem connecting to the XBMC server')
-
     return render_xbmc_library(
         template=template,
         library=library,
@@ -1096,13 +1095,6 @@ def xhr_library_resume_check(type, id):
         return jsonify(resume=False, template=None)
 
 
-def app_link():
-    if safe_server_address() is None:
-        return "http://xbmc.org/"
-
-    return safe_server_address()
-
-
 def render_xbmc_library(template='library.html',
                         library=None,
                         title='XBMC Library',
@@ -1133,7 +1125,7 @@ def render_xbmc_library(template='library.html',
         library=library,
         title=title,
         message=message,
-        app_link=app_link(),
+        library_app_link="http://xbmc.org/" if safe_server_address() is None else safe_server_address(),
         settings=settings,
         view=view,
         media=media,
