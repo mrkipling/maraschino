@@ -1,23 +1,17 @@
 # Author: Geoffrey Huntley <ghuntley@ghuntley.com>
 
-from flask import Flask, jsonify, render_template
+from flask import render_template
 import transmissionrpc
 
 from datetime import timedelta
 from maraschino.tools import *
 from maraschino import app, logger
 
-def app_link():
-    transmission_ip = get_setting_value('transmission_ip')
-    transmission_port = get_setting_value('transmission_ip')
-    
-    return 'http://%s:%s/' % (transmission_ip, transmission_port)
-
 
 def log_exception(e):
     logger.log('Transmission :: EXCEPTION -- %s' % e, 'DEBUG')
 
-@app.route('/xhr/transmission')
+
 @app.route('/xhr/transmission/')
 @requires_auth
 def xhr_transmission():
@@ -39,6 +33,7 @@ def xhr_transmission():
     }
     
     connection = False
+    app_link = 'http://%s:%s/' % (get_setting_value('transmission_ip'), get_setting_value('transmission_port')),
 
     try:
         client = transmissionrpc.Client(**params)
@@ -68,11 +63,12 @@ def xhr_transmission():
 
     except Exception as e:
         log_exception(e)
+        return render_template('transmission.html', app_link = app_link[0])
 
     return render_template('transmission.html',
         connection = connection,
-        applink=applink(),
         show_empty = get_setting_value('transmission_show_empty') == '1',
+        app_link = app_link[0],
         transmission = transmission,
         seeding = seeding,
         upload = "%.1f" % (stats.uploadSpeed / 1024.0),
