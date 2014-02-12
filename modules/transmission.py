@@ -71,7 +71,7 @@ def xhr_transmission():
 
     return render_template('transmission.html',
         connection = connection,
-        applink=applink(),
+        applink=app_link(),
         show_empty = get_setting_value('transmission_show_empty') == '1',
         transmission = transmission,
         seeding = seeding,
