@@ -21,10 +21,18 @@
 	<br/>
 	{% endfor %}
 </div>
+{% elif connected %}
+<div class="placeholder" data-module="rtorrentdl">
+	<div class="module_settings"><span>Settings</span></div>
+	<div class="module_remove"><span>Remove</span></div>
+	<h2>rTorrent</h2>
+	<p><strong>no torrents</strong></p>
+</div>
 {% else %}
 <div class="placeholder" data-module="rtorrentdl">
 	<div class="module_settings"><span>Settings</span></div>
 	<div class="module_remove"><span>Remove</span></div>
 	<h2>rTorrent</h2>
+	<p><strong>connection error</strong></p>
 </div>
 {% endif %}
