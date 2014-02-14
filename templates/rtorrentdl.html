@@ -6,19 +6,29 @@
 	<h2>rTorrent</h2>
 
 	{% for torrent in torrents%}
-	<div class="inner">
-		<div class="clearfix">
-			{{ torrent.name }}
-		</div>
+	<div class="listentry">
+		<div class="name">{{ torrent.name }}</div>
 		<div class="bar">
 			<div class="inner" style="width: {{ torrent.progress|int }}%;"></div>
 		</div>
 		<div class="clearfix">
-			<p class="remaining"><strong>status: {{ torrent.status }}</strong>{% if torrent.status == 'busy' %}&nbsp;&nbsp;-&nbsp;&nbsp;time left: {% if torrent.sec_left == -1 %}unknown{% else %}{{ torrent.sec_left }}{% endif %}{% endif %}</p>
-			<p class="percentage_complete">progress: {{ torrent.progress|int }}%&nbsp;&nbsp;-&nbsp;&nbsp;seed ratio: {{ torrent.seed_ratio }}%</p>
+			<p class="remaining">
+				status: {{ torrent.status }}
+				{% if torrent.status == 'busy' %}
+					<br/>time left:
+					{% if torrent.sec_left == -1 %}
+						unknown
+					{% else %}
+						{{ torrent.sec_left }}
+					{% endif %}
+				{% endif %}
+			</p>
+			<p class="percentage_complete">
+				progress: {{ torrent.progress|int }}%<br/>
+				seed ratio: {{ torrent.seed_ratio }}%
+			</p>
 		</div>
 	</div>
-	<br/>
 	{% endfor %}
 </div>
 {% elif connected %}
