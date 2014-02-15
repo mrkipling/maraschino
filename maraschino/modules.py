@@ -503,7 +503,7 @@ AVAILABLE_MODULES = [
         'label': 'Torrent - rTorrent',
         'description': 'Shows information about rTorrent downloads',
         'static': False,
-        'poll': 10,
+        'poll': 30,
         'delay': 0,
         'settings': [
                 {
@@ -521,6 +521,12 @@ AVAILABLE_MODULES = [
                 'value': '',
                 'description': 'rTorrent Password',
                 },
+                {
+                'key': 'rtorrent_list_scroll',
+                'value': '1',
+                'description': 'Use fixed list size',
+                'type': 'bool'
+                }
         ]
     },
     {

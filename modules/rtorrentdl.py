@@ -8,7 +8,7 @@ from maraschino.tools import *
 from rtorrent import RTorrent
 
 def log_error(ex):
-    logger.log('RTORRENTDL :: EXCEPTION - %s' % ex, 'DEBUG')
+	logger.log('RTORRENTDL :: EXCEPTION - %s' % ex, 'DEBUG')
 
 @app.route('/xhr/rtorrentdl/')
 @requires_auth
@@ -21,6 +21,10 @@ def xhr_rtorrentdl():
 	# connection flag
 	connected = False
 
+	# global rates
+	down_rate = 0.0
+	up_rate = 0.0
+
 	try:
 		if get_setting_value('rtorrent_url') is not None:
 			client = RTorrent(
@@ -32,11 +36,13 @@ def xhr_rtorrentdl():
 
 			if client is not None:
 				connected = True
+				down_rate = client.get_down_rate()
+				up_rate = client.get_up_rate()
 
-			# loop through each job, add any active (downloading) torrents to torrentlist()
-			# torrent: { info_hash: <HASH>, name: <NAME> }
+			# loop through each job and add all torrents to torrentlist()
 			for torrent in client.get_torrents():
-				# friendly status
+				# friendly status and time left
+				time_left = -1
 				if torrent.complete:
 					if torrent.active:
 						status = 'seeding'
@@ -44,30 +50,36 @@ def xhr_rtorrentdl():
 						status = 'done'
 				else:
 					if torrent.active:
-						status = 'busy'
+						if torrent.down_rate > 0:
+							time_left = str(timedelta(seconds = round(float(torrent.left_bytes) / torrent.down_rate)))
+							status = 'leeching'
+						else:
+							status = 'waiting'
 					else:
 						status = 'inactive'
 
 				# get torrent file list
-				torrent_filelist = []
-				for file_current in torrent.get_files():
-					torrent_filelist.append(os.path.join(torrent.directory,file_current.path))
+				# FIXME takes too much time and is not used anyway for now
+				#torrent_filelist = []
+				#for file_current in torrent.get_files():
+				#	torrent_filelist.append(os.path.join(torrent.directory,file_current.path))
 
 				# what's left?
-				percent_done = float(100.0 / torrent.size_bytes * (torrent.size_bytes-torrent.left_bytes))
-				time_left = str(timedelta(seconds = float(torrent.left_bytes) / torrent.down_rate)) if torrent.down_rate > 0 else -1
+				progress = float(100.0 / torrent.size_bytes * (torrent.size_bytes-torrent.left_bytes))
 
 				# append to list
 				torrentlist.append({
 					'name': torrent.name,
-					'id': torrent.info_hash,
+					'info_hash': torrent.info_hash,
 					'status': status,
-					'torrent_state': torrent.state,
-					'progress': percent_done,
-					'sec_left': time_left,
-					'seed_ratio': torrent.ratio,
-					'folder': torrent.directory,
-					'files': '|'.join(torrent_filelist)
+					'state': torrent.state,
+					'progress': progress,
+					'time_left': time_left,
+					'down_rate': torrent.down_rate,
+					'up_rate': torrent.up_rate,
+					'ratio': torrent.ratio
+				#	'folder': torrent.directory,
+				#	'files': '|'.join(torrent_filelist)
 				})
 
 			# no torrents -> empty list
@@ -79,5 +91,9 @@ def xhr_rtorrentdl():
 		torrentlist = None
 
 	return render_template('rtorrentdl.html',
-		torrents = torrentlist
+		connected = connected,
+		torrentlist_scroll = get_setting_value('rtorrent_list_scroll'),
+		torrentlist = torrentlist,
+		down_rate = down_rate,
+		up_rate = up_rate
 	)
