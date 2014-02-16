@@ -1,7 +1,7 @@
 #Author: Guido S. Nickels <gsn@kernel-oops.de>
 #Based on the utorrent maraschino module
 
-from flask import Flask, jsonify, render_template
+from flask import render_template
 from datetime import timedelta
 from maraschino import app, logger
 from maraschino.tools import *
@@ -14,6 +14,45 @@ def log_error(ex):
 @requires_auth
 
 def xhr_rtorrentdl():
+
+	# url qualification
+	def url_qualify(url_proto,url_host,url_port):
+
+		url_host_part=str(url_host).partition('/')
+
+		# validate host (kinda... just make sure it's not empty)
+		if url_host_part[0]:
+
+			# validate port
+			if not url_port:
+
+				# for http and https we can assume default service ports
+				if url_proto == 'http':
+					url_port = 80
+				elif url_proto == 'https':
+					url_port = 443
+				else:
+					raise Exception('port must be defined for protocol %s' % (url_proto))
+
+			else:
+				try:
+					url_port=int(url_port)
+				except ValueError:
+					raise Exception('port must be a numeric value')
+
+			url_qualified='%s://%s:%i%s%s' % (
+				url_proto,
+				url_host_part[0],
+				url_port,
+				url_host_part[1],
+				url_host_part[2]
+			)
+
+			return url_qualified
+
+		else:
+			raise Exception('invalid host: %s' % (url_host[0]))
+
 	# initialize empty list, which will be later populated with listing
 	# of active torrents
 	torrentlist = list()
@@ -25,14 +64,28 @@ def xhr_rtorrentdl():
 	down_rate = 0.0
 	up_rate = 0.0
 
+	rtorrent_url = None
+	rtorrent_user = None
+	rtorrent_password = None
+
 	try:
-		if get_setting_value('rtorrent_url') is not None:
-			client = RTorrent(
-				get_setting_value('rtorrent_url'),
-				get_setting_value('rtorrent_user'),
-				get_setting_value('rtorrent_password'),
-				True
+		if get_setting_value('rtorrent_host') is not None:
+			rtorrent_url = url_qualify(
+				get_setting_value('rtorrent_proto'),
+				get_setting_value('rtorrent_host'),
+				get_setting_value('rtorrent_port')
 			)
+	except Exception as ex:
+		log_error(ex)
+
+	try:
+		if rtorrent_url:
+			# user/password login is not implemented for scgi
+			if get_setting_value('rtorrent_proto') != 'scgi':
+				rtorrent_user = get_setting_value('rtorrent_user')
+				rtorrent_password = get_setting_value('rtorrent_password')
+
+			client = RTorrent(rtorrent_url,rtorrent_user,rtorrent_password,True)
 
 			if client is not None:
 				connected = True

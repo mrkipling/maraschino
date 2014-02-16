@@ -507,24 +507,40 @@ AVAILABLE_MODULES = [
         'delay': 0,
         'settings': [
                 {
-                'key': 'rtorrent_url',
+                'key': 'rtorrent_proto',
+                'value': 'http',
+                'description': 'rTorrent protocol',
+                'type': 'select',
+                'options': [
+                    {'value': 'http', 'label': 'http'},
+                    {'value': 'https', 'label': 'https'},
+                    {'value': 'scgi', 'label': 'scgi'}
+                ]
+                },
+                {
+                'key': 'rtorrent_host',
+                'value': 'example.com/RPC2',
+                'description': 'rTorrent hostname/location',
+                },
+                {
+                'key': 'rtorrent_port',
                 'value': '',
-                'description': 'rTorrent url',
+                'description': 'rTorrent port (optional for http/https)',
                 },
                 {
                 'key': 'rtorrent_user',
                 'value': '',
-                'description': 'rTorrent Username',
+                'description': 'rTorrent username (http/https only)',
                 },
                 {
                 'key': 'rtorrent_password',
                 'value': '',
-                'description': 'rTorrent Password',
+                'description': 'rTorrent password (http/https only)',
                 },
                 {
                 'key': 'rtorrent_list_scroll',
                 'value': '1',
-                'description': 'Use fixed list size',
+                'description': 'Use fixed torrent list size',
                 'type': 'bool'
                 }
         ]
