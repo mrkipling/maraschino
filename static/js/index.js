@@ -2322,7 +2322,7 @@ $(document).ready(function() {
     $(this).text(alternate_text);
     $(this).data('alternate-text', text);
     if(command){
-      $.get('/xhr/ipcamera/' + command, function(data){
+      $.get(WEBROOT + '/xhr/ipcamera/' + command, function(data){
         if(!data.status){
           popup_message('Error connecting to camera. Check log for further details.');
         }
@@ -2331,7 +2331,7 @@ $(document).ready(function() {
   });
 
   $(document).on('mousedown', '#ipcamera .movement .direction', function() {
-      $.get('/xhr/ipcamera/control_base/'+$(this).attr('id'), function(data) {
+      $.get(WEBROOT + '/xhr/ipcamera/control_base/'+$(this).attr('id'), function(data) {
         if(!data.status){
           popup_message('Error connecting to camera. Check log for further details.');
         }
@@ -2339,7 +2339,7 @@ $(document).ready(function() {
   });
 
   $(document).on('mouseup', '#ipcamera .movement .direction', function() {
-    $.get('/xhr/ipcamera/control_base/'+$(this).attr('id')+'_stop', function(data) {
+    $.get(WEBROOT + '/xhr/ipcamera/control_base/'+$(this).attr('id')+'_stop', function(data) {
       if(!data.status){
         popup_message('Error connecting to camera. Check log for further details.');
       }
@@ -2347,7 +2347,7 @@ $(document).ready(function() {
   });
 
   $(document).on('click', '#ipcamera .custom', function() {
-    $.get('/xhr/ipcamera/'+$(this).data('command'), function(data) {
+    $.get(WEBROOT + '/xhr/ipcamera/'+$(this).data('command'), function(data) {
       if(!data.status){
         popup_message('Error connecting to camera. Check log for further details.');
       }
