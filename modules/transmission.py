@@ -25,15 +25,21 @@ def xhr_transmission():
     eta = timedelta()
 
     # transmissionrpc connection params
+    address = get_setting_value('transmission_ip')
+    port = get_setting_value('transmission_port')
+    webroot = get_setting_value('transmission_webroot')
+    if not webroot:
+        webroot = 'transmission'
+
     params = {
-        'address' : get_setting_value('transmission_ip'),
-        'port' : get_setting_value('transmission_port'),
+        'address' : address,
+        'port' : '%s/%s/rpc' % (port, webroot),
         'user' : get_setting_value('transmission_user') or None,
         'password' : get_setting_value('transmission_password') or None
     }
     
     connection = False
-    app_link = 'http://%s:%s/' % (get_setting_value('transmission_ip'), get_setting_value('transmission_port')),
+    app_link = 'http://%s:%s/' % (address, port),
 
     try:
         client = transmissionrpc.Client(**params)
