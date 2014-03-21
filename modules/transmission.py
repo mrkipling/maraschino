@@ -39,7 +39,7 @@ def xhr_transmission():
     }
     
     connection = False
-    app_link = 'http://%s:%s/' % (address, port),
+    app_link = 'http://%s:%s/%s/web/' % (address, port, webroot),
 
     try:
         client = transmissionrpc.Client(**params)
