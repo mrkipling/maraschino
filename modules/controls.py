@@ -680,3 +680,23 @@ def xhr_download_media(file_type, media_type, media_id):
     url = 'http://'+serversettings['username']+':'+serversettings['password']+'@'+serversettings['hostname']+':'+serversettings['port']+'/'+path
 
     return url
+
+
+@app.route('/xhr/library_remove/<media>/<int:id>')
+@requires_auth
+def xhr_clear_playlist(media, id):
+    logger.log('CONTROLS :: Removing %s from XBMC library' % media, 'INFO')
+    xbmc = jsonrpclib.Server(server_api_address())
+
+    try:
+        if media == 'movie':
+            xbmc.VideoLibrary.RemoveMovie(movieid=id)
+        elif media == 'tvshow':
+            xbmc.VideoLibrary.RemoveTVShow(tvshowid=id)
+        elif media == 'episode':
+            xbmc.VideoLibrary.RemoveEpisode(episodeid=id)
+        return jsonify({'success': True})
+
+    except:
+        logger.log('CONTROLS :: %s' % xbmc_error, 'ERROR')
+        return jsonify({'failed': True})
