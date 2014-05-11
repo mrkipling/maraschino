@@ -1,0 +1,170 @@
+{% extends "/xbmcmm/modals/template.html" %}
+{% block modal_title %}
+  {% if movie.title or movie.original_title and movie.id %}
+    <a href="http://www.themoviedb.org/movie/{{ movie.id }}" target="_blank" title="View on TMDB">
+      {% if movie.title %}
+        {{ movie.title }}
+      {% elif movie.original_title %}
+        {{ movie.original_title }}
+      {% endif %}
+      on TMDB
+    </a>
+  {% else %}
+    TMDB Results
+  {% endif %}
+{% endblock %}
+{% block modal_content %}
+	{% if movie %}
+    <span class="badge badge-info">Empty fields will be ignored</span>
+		<form class="form-horizontal span5 scrape_info_form">
+    	<fieldset>
+
+    		{% if movie.title %}
+					<div class="control-group">
+            <label class="control-label" for="title">Title</label>
+            <div class="controls">
+              <input id="title" type="text" value="{{ movie.title }}">
+            </div>
+          </div>
+      	{% endif %}
+
+        {% if movie.original_title %}
+          <div class="control-group">
+            <label class="control-label" for="originaltitle">Original Title</label>
+            <div class="controls">
+              <input id="originaltitle" type="text" value="{{ movie.original_title }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if movie.overview %}
+          <div class="control-group">
+            <label class="control-label" for="plot">Plot</label>
+            <div class="controls">
+              <textarea type="text" id="plot">{{ movie.overview }}</textarea>
+            </div>
+          </div>
+        {% endif %}
+
+        {% if movie.genres %}
+          <div class="control-group">
+            <label class="control-label" for="genre">Genre</label>
+            <div class="controls">
+              <input id="genre" type="text" value="{{ movie.genres }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if movie.director %}
+          <div class="control-group">
+            <label class="control-label" for="director">Director</label>
+            <div class="controls">
+              <input id="director" type="text" value="{{ movie.director }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if movie.runtime %}
+          <div class="control-group">
+            <label class="control-label" for="runtime">Runtime</label>
+            <div class="controls">
+              <input id="runtime" type="text" value="{{ movie.runtime }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if movie.writer %}
+          <div class="control-group">
+            <label class="control-label" for="writer">Writer</label>
+            <div class="controls">
+              <input id="writer" type="text" value="{{ movie.writer }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if movie.release_date %}
+          <div class="control-group">
+            <label class="control-label" for="year">Year</label>
+            <div class="controls">
+              <input id="year" type="text" value="{{ movie.release_date[:4] }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if movie.vote_average %}
+          <div class="control-group">
+            <label class="control-label" for="rating">Rating</label>
+            <div class="controls">
+              <input id="rating" type="text" value="{{ movie.vote_average }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if movie.vote_count %}
+          <div class="control-group">
+            <label class="control-label" for="votes">Votes</label>
+            <div class="controls">
+              <input id="votes" type="text" value="{{ movie.vote_count }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if movie.mpaa %}
+          <div class="control-group">
+            <label class="control-label" for="mpaa">Certification</label>
+            <div class="controls">
+              <input id="mpaa" type="text" value="Rated {{ movie.mpaa }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if movie.production_companies %}
+          <div class="control-group">
+            <label class="control-label" for="studio">Studio</label>
+            <div class="controls">
+              <input id="studio" type="text" value="{{ movie.production_companies }}">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if movie.tagline %}
+          <div class="control-group">
+            <label class="control-label" for="tagline">Tagline</label>
+            <div class="controls">
+              <input id="tagline" type="text" value="{{ movie.tagline }}">
+            </div>
+          </div>
+        {% endif %}
+
+        <!--{% if movie.belongs_to_collection %}
+          <div class="control-group">
+            <label class="control-label" for="set">Set</label>
+            <div class="controls">
+              <input id="set" type="text" value="{{ movie.belongs_to_collection.name }}">
+            </div>
+          </div>
+        {% endif %}-->
+
+        {% if movie.trailer %}
+          <div class="control-group">
+            <label class="control-label" for="trailer">Trailer</label>
+            <div class="controls">
+              <input
+                id="trailer"
+                type="text"
+                value="plugin://plugin.video.youtube/?action=play_video&videoid={{ movie.trailer }}"
+              >
+            </div>
+          </div>
+        {% endif %}
+
+    	<fieldset>
+	  </form>
+  {% else %}
+    <p>Could not find movie on TMDB</p>
+	{% endif %}
+{% endblock %}
+{% block modal_footer %}
+  <a href="#" class="btn btn-primary scrape_info_save_btn">Apply changes</a>
+{% endblock %}
+

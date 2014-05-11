@@ -1,0 +1,21 @@
+{% extends "/xbmcmm/modals/template.html" %}
+{% block modal_title %}Tags{% endblock %}
+{% block modal_content %}
+	<div class="avail_tags">
+    {% for tag in tags %}
+      <input
+      	type="checkbox"
+      	value="{{ tag }}"
+      	{% if tag in existing %}
+      		checked="yes"
+      	{% endif %}
+      >
+      <span>{{ tag }}</span>
+      <br>
+    {% endfor %}
+  </div>
+{% endblock %}
+{% block modal_footer %}
+  <a href="#" class="btn btn-primary tag_save">Save changes</a>
+{% endblock %}
+

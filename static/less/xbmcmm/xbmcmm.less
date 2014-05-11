@@ -1,0 +1,150 @@
+@import "../webroot.less";
+
+[class^="icon-"],[class*=" icon-"]{
+  background-image:url("/@{webroot}/images/glyphicons-halflings.png");
+}
+
+.icon-white,
+.nav-pills > .active > a > [class^="icon-"],
+.nav-pills > .active > a > [class*=" icon-"],
+.nav-list > .active > a > [class^="icon-"],
+.nav-list > .active > a > [class*=" icon-"],
+.navbar-inverse .nav > .active > a > [class^="icon-"],
+.navbar-inverse .nav > .active > a > [class*=" icon-"],
+.dropdown-menu > li > a:hover > [class^="icon-"],
+.dropdown-menu > li > a:hover > [class*=" icon-"],
+.dropdown-menu > .active > a > [class^="icon-"],
+.dropdown-menu > .active > a > [class*=" icon-"],
+.dropdown-submenu:hover > a > [class^="icon-"],
+.dropdown-submenu:hover > a > [class*=" icon-"] {
+  background-image:url("/@{webroot}/images/glyphicons-halflings-white.png");
+}
+
+html, body { height: 100%; width: 100%; margin: 0; }
+
+body {
+  padding-top: 60px;
+  overflow: hidden;
+}
+
+.container-fluid {
+  height: 90%;
+}
+
+.heightLimit,
+.bs-docs-sidebar,
+.span10 {
+  height: 100%;
+}
+
+.media_list {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 87%;
+}
+
+.buttons {
+  height: 40px;
+}
+
+.details {
+  height: 92%;
+}
+
+#alerts {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  z-index: 100;
+}
+
+.main {
+  height: 100%;
+
+  .well {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    margin-top: 7px;
+  }
+  h3 {
+    text-align: center;
+    line-height: 10px;
+    font-size: 20px;
+  }
+  .thumbnail {
+    margin-bottom: 10px;
+    div.image {
+      line-height: 80px;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border-radius: 4px;
+    }
+
+    .row-fluid {
+      margin-top: 4px;
+    }
+  }
+  #tabs {
+    margin-bottom: -1px;
+    .active a {
+      background-color: #f5f5f5;
+    }
+  }
+  .tab-content {
+    border: 1px solid #ddd;
+    padding-top: 10px;
+    background-color: #f5f5f5;
+    overflow: hidden;
+    height: 92%;
+
+    .tab-pane {
+      overflow: scroll;
+      height: 100%;
+    }
+    .episode_list {
+      height: 90%;
+      overflow: hidden;
+      li {
+        line-height: 20px;
+        padding: 5px;
+        border-radius: 0 10px 10px 0;
+        &:hover {
+          background-color: #08c;
+          cursor: pointer;
+          a {
+            color: white;
+            text-decoration: none;
+          }
+        }
+        &.active {
+          background-color: #08c;
+          a {
+            color: white;
+          }
+          text-decoration: none;
+        }
+      }
+    }
+  }
+  .control-group {
+    margin-left: -90px;
+  }
+}
+
+.sidebar-nav {
+  position: absolute;
+  top: 60px;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+center.loading {
+  font-size: 40px;
+  line-height: 300px;
+}
+
+.movie_list, .set_list {
+  height: 84%;
+}

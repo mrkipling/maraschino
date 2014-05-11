@@ -51,6 +51,7 @@ def import_modules():
     import modules.diskspace
     import modules.headphones
     import modules.index
+    import modules.ipcamera
     import modules.library
     import modules.log
     import modules.nzbget
@@ -68,7 +69,7 @@ def import_modules():
     import modules.weather
     import modules.xbmc_notify
     import mobile
-    import modules.ipcamera
+    import xbmcmm
 
 
 @app.teardown_request

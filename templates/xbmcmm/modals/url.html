@@ -1,0 +1,9 @@
+{% extends "/xbmcmm/modals/template.html" %}
+{% block modal_title %}Image URL{% endblock %}
+{% block modal_content %}
+<input id="{{ type }}_url" type="text" class="span5 focused" placeholder="http://example.com/image.jpg">
+{% endblock %}
+{% block modal_footer %}
+  <a href="#" class="btn btn-primary url_save" data-type="{{ type }}">Save changes</a>
+{% endblock %}
+

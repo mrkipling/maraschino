@@ -1,0 +1,13 @@
+<div class="season_details row-fluid">
+
+  {% if item.episodes %}
+    <ul class="span3 episode_list">
+      {% for episode in item.episodes %}
+        <li id="{{ episode.episodeid }}"><a href="#">{{ episode.label }}</a></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% include '/xbmcmm/tvshow-episode.html' %}
+
+</div>

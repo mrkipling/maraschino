@@ -1,0 +1,21 @@
+{% extends "/xbmcmm/modals/template.html" %}
+{% block modal_title %}Genres{% endblock %}
+{% block modal_content %}
+	<div class="avail_genres">
+    {% for genre in genres %}
+      <input
+      	type="checkbox"
+      	value="{{ genre }}"
+      	{% if genre in existing %}
+      		checked="yes"
+      	{% endif %}
+      >
+      <span>{{ genre }}</span>
+      <br>
+    {% endfor %}
+  </div>
+{% endblock %}
+{% block modal_footer %}
+  <a href="#" class="btn btn-primary genre_save">Save changes</a>
+{% endblock %}
+

@@ -1,0 +1,70 @@
+{% macro control_group(name, title, tooltip=None) %}
+  <div class="control-group">
+    <label class="control-label" for="id_{{ name }}">{{ title }}</label>
+    <div class="controls">
+      {% if name == 'plot' %}
+        <textarea type="text" id="id_{{ name }}" name="{{ name }}" rows="4">{{ episode[name] }}</textarea>
+      {% elif name == 'playcount' %}
+        <input id="id_{{ name }}" name="{{ name }}" type="checkbox" {{ 'checked' if episode.playcount }}>
+      {% else %}
+        <input {% if tooltip %}rel="tooltip" title="{{ tooltip }}"{% endif %} id="id_{{ name }}" name="{{ name }}" type="text" value="{{ episode[name]|float|round(1, 'common') if name == 'rating' else episode[name] }}">
+      {% endif %}
+    </div>
+  </div>
+{% endmacro %}
+{% macro hidden_input(name, art=True) %}
+  <input id="id_{{ name }}" name="{{ name }}" type="hidden" value="{{ episode['art'][name] if art else episode[name] }}">
+{% endmacro %}
+
+<div class="episode_details span9">
+  {% if episode %}
+  <div class="pull-right btn-group">
+    <button class="btn tvdb_episode_info_btn" data-loading-text="Loading...">TVDB lookup</button>
+    <button type="button" class="btn btn-success xbmc_save">Apply Changes</button>
+    <button class="btn btn-danger remove_item">Remove episode</button>
+  </div>
+  <br><br><br>
+  <div class="row-fluid">
+    <div class="span6 thumbnail thumb_main thumb_thumb">
+      {% if 'thumb' in episode.art %}
+        <img src="{{ webroot_url('/static/images/xhrloading2.gif') }}" class="image" />
+        <script>
+          var curImg = new Image();
+          curImg.src = "{{ episode['art']['thumb']|xbmc_image }}";
+          curImg.id = "thumb_img";
+          curImg.onload = function(){
+            $(this).addClass('image');
+            $('.thumb_thumb .image').replaceWith(this);
+          }
+        </script>
+      {% else %}
+        <div align="center">Artwork not available.</div>
+      {% endif %}
+      <br>
+      <div class="row-fluid">
+        <button class="btn file_btn span6" data-type="episode_thumb">File</button>
+        <button class="btn url_btn span6" data-type="episode_thumb">URL</button>
+      </div>
+    </div>
+    <div class="span6">
+      <div id="media_id" data-type="episode" data-id="{{ episode.episodeid }}" data-tvshowid="{{ episode.tvshowid }}">
+        <form class="form-horizontal" id="form">
+        {{ control_group('title', 'Title') }}
+        {{ control_group('plot', 'Plot') }}
+        {{ control_group('firstaired', 'First Aired') }}
+        {{ control_group('rating', 'Rating') }}
+        {{ control_group('votes', 'Votes') }}
+        {{ control_group('director', 'Director', 'Separate with " / "') }}
+        {{ control_group('writer', 'Writer', 'Separate with " / "') }}
+        {{ control_group('playcount', 'Watched') }}
+
+        {{ hidden_input('episode', False) }}
+        {{ hidden_input('season', False) }}
+        {{ hidden_input('thumb') }}
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+<script>$('input[title]').tooltip({'placement': 'left'})</script>

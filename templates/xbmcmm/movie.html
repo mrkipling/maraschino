@@ -1,0 +1,124 @@
+{% macro control_group(name, title, tooltip=None) %}
+  <div class="control-group">
+    <label class="control-label" for="id_{{ name }}">{{ title }}</label>
+    <div class="controls">
+      {% if name == 'plot' %}
+        <textarea type="text" id="id_{{ name }}" name="{{ name }}" class="span12" rows="4">{{ movie[name] }}</textarea>
+      {% elif name == 'set' %}
+        <select id="id_set" name="set" class="span12">
+          <option value="">Choose set</option>
+          {% if item.sets %}
+            {% for set in item.sets %}
+              <option  value="{{set.label}}" {{ 'selected' if movie.set == set.label }}>
+                {{ set.label }}
+              </option>
+            {% endfor %}
+          {% endif %}
+        </select>
+      {% elif name == 'playcount' %}
+        <input class="pull-left" id="id_{{ name }}" name="{{ name }}" type="checkbox" {{ 'checked' if movie.playcount }} class="span12">
+      {% else %}
+        <input {% if tooltip %}rel="tooltip" title="{{ tooltip }}"{% endif %} id="id_{{ name }}" name="{{ name }}" type="text" value="{{ movie[name]|float|round(1, 'common') if name == 'rating' else movie[name] }}" class="span12">
+      {% endif %}
+      {% if name == 'genre' %}
+        <button class="btn btn-block add_genre_btn" data-file_type="video" data-media_type="movie" type="button">Add</button>
+      {% elif name == 'tag' %}
+        <button class="btn btn-block add_tag_btn" data-media_type="movie" type="button">Add</button>
+      {% endif %}
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro hidden_input(name, art=True) %}
+  <input id="id_{{ name }}" name="{{ name }}" type="hidden" value="{{ movie['art'][name] if art else movie[name] }}">
+{% endmacro %}
+
+{% macro thumb(type, fanarttv=False, tmdb=False) %}
+  <div class="thumbnail thumb_main {{ type }}_thumb">
+    <h3>{{ type|title }}</h3>
+    {% if type in movie.art %}
+      <img src="{{ webroot_url('/static/images/xhrloading2.gif') }}" class="image" />
+      <script>
+        var curImg = new Image();
+        curImg.src = "{{ movie['art'][type]|xbmc_image }}";
+        curImg.id = "{{ type }}_img";
+        curImg.onload = function(){
+          $(this).addClass('image');
+          $('.{{ type }}_thumb .image').replaceWith(this);
+        }
+      </script>
+    {% else %}
+      <div class="image">Artwork not available.</div>
+    {% endif %}
+
+    <div class="row-fluid">
+      <div class="span12">
+        <button class="btn file_btn span3" data-type="{{ type }}">File</button>
+        <button class="btn span3 url_btn" data-type="{{ type }}">URL</button>
+
+        {% if fanarttv %}
+          <button class="btn span3 fanarttv_btn" data-type="{{ type }}" data-media="movie" data-id="{{ movie.imdbnumber }}">fanart.tv</button>
+        {% endif %}
+
+        {% if tmdb %}
+         <button class="btn span3 tmdb_img_btn" data-type="{{ type }}" data-id="{{ movie.imdbnumber }}">TMDB</button>
+        {% endif %}
+      </div>
+    <div class="clearfix"></div>
+    </div>
+  </div>
+{% endmacro %}
+<div class="main">
+  <div class="pull-right btn-group">
+    <button class="btn tmdb_info_btn" data-loading-text="Loading...">TMDB lookup</button>
+    <button class="btn btn-success xbmc_save">Apply Changes</button>
+    <button class="btn btn-danger remove_item">Remove Movie</button>
+  </div>
+  <div class="row-fluid details">
+    {% if item.moviedetails %}
+      {% set movie = item.moviedetails %}
+      <div class="span12 well" id="media_id" data-type="movie" data-id="{{ movie.movieid }}">
+        <div class="span4">
+          <div class="form-horizontal" id="form">
+            {{ control_group('title', 'Title') }}
+            {{ control_group('originaltitle', 'Original Title') }}
+            {{ control_group('sorttitle', 'Sort Title') }}
+            {{ control_group('plot', 'Plot') }}
+            {{ control_group('genre', 'Genres', 'Separate with " / "') }}
+            {{ control_group('runtime', 'Runtime') }}
+            {{ control_group('director', 'Director', 'Separate with " / "') }}
+            {{ control_group('writer', 'Writer', 'Separate with " / "') }}
+            {{ control_group('year', 'Year') }}
+            {{ control_group('rating', 'Rating') }}
+            {{ control_group('votes', 'Votes') }}
+            {{ control_group('mpaa', 'Certification') }}
+            {{ control_group('studio', 'Studio', 'Separate with " / "') }}
+            {{ control_group('tagline', 'Tagline') }}
+            {{ control_group('set', 'Set') }}
+            {{ control_group('tag', 'Tags', 'Separate with " / "') }}
+            {{ control_group('trailer', 'Trailer') }}
+            {{ control_group('playcount', 'Watched') }}
+            {{ hidden_input('imdbnumber', False) }}
+            {{ hidden_input('fanart') }}
+            {{ hidden_input('banner') }}
+            {{ hidden_input('discart') }}
+            {{ hidden_input('poster') }}
+            {{ hidden_input('clearart') }}
+            {{ hidden_input('clearlogo') }}
+          </div>
+        </div>
+        <div class="span4">
+          {{ thumb('fanart', fanarttv=True, tmdb=True) }}
+          {{ thumb('banner', fanarttv=True) }}
+          {{ thumb('discart', fanarttv=True) }}
+        </div>
+        <div class="span4">
+          {{ thumb('poster', tmdb=True) }}
+          {{ thumb('clearart', fanarttv=True) }}
+          {{ thumb('clearlogo', fanarttv=True) }}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+<script>$('input[title]').tooltip({'placement': 'right'})</script>

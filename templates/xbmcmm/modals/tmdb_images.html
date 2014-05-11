@@ -1,0 +1,16 @@
+{% extends "/xbmcmm/modals/template.html" %}
+{% block modal_title %}TMDB Images{% endblock %}
+{% block modal_content %}
+  <div class="modal_images span5">
+    {% if images %}
+      {% for image in images[type] %}
+        <a href="#" class="thumbnail span2">
+          <img src="{{ images[type][image]['local'] }}" data-url="{{ images[type][image]['url'] }}" data-type="{{ type }}"alt="">
+        </a>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endblock %}
+{% block modal_footer %}
+{% endblock %}
+

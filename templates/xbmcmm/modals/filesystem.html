@@ -1,0 +1,39 @@
+{% extends "/xbmcmm/modals/template.html" %}
+{% if sub_paths %}
+{% block modal_title %}{{ path }}{% endblock %}
+{% block modal_content %}
+
+  <ul class="nav nav-list file_list">
+    {% if not root or dir.dirs.0 == 'empty' %}
+      <li class="path" data-path="{{ path|parent }}"><a href="#"><i class="icon-folder-close"></i> <b>..</b></a></li>
+      <li class="divider"></li>
+    {% endif %}
+    {% for folder in dir.dirs %}
+      {% if folder != 'empty' %}
+        <li class="path" data-path="{{ folder }}">
+          <a href="#">
+            <i class="icon-folder-close"></i>
+            {{ folder|strip_parents }}
+          </a>
+        </li>
+        <li class="divider"></li>
+      {% endif %}
+    {% endfor %}
+    {% for file in dir.files %}
+      <li class="file" data-path="{{ file }}">
+        <a href="#">
+          <i class="icon-folder-close"></i>
+          {{ file|strip_parents }}
+        </a>
+      </li>
+      <li class="divider"></li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}
+{% block modal_footer %}
+  <span class="badge badge-inverse pull-left">Maraschino must be on same file system as XBMC.</span>
+  <a href="#" class="btn btn-primary file_save_btn hide">Use file</a>
+{% endblock %}
+
+{% endif %}

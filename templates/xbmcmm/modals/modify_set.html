@@ -1,0 +1,22 @@
+{% extends "/xbmcmm/modals/template.html" %}
+{% block modal_title %}
+  {{ action|title }} Movie Set
+{% endblock %}
+
+{% block modal_content %}
+  {% if action == 'remove' %}
+	  Are you sure you want to remove the movie set?
+  {% else %}
+    <input class="setlabel span5 focused" type="text" value="" />
+  {% endif %}
+{% endblock %}
+
+{% block modal_footer %}
+  {% if action == 'remove' %}
+    <span class="badge badge-info pull-left">Movies will not be removed from the library.</span>
+  {% endif %}
+  <button class="btn btn-success confirm_modify_set" data-action="{{ action }}">
+    {{ 'Yes' if action == 'remove' else 'OK' }}
+  </button>
+{% endblock %}
+

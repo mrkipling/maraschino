@@ -1,0 +1,47 @@
+{% extends "/xbmcmm/modals/template.html" %}
+{% block modal_title %}Export {{ media|title }} Library{% endblock %}
+{% block modal_content %}
+  <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+    <li class="active">
+      <a href="#separate" data-toggle="tab"><b>Separate files</b></a>
+    </li>
+    <li>
+      <a href="#single" data-toggle="tab"><b>Single file</b></a>
+    </li>
+  </ul>
+
+  <div id="my-tab-content" class="tab-content">
+    <div class="tab-pane active" id="separate">
+      <form class="export_form">
+        <fieldset>
+          <label class="checkbox">
+            <input name="images" type="checkbox">
+            Export thumbnails and fanart
+          </label>
+
+          {% if media == 'video' %}
+            <label class="checkbox">
+              <input name="actorthumbs" type="checkbox">
+              Export actor thumbs
+            </label>
+          {% endif %}
+
+          <label class="checkbox">
+            <input name="overwrite" type="checkbox">
+            Overwrite existing files
+          </label>
+        </fieldset>
+        <a href="#" class="btn btn-primary export_save" data-library="{{ media }}" data-method="separate">Export</a>
+      </form>
+    </div>
+
+    <div class="tab-pane" id="single">
+      {% include '/xbmcmm/modals/export-filesystem.html' %}
+      <span class="badge badge-inverse pull-left">Maraschino must be on same file system as XBMC.</span><br>
+      <a href="#" class="btn btn-primary export_save" data-library="{{ media }}" data-method="single">Export</a>
+    </div>
+  </div>
+{% endblock %}
+{% block modal_footer %}
+{% endblock %}
+

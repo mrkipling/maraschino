@@ -1,0 +1,21 @@
+<ul class="nav nav-list export_file_list">
+  {% if filesystem %}
+    <li class="nav-header current_path"><b>{{ filesystem.current_path }}</b></li>
+    <li class="divider"></li>
+    {% if not filesystem.root or filesystem.dir.dirs.0 == 'empty' %}
+      <li class="path" data-path="{{ filesystem.current_path|parent }}"><a href="#"><i class="icon-folder-close"></i> <b>..</b></a></li>
+      <li class="divider"></li>
+    {% endif %}
+    {% for folder in filesystem.dir.dirs %}
+      {% if folder != 'empty' %}
+        <li class="path" data-path="{{ folder }}">
+          <a href="#">
+            <i class="icon-folder-close"></i>
+            {{ folder|strip_parents }}
+          </a>
+        </li>
+        <li class="divider"></li>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+</ul>
