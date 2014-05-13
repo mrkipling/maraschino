@@ -684,7 +684,7 @@ def xhr_download_media(file_type, media_type, media_id):
 
 @app.route('/xhr/library_remove/<media>/<int:id>')
 @requires_auth
-def xhr_clear_playlist(media, id):
+def xhr_library_remove(media, id):
     logger.log('CONTROLS :: Removing %s from XBMC library' % media, 'INFO')
     xbmc = jsonrpclib.Server(server_api_address())
 
