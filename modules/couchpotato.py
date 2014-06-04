@@ -76,7 +76,6 @@ def log_exception(e):
 
 
 def couchpotato_image(path):
-    print path
     path_pieces = re.split('\\/', path)
     return '%s/xhr/couchpotato/image/%s' % (WEBROOT, path_pieces[-1])
 
