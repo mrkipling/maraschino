@@ -12,14 +12,14 @@
 <div id="cp_content" class="noscroll{% if compact_view %} compact{%endif%}">
   {% if not couchpotato.empty %}
     {% for item in couchpotato.movies %}
-    <div class="movie {{ 'releases' if item.releases }}" id="{{item.library.identifier}}" data-cpid="{{item.id}}">
+    <div class="movie {{ 'releases' if item.releases }}" id="{{item.info.identifier}}" data-cpid="{{item.id}}">
       <div class="{{item.releases.status}}"></div>
       {% if not compact_view %}
       <div class="image">
         <img class="poster"
         src="
-          {% if item.library.files[0] %}
-            {{item.library.files[0].path|cp_img}}
+          {% if item.files.image_poster.0 %}
+            {{item.files.image_poster.0|cp_img}}
           {% else %}
             {{ url_for('static', filename='images/poster.png') }}
           {% endif %}"
@@ -27,18 +27,18 @@
         <span class="profile" title="CouchPotato quality profile">{{item.profile_label}}</span>
       </div>
       {%endif%}
-      <span class="title">{{item.library.titles[0].title}} ({{item.library.year}})</span>
-      {% if item.library.rating %}<span class="rating text"><h3>Rating: {{item.library.rating}}</h3></span>{% endif %}
-      <span class="tagline">{% if item.library.tagline %}{{item.library.tagline}}{% else %}{{item.library.plot|truncate(150)}}{% endif %}</span>
+      <span class="title">{{item.title}} ({{item.info.year}})</span>
+      {% if item.info.rating %}<span class="rating text"><h3>Rating: {{item.info.rating.imdb.0}}</h3></span>{% endif %}
+      <span class="tagline">{% if item.info.tagline %}{{item.info.tagline}}{% else %}{{item.info.plot|truncate(150)}}{% endif %}</span>
       {%if compact_view %}<span class="quality">{{item.profile_label}}</span>{%endif%}
     </div>
-    <div class="options {{item.library.identifier}}" data-imdbid="{{item.library.identifier}}" data-cpid="{{item.id}}">
+    <div class="options {{item.info.identifier}}" data-imdbid="{{item.info.identifier}}" data-cpid="{{item.id}}">
       <img class="delete left_opt" src="{{ url_for('static', filename='images/no.png')}}"/>
       <img class="search left_opt" src="{{ url_for('static', filename='images/search.png')}}"/>
-      <a href="http://imdb.com/title/{{item.library.identifier}}" target="_blank">
+      <a href="http://imdb.com/title/{{item.info.identifier}}" target="_blank">
         <img class="left_opt" src="{{ url_for('static', filename='images/imdb.png')}}" alt="" />
       </a>
-      {% if item.releases_count > 0 %}
+      {% if item.releases | length > 0 %}
         <div class="release_list"><ul></ul></div>
       {% endif %}
     </div>

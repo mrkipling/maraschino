@@ -12,13 +12,19 @@
 
 <div id="all" class="noscroll">
   {% for item in couchpotato.movies %}
-    <div class="movie" id="{{item.library.identifier}}" data-cpid="{{item.id}}">
+    <div class="movie" id="{{item.identifiers.imdb}}" data-cpid="{{item._id}}">
       <div class="{{item.releases.status}}"></div>
       <img class="poster"
-      src="{% if item.library.files[1] %}{{item.library.files[1].path|cp_img}} {% else %}{{ url_for('static', filename='images/poster.png') }}{% endif %}"
+      src="
+        {% if item.files.image_poster.0 %}
+            {{item.files.image_poster.0|cp_img}}
+          {% else %}
+            {{ url_for('static', filename='images/poster.png') }}
+          {% endif %}
+        "
       />
-      <span class="title text">{{item.library.titles[0].title}} ({{item.library.year}})</span>
-      {% if item.library.rating %}<span class="rating text">Rating: {{item.library.rating}}</span>{% endif %}
+      <span class="title text">{{item.title}} ({{item.info.year}})</span>
+      {% if item.info.rating %}<span class="rating text">Rating: {{item.info.rating.imdb.0}}</span>{% endif %}
       <span class="profile" title="CouchPotato quality profile">{{item.profile_label}}</span>
     </div>
   {% endfor %}

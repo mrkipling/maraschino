@@ -76,6 +76,7 @@ def log_exception(e):
 
 
 def couchpotato_image(path):
+    print path
     path_pieces = re.split('\\/', path)
     return '%s/xhr/couchpotato/image/%s' % (WEBROOT, path_pieces[-1])
 
@@ -126,7 +127,7 @@ def xhr_couchpotato(status='active'):
 
     for movie in couchpotato['movies']:
         for profile in profiles['list']:
-            if profile['id'] == movie['profile_id']:
+            if profile['_id'] == movie['profile_id']:
                 movie['profile_label'] = profile['label']
 
     return render_template(template,
@@ -150,7 +151,7 @@ def xhr_couchpotato_history():
 
     except Exception as e:
         logger.log('CouchPotato :: Could not retrieve Couchpotato - %s' % (e), 'WARNING')
-        couchpotato = None
+        couchpotato = "empty"
 
     return render_template('couchpotato/history.html',
         couchpotato=couchpotato,

@@ -1,23 +1,30 @@
-{% extends "couchpotato/base.html" %}
+<div id="couchpotato" class="module{% if compact_view %} compact{% endif %}" data-module="couchpotato">
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
 
-{% block couchpotato_title %}
-  <span id="unread">{{unread}}</span> new notifications
-{% endblock %}
+    <h2 class="title">
+    {% block couchpotato_title %}
+      <span id="unread">{{unread}}</span> new
+    {% endblock %}
+    </h2>
 
-{% block couchpotato_menu %}
-<ul class="menu">
-  <li class="history active" title="View History"><span>History</span></li>
-  <li class="all" title="View all"><span>All</span></li>
-  <li class="wanted" title="View wanted"><span>Wanted</span></li>
-</ul>
-{% endblock %}
+    <ul class="menu">
+      <li class="history active" title="View History"><span>History</span></li>
+      <li class="all" title="View all"><span>All</span></li>
+      <li class="wanted" title="View wanted"><span>Wanted</span></li>
+    </ul>
 
-{% block couchpotato_content %}
-<div id="history" class="noscroll">
-  <ul>
-  {% for notification in couchpotato|reverse %}
-    <li {{ "class=new" if not notification.read}} data-id="{{ notification.id }}">{{notification.message}}</li>
-  {% endfor %}
-  </ul>
+    <div id="history" class="noscroll">
+      <ul>
+      {% for notification in couchpotato|reverse %}
+        <li {{ "class=new" if not notification.read}} data-id="{{ notification.id }}">{{notification.message}}</li>
+      {% endfor %}
+      </ul>
+    </div>
+
+
+  <div class="search_div">
+    <span class="loading"></span>
+    <input class="query" type="search" placeholder="Search Movies"></input>
+  </div>
 </div>
-{% endblock %}
