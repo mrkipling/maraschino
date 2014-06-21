@@ -1136,6 +1136,29 @@ $(document).ready(function() {
 
   /******  END SICKBEARD Functions  *******/
 
+  /*** NZBDRONE ***/
+
+  // Loading wheel on menu click
+  $(document).on('click', '#nzbdrone .menu li', function() {
+    $(this).children().css('background', 'url('+WEBROOT+'/static/images/xhrloading.gif) no-repeat center').html('&nbsp;');
+  });
+
+  // All Shows menu
+  $(document).on('click', '#nzbdrone .menu .all', function(){
+    $.get(WEBROOT + '/xhr/nzbdrone/series', function(data){
+      $('#nzbdrone').replaceWith(data);
+    });
+  });
+
+  // Coming episodes Menu
+  $(document).on('click', '#nzbdrone .menu .upcoming', function(){
+    $.get(WEBROOT + '/xhr/nzbdrone', function(data){
+      $('#nzbdrone').replaceWith(data);
+    });
+  });
+
+  /******  END NZBDRONE Functions  *******/
+
   /*********** EXTRA SETTINGS *************/
 
   $(document).on('click', '#extra_settings', function() {

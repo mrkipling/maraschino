@@ -74,6 +74,22 @@ def xhr_nzbdrone():
     )
 
 
+@app.route('/xhr/nzbdrone/series/')
+def series():
+    params = '/Series'
+
+    try:
+        nzbdrone = nzbdrone_api(params)
+    except:
+        return render_template('nzbdrone.html',
+            nzbdrone='Error',
+        )
+
+    return render_template('nzbdrone/series.html',
+        nzbdrone=nzbdrone,
+    )
+
+
 # @app.route('/xhr/nzbdrone/search_ep/<tvdbid>/<season>/<episode>/')
 # @requires_auth
 # def search_ep(tvdbid, season, episode):
@@ -95,26 +111,6 @@ def xhr_nzbdrone():
 #         return nzbdrone['data']['description']
 #     except:
 #         return ''
-
-
-# @app.route('/xhr/nzbdrone/get_all/')
-# def get_all():
-#     params = '/?cmd=shows&sort=name'
-
-#     try:
-#         nzbdrone = nzbdrone_api(params)
-#     except:
-#         raise Exception
-
-#     if nzbdrone['result'].rfind('success') >= 0:
-#         nzbdrone = nzbdrone['data']
-
-#         for show in nzbdrone:
-#             nzbdrone[show]['url'] = get_pic(nzbdrone[show]['tvdbid'], 'banner')
-
-#     return render_template('nzbdrone/all.html',
-#         nzbdrone=nzbdrone,
-#     )
 
 
 # @app.route('/xhr/nzbdrone/get_show_info/<tvdbid>/')

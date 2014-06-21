@@ -1,0 +1,153 @@
+#nzbdrone {
+  max-height: 400px;
+  overflow: hidden;
+
+  .menu {
+    .history span {
+      background-image: url('/@{webroot}/images/history.png');
+    }
+    .all {
+      text-indent: 0;
+    }
+    .upcoming span  {
+      background-image: url('/@{webroot}/images/coming.png');
+    }
+    .snatched {
+      &.active {
+        background-image: url('/@{webroot}/images/alpha/fff_20.png');
+      }
+      span{
+        background-image: url('/@{webroot}/images/snatched.png');
+      }
+    }
+    li.active {
+      background-image: url('/@{webroot}/images/alpha/fff_20.png');
+    }
+  }
+
+  div.back,
+  .nzbdrone-back {
+    background: url('/@{webroot}/images/alpha/fff_10.png');
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 4px;
+    position: absolute;
+    right: 121px;
+    text-align: center;
+    top: 10px;
+    width: 30px;
+
+    .border-radius(4px);
+
+    &:hover {
+      background: url('/@{webroot}/images/alpha/fff_20.png');
+    }
+  }
+
+  div.powerholder {
+    text-align:right;
+    margin-top: 10px;
+    margin: 5px;
+    cursor: default;
+
+    .button {
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      cursor: pointer;
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+      margin: 5px 0 0 4px;
+      text-align: center;
+      right: 0px;
+      color: #ccc;
+      vertical-align: middle;
+      width: 30px;
+
+      .border-radius(4px);
+
+      &:hover {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
+
+      img {
+        height: 14px;
+        margin-top: 8px;
+        width: 14px;
+      }
+    }
+
+    .add {
+      font-size: 1.5em;
+    }
+
+    .log {
+      font-size: 0.8em;
+    }
+
+    input[type="search"] {
+      vertical-align: bottom;
+      background: url('/@{webroot}/images/alpha/fff_10.png');
+      border: 1px solid #222;
+      cursor: pointer;
+      color: #ccc;
+      height: 30px;
+      line-height: 30px;
+      padding: 2px;
+      margin-top: 5px;
+      .border-radius(4px);
+      -webkit-appearance: none;
+
+      &:hover {
+        background: url('/@{webroot}/images/alpha/fff_20.png');
+      }
+
+      &:focus {
+        background: url('/@{webroot}/images/alpha/fff_40.png');
+      }
+    }
+  }
+
+  #nzbdrone_content {
+    max-height: 264px;
+    overflow: auto;
+
+    ul {
+      li {
+        position: relative;
+        background: rgb(0, 0, 0);
+        img {
+          width: 100%;
+        }
+        span {
+          font: bold 14px/12px Arial;
+          p {
+            padding: 10px;
+            white-space: nowrap;
+            overflow: overlay;
+          }
+        }
+      }
+    }
+  }
+
+  #series {
+    max-height: 264px;
+    overflow: auto;
+
+    ul {
+      li {
+        background: url('/@{webroot}/images/alpha/fff_10.png');
+        padding: 5px;
+        margin: 5px;
+        line-height: 1.5em;
+        cursor: pointer;
+        .border-radius(4px);
+        &:hover {
+          background: url('/@{webroot}/images/alpha/fff_20.png');
+        }
+      }
+    }
+  }
+}
