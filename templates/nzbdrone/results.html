@@ -1,0 +1,25 @@
+{% extends "nzbdrone/base.html" %}
+
+{% block nzbdrone_menu %}
+<ul class="menu">
+  <li class="history" title="View History"><span>History</span></li>
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="upcoming" title="View upcoming"><span>Upcoming</span></li>
+</ul>
+{% endblock %}
+
+
+{% block nzbdrone_content %}
+
+<div id="results" class="noscroll list">
+  <ul>
+    {%for item in nzbdrone %}
+      <li data-tvdbId="{{item.tvdbId}}" data-tvRageId="{{item.tvRageId}}" data-imdbId="{{item.imdbId}}">
+          <img src="{{item.remotePoster}}" class="float-left" style="width: 10%;padding: 10px;">
+          <h3>{{ item.title }}<span class="float-right">{{ item.year }}</span></h3>
+          <p>{{ item.overview|truncate }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
