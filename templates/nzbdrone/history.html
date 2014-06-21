@@ -1,0 +1,24 @@
+{% extends "nzbdrone/base.html" %}
+
+{% block nzbdrone_menu %}
+<ul class="menu">
+  <li class="history active" title="View History"><span>History</span></li>
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="upcoming" title="View upcoming"><span>Upcoming</span></li>
+</ul>
+{% endblock %}
+
+
+{% block nzbdrone_content %}
+
+<div id="history" class="noscroll">
+  <ul>
+    {%for item in nzbdrone %}
+      <li class="{{ item.eventType }}" id="{{item.id}}" data-episodeId="{{item.episodeId}}" data-seriesId="{{item.seriesId}}" title="{{item.sourceTitle}}">
+          <span class="float-right">{{item.data.indexer}}</span>
+          {{ item.series.title }} - S{{ "%02d" % item.episode.seasonNumber }}E{{ "%02d" % item.episode.episodeNumber }}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

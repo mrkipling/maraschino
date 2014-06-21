@@ -150,4 +150,32 @@
       }
     }
   }
+
+  #history {
+    max-height: 264px;
+    overflow: auto;
+
+    ul {
+      li {
+        background: url('/@{webroot}/images/alpha/fff_10.png');
+        padding: 5px;
+        margin: 5px;
+        line-height: 1.5em;
+        cursor: pointer;
+        .border-radius(4px);
+        &:hover {
+          background: url('/@{webroot}/images/alpha/fff_20.png');
+        }
+        &.downloadFailed{
+          background: rgba(255, 0, 0, 0.3);
+        }
+        &.grabbed{
+          background: rgba(0, 0, 255, 0.3);
+        }
+        &.downloadFolderImported{
+          background: rgba(0, 255, 0, 0.3);
+        }
+      }
+    }
+  }
 }

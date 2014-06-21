@@ -90,6 +90,22 @@ def series():
     )
 
 
+@app.route('/xhr/nzbdrone/history/')
+def nzbdrone_history():
+    params = '/History?page=1&pageSize=50&sortKey=date&sortDir=desc'
+
+    try:
+        nzbdrone = nzbdrone_api(params)
+    except:
+        return render_template('nzbdrone.html',
+            nzbdrone='Error',
+        )
+
+    return render_template('nzbdrone/history.html',
+        nzbdrone=nzbdrone['records'],
+    )
+
+
 # @app.route('/xhr/nzbdrone/search_ep/<tvdbid>/<season>/<episode>/')
 # @requires_auth
 # def search_ep(tvdbid, season, episode):
