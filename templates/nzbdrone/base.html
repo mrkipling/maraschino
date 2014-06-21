@@ -1,0 +1,44 @@
+{% if nzbdrone %}
+
+<div id="nzbdrone" class="module{% if compact_view %} compact{% endif %}" data-module="nzbdrone">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2 class="title">
+    {% block nzbdrone_title %}
+      <a href="{{ app_link }}" class="app_link" target="_blank">NZBDrone</a>
+    {% endblock %}
+  </h2>
+
+  {% block nzbdrone_menu %}
+  <ul class="menu">
+    <li class="history" title="View History"><span>History</span></li>
+    <li class="all" title="View all"><span>All</span></li>
+    <li class="upcoming" title="View upcoming"><span>Upcoming</span></li>
+  </ul>
+  {% endblock %}
+
+  {% block nzbdrone_content %}{% endblock %}
+
+  <div class="powerholder">
+    <span class="operation_only">
+      <input class="query" type="search" placeholder="Search TV Shows"></input>
+      <span class="loading"></span>
+    </span>
+    <span class="settings_only">
+      <a class="button log" title ="NZBDrone logs">Log</a>
+      <a class="button restart" title ="Restart NZBDrone"><img src="{{ url_for('static', filename='images/reboot.png') }}" /></a>
+      <a class="button power" title ="Shutdown NZBDrone"><img src="{{ url_for('static', filename='images/shutdown.png') }}" /></a>
+    </span>
+  </div>
+</div>
+
+{% else %}
+
+<div class="placeholder" data-module="nzbdrone">
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+  <h2>nzbdrone</h2>
+</div>
+
+{% endif %}

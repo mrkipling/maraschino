@@ -1,0 +1,25 @@
+{% extends "nzbdrone/base.html" %}
+
+{% block nzbdrone_menu %}
+<ul class="menu">
+  <li class="history" title="View History"><span>History</span></li>
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="upcoming active" title="View upcoming"><span>Upcoming</span></li>
+</ul>
+{% endblock %}
+
+{% block nzbdrone_content %}
+<div id="nzbdrone_content" class="noscroll">
+  <ul>
+    {% for episode in nzbdrone %}
+      {%set date,time = episode.airDateUtc.split('T')%}
+      <li data-imdbid="{{episode.series.imdbId}}" data-tvdbid="{{episode.series.tvdbId}}" data-tvrageid="{{episode.series.tvRageId}}" id="{{episode.id}}">
+        <img src="{{episode.series.images.0.url}}">
+        <span>
+          <p class="float-right">{{date}}@{{time.strip('Z')-}}</p>
+          <p>{{- episode.series.title }} - S{{ "%02d" % episode.seasonNumber }}E{{ "%02d" % episode.episodeNumber }} - {{episode.title}}</p>
+        </span>
+      </li>
+    {% endfor %}  </ul>
+</div>
+{% endblock %}

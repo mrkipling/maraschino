@@ -235,6 +235,54 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'nzbdrone',
+        'label': 'Manager - NZBDrone',
+        'description': 'Manage NZBDrone from within Maraschino',
+        'static': True,
+        'poll': 0,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'nzbdrone_api',
+                'value': '',
+                'description': 'nzbdrone API Key',
+            },
+            {
+                'key': 'nzbdrone_ip',
+                'value': '',
+                'description': 'nzbdrone Hostname',
+            },
+            {
+                'key': 'nzbdrone_port',
+                'value': '',
+                'description': 'nzbdrone Port',
+            },
+            {
+                'key': 'nzbdrone_webroot',
+                'value': '',
+                'description': 'nzbdrone Webroot',
+            },
+            {
+                'key': 'nzbdrone_https',
+                'value': '0',
+                'description': 'Use HTTPS',
+                'type': 'bool',
+            },
+            {
+                'key': 'nzbdrone_compact',
+                'value': '0',
+                'description': 'Compact view',
+                'type': 'bool',
+            },
+            {
+                'key': 'nzbdrone_airdate',
+                'value': '0',
+                'description': 'Show air date',
+                'type': 'bool',
+            },
+        ]
+    },
+    {
         'name': 'recently_added_albums',
         'label': 'XBMC - Recent Albums',
         'description': 'Shows you Albums recently added to your library.',

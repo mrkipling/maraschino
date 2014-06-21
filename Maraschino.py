@@ -54,6 +54,7 @@ def import_modules():
     import modules.ipcamera
     import modules.library
     import modules.log
+    import modules.nzbdrone
     import modules.nzbget
     import modules.recently_added
     import modules.remote
