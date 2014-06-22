@@ -1174,6 +1174,21 @@ $(document).ready(function() {
     }
   });
 
+  // Add search result
+  $(document).on('click', '#nzbdrone #results ul li', function(){
+    var el = $(this);
+    data = {
+      tvdbId: el.data('tvdbid'),
+      titleSlug: el.data('titleslug'),
+      qualityProfileId: el.find('.quality').val(),
+      title: el.data('title'),
+      rootFolderPath: el.find('.root').val(),
+      seasons: el.find('.season').val(),
+    };
+    $.post(WEBROOT+'/xhr/nzbdrone/add/', data, function(data, textStatus, xhr) {
+      console.log(data);
+    });
+  });
   /******  END NZBDRONE Functions  *******/
 
   /*********** EXTRA SETTINGS *************/

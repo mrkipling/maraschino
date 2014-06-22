@@ -14,10 +14,34 @@
 <div id="results" class="noscroll list">
   <ul>
     {%for item in nzbdrone %}
-      <li data-tvdbId="{{item.tvdbId}}" data-tvRageId="{{item.tvRageId}}" data-imdbId="{{item.imdbId}}">
-          <img src="{{item.remotePoster}}" class="float-left" style="width: 10%;padding: 10px;">
+      <li id="{{item.id}}" data-title="{{item.title}}" data-tvdbid="{{item.tvdbId}}" data-tvRageid="{{item.tvRageId}}" data-imdbid="{{item.imdbId}}" data-titleSlug="{{item.titleSlug}}">
+          <img src="{{item.remotePoster}}" class="float-left" style="width: 20%;padding: 10px;">
           <h3>{{ item.title }}<span class="float-right">{{ item.year }}</span></h3>
           <p>{{ item.overview|truncate }}</p>
+          <p>
+            Root Folder:
+            <select class="root">
+              {% for folder in root %}
+                <option value="{{folder.path}}">{{folder.path}}</option>
+              {% endfor %}
+            </select>
+          </p>
+          <p>
+            Season:
+            <select class="season">
+              {% for season in item.seasons %}
+                <option value="{{season.seasonNumber}}">Season {{season.seasonNumber}}</option>
+              {% endfor %}
+            </select>
+          </p>
+          <p>
+            Quality:
+            <select class="quality">
+              {% for quality in qualities %}
+                <option value="{{quality.id}}">{{quality.name}}</option>
+              {% endfor %}
+            </select>
+          </p>
       </li>
     {% endfor %}
   </ul>
