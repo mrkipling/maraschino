@@ -1,0 +1,22 @@
+{% extends "nzbdrone/base.html" %}
+
+{% block nzbdrone_title %}
+  Error
+{% endblock %}
+
+
+{% block nzbdrone_menu %}
+<ul class="menu">
+  <li class="history" title="View History"><span>History</span></li>
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="upcoming" title="View upcoming"><span>Upcoming</span></li>
+</ul>
+{% endblock %}
+
+
+{% block nzbdrone_content %}
+
+<div id="error">
+  <p style="color: red; width: 100%; text-align: center;">{{ nzbdrone }}</p>
+</div>
+{% endblock %}
