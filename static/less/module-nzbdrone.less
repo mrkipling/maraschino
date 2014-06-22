@@ -180,6 +180,45 @@
   }
 }
 
+#serie {
+  p {
+    margin: 5px;
+    text-align: justify;
+  }
+
+  h3 {
+    padding: 5px;
+    cursor: pointer;
+    &:hover {
+      background: url('/@{webroot}/images/alpha/fff_20.png');
+    }
+  }
+
+  ul.season {
+    display: none;
+    li.True {
+      background: rgba(140, 255, 140, 0.3)
+    }
+
+    li.False {
+      background: rgba(255, 140, 140, 0.3);
+    }
+  }
+
+  div.progress {
+    .border-radius(4px);
+    margin: 5px;
+    line-height: 0.5em;
+    font-size: 10px;
+    text-align: center;
+    background: url('/@{webroot}/images/alpha/fff_10.png');
+    div {
+      background: rgba(50, 255, 50, 0.5);
+      .border-radius(4px);
+    }
+  }
+}
+
 .list {
   max-height: 264px;
   overflow: auto;

@@ -1189,6 +1189,19 @@ $(document).ready(function() {
       console.log(data);
     });
   });
+
+  // Series view
+  $(document).on('click', '#nzbdrone #series li', function() {
+    add_loading_gif($(this));
+    $.get(WEBROOT + '/xhr/nzbdrone/series/'+$(this).attr('id'), function(data){
+      $('#nzbdrone').replaceWith(data);
+    });
+  });
+
+  // Toggle season
+  $(document).on('click', '#nzbdrone #serie h3', function() {
+    $("#nzbdrone #serie ul."+$(this).data('season')).toggle();
+  });
   /******  END NZBDRONE Functions  *******/
 
   /*********** EXTRA SETTINGS *************/

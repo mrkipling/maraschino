@@ -1,0 +1,46 @@
+{% extends "nzbdrone/base.html" %}
+
+{% block nzbdrone_title %}
+  {{nzbdrone.title}}
+{% endblock %}
+
+
+{% block nzbdrone_menu %}
+<ul class="menu">
+  <li class="history" title="View History"><span>History</span></li>
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="upcoming" title="View upcoming"><span>Upcoming</span></li>
+</ul>
+{% endblock %}
+
+
+{% block nzbdrone_content %}
+
+<div id="serie" class="noscroll list" data-imdbId="{{nzbdrone.imdbId}}" data-tvRageId="{{nzbdrone.tvRageId}}" data-tvdbId="{{nzbdrone.tvdbId}}" data-id="{{nzbdrone.id}}">
+  <!-- <p>{{nzbdrone.overview}}</p> -->
+  <div class="progress">
+    <div style="width: {{nzbdrone.episodeFileCount*100/nzbdrone.episodeCount}}%;">
+      {{nzbdrone.episodeFileCount}}/{{nzbdrone.episodeCount}}
+    </div>
+  </div>
+  {%for season in nzbdrone.seasons|sort %}
+    <h3 data-season="{{season.seasonNumber}}">Season {{season.seasonNumber}}</h3>
+    <ul class="season {{season.seasonNumber}}">
+      {% for episode in season.episodes %}
+        <li class="{{episode.hasFile}}">
+          <span class="float-right">{{episode.airDate}}</span>
+          {{episode.episodeNumber}}. {{episode.title}}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+
+<!--   <ul class="episodes">
+    {% for episode in episodes %}
+      <li id="{{episode.id}}" class="{{episode.hasFile}}">
+        S{{ "%02d" % episode.seasonNumber}}E{{ "%02d" % episode.episodeNumber}} - {{episode.title}}
+      </li>
+    {% endfor %}
+  </ul>
+</div> -->
+{% endblock %}

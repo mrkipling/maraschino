@@ -77,10 +77,9 @@ def xhr_nzbdrone():
 
     try:
         nzbdrone = nzbdrone_api(params)
-
-    except:
-        return render_template('nzbdrone.html',
-            nzbdrone='Error',
+    except Exception as e:
+        return render_template('nzbdrone/error.html',
+            nzbdrone=e,
         )
 
     return render_template('nzbdrone.html',
@@ -94,13 +93,38 @@ def series():
 
     try:
         nzbdrone = nzbdrone_api(params)
-    except:
-        return render_template('nzbdrone.html',
-            nzbdrone='Error',
+    except Exception as e:
+        return render_template('nzbdrone/error.html',
+            nzbdrone=e,
         )
 
     return render_template('nzbdrone/series.html',
         nzbdrone=nzbdrone,
+    )
+
+
+@app.route('/xhr/nzbdrone/series/<id>/')
+def serie(id):
+    try:
+        nzbdrone = nzbdrone_api('Series/%s' % (id))
+        episodes = nzbdrone_api('Episode?seriesId=%s' % (id))
+
+        for season in nzbdrone['seasons']:
+            e = []
+            for episode in episodes:
+                if season['seasonNumber'] == episode['seasonNumber']:
+                    e.append(episode)
+
+            season['episodes'] = e
+
+    except Exception as e:
+        return render_template('nzbdrone/error.html',
+            nzbdrone=e,
+        )
+
+    return render_template('nzbdrone/serie.html',
+        nzbdrone=nzbdrone,
+        episodes=episodes,
     )
 
 
@@ -110,9 +134,9 @@ def nzbdrone_history():
 
     try:
         nzbdrone = nzbdrone_api(params)
-    except:
-        return render_template('nzbdrone.html',
-            nzbdrone='Error',
+    except Exception as e:
+        return render_template('nzbdrone/error.html',
+            nzbdrone=e,
         )
 
     return render_template('nzbdrone/history.html',
@@ -128,9 +152,9 @@ def nzbdrone_search(query):
         nzbdrone = nzbdrone_api(params)
         root = nzbdrone_root()
         qualities = nzbdrone_qualities()
-    except:
-        return render_template('nzbdrone.html',
-            nzbdrone='Error',
+    except Exception as e:
+        return render_template('nzbdrone/error.html',
+            nzbdrone=e,
         )
 
     return render_template('nzbdrone/results.html',
