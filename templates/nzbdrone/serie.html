@@ -17,14 +17,14 @@
 {% block nzbdrone_content %}
 
 <div id="serie" class="noscroll list" data-imdbId="{{nzbdrone.imdbId}}" data-tvRageId="{{nzbdrone.tvRageId}}" data-tvdbId="{{nzbdrone.tvdbId}}" data-id="{{nzbdrone.id}}">
-  <!-- <p>{{nzbdrone.overview}}</p> -->
+  <p>{{nzbdrone.overview}}</p>
   <div class="progress">
     <div style="width: {{nzbdrone.episodeFileCount*100/nzbdrone.episodeCount}}%;">
       {{nzbdrone.episodeFileCount}}/{{nzbdrone.episodeCount}}
     </div>
   </div>
   {%for season in nzbdrone.seasons|sort %}
-    <h3 data-season="{{season.seasonNumber}}">Season {{season.seasonNumber}}</h3>
+    <h3 data-season="{{season.seasonNumber}}">Season {{season.seasonNumber}} <span class="float-right">{{season.have}}/{{season.total}}</span></h3>
     <ul class="season {{season.seasonNumber}}">
       {% for episode in season.episodes %}
         <li class="{{episode.hasFile}}">
@@ -34,13 +34,5 @@
       {% endfor %}
     </ul>
   {% endfor %}
-
-<!--   <ul class="episodes">
-    {% for episode in episodes %}
-      <li id="{{episode.id}}" class="{{episode.hasFile}}">
-        S{{ "%02d" % episode.seasonNumber}}E{{ "%02d" % episode.episodeNumber}} - {{episode.title}}
-      </li>
-    {% endfor %}
-  </ul>
-</div> -->
+</div>
 {% endblock %}

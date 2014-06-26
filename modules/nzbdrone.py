@@ -111,9 +111,14 @@ def serie(id):
 
         for season in nzbdrone['seasons']:
             e = []
+            season['have'] = 0
+            season['total'] = 0
             for episode in episodes:
                 if season['seasonNumber'] == episode['seasonNumber']:
                     e.append(episode)
+                    season['total'] += 1
+                    if episode['hasFile']:
+                        season['have'] += 1
 
             season['episodes'] = e
 
@@ -164,12 +169,18 @@ def nzbdrone_search(query):
     )
 
 
+@app.route('/xhr/nzbdrone/search/', methods=['POST'])
+@requires_auth
+def nzbdrone_episode_search():
+    params = 'Command'
+    nzbdrone = nzbdrone_api(params, post=True, data=request.form, dev=True)
+    return nzbdrone
+
+
 @app.route('/xhr/nzbdrone/add/', methods=['POST'])
 @requires_auth
 def nzbdrone_add():
     params = 'Series'
     nzbdrone = nzbdrone_api(params, post=True, data=request.form, dev=True)
     return nzbdrone
-    return render_template('nzbdrone/results.html',
-        nzbdrone=nzbdrone,
-    )
+
