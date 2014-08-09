@@ -496,8 +496,11 @@ fanarttv_apikey = '560fee4c7ffe8f503e0f9474b8adb3e6'
 
 
 def fanarttv_url(media, type, id, sort=1, limit=2):
-    return 'http://fanart.tv/webservice/%s/%s/%s/json/%s/%s/%s/' % (media, fanarttv_apikey, id, type, sort, limit)
-
+    if media == "series":
+        media = "tv"
+    if media == "movie":
+        media = "movies"
+    return 'http://fanart.tv/v3/%s/%s?api_key=%s' % (media, id, fanarttv_apikey)
 
 def fanarttv_api(url, dev=False):
     request = urllib2.Request(url)
@@ -548,7 +551,7 @@ def xhr_xbmcmm_fanarttv(media, type, id):
     images = {}
 
     try:
-        for item in fanarttv[fanarttv.keys()[0]][img_type]:
+        for item in fanarttv[img_type]:
             url = item['url']
 
             cache_params = {
