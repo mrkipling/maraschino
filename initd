@@ -80,7 +80,7 @@ load_settings() {
 
         [ -n "$WEBROOT" ] && DAEMON_OPTS="$DAEMON_OPTS --webroot=$WEBROOT"
 
-        [ $KIOSK -eq 1 ] && DAEMON_OPTS="$DAEMON_OPTS --kiosk"
+        [ -n "$KIOSK" ] && [ $KIOSK -eq 1 ] && DAEMON_OPTS="$DAEMON_OPTS --kiosk"
 
         [ -n "$PID_FILE" ] && PID_FILE=$PID_FILE
         [ -n "$PID_FILE" ] || PID_FILE=/var/run/maraschino/maraschino.pid
