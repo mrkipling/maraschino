@@ -1,0 +1,125 @@
+{% extends "nzbdrone/base.html" %}
+
+{% block nzbdrone_menu %}
+<ul class="menu">
+  <li class="history" title="View History"><span>History</span></li>
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="upcoming active" title="View upcoming"><span>Upcoming</span></li>
+</ul>
+{% endblock %}
+
+{% block nzbdrone_content %}
+
+{% macro item(i) -%}
+<div class="coming_ep" id="{{i[8]}}_{{i[2]}}_{{i[3]}}" tvdb={{i[8]}}>
+
+  <h2><a href="http://www.thetvdb.com/?tab=series&id={{i[8]}}" target="_blank">{{ i[5] }} - {{ i[2] }}x{{ i[3] }} - {{ i[0] }}</a></h2>
+
+  {% if not compact_view %}
+   <a class="image_links" href=# id="{{i[9]}}"><img class="banner" "width="100%" id="{{i[6]}}" "src="#" /></a>
+  {% endif %}
+
+  <div class="options">
+    <img class="search" src="{{ url_for('static', filename='images/search.png') }}" id="{{i[7]}}" episode="{{i[3]}}" season="{{i[2]}}" title="Search for episode"/>
+  </div>
+
+  <div class="details">
+    <div class="nzbdrone_airs" id="{{i[1]}}">#</div>
+    {% if i[4]|length > 2 %}
+
+      {% if compact_view %}
+        <div class="compact_plot">
+          -
+          <span class="truncated">
+            {{ i[4]|truncate(75) }}
+          </span>
+          <span class="expanded" style="display: none;">{{ i[4]|truncate(400) }}</span>
+          <a class="expand" href="#">[+]</a>
+        </div>
+
+      {% else %}
+        <div class="plot-title">Plot</div>
+        <div class="plot">
+          <h4>{{ i[5] }} - {{ i[2] }}x{{ i[3] }} - {{ i[0] }}</h4>
+          <p>{{ i[4]|truncate(400) }}</p>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+</div>
+{%- endmacro %}
+
+<div id="getshows" class="noscroll">
+  <div id="future">
+    {% if missed|length %}
+    <div id="missed" title="NZBDrone has missed {{ missed|length }} episodes">{{ missed|length }}</div>
+    <div class="missed">
+	  <h3>Missed</h3>
+      {% for key, value in missed.iteritems() %}
+      {{item(value)}}
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if today|length %}
+    <div id="today">
+      <h3>Today</h3>
+      {% for key, value in today.iteritems() %}
+      {{item(value)}}
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if tomorrow|length %}
+    <div id="tomorrow">
+      <h3>Tomorrow</h3>
+      {% for key, value in tomorrow.iteritems() %}
+      {{item(value)}}
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if later|length %}
+    <div id="later">
+      <h3>Later</h3>
+      {% for key, value in later.iteritems() %}
+      {{item(value)}}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+<script>
+    var weekday = new Array(7);
+	weekday[0]=  "Sunday";
+	weekday[1] = "Monday";
+	weekday[2] = "Tuesday";
+	weekday[3] = "Wednesday";
+	weekday[4] = "Thursday";
+	weekday[5] = "Friday";
+	weekday[6] = "Saturday";
+	var port = "{{port}}";
+	var banners = document.getElementsByClassName("banner");
+    var airs = document.getElementsByClassName("nzbdrone_airs");
+	if ("{{ external_server }}" === "0") {
+		var host = window.location.hostname;
+	}
+	else{
+		var host = "{{ url }}"
+	}
+	for (var i = banners.length -1; i >= 0; i--)
+	{
+		var id = banners[i].id;
+		banners[i].src = 'http://' + host + ':' + port + '/MediaCover/' + id + '/banner.jpg';
+	}
+	for (var i = airs.length -1; i >= 0; i--)
+	{
+		var id = airs[i].id;
+		var date = new Date(id)
+		day = weekday[date.getDay()]
+		hour = date.getHours()
+		min = date.getMinutes()
+		airs[i].innerHTML = day + " " + hour + ":" + min
+	}
+</script>
+  </div>
+</div>
+
+{% endblock %}

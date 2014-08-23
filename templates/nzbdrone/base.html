@@ -1,0 +1,29 @@
+<div id="nzbdrone" class="module" data-module="nzbdrone">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+    <h2><a id="nzbdrone_url" href="#">NZBDrone</a></h2>
+    <script>
+        var port = "{{port}}";
+        var host = window.location.hostname;
+        document.getElementById("nzbdrone_url").href = 'http://' + host + ':' + port;
+    </script>
+  
+{% block nzbdrone_menu %}
+<ul class="menu">
+  <li class="history" title="View History"><span>History</span></li>
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="upcoming active" title="View upcoming"><span>Upcoming</span></li>
+</ul>
+{% endblock %}
+
+{% block nzbdrone_content %}{% endblock %}
+
+<div class="nzbsearch">
+    <span class="operation_only">
+      <input class="query" type="search" placeholder="Search TV Shows"></input>
+      <span class="loading"></span>
+    </span>
+</div>
+</div>

@@ -68,6 +68,7 @@ def import_modules():
     import modules.utorrent
     import modules.weather
     import modules.xbmc_notify
+    import modules.nzbdrone
     import mobile
     import xbmcmm
 

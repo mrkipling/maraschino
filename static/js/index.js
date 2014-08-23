@@ -829,7 +829,109 @@ $(document).ready(function() {
       }
     );
   });
-
+  /*** NZBDrone   ***/
+  
+   // Loading wheel on menu click
+  $(document).on('click', '#nzbdrone .menu li', function() {
+    $(this).children().css('background', 'url('+WEBROOT+'/static/images/xhrloading.gif) no-repeat center').html('&nbsp;');
+  });
+  
+  $(document).on('click', '#nzbdrone .all', function() {
+    $.get('/xhr/nzbdrone/', function(data) {
+    $('#nzbdrone').replaceWith(data);
+    });
+  }); 
+  
+   $(document).on('keydown', '#nzbdrone .nzbsearch input', function(e) {
+    if(e.which == 13){
+      var name = $(this).val();
+      params = '';
+      if(name !== ''){
+          params = 'name='+encodeURIComponent(name);
+      }
+      $.get('/xhr/nzbdrone/search?'+params)
+	  .success(function(data){
+        $('#nzbdrone').replaceWith(data);
+      })
+      .error(function(){
+        popup_message('Could not reach Maraschino.');
+      });
+    }
+  });
+  
+      // Coming episodes Menu
+  $(document).on('click', '#nzbdrone .menu .upcoming', function(){
+    $.get(WEBROOT + '/xhr/nzbdrone/calendar', function(data){
+      $('#nzbdrone').replaceWith(data);
+    });
+  });
+  
+    // Plot display function
+  $(document).on('mouseenter', '#nzbdrone .coming_ep .details .plot-title', function(){
+    $(this).toggle();
+    var id = $(this).closest('div.coming_ep').attr('id');
+    $('#nzbdrone #'+id+' .details .plot').toggle();
+  });
+  
+    // Plot hide function
+  $(document).on('mouseleave', '#nzbdrone .coming_ep', function(){
+    var id = $(this).attr('id');
+    $('#nzbdrone #'+id+' .details .plot-title').show();
+    $('#nzbdrone #'+id+' .details .plot').hide();
+  });
+  
+  
+    // Add show to NZBDrone
+  $(document).on('click', '#nzbdrone .search li .choices .add', function() {
+    var tvdbid = $(this).parent().parent().data('tvdbid');
+    var title = $(this).parent().parent().data('title').replace('/','%20');
+	var titleslug = $(this).parent().parent().data('titleslug');
+    var qualityprofile = $('#nzbdrone .search ul li .choices .profiles').find(':selected').val();
+	var seriestype = $('#nzbdrone .search ul li .choices .seriestypes').find(':selected').val();
+	var monitoredseasons = $('#nzbdrone .search ul li .choices .monitored').find(':selected').val();
+	var path = $('#nzbdrone .search ul li .choices .path').find(':selected').val();
+	$.get('/xhr/nzbdrone/add_show/'+tvdbid+'/'+encodeURIComponent(title)+'/'+qualityprofile+'/'+seriestype+'/'+encodeURIComponent(path)+'/'+titleslug+'/'+monitoredseasons, function(data) {
+      if(data.success){
+        popup_message('Series added successfully');
+      } else if(data.duplicate){
+	  popup_message('Series already exists');
+	  } else {
+        popup_message('Failed to add series to NZBDrone');
+      }
+    });
+  });
+  
+  // Search Episode Functionality on Magnifying Glass png
+  $(document).on('click', '#nzbdrone .coming_ep div.options img.search', function(){
+    $(this).attr('src', WEBROOT + '/static/images/xhrloading.gif');
+    var id = $(this).attr('id');
+    $.get('/xhr/nzbdrone/search_ep/'+id+'/')
+    .success(function(data){
+      if(data.success){
+        popup_message('Searching for episode');
+        $('#nzbdrone .coming_ep div.options img.search').attr('src', WEBROOT + '/static/images/search.png');
+      } else {
+	  popup_message('Unable to search NZBDrone');
+      $('#nzbdrone .coming_ep div.options img.search').attr('src', WEBROOT + '/static/images/search.png');
+    }
+    });
+  });
+  
+  
+  // menu 'history' click
+  $(document).on('click', '#nzbdrone .menu .history', function(){
+    $.get(WEBROOT + '/xhr/nzbdrone/get_history/')
+    .success(function(data){
+      $('#nzbdrone').replaceWith(data);
+    });
+  });
+  
+    // Toggle missed episodes
+  $(document).on('click', '#nzbdrone #missed', function(){
+    $('#nzbdrone .missed').toggle();
+  });
+  
+  /***** End NZBDrone ****/
 
   /*** SICKBEARD ***/
 
@@ -912,6 +1014,7 @@ $(document).ready(function() {
     });
   });
 
+  // Toggle snatched
   $(document).on('click', '#sickbeard .menu li.snatched', function(){
     $('#sickbeard .history .Snatched').toggle();
     $(this).toggleClass('active');
