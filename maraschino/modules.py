@@ -766,6 +766,11 @@ MISC_SETTINGS = [
         'value': 'EEE',
         'description': 'Module title color (hexadecimal)',
     },
+    {
+        'key': 'page_title_text',
+        'value': 'Maraschino',
+        'description': 'Web page title (name of the browser tab)',
+    },
 ]
 
 SERVER_SETTINGS = [
