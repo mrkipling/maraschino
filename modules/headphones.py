@@ -177,6 +177,7 @@ def xhr_headphones_artist(artistid, mobile=False):
     return render_template('headphones/artist.html',
         albums=albums,
         headphones=True,
+        app_link=headphones_url(),
         compact=hp_compact(),
     )
 
@@ -213,6 +214,7 @@ def xhr_headphones_album(albumid, mobile=False):
         return headphones
     return render_template('headphones/album.html',
         album=headphones,
+        app_link=headphones_url(),
         headphones=True,
         compact=hp_compact(),
     )
@@ -258,6 +260,7 @@ def xhr_headphones_upcoming(mobile=False):
 
     return render_template('headphones.html',
         upcoming=upcoming,
+        app_link=headphones_url(),
         wanted=wanted,
         headphones=True,
         compact=hp_compact(),
@@ -276,6 +279,7 @@ def xhr_headphones_similar():
 
     return render_template('headphones/similar.html',
         similar=headphones,
+        app_link=headphones_url(),
         headphones=True,
     )
 
@@ -295,6 +299,7 @@ def xhr_headphones_history(mobile=False):
 
     return render_template('headphones/history.html',
         history=headphones,
+        app_link=headphones_url(),
         headphones=True,
     )
 
