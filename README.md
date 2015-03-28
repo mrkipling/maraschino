@@ -15,7 +15,7 @@ There is now also an [official forum](http://forums.maraschinoproject.com/) whic
 In addition, there's also a thread on the [XBMC forums](http://forum.xbmc.org/showthread.php?t=113136 "XBMC forums").
 
 ##Screenshots
-<img src="http://www.maraschinoproject.com/static/images/screenshot1.jpg" width="400">&nbsp;&nbsp;<img src="http://www.maraschinoproject.com/static/images/screenshot2.jpg" width="400">
+<img src="http://www.maraschinoproject.com/static/images/screenshot1.jpg" width="355">&nbsp;&nbsp;<img src="http://www.maraschinoproject.com/static/images/screenshot2.jpg" width="355">
 
 ##What features does it have?
 
