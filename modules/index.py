@@ -143,6 +143,7 @@ def index():
         kiosk=maraschino.KIOSK,
         new_tab=new_tab,
         title_color=get_setting_value('title_color'),
+        page_title_text=get_setting_value('page_title_text'),
         remote_inactivity_enable=get_setting_value('remote_inactivity_enable')
     )
 
