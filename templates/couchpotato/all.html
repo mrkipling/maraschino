@@ -16,7 +16,7 @@
       <div class="{{item.releases.status}}"></div>
       <img class="poster"
       src="
-        {% if item.files.image_poster.0 %}
+        {% if item.files and item.files.image_poster.0 %}
             {{item.files.image_poster.0|cp_img}}
           {% else %}
             {{ url_for('static', filename='images/poster.png') }}

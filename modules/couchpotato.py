@@ -145,7 +145,7 @@ def xhr_couchpotato_history():
         couchpotato = couchpotato_api('notification.list')
         couchpotato = couchpotato['notifications']
         for notification in couchpotato:
-            if not notification['read']:
+            if not notification.get('read',False):
                 unread = unread + 1
 
     except Exception as e:
@@ -437,7 +437,7 @@ def cp_log(type='all', lines=30):
 
 
 @app.route('/xhr/couchpotato/notification/read/')
-@app.route('/xhr/couchpotato/notification/read/<int:id>/')
+@app.route('/xhr/couchpotato/notification/read/<id>/')
 def cp_notification_read(id=False):
     """
     Mark notification as read in CP
@@ -445,9 +445,9 @@ def cp_notification_read(id=False):
     ids <optional>      int         Notification id - if empty will mark all notifications
     """
     try:
-        logger.log('CouchPotato :: Marking notification "%i" as read' % id, 'INFO')
+        logger.log('CouchPotato :: Marking notification "%s" as read' % id, 'INFO')
         if id:
-            couchpotato_api('notification.markread', 'ids=%i' % id)
+            couchpotato_api('notification.markread', 'ids=%s' % id)
         else:
             couchpotato_api('notification.markread')
         return jsonify({'success': True})

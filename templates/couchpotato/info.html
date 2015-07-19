@@ -2,10 +2,10 @@
 
 {% block couchpotato_content %}
 {% if couchpotato['success'] %}
-  {% set info = couchpotato['media']['library']['info'] %}
-  <div id="info" class="{{couchpotato['media']['status']['identifier']}} noscroll">
+  {% set info = couchpotato['media']['info'] %}
+  <div id="info" class="{{couchpotato['media']['status']}} noscroll">
     <div class="left_content">
-      <div class="options" data-imdbid="{{info.imdb}}" data-cpid="{{couchpotato.media.id}}">
+      <div class="options" data-imdbid="{{info.imdb}}" data-cpid="{{couchpotato.media._id}}">
         <img class="delete" src="{{ url_for('static', filename='images/no.png')}}" title="Delete"/>
         <img class="search" src="{{ url_for('static', filename='images/search.png')}}" title="Refresh"/>
         <a href="http://imdb.com/title/{{info.imdb}}" target="_blank">
@@ -15,7 +15,7 @@
       <img src="{{info['images']['poster'][0]}}" alt="poster">
     </div>
     <div class="right_content">
-      <h2>{{ couchpotato['media']['library']['info']['original_title'] }}</h2>
+      <h2>{{ couchpotato['media']['info']['original_title'] }}</h2>
       <table border="0">
         {% if info['year'] %}
         <tr>
@@ -35,7 +35,7 @@
           <td style="font-size: 0.95em;">{% for genre in info['genres'] %} {{genre}} {%if not loop.last%}|{%endif%} {% endfor %}</td>
         </tr>
         {% endif %}
-        {% if info['release_date']['dvd'] %}
+        {% if info['release_date'] and info['release_date']['dvd'] %}
         <tr>
           <td width="75" style="font-weight: bold;" align="right">DVD:&nbsp;&nbsp;</td>
           <td style="font-size:0.95em;">{{info['release_date']['dvd']|time}}</td>
@@ -75,13 +75,13 @@
           <td width="75" style="font-weight: bold;" align="right">Profile:&nbsp;&nbsp;</td>
           <td style="font-size:0.95em;" class="profile">
             {% if profiles %}
-              <select class="profiles" data-id="{{couchpotato.media.id}}">
+              <select class="profiles" data-id="{{couchpotato.media._id}}">
                 {% for profile in profiles.list %}
-                  <option value="{{profile.id}}" {% if couchpotato['media']['profile']['label'] == profile.label %}selected="selected"{%endif%}>{{profile.label}}</option>
+                  <option value="{{profile._id}}" {% if couchpotato['media']['profile_id'] == profile._id %}selected="selected"{%endif%}>{{profile.label}}</option>
                 {% endfor %}
               </select>
             {% else %}
-              {{couchpotato['media']['profile']['label']}}
+              Unknown profile
             {% endif %}
           </td>
         </tr>

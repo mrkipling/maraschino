@@ -517,7 +517,7 @@ def couchpotato_history():
         if couchpotato['success'] and not couchpotato['empty']:
             couchpotato = couchpotato['notifications']
             for notification in couchpotato:
-                if not notification['read']:
+                if not notification.get('read', False):
                     unread = unread + 1
 
     except Exception as e:
@@ -536,12 +536,15 @@ def couchpotato_movie(id):
         couchpotato = couchpotato_api('media.get', 'id=%s' % id)
         if couchpotato['success']:
             couchpotato = couchpotato['media']
+        
+        profiles = couchpotato_api('profile.list')
 
     except Exception as e:
         logger.log('Mobile :: CouchPotato :: Could not retrieve movie - %s]' % (e), 'WARNING')
 
     return render_template('mobile/couchpotato/movie.html',
         movie=couchpotato,
+        profiles=profiles
     )
 
 

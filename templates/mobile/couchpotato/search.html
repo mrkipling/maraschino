@@ -23,8 +23,12 @@
     {% if results %}
         <ul id="results" data-role="listview">
         {% for item in results.movies %}
-        <li data-id="{{item.imdb}}" data-title="{{item.original_title}}">
-            <img src="{{item.images.poster_original.0}}" alt="">
+        <li data-id="{% if item.imdb %}{{item.imdb}}{%else%}{{item.tmdb_id}}{%endif%}" data-title="{{item.original_title}}">
+            {% if item.images.poster %}
+              <img src="{{ item.images.poster.0 }}" />
+            {% else %}
+              <img src="{{ url_for('static', filename='images/poster.png')}}" />
+            {% endif %}
             <h2>{{item.original_title}}</h2>
             <small>
                 {{item.year}}

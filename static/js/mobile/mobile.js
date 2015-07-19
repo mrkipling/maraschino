@@ -93,13 +93,14 @@ $(document).ready(function () {
     // notification read click
 
     $(document).on('click', '#couchpotato li#notification.new', function() {
-        $(this).removeClass('ui-body-e').removeClass('new').addClass('ui-body-c');
+        var el = $(this);
         $.get(WEBROOT + '/xhr/couchpotato/notification/read/' + $(this).data('id'), function(data) {
             if(data.success){
-                $(this).attr('data-theme', 'c');
+                el.removeClass('ui-btn-up-e new')
+                  .addClass('ui-btn-up-c')
+                  .attr('data-theme', 'c');
                 $('#unread').text($('#unread').text()-1);
             } else {
-                $(this).addClass('ui-body-e').addClass('new').removeClass('ui-body-c');
                 popup_message('Failed to mark notification as read');
             }
         });
@@ -126,6 +127,22 @@ $(document).ready(function () {
             }
             $.mobile.hidePageLoadingMsg();
         });
+    });
+
+    // change profile
+
+    $(document).on('change', '#couchpotato select.profiles', function() {
+      var movieid = $(this).data('id');
+      var profileid = $(this).find(':selected').val();
+      $.mobile.showPageLoadingMsg();
+      $.get(WEBROOT + '/xhr/couchpotato/edit_movie/'+movieid+'/'+profileid+'/', function(data){
+        if(data.success){
+          //remove_loading_gif(td);
+        } else {
+          popup_message('Failed to get qulaity profiles from CouchPotato');
+        }
+        $.mobile.hidePageLoadingMsg();
+      });
     });
 
       /////////////////
