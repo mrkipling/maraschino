@@ -48,7 +48,7 @@ class Weather:
   
   def _getData(self):
     """Connect to weather.com and get the weather as raw XML"""
-    urlHandle = urllib2.urlopen("http://xoap.weather.com/weather/local/%s?cc=1&dayf=5&prod=xoap&link=xoap&unit=%s&par=1003666583&key=4128909340a9b2fc" %(self.location, self.units))
+    urlHandle = urllib2.urlopen("http://wxdata.weather.com/wxdata/weather/local/%s?cc=1&dayf=5&unit=%s" %(self.location, self.units))
     return urlHandle.read()
 
   def _getWeather(self):
