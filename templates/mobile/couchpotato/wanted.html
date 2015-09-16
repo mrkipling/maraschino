@@ -21,8 +21,8 @@
   {% for movie in wanted %}
       <li id="wanted">
         <a class="inner" href="{{ url_for('couchpotato_movie', id=movie.id) }}">
-            <h2>{{movie.library.info.original_title}} ({{movie.library.info.year}})</h2>
-            <p>{{movie.library.info.plot}}</p>
+            <h2>{{movie.info.original_title}} ({{movie.info.year}})</h2>
+            <p>{{movie.info.plot}}</p>
         </a>
       </li>
   {% endfor %}

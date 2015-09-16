@@ -479,15 +479,14 @@ from modules.couchpotato import couchpotato_api
 def couchpotato():
     try:
         couchpotato = couchpotato_api('movie.list', params='status=active')
-        if couchpotato['success'] and not couchpotato['empty']:
-            couchpotato = couchpotato['movies']
+        print couchpotato
 
     except Exception as e:
         logger.log('Mobile :: CouchPotato :: Could not retrieve Couchpotato - %s]' % (e), 'WARNING')
         couchpotato = None
 
     return render_template('mobile/couchpotato/wanted.html',
-        wanted=couchpotato,
+        wanted=couchpotato['movies']
     )
 
 
@@ -496,15 +495,13 @@ def couchpotato():
 def couchpotato_all():
     try:
         couchpotato = couchpotato_api('movie.list', params='status=done')
-        if couchpotato['success'] and not couchpotato['empty']:
-            couchpotato = couchpotato['movies']
 
     except Exception as e:
         logger.log('Mobile :: CouchPotato :: Could not retrieve Couchpotato - %s]' % (e), 'WARNING')
         couchpotato = None
 
     return render_template('mobile/couchpotato/all.html',
-        all=couchpotato,
+        all=couchpotato['movies'],
     )
 
 
@@ -522,7 +519,7 @@ def couchpotato_history():
 
     except Exception as e:
         logger.log('Mobile :: CouchPotato :: Could not retrieve Couchpotato - %s]' % (e), 'WARNING')
-        couchpotato = None
+        couchpotato = []
 
     return render_template('mobile/couchpotato/history.html',
         history=couchpotato,
