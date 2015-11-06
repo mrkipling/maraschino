@@ -43,31 +43,13 @@ if check_frozen():
 
 
 def import_modules():
+    for mod in maraschino.MODULES:
+        module = 'modules.{0}'.format(mod)
+        try:
+            __import__(module)
+        except ImportError:
+            pass
     """All modules that are available in Maraschino are at this point imported."""
-    import modules.applications
-    import modules.controls
-    import modules.couchpotato
-    import modules.currently_playing
-    import modules.diskspace
-    import modules.headphones
-    import modules.index
-    import modules.ipcamera
-    import modules.library
-    import modules.log
-    import modules.nzbget
-    import modules.recently_added
-    import modules.remote
-    import modules.sabnzbd
-    import modules.script_launcher
-    import modules.search
-    import modules.sickbeard
-    import modules.trakt
-    import modules.traktplus
-    import modules.transmission
-    import modules.updater
-    import modules.utorrent
-    import modules.weather
-    import modules.xbmc_notify
     import mobile
     import xbmcmm
 
@@ -79,6 +61,7 @@ def shutdown_session(exception=None):
     db_session.remove()
 
 import maraschino
+
 
 def main():
     """Main function that is called at the startup of Maraschino."""

@@ -151,6 +151,7 @@ def get_file_list(folder, extensions, prepend_path=True, prepend_path_minus_root
 
     return filelist
 
+
 def convert_bytes(bytes, with_extension=True):
     bytes = float(bytes)
     if bytes >= 1099511627776:

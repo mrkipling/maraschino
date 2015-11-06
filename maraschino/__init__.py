@@ -6,6 +6,8 @@ import os
 import subprocess
 import threading
 import wsgiserver
+import imp
+import copy
 from Maraschino import app
 from Logger import maraschinoLogger
 from apscheduler.scheduler import Scheduler
@@ -44,6 +46,8 @@ LATEST_COMMIT = None
 COMMITS_BEHIND = 0
 COMMITS_COMPARE_URL = ''
 FIRST_RUN = 0
+MODULES = []
+MODULES_CONF = ''
 
 
 def initialize():
@@ -52,7 +56,7 @@ def initialize():
 
         global __INITIALIZED__, app, FULL_PATH, RUNDIR, ARGS, DAEMON, PIDFILE, VERBOSE, LOG_FILE, LOG_DIR, logger, PORT, SERVER, DATABASE, AUTH, \
                 UPDATER, CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT, HOST, KIOSK, DATA_DIR, SCRIPT_DIR, \
-                THREADS, FIRST_RUN
+                THREADS, FIRST_RUN, MODULES, MODULES_CONF
 
         if __INITIALIZED__:
             return False
@@ -137,6 +141,31 @@ def initialize():
                 'password': password
             }
 
+        #Modular modules
+        module_dir = os.path.join(DATA_DIR, 'modules')
+        for path, dirs, files in os.walk(module_dir):
+            for name in files:
+                if name.endswith('.ini'):
+                    MODULES.append(name.replace('.ini', ''))
+
+        for mod in MODULES:
+            ini_path = os.path.join(module_dir, "{0}.ini".format(mod))
+            if os.path.getsize(ini_path) <= 0:
+                pass
+            else:
+                conf_imp = imp.load_source(mod, ini_path)
+                if isinstance(conf_imp.mod_conf, list):
+                    try:
+                        data
+                    except NameError:
+                        data = copy.deepcopy(conf_imp.mod_conf)
+                    else:
+                        data = copy.deepcopy(data) + copy.deepcopy(conf_imp.mod_conf)
+                else:
+                    pass
+                conf_imp = ''
+        MODULES_CONF = data
+
         # Set up web server
         if '--webroot' not in str(ARGS):
             WEBROOT = get_setting_value('maraschino_webroot')
@@ -205,7 +234,6 @@ def start():
             logger.log('Starting Maraschino development server on port: %i' % (PORT), 'INFO')
             logger.log(' ##### IMPORTANT : WEBROOT DOES NOT WORK UNDER THE DEV SERVER #######', 'INFO')
             app.run(debug=True, port=PORT, host=HOST)
-
 
 def stop():
     """Shutdown Maraschino"""
