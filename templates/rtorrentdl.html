@@ -1,0 +1,52 @@
+<div id="rtorrentdl" class="module" data-module="rtorrentdl">
+	<div class="module_settings"><span>Settings</span></div>
+	<div class="module_remove"><span>Remove</span></div>
+
+	{% if torrentlist %}
+		<div class="clearfix">
+			<h2 class="title_left">rTorrent</h2>
+			<h3 class="title_right">&#x25B2; {{ up_rate|filesizeformat(1) }}/s &#x25BC; {{ down_rate|filesizeformat(1) }}/s</h3>
+		</div>
+
+		{% if torrentlist_scroll == '1' %}
+			<div id="torrentlist_fixed">
+		{% else %}
+			<div id="torrentlist_dynamic">
+		{% endif %}
+			{% for torrent in torrentlist|sort(attribute='name',case_sensitive=false) %}
+				<div class="listentry">
+					<div class="name">{{ torrent.name }}</div>
+					<div class="bar">
+						<div class="inner" style="width: {{ torrent.progress|round|int }}%;"></div>
+					</div>
+					<div class="clearfix">
+						<p class="stats_left">
+							&#x25B2; {{ torrent.up_rate|filesizeformat(1) }}/s
+							&#x25BC; {{ torrent.down_rate|filesizeformat(1) }}/s
+							<br/>
+							status: {{ torrent.status }}
+							{% if torrent.status == 'leeching' %}
+								(time left:
+								{% if torrent.time_left == -1 %}
+									unknown)
+								{% else %}
+									{{ torrent.time_left }})
+								{% endif %}
+							{% endif %}
+						</p>
+						<p class="stats_right">
+							progress: {{ torrent.progress|round|int }}%<br/>
+							seed ratio: {{ torrent.ratio|round|int }}%
+						</p>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	{% elif connected %}
+		<h2>rTorrent</h2>
+		<p><strong>no torrents</strong></p>
+	{% else %}
+		<h2>rTorrent</h2>
+		<p><strong>connection error</strong></p>
+	{% endif %}
+</div>
