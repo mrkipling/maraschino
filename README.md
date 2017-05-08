@@ -6,13 +6,11 @@
 
 ##What is Maraschino?
 
-I wanted a simple web interface to act as a nice overview/front page for my XBMC HTPC. I couldn't find anything that suited my requirements so I created something myself.
+I wanted a simple web interface to act as a nice overview/front page for my Kodi HTPC. I couldn't find anything that suited my requirements so I created something myself.
 
 You can find more information and setup instructions on the [project homepage](http://www.maraschinoproject.com/ "Maraschino Project homepage").
 
-There is now also an [official forum](http://forums.maraschinoproject.com/) which is your best bet for support, feature requests and bug reports.
-
-In addition, there's also a thread on the [XBMC forums](http://forum.xbmc.org/showthread.php?t=113136 "XBMC forums").
+In addition, there's also a thread on the [Kodi forums](http://forum.kodi.tv/showthread.php?tid=113136&highlight=maraschino "Kodi forums").
 
 ##Screenshots
 <img src="http://www.maraschinoproject.com/static/images/screenshot1.jpg" width="355">&nbsp;&nbsp;<img src="http://www.maraschinoproject.com/static/images/screenshot2.jpg" width="355">
@@ -21,11 +19,11 @@ In addition, there's also a thread on the [XBMC forums](http://forum.xbmc.org/sh
 
 * **Customisable applications module** providing quick access to your web interfaces (e.g. SABnzb+, SickBeard, or whatever else you want to link to).
 
-* **Recently added episodes/movies/albums modules** - click an episode or movie to play it in XBMC.
+* **Recently added episodes/movies/albums modules** - click an episode or movie to play it in Kodi.
 
-* **Media library browser** - browse your entire movie and TV library, and click to play in XBMC. Queue items to play after.
+* **Media library browser** - browse your entire movie and TV library, and click to play in Kodi. Queue items to play after.
 
-* **Control multiple XBMC servers** - do you have an XBMC server in both the living room and bedroom? Switch between the two instantly and control them using Maraschino. Send notification messages to them remotely!
+* **Control multiple Kodi servers** - do you have an Kodi server in both the living room and bedroom? Switch between the two instantly and control them using Maraschino. Send notification messages to them remotely!
 
 * **SABnzbd+ and NZBGet modules** manage your nzb queue from within Maraschino - they appear when something is downloading and hide again when finished - shows you what is currently downloading, speed, time/MB remaining, and a progress bar. Control (pause, resume, speed limit) your downloads.
 
