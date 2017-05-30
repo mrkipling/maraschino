@@ -1,0 +1,67 @@
+<div id="nzbdrone" class="module" data-module="nzbdrone">
+
+  <div class="module_settings"><span>Settings</span></div>
+  <div class="module_remove"><span>Remove</span></div>
+
+  <h2><a id="nzbdrone_url" href="#">NZBDrone</a></h2>
+    <script>
+        var port = "{{port}}";
+        var host = window.location.hostname;
+        document.getElementById("nzbdrone_url").href = 'http://' + host + ':' + port;
+    </script>
+    
+  {% block nzbdrone_menu %}
+<ul class="menu">
+  <li class="history" title="View History"><span>History</span></li>
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="upcoming active" title="View upcoming"><span>Upcoming</span></li>
+</ul>
+{% endblock %}
+    
+  <div class="inner">
+
+  </div>
+<div id="series" class="noscroll">
+    <div id="shows" "class="Series">
+		{% if images %}
+				{% for key, value in images.iteritems() %}
+					<h2><a href="http://thetvdb.com/?tab=series&id={{value[2]}}" target="_blank" title="{{ key }} on TVDB">{{key}}</a></h2>
+					<a class="image_links" href=# id={{value[1]}} ><img  class="banners" src="#" id={{value[0]}} title="{{key}}" /></a>
+					<script>
+            
+						var port = "{{port}}";
+						var banners = document.getElementsByClassName("banners");
+						if ("{{ external_server }}" === "0") {
+							var host = window.location.hostname;
+						}
+						else{
+							var host = "{{ url }}"
+						}
+						var images = document.getElementsByClassName("image_links");
+						for (var i = images.length -1; i >= 0; i--)
+							{
+						
+							var url = images[i].id;
+							images[i].href = 'http://' + host + ':' + port + '/series/' + url;
+							}
+						for (var i = banners.length -1; i >= 0; i--)
+						{
+							var id = banners[i].id;
+							banners[i].src = 'http://' + host + ':' + port + '/MediaCover/' + id + '/banner.jpg';
+						}
+					</script>
+			{% endfor %}
+		{% endif %}
+    </div>
+</div>
+
+<div class="nzbsearch">
+    <span class="operation_only">
+      <input class="query" type="search" placeholder="Search TV Shows"></input>
+      <span class="loading"></span>
+    </span>
+</div>
+</div>
+<script>
+
+</script>

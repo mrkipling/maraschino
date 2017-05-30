@@ -1,0 +1,65 @@
+{% extends "nzbdrone/base.html" %}
+
+{% block nzbdrone_menu %}
+<ul class="menu">
+  <li class="history" title="View History"><span>History</span></li>
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="upcoming active" title="View upcoming"><span>Upcoming</span></li>
+</ul>
+{% endblock %}
+
+{% block nzbdrone_content %}
+<div class="search">
+  <div id="result" class="noscroll">
+    {% if error %}
+      <p class="error">{{error}}</p>
+    {% elif titles %}
+		<ul>
+      {% for increment in titles %}
+	  <div class="Shows">
+        <li data-tvdbid="{{increment[1]}}" data-title="{{increment[0]}}" data-seasons="{{increment[3]}}" data-titleslug="{{increment[2]}}">
+		  {% if 'poster-dark' in increment[4] %}
+			<!-- I don't like this, needs to be set for a static image on the local system -->
+		    <span class="description"><a href="http://thetvdb.com/?tab=series&id={{increment[1]}}"><IMG class="TV_Poster" HEIGHT="422" WIDTH="300" src="http://slurm.trakt.us/images/poster-dark.jpg" /></a>{{increment[5]}}</span>
+          {% else %}
+            <span class="description"><a class="link" href="http://thetvdb.com/?tab=series&id={{increment[1]}}"><img class="TV_Poster" src="{{increment[4]}}" />{{increment[0]}}: </a>{{increment[5]}}</span>
+          {% endif %}
+		  <br>
+          <div class="choices">
+              {% if profiles %}
+                <select class="profiles">
+                  {% for key, value in profiles.iteritems() %}
+                    <option value="{{ key }}">{{ value }}</option>
+                  {% endfor %}
+                </select>
+              {% endif %}
+			  {% if folders %}
+				<select class="path">
+				{% for key, value in folders.iteritems() %}
+					<option value="{{ key }}">{{ key }}      |  Free Space: {{value}} GB</option>
+				{% endfor %}
+				</select>
+			  {% endif %}
+			  <select class="seriestypes">
+				<option value="standard">Standard TV</option>
+				<option value="anime">Anime</option>
+				<option value="daily">Daily shows(e.g news shows)</option>
+			  </select>
+              <span class="add">Add</span>
+          </div>
+        </li>
+		</div>
+      {% endfor %}
+		</ul>
+    {% endif %}
+	</div>
+
+{% endblock %}
+
+<div class="nzbsearch">
+    <span class="operation_only">
+      <span class="loading"></span>
+    </span>
+	  
+</div>
+</div>
