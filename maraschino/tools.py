@@ -225,7 +225,7 @@ def xbmc_proxy(version, label):
     if version == 'eden':
         url = '%s/vfs/special://%s' % (xbmc_url, url)
     elif version == 'frodo':
-        url = '%s/image/image://%s' % (xbmc_url, urllib.quote(url.encode('utf-8'), ''))
+        url = '%s/image/image://%s' % (xbmc_url, url.encode('utf-8'))
 
     img = StringIO.StringIO(urllib.urlopen(url).read())
     return send_file(img, mimetype='image/jpeg')
