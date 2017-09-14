@@ -1,10 +1,10 @@
-#Maraschino
+# Maraschino
 
 * **Author**: [Bradley Abrahams](https://github.com/mrkipling)
 
 * **Main collaborators**: [Gustavo Hoirisch](https://github.com/gugahoi) and [David Gray](https://github.com/N3MIS15)
 
-##What is Maraschino?
+## What is Maraschino?
 
 I wanted a simple web interface to act as a nice overview/front page for my Kodi HTPC. I couldn't find anything that suited my requirements so I created something myself.
 
@@ -12,10 +12,10 @@ You can find more information and setup instructions on the [project homepage](h
 
 In addition, there's also a thread on the [Kodi forums](http://forum.kodi.tv/showthread.php?tid=113136&highlight=maraschino "Kodi forums").
 
-##Screenshots
+## Screenshots
 <img src="http://www.maraschinoproject.com/static/images/screenshot1.jpg" width="355">&nbsp;&nbsp;<img src="http://www.maraschinoproject.com/static/images/screenshot2.jpg" width="355">
 
-##What features does it have?
+## What features does it have?
 
 * **Customisable applications module** providing quick access to your web interfaces (e.g. SABnzb+, SickBeard, or whatever else you want to link to).
 
@@ -53,11 +53,11 @@ In addition, there's also a thread on the [Kodi forums](http://forum.kodi.tv/sho
 
 Uses Flask and some other awesome technologies (SQL-Alchemy, LESS CSS) but you don't need to know about that if you don't want to.
 
-##What license is it released under?
+## What license is it released under?
 
 It is released under the MIT License, [which can be found here](https://github.com/mrkipling/maraschino/blob/master/LICENSE).
 
-##Why is it called Maraschino?
+## Why is it called Maraschino?
 
 If your HTPC is an ice cream sundae then Maraschino is the cherry on top.
 
