@@ -27,7 +27,7 @@
 
   <div class="details">
     <div class="airs">{{i.airs}}{% if show_airdate %} ({{i.airdate}}){% endif %}</div>
-    {% if i.ep_plot|length > 2 %}
+    {% if i.ep_plot %}
 
       {% if compact_view %}
         <div class="compact_plot">
