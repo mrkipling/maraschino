@@ -1,0 +1,26 @@
+<div class="results">
+  <table id="history">
+    {% for x in history.slots %}
+      <tr id="{{x.nzo_id}}">
+        {% if x.status == 'Completed' %}
+          <td class="pause">
+            <img src="{{ url_for('static', filename='images/tick.png') }}" >
+          </td>
+        {% elif x.status == 'Failed' %}
+          <td class="retry" data-url="{{ webroot_url('/xhr/sabnzbd/history/retry/' + x.nzo_id) }}">
+            <img src="{{url_for('static', filename='images/refresh.png')}}" >
+          </td>
+        {% else %}
+          <td class="pause">
+            <img src="{{url_for('static', filename='images/xhrloading.gif')}}" >
+          </td>
+        {% endif %}
+        <td class="name">{{x.nzb_name|truncate(48, 'false')}}</td>
+        <td class="size">{{x.size}}</td>
+        <td class="delete" data-url="{{ webroot_url('/xhr/sabnzbd/history/delete/' + x.nzo_id) }}">
+          <img src="{{ url_for('static', filename='images/remove_icon.png') }}" >
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>

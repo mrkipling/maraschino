@@ -1,6 +1,35 @@
 #sabnzbd
 {
   position: relative;
+  .button_holder {
+    text-align: right;
+  }
+  .button {
+    background: url('/@{webroot}/images/alpha/fff_10.png');
+    border: 1px solid #222;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 1.1em;
+    margin-top: 5px;
+    padding: 2px 8px;
+    right: 0px;
+    color: #ccc;
+    font-size: 1.5em;
+    .border-radius(4px);
+
+    &:hover {
+      background: url('/@{webroot}/images/alpha/fff_20.png');
+    }
+
+    &.active {
+      background: url('/@{webroot}/images/alpha/fff_20.png');
+    }
+
+    img {
+      width: 14px;
+      height: 14px;
+    }
+  }
 
   > .inner {
     line-height: 1.3em;
@@ -108,7 +137,7 @@
       }
     }
 
-    .queue {
+    .results {
       max-height: 190px;
       margin-top: 20px;
       padding-right: 0.5%;
@@ -148,7 +177,8 @@
           }
 
           .delete,
-          .pause {
+          .pause,
+          .retry {
             width: 15px;
             cursor: pointer;
             background: url('/@{webroot}/images/alpha/fff_20.png') !important;

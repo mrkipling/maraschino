@@ -1,15 +1,11 @@
-try:
-    import json
-except ImportError:
-    import simplejson as json
-
-from flask import jsonify, render_template, request
+from flask import jsonify, render_template, request, json
 import urllib
 import urllib2
 from jinja2.filters import FILTERS
 
 from Maraschino import app
 from maraschino.tools import *
+import maraschino
 from maraschino import logger
 
 
@@ -75,9 +71,14 @@ def sabnzbd_api(method='', params='', use_json=True, dev=False):
 
 
 @app.route('/xhr/sabnzbd/')
-@app.route('/xhr/sabnzbd/<queue_status>')
+@app.route('/xhr/sabnzbd/<sab_state>/')
 @requires_auth
-def xhr_sabnzbd(queue_status='hide'):
+def xhr_sabnzbd(sab_state=None):
+    if sab_state:
+        maraschino.SABNZB_STATE = sab_state
+    else:
+        sab_state = maraschino.SABNZB_STATE
+
     old_config = False
 
     if not get_setting_value('sabnzbd_host'):
@@ -91,9 +92,8 @@ def xhr_sabnzbd(queue_status='hide'):
     message = None
 
     try:
-        result = urllib.urlopen(sabnzbd_url('queue')).read()
-        sabnzbd = json.JSONDecoder().decode(result)
-        sabnzbd = sabnzbd['queue']
+        sabnzbd = sabnzbd_api(method='queue')['queue']
+        history = sabnzbd_api(method='history', params='&limit=50')['history']
 
         download_speed = format_number(int((sabnzbd['kbpersec'])[:-3]) * 1024) + '/s'
 
@@ -109,15 +109,16 @@ def xhr_sabnzbd(queue_status='hide'):
     if not sabnzbd:
         message = 'There was a problem reaching SabNZBd.'
 
-    return render_template('sabnzbd/queue.html',
+    return render_template('sabnzbd/base.html',
         sabnzbd=sabnzbd,
         app_link=sabnzbd_url_no_api(),
         item=downloading,
         download_speed=download_speed,
         old_config=old_config,
-        queue_status=queue_status,
         show_empty=get_setting_value('sabnzbd_show_empty') == '1',
-        message=message
+        message=message,
+        history=history,
+        sab_state=sab_state
     )
 
 

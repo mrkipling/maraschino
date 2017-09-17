@@ -44,7 +44,7 @@ LATEST_COMMIT = None
 COMMITS_BEHIND = 0
 COMMITS_COMPARE_URL = ''
 FIRST_RUN = 0
-
+SABNZB_STATE = 'downloading'
 
 def initialize():
     """Init function for this module"""
@@ -52,7 +52,7 @@ def initialize():
 
         global __INITIALIZED__, app, FULL_PATH, RUNDIR, ARGS, DAEMON, PIDFILE, VERBOSE, LOG_FILE, LOG_DIR, logger, PORT, SERVER, DATABASE, AUTH, \
                 UPDATER, CURRENT_COMMIT, LATEST_COMMIT, COMMITS_BEHIND, COMMITS_COMPARE_URL, USE_GIT, WEBROOT, HOST, KIOSK, DATA_DIR, SCRIPT_DIR, \
-                THREADS, FIRST_RUN
+                THREADS, FIRST_RUN, SABNZB_STATE
 
         if __INITIALIZED__:
             return False

@@ -10,7 +10,55 @@
 
     <div class="inner">
         {% if sabnzbd %}
-          {% block sabnzbd_content %}{% endblock %}
+          <div class="status" id="status" status="{{ sabnzbd.paused }}" title="Toggle paused/downloading">
+            {{ sabnzbd.status }}
+            <img class="pause_arrow" src="{{ url_for('static', filename='images/arrow_down.png') }}">
+            <ul class="pause_list">
+              <li>Pause for: </li>
+              <li class="pause_time" data-time="5">5 minutes</li>
+              <li class="pause_time" data-time="15">15 minutes</li>
+              <li class="pause_time" data-time="30">30 minutes</li>
+              <li class="pause_time" data-time="60">1 hour</li>
+              <li class="pause_time" data-time="180">3 hours</li>
+              <li class="pause_time" data-time="360">6 hours</li>
+              <li class="pause_for">Other...</li>
+            </ul>
+          </div>
+          <div class="speed"><input type="text" value="{{ download_speed[:-4] }}" title="Adjust Speed" size="5"/>{{ download_speed[-4:] }}</div>
+
+          {% if item %}
+            <p>{{ item.filename }}</p>
+
+            <div class="bar">
+              <div class="inner" style="width: {{ item.percentage }}%;"></div>
+            </div>
+
+            <div class="clearfix">
+              <p class="remaining"><strong>Remaining:</strong> {{ item.timeleft }} / {{ item.mbleft }} MB</p>
+              <p class="percentage_complete">{{ item.percentage }}% complete</p>
+              <br>
+              <p class="remaining"><strong>Total Remaining:</strong> {{sabnzbd.timeleft}} / {{sabnzbd.sizeleft}}</p>
+            </div>
+          {% endif %}
+
+          <div class="button_holder">
+            <div id="queue" class="button {{ 'active' if sab_state == 'queue'}}" title="{{ 'View' if sab_state != 'queue' else 'Hide' }} Queue">
+              <img src="{{ url_for('static', filename='images/coming.png') }}"/>
+            </div>
+
+            <div id="history" class="button {{ 'active' if sab_state == 'history'}}" title="{{ 'View' if sab_state != 'history' else 'Hide' }} History">
+              <img src="{{ url_for('static', filename='images/history.png') }}"/>
+            </div>
+          </div>
+
+          {% if sab_state == 'queue' %}
+            {% include 'sabnzbd/queue.html' %}
+          {% endif %}
+
+          {% if sab_state == 'history' %}
+            {% include 'sabnzbd/history.html' %}
+          {% endif %}
+
         {% elif message %}
           {{ message }}
         {% endif %}

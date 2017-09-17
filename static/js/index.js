@@ -1275,7 +1275,7 @@ $(document).ready(function() {
     }
   });
 
-  $(document).on('click', '#sabnzbd .inner .queue table tr td.pause', function(){
+  $(document).on('click', '#sabnzbd .inner #queue tr td.pause', function(){
     var id = $(this).parent('tr').attr('id');
     var state = $(this).parent('tr').data('action');
     $.get(WEBROOT + '/xhr/sabnzbd/individual/'+state+'/'+id)
@@ -1350,6 +1350,29 @@ $(document).ready(function() {
         popup_message('Problem reaching Maraschino on /xhr/sabnzbd/queue/pause/'+time);
       });
     }
+  });
+
+  $(document).on('click', '#sabnzbd #history .delete, #sabnzbd #history .retry',  function(){
+    var btn = $(this);
+    $.get($(this).data('url'), function(data) {
+      if(data.status){
+        if (btn.attr('class') == 'remove') {
+          btn.parent().remove();
+        }
+      }
+    });
+  });
+
+  $(document).on('click', '#sabnzbd .button',  function(){
+    var id = $(this).attr('id');
+    var active = $(this).hasClass('active');
+
+    if (active === true) {
+      get_module('sabnzbd', { poll:10, params: [ 'downloading' ] });
+    }
+    else {
+      get_module('sabnzbd', { poll:10, params: [ id ] });
+    };
   });
 
   /********* END SABNZBD ***********/
