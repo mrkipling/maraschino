@@ -1,0 +1,33 @@
+{% extends "nzbdrone/base.html" %}
+
+{% block nzbdrone_menu %}
+<ul class="menu">
+  <li class="history" title="View History"><span>History</span></li>
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="upcoming active" title="View upcoming"><span>Upcoming</span></li>
+</ul>
+{% endblock %}
+
+{% block nzbdrone_content %}
+<div id="getshows" class="noscroll">
+  <div class="history">
+    {% for item in properties %}
+    <ul id="{{item[1]}}{{item[4]}}{{item[3]}}{{item[5]}}" class="{{item[5]}}">
+      <li>
+	  {% if item[8] == True %}
+        <span class="status" title="Downloaded on {{ item[6] }}">Downloaded</span>
+	  {% else %}
+		<span class="status" title="Snatched on {{ item[6] }}">Snatched</span>
+	  {% endif %}
+        <span class="name" title="Path: {{ item[5] }}">{{item[1]}} S{{item[4]}}E{{item[3]}}</span>
+        <img class="historybanner" id="{{ item[7] }}" src="{{ item[7] }}" />
+        <span class="extra-info">
+        </span>
+      </li>
+    </ul>
+    {% endfor %}
+  </div>
+</div>
+
+
+{% endblock %}

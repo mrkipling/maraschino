@@ -352,6 +352,54 @@ AVAILABLE_MODULES = [
         ]
     },
     {
+        'name': 'nzbdrone',
+        'label': 'Manager - NZBDrone',
+        'description': 'Adds NZBDrone Functionality.',
+        'static': False,
+        'poll': 0,
+        'delay': 0,
+        'settings': [
+            {
+                'key': 'nzbdrone_ip',
+                'value': '',
+                'description': 'IP or Address',
+            },
+            {
+                'key': 'nzbdrone_port',
+                'value': '',
+                'description': 'Port',
+            },
+            {
+                'key': 'nzbdrone_webroot',
+                'value': '',
+                'description': 'Webroot',
+            },
+            {
+                'key': 'nzbdrone_api',
+                'value': '',
+                'description': 'API key',
+            },
+            {
+                'key': 'nzbdrone_https',
+                'value': '0',
+                'description': 'Use HTTPS',
+                'type': 'bool',
+            },
+			{
+				'key': 'nzbdrone_external_server',
+				'value': '0',
+				'description': 'Is NZBDrone is located on a different machine than Maraschino?',
+				'type': 'bool',
+			},
+            {
+                'key': 'nzbdrone_lan',
+                'value': '0',
+                'description': 'Is NZBDrone on a different LAN than Maraschino?',
+                'type': 'bool',
+            },
+        ]
+    },
+    {
         'name': 'synopsis',
         'label': 'XBMC - Synopsis',
         'description': 'Shows you a plot synopsis of what you are currently watching.',

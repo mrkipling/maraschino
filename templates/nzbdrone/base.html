@@ -1,0 +1,134 @@
+<div id="nzbdrone" class="module" data-module="nzbdrone">
+
+    <div class="module_settings"><span>Settings</span></div>
+    <div class="module_remove"><span>Remove</span></div>
+
+    <h2><a id="nzbdrone_url" href="#">NZBDrone</a></h2>
+
+    <!--Macro for the Calendar-->
+    {% macro item(i) -%}
+    <div class="coming_ep" id="{{i[8]}}_{{i[2]}}_{{i[3]}}" tvdb={{i[8]}}>
+        <h2><a href="http://www.thetvdb.com/?tab=series&id={{i[8]}}" target="_blank">{{ i[5] }} - {{ i[2] }}x{{ i[3] }} - {{ i[0] }}</a></h2>
+        {% if not compact_view %}
+        <a class="image_links" href=# id="{{i[9]}}"><img class="banners" "width=" 100%" id="{{i[6]}}" "src=" #" /></a>
+        {% endif %}
+
+        <div class="options">
+            <img class="search" src="{{ url_for('static', filename='images/search.png') }}" id="{{i[7]}}" episode="{{i[3]}}" season="{{i[2]}}" title="Search for episode" />
+        </div>
+        <div class="details">
+            <div class="nzbdrone_airs" id="{{i[1]}}">#</div>
+            {% if i[4]|length > 2 %}
+
+            {% if compact_view %}
+            <div class="compact_plot">
+                -
+                <span class="truncated">
+                    {{ i[4]|truncate(75) }}
+                </span>
+                <span class="expanded" style="display: none;">{{ i[4]|truncate(400) }}</span>
+                <a class="expand" href="#">[+]</a>
+            </div>
+            {% else %}
+            <div class="plot-title">Plot</div>
+            <div class="plot">
+                <h4>{{ i[5] }} - {{ i[2] }}x{{ i[3] }} - {{ i[0] }}</h4>
+                <p>{{ i[4]|truncate(400) }}</p>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    {%- endmacro %}
+
+
+
+
+
+    {% block nzbdrone_menu %}
+    <ul class="menu">
+        <li class="history" title="View History"><span>History</span></li>
+        <li class="all" title="View all"><span>All</span></li>
+        <li class="upcoming active" title="View upcoming"><span>Upcoming</span></li>
+    </ul>
+    {% endblock %}
+
+    {% block nzbdrone_content %}{% endblock %}
+
+    <div class="nzbsearch">
+        <span class="operation_only">
+            <input class="query" type="search" placeholder="Search TV Shows"></input>
+            <span class="loading"></span>
+        </span>
+    </div>
+</div>
+
+<script>
+// History Javascript
+	var banners = document.getElementsByClassName("historybanner");
+	var port = "{{port}}";
+	if ("{{ external_server }}" === "0") {
+		var host = window.location.hostname;
+	} else if ("{{lan}}" === 1) {
+	    var host = "{{ url }}";
+	} else {
+	    var host = window.location.hostname;
+	}
+	for (var i = banners.length -1; i >= 0; i--)
+	{
+	    var id = banners[i].id;
+	    if ("{{webroot}}" === "0")
+	    {
+	        banners[i].src = "{{ http }}" + host + ':' + port + '/MediaCover/' + id + '/banner.jpg';
+	    }else{
+            banners[i].src = "{{http}}" + host + '/' + port + '/MediaCover/' + id + '/banner.jpg';
+	    }
+	}
+
+// Upcoming Javascript
+	var weekday = new Array(7);
+	weekday[0] = "Sunday";
+	weekday[1] = "Monday";
+	weekday[2] = "Tuesday";
+	weekday[3] = "Wednesday";
+	weekday[4] = "Thursday";
+	weekday[5] = "Friday";
+	weekday[6] = "Saturday";
+	var port = "{{port}}";
+	var banners = document.getElementsByClassName("banners");
+	var airs = document.getElementsByClassName("nzbdrone_airs");
+	for (var i = banners.length - 1; i >= 0; i--) {
+	    var id = banners[i].id;
+	    if ("{{webroot}}" === "0") {
+	        banners[i].src = "{{http}}" + host + ':' + port + '/MediaCover/' + id + '/banner.jpg';
+	    } else {
+	        banners[i].src = "{{http}}" + host + '/' + port + '/MediaCover/' + id + '/banner.jpg';
+	    }
+	}
+	for (var i = airs.length - 1; i >= 0; i--) {
+	    var id = airs[i].id;
+	    var date = new Date(id);
+	    day = weekday[date.getDay()];
+	    hour = date.getHours();
+	    min = date.getMinutes();
+		if (hour < 10) {hour = "0" + hour};
+		if (min < 10) {min = "0" + min};
+	    airs[i].innerHTML = day + " " + hour + ":" + min
+	}
+// Library(All) Javascript
+	var images = document.getElementsByClassName("image_links");
+	for (var i = images.length -1; i >= 0; i--)
+	{				
+	    var url = images[i].id;
+	    if ("{{webroot}}" === "0") {
+	        images[i].href = "{{http}}" + host + ':' + port + '/series/' + url;
+	    } else {
+	        images[i].href = "{{http}}" + host + '/' + port + '/series/' + url;
+	    }
+	}
+	if ("{{webroot}}" === "0") {
+	    document.getElementById("nzbdrone_url").href = "{{http}}" + host + ':' + port;
+	} else {
+	    document.getElementById("nzbdrone_url").href = "{{http}}" + host + '/' + port;
+	}
+</script>

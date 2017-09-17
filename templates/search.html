@@ -1,34 +1,55 @@
-<div id="search">
-  <div class="module_settings"><span>Settings</span></div>
-  <div id="close"></div>
-  <div class="inner">
-    <form>
-      <div class="searching" style="display: none;"></div>
-      <input id="value" type="search" {% if term %}value="{{term}}"{% endif %}>
-      <select id="site">
-        <optgroup label="Sites">
-          {% for newznab in newznab_sites %}
-            <option value="{{newznab.id}}" {% if site == newznab.id %}selected{%endif%}>{{newznab.name}}</option>
-          {% endfor %}
-      	</optgroup >
-      </select>
-      {% if categories|length %}
-        <select id="category">
-          {% for cat in categories %}
-            {% if cat.label %}
-              <option {% if "%s"|format(cat.id) == category %}selected{% endif %} value="{{cat.id}}">{{cat.label}}</option>
-              {% for x in cat.value %}
-                <option {% if "%s"|format(cat.value[x].id) == category %}selected{% endif %} value="{{cat.value[x].id}}">- {{cat.value[x].name}}</option>
-              {% endfor %}
-            {% else %}
-              <option value="{{cat.id}}">{{cat.name}}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      {% endif %}
-      <input id="maxage" type="number" placeholder="Max Age (Days)" {% if maxage > 1 %}value="{{maxage}}"{% endif %}>
-    </form>
+{% extends "nzbdrone/base.html" %}
 
-    {% block results %}{% endblock %}
-  </div>
+{% block nzbdrone_menu %}
+<ul class="menu">
+  <li class="history" title="View History"><span>History</span></li>
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="upcoming active" title="View upcoming"><span>Upcoming</span></li>
+</ul>
+{% endblock %}
+
+{% block nzbdrone_content %}
+<div class="search">
+  <div id="result" class="noscroll">
+    {% if error %}
+      <p class="error">{{error}}</p>
+    {% elif titles %}
+		<ul>
+      {% for increment in titles %}
+	  <div class="Shows">
+        <li data-tvdbid="{{increment[1]}}" data-title="{{increment[0]}}" data-seasons="{{increment[3]}}" data-titleslug="{{increment[2]}}">
+            <span class="description"><a class="link" href="http://thetvdb.com/?tab=series&id={{increment[1]}}"><img class="TV_Poster" src="{{increment[4]}}" />{{increment[0]}}: </a>{{increment[5]}}</span>
+		  <br>
+          <div class="choices">
+			<div class="{{increment[1]}}">
+              {% if profiles %}
+					<select class="profiles">
+					{% for key, value in profiles.iteritems() %}
+						<option value="{{ key }}">{{ value }}</option>
+					{% endfor %}
+					</select>
+              {% endif %}
+			  {% if folders %}
+					<select class="path">
+					{% for key, value in folders.iteritems() %}
+						<option value="{{ key }}">{{ key }}      |  Free Space: {{value}} GB</option>
+					{% endfor %}
+					</select>
+			  {% endif %}
+				<select class="seriestypes">
+					<option value="standard">Standard TV</option>
+					<option value="anime">Anime</option>
+					<option value="daily">Daily shows(e.g news shows)</option>
+				</select>
+			</div>
+              <span class="add">Add</span>
+        </li>
+		</div>
+      {% endfor %}
+		</ul>
+    {% endif %}
+	</div>
+
+{% endblock %}
+
 </div>

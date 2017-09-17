@@ -1,0 +1,53 @@
+{% extends "nzbdrone/base.html" %}
+
+{% block nzbdrone_menu %}
+<ul class="menu">
+  <li class="history" title="View History"><span>History</span></li>
+  <li class="all" title="View all"><span>All</span></li>
+  <li class="upcoming active" title="View upcoming"><span>Upcoming</span></li>
+</ul>
+{% endblock %}
+
+{% block nzbdrone_content %}
+
+<div id="getshows" class="noscroll">
+  <div id="future">
+    {% if missed|length %}
+    <div id="missed" title="NZBDrone has missed {{ missed|length }} episodes">{{ missed|length }}</div>
+    <div class="missed">
+	  <h3>Missed</h3>
+      {% for episode in missedlist %}
+      {{item(missed[episode])}}
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if today|length %}
+    <div id="today">
+      <h3>Today</h3>
+      {% for episode in todaylist %}
+      {{item(today[episode])}}
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if tomorrow|length %}
+    <div id="tomorrow">
+      <h3>Tomorrow</h3>
+      {% for episode in tomorrowlist %}
+      {{item(tomorrow[episode])}}
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if later|length %}
+    <div id="later">
+      <h3>Later</h3>
+      {% for episode in laterlist %}
+      {{item(later[episode])}}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+
+  </div>
+</div>
+
+{% endblock %}
